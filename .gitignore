@@ -1,0 +1,15 @@
+# Build artifacts
+dist/
+build/
+*.spec.bak
+__pycache__/
+*.pyc
+*.pyz
+*.pkg
+
+# Logs / temp
+*.log
+_build.log
+
+# Keep app.ico (binary asset we DO want)
+!app.ico

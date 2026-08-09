@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perplexity Exporter</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #171a23; --panel2: #1d2130; --border: #2a2f42;
+    --text: #e8eaf2; --muted: #9aa3b8; --accent: #3b82f6; --accent2: #60a5fa;
+    --good: #34d399; --bad: #f87171; --warn: #fbbf24;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text);
+         display:flex; min-height:100vh; }
+  .wrap { max-width:760px; margin:0 auto; padding:28px 24px 40px; width:100%; }
+  header { display:flex; align-items:center; gap:12px; padding-bottom:20px;
+           border-bottom:1px solid var(--border); margin-bottom:24px; }
+  .logo { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+          display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; }
+  .brand { font-size:18px; font-weight:600; flex:1; }
+  .pill { font-size:12px; padding:4px 12px; border-radius:99px; border:1px solid var(--border);
+          color:var(--muted); background:var(--panel); }
+  .pill.ok { color:var(--good); border-color:rgba(52,211,153,.35); }
+  h1 { font-size:26px; margin-bottom:8px; }
+  .sub { color:var(--muted); font-size:14px; line-height:1.55; margin-bottom:24px; }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:14px;
+          padding:22px; margin-bottom:18px; }
+  .card h2 { font-size:15px; margin-bottom:14px; color:var(--accent2); }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  button { font:inherit; border:none; border-radius:9px; padding:11px 18px; cursor:pointer;
+           font-weight:600; transition:filter .15s; }
+  button:hover { filter:brightness(1.12); }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  .btn-primary { background:var(--accent); color:#fff; font-size:14px; }
+  .btn-ghost { background:var(--panel2); color:var(--text); border:1px solid var(--border); font-size:13px; }
+  .btn-danger { background:transparent; color:var(--muted); border:1px solid var(--border); font-size:12px; }
+  .link { background:none; color:var(--accent2); padding:4px 0; font-size:13px; text-decoration:underline; }
+  input[type=text], input[type=password] { font:inherit; background:var(--panel2); color:var(--text);
+      border:1px solid var(--border); border-radius:9px; padding:10px 12px; width:100%; }
+  .kv { display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:14px; margin-bottom:16px; }
+  .kv b { color:var(--muted); font-weight:500; }
+  .bar { height:10px; background:var(--panel2); border-radius:99px; overflow:hidden; margin:14px 0 8px; }
+  #fill { height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2));
+          transition:width .35s; border-radius:99px; }
+  .status { font-size:13px; color:var(--muted); min-height:20px; }
+  .log { margin-top:12px; background:#0b0d12; border:1px solid var(--border); border-radius:9px;
+         padding:10px 12px; font-family:Consolas,monospace; font-size:11.5px; color:var(--muted);
+         max-height:170px; overflow-y:auto; white-space:pre-wrap; }
+  .log:empty { display:none; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  .error { color:var(--bad); font-size:13.5px; padding:10px 14px; background:rgba(248,113,113,.08);
+           border:1px solid rgba(248,113,113,.3); border-radius:9px; margin-top:10px; display:none; }
+  .ok-line { color:var(--good); }
+  .hidden { display:none !important; }
+  .fine { font-size:12.5px; color:var(--muted); margin-top:18px; line-height:1.6; }
+  .big { font-size:20px; font-weight:600; margin:6px 0 2px; }
+  .check { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--muted); margin-top:12px; }
+  .spinner { width:18px; height:18px; border:3px solid var(--border); border-top-color:var(--accent);
+             border-radius:50%; animation:spin .9s linear infinite; display:inline-block; vertical-align:-4px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">P</div>
+    <div class="brand">Perplexity Exporter</div>
+    <div class="pill" id="pill">Not connected</div>
+  </header>
+
+  <!-- ============ CONNECT SCREEN ============ -->
+  <section id="scr-connect">
+    <h1>Your conversations. On your computer.</h1>
+    <div class="sub">Perplexity Exporter downloads every thread from your Perplexity account &mdash;
+      questions, answers, and sources &mdash; as clean Markdown and JSON files.
+      Everything runs on this computer. Nothing is uploaded anywhere.</div>
+    <div class="card">
+      <h2>Step 1 &mdash; Connect your account</h2>
+      <p class="note" style="margin-bottom:14px">Click the button below. A sign-in window opens inside the app —
+        log in to Perplexity there. When sign-in succeeds, this screen advances automatically.
+        Prefer not to use the embedded window? Use the session-cookie option.</p>
+      <div class="row">
+        <button class="btn-primary" id="btn-connect">Log in to Perplexity</button>
+        <button class="link" id="btn-cookie-alt">or use a session cookie…</button>
+      </div>
+      <div id="cookie-box" class="hidden" style="margin-top:14px">
+        <p class="note" style="margin-bottom:8px">For advanced users: in your browser, open
+          perplexity.ai &rarr; press F12 &rarr; Application &rarr; Cookies &rarr; perplexity.ai &rarr;
+          copy the value of <b>__Secure-next-auth.session-token</b> and paste it here.</p>
+        <div class="row">
+          <input type="password" id="cookie-input" placeholder="Paste the session token…" style="flex:1">
+          <button class="btn-primary" id="btn-cookie-go">Connect</button>
+        </div>
+      </div>
+      <div id="waiting" class="hidden" style="margin-top:14px">
+        <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for you to sign in on Perplexity…</span>
+        <div style="margin-top:8px"><button class="btn-ghost" id="btn-cancel-login">Cancel</button></div>
+      </div>
+      <div class="error" id="err-connect"></div>
+    </div>
+    <div class="fine">
+      <b>Privacy:</b> your login stays in this app and on this computer. Exporter only talks to
+      Perplexity, as you do in your browser. No account data ever leaves your machine.
+    </div>
+  </section>
+
+  <!-- ============ EXPORT SCREEN ============ -->
+  <section id="scr-export" class="hidden">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h2 style="margin-bottom:0">Connected</h2>
+        <button class="btn-danger" id="btn-disconnect">Disconnect</button>
+      </div>
+      <div class="kv">
+        <b>Account</b><span id="acct-email">—</span>
+        <b>Conversations</b><span id="acct-count">—</span>
+      </div>
+      <h2 style="margin-top:16px">Step 2 &mdash; Where to save</h2>
+      <div class="row">
+        <input type="text" id="folder-input" value="" style="flex:1">
+        <button class="btn-ghost" id="btn-folder">Choose…</button>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="chk-refresh">
+        <label for="chk-refresh">Re-export everything (slower &mdash; skip if you already exported before)</label>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn-primary" id="btn-export" style="font-size:15px;padding:13px 26px">
+          Export my conversations</button>
+      </div>
+      <div class="bar hidden" id="bar-row"><div id="fill"></div></div>
+      <div class="status" id="status-line"></div>
+      <div class="log" id="log"></div>
+      <div class="error" id="err"></div>
+      <div id="done-box" class="hidden" style="margin-top:14px">
+        <div class="ok-line big">Export complete!</div>
+        <div class="status" id="done-line" style="margin:6px 0 12px"></div>
+        <div class="row">
+          <button class="btn-primary" id="btn-open">Open folder</button>
+          <button class="btn-ghost" id="btn-again">Export again</button>
+        </div>
+      </div>
+    </div>
+    <div class="fine">
+      Files are grouped like Perplexity itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
+      for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
+      <b>conversation.md</b> + <b>thread.json</b>. Open <b>README.md</b> in the export folder for a full index.
+      Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
+      The app pulls from several Perplexity library indexes; if a chat still missing after a full run,
+      use Perplexity&rsquo;s official data request
+      (<a href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener">typeform data request</a>)
+      for a legal complete dump (can take weeks).
+    </div>
+  </section>
+
+  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver">Perplexity Exporter v1.0.0</footer>
+</div>
+
+<script>
+  // NOTE: pywebview injects window.pywebview.api asynchronously — grabbing it at
+  // parse time can yield null forever. Always look it up at click time, and use
+  // the pywebviewready event for boot-time calls (official pattern).
+  let api = null;
+  let pendingConnect = false;
+  let pendingConnectTimer = null;
+  let pendingConnectAttempts = 0;
+
+  function getApi() {
+    try {
+      const api = (window.pywebview && window.pywebview.api) || null;
+      // pywebview may create api object before methods are bound — require connect().
+      if (!api || typeof api.connect !== 'function' || typeof api.getState !== 'function') {
+        return null;
+      }
+      return api;
+    } catch (e) { return null; }
+  }
+  function q(id) { return document.getElementById(id); }
+
+  function setPill(text, ok) {
+    const p = q('pill'); p.textContent = text; p.className = 'pill' + (ok ? ' ok' : '');
+  }
+  function showErr(msg) {
+    const e = q('err');
+    if (e) { e.textContent = msg; e.style.display = 'block'; }
+    const ec = q('err-connect');
+    if (ec) { ec.textContent = msg; ec.style.display = 'block'; }
+  }
+  function hideErr() {
+    const e = q('err');
+    if (e) e.style.display = 'none';
+    const ec = q('err-connect');
+    if (ec) { ec.style.display = 'none'; ec.textContent = ''; }
+  }
+  function resetLoginUi() {
+    q('btn-connect').disabled = false;
+    q('btn-cookie-alt').disabled = false;
+    q('waiting').classList.add('hidden');
+    q('cookie-box').classList.add('hidden');
+    const sl = q('status-line');
+    if (sl) sl.textContent = '';
+    q('scr-connect').classList.remove('hidden');
+    q('scr-export').classList.add('hidden');
+    setPill('Not connected', false);
+  }
+
+  // Called by Python via window.__push(payload)
+  window.__push = function(p) {
+    hideErr();
+    if (p.type === 'reset_login_ui') {
+      resetLoginUi();
+    } else if (p.type === 'connected') {
+      resetLoginUi();
+      q('scr-connect').classList.add('hidden');
+      q('scr-export').classList.remove('hidden');
+      q('acct-email').textContent = p.email || '—';
+      q('acct-count').textContent = p.count + ' conversation' + (p.count === 1 ? '' : 's');
+      setPill('Connected', true);
+    } else if (p.type === 'waiting_login') {
+      hideErr();
+      q('btn-connect').disabled = true;
+      q('btn-cookie-alt').disabled = true;
+      q('waiting').classList.remove('hidden');
+      q('cookie-box').classList.add('hidden');
+      setPill('Signing in…', false);
+    } else if (p.type === 'login_cancelled') {
+      resetLoginUi();
+    } else if (p.type === 'export_start') {
+      q('btn-export').disabled = true;
+      q('btn-folder').disabled = true;
+      q('folder-input').disabled = true;
+      q('chk-refresh').disabled = true;
+      q('done-box').classList.add('hidden');
+      q('log').textContent = '';
+      q('bar-row').classList.remove('hidden');
+      q('fill').style.width = '0%';
+      q('status-line').textContent = 'Preparing…';
+    } else if (p.type === 'progress') {
+      const pct = p.total ? Math.round(p.done / p.total * 100) : 0;
+      q('fill').style.width = pct + '%';
+      const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+      q('status-line').textContent = 'Conversation ' + p.done + ' of ' + p.total + ' — ' + t;
+    } else if (p.type === 'log') {
+      const el = q('log');
+      el.textContent += p.line + '\n';
+      el.scrollTop = el.scrollHeight;
+      if (el.textContent.split('\n').length > 250) el.textContent = el.textContent.split('\n').slice(-200).join('\n');
+    } else if (p.type === 'export_done') {
+      q('fill').style.width = '100%';
+      q('status-line').textContent = p.done + ' conversation' + (p.done === 1 ? '' : 's') + ' exported.';
+      q('done-line').textContent = p.folder;
+      q('done-box').classList.remove('hidden');
+      q('btn-export').disabled = false;
+      q('btn-folder').disabled = false;
+      q('folder-input').disabled = false;
+      q('chk-refresh').disabled = false;
+    } else if (p.type === 'error') {
+      showErr(p.message);
+      q('btn-export').disabled = false;
+      q('btn-folder').disabled = false;
+      q('folder-input').disabled = false;
+      q('chk-refresh').disabled = false;
+      q('bar-row').classList.add('hidden');
+      // Login errors must leave the blue button usable again.
+      q('btn-connect').disabled = false;
+      q('btn-cookie-alt').disabled = false;
+      q('waiting').classList.add('hidden');
+    } else if (p.type === 'disconnected') {
+      q('scr-export').classList.add('hidden');
+      q('scr-connect').classList.remove('hidden');
+      setPill('Not connected', false);
+    }
+  };
+
+  function applyState(s) {
+    if (!s) return;
+    if (s.folder) q('folder-input').value = s.folder;
+    if (s.version) q('ver').textContent = 'Perplexity Exporter v' + s.version + (s.build ? (' · ' + s.build) : '');
+    if (s.connected) {
+      setPill('Connected', true);
+      q('scr-connect').classList.add('hidden');
+      q('scr-export').classList.remove('hidden');
+      if (s.email) q('acct-email').textContent = s.email;
+      q('acct-count').textContent = (s.count || 0) + ' conversation' + ((s.count || 0) === 1 ? '' : 's');
+      q('waiting').classList.add('hidden');
+      q('btn-connect').disabled = false;
+    } else if (s.connecting) {
+      // Keep spinner visible — do NOT full-reset (that flashed the blue button every poll).
+      setPill('Signing in…', false);
+      q('scr-connect').classList.remove('hidden');
+      q('scr-export').classList.add('hidden');
+      q('btn-connect').disabled = true;
+      q('btn-cookie-alt').disabled = true;
+      q('waiting').classList.remove('hidden');
+      q('cookie-box').classList.add('hidden');
+    } else {
+      // Idle disconnected: only restore connect screen if export is showing, or waiting stuck.
+      setPill('Not connected', false);
+      if (!q('scr-export').classList.contains('hidden') && !s.connected) {
+        q('scr-export').classList.add('hidden');
+        q('scr-connect').classList.remove('hidden');
+      }
+      if (!q('waiting').classList.contains('hidden')) {
+        // Backend says not connecting — drop spinner so blue button works again.
+        q('waiting').classList.add('hidden');
+        q('btn-connect').disabled = false;
+        q('btn-cookie-alt').disabled = false;
+      }
+    }
+  }
+
+  function boot() {
+    api = getApi();
+    if (!q('ver').textContent) {
+      q('ver').textContent = 'Perplexity Exporter v1.0.0';
+    }
+    if (!api) {
+      q('status-line').textContent = 'Connecting to the app bridge…';
+      setTimeout(boot, 300);
+      return;
+    }
+    hideErr();
+    if (pendingConnect) {
+      flushPendingConnect();
+    }
+    api.ping().then(function(p) {
+      if (p !== 'pong') throw new Error('bad ping');
+      api.getState().then(function(s) {
+        applyState(s);
+      });
+    }).catch(function() {
+      q('status-line').textContent = 'Connecting to the app bridge…';
+      setTimeout(boot, 300);
+    });
+  }
+
+  setInterval(function() {
+    if (!api) return;
+    try {
+      api.getState().then(function(s) { applyState(s); });
+    } catch (e) {}
+  }, 2000);
+  // official pywebviewready event + load fallback (whichever fires first)
+  window.addEventListener('pywebviewready', boot);
+  window.addEventListener('load', function() {
+    q('ver').textContent = 'Perplexity Exporter v1.0.0';
+    boot();
+  });
+  boot();
+
+  function needApi() {
+    const a = getApi();
+    if (!a) {
+      q('status-line').textContent = 'App bridge is unavailable; using local fallback UI.';
+      return null;
+    }
+    return a;
+  }
+
+  function flushPendingConnect() {
+    if (!pendingConnect) return;
+    const a = getApi();
+    if (a && typeof a.connect === 'function') {
+      pendingConnect = false;
+      pendingConnectAttempts = 0;
+      if (pendingConnectTimer) {
+        clearTimeout(pendingConnectTimer);
+        pendingConnectTimer = null;
+      }
+      try {
+        const ret = a.connect();
+        if (ret && typeof ret.then === 'function') {
+          ret.then(function(){}).catch(function(e) {
+            showErr('Login start failed: ' + (e && e.message ? e.message : e));
+            resetLoginUi();
+          });
+        }
+      } catch (e) {
+        showErr('Login start failed: ' + e);
+        resetLoginUi();
+      }
+      return;
+    }
+    pendingConnectAttempts += 1;
+    if (pendingConnectAttempts >= 40) {
+      pendingConnect = false;
+      showErr('The app bridge did not become ready in time. Close the app fully and reopen, then try again.');
+      resetLoginUi();
+      return;
+    }
+    pendingConnectTimer = setTimeout(flushPendingConnect, 250);
+  }
+
+  q('btn-connect').onclick = function() {
+    hideErr();
+    pendingConnect = true;
+    pendingConnectAttempts = 0;
+    q('btn-connect').disabled = true;
+    q('btn-cookie-alt').disabled = true;
+    q('waiting').classList.remove('hidden');
+    q('cookie-box').classList.add('hidden');
+    setPill('Signing in…', false);
+    const a = getApi();
+    if (a && typeof a.connect === 'function') {
+      pendingConnect = false;
+      try {
+        const ret = a.connect();
+        // pywebview methods return Promises — surface rejections
+        if (ret && typeof ret.then === 'function') {
+          ret.then(function(){}).catch(function(e) {
+            showErr('Login start failed: ' + (e && e.message ? e.message : e));
+            resetLoginUi();
+          });
+        }
+      } catch (e) {
+        showErr('Login start failed: ' + e);
+        resetLoginUi();
+      }
+    } else {
+      // Bridge not ready yet — retry via flushPendingConnect
+      q('waiting-text') && (q('waiting-text').textContent = 'Starting login (waiting for app bridge)…');
+      flushPendingConnect();
+    }
+  };
+  q('btn-cancel-login').onclick = function() {
+    const a = needApi();
+    if (a) { a.cancelLogin(); }
+    else { resetLoginUi(); }
+  };
+  q('btn-cookie-alt').onclick = function() {
+    q('cookie-box').classList.toggle('hidden');
+  };
+  q('btn-cookie-go').onclick = function() {
+    const v = q('cookie-input').value.trim();
+    const a = needApi();
+    if (v && a) { a.pasteCookie(v); }
+    else if (v) {
+      showErr('Manual cookie entry is unavailable right now. Please retry once the app bridge is ready.');
+    }
+  };
+  q('btn-folder').onclick = function() {
+    const a = needApi();
+    if (a) { a.chooseFolder(); }
+  };
+  q('btn-export').onclick = function() {
+    const a = needApi();
+    if (a) { a.startExport(q('chk-refresh').checked); }
+    else { showErr('Export is unavailable until the app bridge reconnects.'); }
+  };
+  q('btn-open').onclick = function() {
+    const a = needApi();
+    if (a) { a.openFolder(); }
+  };
+  q('btn-disconnect').onclick = function() {
+    const a = needApi();
+    if (a) { a.disconnect(); }
+    else { resetLoginUi(); }
+  };
+  q('btn-again').onclick = function() {
+    q('done-box').classList.add('hidden');
+    q('status-line').textContent = '';
+  };
+</script>
+</body>
+</html>
