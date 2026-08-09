@@ -1,15 +1,2 @@
-# Build artifacts
-dist/
-build/
-*.spec.bak
-__pycache__/
-*.pyc
-*.pyz
-*.pkg
-
-# Logs / temp
-*.log
-_build.log
-
-# Keep app.ico (binary asset we DO want)
-!app.ico
+# Per user instruction 2026-08-09: preserve the ENTIRE project folder,
+# including build/ and dist/. No exclusions of source/build artifacts.
