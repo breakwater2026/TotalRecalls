@@ -43,11 +43,11 @@ Source: user answers + agent recommendations locked in planning session.
 0. Freeze v1 (tag) + fix hygiene — **DONE** (`v1.0.0-perplexity-stable`)
 1. Marketing/signing foundation (parallel)
 2. Decompose `app.py` into modules (still Python) — **DONE** (`totalrecalls/` package; thin `app.py` shim)
-3. `ProviderAdapter` + unified schema — **DONE** (`adapters/base.py`, `core/schema.py`, `PerplexityAdapter`, `export_via_adapter` → `Library/<provider>/`)
-4. React + Vite UI loaded by current Python host — **DONE** (`apps/web-ui`, shipped as `ui/`; pywebview prefers it; fallback `app_ui.html`)
+3. `ProviderAdapter` + unified schema — **DONE**
+4. React + Vite UI — **DONE** (`apps/web-ui` → `ui/`)
 5. Optional Tauri shell migration
-6. ChatGPT adapter
-7. Monetization + code signing
+6. ChatGPT adapter — **DONE** (data plane + embedded login + paste token; registered in UI)
+7. Monetization + code signing + totalrecalls.app landing — **landing scaffolded** in `site/`
 8. Claude → Grok → Gemini (serial)
 
 ## Open (not blocking Phase 0–2)

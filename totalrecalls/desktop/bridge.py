@@ -28,8 +28,9 @@ from totalrecalls.adapters.perplexity.auth import (
 )
 from totalrecalls.adapters.perplexity.discover import list_threads
 from totalrecalls.adapters.perplexity.thread import get_thread, extract_entry, render_markdown
-from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
+from totalrecalls.adapters.base import get_adapter
 from totalrecalls.core.unified_export import export_via_adapter
+from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
 
 class Bridge:
     """Called from the web UI via pywebview's js_api bridge.
@@ -120,7 +121,7 @@ class Bridge:
         """UI provider picker — available flags track registry + product roadmap."""
         known = [
             {"id": "perplexity", "name": "Perplexity", "available": True},
-            {"id": "chatgpt", "name": "ChatGPT", "available": False, "note": "Next"},
+            {"id": "chatgpt", "name": "ChatGPT", "available": True},
             {"id": "claude", "name": "Claude", "available": False, "note": "Soon"},
             {"id": "gemini", "name": "Gemini", "available": False, "note": "Soon"},
             {"id": "grok", "name": "Grok", "available": False, "note": "Soon"},
@@ -135,6 +136,26 @@ class Bridge:
         except Exception:
             pass
         return known
+
+
+    def setProvider(self, provider_id: str = "perplexity"):
+        """Select active provider for login/export (UI dropdown)."""
+        pid = (provider_id or "perplexity").strip().lower()
+        try:
+            get_adapter(pid)
+        except Exception:
+            self._push({"type": "error", "message": f"Unknown or unavailable provider: {provider_id}"})
+            return {"ok": False, "provider": getattr(self, "_provider_id", "perplexity")}
+        # Switching provider clears session (credentials are provider-specific)
+        if pid != getattr(self, "_provider_id", None) and self.token:
+            self.token = None
+            self.email = None
+            self._conversation_count = 0
+            clear_session()
+            self._push({"type": "disconnected"})
+        self._provider_id = pid
+        log(f"bridge: provider set to {pid}")
+        return {"ok": True, "provider": pid}
 
 
     def connect(self):
@@ -152,8 +173,19 @@ class Bridge:
         # Show spinner only — do not reset first (avoids blue-button flash).
         self._push({"type": "waiting_login"})
 
-        log("login: starting embedded WebView2 login (CDP capture)")
-        self._start_embedded_login()
+        provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
+        if provider == "perplexity":
+            log("login: starting embedded WebView2 login for Perplexity (CDP capture)")
+            self._start_embedded_login()
+        elif provider == "chatgpt":
+            log("login: starting embedded WebView2 login for ChatGPT")
+            self._start_chatgpt_embedded_login()
+        else:
+            self._connecting = False
+            self._push({"type": "error",
+                        "message": f"Embedded login for {provider} is not ready yet. "
+                                   "Use the session-token / cookie paste option."})
+            self._push({"type": "login_cancelled"})
 
     def _start_embedded_login(self):
         """Run the WinForms/WebView2 login form on a true STA thread.
@@ -296,6 +328,233 @@ class Bridge:
             pass
 
     # -- login flow ---------------------------------------------------------
+
+
+    def _start_chatgpt_embedded_login(self):
+        """Open ChatGPT in embedded WebView2; capture access token via session cookie / Bearer."""
+        self._login_thread = threading.Thread(target=self._chatgpt_login_window_flow, daemon=True)
+        # Prefer CLR STA like Perplexity when available
+        try:
+            self._start_embedded_login_chatgpt_sta()
+        except Exception as e:
+            log(f"chatgpt login STA path failed, python thread fallback: {e}")
+            self._login_thread.start()
+
+    def _start_embedded_login_chatgpt_sta(self):
+        import clr
+        from System.Threading import Thread, ThreadStart, ApartmentState
+        def runner():
+            self._chatgpt_login_window_flow()
+        t = Thread(ThreadStart(runner))
+        t.SetApartmentState(ApartmentState.STA)
+        t.IsBackground = True
+        self._login_clr_thread = t
+        log("login: STA CLR thread started (chatgpt)")
+        t.Start()
+
+    def _chatgpt_login_window_flow(self):
+        """Native login window aimed at chatgpt.com; capture Bearer or session cookie."""
+        try:
+            import clr
+        except Exception:
+            import os as _os
+            _os.environ["PYTHONNET_RUNTIME"] = "coreclr"
+            import clr
+        try:
+            from webview.util import interop_dll_path
+            clr.AddReference("System.Windows.Forms")
+            clr.AddReference("System.Drawing")
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.Core.dll"))
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.WinForms.dll"))
+            from System.Windows.Forms import Application, DockStyle, Form, FormStartPosition, Label
+            from System import Action, Uri
+            from System.Drawing import Color, Font, Size
+            from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
+            from Microsoft.Web.WebView2.WinForms import CoreWebView2CreationProperties, WebView2
+            from System.Windows.Forms import Timer as WinTimer
+        except Exception as e:
+            log(f"chatgpt login: could not load WinForms/WebView2: {e}")
+            self._connecting = False
+            self._push({"type": "error",
+                        "message": "Embedded ChatGPT login is unavailable. Paste an access token instead."})
+            self._push({"type": "login_cancelled"})
+            return
+
+        form = Form()
+        form.Text = "Sign in to ChatGPT"
+        form.Size = Size(980, 760)
+        form.StartPosition = FormStartPosition.CenterScreen
+        form.MinimumSize = Size(640, 560)
+        try:
+            form.BackColor = Color.FromArgb(15, 17, 23)
+        except Exception:
+            pass
+        status = Label()
+        status.Text = "  Loading ChatGPT sign-in…"
+        status.Dock = DockStyle.Top
+        status.Height = 28
+        wv = WebView2()
+        wv.Dock = DockStyle.Fill
+        try:
+            props = CoreWebView2CreationProperties()
+            props.UserDataFolder = os.path.join(appdata_dir(), "login-webview-chatgpt")
+            wv.CreationProperties = props
+        except Exception as e:
+            log(f"chatgpt login: creation-props error: {e}")
+        form.Controls.Add(wv)
+        form.Controls.Add(status)
+        closed = threading.Event()
+        finished = {"done": False}
+        self._login_form = form
+
+        def safe_close():
+            try:
+                if form.IsHandleCreated:
+                    form.BeginInvoke(Action(form.Close))
+                else:
+                    form.Close()
+            except Exception as e:
+                log(f"chatgpt login: safe_close error: {e}")
+
+        def finish(token: str, source: str):
+            if finished["done"] or not token:
+                return
+            finished["done"] = True
+            try:
+                timer.Stop()
+            except Exception:
+                pass
+            closed.set()
+            log(f"chatgpt login: captured credential via {source}: {token[:10]}...")
+            safe_close()
+            threading.Thread(target=self._accept_token, args=(token, False), daemon=True).start()
+
+        def on_form_closing(sender, e):
+            closed.set()
+            if not self.token and not finished["done"] and not self._login_completion_pending:
+                self._connecting = False
+                self._push({"type": "login_cancelled"})
+        form.FormClosing += on_form_closing
+
+        def on_web_resource_requested(sender, args):
+            try:
+                if closed.is_set() or finished["done"] or self.token:
+                    return
+                request = getattr(args, "Request", None)
+                if request is None:
+                    return
+                uri = str(getattr(request, "Uri", "") or "")
+                low = uri.lower()
+                if "chatgpt.com" not in low and "openai.com" not in low and "chat.openai.com" not in low:
+                    return
+                headers = getattr(request, "Headers", None)
+                if headers is None:
+                    return
+                # Bearer capture from backend-api
+                try:
+                    auth = headers.GetHeader("Authorization")
+                except Exception:
+                    auth = None
+                if auth and "bearer" in str(auth).lower():
+                    tok = str(auth).split(None, 1)[-1].strip()
+                    if tok.startswith("eyJ"):
+                        if form.IsHandleCreated:
+                            form.BeginInvoke(Action(lambda: finish(tok, "Authorization Bearer")))
+                        else:
+                            finish(tok, "Authorization Bearer")
+                        return
+                # Cookie session token
+                try:
+                    cookie_header = headers.GetHeader("Cookie")
+                except Exception:
+                    cookie_header = None
+                if cookie_header and "__Secure-next-auth.session-token=" in cookie_header:
+                    # Pass full cookie header for exchange
+                    if form.IsHandleCreated:
+                        form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie header")))
+                    else:
+                        finish(cookie_header, "Cookie header")
+            except Exception as e:
+                log(f"chatgpt login: request-hook error: {e}")
+
+        def on_init_completed(sender, args):
+            try:
+                if not args.IsSuccess:
+                    self._connecting = False
+                    self._push({"type": "error", "message": "Embedded browser failed to start for ChatGPT login."})
+                    self._push({"type": "login_cancelled"})
+                    safe_close()
+                    return
+                cv = wv.CoreWebView2
+                try:
+                    cv.AddWebResourceRequestedFilter("https://*.chatgpt.com/*", CoreWebView2WebResourceContext.All)
+                    cv.AddWebResourceRequestedFilter("https://chatgpt.com/*", CoreWebView2WebResourceContext.All)
+                    cv.AddWebResourceRequestedFilter("https://*.openai.com/*", CoreWebView2WebResourceContext.All)
+                    cv.WebResourceRequested += on_web_resource_requested
+                except Exception as e:
+                    log(f"chatgpt login: filter error: {e}")
+                try:
+                    cv.Navigate("https://chatgpt.com/")
+                    status.Text = "  Sign in to ChatGPT in this window…"
+                except Exception as e:
+                    log(f"chatgpt login: navigate error: {e}")
+            except Exception as e:
+                log(f"chatgpt login: init error: {e}")
+
+        wv.CoreWebView2InitializationCompleted += on_init_completed
+        timer = WinTimer()
+        timer.Interval = 2000
+
+        def on_tick(sender, e):
+            if closed.is_set() or finished["done"] or self.token:
+                return
+            if self._stop_login.is_set():
+                safe_close()
+                return
+            # Periodically try CookieManager for session cookie
+            try:
+                cv = wv.CoreWebView2
+                if cv is None:
+                    return
+                task = cv.CookieManager.GetCookiesAsync("https://chatgpt.com")
+                # non-blocking: only read if completed immediately-ish next ticks
+                if task.IsCompleted and not getattr(task, "IsFaulted", False):
+                    cookies = task.Result
+                    # Build cookie header
+                    parts = []
+                    token_val = None
+                    for c in cookies:
+                        try:
+                            name = getattr(c, "Name", None) or getattr(c, "name", None)
+                            value = getattr(c, "Value", None) or getattr(c, "value", None)
+                            if name and value is not None:
+                                parts.append(f"{name}={value}")
+                                if name == "__Secure-next-auth.session-token" and value:
+                                    token_val = str(value)
+                        except Exception:
+                            continue
+                    if token_val:
+                        finish("; ".join(parts) if parts else token_val, "CookieManager")
+            except Exception:
+                pass
+
+        timer.Tick += on_tick
+        try:
+            wv.EnsureCoreWebView2Async(None)
+        except Exception as e:
+            log(f"chatgpt login: ensure error: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": "Could not start ChatGPT login browser."})
+            self._push({"type": "login_cancelled"})
+            return
+        timer.Start()
+        Application.Run(form)
+        try:
+            timer.Stop()
+        except Exception:
+            pass
+        self._login_form = None
+        log("chatgpt login: window closed")
 
     def _login_window_flow(self):
         """Open a native WinForms + WebView2 login window (must run on STA thread).
@@ -725,35 +984,50 @@ class Bridge:
         log("login: accepting token (background)")
         self._login_completion_pending = False
         self._stop_login.set()
+        provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
         try:
-            session = validate_session(token)
-        except ApiError as e:
+            adapter = get_adapter(provider)
+            account = adapter.validate(token)
+        except Exception as e:
             self._connecting = False
             self._push({"type": "error", "message": friendly_error(e)})
             self._push({"type": "login_cancelled"})
             return
-        user = session.get("user") or {}
-        email = user.get("email") or ""
-        if not email:
+        email = (account.email or account.display_name or account.external_id or "").strip()
+        if not email and provider == "perplexity":
             self._connecting = False
             self._push({"type": "error",
                         "message": "That session was not accepted by Perplexity. "
                                    "Please log in again."})
             self._push({"type": "login_cancelled"})
             return
+        if not email:
+            email = f"{adapter.display_name} user"
         self.token = token
         self.email = email
         count = 0
         try:
-            count = len(list_threads(token))
-        except ApiError:
+            count = len(adapter.list_conversations(token, deep=False))
+        except Exception:
             pass
         self._conversation_count = count
         self._connecting = False
         save_session(token, email)
-        log(f"login: accepted session token for {email}")
+        # persist provider with session for reconnect awareness
+        try:
+            import json as _json
+            from totalrecalls.core.paths import SESSION_FILE
+            with open(SESSION_FILE, encoding="utf-8") as f:
+                data = _json.load(f)
+            data["provider"] = provider
+            with open(SESSION_FILE, "w", encoding="utf-8") as f:
+                _json.dump(data, f)
+        except Exception:
+            pass
+        log(f"login: accepted session token for {email} via {provider}")
         self._push({"type": "connected", "email": email, "count": count})
-        log(f"connected: {email}, {count} threads")
+        log(f"connected: {email}, {count} threads ({provider})")
+
 
     def _export_worker(self, refresh: bool):
         token = self.token
@@ -767,14 +1041,14 @@ class Bridge:
             os.makedirs(outdir, exist_ok=True)
             self._push({"type": "export_start"})
             self._push({"type": "log",
-                        "line": f"Perplexity Exporter {APP_VERSION} ({APP_BUILD_TAG}) — preparing export…"})
+                        "line": f"TotalRecalls {APP_VERSION} ({APP_BUILD_TAG}) — preparing export…"})
             killed = kill_other_exporter_processes(force=True)
             if killed:
                 self._push({"type": "log",
                             "line": f"Closed {len(killed)} other exporter process(es) before discovery."})
 
             if not classic:
-                adapter = PerplexityAdapter()
+                adapter = get_adapter(getattr(self, "_provider_id", "perplexity") or "perplexity")
 
                 def on_log(line: str):
                     self._push({"type": "log", "line": line})
@@ -787,8 +1061,7 @@ class Bridge:
                         "title": p.get("title", ""),
                     })
 
-                self._push({"type": "log",
-                            "line": "Export via Perplexity adapter → Library/perplexity/ …"})
+                self._push({"type": "log", "line": f"Export via {adapter.display_name} adapter → Library/{adapter.id}/ …"})
                 result = export_via_adapter(
                     adapter,
                     credential=token,

@@ -54,3 +54,6 @@ class JsApi:
     def listProviders(self):
         return self._b.listProviders()
 
+    def setProvider(self, provider_id: str = "perplexity"):
+        return self._b.setProvider(provider_id)
+

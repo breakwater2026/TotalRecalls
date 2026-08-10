@@ -55,9 +55,10 @@ def get_adapter(provider_id: str) -> ProviderAdapter:
 
 
 def _ensure_builtins() -> None:
-    if "perplexity" in _REGISTRY:
-        return
-    # Lazy import to avoid circular deps at package import time
-    from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
-
-    register_provider("perplexity", PerplexityAdapter)
+    # Register each known adapter once (idempotent)
+    if "perplexity" not in _REGISTRY:
+        from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
+        register_provider("perplexity", PerplexityAdapter)
+    if "chatgpt" not in _REGISTRY:
+        from totalrecalls.adapters.chatgpt.adapter import ChatGptAdapter
+        register_provider("chatgpt", ChatGptAdapter)

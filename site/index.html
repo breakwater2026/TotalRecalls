@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TotalRecalls — Own every AI conversation</title>
+  <meta name="description" content="TotalRecalls exports your AI chats from Perplexity, ChatGPT, and more into a local archive you control. Immediate. Private. Multi-provider." />
+  <link rel="canonical" href="https://totalrecalls.app/" />
+  <style>
+    :root {
+      --bg: #0b0d12; --panel: #141824; --text: #e8eaf2; --muted: #9aa3b8;
+      --accent: #3b82f6; --accent2: #8b5cf6; --good: #34d399; --border: #2a2f42;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
+    a { color: #93c5fd; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 40px 22px 80px; }
+    header { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
+    .logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: grid; place-items: center; font-weight: 800; }
+    .brand { font-size: 20px; font-weight: 700; flex: 1; }
+    .pill { font-size: 12px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
+    h1 { font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: 14px; letter-spacing: -0.02em; }
+    .lead { font-size: 1.15rem; color: var(--muted); max-width: 38rem; margin-bottom: 28px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
+    .btn { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 10px; padding: 12px 18px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 28px 0 48px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+    .card h3 { font-size: 1rem; margin-bottom: 8px; color: #bfdbfe; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+    .ok { color: var(--good); font-weight: 600; font-size: 0.85rem; }
+    .soon { color: var(--muted); font-size: 0.85rem; }
+    footer { margin-top: 56px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 18px; }
+    code { background: #0f131c; padding: 1px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">T</div>
+      <div class="brand">TotalRecalls</div>
+      <div class="pill">totalrecalls.app</div>
+    </header>
+
+    <h1>Your AI conversations.<br/>On your computer.</h1>
+    <p class="lead">
+      TotalRecalls downloads chat history from the AI tools you already use into one local archive —
+      Markdown + JSON, organized by provider. Immediate export. No waiting weeks. Nothing leaves your machine.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/breakwater2026/TotalRecalls">Get the app on GitHub</a>
+      <a class="btn btn-ghost" href="https://github.com/breakwater2026/TotalRecalls#readme">Read the docs</a>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Multi-provider</h3>
+        <p><span class="ok">Live:</span> Perplexity, ChatGPT<br/>
+           <span class="soon">Next:</span> Claude, Gemini, Grok</p>
+      </div>
+      <div class="card">
+        <h3>Local ownership</h3>
+        <p>Exports land in <code>Library/&lt;provider&gt;/</code> on your disk. Session tokens never go to our servers — we don’t run a hosted login.</p>
+      </div>
+      <div class="card">
+        <h3>One-click desktop</h3>
+        <p>Embedded sign-in window. Progress bar. Resume-friendly re-exports. Built for real research libraries, not toy demos.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Honest posture</h3>
+      <p>
+        TotalRecalls is a <b>user-driven, on-device</b> export tool. You authenticate as yourself; files stay local.
+        Providers also offer official data-export paths that can take longer — we complement those when you need your chats <i>now</i>
+        in a clean, searchable archive. One-time utility pricing planned (~$19–29); core development is open on GitHub.
+      </p>
+    </div>
+
+    <footer>
+      © TotalRecalls · <a href="https://github.com/breakwater2026/TotalRecalls">GitHub</a> ·
+      Domain on Cloudflare · Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI.
+    </footer>
+  </div>
+</body>
+</html>

@@ -59,11 +59,13 @@ class LoginTokenExtractionTests(unittest.TestCase):
 
     def test_accept_token_sets_state_and_count(self):
         bridge = Bridge(ui_html="<html></html>")
-        # Bridge binds symbols from totalrecalls.desktop.bridge — patch there.
-        with patch("totalrecalls.desktop.bridge.validate_session",
-                   return_value={"user": {"email": "user@example.com"}}), \
-             patch("totalrecalls.desktop.bridge.list_threads",
-                   return_value=[{"uuid": "1"}]), \
+        from totalrecalls.core.schema import AccountInfo
+        fake_adapter = MagicMock()
+        fake_adapter.validate.return_value = AccountInfo(email="user@example.com")
+        fake_adapter.list_conversations.return_value = [{"uuid": "1"}]
+        fake_adapter.display_name = "Perplexity"
+        fake_adapter.id = "perplexity"
+        with patch("totalrecalls.desktop.bridge.get_adapter", return_value=fake_adapter), \
              patch.object(bridge, "_push"):
             bridge._accept_token("abc123", False)
 

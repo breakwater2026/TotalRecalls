@@ -263,7 +263,14 @@ export default function App() {
                 id="provider"
                 className="provider-select"
                 value={providerId}
-                onChange={(e) => setProviderId(e.target.value)}
+                onChange={(e) => {
+                  const id = e.target.value
+                  setProviderId(id)
+                  const a = getApi()
+                  if (a?.setProvider) {
+                    void call(() => a.setProvider!(id)).catch(() => undefined)
+                  }
+                }}
               >
                 {providers.map((p) => (
                   <option key={p.id} value={p.id} disabled={!p.available}>

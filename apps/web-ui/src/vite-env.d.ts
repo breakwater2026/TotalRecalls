@@ -42,6 +42,7 @@ export type BridgeApi = {
   disconnect: () => Promise<unknown> | unknown
   quitApp?: () => Promise<unknown> | unknown
   listProviders?: () => Promise<ProviderInfo[]> | ProviderInfo[]
+  setProvider?: (providerId: string) => Promise<{ ok?: boolean; provider?: string } | unknown> | unknown
 }
 
 declare global {

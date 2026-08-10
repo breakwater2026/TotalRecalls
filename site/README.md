@@ -1,8 +1,17 @@
 # totalrecalls.app
 
-Marketing / docs site for TotalRecalls.
+Static marketing site for TotalRecalls.
 
-Domain: **totalrecalls.app** (Cloudflare).
+## Local preview
+Open `index.html` in a browser, or:
 
-Positioning: multi-assistant chat archives — export and keep AI conversations
-locally under the user's control. Not a hosted scraper; session tokens never leave the device.
+```bash
+python -m http.server 8080 --directory site
+```
+
+## Deploy (Cloudflare)
+Point the `totalrecalls.app` zone to Cloudflare Pages / static host serving this `site/` folder
+(or upload `index.html` as the root document).
+
+Positioning: multi-assistant chat archives — local, immediate, multi-provider.
+Never collect user session tokens on a server.
