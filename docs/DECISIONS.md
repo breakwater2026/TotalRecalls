@@ -69,3 +69,14 @@ User → totalrecalls.app  →  one-click Download  →  TotalRecalls.exe on the
 ```
 
 The **app is not deployed to a cloud server**. Only the **website** is hosted. The EXE always runs locally.
+
+### Website host (Cloud Run path)
+
+| Item | Decision |
+|------|----------|
+| GCP build type | **Dockerfile** (not Python/Node/Go/Java buildpacks) |
+| Image | `nginx:alpine` + static `site/` |
+| Config | `Dockerfile`, `deploy/nginx.conf` (`listen 8080`, `absolute_redirect off`) |
+| Pipeline | `cloudbuild.yaml` or Cloud Run “deploy from GitHub” |
+| Guide | `docs/CLOUD_RUN.md` |
+| DNS | Cloudflare records **copied from** Cloud Run custom-domain UI after first deploy |

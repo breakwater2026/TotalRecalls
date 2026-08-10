@@ -90,3 +90,12 @@ Custom domain later: add DNS `CNAME totalrecalls.app → breakwater2026.github.i
 npx wrangler login
 npx wrangler pages deploy site --project-name=totalrecalls-site
 ```
+
+### Google Cloud Run (Dockerfile — production path for totalrecalls.app)
+See **`docs/CLOUD_RUN.md`**.
+
+```text
+Build type in GCP UI: Dockerfile
+Files: Dockerfile + deploy/nginx.conf + site/
+Service port: 8080
+```

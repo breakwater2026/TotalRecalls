@@ -1,0 +1,22 @@
+# Keep Cloud Run image small — only site/ + deploy/nginx.conf are needed
+.git
+.github
+.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+node_modules
+apps
+ui
+dist
+build
+tests
+.hermes
+skills
+totalrecalls
+*.exe
+*.zip
+*.spec
+app.py
+app_ui.html
+PerplexityExporter.spec

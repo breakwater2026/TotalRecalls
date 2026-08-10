@@ -1,0 +1,59 @@
+# Cloud Build → Artifact Registry / GCR → Cloud Run
+# Trigger: connect GitHub repo breakwater2026/TotalRecalls, branch main,
+#          configuration: this file (or Dockerfile-only build in console).
+#
+# Console alternative: "Build type = Dockerfile", Dockerfile path = Dockerfile,
+# then deploy image to Cloud Run service totalrecalls-web.
+
+substitutions:
+  _SERVICE: totalrecalls-web
+  _REGION: us-central1
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # 1) Build container from repo-root Dockerfile
+  - name: gcr.io/cloud-builders/docker
+    id: build
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}:latest
+      - .
+
+  # 2) Push
+  - name: gcr.io/cloud-builders/docker
+    id: push
+    args:
+      - push
+      - --all-tags
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}
+
+  # 3) Deploy Cloud Run (allow unauthenticated — public marketing site)
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    id: deploy
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --memory=256Mi
+      - --cpu=1
+      - --min-instances=0
+      - --max-instances=5
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}:$COMMIT_SHA
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/${_SERVICE}:latest
+
+# NOTE: First time you must create the Artifact Registry repo
+# cloud-run-source-deploy (or change the image path above to match yours).
+# Cloud Run "Continuous deployment from GitHub" often creates it automatically.
