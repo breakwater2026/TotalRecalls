@@ -92,7 +92,15 @@ docker run --rm -p 8080:8080 totalrecalls-web
 # open http://127.0.0.1:8080/
 ```
 
-## After go-live checklist
+## Troubleshooting Cloud Run 502 / “protocol error”
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| 502 + `protocol error` / upstream reset | Container not listening, crash, or HTTP/2 end-to-end mismatch | Port **8080**, HTTP/2 end-to-end **off**, check revision logs |
+| `/healthz` 404 from Google Frontend | Traffic never reached a healthy revision | Open **Logs** for `totalrecalls-web` |
+| Works after redeploy of simplified nginx | IPv6 `listen [::]:8080` or conf error | Current `deploy/nginx.conf` is IPv4-only + `$PORT` entrypoint |
+
+Console: service → **Logs**. Look for `Starting nginx on` and `nginx: configuration file ... syntax is ok`.
 
 - [ ] `/` returns 200 with Download button  
 - [ ] `/support.html` and `/privacy.html` return 200  
