@@ -77,10 +77,16 @@ python -m unittest discover -s tests -q
 python app.py --selftest
 ```
 
-## Site deploy (Cloudflare Pages)
+## Site deploy
 
+### GitHub Pages (automatic)
+Push to `main` deploys `site/` via `.github/workflows/pages.yml`.  
+URL (after first green run + Pages enabled):  
+`https://breakwater2026.github.io/TotalRecalls/`  
+Custom domain: `totalrecalls.app` (CNAME file in `site/`; set DNS CNAME → `breakwater2026.github.io`).
+
+### Cloudflare Pages (optional alternate)
 ```bash
+npx wrangler login
 npx wrangler pages deploy site --project-name=totalrecalls-site
 ```
-
-Or connect this repo in the Cloudflare dashboard with build output directory `site`.

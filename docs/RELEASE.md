@@ -35,11 +35,10 @@
    copy /Y dist\PerplexityExporter.exe dist\TotalRecalls.exe
    ```
 
-4. **Marketing site (Cloudflare Pages)**
-   - Connect repo or upload `site/`
-   - Build output directory: `site`
-   - Custom domain: `totalrecalls.app` (already on Cloudflare DNS)
-   - Or: `npx wrangler pages deploy site --project-name=totalrecalls-site`
+4. **Marketing site**
+   - **Primary:** GitHub Pages workflow `.github/workflows/pages.yml` deploys `site/` on push
+   - Custom domain: `site/CNAME` = `totalrecalls.app` (point DNS CNAME to `breakwater2026.github.io`)
+   - Optional: Cloudflare Pages via `wrangler.toml` if preferred later
 
 5. **Code signing (Windows)**
    - OV/EV cert → sign `TotalRecalls.exe` + installer
