@@ -47,8 +47,8 @@ Source: user answers + agent recommendations locked in planning session.
 4. React + Vite UI — **DONE** (`apps/web-ui` → `ui/`)
 5. Optional Tauri shell migration
 6. ChatGPT adapter — **DONE**
-7. Monetization + code signing + totalrecalls.app landing — **landing scaffolded** in `site/`
-8. Claude adapter — **DONE** (sessionKey / embedded login; Gemini & Grok next)
+7. Monetization + code signing + totalrecalls.app landing — **landing + wrangler.toml + RELEASE.md**
+8. Claude / Gemini / Grok adapters — **DONE** (Gemini = Takeout-path primary)
 
 ## Open (not blocking Phase 0–2)
 

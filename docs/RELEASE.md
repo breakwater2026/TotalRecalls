@@ -1,0 +1,66 @@
+# TotalRecalls — Release checklist (commercialization)
+
+**Version:** 1.3.0 (`all-providers-v1`)  
+**Domain:** totalrecalls.app  
+**Repo:** https://github.com/breakwater2026/TotalRecalls
+
+## Providers
+
+| Provider | Auth | Notes |
+|----------|------|--------|
+| Perplexity | Embedded login / session cookie | Full multi-index discovery |
+| ChatGPT | Embedded login / Bearer or cookie | backend-api list+fetch |
+| Claude | Embedded login / sessionKey | org conversations |
+| Gemini | **Google Takeout path** (paste folder/JSON) | Live cookie list deferred (RPC fragility) |
+| Grok | Embedded login / Bearer or cookie | Best-effort endpoints; may need refresh if xAI changes APIs |
+
+## Ship steps
+
+1. **Tests**
+   ```bash
+   python -m unittest discover -s tests -q
+   python app.py --selftest
+   ```
+
+2. **UI build**
+   ```bash
+   cd apps/web-ui && npm ci && npm run build
+   rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
+   ```
+
+3. **Desktop EXE**
+   ```bash
+   taskkill /IM TotalRecalls.exe /F
+   .venv\Scripts\python.exe -m PyInstaller PerplexityExporter.spec --noconfirm
+   copy /Y dist\PerplexityExporter.exe dist\TotalRecalls.exe
+   ```
+
+4. **Marketing site (Cloudflare Pages)**
+   - Connect repo or upload `site/`
+   - Build output directory: `site`
+   - Custom domain: `totalrecalls.app` (already on Cloudflare DNS)
+   - Or: `npx wrangler pages deploy site --project-name=totalrecalls-site`
+
+5. **Code signing (Windows)**
+   - OV/EV cert → sign `TotalRecalls.exe` + installer
+   - Required for SmartScreen reputation; SP8 Smart App Control blocks unsigned
+
+6. **Payments**
+   - Gumroad / Lemon Squeezy / Paddle one-time ~$19–29
+   - Deliver signed installer download; no cloud token collection
+
+## Legal posture (product copy)
+
+- User-driven, on-device export of the user’s own chats  
+- Not a hosted scraper; session tokens stay on the PC  
+- Official provider data-export links remain the compliance fallback  
+
+## Smoke test matrix
+
+- [ ] Perplexity login + export → `Library/perplexity/`  
+- [ ] ChatGPT login/paste + export → `Library/chatgpt/`  
+- [ ] Claude login/paste + export → `Library/claude/`  
+- [ ] Gemini Takeout path paste + export → `Library/gemini/`  
+- [ ] Grok login/paste + export → `Library/grok/`  
+- [ ] Provider switch clears prior session  
+- [ ] App restart restores last session+provider  

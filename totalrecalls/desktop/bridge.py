@@ -123,8 +123,8 @@ class Bridge:
             {"id": "perplexity", "name": "Perplexity", "available": True},
             {"id": "chatgpt", "name": "ChatGPT", "available": True},
             {"id": "claude", "name": "Claude", "available": True},
-            {"id": "gemini", "name": "Gemini", "available": False, "note": "Soon"},
-            {"id": "grok", "name": "Grok", "available": False, "note": "Soon"},
+            {"id": "gemini", "name": "Gemini", "available": True, "note": "Takeout path"},
+            {"id": "grok", "name": "Grok", "available": True},
         ]
         try:
             from totalrecalls.adapters.base import list_provider_ids
@@ -183,6 +183,21 @@ class Bridge:
         elif provider == "claude":
             log("login: starting embedded WebView2 login for Claude")
             self._start_claude_embedded_login()
+        elif provider == "grok":
+            log("login: starting embedded WebView2 login for Grok")
+            self._start_generic_cookie_login(
+                title="Sign in to Grok",
+                start_url="https://grok.x.ai/",
+                host_substr="grok.x.ai",
+                profile_suffix="grok",
+                prefer_bearer=True,
+            )
+        elif provider == "gemini":
+            self._connecting = False
+            self._push({"type": "error",
+                        "message": "Gemini export uses Google Takeout. Click “session cookie”, "
+                                   "then paste the full path to your Takeout folder or Gemini JSON export."})
+            self._push({"type": "login_cancelled"})
         else:
             self._connecting = False
             self._push({"type": "error",
@@ -333,6 +348,157 @@ class Bridge:
     # -- login flow ---------------------------------------------------------
 
 
+
+
+    def _start_generic_cookie_login(self, *, title: str, start_url: str, host_substr: str,
+                                    profile_suffix: str, prefer_bearer: bool = False):
+        """STA WebView2 login that captures Cookie header and optional Bearer tokens."""
+        try:
+            import clr
+            from System.Threading import Thread, ThreadStart, ApartmentState
+            def runner():
+                self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer)
+            th = Thread(ThreadStart(runner))
+            th.SetApartmentState(ApartmentState.STA)
+            th.IsBackground = True
+            self._login_clr_thread = th
+            log(f"login: STA CLR thread started ({profile_suffix})")
+            th.Start()
+        except Exception as e:
+            log(f"generic login STA failed: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
+            self._push({"type": "login_cancelled"})
+
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer):
+        try:
+            import clr
+        except Exception:
+            import os as _os
+            _os.environ["PYTHONNET_RUNTIME"] = "coreclr"
+            import clr
+        try:
+            from webview.util import interop_dll_path
+            clr.AddReference("System.Windows.Forms")
+            clr.AddReference("System.Drawing")
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.Core.dll"))
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.WinForms.dll"))
+            from System.Windows.Forms import Application, DockStyle, Form, FormStartPosition, Label
+            from System import Action
+            from System.Drawing import Size
+            from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
+            from Microsoft.Web.WebView2.WinForms import CoreWebView2CreationProperties, WebView2
+            from System.Windows.Forms import Timer as WinTimer
+        except Exception as e:
+            log(f"generic login WebView2 load failed: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": "Embedded login unavailable. Paste token/cookie instead."})
+            self._push({"type": "login_cancelled"})
+            return
+
+        form = Form(); form.Text = title; form.Size = Size(980, 760)
+        form.StartPosition = FormStartPosition.CenterScreen
+        status = Label(); status.Text = f"  Loading {title}…"; status.Dock = DockStyle.Top; status.Height = 28
+        wv = WebView2(); wv.Dock = DockStyle.Fill
+        try:
+            props = CoreWebView2CreationProperties()
+            props.UserDataFolder = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
+            wv.CreationProperties = props
+        except Exception:
+            pass
+        form.Controls.Add(wv); form.Controls.Add(status)
+        closed = threading.Event(); finished = {"done": False}
+        self._login_form = form
+
+        def safe_close():
+            try:
+                if form.IsHandleCreated: form.BeginInvoke(Action(form.Close))
+                else: form.Close()
+            except Exception:
+                pass
+
+        def finish(token: str, source: str):
+            if finished["done"] or not token: return
+            finished["done"] = True
+            try: timer.Stop()
+            except Exception: pass
+            closed.set()
+            log(f"{profile_suffix} login: captured via {source}")
+            safe_close()
+            threading.Thread(target=self._accept_token, args=(token, False), daemon=True).start()
+
+        def on_closing(sender, e):
+            closed.set()
+            if not self.token and not finished["done"]:
+                self._connecting = False
+                self._push({"type": "login_cancelled"})
+        form.FormClosing += on_closing
+
+        def on_req(sender, args):
+            try:
+                if closed.is_set() or finished["done"]: return
+                req = getattr(args, "Request", None)
+                if req is None: return
+                uri = str(getattr(req, "Uri", "") or "").lower()
+                if host_substr.lower() not in uri and "x.com" not in uri: return
+                headers = getattr(req, "Headers", None)
+                if headers is None: return
+                if prefer_bearer:
+                    try: auth = headers.GetHeader("Authorization")
+                    except Exception: auth = None
+                    if auth and "bearer" in str(auth).lower():
+                        tok = str(auth).split(None, 1)[-1].strip()
+                        if tok.startswith("eyJ"):
+                            if form.IsHandleCreated:
+                                form.BeginInvoke(Action(lambda: finish(tok, "Bearer")))
+                            else:
+                                finish(tok, "Bearer")
+                            return
+                try: cookie_header = headers.GetHeader("Cookie")
+                except Exception: cookie_header = None
+                if cookie_header and len(cookie_header) > 20:
+                    if form.IsHandleCreated:
+                        form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie")))
+                    else:
+                        finish(cookie_header, "Cookie")
+            except Exception as e:
+                log(f"generic login hook error: {e}")
+
+        def on_init(sender, args):
+            try:
+                if not args.IsSuccess:
+                    self._connecting = False
+                    self._push({"type": "error", "message": "Could not start embedded login browser."})
+                    self._push({"type": "login_cancelled"}); safe_close(); return
+                cv = wv.CoreWebView2
+                cv.AddWebResourceRequestedFilter("https://*/*", CoreWebView2WebResourceContext.All)
+                cv.WebResourceRequested += on_req
+                cv.Navigate(start_url)
+                status.Text = f"  Sign in, then continue in this window…"
+            except Exception as e:
+                log(f"generic login init error: {e}")
+
+        wv.CoreWebView2InitializationCompleted += on_init
+        timer = WinTimer(); timer.Interval = 2500
+        def on_tick(sender, e):
+            if closed.is_set() or finished["done"] or self.token: return
+            if self._stop_login.is_set():
+                safe_close(); return
+        timer.Tick += on_tick
+        try:
+            wv.EnsureCoreWebView2Async(None)
+        except Exception as e:
+            log(f"generic ensure error: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": "Could not start embedded login browser."})
+            self._push({"type": "login_cancelled"})
+            return
+        timer.Start()
+        Application.Run(form)
+        try: timer.Stop()
+        except Exception: pass
+        self._login_form = None
+        log(f"{profile_suffix} login: window closed")
 
     def _start_claude_embedded_login(self):
         """Open claude.ai; capture sessionKey cookie for ClaudeAdapter."""

@@ -65,3 +65,9 @@ def _ensure_builtins() -> None:
     if "claude" not in _REGISTRY:
         from totalrecalls.adapters.claude.adapter import ClaudeAdapter
         register_provider("claude", ClaudeAdapter)
+    if "gemini" not in _REGISTRY:
+        from totalrecalls.adapters.gemini.adapter import GeminiAdapter
+        register_provider("gemini", GeminiAdapter)
+    if "grok" not in _REGISTRY:
+        from totalrecalls.adapters.grok.adapter import GrokAdapter
+        register_provider("grok", GrokAdapter)
