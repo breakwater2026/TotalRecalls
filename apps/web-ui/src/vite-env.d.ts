@@ -29,6 +29,8 @@ export type PushPayload =
   | { type: 'export_done'; done: number; folder?: string }
   | { type: 'error'; message: string }
   | { type: 'disconnected' }
+  | { type: 'provider'; provider?: string; cleared?: boolean; connected?: boolean }
+  | { type: 'takeout_path'; path?: string }
 
 export type BridgeApi = {
   ping: () => Promise<string> | string
@@ -37,6 +39,7 @@ export type BridgeApi = {
   cancelLogin: () => Promise<unknown> | unknown
   pasteCookie: (token?: string) => Promise<unknown> | unknown
   chooseFolder: () => Promise<unknown> | unknown
+  chooseTakeoutPath?: () => Promise<string | unknown> | string | unknown
   startExport: (refresh?: boolean) => Promise<unknown> | unknown
   openFolder: () => Promise<unknown> | unknown
   disconnect: () => Promise<unknown> | unknown

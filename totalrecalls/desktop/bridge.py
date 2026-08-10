@@ -147,15 +147,24 @@ class Bridge:
             self._push({"type": "error", "message": f"Unknown or unavailable provider: {provider_id}"})
             return {"ok": False, "provider": getattr(self, "_provider_id", "perplexity")}
         # Switching provider clears session (credentials are provider-specific)
+        cleared = False
         if pid != getattr(self, "_provider_id", None) and self.token:
             self.token = None
             self.email = None
             self._conversation_count = 0
             clear_session()
+            cleared = True
             self._push({"type": "disconnected"})
         self._provider_id = pid
-        log(f"bridge: provider set to {pid}")
-        return {"ok": True, "provider": pid}
+        # Keep UI in sync even when host state poll is slow
+        self._push({
+            "type": "provider",
+            "provider": pid,
+            "cleared": cleared,
+            "connected": bool(self.token),
+        })
+        log(f"provider set: {pid} (cleared={cleared})")
+        return {"ok": True, "provider": pid, "cleared": cleared}
 
 
     def connect(self):
@@ -313,6 +322,36 @@ class Bridge:
         except Exception as e:
             log(f"folder dialog error: {e}")
         return self._default_folder
+
+    def chooseTakeoutPath(self):
+        """Folder or JSON file picker for Gemini Takeout imports."""
+        log("bridge: chooseTakeoutPath() called from UI")
+        try:
+            import webview
+            # Prefer folder dialog first (Takeout root)
+            result = self._window.create_file_dialog(
+                webview.FOLDER_DIALOG,
+                directory=os.path.expanduser("~"),
+            )
+            if result and result[0]:
+                path = result[0]
+                self._push({"type": "takeout_path", "path": path})
+                return path
+            # Fallback: allow picking a JSON file
+            result = self._window.create_file_dialog(
+                webview.OPEN_DIALOG,
+                allow_multiple=False,
+                file_types=("JSON Files (*.json)", "All files (*.*)"),
+                directory=os.path.expanduser("~"),
+            )
+            if result and result[0]:
+                path = result[0]
+                self._push({"type": "takeout_path", "path": path})
+                return path
+        except Exception as e:
+            log(f"takeout path dialog error: {e}")
+        return ""
+
 
     def startExport(self, refresh: bool = False):
         log("bridge: startExport() called from UI")

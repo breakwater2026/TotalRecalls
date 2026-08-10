@@ -57,3 +57,6 @@ class JsApi:
     def setProvider(self, provider_id: str = "perplexity"):
         return self._b.setProvider(provider_id)
 
+    def chooseTakeoutPath(self):
+        return self._b.chooseTakeoutPath()
+

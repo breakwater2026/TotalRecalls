@@ -191,6 +191,21 @@ export default function App() {
           setScreen('connect')
           setPill({ text: 'Not connected', ok: false })
           break
+        case 'provider':
+          if (p.provider) setProviderId(p.provider)
+          if (p.cleared || p.connected === false) {
+            setScreen('connect')
+            setPill({ text: 'Not connected', ok: false })
+            setEmail('—')
+            setCountLabel('—')
+          }
+          break
+        case 'takeout_path':
+          if (p.path) {
+            setCookie(p.path)
+            setCookieOpen(true)
+          }
+          break
       }
     },
     [resetLoginUi],
@@ -370,6 +385,29 @@ export default function App() {
                     onChange={(e) => setCookie(e.target.value)}
                     style={{ flex: 1 }}
                   />
+                  {isGemini && (
+                    <button
+                      className="btn-ghost"
+                      onClick={() => {
+                        const a = needApi()
+                        if (!a) return
+                        void (async () => {
+                          try {
+                            const path = a.chooseTakeoutPath
+                              ? await call(() => a.chooseTakeoutPath!())
+                              : ''
+                            if (typeof path === 'string' && path.trim()) {
+                              setCookie(path.trim())
+                            }
+                          } catch {
+                            /* dialog cancel */
+                          }
+                        })()
+                      }}
+                    >
+                      Browse…
+                    </button>
+                  )}
                   <button
                     className="btn-primary"
                     onClick={() => {
