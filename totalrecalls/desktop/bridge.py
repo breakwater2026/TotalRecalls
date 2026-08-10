@@ -50,10 +50,11 @@ class Bridge:
         self._login_form = None
         self._export_thread: threading.Thread | None = None
         self._connecting = False
-        self._default_folder = os.path.join(os.path.expanduser("~"), "Perplexity-export")
+        self._default_folder = os.path.join(os.path.expanduser("~"), "TotalRecalls-export")
         self._LOGIN_TIMEOUT = 8 * 60  # seconds
         self._login_completion_pending = False
         self._conversation_count = 0
+        self._provider_id = "perplexity"
 
     # -- helpers ------------------------------------------------------------
 
@@ -104,9 +105,37 @@ class Bridge:
 
     def getState(self):
         log(f"bridge: getState (connected={bool(self.token)}, connecting={self._connecting})")
-        return {"version": APP_VERSION, "build": APP_BUILD_TAG, "folder": self._default_folder,
-                "connected": bool(self.token), "email": self.email or "",
-                "connecting": bool(self._connecting), "count": self._conversation_count}
+        return {
+            "version": APP_VERSION,
+            "build": APP_BUILD_TAG,
+            "folder": self._default_folder,
+            "connected": bool(self.token),
+            "email": self.email or "",
+            "connecting": bool(self._connecting),
+            "count": self._conversation_count,
+            "provider": getattr(self, "_provider_id", "perplexity"),
+        }
+
+    def listProviders(self):
+        """UI provider picker — available flags track registry + product roadmap."""
+        known = [
+            {"id": "perplexity", "name": "Perplexity", "available": True},
+            {"id": "chatgpt", "name": "ChatGPT", "available": False, "note": "Next"},
+            {"id": "claude", "name": "Claude", "available": False, "note": "Soon"},
+            {"id": "gemini", "name": "Gemini", "available": False, "note": "Soon"},
+            {"id": "grok", "name": "Grok", "available": False, "note": "Soon"},
+        ]
+        try:
+            from totalrecalls.adapters.base import list_provider_ids
+            live = set(list_provider_ids())
+            for row in known:
+                if row["id"] in live:
+                    row["available"] = True
+                    row.pop("note", None)
+        except Exception:
+            pass
+        return known
+
 
     def connect(self):
         log("bridge: connect() called from UI")

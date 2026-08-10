@@ -115,38 +115,73 @@ def main():
         return
 
     import webview
+    from pathlib import Path
 
-    def _ui_file() -> str:
-        candidates = []
-        root = os.path.dirname(os.path.abspath(__file__))
+    def _repo_root() -> Path:
+        # totalrecalls/desktop/main.py -> repo root (or MEIPASS when frozen)
+        here = Path(__file__).resolve()
         if getattr(sys, "frozen", False):
-            candidates.append(os.path.join(getattr(sys, "_MEIPASS", os.path.dirname(sys.executable)), "app_ui.html"))
-        candidates.append(os.path.join(root, "app_ui.html"))
-        candidates.append(os.path.join(root, "build", "PerplexityExporter", "app_ui.html"))
-        for path in candidates:
-            if os.path.exists(path):
-                return path
-        return candidates[0] if candidates else os.path.join(root, "app_ui.html")
+            return Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+        return here.parents[2]
 
-    try:
-        ui_path = _ui_file()
-        with open(ui_path, encoding="utf-8") as f:
-            ui_html = f.read()
-        ui_html = ui_html.replace(
-            '<footer style="margin-top:26px;color:#5b637a;font-size:11.5px" id="ver">Perplexity Exporter v1.0.0</footer>',
-            f'<footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver">Perplexity Exporter v{APP_VERSION} · {APP_BUILD_TAG}</footer>'
-        )
-        ui_html = ui_html.replace(
-            '<body>',
-            '<body data-app-version="' + APP_VERSION + '" data-boot-state="loading">'
-        )
-        log(f"main: using UI file {ui_path}")
-    except Exception as e:
-        log(f"main: UI file read failed: {e}")
-        ui_html = f"<h1>UI file missing</h1><div>Perplexity Exporter v{APP_VERSION}</div>"
+    def _resolve_ui() -> tuple[str, str, str]:
+        """Return (mode, target, label).
 
-    bridge = Bridge(ui_html=ui_html)
-    log(f"main: loading UI from {_ui_file()}")
+        mode 'url'  -> target is file URI for React dist index.html
+        mode 'html' -> target is inline HTML string (legacy app_ui.html)
+        """
+        root = _repo_root()
+        index_candidates = [
+            root / "ui" / "index.html",
+            root / "apps" / "web-ui" / "dist" / "index.html",
+        ]
+        # also check next to executable / package for frozen builds
+        if getattr(sys, "frozen", False):
+            meipass = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+            index_candidates.insert(0, meipass / "ui" / "index.html")
+        for p in index_candidates:
+            if p.is_file():
+                return "url", p.resolve().as_uri(), str(p)
+        # Legacy single-file HTML fallback
+        html_candidates = [
+            root / "app_ui.html",
+            Path(__file__).resolve().parents[2] / "app_ui.html",
+        ]
+        if getattr(sys, "frozen", False):
+            meipass = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+            html_candidates.insert(0, meipass / "app_ui.html")
+        for p in html_candidates:
+            if p.is_file():
+                html = p.read_text(encoding="utf-8")
+                html = html.replace(
+                    'id="ver">Perplexity Exporter v1.0.0</footer>',
+                    f'id="ver">TotalRecalls v{APP_VERSION} · {APP_BUILD_TAG}</footer>',
+                )
+                html = html.replace(
+                    "<body>",
+                    f'<body data-app-version="{APP_VERSION}" data-boot-state="loading">',
+                )
+                return "html", html, str(p)
+        return "html", f"<h1>UI missing</h1><p>TotalRecalls v{APP_VERSION}</p>", "missing"
+
+    ui_mode, ui_target, ui_label = _resolve_ui()
+    # Bridge keeps a snapshot for rare restore_ui paths (legacy navigation).
+    if ui_mode == "html":
+        ui_html = ui_target
+    else:
+        try:
+            # file URI -> path for optional read
+            from urllib.parse import urlparse, unquote
+            parsed = urlparse(ui_target)
+            ui_html = Path(unquote(parsed.path)).read_text(encoding="utf-8") if parsed.path else ""
+            # Windows file:///C:/...
+            if os.name == "nt" and parsed.path.startswith("/") and len(parsed.path) > 2 and parsed.path[2] == ":":
+                ui_html = Path(unquote(parsed.path[1:])).read_text(encoding="utf-8")
+        except Exception:
+            ui_html = ""
+    log(f"main: UI mode={ui_mode} path={ui_label}")
+
+    bridge = Bridge(ui_html=ui_html or "<html></html>")
 
     # auto-reconnect if we have a saved session
     saved = load_session()
@@ -183,11 +218,20 @@ def main():
 
     try:
         api = JsApi(bridge)
-        bridge._window = webview.create_window(
-            f"{APP_NAME}  ·  {APP_BUILD_TAG}", html=ui_html, js_api=api,
-            width=780, height=720, min_size=(560, 520),
-            background_color="#0f1117")
-        log("main: pywebview window created")
+        win_kwargs = dict(
+            js_api=api,
+            width=820,
+            height=760,
+            min_size=(560, 520),
+            background_color="#0f1117",
+        )
+        if ui_mode == "url":
+            bridge._window = webview.create_window(
+                f"{APP_NAME}  ·  {APP_BUILD_TAG}", url=ui_target, **win_kwargs)
+        else:
+            bridge._window = webview.create_window(
+                f"{APP_NAME}  ·  {APP_BUILD_TAG}", html=ui_target, **win_kwargs)
+        log(f"main: pywebview window created (mode={ui_mode})")
     except Exception as e:
         log(f"main: pywebview window creation failed: {e}")
         raise

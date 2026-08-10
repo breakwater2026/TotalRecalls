@@ -51,3 +51,6 @@ class JsApi:
     def quitApp(self):
         return self._b.quitApp()
 
+    def listProviders(self):
+        return self._b.listProviders()
+

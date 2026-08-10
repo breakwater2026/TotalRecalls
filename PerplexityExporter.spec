@@ -2,6 +2,11 @@
 from PyInstaller.utils.hooks import collect_all, collect_submodules
 
 datas = [('app_ui.html', '.')]
+# React UI build output (preferred by totalrecalls.desktop.main)
+import os
+if os.path.isdir('ui'):
+    datas.append(('ui', 'ui'))
+
 binaries = []
 hiddenimports = collect_submodules('totalrecalls')
 tmp_ret = collect_all('curl_cffi')

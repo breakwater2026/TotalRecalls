@@ -1,6 +1,23 @@
 # TotalRecalls web UI (React + Vite)
 
-Placeholder for Phase 4. Will replace `app_ui.html` as the product frontend,
-talking to the Python/pywebview host via the existing JsApi bridge contract.
+## Develop
+```bash
+cd apps/web-ui
+npm install
+npm run dev
+```
 
-Do not scaffold Vite here until Phase 2 (Python split) is green.
+## Build (for pywebview / PyInstaller)
+```bash
+cd apps/web-ui
+npm install
+npm run build
+```
+Output: `apps/web-ui/dist/` (also copied to repo `ui/` by the build script).
+
+## Bridge contract
+Same as v1 JsApi: `ping`, `getState`, `connect`, `cancelLogin`, `pasteCookie`,
+`chooseFolder`, `startExport`, `openFolder`, `disconnect`, plus optional
+`listProviders`.
+
+Python pushes events via `window.__push(payload)`.

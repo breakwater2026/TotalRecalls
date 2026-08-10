@@ -3,50 +3,57 @@
 **Domain:** [totalrecalls.app](https://totalrecalls.app)  
 **Product:** Own your AI conversations — export them locally from multiple assistants into one archive you control.
 
-This repository currently ships **provider #1: Perplexity** as a working Windows desktop app (formerly *Perplexity Exporter* v1.0.0). Multi-provider expansion (ChatGPT next, then Claude / Grok / Gemini) is underway — see `docs/DECISIONS.md` and `.hermes/plans/`.
+**Version:** 1.1.0 (`react-ui-v1`) — React desktop UI + ProviderAdapter export path.
 
-## v1 desktop app (Perplexity) — working today
+Provider **#1: Perplexity** is live. ChatGPT is next — see `docs/DECISIONS.md`.
 
-Downloads ALL your Perplexity conversations as Markdown + JSON. Login happens INSIDE the app (embedded browser) — no cookies to copy, no technical knowledge needed.
+## Run from source
 
-### Files
-- `dist\PerplexityExporter.exe` — the app (double-click to run, ~40 MB, standalone)
-- `app.py` — source code (engine + GUI bridge)
-- `app_ui.html` — the interface (loaded by the app)
-- `app.ico` — app icon
-- `build\PerplexityExporter\xref-PerplexityExporter.html` — PyInstaller modulegraph cross-reference (dependency map artifact; preserved)
-- `docs/DECISIONS.md` — locked product decisions
-
-### How to run
-Double-click `dist\PerplexityExporter.exe`. On first launch Windows SmartScreen may warn (the exe is unsigned) — click "More info" → "Run anyway".
-
-### What it does
-1. **Log in to Perplexity** — a window opens inside the app; sign in there. The app grabs your session automatically. (Advanced: paste a session cookie.)
-2. **Choose a folder** — defaults to `C:\Users\<you>\Perplexity-export`.
-3. **Export** — downloads every conversation with a progress bar. Re-running continues where it left off; tick "Re-export everything" to redo.
-
-### Output
-Per conversation: `conversation.md` / `thread.md` (readable) + `thread.json` (structured), plus `README.md` / `manifest.json` index, organized by Spaces/Home.
-
-### Notes / limits
-- Uses Perplexity's internal API — personal local export sits in a gray zone of their ToS; commercial redistribution of scraping-as-a-service is not the product model (see prior legal notes).
-- Rate-limited: ~3s between requests by design; large libraries take a while.
-- Sessions expire (~7 days); the app reconnects automatically while valid.
-- App log: `%APPDATA%\PerplexityExporter\app.log`.
-
-### Rebuilding the exe
+```bash
+python app.py
 ```
-python -m PyInstaller --onefile --windowed --name PerplexityExporter ^
-  --icon app.ico --add-data "app_ui.html;." --collect-all curl_cffi ^
-  --collect-all webview --collect-all pythonnet --noconfirm app.py
+
+Loads the React UI from `ui/` (built assets). Falls back to legacy `app_ui.html` if `ui/` is missing.
+
+### Rebuild the React UI
+```bash
+cd apps/web-ui
+npm install
+npm run build
+# copy into host path
+rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
 ```
-(run from this folder; requires the project venv python)
 
-## Roadmap (summary)
+## Packaged EXE (v1 freeze still in repo)
 
-1. Freeze v1 Perplexity ← **you are here**
-2. Split `app.py` into adapter modules
-3. React + Vite UI on the same Python host
-4. ChatGPT adapter
-5. Code-signed TotalRecalls installer + totalrecalls.app site
-6. Claude, Grok, Gemini adapters
+- `dist\PerplexityExporter.exe` — last PyInstaller build (may still be v1 UI until rebuilt)
+- Rebuild with `PerplexityExporter.spec` (includes `totalrecalls` + `ui/` when present)
+
+## Layout
+
+| Path | Role |
+|------|------|
+| `app.py` | Thin entry / re-exports |
+| `totalrecalls/` | Python package (core, adapters, desktop) |
+| `apps/web-ui/` | React + Vite source |
+| `ui/` | Built web UI consumed by pywebview |
+| `app_ui.html` | Legacy UI fallback |
+| `docs/` | Decisions, adapter + schema specs |
+
+## Export output (default)
+
+```
+TotalRecalls-export/
+  Library/perplexity/...
+  README.md
+  manifest.json
+```
+
+Classic layout: set `TOTALRECALLS_CLASSIC_EXPORT=1`.
+
+## Tests
+
+```bash
+python -m unittest discover -s tests -v
+python app.py --selftest
+```
