@@ -1,9 +1,12 @@
-# totalrecalls Python package (Phase 2+)
+# Moved
 
-Target home for the split of root `app.py`:
+The Python package lives at the **repository root**:
 
-- `totalrecalls/core/` — paths, session, export filesystem, unified schema
-- `totalrecalls/adapters/perplexity/` — HTTP, auth, discover, thread
-- `totalrecalls/desktop/` — JsApi, Bridge, main entry
+```
+totalrecalls/
+```
 
-Until Phase 2 lands, the running app remains root `app.py`.
+not under `src/`. Root placement keeps PyInstaller and `import totalrecalls` simple
+without an editable install.
+
+See `docs/LAYOUT.md`.

@@ -59,8 +59,11 @@ class LoginTokenExtractionTests(unittest.TestCase):
 
     def test_accept_token_sets_state_and_count(self):
         bridge = Bridge(ui_html="<html></html>")
-        with patch("app.validate_session", return_value={"user": {"email": "user@example.com"}}), \
-             patch("app.list_threads", return_value=[{"uuid": "1"}]), \
+        # Bridge binds symbols from totalrecalls.desktop.bridge — patch there.
+        with patch("totalrecalls.desktop.bridge.validate_session",
+                   return_value={"user": {"email": "user@example.com"}}), \
+             patch("totalrecalls.desktop.bridge.list_threads",
+                   return_value=[{"uuid": "1"}]), \
              patch.object(bridge, "_push"):
             bridge._accept_token("abc123", False)
 
@@ -112,9 +115,11 @@ class LoginTokenExtractionTests(unittest.TestCase):
             def read(self):
                 return b'{"ok": true}'
 
-        with patch("app._HAS_CFFI", True), \
-             patch("app._cffi_requests.request", side_effect=UnicodeEncodeError("ascii", "x", 0, 1, "bad")), \
+        # request() lives in adapters.perplexity.http — patch that module's globals.
+        with patch("totalrecalls.adapters.perplexity.http._HAS_CFFI", True), \
+             patch("totalrecalls.adapters.perplexity.http._cffi_requests") as mock_cffi, \
              patch("urllib.request.urlopen", return_value=DummyResponse()) as mock_urlopen:
+            mock_cffi.request.side_effect = UnicodeEncodeError("ascii", "x", 0, 1, "bad")
             status, payload = request("/api/test", "abc123", delay=0)
 
         self.assertEqual(status, 200)
@@ -133,10 +138,11 @@ class LoginTokenExtractionTests(unittest.TestCase):
                     raise PermissionError("blocked")
                 return original_open(path, *args, **kwargs)
 
-            with patch("app._candidate_log_paths", return_value=[str(primary), str(fallback)]), \
+            with patch("totalrecalls.core.paths._candidate_log_paths",
+                       return_value=[str(primary), str(fallback)]), \
                  patch("builtins.open", side_effect=fake_open):
-                import app
-                app.log("fallback-write")
+                from totalrecalls.core.paths import log as core_log
+                core_log("fallback-write")
 
             self.assertIn("fallback-write", fallback.read_text(encoding="utf-8"))
 

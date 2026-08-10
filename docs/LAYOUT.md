@@ -1,22 +1,34 @@
-# TotalRecalls monorepo layout (scaffolding)
+# TotalRecalls monorepo layout
 
-This repo currently still runs the v1 Perplexity desktop app from the **repository root**
-(`app.py`, `app_ui.html`, `dist/`, `build/`). That root IS the frozen v1 product surface.
-
-The directories below are the **target layout** for multi-provider work. They start empty
-(or nearly empty) so we do not break the working EXE path while refactoring.
+## Current (Phase 2)
 
 ```
 .
-├── app.py, app_ui.html, dist/, build/   # v1 Perplexity Exporter (PRESERVE)
-├── docs/                                # decisions, adapter spec, schema
-├── apps/
-│   └── web-ui/                          # React + Vite UI (Phase 4)
-├── packages/                            # future shared TS packages
-├── src/                                 # Python package split (Phase 2)
-│   └── totalrecalls/                    # adapters + core (to be filled)
-└── site/                                # totalrecalls.app marketing (Phase 1)
+├── app.py                          # Thin compatibility entry (PyInstaller + tests)
+├── app_ui.html                     # v1 UI (Phase 4 → React)
+├── totalrecalls/                   # *** Application package ***
+│   ├── __init__.py                 # APP_NAME / VERSION / BUILD_TAG
+│   ├── core/
+│   │   ├── paths.py                # appdata, log, session, single-instance
+│   │   ├── export_fs.py            # Spaces/Home layout + indexes
+│   │   └── errors.py               # friendly_error
+│   ├── adapters/
+│   │   └── perplexity/
+│   │       ├── http.py             # curl_cffi transport, ApiError
+│   │       ├── auth.py             # token extract + validate_session
+│   │       ├── discover.py         # multi-source list_threads
+│   │       └── thread.py           # get_thread, markdown
+│   └── desktop/
+│       ├── js_api.py               # pywebview JsApi facade
+│       ├── bridge.py               # login + export worker
+│       ├── ui_dispatch.py
+│       └── main.py                 # entrypoint
+├── apps/web-ui/                    # Phase 4 React+Vite (placeholder)
+├── site/                           # totalrecalls.app marketing (placeholder)
+├── docs/
+├── tests/
+├── build/ + dist/                  # v1 freeze artifacts (preserved)
+└── src/totalrecalls/README.md      # points here (legacy path note)
 ```
 
-See `docs/DECISIONS.md` for locked product decisions.
-See `.hermes/plans/` for the full commercialization plan.
+v1 EXE path: `python app.py` or `dist/PerplexityExporter.exe` still valid.
