@@ -79,11 +79,11 @@ python app.py --selftest
 
 ## Site deploy
 
-### GitHub Pages (automatic)
+### GitHub Pages (automatic — live)
 Push to `main` deploys `site/` via `.github/workflows/pages.yml`.  
-URL (after first green run + Pages enabled):  
-`https://breakwater2026.github.io/TotalRecalls/`  
-Custom domain: `totalrecalls.app` (CNAME file in `site/`; set DNS CNAME → `breakwater2026.github.io`).
+**Live:** https://breakwater2026.github.io/TotalRecalls/  
+
+Custom domain later: add DNS `CNAME totalrecalls.app → breakwater2026.github.io`, then restore `site/CNAME`.
 
 ### Cloudflare Pages (optional alternate)
 ```bash
