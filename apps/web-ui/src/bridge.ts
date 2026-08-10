@@ -21,7 +21,7 @@ export async function call<T>(fn: () => T | Promise<T>): Promise<T> {
 const FALLBACK_PROVIDERS: ProviderInfo[] = [
   { id: 'perplexity', name: 'Perplexity', available: true },
   { id: 'chatgpt', name: 'ChatGPT', available: true },
-  { id: 'claude', name: 'Claude', available: false, note: 'Soon' },
+  { id: 'claude', name: 'Claude', available: true },
   { id: 'gemini', name: 'Gemini', available: false, note: 'Soon' },
   { id: 'grok', name: 'Grok', available: false, note: 'Soon' },
 ]

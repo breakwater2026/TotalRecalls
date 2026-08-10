@@ -122,7 +122,7 @@ class Bridge:
         known = [
             {"id": "perplexity", "name": "Perplexity", "available": True},
             {"id": "chatgpt", "name": "ChatGPT", "available": True},
-            {"id": "claude", "name": "Claude", "available": False, "note": "Soon"},
+            {"id": "claude", "name": "Claude", "available": True},
             {"id": "gemini", "name": "Gemini", "available": False, "note": "Soon"},
             {"id": "grok", "name": "Grok", "available": False, "note": "Soon"},
         ]
@@ -180,6 +180,9 @@ class Bridge:
         elif provider == "chatgpt":
             log("login: starting embedded WebView2 login for ChatGPT")
             self._start_chatgpt_embedded_login()
+        elif provider == "claude":
+            log("login: starting embedded WebView2 login for Claude")
+            self._start_claude_embedded_login()
         else:
             self._connecting = False
             self._push({"type": "error",
@@ -329,6 +332,166 @@ class Bridge:
 
     # -- login flow ---------------------------------------------------------
 
+
+
+    def _start_claude_embedded_login(self):
+        """Open claude.ai; capture sessionKey cookie for ClaudeAdapter."""
+        try:
+            import clr
+            from System.Threading import Thread, ThreadStart, ApartmentState
+            def runner():
+                self._claude_login_window_flow()
+            t = Thread(ThreadStart(runner))
+            t.SetApartmentState(ApartmentState.STA)
+            t.IsBackground = True
+            self._login_clr_thread = t
+            log("login: STA CLR thread started (claude)")
+            t.Start()
+        except Exception as e:
+            log(f"claude login STA failed: {e}")
+            self._connecting = False
+            self._push({"type": "error",
+                        "message": "Embedded Claude login unavailable. Paste your sessionKey cookie value instead."})
+            self._push({"type": "login_cancelled"})
+
+    def _claude_login_window_flow(self):
+        try:
+            import clr
+        except Exception:
+            import os as _os
+            _os.environ["PYTHONNET_RUNTIME"] = "coreclr"
+            import clr
+        try:
+            from webview.util import interop_dll_path
+            clr.AddReference("System.Windows.Forms")
+            clr.AddReference("System.Drawing")
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.Core.dll"))
+            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.WinForms.dll"))
+            from System.Windows.Forms import Application, DockStyle, Form, FormStartPosition, Label
+            from System import Action
+            from System.Drawing import Color, Size
+            from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
+            from Microsoft.Web.WebView2.WinForms import CoreWebView2CreationProperties, WebView2
+            from System.Windows.Forms import Timer as WinTimer
+        except Exception as e:
+            log(f"claude login: WebView2 load failed: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": "Embedded Claude login unavailable. Paste sessionKey instead."})
+            self._push({"type": "login_cancelled"})
+            return
+
+        form = Form()
+        form.Text = "Sign in to Claude"
+        form.Size = Size(980, 760)
+        form.StartPosition = FormStartPosition.CenterScreen
+        status = Label(); status.Text = "  Loading Claude…"; status.Dock = DockStyle.Top; status.Height = 28
+        wv = WebView2(); wv.Dock = DockStyle.Fill
+        try:
+            props = CoreWebView2CreationProperties()
+            props.UserDataFolder = os.path.join(appdata_dir(), "login-webview-claude")
+            wv.CreationProperties = props
+        except Exception:
+            pass
+        form.Controls.Add(wv); form.Controls.Add(status)
+        closed = threading.Event(); finished = {"done": False}
+        self._login_form = form
+
+        def safe_close():
+            try:
+                if form.IsHandleCreated: form.BeginInvoke(Action(form.Close))
+                else: form.Close()
+            except Exception: pass
+
+        def finish(token: str, source: str):
+            if finished["done"] or not token: return
+            finished["done"] = True
+            try: timer.Stop()
+            except Exception: pass
+            closed.set()
+            log(f"claude login: captured via {source}")
+            safe_close()
+            threading.Thread(target=self._accept_token, args=(token, False), daemon=True).start()
+
+        def on_closing(sender, e):
+            closed.set()
+            if not self.token and not finished["done"]:
+                self._connecting = False
+                self._push({"type": "login_cancelled"})
+        form.FormClosing += on_closing
+
+        def on_req(sender, args):
+            try:
+                if closed.is_set() or finished["done"]: return
+                req = getattr(args, "Request", None)
+                if req is None: return
+                uri = str(getattr(req, "Uri", "") or "").lower()
+                if "claude.ai" not in uri: return
+                headers = getattr(req, "Headers", None)
+                if headers is None: return
+                try: cookie_header = headers.GetHeader("Cookie")
+                except Exception: cookie_header = None
+                if cookie_header and "sessionKey=" in cookie_header:
+                    if form.IsHandleCreated:
+                        form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie header")))
+                    else:
+                        finish(cookie_header, "Cookie header")
+            except Exception as e:
+                log(f"claude login hook error: {e}")
+
+        def on_init(sender, args):
+            try:
+                if not args.IsSuccess:
+                    self._connecting = False
+                    self._push({"type": "error", "message": "Could not start Claude login browser."})
+                    self._push({"type": "login_cancelled"}); safe_close(); return
+                cv = wv.CoreWebView2
+                cv.AddWebResourceRequestedFilter("https://*.claude.ai/*", CoreWebView2WebResourceContext.All)
+                cv.AddWebResourceRequestedFilter("https://claude.ai/*", CoreWebView2WebResourceContext.All)
+                cv.WebResourceRequested += on_req
+                cv.Navigate("https://claude.ai/")
+                status.Text = "  Sign in to Claude in this window…"
+            except Exception as e:
+                log(f"claude login init error: {e}")
+
+        wv.CoreWebView2InitializationCompleted += on_init
+        timer = WinTimer(); timer.Interval = 2000
+        def on_tick(sender, e):
+            if closed.is_set() or finished["done"] or self.token: return
+            if self._stop_login.is_set():
+                safe_close(); return
+            try:
+                cv = wv.CoreWebView2
+                if cv is None: return
+                task = cv.CookieManager.GetCookiesAsync("https://claude.ai")
+                if task.IsCompleted and not getattr(task, "IsFaulted", False):
+                    parts = []
+                    sk = None
+                    for c in task.Result:
+                        name = getattr(c, "Name", None) or getattr(c, "name", None)
+                        value = getattr(c, "Value", None) or getattr(c, "value", None)
+                        if name and value is not None:
+                            parts.append(f"{name}={value}")
+                            if name == "sessionKey" and value:
+                                sk = str(value)
+                    if sk:
+                        finish("; ".join(parts), "CookieManager")
+            except Exception:
+                pass
+        timer.Tick += on_tick
+        try:
+            wv.EnsureCoreWebView2Async(None)
+        except Exception as e:
+            log(f"claude ensure error: {e}")
+            self._connecting = False
+            self._push({"type": "error", "message": "Could not start Claude login browser."})
+            self._push({"type": "login_cancelled"})
+            return
+        timer.Start()
+        Application.Run(form)
+        try: timer.Stop()
+        except Exception: pass
+        self._login_form = None
+        log("claude login: window closed")
 
     def _start_chatgpt_embedded_login(self):
         """Open ChatGPT in embedded WebView2; capture access token via session cookie / Bearer."""

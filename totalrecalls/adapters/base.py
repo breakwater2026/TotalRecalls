@@ -62,3 +62,6 @@ def _ensure_builtins() -> None:
     if "chatgpt" not in _REGISTRY:
         from totalrecalls.adapters.chatgpt.adapter import ChatGptAdapter
         register_provider("chatgpt", ChatGptAdapter)
+    if "claude" not in _REGISTRY:
+        from totalrecalls.adapters.claude.adapter import ClaudeAdapter
+        register_provider("claude", ClaudeAdapter)

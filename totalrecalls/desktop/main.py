@@ -195,23 +195,30 @@ def main():
                     if loaded is not None and loaded.is_set():
                         break
                 time.sleep(0.5)
+            provider = str(saved.get("provider") or "perplexity").strip().lower()
             try:
-                session = validate_session(saved["token"])
-                user = session.get("user") or {}
-                if user.get("email"):
-                    bridge.token = saved["token"]
-                    bridge.email = user["email"]
-                    count = 0
-                    try:
-                        count = len(list_threads(saved["token"]))
-                    except ApiError:
-                        pass
-                    bridge._conversation_count = count
-                    bridge._push({"type": "connected", "email": bridge.email, "count": count})
-                    log(f"auto-reconnected: {bridge.email}")
-                    return
-            except ApiError:
-                pass
+                from totalrecalls.adapters.base import get_adapter
+                adapter = get_adapter(provider)
+                account = adapter.validate(saved["token"])
+                email = (account.email or account.display_name or account.external_id or "").strip()
+                if not email and provider == "perplexity":
+                    raise ApiError("auth-failed")
+                if not email:
+                    email = f"{adapter.display_name} user"
+                bridge._provider_id = provider
+                bridge.token = saved["token"]
+                bridge.email = email
+                count = 0
+                try:
+                    count = len(adapter.list_conversations(saved["token"], deep=False))
+                except Exception:
+                    pass
+                bridge._conversation_count = count
+                bridge._push({"type": "connected", "email": bridge.email, "count": count})
+                log(f"auto-reconnected: {bridge.email} via {provider}")
+                return
+            except Exception as e:
+                log(f"saved session reconnect failed ({provider}): {e}")
             clear_session()
             log("saved session expired")
         threading.Thread(target=_try_reconnect, daemon=True).start()
