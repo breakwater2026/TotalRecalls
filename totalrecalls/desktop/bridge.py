@@ -326,11 +326,20 @@ class Bridge:
     def chooseTakeoutPath(self):
         """Folder or JSON file picker for Gemini Takeout imports."""
         log("bridge: chooseTakeoutPath() called from UI")
+        if self._window is None:
+            return ""
         try:
-            import webview
+            try:
+                import webview as _wv
+                folder_dlg = getattr(_wv, "FOLDER_DIALOG", "FOLDER_DIALOG")
+                open_dlg = getattr(_wv, "OPEN_DIALOG", "OPEN_DIALOG")
+            except Exception:
+                # Tests / headless CI may not have pywebview installed
+                folder_dlg = "FOLDER_DIALOG"
+                open_dlg = "OPEN_DIALOG"
             # Prefer folder dialog first (Takeout root)
             result = self._window.create_file_dialog(
-                webview.FOLDER_DIALOG,
+                folder_dlg,
                 directory=os.path.expanduser("~"),
             )
             if result and result[0]:
@@ -339,7 +348,7 @@ class Bridge:
                 return path
             # Fallback: allow picking a JSON file
             result = self._window.create_file_dialog(
-                webview.OPEN_DIALOG,
+                open_dlg,
                 allow_multiple=False,
                 file_types=("JSON Files (*.json)", "All files (*.*)"),
                 directory=os.path.expanduser("~"),
