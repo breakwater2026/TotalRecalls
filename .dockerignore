@@ -1,10 +1,8 @@
-# Keep Cloud Run image small — only site/ + deploy/nginx.conf are needed
+# .dockerignore — only ship the static site into the image
 .git
 .github
 .venv
 **/__pycache__
-**/*.pyc
-**/.pytest_cache
 node_modules
 apps
 ui
@@ -14,9 +12,12 @@ tests
 .hermes
 skills
 totalrecalls
+deploy
+docs
 *.exe
 *.zip
 *.spec
+*.md
 app.py
 app_ui.html
-PerplexityExporter.spec
+cloudbuild.yaml

@@ -74,9 +74,9 @@ The **app is not deployed to a cloud server**. Only the **website** is hosted. T
 
 | Item | Decision |
 |------|----------|
-| GCP build type | **Dockerfile** (not Python/Node/Go/Java buildpacks) |
-| Image | `nginx:alpine` + static `site/` |
-| Config | `Dockerfile`, `deploy/nginx.conf` (`listen 8080`, `absolute_redirect off`) |
+| GCP build type | **Dockerfile** (not Python/Node/Go *buildpacks* — we still use a Dockerfile; the image currently runs `python -m http.server` for reliability on Cloud Run) |
+| Image | Static `site/` served on `$PORT` (default 8080) |
+| Config | `Dockerfile` at repo root; optional `deploy/nginx.conf` if switching back to nginx |
 | Pipeline | `cloudbuild.yaml` or Cloud Run “deploy from GitHub” |
 | Guide | `docs/CLOUD_RUN.md` |
 | DNS | Cloudflare records **copied from** Cloud Run custom-domain UI after first deploy |

@@ -1,22 +1,22 @@
-# TotalRecalls marketing site for Cloud Run
-# Build type: Dockerfile (this file). Port: $PORT (default 8080).
+# TotalRecalls marketing site — Cloud Run
+# Build type: Dockerfile
+# Dead-simple static file server (no nginx listen/IPv6/HTTP2 quirks)
 
-FROM nginx:1.27-alpine
+FROM python:3.12-alpine
 
-ENV PORT=8080
+ENV PORT=8080 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-RUN rm -f /etc/nginx/conf.d/default.conf
+WORKDIR /srv
+COPY site/ /srv/
 
-COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
-COPY deploy/docker-entrypoint.sh /docker-entrypoint-tr.sh
-COPY site/ /usr/share/nginx/html/
-
-RUN chmod +x /docker-entrypoint-tr.sh \
-    && nginx -t \
-    && ls -la /usr/share/nginx/html/
+# Non-root
+RUN adduser -D -u 10001 web \
+    && chown -R web:web /srv
+USER web
 
 EXPOSE 8080
 
-# Use our entrypoint (not the stock nginx docker-entrypoint chain alone)
-STOPSIGNAL SIGQUIT
-CMD ["/docker-entrypoint-tr.sh"]
+# Cloud Run injects PORT; bind all interfaces
+CMD ["sh", "-c", "echo \"TotalRecalls static site on 0.0.0.0:${PORT}\" && exec python -m http.server \"${PORT}\" --bind 0.0.0.0"]
