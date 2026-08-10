@@ -8,9 +8,10 @@ Source: user answers + agent recommendations locked in planning session.
 | Item | Decision |
 |------|----------|
 | Product name | **TotalRecalls** |
-| Domain | **totalrecalls.app** (secured at Cloudflare) |
+| Domain | **totalrecalls.app** — **consumer front door** (download site). Currently served via GitHub Pages at `breakwater2026.github.io/TotalRecalls` until DNS CNAME is set. |
+| Public install path | **Website only** — general users must never need GitHub |
 | Tagline direction | Multi-assistant chat archives — your AI conversations, on your machine |
-| GitHub | `breakwater2026/TotalRecalls` |
+| GitHub | `breakwater2026/TotalRecalls` — source + silent file hosting for the Windows zip (not the consumer UI) |
 
 ## Architecture decisions
 
@@ -47,12 +48,24 @@ Source: user answers + agent recommendations locked in planning session.
 4. React + Vite UI — **DONE** (`apps/web-ui` → `ui/`)
 5. Optional Tauri shell migration
 6. ChatGPT adapter — **DONE**
-7. Monetization + code signing + totalrecalls.app landing — **landing + privacy + GitHub Release v1.3.0 zip**; **GitHub Pages enabled** (`pages.yml`, CNAME totalrecalls.app); CF optional; code signing open
+7. Monetization + code signing + consumer website — **consumer download site live** (Pages); Release zip behind one-click Download; **DNS totalrecalls.app still open**; code signing + payments open
 8. Claude / Gemini / Grok adapters — **DONE** (Gemini = Takeout-path primary)
 9. CI — **DONE** (`.github/workflows/ci.yml` unit tests + selftest on Windows)
 
 ## Open (not blocking Phase 0–2)
 
+- **DNS:** point `totalrecalls.app` → `breakwater2026.github.io` (or Cloudflare Pages) so the branded URL is the only URL users see
 - Exact payment provider (Gumroad / Lemon Squeezy / Paddle)
-- Code-signing certificate vendor
+- Code-signing certificate vendor (required for SmartScreen / Smart App Control)
 - Whether free CLI remains open-source as loss leader
+
+## Consumer distribution (locked)
+
+```
+User → totalrecalls.app  →  one-click Download  →  TotalRecalls.exe on their PC
+                              ↑
+                     zip file may be stored on GitHub Releases
+                     (users never browse the repo)
+```
+
+The **app is not deployed to a cloud server**. Only the **website** is hosted. The EXE always runs locally.
