@@ -1,0 +1,57 @@
+# TotalRecalls — Product Decisions
+
+Recorded: 2026-08-09  
+Source: user answers + agent recommendations locked in planning session.
+
+## Brand & domain
+
+| Item | Decision |
+|------|----------|
+| Product name | **TotalRecalls** |
+| Domain | **totalrecalls.app** (secured at Cloudflare) |
+| Tagline direction | Multi-assistant chat archives — your AI conversations, on your machine |
+| GitHub | `breakwater2026/TotalRecalls` |
+
+## Architecture decisions
+
+| # | Question | Decision | Rationale |
+|---|----------|----------|-----------|
+| 1 | Domain ready? | **Yes** — totalrecalls.app @ Cloudflare | User confirmed |
+| 2 | Desktop shell | **Python + pywebview/WebView2 host first**; architecture stays shell-swappable for **Tauri later** | Preserves hard-won STA WebView2 login (primary product risk). Tauri rewrite of auth is deferred until adapters + React UI are stable. |
+| 3 | `xref-PerplexityExporter.html` (52,250 lines) | **(A) Preserve as artifact / dependency map** — do **not** port into React as app source | File is PyInstaller modulegraph cross-reference HTML, not business logic. Real logic is `app.py` + `app_ui.html` + CLI lineage. Entire v1 folder including xref remains preserved. |
+| 4 | Provider #2 | **ChatGPT** | User confirmed |
+| 5 | Pricing | **One-time ~$19–29** utility | User confirmed prior recommendation |
+
+## Working trees
+
+| Path | Role |
+|------|------|
+| `C:\Users\break\PerplexityExporter` | **Active engineering workdir** (prefer until monorepo move completes) |
+| `C:\Users\break\Projects\TotalRecalls` | Canonical clone — keep synced to active workdir / origin |
+| `artifacts` (future) | Frozen snapshots; v1 freeze also via git tag `v1.0.0-perplexity-stable` |
+
+## Non-negotiables
+
+1. Entire v1 project including `build/`, `dist/`, and xref HTML stays in git history / artifacts.
+2. No cloud service that collects user session tokens.
+3. API pacing stays conservative (≥3s delay; 429 backoff ≥20s) — session-kill is #1 fragility.
+4. User-stated file intent overrides agent heuristics (see `user-intent-primacy` skill).
+5. Sell **local ownership / migration UX**, not “we scrape providers for you as a hosted service.”
+
+## Implementation sequence (locked)
+
+0. Freeze v1 (tag) + fix hygiene  
+1. Marketing/signing foundation (parallel)  
+2. Decompose `app.py` into modules (still Python)  
+3. `ProviderAdapter` + unified schema  
+4. React + Vite UI loaded by current Python host  
+5. Optional Tauri shell migration  
+6. ChatGPT adapter  
+7. Monetization + code signing  
+8. Claude → Grok → Gemini (serial)
+
+## Open (not blocking Phase 0–2)
+
+- Exact payment provider (Gumroad / Lemon Squeezy / Paddle)
+- Code-signing certificate vendor
+- Whether free CLI remains open-source as loss leader

@@ -1,2 +1,11 @@
-# Per user instruction 2026-08-09: preserve the ENTIRE project folder,
-# including build/ and dist/. No exclusions of source/build artifacts.
+# Per user instruction 2026-08-09: preserve build/ and dist/ (v1 artifacts).
+.aider*
+.venv/
+.kilo/
+__pycache__/
+*.pyc
+.pytest_cache/
+apps/web-ui/node_modules/
+apps/web-ui/dist/
+.DS_Store
+Thumbs.db
