@@ -1,0 +1,333 @@
+"""Provider-agnostic export of UnifiedConversation trees.
+
+Layout:
+  <outdir>/
+    Library/<provider>/<Home|Spaces/...>/<Title -- shortid>/
+      conversation.md
+      conversation.json   # unified schema
+    README.md
+    manifest.json
+    uuid_index.json       # provider:id → rel_path
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Callable
+
+from totalrecalls import APP_VERSION
+from totalrecalls.adapters.base import ProviderAdapter
+from totalrecalls.core.export_fs import (
+    HOME_SPACE_NAME,
+    SPACES_DIRNAME,
+    safe_name,
+    short_id,
+)
+from totalrecalls.core.paths import log
+from totalrecalls.core.schema import UnifiedConversation
+
+
+def conversation_rel_path(conv: UnifiedConversation) -> str:
+    """Relative path (posix) from export root to conversation folder."""
+    provider = safe_name(conv.provider or "unknown", max_len=40) or "unknown"
+    folder = (conv.folder or HOME_SPACE_NAME).strip() or HOME_SPACE_NAME
+    title = conv.title or "Untitled conversation"
+    leaf = f"{safe_name(title, max_len=72)} -- {short_id(conv.id)}"
+    if folder == HOME_SPACE_NAME:
+        mid = HOME_SPACE_NAME
+    else:
+        mid = f"{SPACES_DIRNAME}/{safe_name(folder, max_len=60) or 'Space'}"
+    return f"Library/{provider}/{mid}/{leaf}"
+
+
+def render_unified_markdown(conv: UnifiedConversation) -> str:
+    lines = [
+        f"# {conv.title or 'Untitled conversation'}",
+        "",
+        f"- **Provider:** {conv.provider or '—'}",
+        f"- **Account:** {(conv.account.email if conv.account else '') or '—'}",
+        f"- **Folder:** {conv.folder or HOME_SPACE_NAME}",
+        f"- **ID:** {conv.id or '—'}",
+        f"- **Created:** {conv.created_at or '—'}",
+        f"- **Updated:** {conv.updated_at or '—'}",
+        "",
+    ]
+    turn = 0
+    for msg in conv.messages:
+        role = (msg.role or "").lower()
+        body = msg.content_md or ""
+        if role == "user":
+            turn += 1
+            first = body.splitlines()[0][:120] if body else "(no question text)"
+            lines.append("---")
+            lines.append("")
+            lines.append(f"## Q{turn}: {first}")
+            lines.append("")
+            # Always include full user text so single-line questions appear in body too
+            lines.append(body or "_(no question text)_")
+            lines.append("")
+        elif role == "assistant":
+            if msg.model:
+                lines.append(f"*Model: {msg.model}*")
+                lines.append("")
+            lines.append(body or "_(no answer text captured)_")
+            lines.append("")
+            if msg.citations:
+                lines.append("### Sources")
+                for c in msg.citations:
+                    title = c.title or c.url or "source"
+                    if c.url:
+                        lines.append(f"- [{title}]({c.url})")
+                    else:
+                        lines.append(f"- {title}")
+                lines.append("")
+        else:
+            lines.append(f"### {role or 'message'}")
+            lines.append("")
+            lines.append(body)
+            lines.append("")
+    return "\n".join(lines)
+
+
+def _message_stats(conv: UnifiedConversation) -> dict:
+    answer_chars = 0
+    empty_answers = 0
+    sources = 0
+    assistants = 0
+    for m in conv.messages:
+        if (m.role or "").lower() != "assistant":
+            continue
+        assistants += 1
+        a = m.content_md or ""
+        answer_chars += len(a)
+        if not a.strip():
+            empty_answers += 1
+        sources += len(m.citations or [])
+    return {
+        "entries": assistants,
+        "answer_chars": answer_chars,
+        "empty_answer_entries": empty_answers,
+        "sources": sources,
+        "all_answers_empty": bool(assistants) and empty_answers == assistants,
+        "messages": len(conv.messages),
+    }
+
+
+def write_unified_conversation(outdir: str, conv: UnifiedConversation) -> dict:
+    """Write one conversation folder. Returns index record dict."""
+    rel = conversation_rel_path(conv).replace("\\", "/")
+    folder = os.path.join(outdir, *rel.split("/"))
+    os.makedirs(folder, exist_ok=True)
+
+    md = render_unified_markdown(conv)
+    with open(os.path.join(folder, "conversation.md"), "w", encoding="utf-8") as f:
+        f.write(md)
+    # compatibility alias used by older Perplexity layout readers
+    with open(os.path.join(folder, "thread.md"), "w", encoding="utf-8") as f:
+        f.write(md)
+
+    payload = conv.to_dict()
+    with open(os.path.join(folder, "conversation.json"), "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+
+    stats = _message_stats(conv)
+    return {
+        "uuid": conv.id,
+        "id": conv.id,
+        "provider": conv.provider,
+        "title": conv.title,
+        "space": conv.folder or HOME_SPACE_NAME,
+        "folder": conv.folder or HOME_SPACE_NAME,
+        "rel_path": rel,
+        "updated_at": conv.updated_at,
+        "stats": stats,
+        "empty_answers": stats.get("all_answers_empty", False),
+    }
+
+
+def _write_manifest(outdir: str, account: str, provider: str, records: list[dict],
+                    exported_at: str) -> dict:
+    by_space: dict[str, list] = {}
+    for rec in records:
+        sp = rec.get("space") or HOME_SPACE_NAME
+        by_space.setdefault(sp, []).append(rec)
+
+    lines = [
+        f"# TotalRecalls export — {provider}",
+        "",
+        f"- **Account:** {account or '—'}",
+        f"- **Provider:** {provider}",
+        f"- **Exported:** {exported_at}",
+        f"- **Conversations:** {len(records)}",
+        "",
+        "Conversations live under `Library/<provider>/…` as `conversation.md` + `conversation.json`.",
+        "",
+        "## Conversations",
+        "",
+        "| Folder | Title | Turns | Notes |",
+        "|---|---|---:|---|",
+    ]
+    for rec in sorted(records, key=lambda r: ((r.get("space") or ""), (r.get("title") or "").lower())):
+        title = (rec.get("title") or "Untitled").replace("|", "/")
+        rel = (rec.get("rel_path") or "").replace("\\", "/")
+        link = f"[{title}]({rel}/conversation.md)" if rel else title
+        st = rec.get("stats") or {}
+        note = "⚠️ empty answers" if rec.get("empty_answers") else ""
+        lines.append(
+            f"| {rec.get('space') or HOME_SPACE_NAME} | {link} | {st.get('entries', '—')} | {note} |"
+        )
+    lines.append("")
+    readme = "\n".join(lines)
+    with open(os.path.join(outdir, "README.md"), "w", encoding="utf-8") as f:
+        f.write(readme)
+
+    empty_list = [r.get("title") or r.get("id") or "?" for r in records if r.get("empty_answers")]
+    uuid_index = {}
+    for r in records:
+        key = r.get("id") or r.get("uuid")
+        if key and r.get("rel_path"):
+            uuid_index[f"{provider}:{key}"] = r["rel_path"].replace("\\", "/")
+            uuid_index[str(key)] = r["rel_path"].replace("\\", "/")
+
+    manifest = {
+        "tool": "TotalRecalls",
+        "layout": "library-v1",
+        "version": APP_VERSION,
+        "schema_version": 1,
+        "provider": provider,
+        "exported_at": exported_at,
+        "account": account or "",
+        "total_threads": len(records),
+        "formats": ["json", "markdown"],
+        "warnings": {"empty_answer_threads": empty_list},
+        "threads": [
+            {
+                "id": r.get("id") or r.get("uuid"),
+                "provider": provider,
+                "title": r.get("title"),
+                "folder": r.get("space"),
+                "path": (r.get("rel_path") or "").replace("\\", "/"),
+                "updated_at": r.get("updated_at") or "",
+                "entries": (r.get("stats") or {}).get("entries"),
+                "answer_chars": (r.get("stats") or {}).get("answer_chars"),
+                "empty_answers": bool(r.get("empty_answers")),
+            }
+            for r in records
+        ],
+    }
+    with open(os.path.join(outdir, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+    with open(os.path.join(outdir, "uuid_index.json"), "w", encoding="utf-8") as f:
+        json.dump(uuid_index, f, indent=2, ensure_ascii=False)
+    return manifest
+
+
+def export_via_adapter(
+    adapter: ProviderAdapter,
+    credential: str,
+    outdir: str,
+    *,
+    deep: bool = True,
+    refresh: bool = False,
+    on_progress: Callable[[dict], None] | None = None,
+    on_log: Callable[[str], None] | None = None,
+) -> dict:
+    """Run a full export through a ProviderAdapter into Library/<provider>/."""
+
+    def _log(msg: str):
+        log(msg)
+        if on_log:
+            on_log(msg)
+
+    def _prog(payload: dict):
+        if on_progress:
+            on_progress(payload)
+
+    os.makedirs(outdir, exist_ok=True)
+    account = adapter.validate(credential)
+    _log(f"Connected as {account.email or account.external_id or 'account'} via {adapter.id}")
+    summaries = adapter.list_conversations(credential, deep=deep)
+    total = len(summaries)
+    _log(f"Found {total} conversation(s) on {adapter.display_name}")
+
+    # load prior index for skip
+    index_path = os.path.join(outdir, "uuid_index.json")
+    prior = {}
+    try:
+        with open(index_path, encoding="utf-8") as f:
+            prior = json.load(f) or {}
+    except Exception:
+        prior = {}
+
+    records: list[dict] = []
+    done = 0
+    skipped = 0
+    failed = 0
+
+    for pos, summary in enumerate(summaries, 1):
+        title_disp = (summary.title or summary.id)[:70]
+        folder_label = summary.folder or HOME_SPACE_NAME
+        # skip if present
+        prior_rel = prior.get(f"{adapter.id}:{summary.id}") or prior.get(summary.id)
+        if prior_rel and not refresh:
+            abs_existing = os.path.join(outdir, prior_rel.replace("/", os.sep))
+            if os.path.isdir(abs_existing) and (
+                os.path.isfile(os.path.join(abs_existing, "conversation.json"))
+                or os.path.isfile(os.path.join(abs_existing, "thread.json"))
+            ):
+                rec = {
+                    "uuid": summary.id,
+                    "id": summary.id,
+                    "provider": adapter.id,
+                    "title": summary.title,
+                    "space": folder_label,
+                    "rel_path": prior_rel.replace("\\", "/"),
+                    "updated_at": summary.updated_at,
+                    "stats": {},
+                    "empty_answers": False,
+                }
+                records.append(rec)
+                done += 1
+                skipped += 1
+                _log(f"[{pos}/{total}] {folder_label} / {title_disp} — already saved")
+                _prog({"done": done, "total": total, "title": f"{folder_label}: {title_disp}"})
+                continue
+
+        _log(f"[{pos}/{total}] {folder_label} / {title_disp} — downloading…")
+        _prog({"done": done, "total": total, "title": f"{folder_label}: {title_disp}"})
+        try:
+            conv = adapter.fetch_conversation(credential, summary.id)
+            # ensure folder/title from summary when detail is sparse
+            if not conv.folder:
+                conv.folder = summary.folder
+            if not conv.title:
+                conv.title = summary.title
+            if not conv.account.email and account.email:
+                conv.account = account
+            rec = write_unified_conversation(outdir, conv)
+            records.append(rec)
+            done += 1
+            st = rec.get("stats") or {}
+            flag = " ⚠️ empty answers" if rec.get("empty_answers") else ""
+            _log(f"  ✓ {st.get('entries', 0)} turns, {st.get('answer_chars', 0)} chars{flag}")
+        except Exception as e:
+            failed += 1
+            _log(f"  ! failed: {e}")
+            log(f"export_via_adapter fail {summary.id}: {e}")
+
+    exported_at = datetime.now(timezone.utc).isoformat()
+    manifest = _write_manifest(outdir, account.email, adapter.id, records, exported_at)
+    _log(f"Wrote Library/{adapter.id}/ — {len(records)} conversation(s). Skipped {skipped}, failed {failed}.")
+    return {
+        "exported": len(records) - skipped,
+        "skipped": skipped,
+        "failed": failed,
+        "total": total,
+        "records": records,
+        "manifest": manifest,
+        "folder": outdir,
+        "account": account.email,
+    }

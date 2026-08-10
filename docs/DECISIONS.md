@@ -43,7 +43,7 @@ Source: user answers + agent recommendations locked in planning session.
 0. Freeze v1 (tag) + fix hygiene — **DONE** (`v1.0.0-perplexity-stable`)
 1. Marketing/signing foundation (parallel)
 2. Decompose `app.py` into modules (still Python) — **DONE** (`totalrecalls/` package; thin `app.py` shim)
-3. `ProviderAdapter` + unified schema
+3. `ProviderAdapter` + unified schema — **DONE** (`adapters/base.py`, `core/schema.py`, `PerplexityAdapter`, `export_via_adapter` → `Library/<provider>/`)
 4. React + Vite UI loaded by current Python host
 5. Optional Tauri shell migration
 6. ChatGPT adapter

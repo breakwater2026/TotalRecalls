@@ -22,6 +22,10 @@ from totalrecalls.adapters.perplexity.thread import (
     get_thread, extract_entry, render_markdown,
 )
 
+# Note: PerplexityAdapter is imported from
+# totalrecalls.adapters.perplexity.adapter directly to avoid circular
+# imports (adapter → export_fs → thread → this package).
+
 __all__ = [
     "BASE", "API_VERSION", "COOKIE_NAME", "DEFAULT_DELAY",
     "ApiError", "request", "validate_session",

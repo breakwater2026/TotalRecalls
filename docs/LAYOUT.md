@@ -10,15 +10,17 @@
 │   ├── __init__.py                 # APP_NAME / VERSION / BUILD_TAG
 │   ├── core/
 │   │   ├── paths.py                # appdata, log, session, single-instance
-│   │   ├── export_fs.py            # Spaces/Home layout + indexes
-│   │   └── errors.py               # friendly_error
+│   │   ├── export_fs.py            # classic Spaces/Home layout + indexes
+│   │   ├── schema.py               # UnifiedConversation (Phase 3)
+│   │   ├── unified_export.py       # Library/<provider>/ writer + export_via_adapter
+│   │   └── errors.py
 │   ├── adapters/
+│   │   ├── base.py                 # ProviderAdapter protocol + registry
 │   │   └── perplexity/
-│   │       ├── http.py             # curl_cffi transport, ApiError
-│   │       ├── auth.py             # token extract + validate_session
-│   │       ├── discover.py         # multi-source list_threads
-│   │       └── thread.py           # get_thread, markdown
+│   │       ├── http.py / auth.py / discover.py / thread.py
+│   │       └── adapter.py          # PerplexityAdapter
 │   └── desktop/
+
 │       ├── js_api.py               # pywebview JsApi facade
 │       ├── bridge.py               # login + export worker
 │       ├── ui_dispatch.py

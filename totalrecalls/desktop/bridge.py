@@ -28,6 +28,8 @@ from totalrecalls.adapters.perplexity.auth import (
 )
 from totalrecalls.adapters.perplexity.discover import list_threads
 from totalrecalls.adapters.perplexity.thread import get_thread, extract_entry, render_markdown
+from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
+from totalrecalls.core.unified_export import export_via_adapter
 
 class Bridge:
     """Called from the web UI via pywebview's js_api bridge.
@@ -730,16 +732,63 @@ class Bridge:
             self._push({"type": "error", "message": "Not connected. Please log in first."})
             return
         outdir = self._default_folder
+        # Opt-in classic Spaces/Home-at-root layout (pre-Phase-3). Default = Library/<provider>/.
+        classic = os.environ.get("TOTALRECALLS_CLASSIC_EXPORT", "").strip().lower() in ("1", "true", "yes")
         try:
             os.makedirs(outdir, exist_ok=True)
             self._push({"type": "export_start"})
             self._push({"type": "log",
                         "line": f"Perplexity Exporter {APP_VERSION} ({APP_BUILD_TAG}) — preparing export…"})
-            # Pre-condition: no sibling EXEs (stale builds / double launches)
             killed = kill_other_exporter_processes(force=True)
             if killed:
                 self._push({"type": "log",
                             "line": f"Closed {len(killed)} other exporter process(es) before discovery."})
+
+            if not classic:
+                adapter = PerplexityAdapter()
+
+                def on_log(line: str):
+                    self._push({"type": "log", "line": line})
+
+                def on_progress(p: dict):
+                    self._push({
+                        "type": "progress",
+                        "done": p.get("done", 0),
+                        "total": p.get("total", 0),
+                        "title": p.get("title", ""),
+                    })
+
+                self._push({"type": "log",
+                            "line": "Export via Perplexity adapter → Library/perplexity/ …"})
+                result = export_via_adapter(
+                    adapter,
+                    credential=token,
+                    outdir=outdir,
+                    deep=True,
+                    refresh=refresh,
+                    on_log=on_log,
+                    on_progress=on_progress,
+                )
+                empty_n = len(
+                    ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []
+                )
+                if empty_n:
+                    self._push({"type": "log",
+                                "line": f"Note: {empty_n} conversation(s) have no answer text (see README warnings)."})
+                self._push({
+                    "type": "log",
+                    "line": (
+                        f"Skipped (already saved): {result.get('skipped', 0)}. "
+                        f"Failed: {result.get('failed', 0)}."
+                    ),
+                })
+                self._push({"type": "export_done", "done": len(result.get("records") or []),
+                            "folder": outdir})
+                log(f"export finished via adapter: {result.get('exported')} new, "
+                    f"{result.get('skipped')} skipped -> {outdir} (library-v1)")
+                return
+
+            # ----- classic path (TOTALRECALLS_CLASSIC_EXPORT=1) -----
             self._push({"type": "log", "line": "Discovering conversations (multiple Perplexity indexes)…"})
             threads = list_threads(token, deep=True)
             total = len(threads)
@@ -762,7 +811,6 @@ class Bridge:
                 existing = None if refresh else find_existing_thread_folder(outdir, uuid, uuid_index)
 
                 if existing and not refresh:
-                    # Reuse existing data for index (may still be legacy path)
                     try:
                         with open(os.path.join(existing, "thread.json"), encoding="utf-8") as f:
                             data = json.load(f)
@@ -773,7 +821,6 @@ class Bridge:
                         space = space_label_from_collection(col2, meta)
                         stats = entry_stats(entries)
                         rel = os.path.relpath(existing, outdir).replace("\\", "/")
-                        # If legacy flat path, migrate into Spaces/Home layout
                         target = thread_abs_folder(outdir, space, title, uuid)
                         target_rel = thread_rel_path(space, title, uuid).replace("\\", "/")
                         if os.path.normpath(existing) != os.path.normpath(target):
@@ -783,7 +830,6 @@ class Bridge:
                                 shutil.move(existing, target)
                                 existing = target
                                 rel = target_rel
-                                # write conversation.md if missing
                                 md_path = os.path.join(target, "conversation.md")
                                 if not os.path.exists(md_path):
                                     legacy_md = os.path.join(target, "thread.md")
@@ -804,7 +850,6 @@ class Bridge:
                         continue
                     except Exception as e:
                         log(f"export: skip-migrate failed for {uuid}: {e}")
-                        # fall through to re-fetch
 
                 self._push({"type": "log", "line": f"[{pos}/{total}] {space} / {title_disp} — downloading…"})
                 self._push({"type": "progress", "done": done, "total": total, "title": f"{space}: {title_disp}"})
@@ -840,7 +885,6 @@ class Bridge:
                 md_meta = {**meta, "uuid": uuid, "space": "" if space == HOME_SPACE_NAME else space, "title": title}
                 with open(os.path.join(folder, "conversation.md"), "w", encoding="utf-8") as f:
                     f.write(render_markdown(md_meta, entry_list))
-                # compatibility copy
                 with open(os.path.join(folder, "thread.md"), "w", encoding="utf-8") as f:
                     f.write(render_markdown(md_meta, entry_list))
 
@@ -855,9 +899,6 @@ class Bridge:
                 flag = " ⚠️ empty answers" if rec["empty_answers"] else ""
                 self._push({"type": "log", "line": f"  ✓ {stats['entries']} turns, {stats['answer_chars']} chars{flag}"})
 
-            # Include any previously exported threads not in this list? skip.
-
-            # Rebuild indexes from everything we know + scan disk for orphans
             manifest = write_export_indexes(outdir, self.email or "", records)
             save_uuid_index(outdir, uuid_index)
 
@@ -867,7 +908,7 @@ class Bridge:
                 self._push({"type": "log", "line": f"Note: {empty_n} conversation(s) have no answer text (see README warnings)."})
             self._push({"type": "log", "line": f"Skipped (already saved): {skipped}. Failed: {failed}."})
             self._push({"type": "export_done", "done": len(records), "folder": outdir})
-            log(f"export finished: {len(records)}/{total} -> {outdir} (spaces-v1)")
+            log(f"export finished: {len(records)}/{total} -> {outdir} (spaces-v1 classic)")
         except ApiError as e:
             self._push({"type": "error", "message": friendly_error(e)})
         except Exception as e:
