@@ -94,13 +94,55 @@ docker run --rm -p 8080:8080 totalrecalls-web
 
 ## Troubleshooting Cloud Run 502 / “protocol error”
 
+### Confirmed root cause (revision totalrecalls-web-00005, commit 66546c1)
+
+Request log showed `"protocol": "H2C"`. Container stderr:
+
+```text
+code 505, message Invalid HTTP version (2.0)
+"PRI * HTTP/2.0" 505 -
+```
+
+**Meaning:** Cloud Run **HTTP/2 end-to-end** is **ON**. The proxy talks **HTTP/2 cleartext (h2c)** to the container.  
+`python -m http.server` (and normal nginx HTTP/1.1) only speak **HTTP/1.1** → 505 → edge returns **502 protocol error**.
+
+### Fix (Console — ~30 seconds, no rebuild required)
+
+1. Open service:  
+   https://console.cloud.google.com/run/detail/us-central1/totalrecalls-web?project=cs-poc-gw89wethbilefc1wrhgq7d7  
+2. **Edit & deploy new revision** (or Edit service)  
+3. Open **Container(s)** / networking / **Connections** / **HTTP/2** section (wording varies)  
+4. **Uncheck** **Use HTTP/2 end-to-end** (must be **OFF**)  
+5. Confirm **Container port = 8080**  
+6. **Deploy**  
+7. Hard-refresh: https://totalrecalls-web-96283906207.us-central1.run.app/
+
+### Fix (gcloud, if CLI works on your machine)
+
+```bash
+gcloud run services update totalrecalls-web \
+  --region=us-central1 \
+  --project=cs-poc-gw89wethbilefc1wrhgq7d7 \
+  --no-use-http2 \
+  --port=8080
+```
+
+### After it works
+
+| URL | Expect |
+|-----|--------|
+| `/` | 200, TotalRecalls download page |
+| `/support.html` | 200 |
+| `/privacy.html` | 200 |
+
+### Other symptoms (less likely once H2C is off)
+
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| 502 + `protocol error` / upstream reset | Container not listening, crash, or HTTP/2 end-to-end mismatch | Port **8080**, HTTP/2 end-to-end **off**, check revision logs |
-| `/healthz` 404 from Google Frontend | Traffic never reached a healthy revision | Open **Logs** for `totalrecalls-web` |
-| Works after redeploy of simplified nginx | IPv6 `listen [::]:8080` or conf error | Current `deploy/nginx.conf` is IPv4-only + `$PORT` entrypoint |
+| STARTUP TCP probe failed | Wrong container port | Port **8080** |
+| No “TotalRecalls static site on…” in logs | Old/crashed revision | Deploy latest; check Logs |
 
-Console: service → **Logs**. Look for `Starting nginx on` and `nginx: configuration file ... syntax is ok`.
+**Do not** enable HTTP/2 end-to-end unless the container intentionally serves **h2c** (Caddy/Envoy/etc.). Our static Dockerfile uses HTTP/1.1 only.
 
 - [ ] `/` returns 200 with Download button  
 - [ ] `/support.html` and `/privacy.html` return 200  
