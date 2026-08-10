@@ -47,7 +47,7 @@ Source: user answers + agent recommendations locked in planning session.
 4. React + Vite UI — **DONE** (`apps/web-ui` → `ui/`)
 5. Optional Tauri shell migration
 6. ChatGPT adapter — **DONE**
-7. Monetization + code signing + totalrecalls.app landing — **landing + privacy + GitHub Release v1.3.0 with Windows zip**; Cloudflare Pages deploy still needs account login; code signing open
+7. Monetization + code signing + totalrecalls.app landing — **landing + privacy + GitHub Release v1.3.0 zip**; **GitHub Pages enabled** (`pages.yml`, CNAME totalrecalls.app); CF optional; code signing open
 8. Claude / Gemini / Grok adapters — **DONE** (Gemini = Takeout-path primary)
 9. CI — **DONE** (`.github/workflows/ci.yml` unit tests + selftest on Windows)
 
