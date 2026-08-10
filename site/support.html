@@ -4,69 +4,57 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Help — TotalRecalls</title>
-  <meta name="description" content="Help installing and using TotalRecalls on Windows." />
-  <link rel="canonical" href="https://totalrecalls.app/support.html" />
-  <style>
-    :root { --bg:#07090f; --text:#eef1f8; --muted:#9aa3b8; --border:#2a3145; --accent:#93c5fd; --panel:#121722; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 36px 20px 80px; }
-    a { color: var(--accent); }
-    h1 { font-size: 1.75rem; margin: 16px 0 10px; letter-spacing: -.02em; }
-    h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #c7d2fe; }
-    p, li { color: var(--muted); margin-bottom: 10px; }
-    ul { padding-left: 1.2rem; }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 16px 0; }
-    .btn {
-      display: inline-block; margin-top: 8px; padding: 12px 16px; border-radius: 10px;
-      background: linear-gradient(135deg,#3b82f6,#6366f1); color: #fff !important;
-      font-weight: 700; text-decoration: none;
-    }
-    code { background: #0c1018; padding: 1px 6px; border-radius: 6px; }
-    footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
-  </style>
+  <meta name="description" content="Help installing TotalRecalls on Windows, SmartScreen, purchases, and exports." />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
   <div class="wrap">
-    <a href="index.html">← Back to TotalRecalls</a>
-    <h1>Help &amp; install</h1>
-    <p>For people who just want the app to work — no technical background needed.</p>
+    <header>
+      <a class="logo" href="/">TR</a>
+      <div class="brand"><a href="/">TotalRecalls</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/guides/">Guides</a>
+        <a class="nav-buy" data-tr-buy data-label-ready="Buy {price}" data-label-pending="Buy {price}" href="/#get-totalrecalls">Buy $24</a>
+      </nav>
+    </header>
+    <h1>Help</h1>
+    <p class="lead">Short answers for install, Windows warnings, and purchases.</p>
 
     <div class="card">
-      <h2 style="margin-top:0">Download</h2>
-      <p>Use the official button on the home page (or below). Save the zip file, open it, then double-click <code>TotalRecalls.exe</code>.</p>
-      <a class="btn" href="https://github.com/breakwater2026/TotalRecalls/releases/download/v1.3.0/TotalRecalls-windows-x64-v1.3.0.zip">Download for Windows</a>
+      <h2>Do I need GitHub?</h2>
+      <p class="muted">No. Buy and download from this website. GitHub only stores source code for developers.</p>
     </div>
-
-    <h2>Windows “protected your PC”</h2>
-    <p>Windows shows this for new apps that are not yet code-signed.</p>
-    <ul>
-      <li>Click <b>More info</b></li>
-      <li>Click <b>Run anyway</b></li>
-    </ul>
-    <p>Only do this if you got the file from <b>totalrecalls.app</b> (or our official download link).</p>
-
-    <h2>Smart App Control / company PCs</h2>
-    <p>Some Windows setups block <i>all</i> unsigned apps with no override. On those machines the app cannot run until we ship a signed installer. A home Windows 10/11 PC usually allows “Run anyway”.</p>
-
-    <h2>Using the app</h2>
-    <ol>
-      <li>Open TotalRecalls</li>
-      <li>Choose an AI service from the list</li>
-      <li>Click Log in (or for Gemini, choose your Google Takeout folder)</li>
-      <li>Pick a folder for your export</li>
-      <li>Start export and wait for the progress to finish</li>
-    </ol>
-
-    <h2>Where did my files go?</h2>
-    <p>Wherever you chose in the app. Many people use a folder like <code>TotalRecalls-export</code> in their user folder. Inside you’ll see a <code>Library</code> folder with one subfolder per AI service.</p>
-
-    <h2>Still stuck?</h2>
-    <p>Email is not set up on this beta page yet. For now, open an issue on the project page if you can, or wait for support@ once the commercial site is fully launched.</p>
-
+    <div class="card">
+      <h2>How much does it cost?</h2>
+      <p class="muted"><span data-tr-price>$24</span> one-time for Windows via Lemon Squeezy. No subscription for the app itself.</p>
+    </div>
+    <div class="card">
+      <h2>I paid — where is my download?</h2>
+      <p class="muted">Check your email from Lemon Squeezy, open the <a href="/thanks.html">thank-you page</a>, or use the “Already purchased? Download zip” link on the home page.</p>
+    </div>
+    <div class="card">
+      <h2>Windows says “Windows protected your PC”</h2>
+      <p class="muted">Common for new unsigned apps. Click <strong>More info</strong>, then <strong>Run anyway</strong>. We plan to code-sign builds to reduce this.</p>
+    </div>
+    <div class="card">
+      <h2>Smart App Control blocked the app</h2>
+      <p class="muted">Some Windows 11 setups block unsigned apps with no override. Code signing is the durable fix. Contact us if you need a refund while that’s pending.</p>
+    </div>
+    <div class="card">
+      <h2>Which AI apps are supported?</h2>
+      <p class="muted">Perplexity, ChatGPT, Claude, Gemini (Takeout folder/JSON), and Grok. See <a href="/guides/">guides</a> for per-provider tips.</p>
+    </div>
+    <div class="card">
+      <h2>Is my chat data uploaded to TotalRecalls?</h2>
+      <p class="muted">No cloud archive of your chats. The app writes files on your PC. Provider login happens locally. See <a href="/privacy.html">Privacy</a>.</p>
+    </div>
     <footer>
-      <a href="index.html">Home</a> · <a href="privacy.html">Privacy</a> · © TotalRecalls
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/guides/">Guides</a>
     </footer>
   </div>
+  <script src="/js/config.js"></script>
 </body>
 </html>

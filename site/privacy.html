@@ -4,62 +4,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy — TotalRecalls</title>
-  <meta name="description" content="TotalRecalls privacy: on-device export, no hosted chat locker." />
-  <link rel="canonical" href="https://totalrecalls.app/privacy.html" />
-  <style>
-    :root { --bg:#07090f; --text:#eef1f8; --muted:#9aa3b8; --border:#2a3145; --accent:#93c5fd; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 22px 80px; }
-    a { color: var(--accent); }
-    h1 { font-size: 1.8rem; margin: 18px 0 12px; letter-spacing: -.02em; }
-    h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #c7d2fe; }
-    p, li { color: var(--muted); margin-bottom: 10px; }
-    ul { padding-left: 1.2rem; }
-    .back { font-size: .9rem; }
-    footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
-  </style>
+  <meta name="description" content="TotalRecalls privacy: local exports, no chat cloud, payments via Lemon Squeezy." />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <div class="wrap">
-    <a class="back" href="index.html">← TotalRecalls</a>
+  <div class="wrap prose">
+    <header>
+      <a class="logo" href="/">TR</a>
+      <div class="brand"><a href="/">TotalRecalls</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/support.html">Help</a>
+      </nav>
+    </header>
     <h1>Privacy</h1>
-    <p>Last updated: 2026-08-10</p>
-
-    <h2>In plain language</h2>
-    <p>
-      TotalRecalls is a <b>Windows app on your computer</b>. It helps you copy <b>your own</b> AI chat history
-      into folders on your disk. It is not a website that stores your conversations for you.
-    </p>
-
-    <h2>What stays on your computer</h2>
+    <p class="lead">TotalRecalls is built around local ownership of your AI conversations.</p>
+    <h2>What the Windows app does</h2>
     <ul>
-      <li>Anything you type when signing into ChatGPT, Perplexity, and other services inside the app</li>
-      <li>Temporary session information the app needs to talk to those services</li>
-      <li>The exported chat files you choose to save</li>
-      <li>Optional local log files used only for troubleshooting on your PC</li>
+      <li>Runs on your computer</li>
+      <li>Exports chats to folders you choose</li>
+      <li>Uses local login windows or a Gemini Takeout path you provide</li>
+      <li>Does <strong>not</strong> require a TotalRecalls account to store your chats in our cloud — we don’t operate that product</li>
     </ul>
-
-    <h2>What we do not do</h2>
+    <h2>What we don’t want</h2>
     <ul>
-      <li>We do not ask you to create a TotalRecalls cloud account to export chats</li>
-      <li>We do not upload your provider passwords or session cookies to TotalRecalls servers</li>
-      <li>We do not sell your chat content</li>
+      <li>Your ChatGPT/Claude/Perplexity session cookies on our servers</li>
+      <li>A hosted database of your private threads</li>
     </ul>
-
     <h2>This website</h2>
-    <p>
-      The marketing site (totalrecalls.app) is a normal product website: pages, download links, and privacy text.
-      If we add analytics later, we will update this page. Download files may be delivered from our release hosting;
-      clicking Download does not require a GitHub account.
-    </p>
-
+    <p>The marketing site is static pages. Standard server logs may include IPs and URLs (Cloud Run / host). We don’t run AdSense on this product site.</p>
+    <h2>Payments</h2>
+    <p>Checkout is handled by <strong>Lemon Squeezy</strong> (merchant of record). Their privacy policy applies to payment data. We receive order information needed to fulfill your purchase (e.g. email, product).</p>
     <h2>Contact</h2>
-    <p>Commercial support contact will be listed here at public launch. Beta: see the Help page.</p>
-
+    <p>Support: use the email on your Lemon receipt or the contact method listed when checkout goes live.</p>
     <footer>
-      <a href="index.html">Home</a> · <a href="support.html">Help</a> ·
-      Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI.
+      <a href="/">Home</a>
+      <a href="/support.html">Help</a>
+      <a href="/guides/">Guides</a>
     </footer>
   </div>
 </body>

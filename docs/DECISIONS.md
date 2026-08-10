@@ -21,7 +21,8 @@ Source: user answers + agent recommendations locked in planning session.
 | 2 | Desktop shell | **Python + pywebview/WebView2 host first**; architecture stays shell-swappable for **Tauri later** | Preserves hard-won STA WebView2 login (primary product risk). Tauri rewrite of auth is deferred until adapters + React UI are stable. |
 | 3 | `xref-PerplexityExporter.html` (52,250 lines) | **(A) Preserve as artifact / dependency map** — do **not** port into React as app source | File is PyInstaller modulegraph cross-reference HTML, not business logic. Real logic is `app.py` + `app_ui.html` + CLI lineage. Entire v1 folder including xref remains preserved. |
 | 4 | Provider #2 | **ChatGPT** | User confirmed |
-| 5 | Pricing | **One-time ~$19–29** utility | User confirmed prior recommendation |
+| 5 | Pricing | **$24 USD one-time** (band was $19–29) | Locked 2026-08-10 with Lemon Squeezy |
+| 6 | Payments | **Lemon Squeezy** (merchant of record) | Paid download first; license keys in-app deferred |
 
 ## Working trees
 
@@ -54,18 +55,17 @@ Source: user answers + agent recommendations locked in planning session.
 
 ## Open (not blocking Phase 0–2)
 
-- **DNS:** point `totalrecalls.app` → `breakwater2026.github.io` (or Cloudflare Pages) so the branded URL is the only URL users see
-- Exact payment provider (Gumroad / Lemon Squeezy / Paddle)
+- Paste Lemon Squeezy `lemonCheckoutUrl` into `site/js/config.js` after product creation (`docs/LEMON_SQUEEZY.md`)
+- **DNS:** `totalrecalls.app` → Cloud Run custom domain records in Cloudflare
 - Code-signing certificate vendor (required for SmartScreen / Smart App Control)
 - Whether free CLI remains open-source as loss leader
 
 ## Consumer distribution (locked)
 
 ```
-User → totalrecalls.app  →  one-click Download  →  TotalRecalls.exe on their PC
+User → totalrecalls.app → Buy $24 (Lemon Squeezy) → zip on PC → TotalRecalls.exe
                               ↑
-                     zip file may be stored on GitHub Releases
-                     (users never browse the repo)
+                     digital file also on GitHub Releases (silent host)
 ```
 
 The **app is not deployed to a cloud server**. Only the **website** is hosted. The EXE always runs locally.

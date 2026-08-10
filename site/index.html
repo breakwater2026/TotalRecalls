@@ -3,291 +3,181 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TotalRecalls — Download for Windows</title>
-  <meta name="description" content="TotalRecalls saves your AI chats from ChatGPT, Perplexity, Claude, Gemini, and Grok onto your computer. Simple Windows app. One-time purchase planned." />
+  <title>TotalRecalls — Own every AI conversation ($24)</title>
+  <meta name="description" content="TotalRecalls is a Windows app that exports your ChatGPT, Claude, Perplexity, Gemini, and Grok chats to a private folder on your PC. One-time $24. No cloud account for your conversations." />
   <meta property="og:title" content="TotalRecalls — Own every AI conversation" />
-  <meta property="og:description" content="Download the Windows app. Export AI chats to your PC. Private. No account with us." />
+  <meta property="og:description" content="Export AI chats to your computer. ChatGPT, Claude, Perplexity, Gemini, Grok. One-time $24 for Windows." />
   <meta property="og:url" content="https://totalrecalls.app/" />
   <meta property="og:type" content="website" />
   <link rel="canonical" href="https://totalrecalls.app/" />
-  <style>
-    :root {
-      --bg: #07090f;
-      --panel: #121722;
-      --panel2: #171d2b;
-      --text: #eef1f8;
-      --muted: #9aa3b8;
-      --accent: #3b82f6;
-      --accent2: #8b5cf6;
-      --good: #34d399;
-      --border: #2a3145;
-      --warn: #fbbf24;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background:
-        radial-gradient(900px 420px at 10% -10%, rgba(59,130,246,.22), transparent 55%),
-        radial-gradient(700px 380px at 95% 0%, rgba(139,92,246,.18), transparent 50%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      min-height: 100vh;
-    }
-    a { color: #93c5fd; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .wrap { max-width: 880px; margin: 0 auto; padding: 28px 20px 72px; }
-    header { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
-    .logo {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: grid; place-items: center; font-weight: 800;
-      box-shadow: 0 8px 24px rgba(59,130,246,.35);
-    }
-    .brand { font-size: 1.15rem; font-weight: 700; flex: 1; }
-    nav { display: flex; gap: 14px; flex-wrap: wrap; font-size: .92rem; }
-    nav a { color: var(--muted); }
-    nav a:hover { color: var(--text); }
-    h1 {
-      font-size: clamp(2rem, 5vw, 2.85rem);
-      line-height: 1.12; letter-spacing: -.03em;
-      margin-bottom: 14px; max-width: 14ch;
-    }
-    .lead { font-size: 1.12rem; color: var(--muted); max-width: 36rem; margin-bottom: 28px; }
-    .hero-card {
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px 20px 20px;
-      margin-bottom: 36px;
-    }
-    .hero-card h2 { font-size: 1.05rem; margin-bottom: 6px; }
-    .hero-card p { color: var(--muted); font-size: .95rem; margin-bottom: 16px; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      font-weight: 700; border-radius: 12px; padding: 14px 20px;
-      border: 1px solid transparent; cursor: pointer; text-decoration: none;
-      font-size: 1rem;
-    }
-    .btn:hover { text-decoration: none; filter: brightness(1.05); }
-    .btn-primary {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: #fff;
-      box-shadow: 0 10px 28px rgba(59,130,246,.3);
-    }
-    .btn-ghost {
-      border-color: var(--border); color: var(--text);
-      background: rgba(255,255,255,.03);
-    }
-    .meta { color: var(--muted); font-size: .88rem; margin-top: 12px; }
-    .meta b { color: var(--text); }
-    .warn {
-      margin-top: 14px; padding: 10px 12px; border-radius: 10px;
-      border: 1px solid rgba(251,191,36,.35);
-      background: rgba(251,191,36,.08);
-      color: #fde68a; font-size: .88rem;
-    }
-    .grid {
-      display: grid; gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      margin: 8px 0 36px;
-    }
-    .card {
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px;
-    }
-    .card h3 { font-size: .98rem; color: #c7d2fe; margin-bottom: 6px; }
-    .card p { color: var(--muted); font-size: .92rem; }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 28px; }
-    .tag {
-      font-size: 12px; padding: 5px 10px; border-radius: 999px;
-      border: 1px solid rgba(52,211,153,.4); color: #a7f3d0;
-      background: rgba(52,211,153,.08);
-    }
-    .section-title { font-size: 1.25rem; margin: 8px 0 12px; letter-spacing: -.01em; }
-    .steps { display: grid; gap: 10px; margin-bottom: 36px; }
-    .step {
-      display: grid; grid-template-columns: 36px 1fr; gap: 12px;
-      padding: 14px 16px; border: 1px solid var(--border);
-      border-radius: 14px; background: rgba(255,255,255,.02);
-    }
-    .num {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: grid; place-items: center;
-      background: rgba(59,130,246,.15); color: #bfdbfe; font-weight: 800;
-    }
-    .faq details {
-      border: 1px solid var(--border); border-radius: 12px;
-      padding: 12px 14px; margin-bottom: 8px;
-      background: rgba(255,255,255,.02);
-    }
-    .faq summary { cursor: pointer; font-weight: 600; }
-    .faq p { color: var(--muted); margin-top: 8px; font-size: .95rem; }
-    footer {
-      margin-top: 48px; padding-top: 18px;
-      border-top: 1px solid var(--border);
-      color: var(--muted); font-size: .85rem;
-      display: flex; flex-wrap: wrap; gap: 10px 18px;
-      justify-content: space-between;
-    }
-    code { background: #0c1018; padding: 1px 6px; border-radius: 6px; font-size: .9em; }
-  </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="logo" aria-hidden="true">T</div>
-      <div class="brand">TotalRecalls</div>
+      <a class="logo" href="/" aria-label="TotalRecalls home">TR</a>
+      <div class="brand"><a href="/">TotalRecalls</a></div>
       <nav>
-        <a href="#download">Download</a>
         <a href="#how">How it works</a>
-        <a href="#faq">FAQ</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="/guides/">Guides</a>
+        <a href="/support.html">Help</a>
+        <a class="nav-buy" data-tr-buy data-label-ready="Buy {price}" data-label-pending="Buy {price}" href="#get-totalrecalls">Buy $24</a>
       </nav>
     </header>
 
-    <h1>Save your AI chats on your computer.</h1>
+    <p class="badge">Windows · local files · one-time purchase</p>
+    <h1 class="narrow">Own every AI conversation.</h1>
     <p class="lead">
-      TotalRecalls is a simple Windows app that copies conversations from the AI tools you already use
-      into folders you own — readable files, private, on your PC.
+      TotalRecalls is a Windows app that exports your chats from
+      <strong style="color:var(--text)">ChatGPT, Claude, Perplexity, Gemini, and Grok</strong>
+      into a private folder on your computer — readable Markdown and JSON you keep forever.
+      We never host your AI session tokens.
     </p>
 
-    <div class="tags" aria-label="Supported apps">
-      <span class="tag">ChatGPT</span>
-      <span class="tag">Perplexity</span>
-      <span class="tag">Claude</span>
-      <span class="tag">Gemini</span>
-      <span class="tag">Grok</span>
-    </div>
-
-    <section class="hero-card" id="download">
-      <h2>Download for Windows</h2>
-      <p>
-        One file. No signup with us. After download, open the app and follow the on-screen steps.
+    <div class="hero-card" id="get-totalrecalls">
+      <h2>Get TotalRecalls for Windows</h2>
+      <div class="price-tag">
+        <span class="amt" data-tr-price>$24</span>
+        <span class="note" data-tr-price-note>one-time · Windows</span>
+      </div>
+      <p class="muted" style="margin-bottom:14px">
+        Pay once with Lemon Squeezy. Download the app. Export on your PC.
+        No subscription. No TotalRecalls account required for your chats.
       </p>
       <div class="cta-row">
-        <!-- Direct file link: users never open GitHub in a browser tab if the download starts immediately -->
-        <a class="btn btn-primary"
-           id="btn-download"
-           href="https://github.com/breakwater2026/TotalRecalls/releases/download/v1.3.0/TotalRecalls-windows-x64-v1.3.0.zip">
-          Download TotalRecalls (Windows)
-        </a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
+        <a class="btn btn-primary" data-tr-buy
+           data-label-ready="Buy TotalRecalls — {price}"
+           data-label-pending="Buy TotalRecalls — {price}"
+           href="#get-totalrecalls">Buy TotalRecalls — $24</a>
+        <a class="btn btn-ghost" data-tr-download href="#">Already purchased? Download zip</a>
       </div>
-      <p class="meta">
-        <b>Free public beta</b> · Windows 10/11 · About 50&nbsp;MB · Version 1.3.0<br/>
-        Planned price later: one-time about <b>$19–29</b> (no subscription).
+      <p class="small" style="margin-top:12px">
+        Includes providers: Perplexity · ChatGPT · Claude · Gemini (Takeout) · Grok ·
+        Version <span id="ver">v1.3.0</span>
       </p>
-      <div class="warn">
-        Windows may show a blue “Windows protected your PC” screen because this build is not yet code-signed.
-        Click <b>More info</b>, then <b>Run anyway</b> if you trust this download from totalrecalls.app.
+      <div class="warn" id="checkout-pending" style="margin-top:14px">
+        <strong>Operator note:</strong> paste your Lemon Squeezy checkout URL into
+        <code>site/js/config.js</code> → <code>lemonCheckoutUrl</code>, then redeploy.
+        Until then the Buy button scrolls here; the zip link still works for testing.
+      </div>
+    </div>
+
+    <div class="pill-row" aria-label="Providers">
+      <span class="pill"><strong>ChatGPT</strong></span>
+      <span class="pill"><strong>Claude</strong></span>
+      <span class="pill"><strong>Perplexity</strong></span>
+      <span class="pill"><strong>Gemini</strong> Takeout</span>
+      <span class="pill"><strong>Grok</strong></span>
+    </div>
+
+    <section id="why">
+      <h2>Why people export</h2>
+      <div class="grid2">
+        <div class="feature">
+          <h3>Products change. Your notes shouldn’t vanish.</h3>
+          <p>Plans, UIs, and companies shift. A folder of Markdown on your disk still opens in ten years.</p>
+        </div>
+        <div class="feature">
+          <h3>One library for every assistant</h3>
+          <p>Stop hunting through five tabs. Export into a single local library layout per provider.</p>
+        </div>
+        <div class="feature">
+          <h3>Private by design</h3>
+          <p>Login stays on your machine (or you paste a Takeout path). We don’t run a cloud that collects your session cookies.</p>
+        </div>
+        <div class="feature">
+          <h3>Simple commercial deal</h3>
+          <p><span data-tr-price>$24</span> once. Not a seat tax. Not a monthly “AI archive” subscription.</p>
+        </div>
       </div>
     </section>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Your files, your disk</h3>
-        <p>Exports land in a folder you choose. Markdown + JSON you can open anytime — even offline.</p>
+    <section id="how">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Buy once</strong> — checkout via Lemon Squeezy; you get the Windows download.</li>
+        <li><strong>Install &amp; pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini, or Grok.</li>
+        <li><strong>Connect on your PC</strong> — sign in locally, or choose a Gemini Takeout folder.</li>
+        <li><strong>Export</strong> — conversations land under a Library folder as Markdown + JSON.</li>
+      </ol>
+      <div class="ok">
+        Official bulk exports are fine for compliance dumps. TotalRecalls is for a
+        <strong>usable personal archive now</strong> — multi-provider, on your timeline.
       </div>
-      <div class="card">
-        <h3>We don’t keep your chats</h3>
-        <p>Sign-in happens on your computer. TotalRecalls does not run a cloud locker for your conversations.</p>
-      </div>
-      <div class="card">
-        <h3>Several AI apps, one library</h3>
-        <p>Organized under <code>Library</code> by app name so everything is easy to find later.</p>
-      </div>
-    </div>
+    </section>
 
-    <h2 class="section-title" id="how">How it works</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="num">1</div>
-        <div>
-          <b>Download and unzip</b>
-          <p style="color:var(--muted);font-size:.95rem;margin-top:4px">
-            Click the blue button above. Open the zip file and double-click <code>TotalRecalls.exe</code>.
-          </p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">2</div>
-        <div>
-          <b>Choose an AI app</b>
-          <p style="color:var(--muted);font-size:.95rem;margin-top:4px">
-            Pick ChatGPT, Perplexity, Claude, Gemini, or Grok from the list in the app.
-          </p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">3</div>
-        <div>
-          <b>Sign in (or point to a Google Takeout folder for Gemini)</b>
-          <p style="color:var(--muted);font-size:.95rem;margin-top:4px">
-            A small window opens so you can sign in as yourself — the same way you would in a browser.
-          </p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">4</div>
-        <div>
-          <b>Export</b>
-          <p style="color:var(--muted);font-size:.95rem;margin-top:4px">
-            Choose a folder and start export. When it finishes, open the folder to see your chats.
-          </p>
-        </div>
-      </div>
-    </div>
+    <section id="guides">
+      <h2>Guides (SEO + how-to)</h2>
+      <p class="muted" style="margin-bottom:12px">Free reading. Buy only when you want the Windows app.</p>
+      <ul class="guide-list">
+        <li>
+          <a href="/guides/export-chatgpt-conversations.html">
+            How to export ChatGPT conversations
+            <span>Official export vs a local library you can actually use</span>
+          </a>
+        </li>
+        <li>
+          <a href="/guides/export-claude-chat-history.html">
+            Download your Claude chat history
+            <span>Keep Projects and long threads as files</span>
+          </a>
+        </li>
+        <li>
+          <a href="/guides/backup-perplexity-threads.html">
+            Backup Perplexity threads
+            <span>Save research threads before you lose the tab trail</span>
+          </a>
+        </li>
+        <li>
+          <a href="/guides/gemini-takeout-archive.html">
+            Gemini Takeout → readable archive
+            <span>Turn Google Takeout dumps into Markdown conversations</span>
+          </a>
+        </li>
+        <li>
+          <a href="/guides/own-your-ai-chat-data.html">
+            Own your AI chat data
+            <span>Why multi-assistant export matters in 2026</span>
+          </a>
+        </li>
+      </ul>
+      <p class="small"><a href="/guides/">All guides →</a></p>
+    </section>
 
-    <h2 class="section-title" id="faq">Common questions</h2>
-    <div class="faq">
-      <details open>
-        <summary>Do I need a GitHub account?</summary>
-        <p><b>No.</b> Just use the Download button on this page. The file may be stored on our release server; you do not need to know or visit GitHub.</p>
-      </details>
-      <details>
-        <summary>Do you store my ChatGPT / Claude password?</summary>
-        <p>No. Login stays on your PC. We do not offer “sign in with TotalRecalls cloud” and we do not collect provider passwords or session cookies on our servers.</p>
-      </details>
-      <details>
-        <summary>Windows says the app is unrecognized</summary>
-        <p>That is normal until we add a paid code-signing certificate. Use <b>More info → Run anyway</b> when you downloaded from this official site. On some locked-down PCs (corporate or “Smart App Control”), unsigned apps cannot run at all.</p>
-      </details>
-      <details>
-        <summary>What about Gemini?</summary>
-        <p>For Gemini, use a Google Takeout export folder (or JSON file). In the app, choose Gemini and paste or browse to that folder — this is more reliable than browser tricks.</p>
-      </details>
-      <details>
-        <summary>Mac or phone?</summary>
-        <p>Windows first. Mac and other platforms may come later.</p>
-      </details>
-      <details>
-        <summary>Is this free forever?</summary>
-        <p>The current public beta is free to download. We plan a simple one-time price (about $19–29) when the product is polished and signed — not a monthly subscription.</p>
-      </details>
-    </div>
+    <section id="trust">
+      <h2>Trust &amp; limits (straight talk)</h2>
+      <ul class="check">
+        <li><strong>Windows app</strong> today (WebView2). Mac later if demand is real.</li>
+        <li><strong>Gemini</strong> uses your Google Takeout folder/JSON (most reliable path).</li>
+        <li><strong>Unsigned builds</strong> may show SmartScreen — More info → Run anyway — until we code-sign.</li>
+        <li><strong>SP8 Smart App Control</strong> can block unsigned apps with no override — signing is on the roadmap.</li>
+        <li>You must follow each AI provider’s terms for your own account use.</li>
+        <li>No AdSense clutter. This site sells a tool, not pageviews.</li>
+      </ul>
+    </section>
 
-    <section class="hero-card" style="margin-top:36px">
-      <h2>Ready?</h2>
-      <p>Get the Windows app and keep a copy of your AI conversations on your own computer.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary"
-           href="https://github.com/breakwater2026/TotalRecalls/releases/download/v1.3.0/TotalRecalls-windows-x64-v1.3.0.zip">
-          Download for Windows
-        </a>
+    <section>
+      <div class="card">
+        <h2>Ready?</h2>
+        <p style="margin-bottom:14px">One payment. Your archive on your disk.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" data-tr-buy
+             data-label-ready="Buy — {price} one-time"
+             data-label-pending="Buy — {price} one-time"
+             href="#get-totalrecalls">Buy — $24 one-time</a>
+          <a class="btn btn-ghost" href="/support.html">Help &amp; SmartScreen</a>
+        </div>
       </div>
     </section>
 
     <footer>
-      <div>© TotalRecalls · totalrecalls.app</div>
-      <div>
-        <a href="privacy.html">Privacy</a>
-        · <a href="support.html">Help</a>
-        · Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI
-      </div>
+      <span>© TotalRecalls</span>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/support.html">Support</a>
+      <a href="/guides/">Guides</a>
+      <a href="/thanks.html">After purchase</a>
     </footer>
   </div>
+  <script src="/js/config.js"></script>
 </body>
 </html>
