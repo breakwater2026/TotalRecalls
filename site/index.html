@@ -4,36 +4,103 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TotalRecalls — Own every AI conversation</title>
-  <meta name="description" content="TotalRecalls exports your AI chats from Perplexity, ChatGPT, and more into a local archive you control. Immediate. Private. Multi-provider." />
+  <meta name="description" content="Export AI chats from Perplexity, ChatGPT, Claude, Gemini, and Grok into a private local archive. One-time desktop app. Tokens stay on your PC." />
+  <meta property="og:title" content="TotalRecalls — Own every AI conversation" />
+  <meta property="og:description" content="Multi-provider local export for AI chat history. Immediate. Private. Yours." />
+  <meta property="og:url" content="https://totalrecalls.app/" />
+  <meta property="og:type" content="website" />
   <link rel="canonical" href="https://totalrecalls.app/" />
   <style>
     :root {
-      --bg: #0b0d12; --panel: #141824; --text: #e8eaf2; --muted: #9aa3b8;
-      --accent: #3b82f6; --accent2: #8b5cf6; --good: #34d399; --border: #2a2f42;
+      --bg: #07090f;
+      --panel: #121722;
+      --panel2: #171d2b;
+      --text: #eef1f8;
+      --muted: #9aa3b8;
+      --accent: #3b82f6;
+      --accent2: #8b5cf6;
+      --good: #34d399;
+      --border: #2a3145;
+      --warn: #fbbf24;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
-    a { color: #93c5fd; }
-    .wrap { max-width: 920px; margin: 0 auto; padding: 40px 22px 80px; }
-    header { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
-    .logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent2));
-            display: grid; place-items: center; font-weight: 800; }
-    .brand { font-size: 20px; font-weight: 700; flex: 1; }
-    .pill { font-size: 12px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-    h1 { font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: 14px; letter-spacing: -0.02em; }
-    .lead { font-size: 1.15rem; color: var(--muted); max-width: 38rem; margin-bottom: 28px; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
-    .btn { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 10px; padding: 12px 18px; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
-    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 28px 0 48px; }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
-    .card h3 { font-size: 1rem; margin-bottom: 8px; color: #bfdbfe; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(59,130,246,.22), transparent 55%),
+        radial-gradient(700px 380px at 95% 0%, rgba(139,92,246,.18), transparent 50%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    a { color: #93c5fd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 36px 22px 72px; }
+    header { display: flex; align-items: center; gap: 12px; margin-bottom: 42px; }
+    .logo {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: grid; place-items: center; font-weight: 800; box-shadow: 0 8px 24px rgba(59,130,246,.35);
+    }
+    .brand { font-size: 20px; font-weight: 700; flex: 1; letter-spacing: -.01em; }
+    .nav { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .pill {
+      font-size: 12px; border: 1px solid var(--border); border-radius: 999px;
+      padding: 5px 12px; color: var(--muted); background: rgba(255,255,255,.02);
+    }
+    h1 {
+      font-size: clamp(2.1rem, 4.6vw, 3.1rem); line-height: 1.12;
+      margin-bottom: 16px; letter-spacing: -0.03em; max-width: 16ch;
+    }
+    .lead { font-size: 1.14rem; color: var(--muted); max-width: 40rem; margin-bottom: 26px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; font-weight: 700; border-radius: 12px; padding: 13px 18px;
+      border: 1px solid transparent; transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; box-shadow: 0 10px 28px rgba(59,130,246,.28); }
+    .btn-ghost { border-color: var(--border); color: var(--text); background: rgba(255,255,255,.03); }
+    .price {
+      color: var(--muted); font-size: .95rem; margin-bottom: 42px;
+    }
+    .price b { color: var(--text); }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: 10px 0 28px; }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border: 1px solid var(--border); border-radius: 16px; padding: 18px 18px 16px;
+    }
+    .card h3 { font-size: 1rem; margin-bottom: 8px; color: #c7d2fe; }
     .card p { color: var(--muted); font-size: 0.95rem; }
-    .ok { color: var(--good); font-weight: 600; font-size: 0.85rem; }
-    .soon { color: var(--muted); font-size: 0.85rem; }
-    footer { margin-top: 56px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 18px; }
-    code { background: #0f131c; padding: 1px 6px; border-radius: 6px; }
+    .ok { color: var(--good); font-weight: 700; font-size: 0.82rem; letter-spacing: .02em; }
+    .soon { color: var(--warn); font-size: 0.82rem; font-weight: 600; }
+    .providers {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0;
+    }
+    .tag {
+      font-size: 12px; padding: 5px 10px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--text); background: rgba(255,255,255,.03);
+    }
+    .tag.live { border-color: rgba(52,211,153,.45); color: #a7f3d0; }
+    .section-title { font-size: 1.25rem; margin: 36px 0 12px; letter-spacing: -.01em; }
+    .steps { display: grid; gap: 10px; }
+    .step {
+      display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;
+      padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,255,255,.02);
+    }
+    .num {
+      width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+      background: rgba(59,130,246,.15); color: #bfdbfe; font-weight: 800;
+    }
+    footer {
+      margin-top: 56px; color: var(--muted); font-size: 0.85rem;
+      border-top: 1px solid var(--border); padding-top: 18px;
+      display: flex; flex-wrap: wrap; gap: 10px 18px; justify-content: space-between;
+    }
+    code { background: #0c1018; padding: 1px 6px; border-radius: 6px; font-size: .9em; }
+    .fine { color: var(--muted); font-size: .9rem; max-width: 48rem; }
   </style>
 </head>
 <body>
@@ -41,47 +108,92 @@
     <header>
       <div class="logo">T</div>
       <div class="brand">TotalRecalls</div>
-      <div class="pill">totalrecalls.app</div>
+      <div class="nav">
+        <a class="pill" href="privacy.html">Privacy</a>
+        <a class="pill" href="https://github.com/breakwater2026/TotalRecalls">GitHub</a>
+      </div>
     </header>
 
-    <h1>Your AI conversations.<br/>On your computer.</h1>
+    <h1>Own every AI conversation.</h1>
     <p class="lead">
-      TotalRecalls downloads chat history from the AI tools you already use into one local archive —
-      Markdown + JSON, organized by provider. Immediate export. No waiting weeks. Nothing leaves your machine.
+      TotalRecalls is a desktop app that exports chat history from the AI tools you already use
+      into one local archive — Markdown + JSON, organized by provider. Immediate. Private. On your disk.
     </p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/breakwater2026/TotalRecalls">Get the app on GitHub</a>
-      <a class="btn btn-ghost" href="https://github.com/breakwater2026/TotalRecalls#readme">Read the docs</a>
+      <a class="btn btn-primary" href="https://github.com/breakwater2026/TotalRecalls/releases">Download for Windows</a>
+      <a class="btn btn-ghost" href="https://github.com/breakwater2026/TotalRecalls">View source</a>
+    </div>
+    <p class="price">Planned one-time price <b>~$19–29</b> · Open development on GitHub · No subscription</p>
+
+    <div class="providers" aria-label="Supported providers">
+      <span class="tag live">Perplexity</span>
+      <span class="tag live">ChatGPT</span>
+      <span class="tag live">Claude</span>
+      <span class="tag live">Gemini (Takeout)</span>
+      <span class="tag live">Grok</span>
     </div>
 
-    <div class="grid">
+    <div class="grid" style="margin-top:28px">
       <div class="card">
-        <h3>Multi-provider</h3>
-        <p><span class="ok">Live:</span> Perplexity, ChatGPT, Claude, Gemini (Takeout), Grok<br/>
-           <span class="soon">Hardening:</span> live Gemini cookie sync, signed installers</p>
+        <h3>Multi-provider library</h3>
+        <p><span class="ok">LIVE</span> Five assistants → one folder tree:
+          <code>Library/&lt;provider&gt;/…</code> with conversation.md + conversation.json.</p>
       </div>
       <div class="card">
-        <h3>Local ownership</h3>
-        <p>Exports land in <code>Library/&lt;provider&gt;/</code> on your disk. Session tokens never go to our servers — we don’t run a hosted login.</p>
+        <h3>Tokens stay local</h3>
+        <p>Sign-in happens on your PC. We don’t host accounts or collect session cookies.
+          Nothing is uploaded to TotalRecalls servers.</p>
       </div>
       <div class="card">
-        <h3>One-click desktop</h3>
-        <p>Embedded sign-in window. Progress bar. Resume-friendly re-exports. Built for real research libraries, not toy demos.</p>
+        <h3>Built for real libraries</h3>
+        <p>Embedded login, progress UI, re-export/refresh, and a unified schema designed for migration and search.</p>
       </div>
     </div>
 
+    <h2 class="section-title">How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <b>Pick a provider</b>
+          <p class="fine">Perplexity, ChatGPT, Claude, Gemini (Google Takeout path), or Grok.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <b>Sign in on your machine</b>
+          <p class="fine">Use the embedded window, paste a session token, or point Gemini at a Takeout export.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <b>Export to disk</b>
+          <p class="fine">Readable Markdown plus machine-friendly JSON under your chosen folder.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Honest posture</h2>
     <div class="card">
-      <h3>Honest posture</h3>
       <p>
-        TotalRecalls is a <b>user-driven, on-device</b> export tool. You authenticate as yourself; files stay local.
-        Providers also offer official data-export paths that can take longer — we complement those when you need your chats <i>now</i>
-        in a clean, searchable archive. One-time utility pricing planned (~$19–29); core development is open on GitHub.
+        TotalRecalls is a <b>user-driven, on-device</b> export utility. You authenticate as yourself; files stay local.
+        Providers also offer official data-export paths that can take longer — we complement those when you need your chats
+        <i>now</i> in a clean, searchable archive. Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI.
+      </p>
+      <p style="margin-top:10px" class="fine">
+        <span class="soon">SHIPPING NEXT:</span> code-signed Windows installer · payment checkout · live Gemini cookie sync hardening
       </p>
     </div>
 
     <footer>
-      © TotalRecalls · <a href="https://github.com/breakwater2026/TotalRecalls">GitHub</a> ·
-      Domain on Cloudflare · Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI.
+      <div>© TotalRecalls · totalrecalls.app</div>
+      <div>
+        <a href="privacy.html">Privacy</a> ·
+        <a href="https://github.com/breakwater2026/TotalRecalls">GitHub</a> ·
+        <a href="https://github.com/breakwater2026/TotalRecalls/releases">Releases</a>
+      </div>
     </footer>
   </div>
 </body>

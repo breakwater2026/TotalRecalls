@@ -44,6 +44,44 @@ export default function App() {
     [providers, providerId],
   )
   const providerReady = selected?.available !== false
+  const isGemini = providerId === 'gemini'
+
+  const connectHelp = useMemo(() => {
+    switch (providerId) {
+      case 'gemini':
+        return 'Gemini uses your official Google Takeout export (stable). Paste the full path to the Takeout folder or a Gemini conversations JSON file — not a browser cookie.'
+      case 'grok':
+        return 'Click Log in to open Grok in an embedded window, or paste a Bearer access token / Cookie header from grok.x.ai.'
+      case 'claude':
+        return 'Click Log in to open Claude in an embedded window, or paste your sessionKey cookie value.'
+      case 'chatgpt':
+        return 'Click Log in to open ChatGPT in an embedded window, or paste a Bearer access token / session cookie.'
+      default:
+        return 'Click Log in. A sign-in window opens inside the app. Prefer not to use the embedded window? Use the session-cookie option.'
+    }
+  }, [providerId])
+
+  const cookieHelp = useMemo(() => {
+    switch (providerId) {
+      case 'gemini':
+        return 'Paste a full path, e.g. C:\\Users\\you\\Downloads\\Takeout or …\\conversations.json'
+      case 'claude':
+        return 'Paste sessionKey=… or the bare sessionKey value from claude.ai cookies.'
+      case 'chatgpt':
+        return 'Paste a ChatGPT access token (eyJ…) or full Cookie header.'
+      case 'grok':
+        return 'Paste a Bearer token (eyJ…) or Cookie header from grok.x.ai.'
+      default:
+        return `Paste your session token for ${selected?.name || 'this provider'}.`
+    }
+  }, [providerId, selected?.name])
+
+  const cookiePlaceholder = useMemo(() => {
+    if (providerId === 'gemini') return 'C:\\path\\to\\Takeout or conversations.json'
+    if (providerId === 'chatgpt' || providerId === 'grok') return 'eyJ… or Cookie: …'
+    if (providerId === 'claude') return 'sessionKey=…'
+    return 'Paste the session token…'
+  }, [providerId])
 
   const resetLoginUi = useCallback(() => {
     setWaiting(false)
@@ -288,37 +326,46 @@ export default function App() {
 
             <h2>Step 1 — Connect your account</h2>
             <p className="note" style={{ marginBottom: 14 }}>
-              Click the button below. A sign-in window opens inside the app — log
-              in to {providerLabel} there. When sign-in succeeds, this screen
-              advances automatically. Prefer not to use the embedded window? Use
-              the session-cookie option.
+              {connectHelp}
             </p>
             <div className="row">
-              <button
-                className="btn-primary"
-                disabled={waiting || !providerReady}
-                onClick={() => void onConnect()}
-              >
-                Log in to {providerLabel}
-              </button>
-              <button
-                className="link"
-                disabled={waiting || !providerReady}
-                onClick={() => setCookieOpen((v) => !v)}
-              >
-                or use a session cookie…
-              </button>
+              {isGemini ? (
+                <button
+                  className="btn-primary"
+                  disabled={waiting || !providerReady}
+                  onClick={() => setCookieOpen(true)}
+                >
+                  Paste Takeout path…
+                </button>
+              ) : (
+                <button
+                  className="btn-primary"
+                  disabled={waiting || !providerReady}
+                  onClick={() => void onConnect()}
+                >
+                  Log in to {providerLabel}
+                </button>
+              )}
+              {!isGemini && (
+                <button
+                  className="link"
+                  disabled={waiting || !providerReady}
+                  onClick={() => setCookieOpen((v) => !v)}
+                >
+                  or use a session cookie…
+                </button>
+              )}
             </div>
 
             {cookieOpen && (
               <div style={{ marginTop: 14 }}>
                 <p className="note" style={{ marginBottom: 8 }}>
-                  Advanced: paste your session token for {providerLabel}.
+                  {cookieHelp}
                 </p>
                 <div className="row">
                   <input
-                    type="password"
-                    placeholder="Paste the session token…"
+                    type={isGemini ? 'text' : 'password'}
+                    placeholder={cookiePlaceholder}
                     value={cookie}
                     onChange={(e) => setCookie(e.target.value)}
                     style={{ flex: 1 }}

@@ -3,9 +3,17 @@
 **Domain:** [totalrecalls.app](https://totalrecalls.app)  
 **Product:** Own your AI conversations — export them locally from multiple assistants into one archive you control.
 
-**Version:** 1.1.0 (`react-ui-v1`) — React desktop UI + ProviderAdapter export path.
+**Version:** **1.3.0** (`all-providers-v1`)
 
-Provider **#1: Perplexity** is live. ChatGPT is next — see `docs/DECISIONS.md`.
+## Providers
+
+| Provider | Status | Auth |
+|----------|--------|------|
+| Perplexity | Live | Embedded login / session cookie |
+| ChatGPT | Live | Embedded login / Bearer or cookie |
+| Claude | Live | Embedded login / sessionKey |
+| Gemini | Live | **Google Takeout path** (folder or JSON) |
+| Grok | Live | Embedded login / Bearer or cookie |
 
 ## Run from source
 
@@ -13,21 +21,30 @@ Provider **#1: Perplexity** is live. ChatGPT is next — see `docs/DECISIONS.md`
 python app.py
 ```
 
-Loads the React UI from `ui/` (built assets). Falls back to legacy `app_ui.html` if `ui/` is missing.
+Loads the React UI from `ui/`. Falls back to legacy `app_ui.html` if `ui/` is missing.
 
 ### Rebuild the React UI
 ```bash
 cd apps/web-ui
 npm install
 npm run build
-# copy into host path
 rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
 ```
 
-## Packaged EXE (v1 freeze still in repo)
+## Windows EXE
 
-- `dist\PerplexityExporter.exe` — last PyInstaller build (may still be v1 UI until rebuilt)
-- Rebuild with `PerplexityExporter.spec` (includes `totalrecalls` + `ui/` when present)
+```
+dist\TotalRecalls.exe
+dist\PerplexityExporter.exe   # same build, legacy name
+```
+
+Rebuild:
+```bash
+.venv\Scripts\python.exe -m PyInstaller PerplexityExporter.spec --noconfirm
+copy /Y dist\PerplexityExporter.exe dist\TotalRecalls.exe
+```
+
+> EXE is currently **unsigned**. Windows SmartScreen may warn; code signing is on the ship checklist (`docs/RELEASE.md`).
 
 ## Layout
 
@@ -36,15 +53,17 @@ rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
 | `app.py` | Thin entry / re-exports |
 | `totalrecalls/` | Python package (core, adapters, desktop) |
 | `apps/web-ui/` | React + Vite source |
-| `ui/` | Built web UI consumed by pywebview |
-| `app_ui.html` | Legacy UI fallback |
-| `docs/` | Decisions, adapter + schema specs |
+| `ui/` | Built web UI for pywebview |
+| `site/` | Marketing site for totalrecalls.app |
+| `docs/` | Decisions, adapter specs, **RELEASE.md** |
 
 ## Export output (default)
 
 ```
 TotalRecalls-export/
-  Library/perplexity/...
+  Library/<provider>/Home|Spaces/.../<Title -- id>/
+    conversation.md
+    conversation.json
   README.md
   manifest.json
 ```
@@ -54,6 +73,14 @@ Classic layout: set `TOTALRECALLS_CLASSIC_EXPORT=1`.
 ## Tests
 
 ```bash
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests -q
 python app.py --selftest
 ```
+
+## Site deploy (Cloudflare Pages)
+
+```bash
+npx wrangler pages deploy site --project-name=totalrecalls-site
+```
+
+Or connect this repo in the Cloudflare dashboard with build output directory `site`.

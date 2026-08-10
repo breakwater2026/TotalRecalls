@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy — TotalRecalls</title>
+  <meta name="description" content="TotalRecalls privacy posture: on-device export, no hosted tokens." />
+  <link rel="canonical" href="https://totalrecalls.app/privacy.html" />
+  <style>
+    :root { --bg:#07090f; --text:#eef1f8; --muted:#9aa3b8; --border:#2a3145; --accent:#93c5fd; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 22px 80px; }
+    a { color: var(--accent); }
+    h1 { font-size: 1.8rem; margin: 18px 0 12px; letter-spacing: -.02em; }
+    h2 { font-size: 1.1rem; margin: 28px 0 8px; color: #c7d2fe; }
+    p, li { color: var(--muted); margin-bottom: 10px; }
+    ul { padding-left: 1.2rem; }
+    .back { font-size: .9rem; }
+    footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← TotalRecalls</a>
+    <h1>Privacy</h1>
+    <p>Last updated: 2026-08-10</p>
+
+    <h2>What TotalRecalls is</h2>
+    <p>
+      TotalRecalls is a desktop application that helps you export <b>your own</b> AI chat history
+      to folders on your computer. It is not a cloud service that stores your conversations for you.
+    </p>
+
+    <h2>What stays on your computer</h2>
+    <ul>
+      <li>Session tokens / cookies used to talk to providers (if you sign in inside the app)</li>
+      <li>Exported Markdown and JSON files you choose to save</li>
+      <li>Local app logs under your user profile (for troubleshooting)</li>
+    </ul>
+
+    <h2>What we do not collect</h2>
+    <ul>
+      <li>We do not operate a TotalRecalls login backend for provider accounts</li>
+      <li>We do not receive or store your provider session tokens on our servers</li>
+      <li>We do not sell chat content</li>
+    </ul>
+
+    <h2>Network traffic</h2>
+    <p>
+      When you export, the app contacts the AI provider you selected (for example Perplexity, OpenAI/ChatGPT,
+      Anthropic/Claude, Google Takeout files on disk, or xAI/Grok) using credentials you supplied on your machine.
+      Website analytics on totalrecalls.app, if any are added later, will be documented here.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions: open an issue on
+      <a href="https://github.com/breakwater2026/TotalRecalls">GitHub</a>.
+    </p>
+
+    <footer>© TotalRecalls · Not affiliated with OpenAI, Perplexity, Anthropic, Google, or xAI.</footer>
+  </div>
+</body>
+</html>
