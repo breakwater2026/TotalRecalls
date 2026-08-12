@@ -1,9 +1,9 @@
 # TotalRecalls Site V2 — Implementation Plan
 **Implementer: Gemini 3.5 Flash** · **Orchestrator: Andre (human) + Hermes Agent** · **Date: 2026-08-11**
 
-This document converts the design conversation (`TR Website Rdesign V2.md`, hereafter **"the Design Thread"**) into an executable build plan. The Design Thread contains all approved copy. This document tells you **exactly how to build, wire, validate, and deploy it**.
+This document converts the original design discussion into an executable build plan. The approved copy from that discussion has been extracted into the **V2 Content Pack** (`Website Design/V2 Content Pack/`, 35 files), which is the sole authoritative copy source. The original discussion is archived and no longer referenced. This document tells you **exactly how to build, wire, validate, and deploy it**.
 
-> **Input pair:** You should receive (1) this Implementation Plan and (2) the Design Thread. This plan references the Design Thread's assets by name. If you do not have the Design Thread, stop and ask for it — do not invent copy.
+> **Input pair:** You should receive (1) this Implementation Plan and (2) the V2 Content Pack. This plan references approved assets by name; their exact copy lives in the Content Pack's numbered files. If a referenced asset is missing from the Content Pack, stop and flag it — do not invent copy.
 
 ---
 
@@ -13,7 +13,7 @@ This document converts the design conversation (`TR Website Rdesign V2.md`, here
 
 ### Ground rules (non-negotiable)
 
-1. **Copy fidelity.** All page copy comes from the Design Thread assets listed in §7. Do not paraphrase pricing, provider lists, or legal/privacy claims. Do not invent new product claims (e.g., do not add retention periods, feature dates, or provider behaviors not present in the Design Thread or the current site).
+1. **Copy fidelity.** All page copy comes from the approved assets listed in §7 (exact copy lives in the V2 Content Pack). Do not paraphrase pricing, provider lists, or legal/privacy claims. Do not invent new product claims (e.g., do not add retention periods, feature dates, or provider behaviors not present in the approved copy or the current site).
 2. **Preserve commerce wiring.** The Lemon Squeezy checkout flow (`site/js/config.js` + `data-tr-buy` attributes + `/thanks.html` redirect target) must keep working. Details in §8.
 3. **Preserve deployment invariants.** Cloud Run service `totalrecalls-web`, region `us-central1`, container port **8080**, unauthenticated, **HTTP/2 end-to-end OFF** (see §10 — violating this caused production 502s before).
 4. **No operator notes in production pages.** The current live page contains a visible "Operator note: paste your Lemon Squeezy checkout URL…" line. That is dev communication; in V2 it belongs in `site/README.md`, never in rendered HTML.
@@ -67,16 +67,16 @@ This document converts the design conversation (`TR Website Rdesign V2.md`, here
 
 ---
 
-## 2. Decisions locked in by the Design Thread
+## 2. Decisions locked in by the design discussion
 
 1. **Full rewrite**, not a patch of V1 (explicit recommendation accepted by Andre).
 2. **Pricing display:** $49 struck through + $24 launch price everywhere a price appears. $24 is what's charged at Lemon Squeezy checkout; $49 is display-only anchoring ("price returns to $49 after the launch window").
 3. **Framework: Astro** (static output). Accepted over Next.js/Hugo/plain HTML.
 4. **Voice:** clean, confident, privacy-first, utility-focused, minimal, technical-but-accessible. No hype, no filler, no marketing clichés.
-5. **Sitemap:** the full marketing sitemap from the Design Thread (reproduced in Appendix A) — 40 web routes plus non-web marketing documents.
-6. **Design system:** the light-theme system specified in the Design Thread (Inter, midnight/electric-blue palette) — see §5. **Decision point DP-1:** the current live site is dark-themed. The approved plan is the light system; tokens live in one file (`variables.css`), so if Andre later wants dark back, it is a one-file change. Default: **build the approved light system**.
+5. **Sitemap:** the full marketing sitemap from the design discussion (reproduced in Appendix A) — 40 web routes plus non-web marketing documents.
+6. **Design system:** the light-theme system specified in the design discussion (Inter, midnight/electric-blue palette) — see §5. **Decision point DP-1:** the current live site is dark-themed. The approved plan is the light system; tokens live in one file (`variables.css`), so if Andre later wants dark back, it is a one-file change. Default: **build the approved light system**.
 7. **Fonts:** self-host via npm (`@fontsource/inter`, `@fontsource/ibm-plex-mono`). **Do not** add a Google Fonts CDN `<link>` — a privacy-first product should not leak visitor IPs to a font CDN.
-8. **Honest comparison pages:** implement the comparison table and per-provider pages exactly as written in the Design Thread. They are approved marketing claims; do not add new factual claims beyond them.
+8. **Honest comparison pages:** implement the comparison table and per-provider pages exactly as written in the approved copy. They are approved marketing claims; do not add new factual claims beyond them.
 
 ### Decision points (defaults apply unless Andre overrides before Phase 1)
 
@@ -129,7 +129,7 @@ breakwater2026/TotalRecalls  (local clone: C:\Users\break\Projects\TotalRecalls)
 - Astro project lives **inside `site/`** (replacing V1 content). The repo-root `Dockerfile` builds it (multi-stage, §10). This keeps `cloudbuild.yaml` and the Cloud Run continuous-deploy connection unchanged.
 - Astro static output (`output: 'static'`, default), directory-format URLs (`/pricing/` → `pricing/index.html`).
 - Shared chrome (nav, footer, head/SEO, config script) lives in one layout; pages contain content only.
-- Commerce wiring stays vanilla JS in `public/js/config.js` (served as-is, loaded with `is:inline`). Astro components render the `data-tr-*` attributes; no Astro island JS is needed anywhere in V2. There is **no** embedded "app runtime" page — the Design Thread's `app/index.astro` discussion was based on a misconception; the multi-model integration lives in the Windows app, not the website. **Do not create `/app/`.**
+- Commerce wiring stays vanilla JS in `public/js/config.js` (served as-is, loaded with `is:inline`). Astro components render the `data-tr-*` attributes; no Astro island JS is needed anywhere in V2. There is **no** embedded "app runtime" page — an earlier `app/index.astro` idea from the design discussion was based on a misconception; the multi-model integration lives in the Windows app, not the website. **Do not create `/app/`.**
 
 ### Route inventory (40 routes)
 
@@ -175,7 +175,7 @@ Note: the 5 migrated guides keep their legacy slugs for SEO: `guides/export-chat
 
 ## 5. Design system (implement exactly)
 
-From the Design Thread. All tokens go in `src/styles/variables.css`; component styles in `src/styles/main.css`. **No inline styles** except where V1 content migration genuinely requires them (minimize).
+From the design discussion. All tokens go in `src/styles/variables.css`; component styles in `src/styles/main.css`. **No inline styles** except where V1 content migration genuinely requires them (minimize).
 
 ### Color tokens
 
@@ -221,13 +221,13 @@ Breadcrumbs on guides/compare/previews sub-pages (`Home › Guides › ChatGPT`)
 
 ---
 
-## 7. Content inventory — where every Design Thread asset goes
+## 7. Content inventory — where every approved asset goes
 
-**Source of truth:** the Design Thread. For each route below, the listed asset is the content to render. Keep headings as H2s under the page H1; keep lists as lists; keep tables as HTML tables.
+**Source of truth:** the V2 Content Pack (`Website Design/V2 Content Pack/`). For each route below, the listed asset is the content to render (the numbered pack file is the exact copy). Keep headings as H2s under the page H1; keep lists as lists; keep tables as HTML tables.
 
 ### 7.1 Core pages
 
-| Route | Source asset (Design Thread) |
+| Route | Source asset (V2 Content Pack) |
 |---|---|
 | `/` | **ASSET 1 — Homepage** (hero + sub-hero value + primary CTA + providers + mini how-it-works + footer CTA). Use the $49-strike/$24 price block. |
 | `/how-it-works/` | The 4-step "How it works" flow from the landing-page rewrite + the "official bulk exports vs usable archive" note. Expand each step into a short section. |
@@ -276,7 +276,7 @@ Index `/guides/` = **Guides Landing Page** asset, listing all guide pages with o
 
 ### 7.4 Previews
 
-Five pages from the Design Thread assets: **Obsidian/Notion Integration Preview** (split into two pages), **Semantic Search Preview**, plus **RAG Containers** and **Multi-Device Memory** previews. The thread defines Obsidian/Notion and Semantic Search in full; for RAG Containers and Multi-Device Memory the thread only lists them in roadmaps — so each of those two pages is a short "preview" page built from the roadmap bullet points (local vector store / personal memory engine; syncing archives across devices, optional paid upgrade), clearly labeled "planned — not shipped". Do not invent specifics beyond the thread.
+Five pages from the approved assets: **Obsidian/Notion Integration Preview** (split into two pages), **Semantic Search Preview**, plus **RAG Containers** and **Multi-Device Memory** previews. The Content Pack defines Obsidian/Notion and Semantic Search in full; for RAG Containers and Multi-Device Memory the pack notes the original discussion only listed them in roadmaps — so each of those two pages is a short "preview" page built from the roadmap bullet points (local vector store / personal memory engine; syncing archives across devices, optional paid upgrade), clearly labeled "planned — not shipped". Do not invent specifics beyond the approved copy.
 
 ### 7.5 Non-web marketing assets → `marketing/` folder (Markdown)
 
@@ -399,7 +399,7 @@ Keep as-is. It already builds the root Dockerfile, pushes, and deploys `totalrec
 
 ## 11. Migration & redirects
 
-1. **Deploy V2 to the same Cloud Run service** (totalrecalls-web). The old site is replaced entirely (agreed decision in the Design Thread: full rewrite, not a patch).
+1. **Deploy V2 to the same Cloud Run service** (totalrecalls-web). The old site is replaced entirely (agreed decision: full rewrite, not a patch).
 2. **Live V1 URLs that need continuity** (verified against the repo): `/` (index), `/privacy.html`, `/support.html`, `/thanks.html`, and the five guides `/guides/export-chatgpt-conversations.html`, `/guides/export-claude-chat-history.html`, `/guides/backup-perplexity-threads.html`, `/guides/gemini-takeout-archive.html`, `/guides/own-your-ai-chat-data.html`. V2 uses directory URLs (`/privacy/`, `/guides/<slug>/`, …), so every legacy `.html` URL needs a redirect.
 3. **Redirect mechanism (works with any static server, no server config):** add tiny static redirect pages under `site/public/` — Astro copies them verbatim into `dist/`. One per legacy URL, e.g. `public/privacy.html`:
 
@@ -422,7 +422,7 @@ Required redirect pages: `privacy.html → /privacy/` · `support.html → /help
 
 ## 12. Execution workflow (who does what, and in what order)
 
-Condensed from the Design Thread's orchestration material, adapted for reality: **Gemini 3.5 Flash is the sole implementer** (content + Astro code + deployment files). Hermes/Andre orchestrate, review, and deploy. The multi-model Grok/Gemini split from the thread is *not* required — Gemini can play both roles — but the phase boundaries still apply as commit checkpoints.
+Condensed from the design discussion's orchestration material, adapted for reality: **Gemini 3.5 Flash is the sole implementer** (content + Astro code + deployment files). Hermes/Andre orchestrate, review, and deploy. The multi-model Grok/Gemini split from the discussion is *not* required — Gemini can play both roles — but the phase boundaries still apply as commit checkpoints.
 
 **Phase 1 — Scaffold (commit 1).** Create branch `site-v2`. Generate the Astro project per §3–4: config files, layouts, components, styles, empty page shells for every route in §4. Verify `npm run build` passes with shells.
 
@@ -443,7 +443,7 @@ Condensed from the Design Thread's orchestration material, adapted for reality: 
 - Smoke-test live: homepage, one guide, `/buy/` button state, download ZIP link, `/thanks/`, mobile viewport.
 - Update Lemon Squeezy redirect (§11.3). Announce per `marketing/launch-announcement.md`.
 
-**Ingestion rule (from the thread, still valid):** work one page or one small page-group at a time against this plan + the Design Thread; do not regenerate content already committed; do not restructure routes without updating §4 and the sitemap.
+**Ingestion rule (still valid):** work one page or one small page-group at a time against this plan + the V2 Content Pack; do not regenerate content already committed; do not restructure routes without updating §4 and the sitemap.
 
 ---
 
@@ -470,7 +470,7 @@ Condensed from the Design Thread's orchestration material, adapted for reality: 
 
 ---
 
-## Appendix A — Full sitemap (from the Design Thread, adapted)
+## Appendix A — Full sitemap (from the design discussion, adapted)
 
 ```
 /                                 Home (hero, value props, pricing card, mini how-it-works, CTA)

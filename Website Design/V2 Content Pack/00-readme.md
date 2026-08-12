@@ -1,6 +1,6 @@
 # V2 Content Pack — README (read this first)
 
-**Source:** `TR Website Rdesign V2.md` (the 8,282-line Copilot design conversation, read in full).
+**Source:** The original Copilot design discussion (8,282 lines), read in full and now archived — this pack is the sole authoritative copy source.
 **Curated by:** Hermes Agent — extraction of conclusions per marketing item.
 **Consumer:** Gemini 3.5 Flash, which assembles pages from this pack + `TR V2 Implementation Plan.md` (the build blueprint).
 
@@ -62,4 +62,4 @@ One Markdown file per marketing item/page, numbered so Gemini can walk them in o
 ## What Gemini receives beyond this pack
 
 - `TR V2 Implementation Plan.md` — architecture, routes (40), design tokens, component rules, deployment. This pack is the CONTENT source; the plan is the STRUCTURE source. Where the two conflict, the plan's structure wins but flag the conflict to Andre.
-- The Design Thread itself (`TR Website Rdesign V2.md`) if needed for exact wording — every asset in this pack is quoted from it, so the thread is only needed as a cross-reference.
+- The implementation plan (`TR V2 Implementation Plan.md`) for architecture/routes/tokens — every asset in this pack is quoted from the now-archived original discussion; this pack and the plan together are the complete input set. No other source files are needed.

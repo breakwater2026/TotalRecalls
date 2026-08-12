@@ -31,7 +31,7 @@ Two documents were produced by two different AI models before you. **Qwen 3.8 Ma
 |---|---|
 | File | `TR V2 Implementation Plan.md` (518 lines) |
 | Location | `Website Design/` folder (see §3 for full paths) |
-| Contents | Canonical product facts table · locked decisions & decision points (DP-1…DP-5) · verified current repo state · target Astro architecture (40 routes) · design-system tokens (colors/typography/spacing/components) · navigation/footer spec · content inventory mapping every Design Thread asset → page · commerce wiring spec (TR_CONFIG + data-tr-* attributes) · QA gate checklist · Cloud Run deployment spec · migration/redirect spec · execution workflow (phases) · definition of done · full sitemap appendix |
+| Contents | Canonical product facts table · locked decisions & decision points (DP-1…DP-5) · verified current repo state · target Astro architecture (40 routes) · design-system tokens (colors/typography/spacing/components) · navigation/footer spec · content inventory mapping every approved asset → page · commerce wiring spec (TR_CONFIG + data-tr-* attributes) · QA gate checklist · Cloud Run deployment spec · migration/redirect spec · execution workflow (phases) · definition of done · full sitemap appendix |
 | Role for you | **Follow this for: what to build, in what order, with what tokens, and how to deploy.** |
 
 ### 2b. Hermes Agent — Curated Content Pack (the CONTENT)
@@ -40,7 +40,7 @@ Two documents were produced by two different AI models before you. **Qwen 3.8 Ma
 |---|---|
 | Folder | `V2 Content Pack/` (35 Markdown files, numbered 00–33 + open-items.md) |
 | Location | `Website Design/V2 Content Pack/` (see §3 for full paths) |
-| Contents | One file per page/section with the **final approved copy**, extracted verbatim from the design conversation: homepage, download, pricing, FAQ, Lemon Squeezy + checkout, launch announcement, early-adopter email, why-this-matters, roadmap, press kit, product explainer, demo script, footer + microcopy pack, Takeout troubleshooting, SmartScreen help, docs structure, one-pager, comparison page + graphic + deep-dive, positioning brief, release notes v1.3.0, feature requests, full Help page, guides landing, support, privacy, terms, Obsidian/Notion preview, semantic search preview, RAG/multi-device previews, marketing sitemap, rewrite decision + design system record, open items |
+| Contents | One file per page/section with the **final approved copy**, extracted verbatim from the original design discussion (now archived — this pack is the sole authoritative copy source): homepage, download, pricing, FAQ, Lemon Squeezy + checkout, launch announcement, early-adopter email, why-this-matters, roadmap, press kit, product explainer, demo script, footer + microcopy pack, Takeout troubleshooting, SmartScreen help, docs structure, one-pager, comparison page + graphic + deep-dive, positioning brief, release notes v1.3.0, feature requests, full Help page, guides landing, support, privacy, terms, Obsidian/Notion preview, semantic search preview, RAG/multi-device previews, marketing sitemap, rewrite decision + design system record, open items |
 | Role for you | **Follow this for: the exact words on every page. Do not rewrite, paraphrase, or "improve" the copy.** |
 
 **Order of operations:** read `00-readme.md` in the Content Pack first (it explains the pack and the global conventions), then the Implementation Plan, then walk the content files in numeric order.
@@ -54,10 +54,8 @@ Two documents were produced by two different AI models before you. **Qwen 3.8 Ma
 C:\Users\break\Projects\TotalRecalls\
 ├── Website Design\
 │   ├── TR V2 Implementation Plan.md          ← Qwen 3.8 Max (structure)
-│   ├── TR Website Rdesign V2.md              ← source design conversation (cross-reference only)
-│   ├── Website Redesign V.2                  ← earlier conversation export (historical record)
 │   ├── Google Cloud Assist Mandate.md        ← Cloud Build/Run mandate (reference)
-│   ├── V2 Content Pack\                      ← Hermes (content)
+│   ├── V2 Content Pack\                      ← Hermes (content — sole authoritative copy source)
 │   │   ├── 00-readme.md  (READ FIRST)
 │   │   ├── 01-homepage.md … 33-rewrite-decision.md
 │   │   └── open-items.md  (items needing Andre's decisions)
