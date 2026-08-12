@@ -19,7 +19,7 @@ Two documents were produced by two different AI models before you. **Qwen 3.8 Ma
 - **Website:** totalrecalls.app — a marketing/documentation site for this product. The current live site (V1) is a single HTML page; V2 is a full multi-page site.
 - **Pricing:** normal price **$49 one-time**, launch price **$24 one-time** (always shown with $49 struck through). No subscription.
 - **Backend note (do not build this):** the multi-model export logic lives in the **Windows app**, NOT in the website. The website is static marketing content. There is **no `/app/` runtime page** in V2.
-- **Live infra (keep unchanged):** Google Cloud Run service `totalrecalls-web`, region `us-central1`, port 8080, unauthenticated, **HTTP/2 end-to-end OFF** (violating this caused production 502s before). Deploy via the existing repo-root `Dockerfile` + `cloudbuild.yaml` (Cloud Build).
+- **Live infra (keep unchanged):** Google Cloud Run service `totalrecalls-web`, region `us-central1`, port 8080, unauthenticated, **HTTP/2 end-to-end OFF** (violating this caused production 502s before). Deploy via the existing repo-root `Dockerfile` + `cloudbuild.yaml` (Cloud Build). **The live V1 site deploys from branch `website-v1`** — that branch stays frozen and deployable until V2 replaces it.
 
 ---
 
@@ -49,9 +49,9 @@ Two documents were produced by two different AI models before you. **Qwen 3.8 Ma
 
 ## 3. INPUT FILE LOCATIONS (all paths)
 
-**Local clone (Mini-PC):**
+**Local clones (Mini-PC):**
 ```
-C:\Users\break\Projects\TotalRecalls\
+C:\Users\break\Projects\TotalRecalls\      ← canonical clone — WORK HERE (on branch Redesign)
 ├── Website Design\
 │   ├── TR V2 Implementation Plan.md          ← Qwen 3.8 Max (structure)
 │   ├── Google Cloud Assist Mandate.md        ← Cloud Build/Run mandate (reference)
@@ -59,21 +59,29 @@ C:\Users\break\Projects\TotalRecalls\
 │   │   ├── 00-readme.md  (READ FIRST)
 │   │   ├── 01-homepage.md … 33-rewrite-decision.md
 │   │   └── open-items.md  (items needing Andre's decisions)
+│   ├── HANDOVER MEMO — Gemini 3.5 Flash.md   ← this document
 │   └── (logo assets: *.gif/*.mp4/*.py, credit confirmation png)
-├── site\                      ← V1 website (YOUR OUTPUT REPLACES THIS; migrate the 5 guide bodies + js/config.js)
+├── site\                      ← V1 website — ALREADY IN YOUR WORKING TREE (identical to website-v1)
+│                                (YOUR OUTPUT REPLACES THIS; migrate the 5 guide bodies + js/config.js)
 ├── Dockerfile                 ← keep; may need the two-stage build from plan §10
 ├── cloudbuild.yaml            ← keep (deploys totalrecalls-web)
 └── docs\                      ← deployment docs (update CLOUD_RUN.md at the end)
+
+C:\Users\break\TotalRecalls\    ← V1 workspace (renamed from PerplexityExporter; venv + dev tooling)
+                                 — read-only reference for you; do NOT build here
 ```
 
 **Git (canonical, all inputs committed):**
 - Repo: `github.com/breakwater2026/TotalRecalls`
-- Branch: **`Redesign`** (commits `fa2306b` + `6cfc6db`) — all of the above is on this branch. **Work on `Redesign` (or a child branch); do not touch `main` until QA passes.**
+- **Branch `website-v1`** (default) — the **V1 website**, frozen and live. Never modify it. (Renamed from `main`; all V1 CI + the Cloud Build trigger now watch `website-v1`.)
+- **Branch `Redesign`** — the **V2 branch**. All planning inputs (this memo, plan, content pack) are committed here. **Work exclusively on `Redesign`** (or a child branch of it); **never checkout or modify `website-v1`.**
+- Verified: the full V1 `site/` tree on `Redesign` is **byte-identical** to `website-v1` (branched at `95c577f`) — so V1's architecture is already in your working tree; you do not need to fetch, copy, or switch branches to study it.
 
 ---
 
 ## 4. HOW TO COMBINE THE TWO PRODUCTS (assembly rules)
 
+0. **Work on ONE branch: `Redesign` — always.** Study V1 from your working tree (`site/`), never by switching to `website-v1`. Do **not** copy V1 into V2 (no `v1-reference/`, no duplicate trees) — V1 already lives in your working tree and in git history; copying creates drift. When V2 passes QA, Andre merges `Redesign` into `website-v1` — the old V1 remains preserved in git history.
 1. **Structure from the plan:** create the Astro project inside `site/` exactly per Implementation Plan §4 (page tree, components, layouts, styles, utils). All 40 routes from the plan's route inventory + Appendix A sitemap.
 2. **Copy from the pack:** for each page, take the matching numbered content file's copy verbatim (H1s, subheads, bullets, CTAs, FAQ answers, tables). Map: `V2 Content Pack/01-homepage.md` → `/`, `02-download-page.md` → `/download/`, `18-comparison-page.md` → `/compare/` + per-provider pages, `25-guides-landing.md` → `/guides/` + guide pages, etc. The readme's file→page table is your map.
 3. **Design tokens from the plan §5** (which matches Content Pack `33-rewrite-decision.md`): Midnight `#0A1A2F`, Electric `#2F7BFF`, Slate `#4A5568`, Soft `#E2E8F0`, Emerald `#10B981`, Amber `#F59E0B`, Crimson `#DC2626`, White/Off-White. Inter (400–700) + IBM Plex Mono. Spacing 4/8/12/16/24/32/48/64. Components per §5.
@@ -96,6 +104,7 @@ C:\Users\break\Projects\TotalRecalls\
 8. **Commerce must work in both states:** `lemonCheckoutUrl` set → buttons link to Lemon Squeezy; empty → buttons scroll to buy section + "checkout pending" banner shows. ZIP download link = `https://github.com/breakwater2026/TotalRecalls/releases/download/v1.3.0/TotalRecalls-windows-x64-v1.3.0.zip`.
 9. **No `/app/` page.** No embedded JS app runtime. The website is static marketing content.
 10. **Self-host fonts** via `@fontsource/inter` + `@fontsource/ibm-plex-mono` — no Google Fonts CDN link (privacy-first product).
+11. **Branch discipline:** commit only to `Redesign` (or a child branch). Never push to `website-v1`. Never merge `website-v1` into your work. If you believe V2 is ready to go live, say so in your delivery notes — Andre handles the merge.
 
 ---
 
@@ -128,4 +137,4 @@ From `V2 Content Pack/open-items.md` (Andre answers these tomorrow):
 
 This website has a real audience and a real checkout. Copy is **approved copy** — your job is assembly and faithful implementation, not creative rewriting. If something in the Content Pack seems wrong or missing, **ask in your delivery notes** rather than improvising. Build clean, build consistent, and ship it.
 
-*— Handover prepared by Hermes Agent, 2026-08-12, on branch `Redesign`.*
+*— Handover prepared by Hermes Agent, 2026-08-12, on branch `Redesign`. V1 lives on `website-v1` (frozen, live); V2 replaces it after QA — one branch, no copying, no branch-hopping.*
