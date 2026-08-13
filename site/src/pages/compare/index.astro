@@ -1,45 +1,61 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
-<BaseLayout title="Compare — TotalRecalls" description="Why TotalRecalls beats free exports.">
-  <h1>Why TotalRecalls Wins</h1>
-  <p>Official exports give you data. TotalRecalls gives you a <strong>durable, local, portable library</strong> you actually use.</p>
+<BaseLayout title="Compare — TotalRecalls" description="TotalRecalls vs official exports and DIY scripts.">
+  <h1>Compare</h1>
+  <p>How TotalRecalls stacks up against the two realistic alternatives: each provider's official export, and do-it-yourself scripts.</p>
 
-  <table border="1" cellpadding="8" style="width:100%; border-collapse: collapse;">
-  <tr style="background:#f0f4ff;">
-    <th>Feature</th><th>Official Exports</th><th>TotalRecalls</th>
+  <table class="compare-table">
+  <thead>
+  <tr>
+    <th>Feature</th><th>Official exports</th><th>DIY scripts</th><th>TotalRecalls</th>
   </tr>
+  </thead>
+  <tbody>
   <tr>
     <td>Formats</td>
     <td>JSON dump (machine-only)</td>
+    <td>Whatever you write</td>
     <td>Markdown + JSON (human + machine)</td>
-  </tr>
-  <tr>
-    <td>Search</td>
-    <td>File search only</td>
-    <td>Full-text search across all providers</td>
   </tr>
   <tr>
     <td>Bulk export</td>
     <td>Manual, one provider at a time</td>
-    <td>All providers in one click</td>
+    <td>You maintain the script</td>
+    <td>All five providers in one app</td>
+  </tr>
+  <tr>
+    <td>Setup</td>
+    <td>Per-provider export flows</td>
+    <td>Hours of scripting + debugging</td>
+    <td>Unzip and run (Windows)</td>
   </tr>
   <tr>
     <td>Migration</td>
     <td>Not supported</td>
-    <td>Unified library, portable anywhere</td>
+    <td>Up to you</td>
+    <td>Unified Library folder, portable anywhere</td>
   </tr>
   <tr>
-    <td>Sync</td>
+    <td>Full-text search across providers</td>
     <td>No</td>
-    <td>Folder sync to cloud or NAS</td>
+    <td>Possible with extra tooling</td>
+    <td><em>Planned</em> (optional upgrade)</td>
+  </tr>
+  <tr>
+    <td>Folder sync (cloud / NAS)</td>
+    <td>No</td>
+    <td>Manual</td>
+    <td><em>Planned</em> — today: sync the folder yourself</td>
   </tr>
   <tr>
     <td>Cost</td>
     <td>Free (data locked in)</td>
+    <td>Free (your time)</td>
     <td>$24 one-time (data fully yours)</td>
   </tr>
+  </tbody>
   </table>
 
-  <p><a href="/buy/" class="buy-button">Get TotalRecalls for <span data-tr-price>$24</span></a></p>
+  <p><a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Get TotalRecalls — <span data-tr-price>$24</span></a></p>
 </BaseLayout>

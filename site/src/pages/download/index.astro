@@ -4,13 +4,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 <BaseLayout title="Download TotalRecalls" description="Download the Windows app that saves your AI chats to local Markdown + JSON.">
   <h1>Download TotalRecalls for Windows</h1>
   <p>A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
+  <p><strong>This page is for customers who already purchased.</strong> New here? <a href="/pricing/">Buy TotalRecalls — $24</a> first; your download link arrives right after checkout.</p>
 
   <section>
     <h2>Download ZIP (Windows)</h2>
     <p><a href="" data-tr-download class="buy-button">Download ZIP</a></p>
     <p class="meta">Windows 10/11 · ~50 MB · One-time purchase required</p>
     <p>Provides: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
-    <p><strong>Already purchased?</strong> Download the ZIP and unzip it anywhere on your PC.</p>
+    <p>Unzip it anywhere on your PC and run the app — no installer.</p>
   </section>
 
   <section>
@@ -27,7 +28,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <h2>Technical Notes</h2>
     <ul>
       <li>Unsigned builds may show SmartScreen — “More info → Run anyway” until code-signing is complete. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
-      <li>SP8 Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</li>
+      <li>Windows 11 Smart App Control may block unsigned apps with no override. Code-signing is on the roadmap.</li>
       <li>Gemini uses your Google Takeout folder/JSON (most reliable path). See <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
     </ul>
   </section>
@@ -73,7 +74,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <span class="price-current" data-tr-price>$24</span>
       <span class="price-badge">launch price</span>
     </div>
-    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — <span data-tr-price>$24</span></a>
+    <a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — <span data-tr-price>$24</span></a>
   </section>
 
 </BaseLayout>

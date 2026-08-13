@@ -3,15 +3,51 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Guides — TotalRecalls" description="How-to guides for exporting and owning AI conversations.">
   <h1>Guides</h1>
-  <ul>
-    <li><a href="/guides/export-chatgpt-conversations/">Export ChatGPT Conversations</a></li>
-    <li><a href="/guides/export-claude-chat-history/">Export Claude Chat History</a></li>
-    <li><a href="/guides/backup-perplexity-threads/">Backup Perplexity Threads</a></li>
-    <li><a href="/guides/gemini-takeout-archive/">Gemini Takeout Archive</a></li>
-    <li><a href="/guides/own-your-ai-chat-data/">Own Your AI Chat Data</a></li>
-    <li><a href="/guides/grok/">Export Grok Chats</a></li>
-    <li><a href="/guides/library-format/">Library Format</a></li>
-    <li><a href="/guides/smartscreen/">SmartScreen Help</a></li>
-    <li><a href="/guides/troubleshooting/">Troubleshooting</a></li>
-  </ul>
+  <p class="guides-intro">Free reading. Buy only when you want the Windows app — these guides cover every provider, SmartScreen help, and the Library format.</p>
+
+  <div class="guide-grid">
+    <a class="card guide-card" href="/guides/export-chatgpt-conversations/">
+      <strong>Export ChatGPT conversations</strong>
+      <p>Official export vs a local library you can actually use.</p>
+    </a>
+    <a class="card guide-card" href="/guides/export-claude-chat-history/">
+      <strong>Download your Claude history</strong>
+      <p>Keep Projects and long threads as files.</p>
+    </a>
+    <a class="card guide-card" href="/guides/backup-perplexity-threads/">
+      <strong>Backup Perplexity threads</strong>
+      <p>Save research threads before you lose the tab trail.</p>
+    </a>
+    <a class="card guide-card" href="/guides/gemini-takeout-archive/">
+      <strong>Gemini Takeout → Markdown</strong>
+      <p>Turn Google Takeout dumps into Markdown conversations.</p>
+    </a>
+    <a class="card guide-card" href="/guides/grok/">
+      <strong>Export Grok chats</strong>
+      <p>grok.com session scanning, step by step.</p>
+    </a>
+    <a class="card guide-card" href="/guides/own-your-ai-chat-data/">
+      <strong>Own your AI chat data</strong>
+      <p>Why multi-assistant export matters in 2026.</p>
+    </a>
+    <a class="card guide-card" href="/guides/library-format/">
+      <strong>Library format</strong>
+      <p>How your exports are organized — folders, files, and JSON schema.</p>
+    </a>
+    <a class="card guide-card" href="/guides/smartscreen/">
+      <strong>SmartScreen help</strong>
+      <p>What the warning means and how to run the app anyway.</p>
+    </a>
+    <a class="card guide-card" href="/guides/troubleshooting/">
+      <strong>Troubleshooting</strong>
+      <p>Common issues with sign-in, export, and takeout paths.</p>
+    </a>
+  </div>
+
+  <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
+    <h2 style="color: var(--color-surface);">Ready to try it?</h2>
+    <a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — <span data-tr-price>$24</span></a>
+    <p><a href="/download/" style="color: var(--color-surface);">Already purchased? Download ZIP</a></p>
+  </section>
+
 </BaseLayout>
