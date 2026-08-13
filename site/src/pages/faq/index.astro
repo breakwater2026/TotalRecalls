@@ -2,84 +2,54 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="FAQ — TotalRecalls" description="Frequently asked questions about TotalRecalls.">
-  <h1 class="text-4xl font-bold mb-8">FAQ</h1>
+  <h1>FAQ</h1>
 
-  <dl class="space-y-6">
-    <div>
-      <dt class="text-xl font-semibold">What is TotalRecalls?</dt>
-      <dd class="text-gray-700 mt-2">A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</dd>
-    </div>
+  <dl>
+    <dt>What is TotalRecalls?</dt>
+    <dd>A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">How much does it cost?</dt>
-      <dd class="text-gray-700 mt-2">$24 launch price. One-time purchase. No subscription. No monthly "AI archive" fee.</dd>
-    </div>
+    <dt>How much does it cost?</dt>
+    <dd><strike>$49</strike> <span data-tr-price>$24</span> launch price. One-time purchase. No subscription. No monthly "AI archive" fee.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Do I need an account?</dt>
-      <dd class="text-gray-700 mt-2">No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use.</dd>
-    </div>
+    <dt>Do I need an account?</dt>
+    <dd>No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Do you store my chats or tokens?</dt>
-      <dd class="text-gray-700 mt-2">No. Your AI session tokens stay on your machine. We never host your chats, your exports, or your credentials.</dd>
-    </div>
+    <dt>Do you store my chats or tokens?</dt>
+    <dd>No. Your AI session tokens stay on your machine. We never host your chats, your exports, or your credentials.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Does TotalRecalls run in the cloud?</dt>
-      <dd class="text-gray-700 mt-2">No. It's a local Windows app. Exports land in a folder you choose on your PC.</dd>
-    </div>
+    <dt>Does TotalRecalls run in the cloud?</dt>
+    <dd>No. It's a local Windows app. Exports land in a folder you choose on your PC.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">What providers are supported?</dt>
-      <dd class="text-gray-700 mt-2">ChatGPT · Claude · Perplexity · Gemini (via Google Takeout or local sign-in) · Grok.</dd>
-    </div>
+    <dt>What providers are supported?</dt>
+    <dd>ChatGPT · Claude · Perplexity · Gemini (via Google Takeout or local sign-in) · Grok.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">How do exports work?</dt>
-      <dd class="text-gray-700 mt-2">
-        <ol class="list-decimal pl-6 space-y-1 mt-2">
-          <li>Open the app</li>
-          <li>Pick a provider</li>
-          <li>Sign in locally (or choose a Gemini Takeout folder)</li>
-          <li>Export — your chats appear as Markdown + JSON under a Library/ folder</li>
-        </ol>
-      </dd>
-    </div>
+    <dt>How do exports work?</dt>
+    <ol>
+      <li>Open the app</li>
+      <li>Pick a provider</li>
+      <li>Sign in locally (or choose a Gemini Takeout folder)</li>
+      <li>Export — your chats appear as Markdown + JSON under a Library/ folder</li>
+    </ol>
 
-    <div>
-      <dt class="text-xl font-semibold">Does this replace official exports?</dt>
-      <dd class="text-gray-700 mt-2">No — official exports are fine for compliance dumps. TotalRecalls is for a usable personal archive you can browse, search, and back up.</dd>
-    </div>
+    <dt>Does this replace official exports?</dt>
+    <dd>No — official exports are fine for compliance dumps. TotalRecalls is for a usable personal archive you can browse, search, and back up.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Is the app safe?</dt>
-      <dd class="text-gray-700 mt-2">Yes. But because the build is not yet code-signed, Windows may show a SmartScreen warning. Click More info → Run anyway if you trust this download from totalrecalls.app. Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</dd>
-    </div>
+    <dt>Is the app safe?</dt>
+    <dd>Yes. But because the build is not yet code-signed, Windows may show a SmartScreen warning. Click More info → Run anyway if you trust this download from totalrecalls.app. Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Does it work on Mac?</dt>
-      <dd class="text-gray-700 mt-2">Not yet. Mac support will be added if demand is real.</dd>
-    </div>
+    <dt>Does it work on Mac?</dt>
+    <dd>Not yet. Mac support will be added if demand is real.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Does it work on mobile?</dt>
-      <dd class="text-gray-700 mt-2">No. Windows only.</dd>
-    </div>
+    <dt>Does it work on mobile?</dt>
+    <dd>No. Windows only.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">What's inside the ZIP?</dt>
-      <dd class="text-gray-700 mt-2">TotalRecalls.exe · README.txt · LICENSE.txt. No installers. No background services. No telemetry.</dd>
-    </div>
+    <dt>What's inside the ZIP?</dt>
+    <dd>TotalRecalls.exe · README.txt · LICENSE.txt. No installers. No background services. No telemetry.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Will future features cost extra?</dt>
-      <dd class="text-gray-700 mt-2">The $24 launch price covers the core export tool. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) may be optional upgrades later.</dd>
-    </div>
+    <dt>Will future features cost extra?</dt>
+    <dd>The $24 launch price covers the core export tool. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) may be optional upgrades later.</dd>
 
-    <div>
-      <dt class="text-xl font-semibold">Can I get help?</dt>
-      <dd class="text-gray-700 mt-2">Yes — see the <a href="/guides/" class="text-blue-600">guides</a>: ChatGPT export, Claude Projects, Perplexity threads, Gemini Takeout, Multi-assistant workflows. Visit <a href="/help/" class="text-blue-600">Help &amp; Guides</a>.</dd>
-    </div>
+    <dt>Can I get help?</dt>
+    <dd>Yes — see the <a href="/guides/">guides</a>: ChatGPT export, Claude Projects, Perplexity threads, Gemini Takeout, Multi-assistant workflows. Visit <a href="/help/">Help &amp; Guides</a>.</dd>
   </dl>
 </BaseLayout>

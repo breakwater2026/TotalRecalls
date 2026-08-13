@@ -4,37 +4,16 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@astrojs/react": "^3.0.0",
+    "@astrojs/mdx": "^3.0.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "astro": "^5.0.0",
-    "astro-icon": "^1.1.5",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
-  },
-  "devDependencies": {
-    "@astrojs/tailwind": "^6.0.2",
-    "@tailwindcss/postcss": "^4.3.3",
-    "@tailwindcss/vite": "^4.3.3",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.0.0",
-    "autoprefixer": "^10.5.4",
-    "jsdom": "^24.0.0",
-    "postcss": "^8.5.26",
-    "tailwindcss": "^4.3.3",
-    "vitest": "^2.0.0"
+    "astro-icon": "^1.1.5"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage"
-  },
-  "vitest": {
-    "environment": "jsdom",
-    "setupFiles": "./tests/setup.js"
+    "astro": "astro"
   }
 }
