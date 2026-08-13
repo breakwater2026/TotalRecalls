@@ -1,41 +1,79 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const pageTitle = "TotalRecalls — Own every AI conversation.";
 ---
-<BaseLayout title={pageTitle} description="A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.">
+<BaseLayout title="TotalRecalls — Own every AI conversation." description="A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.">
+
+  <!-- HERO -->
   <section class="hero">
     <h1>Own every AI conversation.</h1>
     <p class="subhead">A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
-    <p class="tagline">Your chats. Your disk. One-time purchase.</p>
-    <p class="price-line"><strike>$49</strike> $<span data-tr-price></span> <span data-tr-price-note">one-time launch price</span></p>
-    <p>
+
+    <!-- Clean price block: strike-through $49 + $24 launch price -->
+    <div class="price-block">
+      <span class="price-strike"><strike>$49</strike></span>
+      <span class="price-current" data-tr-price></span>
+      <span class="price-badge">launch price</span>
+      <span class="price-note">One-time purchase · Windows app · Local files only</span>
+    </div>
+
+    <p class="cta-group">
       <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $<span data-tr-price></span></a>
+      <a href="/download/" class="buy-button buy-secondary">Already purchased? Download ZIP</a>
     </p>
-    <p class="microcopy">Windows · local files · one-time purchase</p>
-    <p class="providers">Includes providers: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok · Version: v<span data-tr-price></span></p>
   </section>
 
+  <!-- WHY TOTALRECALLS — 4 pillars with icons -->
   <section class="value-cards">
     <h2>Why TotalRecalls</h2>
-    <div class="card"><strong>Your AI history shouldn't vanish.</strong> AI apps change. Tabs close. Exports break. A folder of Markdown on your PC still opens in ten years.</div>
-    <div class="card"><strong>One library for every assistant.</strong> Stop hunting through five different UIs. Export everything into a single, predictable folder structure.</div>
-    <div class="card"><strong>Private by design.</strong> Sign-in happens locally. We never host your session tokens. No cloud locker. No account required.</div>
-    <div class="card"><strong>Simple commercial deal.</strong> One payment. No subscription. No "AI archive" monthly fee.</div>
+    <div class="card icon-permanence"><strong>Your AI history shouldn't vanish.</strong> AI apps change. Tabs close. Exports break. A folder of Markdown on your PC still opens in ten years.</div>
+    <div class="card icon-library"><strong>One library for every assistant.</strong> Stop hunting through five different UIs. Export everything into a single, predictable folder structure.</div>
+    <div class="card icon-privacy"><strong>Private by design.</strong> Sign-in happens locally. We never host your session tokens. No cloud locker. No account required.</div>
+    <div class="card icon-deal"><strong>Simple commercial deal.</strong> One payment. No subscription. No "AI archive" monthly fee.</div>
   </section>
 
+  <!-- HOW IT WORKS — 4 steps with icons -->
   <section class="how-it-works">
     <h2>How It Works (4 steps)</h2>
-    <ol>
-      <li><strong>Buy once</strong> — checkout via Lemon Squeezy.</li>
-      <li><strong>Install</strong> — unzip and run the Windows app.</li>
-      <li><strong>Pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini, or Grok.</li>
-      <li><strong>Export</strong> — chats land as Markdown + JSON under a Library folder.</li>
+    <ol class="step-list">
+      <li><span class="step-icon icon-buy">1</span> <strong>Buy once</strong> — checkout via Lemon Squeezy.</li>
+      <li><span class="step-icon icon-install">2</span> <strong>Install</strong> — unzip and run the Windows app.</li>
+      <li><span class="step-icon icon-provider">3</span> <strong>Pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini, or Grok.</li>
+      <li><span class="step-icon icon-export">4</span> <strong>Export</strong> — chats land as Markdown + JSON under a Library folder.</li>
     </ol>
   </section>
 
+  <!-- PROVIDERS — logo row -->
+  <section class="providers-section">
+    <h2>Supported Providers</h2>
+    <div class="provider-logos">
+      <span>ChatGPT</span>
+      <span>Claude</span>
+      <span>Perplexity</span>
+      <span>Gemini</span>
+      <span>Grok</span>
+    </div>
+    <p class="providers-note">Gemini uses your Google Takeout JSON (most reliable path).</p>
+  </section>
+
+  <!-- SCREENSHOTS / PROOF -->
+  <section class="screenshots">
+    <h2>Your Library, organized</h2>
+    <div class="screenshot-grid">
+      <div class="screenshot-card">
+        <img src="/img/library.png" alt="Library folder structure" />
+        <p>Every assistant exports into a clean folder structure you can browse, search, and back up.</p>
+      </div>
+      <div class="screenshot-card">
+        <img src="/img/markdown.png" alt="Readable Markdown chat file" />
+        <p>Readable files. Predictable formatting. Easy to diff, annotate, or feed into your own tools.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDES -->
   <section class="guides-teaser">
     <h2>Guides (SEO + how-to)</h2>
-    <p>Free reading. Buy only when you want the Windows app.</p>
+    <p class="guides-intro">Free reading. Buy only when you want the Windows app.</p>
     <ul>
       <li><a href="/guides/export-chatgpt-conversations/">How to export ChatGPT conversations</a> — Official export vs a local library you can actually use</li>
       <li><a href="/guides/export-claude-chat-history/">Download your Claude chat history</a> — Keep Projects and long threads as files</li>
@@ -45,22 +83,45 @@ const pageTitle = "TotalRecalls — Own every AI conversation.";
     </ul>
   </section>
 
-  <section class="trust-limits">
-    <h2>Straight Talk</h2>
+  <!-- TECHNICAL NOTES (replaces Straight Talk — softer framing) -->
+  <section class="technical-notes">
+    <h2>Technical Notes</h2>
     <ul>
       <li>Windows app today (WebView2). Mac later if demand is real.</li>
       <li>Gemini uses your Google Takeout folder/JSON (most reliable path).</li>
-      <li>Unsigned builds may show SmartScreen — <a href="/guides/smartscreen/">More info → Run anyway</a> — until we code-sign.</li>
+      <li>Unsigned builds may show SmartScreen — “More info → Run anyway” until code-signing is complete.</li>
       <li>SP8 Smart App Control can block unsigned apps with no override — signing is on the roadmap.</li>
       <li>You must follow each AI provider's terms for your own account use.</li>
       <li>No AdSense clutter. This site sells a tool, not pageviews.</li>
     </ul>
   </section>
 
-  <section class="footer-cta">
-    <h2>Ready?</h2>
-    <p>One payment. Your archive on your disk.</p>
-    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy — $<span data-tr-price></span></a>
-    <p><a href="/download/">Already purchased? Download ZIP</a> — secondary link under the Buy CTA.</p>
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <dl>
+      <dt>Can I use this on Mac?</dt>
+      <dd>V2 is Windows-only. Mac is planned if demand is real.</dd>
+      <dt>Will my provider block me?</dt>
+      <dd>TotalRecalls works within each provider's own export/Takeout features — you must follow their terms.</dd>
+      <dt>Is there a refund policy?</dt>
+      <dd>All sales are final (digital download). Try the free guides first.</dd>
+      <dt>How do I get updates?</dt>
+      <dd>Minor updates are free during the launch period and posted to this site.</dd>
+    </dl>
+    <p class="faq-more"><a href="/faq/">More questions</a></p>
   </section>
+
+  <!-- FOOTER CTA — single clean CTA -->
+  <section class="footer-cta">
+    <h2>Ready to own your AI conversations?</h2>
+    <div class="footer-price">
+      <span class="price-strike"><strike>$49</strike></span>
+      <span class="price-current" data-tr-price></span>
+      <span class="price-badge">launch price</span>
+    </div>
+    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $<span data-tr-price></span></a>
+    <p><a href="/download/">Already purchased? Download ZIP</a></p>
+  </section>
+
 </BaseLayout>

@@ -4,14 +4,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 <BaseLayout title="Download TotalRecalls" description="Download the Windows app that saves your AI chats to local Markdown + JSON.">
   <h1>Download TotalRecalls for Windows</h1>
   <p>A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
-  <p class="tagline">Your chats. Your disk. One-time purchase.</p>
 
   <section>
     <h2>Download ZIP (Windows)</h2>
     <p><a href="" data-tr-download class="buy-button">Download ZIP</a></p>
-    <p class="meta">Version v<span data-tr-price></span> · Windows 10/11 · ~50 MB</p>
-    <p class="providers">Includes providers: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
-    <p>If you already purchased TotalRecalls, download the ZIP here and unzip it anywhere on your PC.</p>
+    <p class="meta">Windows 10/11 · ~50 MB · One-time purchase required</p>
+    <p>Provides: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
+    <p><strong>Already purchased?</strong> Download the ZIP and unzip it anywhere on your PC.</p>
   </section>
 
   <section>
@@ -24,12 +23,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <p>No installers, no background services, no telemetry. Just unzip and run.</p>
   </section>
 
-  <section>
-    <h2>SmartScreen Notice (Windows)</h2>
-    <p>Because this build is not yet code-signed, Windows may show:</p>
-    <blockquote>"Windows protected your PC"</blockquote>
-    <p>Click <strong>More info</strong>, then <strong>Run anyway</strong> if you trust this download from totalrecalls.app.</p>
-    <p>Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</p>
+  <section class="technical-notes">
+    <h2>Technical Notes</h2>
+    <ul>
+      <li>Unsigned builds may show SmartScreen — “More info → Run anyway” until code-signing is complete. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
+      <li>SP8 Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</li>
+      <li>Gemini uses your Google Takeout folder/JSON (most reliable path). See <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
+    </ul>
   </section>
 
   <section>
@@ -63,13 +63,18 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <li><a href="/guides/export-chatgpt-conversations/">ChatGPT export guide</a></li>
       <li><a href="/guides/backup-perplexity-threads/">Perplexity export guide</a></li>
       <li><a href="/guides/export-claude-chat-history/">Claude Projects export guide</a></li>
-      <li><a href="/help/">Visit Help &amp; Guides</a></li>
+      <li><a href="/faq/">FAQ</a></li>
     </ul>
   </section>
 
-  <section class="footer-cta">
-    <h2>Ready to Buy?</h2>
-    <p><span data-tr-normal-price></span> <span data-tr-price></span> launch price — One-time purchase. No subscription.</p>
-    <a href="/buy/" class="buy-button" data-tr-buy>Buy TotalRecalls</a>
+  <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
+    <h2 style="color: var(--color-surface);">Ready to own your AI conversations?</h2>
+    <div class="price-block" style="justify-content: center;">
+      <span class="price-strike"><strike>$49</strike></span>
+      <span class="price-current" data-tr-price></span>
+      <span class="price-badge">launch price</span>
+    </div>
+    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $<span data-tr-price></span></a>
   </section>
+
 </BaseLayout>
