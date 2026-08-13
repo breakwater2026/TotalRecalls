@@ -1,101 +1,145 @@
-# TotalRecalls
+# TotalRecalls — Own Every AI Conversation  
+Official marketing site | Astro + React + Tailwind
 
-**Domain:** [totalrecalls.app](https://totalrecalls.app)  
-**Product:** Own your AI conversations — export them locally from multiple assistants into one archive you control.
+TotalRecalls is a small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.
 
-**Version:** **1.3.0** (`all-providers-v1`)
+---
 
-## Providers
+## 🚀 Tech Stack
 
-| Provider | Status | Auth |
-|----------|--------|------|
-| Perplexity | Live | Embedded login / session cookie |
-| ChatGPT | Live | Embedded login / Bearer or cookie |
-| Claude | Live | Embedded login / sessionKey |
-| Gemini | Live | **Google Takeout path** (folder or JSON) |
-| Grok | Live | Embedded login / Bearer or cookie |
+| Layer | Technology |
+|-------|------------|
+| Site Generator | **Astro 5** |
+| Components | **Astro** (`.astro`) + **React islands** |
+| Styling | **TailwindCSS** (`src/styles/variables.css`, `src/styles/main.css`) |
+| Build | `npm run build` → static `site/dist/` |
+| Deploy | **Cloud Run** (port 8080, HTTP/2 OFF, bind `0.0.0.0:$PORT`) |
+| CI | **GitHub Actions** (`.github/workflows/ci.yml`) |
 
-## Run from source
+---
+
+## 📁 Project Structure
+
+```
+TotalRecalls/
+├── Dockerfile
+├── cloudbuild.yaml
+├── cloudbuild.deploy.yaml
+├── .dockerignore
+├── site/
+│   ├── astro.config.mjs          # output: 'static', trailingSlash: 'always'
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   ├── robots.txt
+│   │   ├── sitemap.xml
+│   │   ├── js/config.js          # LemonSqueezy checkout URL, pricing
+│   │   ├── img/library.png
+│   │   └── img/markdown.png
+│   └── src/
+│       ├── layouts/
+│       │   └── BaseLayout.astro
+│       ├── styles/
+│       │   ├── variables.css
+│       │   └── main.css
+│       └── pages/
+│           ├── index.astro         # Homepage
+│           ├── buy.astro           # Checkout redirect
+│           ├── download.astro
+│           ├── pricing.astro
+│           ├── faq.astro
+│           ├── how-it-works.astro
+│           ├── support.astro
+│           ├── privacy.astro
+│           ├── terms.astro
+│           ├── thanks.astro
+│           ├── release-notes.astro
+│           ├── roadmap.astro
+│           ├── feature-requests.astro
+│           ├── help.astro
+│           ├── press.astro
+│           ├── why-this-matters.astro
+│           ├── 404.astro
+│           ├── guides/             # 9 guide pages
+│           ├── compare/            # 8 compare pages
+│           └── previews/           # 6 preview pages
+└── docs/
+    ├── CLOUD_RUN.md
+    └── Vertex AI integration notes
+```
+
+---
+
+## 🔌 Deployment
+
+### To Cloud Run (production)
+
+The live site is deployed via the existing `totalrecalls-web` Cloud Build trigger:
+
+- **Branch:** `website-v1` (V1 live)
+- **Service:** `totalrecalls-web`
+- **URL:** https://totalrecalls.app
+- **Port:** 8080
+- **HTTP/2:** OFF (`--no-use-http2`)
+- **Project:** `cs-poc-gw89wethbilefc1wrhgq7d7`
+- **Region:** `us-central1`
+
+### V2 Preview Deployment
+
+The V2 (Redesign) branch is deployable to a separate preview service:
 
 ```bash
-python app.py
+gcloud run deploy totalrecalls-web-redesign \
+  --source=. \
+  --region=us-central1
 ```
 
-Loads the React UI from `ui/`. Falls back to legacy `app_ui.html` if `ui/` is missing.
-
-### Rebuild the React UI
-```bash
-cd apps/web-ui
-npm install
-npm run build
-rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
-```
-
-## Windows EXE
-
-```
-dist\TotalRecalls.exe
-dist\PerplexityExporter.exe   # same build, legacy name
-```
-
-Rebuild:
-```bash
-.venv\Scripts\python.exe -m PyInstaller PerplexityExporter.spec --noconfirm
-copy /Y dist\PerplexityExporter.exe dist\TotalRecalls.exe
-```
-
-> EXE is currently **unsigned**. Windows SmartScreen may warn; code signing is on the ship checklist (`docs/RELEASE.md`).
-
-## Layout
-
-| Path | Role |
-|------|------|
-| `app.py` | Thin entry / re-exports |
-| `totalrecalls/` | Python package (core, adapters, desktop) |
-| `apps/web-ui/` | React + Vite source |
-| `ui/` | Built web UI for pywebview |
-| `site/` | Marketing site for totalrecalls.app |
-| `docs/` | Decisions, adapter specs, **RELEASE.md** |
-
-## Export output (default)
-
-```
-TotalRecalls-export/
-  Library/<provider>/Home|Spaces/.../<Title -- id>/
-    conversation.md
-    conversation.json
-  README.md
-  manifest.json
-```
-
-Classic layout: set `TOTALRECALLS_CLASSIC_EXPORT=1`.
-
-## Tests
+Or via Cloud Build (one-off from Redesign branch):
 
 ```bash
-python -m unittest discover -s tests -q
-python app.py --selftest
+gcloud builds submit \
+  --config=cloudbuild.deploy.yaml \
+  --substitutions=_SERVICE=totalrecalls-web-redesign,_REGION=us-central1 \
+  https://github.com/breakwater2026/TotalRecalls#refs/heads/Redesign
 ```
 
-## Site deploy
+---
 
-### GitHub Pages (automatic — live)
-Push to `main` deploys `site/` via `.github/workflows/pages.yml`.  
-**Live:** https://breakwater2026.github.io/TotalRecalls/  
+## 🏗️ Local Development
 
-Custom domain later: add DNS `CNAME totalrecalls.app → breakwater2026.github.io`, then restore `site/CNAME`.
-
-### Cloudflare Pages (optional alternate)
 ```bash
-npx wrangler login
-npx wrangler pages deploy site --project-name=totalrecalls-site
+cd site
+npm ci
+npm run dev     # http://localhost:3000
+npm run build   # output to site/dist/
 ```
 
-### Google Cloud Run (Dockerfile — production path for totalrecalls.app)
-See **`docs/CLOUD_RUN.md`**.
+---
 
-```text
-Build type in GCP UI: Dockerfile
-Files: Dockerfile + deploy/nginx.conf + site/
-Service port: 8080
-```
+## 🎨 Design System
+
+Design tokens are defined in `src/styles/variables.css`:
+
+- `--color-bg`: charcoal background
+- `--color-accent`: electric blue
+- `--color-text`: primary text
+- `--font-sans`: Inter (400/500/600/700)
+- `--font-mono`: IBM Plex Mono
+
+---
+
+## 🔑 Configuration
+
+`public/js/config.js` contains product configuration:
+
+- `lemonCheckoutUrl` — LemonSqueezy checkout URL
+- `price` — $24 launch price
+- `priceNormal` — $49 normal price
+
+---
+
+## 📜 License
+
+MIT License  
+© TotalRecalls
