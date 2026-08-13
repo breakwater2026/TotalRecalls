@@ -1,0 +1,26 @@
+@import "./variables.css";
+
+/* Component styles + typography defaults */
+h1 { font-size: clamp(2rem, 5vw, 2.85rem); font-weight: 700; color: var(--color-midnight); }
+h2 { font-size: 1.35rem; font-weight: 600; color: var(--color-midnight); margin-top: var(--space-6); }
+h3 { font-size: 1.125rem; font-weight: 600; }
+p { margin: 0 0 var(--space-4) 0; }
+a { color: var(--color-electric); }
+code, pre {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--color-soft);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+}
+
+/* Price tag styling */
+[data-tr-price] {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-electric);
+}
+[data-tr-normal-price] {
+  text-decoration: line-through;
+  color: var(--color-slate);
+  margin-left: var(--space-2);
+}

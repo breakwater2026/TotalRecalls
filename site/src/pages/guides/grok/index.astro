@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Export Grok Chats" description="Back up your Grok conversations from xAI with TotalRecalls.">
+  <h1>Exporting Grok Conversations</h1>
+  <p>TotalRecalls reads your local Grok (grok.com) session and exports every conversation to local Markdown and JSON.</p>
+  
+  <h2>Steps</h2>
+  <ol>
+    <li>Open <a href="https://grok.com">grok.com</a> and sign in.</li>
+    <li>Launch TotalRecalls. Select <strong>"Grok"</strong> as the provider.</li>
+    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads local browser session data.</li>
+    <li>Choose which chats to export.</li>
+    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
+    <li>Click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>Grok does not have an official data export. We use local session reading.</li>
+    <li>X posts referenced in chats are preserved as quoted links in the Markdown export.</li>
+  </ul>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Troubleshooting — TotalRecalls" description="Troubleshooting TotalRecalls setup and usage.">
+  <h1>Troubleshooting</h1>
+  <h2>Export Fails or Returns Empty</h2>
+  <ul>
+    <li>Ensure you are logged into the provider's website in your default browser.</li>
+    <li>Disable ad blockers for the provider's domain.</li>
+    <li>Retry the scan after clearing your browser cache.</li>
+  </ul>
+  <h2>SmartScreen Blocks the App</h2>
+  <ul>
+    <li>See the <a href="/guides/smartscreen/">SmartScreen Help</a> guide.</li>
+  </ul>
+  <h2>Google Takeout Import Fails</h2>
+  <ul>
+    <li>Ensure you downloaded the full ZIP from <a href="https://takeout.google.com">takeout.google.com</a>.</li>
+    <li>Extract the ZIP before importing—TotalRecalls reads the extracted folder.</li>
+  </ul>
+  <h2>Still Need Help?</h2>
+  <p>Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>.</p>
+</BaseLayout>

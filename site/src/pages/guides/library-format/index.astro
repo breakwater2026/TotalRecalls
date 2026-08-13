@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Library Format — TotalRecalls" description="How TotalRecalls organizes your exports.">
+  <h1>TotalRecalls Library Format</h1>
+  <p>TotalRecalls stores your exports in a structured library folder so you can find anything instantly.</p>
+
+  <h2>Directory Structure</h2>
+  <pre><code>totalrecalls-library/
+  ├── chatgpt/
+  │   ├── 2026-08-09-how-to-refactor.md
+  │   └── 2026-08-09-how-to-refactor.json
+  ├── claude/
+  ├── gemini/
+  ├── perplexity/
+  ├── grok/
+  ├── metadata/
+  │   └── export-manifest.json
+  └── README.txt</code></pre>
+
+  <h2>File Pair Format</h2>
+  <p>For each conversation, you get two files:</p>
+  <ul>
+    <li><code>.md</code> — human-readable Markdown with timestamps, model names, and full transcript.</li>
+    <li><code>.json</code> — machine-parseable JSON for import into Obsidian, Notion, or your own scripts.</li>
+  </ul>
+
+  <h2>Metadata File</h2>
+  <p><code>metadata/export-manifest.json</code> tracks:</p>
+  <ul>
+    <li>Provider and export date</li>
+    <li>Conversation count per thread</li>
+    <li>Original message IDs for cross-referencing</li>
+  </ul>
+</BaseLayout>

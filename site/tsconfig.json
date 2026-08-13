@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "auto"
+  },
+  "include": ["src/**/*.{ts,js,mjs}", "astro-env.d.ts"]
+}

@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Release Notes v1.3.0" description="What's new in TotalRecalls v1.3.0.">
+  <h1>Release Notes v1.3.0</h1>
+  <h2>New Features</h2>
+  <ul>
+    <li>Added Grok export support (grok.com session scanning)</li>
+    <li>Added Claude web session export (no official tool required)</li>
+    <li>Added multi-device sync configuration</li>
+  </ul>
+  <h2>Improvements</h2>
+  <ul>
+    <li>Markdown export now includes model name per message</li>
+    <li>Improved JSON schema for easier import into Obsidian/Notion</li>
+    <li>Export speed improved 3x for large conversations</li>
+  </ul>
+  <h2>Fixes</h2>
+  <ul>
+    <li>Fixed SmartScreen false positive on some Windows 11 builds</li>
+    <li>Fixed timestamp parsing in Perplexity exports</li>
+  </ul>
+</BaseLayout>

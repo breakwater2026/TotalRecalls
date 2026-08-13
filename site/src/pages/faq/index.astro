@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="FAQ — TotalRecalls" description="Frequently asked questions about TotalRecalls.">
+  <h1>FAQ</h1>
+
+  <dl>
+    <dt>What is TotalRecalls?</dt>
+    <dd>A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</dd>
+
+    <dt>How much does it cost?</dt>
+    <dd>~~$49~~ $<span data-tr-price></span> launch price. One-time purchase. No subscription. No monthly "AI archive" fee.</dd>
+
+    <dt>Do I need an account?</dt>
+    <dd>No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use.</dd>
+
+    <dt>Do you store my chats or tokens?</dt>
+    <dd>No. Your AI session tokens stay on your machine. We never host your chats, your exports, or your credentials.</dd>
+
+    <dt>Does TotalRecalls run in the cloud?</dt>
+    <dd>No. It's a local Windows app. Exports land in a folder you choose on your PC.</dd>
+
+    <dt>What providers are supported?</dt>
+    <dd>ChatGPT · Claude · Perplexity · Gemini (via Google Takeout or local sign-in) · Grok. Version: v<span data-tr-price></span>.</dd>
+
+    <dt>How do exports work?</dt>
+    <ol>
+      <li>Open the app</li>
+      <li>Pick a provider</li>
+      <li>Sign in locally (or choose a Gemini Takeout folder)</li>
+      <li>Export — your chats appear as Markdown + JSON under a Library/ folder</li>
+    </ol>
+
+    <dt>Does this replace official exports?</dt>
+    <dd>No — official exports are fine for compliance dumps. TotalRecalls is for a usable personal archive you can browse, search, and back up.</dd>
+
+    <dt>Is the app safe?</dt>
+    <dd>Yes. But because the build is not yet code-signed, Windows may show a SmartScreen warning. Click More info → Run anyway if you trust this download from totalrecalls.app. Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</dd>
+
+    <dt>Does it work on Mac?</dt>
+    <dd>Not yet. Mac support will be added if demand is real.</dd>
+
+    <dt>Does it work on mobile?</dt>
+    <dd>No. Windows only.</dd>
+
+    <dt>What's inside the ZIP?</dt>
+    <dd>TotalRecalls.exe · README.txt · LICENSE.txt. No installers. No background services. No telemetry.</dd>
+
+    <dt>Will future features cost extra?</dt>
+    <dd>The $24 launch price covers the core export tool. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) may be optional upgrades later.</dd>
+
+    <dt>Can I get help?</dt>
+    <dd>Yes — see the <a href="/guides/">guides</a>: ChatGPT export, Claude Projects, Perplexity threads, Gemini Takeout, Multi-assistant workflows. Visit <a href="/help/">Help &amp; Guides</a>.</dd>
+  </dl>
+</BaseLayout>

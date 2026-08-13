@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "TotalRecalls — Own every AI conversation.";
+---
+<BaseLayout title={pageTitle} description="A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.">
+  <section class="hero">
+    <h1>Own every AI conversation.</h1>
+    <p class="subhead">A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
+    <p class="tagline">Your chats. Your disk. One-time purchase.</p>
+    <p class="price-line"><strike>$49</strike> $<span data-tr-price></span> <span data-tr-price-note">one-time launch price</span></p>
+    <p>
+      <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $<span data-tr-price></span></a>
+    </p>
+    <p class="microcopy">Windows · local files · one-time purchase</p>
+    <p class="providers">Includes providers: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok · Version: v<span data-tr-price></span></p>
+  </section>
+
+  <section class="value-cards">
+    <h2>Why TotalRecalls</h2>
+    <div class="card"><strong>Your AI history shouldn't vanish.</strong> AI apps change. Tabs close. Exports break. A folder of Markdown on your PC still opens in ten years.</div>
+    <div class="card"><strong>One library for every assistant.</strong> Stop hunting through five different UIs. Export everything into a single, predictable folder structure.</div>
+    <div class="card"><strong>Private by design.</strong> Sign-in happens locally. We never host your session tokens. No cloud locker. No account required.</div>
+    <div class="card"><strong>Simple commercial deal.</strong> One payment. No subscription. No "AI archive" monthly fee.</div>
+  </section>
+
+  <section class="how-it-works">
+    <h2>How It Works (4 steps)</h2>
+    <ol>
+      <li><strong>Buy once</strong> — checkout via Lemon Squeezy.</li>
+      <li><strong>Install</strong> — unzip and run the Windows app.</li>
+      <li><strong>Pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini, or Grok.</li>
+      <li><strong>Export</strong> — chats land as Markdown + JSON under a Library folder.</li>
+    </ol>
+  </section>
+
+  <section class="guides-teaser">
+    <h2>Guides (SEO + how-to)</h2>
+    <p>Free reading. Buy only when you want the Windows app.</p>
+    <ul>
+      <li><a href="/guides/export-chatgpt-conversations/">How to export ChatGPT conversations</a> — Official export vs a local library you can actually use</li>
+      <li><a href="/guides/export-claude-chat-history/">Download your Claude chat history</a> — Keep Projects and long threads as files</li>
+      <li><a href="/guides/backup-perplexity-threads/">Backup Perplexity threads</a> — Save research threads before you lose the tab trail</li>
+      <li><a href="/guides/gemini-takeout-archive/">Gemini Takeout → readable archive</a> — Turn Google Takeout dumps into Markdown conversations</li>
+      <li><a href="/guides/own-your-ai-chat-data/">Own your AI chat data</a> — Why multi-assistant export matters in 2026</li>
+    </ul>
+  </section>
+
+  <section class="trust-limits">
+    <h2>Straight Talk</h2>
+    <ul>
+      <li>Windows app today (WebView2). Mac later if demand is real.</li>
+      <li>Gemini uses your Google Takeout folder/JSON (most reliable path).</li>
+      <li>Unsigned builds may show SmartScreen — <a href="/guides/smartscreen/">More info → Run anyway</a> — until we code-sign.</li>
+      <li>SP8 Smart App Control can block unsigned apps with no override — signing is on the roadmap.</li>
+      <li>You must follow each AI provider's terms for your own account use.</li>
+      <li>No AdSense clutter. This site sells a tool, not pageviews.</li>
+    </ul>
+  </section>
+
+  <section class="footer-cta">
+    <h2>Ready?</h2>
+    <p>One payment. Your archive on your disk.</p>
+    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy — $<span data-tr-price></span></a>
+    <p><a href="/download/">Already purchased? Download ZIP</a> — secondary link under the Buy CTA.</p>
+  </section>
+</BaseLayout>

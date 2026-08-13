@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Export ChatGPT Conversations" description="Back up all your ChatGPT conversations to local Markdown and JSON with TotalRecalls.">
+  <h1>Export ChatGPT Conversations</h1>
+  <p>TotalRecalls lets you export every ChatGPT conversation—prompts, responses, images, and metadata—to local Markdown and JSON files that you fully own.</p>
+  
+  <h2>Before You Begin</h2>
+  <p>You will need:</p>
+  <ul>
+    <li><a href="/download/">TotalRecalls for Windows</a> installed on your PC</li>
+    <li>A valid ChatGPT account (free or Plus)</li>
+    <li>About 2 minutes per 100 conversations</li>
+  </ul>
+
+  <h2>Method 1: Native Export (Recommended)</h2>
+  <p>TotalRecalls reads your local ChatGPT session and exports conversations directly:</p>
+  <ol>
+    <li>Open TotalRecalls and select <strong>"ChatGPT"</strong> as the source.</li>
+    <li>Click <strong>Scan</strong>; TotalRecalls reads local session data from your browser's ChatGPT cache.</li>
+    <li>Select which conversations to export (or click Select All).</li>
+    <li>Choose <strong>Markdown + JSON</strong> format.</li>
+    <li>Pick a destination folder and click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Method 2: ChatGPT Data Export Package</h2>
+  <p>If you prefer OpenAI's official export:</p>
+  <ol>
+    <li>Go to <a href="https://chatgpt.com/settings/data">ChatGPT Settings → Data</a>.</li>
+    <li>Click <strong>Create export of your data</strong>. Wait for the email link.</li>
+    <li>Download the ZIP file and extract it.</li>
+    <li>In TotalRecalls, click <strong>Import Package</strong> and select the extracted <code>conversations.json</code>.</li>
+  </ol>
+
+  <h2>Output Format</h2>
+  <p>Each conversation is saved as:</p>
+  <ul>
+    <li><code>YYYY-MM-DD-title.md</code> — human-readable Markdown</li>
+    <li><code>YYYY-MM-DD-title.json</code> — machine-parseable JSON</li>
+  </ul>
+  <p>All files include metadata: model, timestamps, and session tokens.</p>
+
+  <h2>Troubleshooting</h2>
+  <ul>
+    <li><strong>No conversations found:</strong> ensure you are logged into ChatGPT in your default browser.</li>
+    <li><strong>Partial export:</strong> retry; network interruptions are retried.</li>
+  </ul>
+</BaseLayout>

@@ -1,17 +1,25 @@
-# totalrecalls.app
+# TotalRecalls Website (V2 - Astro)
 
-Static marketing site for TotalRecalls.
-
-## Local preview
-Open `index.html` in a browser, or:
-
+## Development
 ```bash
-python -m http.server 8080 --directory site
+npm install
+npm run dev
 ```
 
-## Deploy (Cloudflare)
-Point the `totalrecalls.app` zone to Cloudflare Pages / static host serving this `site/` folder
-(or upload `index.html` as the root document).
+## Build
+```bash
+npm run build
+```
 
-Positioning: multi-assistant chat archives — local, immediate, multi-provider.
-Never collect user session tokens on a server.
+## Commerce Configuration
+Edit `public/js/config.js` to configure the Lemon Squeezy checkout URL before launch:
+
+```js
+window.TR_CONFIG = {
+  lemonCheckoutUrl: "",  // PASTE Lemon checkout URL here before launch
+  // ...
+};
+```
+
+## Deployment
+Cloud Run service `totalrecalls-web` (us-central1) is updated via Cloud Build (`cloudbuild.yaml`).

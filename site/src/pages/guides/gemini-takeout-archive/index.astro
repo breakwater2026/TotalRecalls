@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Using the Gemini Takeout Archive" description="Export your Gemini conversations via Google Takeout with TotalRecalls.">
+  <h1>Using the Gemini Takeout Archive</h1>
+  <p>Google's "Gemini Activity" export is the official path to back up your Gemini conversations. TotalRecalls reads the resulting archive and converts it to local Markdown and JSON.</p>
+  
+  <h2>Generate the Takeout Archive</h2>
+  <ol>
+    <li>Go to <a href="https://takeout.google.com">Google Takeout</a> and sign in.</li>
+    <li>Click <strong>Deselect all</strong> then scroll down and check only <strong>Gemini</strong>.</li>
+    <li>Choose export format:
+      <ul><li>Frequency: <strong>One-time export</strong></li></li>
+      <li>Data type: <strong>.zip</strong></li>
+      <li>Folder size: <strong>100 MB</strong> max per archive</li></ul>
+    </li>
+    <li>Click <strong>Next step</strong> → <strong>Create export</strong>. Google will email you when ready.</li>
+  </ol>
+
+  <h2>Import into TotalRecalls</h2>
+  <ol>
+    <li>When the Takeout ZIP arrives, extract it. The file path looks like <code>Takeout/Gemini/conversations.json</code>.</li>
+    <li>Launch TotalRecalls and select <strong>"Gemini (Takeout)"</strong> as the source.</li>
+    <li>Click <strong>Import Archive</strong> and select the extracted folder (or the ZIP file).</li>
+    <li>TotalRecalls will index the threads and show a preview.</li>
+    <li>Select threads to export and choose format: <strong>Markdown + JSON</strong>.</li>
+    <li>Pick a destination folder and click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Output Format</h2>
+  <p>Each thread becomes:</p>
+  <ul>
+    <li><code>gemini-thread-YYYY-MM-DD-title.md</code></li>
+    <li><code>gemini-thread-YYYY-MM-DD-title.json</code></li>
+  </ul>
+  <p>Files include the model used (Gemini 1.5 Pro, Flash, etc.) and any uploaded files referenced.</p>
+</BaseLayout>

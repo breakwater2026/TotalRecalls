@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Export Claude Chat History" description="Back up your Anthropic Claude conversations locally with TotalRecalls.">
+  <h1>Exporting Claude Chat History</h1>
+  <p>TotalRecalls can read your local Claude web session and export every conversation to Markdown and JSON files.</p>
+  
+  <h2>Requirements</h2>
+  <ul>
+    <li><a href="/download/">TotalRecalls for Windows</a></li>
+    <li>A logged-in Claude.ai account</li>
+    <li>Browser: Chrome, Edge, or Brave (latest version)</li>
+  </ul>
+
+  <h2>Steps</h2>
+  <ol>
+    <li>Open <a href="https://claude.ai">claude.ai</a> and confirm you are signed in.</li>
+    <li>Launch TotalRecalls and select <strong>"Claude"</strong> as the source provider.</li>
+    <li>Click <strong>Scan</strong>. TotalRecalls reads local browser session data.</li>
+    <li>Review the conversation list; uncheck any you want to skip.</li>
+    <li>Select output format: <strong>Markdown + JSON</strong>.</li>
+    <li>Choose a destination folder and click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Output</h2>
+  <p>Exports are saved with filenames like:</p>
+  <pre><code>2026-08-09-chat-with-claude.md
+2026-08-09-chat-with-claude.json</code></pre>
+  <p>Metadata includes model name (Claude 3.5 Sonnet, Haiku, etc.), timestamps, and any attachments.</p>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>Claude does not offer an official data-export tool. We use local session reading instead.</li>
+    <li>Attachments (PDFs, images) are not exported; only the text transcript is captured.</li>
+  </ul>
+</BaseLayout>
