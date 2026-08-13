@@ -1,0 +1,18 @@
+---
+const bullets = [
+  "Windows app today (WebView2). Mac later if demand is real.",
+  "Gemini uses your Google Takeout JSON.",
+  "Unsigned builds may show SmartScreen until code-signing is complete.",
+  "SP8 Smart App Control may block unsigned apps.",
+  "You must follow each provider's terms.",
+  "No AdSense clutter.",
+];
+---
+<section class="technical-notes">
+  <div class="section-inner">
+    <h2>Straight Talk</h2>
+    <ul class="straight-talk">
+      {bullets.map((b) => <li>{b}</li>)}
+    </ul>
+  </div>
+</section>

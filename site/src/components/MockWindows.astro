@@ -1,0 +1,44 @@
+---
+const { variant = "library" } = Astro.props;
+---
+{
+  variant === "library" ? (
+    <div class="app-mock" role="img" aria-label="Library folder structure">
+      <div class="app-mock-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="app-mock-title">TotalRecalls — Library</span>
+      </div>
+      <div class="app-mock-body">
+        <div class="app-mock-sidebar">
+          <strong>Library</strong>
+          <span>ChatGPT</span>
+          <span>Claude</span>
+          <span>Perplexity</span>
+          <span>Gemini</span>
+          <span>Grok</span>
+        </div>
+        <div class="app-mock-files">
+          <div class="file-row"><code>chatgpt/2026-08-01-pricing-research.md</code><span>12 KB</span></div>
+          <div class="file-row"><code>claude/2026-07-28-refactor-plan.md</code><span>31 KB</span></div>
+          <div class="file-row"><code>perplexity/2026-07-21-market-scan.md</code><span>8 KB</span></div>
+          <div class="file-row"><code>gemini/2026-07-14-takeout-thread.md</code><span>19 KB</span></div>
+          <div class="file-row"><code>grok/2026-07-02-debug-session.md</code><span>6 KB</span></div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div class="app-mock" role="img" aria-label="Readable Markdown chat file">
+      <div class="app-mock-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="app-mock-title">2026-08-01-pricing-research.md</span>
+      </div>
+      <div class="app-mock-md">
+        <div class="md-h"># Pricing research</div>
+        <div class="md-meta">exported 2026-08-01 · provider: chatgpt · 14 messages</div>
+        <div class="md-you"><strong>You:</strong> Compare one-time pricing for export tools.</div>
+        <div class="md-ai"><strong>Assistant:</strong> Here is a table of the options I found, with links and caveats…</div>
+        <div class="md-meta">+ attachments: sources.json</div>
+      </div>
+    </div>
+  )
+}

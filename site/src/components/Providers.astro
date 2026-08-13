@@ -1,0 +1,12 @@
+---
+const providers = ["ChatGPT", "Claude", "Perplexity", "Gemini", "Grok"];
+---
+<section class="providers-section">
+  <div class="section-inner">
+    <h2>Supported Providers</h2>
+    <div class="provider-logos">
+      {providers.map((p) => <span>{p}</span>)}
+    </div>
+    <p class="providers-note">Gemini uses your Google Takeout JSON (most reliable path).</p>
+  </div>
+</section>

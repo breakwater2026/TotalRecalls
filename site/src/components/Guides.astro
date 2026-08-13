@@ -1,0 +1,25 @@
+---
+const guides = [
+  { href: "/guides/export-chatgpt-conversations/", title: "Export ChatGPT conversations", text: "Official export vs a local library you can actually use" },
+  { href: "/guides/export-claude-chat-history/", title: "Download your Claude history", text: "Keep Projects and long threads as files" },
+  { href: "/guides/backup-perplexity-threads/", title: "Backup Perplexity threads", text: "Save research threads before you lose the tab trail" },
+  { href: "/guides/gemini-takeout-archive/", title: "Gemini Takeout → Markdown", text: "Turn Google Takeout dumps into Markdown conversations" },
+  { href: "/guides/own-your-ai-chat-data/", title: "Own your AI chat data", text: "Why multi-assistant export matters in 2026" },
+];
+---
+<section class="guides-teaser">
+  <div class="section-inner">
+    <h2>Guides</h2>
+    <p class="guides-intro">Free reading. Buy only when you want the Windows app.</p>
+    <div class="guide-grid">
+      {
+        guides.map((g) => (
+          <a class="card guide-card" href={g.href}>
+            <strong>{g.title}</strong>
+            <p>{g.text}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

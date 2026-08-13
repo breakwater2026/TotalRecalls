@@ -1,0 +1,21 @@
+---
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/how-it-works/", label: "How It Works" },
+  { href: "/guides/", label: "Guides" },
+  { href: "/compare/", label: "Compare" },
+  { href: "/pricing/", label: "Pricing" },
+  { href: "/download/", label: "Download" },
+];
+---
+<nav>
+  <a href="/" class="brand">TotalRecalls</a>
+  <span class="nav-links">
+    {
+      links.map((l) => (
+        <a href={l.href}>{l.label}</a>
+      ))
+    }
+    <a href="/buy/" class="buy-button" data-tr-buy>Buy</a>
+  </span>
+</nav>
