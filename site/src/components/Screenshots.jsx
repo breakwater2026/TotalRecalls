@@ -1,4 +1,5 @@
 import { Section } from "./ui/Section";
+import { LibraryMock, MarkdownMock } from "./AppMock";
 
 export default function Screenshots() {
   return (
@@ -7,12 +8,12 @@ export default function Screenshots() {
         <div className="space-y-4">
           <h3 className="text-2xl font-semibold">Your Library, organized</h3>
           <p className="text-gray-700">Clean folder structure you can browse, search, and back up.</p>
-          <img src="/img/library.png" className="rounded shadow" alt="Library screenshot" />
+          <LibraryMock />
         </div>
         <div className="space-y-4">
           <h3 className="text-2xl font-semibold">Readable Markdown</h3>
           <p className="text-gray-700">Predictable formatting. Easy to diff, annotate, or feed into your own tools.</p>
-          <img src="/img/markdown.png" className="rounded shadow" alt="Markdown screenshot" />
+          <MarkdownMock />
         </div>
       </div>
     </Section>

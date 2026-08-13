@@ -13,6 +13,9 @@
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",

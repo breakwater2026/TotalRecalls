@@ -1,5 +1,6 @@
 import { ButtonPrimary } from "./ui/ButtonPrimary";
 import { ButtonSecondary } from "./ui/ButtonSecondary";
+import { LibraryMock, MarkdownMock } from "./AppMock";
 
 export default function Hero() {
   return (
@@ -22,12 +23,8 @@ export default function Hero() {
           </div>
         </div>
         <div className="space-y-6">
-          <div className="bg-white shadow rounded-lg p-4">
-            <img src="/img/library.png" alt="Library screenshot" className="rounded" />
-          </div>
-          <div className="bg-white shadow rounded-lg p-4">
-            <img src="/img/markdown.png" alt="Markdown screenshot" className="rounded" />
-          </div>
+          <LibraryMock />
+          <MarkdownMock />
         </div>
       </div>
     </section>
