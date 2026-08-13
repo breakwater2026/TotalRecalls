@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://totalrecalls.app',
@@ -7,4 +8,14 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
+    },
+  },
+  integrations: [react()],
 });

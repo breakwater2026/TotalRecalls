@@ -2,26 +2,24 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Buy TotalRecalls" description="One-time $24 launch price via Lemon Squeezy. No subscription.">
-  <h1>Buy TotalRecalls</h1>
+  <h1 class="text-4xl font-bold mb-6">Buy TotalRecalls</h1>
 
-  <section class="price-card">
-    <h2>Launch Price</h2>
-    <div class="price-block">
-      <span class="price-strike"><strike>$49</strike></span>
-      <span class="price-current" data-tr-price></span>
-      <span class="price-badge">launch price</span>
-    </div>
-    <p class="price-note">One-time purchase · Windows app · Local files only</p>
-    <p>Pay once with Lemon Squeezy. You'll receive a download link for the Windows app immediately after purchase.</p>
-    <a href="" data-tr-buy class="buy-button buy-lg">Buy for $<span data-tr-price></span></a>
-    <div id="checkout-pending" class="checkout-pending">
-      Checkout link not configured yet — the button below scrolls to the purchase section.
+  <section class="bg-gray-50 py-12 rounded-lg mb-12">
+    <div class="max-w-md mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4">Launch Price</h2>
+      <div class="text-4xl font-semibold mb-3">$24</div>
+      <div class="text-gray-600 mb-6">One-time purchase · Windows app · Local files only</div>
+      <p class="text-gray-700 mb-6">Pay once with Lemon Squeezy. You'll receive a download link for the Windows app immediately after purchase.</p>
+      <a href="" data-tr-buy class="inline-block w-full bg-black text-white text-center py-3 rounded-lg font-medium hover:bg-gray-800">Buy for $24</a>
+      <div id="checkout-pending" class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
+        Checkout link not configured — button will be enabled once lemonCheckoutUrl is set in config.js.
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>What You Get</h2>
-    <ul>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">What You Get</h2>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
       <li>Export from ChatGPT, Claude, Perplexity, Gemini (Takeout), Grok</li>
       <li>Local Markdown + JSON files under your Library folder</li>
       <li>No telemetry · No background services · No installers</li>
@@ -29,14 +27,15 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </ul>
   </section>
 
-  <section>
-    <h2>Refund Policy</h2>
-    <p>All sales are final (digital download). Try the free guides first to verify the tool meets your needs.</p>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Refund Policy</h2>
+    <p class="text-gray-700">All sales are final (digital download). Try the free guides first to verify the tool meets your needs.</p>
   </section>
 
-  <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
-    <h2 style="color: var(--color-surface);">Already purchased?</h2>
-    <p style="margin-bottom: var(--space-4);">Download the ZIP directly from your receipt email or <a href="/download/" style="color: var(--color-surface); text-decoration: underline;">click here</a>.</p>
+  <section class="bg-gray-100 py-12 rounded-lg text-center">
+    <h2 class="text-2xl font-bold mb-4">Already purchased?</h2>
+    <p class="text-gray-700 mb-4">Download the ZIP directly from your receipt email or click below.</p>
+    <a href="/download/" class="inline-block bg-gray-900 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800">Go to Download</a>
   </section>
 
 </BaseLayout>

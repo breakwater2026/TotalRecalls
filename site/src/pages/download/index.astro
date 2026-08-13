@@ -2,49 +2,49 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Download TotalRecalls" description="Download the Windows app that saves your AI chats to local Markdown + JSON.">
-  <h1>Download TotalRecalls for Windows</h1>
-  <p>A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
+  <h1 class="text-4xl font-bold mb-6">Download TotalRecalls for Windows</h1>
+  <p class="text-lg text-gray-700 mb-8">A small Windows app that saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
 
-  <section>
-    <h2>Download ZIP (Windows)</h2>
-    <p><a href="" data-tr-download class="buy-button">Download ZIP</a></p>
-    <p class="meta">Windows 10/11 · ~50 MB · One-time purchase required</p>
-    <p>Provides: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
-    <p><strong>Already purchased?</strong> Download the ZIP and unzip it anywhere on your PC.</p>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Download ZIP (Windows)</h2>
+    <a href="" data-tr-download class="inline-block bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800">Download ZIP</a>
+    <p class="text-gray-600 mt-4">Windows 10/11 · ~50 MB · One-time purchase required</p>
+    <p class="text-gray-700">Provides: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
+    <p class="text-gray-700"><strong>Already purchased?</strong> Download the ZIP and unzip it anywhere on your PC.</p>
   </section>
 
-  <section>
-    <h2>What's Inside the ZIP?</h2>
-    <ul>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">What's Inside the ZIP?</h2>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
       <li>TotalRecalls.exe — the Windows app</li>
       <li>README.txt — quick instructions</li>
       <li>LICENSE.txt — one-time purchase terms</li>
     </ul>
-    <p>No installers, no background services, no telemetry. Just unzip and run.</p>
+    <p class="text-gray-700">No installers, no background services, no telemetry. Just unzip and run.</p>
   </section>
 
-  <section class="technical-notes">
-    <h2>Technical Notes</h2>
-    <ul>
+  <section class="mb-12 bg-gray-50 py-8 rounded-lg">
+    <h2 class="text-2xl font-bold mb-6">Technical Notes</h2>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
       <li>Unsigned builds may show SmartScreen — “More info → Run anyway” until code-signing is complete. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
-      <li>SP8 Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</li>
+      <li>SP8 Smart App Control may block unsigned apps with no override. Code-signing is on the roadmap.</li>
       <li>Gemini uses your Google Takeout folder/JSON (most reliable path). See <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
     </ul>
   </section>
 
-  <section>
-    <h2>How to Use the App (4 steps)</h2>
-    <ol>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">How to Use the App (4 steps)</h2>
+    <ol class="list-decimal pl-6 space-y-3 text-gray-700">
       <li><strong>Open TotalRecalls.exe</strong> — No installation required.</li>
       <li><strong>Pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini (Takeout), or Grok.</li>
-      <li><strong>Sign in locally</strong> — A small window opens so you can sign in normally—like a browser. (Gemini uses your Google Takeout folder.)</li>
+      <li><strong>Sign in locally</strong> — A small window opens so you can sign in normally — like a browser. (Gemini uses your Google Takeout folder.)</li>
       <li><strong>Export</strong> — Your chats land in a folder you choose, under Library/, as Markdown + JSON.</li>
     </ol>
   </section>
 
-  <section>
-    <h2>Privacy &amp; Security</h2>
-    <ul>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Privacy &amp; Security</h2>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
       <li>Your AI session tokens stay on your machine</li>
       <li>We never host your chats</li>
       <li>No cloud locker</li>
@@ -52,29 +52,26 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <li>No background processes</li>
       <li>No telemetry</li>
     </ul>
-    <p>Your conversations stay on your disk — not ours.</p>
+    <p class="text-gray-700">Your conversations stay on your disk — not ours.</p>
   </section>
 
-  <section>
-    <h2>Need Help?</h2>
-    <ul>
-      <li><a href="/guides/smartscreen/">SmartScreen instructions</a></li>
-      <li><a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a></li>
-      <li><a href="/guides/export-chatgpt-conversations/">ChatGPT export guide</a></li>
-      <li><a href="/guides/backup-perplexity-threads/">Perplexity export guide</a></li>
-      <li><a href="/guides/export-claude-chat-history/">Claude Projects export guide</a></li>
-      <li><a href="/faq/">FAQ</a></li>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Need Help?</h2>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+      <li><a href="/guides/smartscreen/" class="text-blue-600">SmartScreen instructions</a></li>
+      <li><a href="/guides/gemini-takeout-archive/" class="text-blue-600">Gemini Takeout guide</a></li>
+      <li><a href="/guides/export-chatgpt-conversations/" class="text-blue-600">ChatGPT export guide</a></li>
+      <li><a href="/guides/backup-perplexity-threads/" class="text-blue-600">Perplexity export guide</a></li>
+      <li><a href="/guides/export-claude-chat-history/" class="text-blue-600">Claude Projects export guide</a></li>
+      <li><a href="/faq/" class="text-blue-600">FAQ</a></li>
     </ul>
   </section>
 
-  <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
-    <h2 style="color: var(--color-surface);">Ready to own your AI conversations?</h2>
-    <div class="price-block" style="justify-content: center;">
-      <span class="price-strike"><strike>$49</strike></span>
-      <span class="price-current" data-tr-price></span>
-      <span class="price-badge">launch price</span>
-    </div>
-    <a href="/buy/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $<span data-tr-price></span></a>
+  <section class="bg-gray-900 text-gray-100 py-12 rounded-lg text-center">
+    <h2 class="text-3xl font-bold mb-4 text-gray-100">Ready to own your AI conversations?</h2>
+    <div class="text-3xl font-semibold mb-2">$24</div>
+    <div class="text-gray-400 mb-6">launch price</div>
+    <a href="/buy/" class="inline-block bg-white text-gray-900 py-3 px-6 rounded-lg font-medium hover:bg-gray-200">Buy TotalRecalls — $24</a>
   </section>
 
 </BaseLayout>
