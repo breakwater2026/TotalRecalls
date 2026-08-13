@@ -1,23 +1,8 @@
-# .dockerignore — only ship the static site into the image
-.git
-.github
-.venv
-**/__pycache__
-node_modules
-apps
-ui
-dist
-build
-tests
-.hermes
-skills
-totalrecalls
-deploy
-docs
-*.exe
-*.zip
-*.spec
-*.md
-app.py
-app_ui.html
-cloudbuild.yaml
+# Prevent large/generated files from entering the Docker build context
+# (gcloud builds submit sends the full repo dir, so .dockerignore is critical)
+site/node_modules/
+site/dist/
+site/.astro/
+node_modules/
+dist/
+.astro/

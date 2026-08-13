@@ -1,0 +1,8 @@
+# Node / Astro
+node_modules/
+.astro/
+dist/
+
+# OS / cache
+.DS_Store
+*.log
