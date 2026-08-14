@@ -8,6 +8,7 @@
 | Price | **$24 USD** one-time |
 | Product | TotalRecalls for Windows |
 | License keys in app | **Not required for v1** (paid download first) |
+| Payouts | **Wise USD balance — hold USD**, no auto-conversion (Wise has none on arrival; convert to CAD manually or via rate-triggered Auto Conversion when desired) |
 | Site config | `site/js/config.js` → `lemonCheckoutUrl` |
 
 ## API access (tested 2026-08-14)
