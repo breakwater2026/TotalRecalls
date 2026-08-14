@@ -2,7 +2,7 @@ window.TR_CONFIG = {
   priceLabel: "$24",
   priceNote: "one-time launch price",
   normalPriceLabel: "$49",
-  lemonCheckoutUrl: "",
+  lemonCheckoutUrl: "https://totalrecalls.lemonsqueezy.com/checkout/buy/03e11a51-8c63-4826-8b87-998b626285c3",
   thanksPath: "/thanks/",
   windowsZipUrl: "https://github.com/breakwater2026/TotalRecalls/releases/download/v1.3.0/TotalRecalls-windows-x64-v1.3.0.zip",
   versionLabel: "v1.3.0",
