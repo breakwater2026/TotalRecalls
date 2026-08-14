@@ -55,7 +55,7 @@ Source: user answers + agent recommendations locked in planning session.
 
 ## Open (not blocking Phase 0–2)
 
-- Paste Lemon Squeezy `lemonCheckoutUrl` into `site/js/config.js` after product creation (`docs/LEMON_SQUEEZY.md`)
+- Paste Lemon Squeezy `lemonCheckoutUrl` into `site/public/js/config.js` after product creation (`docs/LEMON_SQUEEZY.md`)
 - **DNS:** `totalrecalls.app` → Cloud Run custom domain records in Cloudflare
 - Code-signing certificate vendor (required for SmartScreen / Smart App Control)
 - Whether free CLI remains open-source as loss leader

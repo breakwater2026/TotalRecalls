@@ -9,7 +9,7 @@
 | Product | TotalRecalls for Windows |
 | License keys in app | **Not required for v1** (paid download first) |
 | Payouts | **Wise USD balance — hold USD**, no auto-conversion (Wise has none on arrival; convert to CAD manually or via rate-triggered Auto Conversion when desired) |
-| Site config | `site/js/config.js` → `lemonCheckoutUrl` |
+| Site config | `site/public/js/config.js` → `lemonCheckoutUrl` (Astro build path; the V1 `site/js/config.js` copy was deleted) |
 
 ## API access (tested 2026-08-14)
 
@@ -68,7 +68,7 @@ Windows app to export AI chats from ChatGPT, Claude, Perplexity, Gemini (Takeout
 
 ## Wire the website
 
-1. Edit `site/public/js/config.js` (Astro build uses this path; `site/js/config.js` is the stale V1 copy):
+1. Edit `site/public/js/config.js` (Astro build uses this path; the stale V1 copy `site/js/config.js` was deleted 2026-08-14):
 
 ```js
 lemonCheckoutUrl: "https://YOURSTORE.lemonsqueezy.com/checkout/buy/YOUR-ID",

@@ -30,7 +30,7 @@
 | `/guides/gemini-takeout-archive.html` | SEO |
 | `/guides/own-your-ai-chat-data.html` | SEO / thesis |
 
-Config: `site/js/config.js`
+Config: `site/public/js/config.js`
 
 ## 90-day checklist
 
