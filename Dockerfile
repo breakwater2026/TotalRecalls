@@ -12,5 +12,6 @@ RUN npm run build
 FROM alpine:3
 RUN apk add --no-cache ca-certificates python3
 COPY --from=build /src/dist /var/www
+COPY site/serve.py /serve.py
 EXPOSE 8080
-CMD ["python3", "-c", "import http.server,os; port=int(os.environ.get('PORT','8080')); http.server.ThreadingHTTPServer(('0.0.0.0',port),lambda *a,**kw: http.server.SimpleHTTPRequestHandler(*a,directory='/var/www',**kw)).serve_forever()"]
+CMD ["python3", "/serve.py"]

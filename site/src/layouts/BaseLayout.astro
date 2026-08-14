@@ -16,6 +16,7 @@ export interface Props {
 
 const { title = "TotalRecalls", description = "Export and own every AI conversation." } = Astro.props;
 const site = "https://totalrecalls.app";
+const canonicalPath = Astro.url.pathname;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,7 @@ const site = "https://totalrecalls.app";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={`${site}${Astro.request.canonicalPath}`} />
+    <link rel="canonical" href={`${site}${canonicalPath}`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script src="/js/config.js" is:inline defer></script>
   </head>

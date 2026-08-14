@@ -290,6 +290,10 @@ code, pre {
 .footer-cta a {
   color: var(--color-surface);
 }
+.footer-cta .guarantee-note {
+  color: var(--color-surface);
+  opacity: 0.85;
+}
 
 /* ===== Review2 component layout additions ===== */
 .brand {
@@ -358,6 +362,22 @@ a.guide-card:hover {
 }
 .price-block-center { justify-content: center; }
 .pricing-note { color: var(--color-slate); opacity: 0.8; }
+.guarantee-note {
+  font-size: 0.85rem;
+  color: var(--color-slate);
+  margin-top: var(--space-3);
+}
+.early-access-note {
+  font-size: 0.8rem;
+  color: var(--color-slate);
+  opacity: 0.75;
+}
+.founder-note {
+  font-size: 0.85rem;
+  color: var(--color-slate);
+  font-style: italic;
+  margin-top: var(--space-2);
+}
 
 /* ===== Footer links + version badge (Review V3) ===== */
 footer a {
