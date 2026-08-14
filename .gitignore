@@ -9,3 +9,6 @@ apps/web-ui/node_modules/
 apps/web-ui/dist/
 .DS_Store
 Thumbs.db
+
+# secrets
+.env
