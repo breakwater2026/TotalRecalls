@@ -22,7 +22,7 @@ export default function PricingSection() {
             </p>
             <div className="mt-10 flex flex-col items-start gap-1">
               <span className="font-heading text-7xl font-bold">$24USD</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-background/50 mt-1">discounted launch price</span>
+              <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-primary mt-1.5 font-medium">discounted launch price</span>
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">

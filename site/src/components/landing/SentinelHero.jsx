@@ -32,6 +32,9 @@ export default function SentinelHero() {
                 <Download className="w-4 h-4" /> Download ZIP
               </a>
             </div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary mt-2.5 font-medium">
+              discounted launch price · one-time
+            </p>
 
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">
               {TRUST.map((x) => (
