@@ -1,5 +1,5 @@
 ---
-// Base44 SentinelHero — hero section (1:1 port)
+// Base44 SentinelHero — hero section (Wider 1536px canvas + widened convergence destination box)
 const TRUST = [
   { icon: "lock", l: "Private by design", s: "Local sign-in · no cloud" },
   { icon: "database", l: "One library", s: "Every assistant, one folder" },
@@ -58,14 +58,14 @@ const TRUST = [
       </div>
 
       <div class="tr-hero-right">
-        <!-- ConvergenceDiagram -->
+        <!-- ConvergenceDiagram with widened viewBox and wider destination box -->
         <div class="blueprint-diagram">
           <div class="diag-header">
             <span class="diag-title"><span class="live-dot"></span>CONVERGENCE · LIVE</span>
             <span class="diag-status">5 SOURCES → 1 FOLDER</span>
           </div>
           <div class="diag-body convergence-body">
-            <svg viewBox="0 0 560 300" class="convergence-svg" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 620 300" class="convergence-svg" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
                   <feGaussianBlur stdDeviation="1.8" result="blur" />
@@ -76,22 +76,22 @@ const TRUST = [
                 </filter>
               </defs>
 
-              <path id="convPath1" d="M205 46 C 295 46, 330 82, 416 86" class="conv-path"/>
-              <path id="convPath2" d="M205 94 C 295 94, 330 112, 416 116" class="conv-path"/>
-              <path id="convPath3" d="M205 142 C 295 142, 330 142, 416 146" class="conv-path"/>
-              <path id="convPath4" d="M205 190 C 295 190, 330 172, 416 176" class="conv-path"/>
-              <path id="convPath5" d="M205 238 C 295 238, 330 202, 416 206" class="conv-path"/>
+              <path id="convPath1" d="M205 46 C 295 46, 330 82, 400 86" class="conv-path"/>
+              <path id="convPath2" d="M205 94 C 295 94, 330 112, 400 116" class="conv-path"/>
+              <path id="convPath3" d="M205 142 C 295 142, 330 142, 400 146" class="conv-path"/>
+              <path id="convPath4" d="M205 190 C 295 190, 330 172, 400 176" class="conv-path"/>
+              <path id="convPath5" d="M205 238 C 295 238, 330 202, 400 206" class="conv-path"/>
 
               <rect x="250" y="43" width="6" height="6" class="conv-node"/>
               <rect x="250" y="91" width="6" height="6" class="conv-node"/>
               <rect x="250" y="139" width="6" height="6" class="conv-node"/>
               <rect x="250" y="187" width="6" height="6" class="conv-node"/>
               <rect x="250" y="235" width="6" height="6" class="conv-node"/>
-              <rect x="330" y="66" width="6" height="6" class="conv-node"/>
-              <rect x="330" y="112" width="6" height="6" class="conv-node"/>
-              <rect x="330" y="146" width="6" height="6" class="conv-node"/>
-              <rect x="330" y="176" width="6" height="6" class="conv-node"/>
-              <rect x="330" y="216" width="6" height="6" class="conv-node"/>
+              <rect x="325" y="66" width="6" height="6" class="conv-node"/>
+              <rect x="325" y="112" width="6" height="6" class="conv-node"/>
+              <rect x="325" y="146" width="6" height="6" class="conv-node"/>
+              <rect x="325" y="176" width="6" height="6" class="conv-node"/>
+              <rect x="325" y="216" width="6" height="6" class="conv-node"/>
 
               <circle r="5" class="conv-dot" filter="url(#dotGlow)">
                 <animateMotion dur="2.4s" repeatCount="indefinite" rotate="0"><mpath href="#convPath1"/></animateMotion>
@@ -140,14 +140,15 @@ const TRUST = [
                 <text x="36" y="248" class="source-code">GRK-005</text>
               </g>
 
-              <rect x="416" y="62" width="138" height="178" rx="10" class="dest-box"/>
+              <!-- Widened destination box: width="190" -->
+              <rect x="400" y="58" width="190" height="186" rx="10" class="dest-box"/>
               <g class="dest-folder">
-                <path d="M428 104 h14 l4 4 h18 a3 3 0 0 1 3 3 v26 a3 3 0 0 1 -3 3 h-36 a3 3 0 0 1 -3 -3 v-30 a3 3 0 0 1 3 -3 z"/>
+                <path d="M416 100 h16 l4 4 h20 a3 3 0 0 1 3 3 v28 a3 3 0 0 1 -3 3 h-40 a3 3 0 0 1 -3 -3 v-32 a3 3 0 0 1 3 -3 z"/>
               </g>
-              <text x="428" y="158" class="dest-path">C:\TotalRecalls\Library\</text>
-              <text x="428" y="180" class="dest-status">797 files · secured</text>
-              <text x="428" y="222" class="dest-note">One folder. Searchable.</text>
-              <text x="428" y="238" class="dest-note">Backups yours.</text>
+              <text x="416" y="156" class="dest-path">C:\TotalRecalls\Library\</text>
+              <text x="416" y="180" class="dest-status">797 files · secured</text>
+              <text x="416" y="222" class="dest-note">One folder. Searchable.</text>
+              <text x="416" y="238" class="dest-note">Backups yours.</text>
             </svg>
           </div>
           <div class="diag-footer">
@@ -158,288 +159,3 @@ const TRUST = [
     </div>
   </div>
 </section>
-
-<style>
-  .tr-hero {
-    position: relative;
-    border-bottom: 1px solid #E2E8F0;
-    overflow: hidden;
-    background: #FFFFFF;
-  }
-  .tr-hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: linear-gradient(to right, #F8FAFC 1px, transparent 1px),
-                      linear-gradient(to bottom, #F8FAFC 1px, transparent 1px);
-    background-size: 32px 32px;
-    opacity: 0.6;
-  }
-  .tr-hero-inner {
-    position: relative;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 64px 40px 96px;
-  }
-  .tr-hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 48px;
-    align-items: center;
-  }
-  .tr-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #2F7BFF;
-    border: 1px solid rgba(47, 123, 255, 0.3);
-    padding: 6px 12px;
-  }
-  .tr-hero-title {
-    font-size: clamp(44px, 6vw, 68px);
-    line-height: 0.98;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 24px 0 0 0;
-    color: #0B0F19;
-  }
-  .tr-hero-subhead {
-    font-size: clamp(16px, 1.6vw, 18px);
-    line-height: 1.6;
-    color: #64748B;
-    margin: 24px 0 0 0;
-    max-width: 576px;
-  }
-  .tr-scan-form {
-    margin-top: 36px;
-    border: 1px solid #E2E8F0;
-    background: #FFFFFF;
-  }
-  .tr-scan-row {
-    display: flex;
-    align-items: center;
-  }
-  .tr-scan-mark {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: #64748B;
-    padding: 0 8px 0 16px;
-  }
-  .tr-scan-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    padding: 16px 0;
-    outline: none;
-    min-width: 0;
-    color: #0B0F19;
-  }
-  .tr-scan-input::placeholder {
-    color: rgba(100, 116, 139, 0.7);
-  }
-  .tr-scan-btn {
-    margin: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #0B0F19;
-    color: #FFFFFF;
-    padding: 10px 16px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    flex-shrink: 0;
-  }
-  .tr-scan-btn:hover {
-    background: #2F7BFF;
-  }
-  .tr-hero-ctas {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .tr-cta-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #2F7BFF;
-    color: #FFFFFF;
-    padding: 14px 24px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .tr-cta-primary:hover { opacity: 0.9; }
-  .tr-cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid #E2E8F0;
-    padding: 14px 24px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: #0B0F19;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .tr-cta-secondary:hover { background: #F1F5F9; }
-  .tr-trust-row {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    border-top: 1px solid #E2E8F0;
-    padding-top: 24px;
-  }
-  .tr-trust-icon { color: #2F7BFF; }
-  .tr-trust-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 8px 0 0 0;
-    color: #0B0F19;
-  }
-  .tr-trust-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: #64748B;
-    margin: 2px 0 0 0;
-  }
-
-  /* Blueprint Diagram — Light/White Theme */
-  .blueprint-diagram {
-    background: #FFFFFF;
-    border: 1.5px solid #2F7BFF;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 16px 36px rgba(47, 123, 255, 0.12);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .diag-header {
-    background: #FFFFFF;
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #E2E8F0;
-    font-size: 0.75rem;
-  }
-  .diag-title {
-    color: #0F172A;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .live-dot {
-    width: 8px;
-    height: 8px;
-    background: #10B981;
-    border-radius: 50%;
-    box-shadow: 0 0 6px #10B981;
-    display: inline-block;
-  }
-  .diag-status {
-    color: #2F7BFF;
-    font-weight: 700;
-  }
-  .diag-body {
-    padding: 20px;
-    background: #F8FBFF;
-    background-image: linear-gradient(to right, #EFF6FF 1px, transparent 1px),
-                      linear-gradient(to bottom, #EFF6FF 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  .convergence-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  .conv-path {
-    fill: none;
-    stroke: #2F7BFF;
-    stroke-width: 2;
-    stroke-dasharray: 6,4;
-    opacity: 0.85;
-  }
-  .conv-node { fill: #2F7BFF; }
-  .conv-dot { fill: #2F7BFF; }
-  .source-icon { fill: #0F172A; }
-  .source-arrow {
-    fill: none;
-    stroke: #FFFFFF;
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .source-name {
-    fill: #0F172A;
-    font-size: 13px;
-    font-weight: 700;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
-  .source-code {
-    fill: #64748B;
-    font-size: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .dest-box {
-    fill: #EFF6FF;
-    stroke: #2F7BFF;
-    stroke-width: 1.8;
-  }
-  .dest-folder path {
-    fill: none;
-    stroke: #2F7BFF;
-    stroke-width: 2;
-    stroke-linejoin: round;
-  }
-  .dest-path {
-    fill: #0F172A;
-    font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-  }
-  .dest-status {
-    fill: #2F7BFF;
-    font-size: 11px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-  }
-  .dest-note {
-    fill: #475569;
-    font-size: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .diag-footer {
-    background: #FFFFFF;
-    padding: 10px 16px;
-    text-align: center;
-    font-size: 0.7rem;
-    color: #64748B;
-    border-top: 1px solid #E2E8F0;
-  }
-  @media (max-width: 900px) {
-    .tr-hero-grid { grid-template-columns: 1fr; }
-    .tr-trust-row { grid-template-columns: 1fr; }
-  }
-</style>

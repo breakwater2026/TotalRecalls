@@ -14,7 +14,7 @@ code, pre {
   border-radius: 4px;
 }
 
-/* ===== Base44 V6 Global Redesign Styles ===== */
+/* ===== Base44 V6 Global Redesign Styles (1536px Wide Page Canvas) ===== */
 .tr-ticker-bar {
   height: 36px;
   display: flex;
@@ -87,7 +87,7 @@ code, pre {
   border-bottom: 1px solid #E2E8F0;
 }
 .tr-nav-inner {
-  max-width: 1400px;
+  max-width: 1536px;
   margin: 0 auto;
   padding: 0 40px;
   height: 64px;
@@ -98,30 +98,18 @@ code, pre {
 .tr-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
-.tr-brand-icon {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  background: #0B0F19;
-  color: #FFFFFF;
-}
-.tr-wordmark {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #0B0F19;
-}
-.tr-primary-text {
-  color: #2F7BFF;
+.tr-logo-img {
+  height: 26px;
+  max-height: 26px;
+  width: auto;
+  display: block;
 }
 .tr-nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
 }
 .tr-nav-link {
   font-family: 'IBM Plex Mono', monospace;
@@ -138,7 +126,7 @@ code, pre {
 .tr-nav-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 .tr-download-link {
   font-family: 'IBM Plex Mono', monospace;
@@ -154,7 +142,7 @@ code, pre {
   gap: 8px;
   background: #2F7BFF;
   color: #FFFFFF;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   text-transform: uppercase;
@@ -181,14 +169,14 @@ code, pre {
 }
 .tr-hero-inner {
   position: relative;
-  max-width: 1400px;
+  max-width: 1536px;
   margin: 0 auto;
   padding: 64px 40px 96px;
 }
 .tr-hero-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
   align-items: center;
 }
 .tr-hero-badge {
@@ -204,7 +192,7 @@ code, pre {
   padding: 6px 12px;
 }
 .tr-hero-title {
-  font-size: clamp(44px, 6vw, 68px);
+  font-size: clamp(48px, 6.5vw, 72px);
   line-height: 0.98;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -212,11 +200,11 @@ code, pre {
   color: #0B0F19;
 }
 .tr-hero-subhead {
-  font-size: clamp(16px, 1.6vw, 18px);
+  font-size: clamp(16px, 1.6vw, 19px);
   line-height: 1.6;
   color: #64748B;
   margin: 24px 0 0 0;
-  max-width: 576px;
+  max-width: 620px;
 }
 .tr-scan-form {
   margin-top: 36px;
@@ -251,7 +239,7 @@ code, pre {
   gap: 8px;
   background: #0B0F19;
   color: #FFFFFF;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   text-transform: uppercase;
@@ -263,7 +251,7 @@ code, pre {
 .tr-hero-ctas {
   margin-top: 28px;
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 .tr-cta-primary {
   display: inline-flex;
@@ -272,7 +260,7 @@ code, pre {
   gap: 8px;
   background: #2F7BFF;
   color: #FFFFFF;
-  padding: 14px 24px;
+  padding: 14px 28px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   text-transform: uppercase;
@@ -286,7 +274,7 @@ code, pre {
   justify-content: center;
   gap: 8px;
   border: 1px solid #E2E8F0;
-  padding: 14px 24px;
+  padding: 14px 28px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   text-transform: uppercase;
@@ -298,7 +286,7 @@ code, pre {
   margin-top: 40px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 32px;
   border-top: 1px solid #E2E8F0;
   padding-top: 24px;
 }
@@ -326,7 +314,7 @@ code, pre {
 }
 .diag-header {
   background: #FFFFFF;
-  padding: 12px 16px;
+  padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -354,7 +342,7 @@ code, pre {
   font-weight: 700;
 }
 .diag-body {
-  padding: 20px;
+  padding: 24px;
   background: #F8FBFF;
   background-image: linear-gradient(to right, #EFF6FF 1px, transparent 1px),
                     linear-gradient(to bottom, #EFF6FF 1px, transparent 1px);
