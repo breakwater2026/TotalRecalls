@@ -1,50 +1,65 @@
 ---
-// Library 03 Component
+// Base44 LibraryPreview — Library · 03 (1:1 port)
+const PROVIDERS = ["Library", "ChatGPT", "Claude", "Perplexity", "Gemini", "Grok"];
+const FILES = [
+  { path: "chatgpt/2026-08-01-pricing-research.md", size: "12 KB" },
+  { path: "claude/2026-07-28-refactor-plan.md", size: "31 KB" },
+  { path: "perplexity/2026-07-21-market-scan.md", size: "8 KB" },
+  { path: "gemini/2026-07-14-takeout-thread.md", size: "19 KB" },
+  { path: "grok/2026-07-02-debug-session.md", size: "6 KB" },
+];
 ---
-<section class="v6-section bg-light">
-  <div class="sec-container">
-    <div class="sec-header">
-      <span class="sec-num">LIBRARY · 03</span>
-      <h2>Your library, organized.</h2>
-      <p class="sec-sub">Clean folder structure you can browse, search, and back up. Predictable formatting — easy to diff, annotate, or feed into your own tools.</p>
-    </div>
-
-    <div class="library-mockup-wrapper">
-      <div class="lib-window">
-        <div class="lib-bar">
-          <div class="lib-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <span class="lib-title">TotalRecalls — Local File Explorer</span>
+<section id="library" class="tr-section tr-grid-bg">
+  <div class="tr-container">
+    <header class="tr-section-header">
+      <span class="tr-kicker">Library · 03</span>
+      <h2 class="tr-section-title">Your library, organized.</h2>
+      <p class="tr-section-desc">Clean folder structure you can browse, search, and back up. Predictable formatting — easy to diff, annotate, or feed into your own tools.</p>
+    </header>
+    <div class="tr-lib-grid">
+      <div class="tr-lib-panel">
+        <div class="tr-win-bar">
+          <span class="tr-win-dot"></span>
+          <span class="tr-win-dot"></span>
+          <span class="tr-win-dot"></span>
+          <span class="tr-win-title">TotalRecalls — Library</span>
         </div>
-        <div class="lib-columns">
-          <div class="lib-col-left">
-            <div class="col-heading">DIRECTORY</div>
-            <div class="tree-node active">📁 TotalRecalls</div>
-            <div class="tree-sub">📂 chatgpt/</div>
-            <div class="tree-sub">📂 claude/</div>
-            <div class="tree-sub">📂 perplexity/</div>
-            <div class="tree-sub">📂 gemini/</div>
-            <div class="tree-sub">📂 grok/</div>
+        <div class="tr-lib-body">
+          <div class="tr-lib-sidebar">
+            {PROVIDERS.map((p, i) => (
+              <div class:list={["tr-lib-folder", i === 0 ? "tr-folder-active" : ""]}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                {p}
+              </div>
+            ))}
           </div>
-          <div class="lib-col-middle">
-            <div class="col-heading">FILES (.md)</div>
-            <div class="file-row">2026-08-01-pricing.md</div>
-            <div class="file-row active">2026-08-05-architecture.md</div>
-            <div class="file-row">2026-08-10-refactor.md</div>
-            <div class="file-row">2026-08-14-launch.md</div>
+          <div class="tr-lib-files">
+            {FILES.map((f) => (
+              <div class="tr-lib-file">
+                <span class="tr-file-name">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tr-file-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  {f.path}
+                </span>
+                <span class="tr-file-size">{f.size}</span>
+              </div>
+            ))}
           </div>
-          <div class="lib-col-right">
-            <div class="col-heading">MARKDOWN PREVIEW</div>
-            <div class="preview-doc">
-              <h4># Cloud Run Architecture</h4>
-              <p><strong>Date:</strong> 2026-08-05<br/><strong>Provider:</strong> Claude<br/><strong>Messages:</strong> 42 turns</p>
-              <hr/>
-              <p><strong>You:</strong> How do we wire the promotional credits?<br/><strong>Assistant:</strong> Route all requests through Agent Builder...</p>
-            </div>
+        </div>
+      </div>
+      <div class="tr-lib-panel">
+        <div class="tr-win-bar">
+          <span class="tr-win-title">2026-08-01-pricing-research.md</span>
+        </div>
+        <div class="tr-md-preview">
+          <p class="tr-md-title"># Pricing research</p>
+          <p class="tr-md-meta">exported 2026-08-01 · provider: chatgpt · 14 messages</p>
+          <div class="tr-md-you">
+            <p><span class="tr-md-you-label">You:</span> Compare one-time pricing for export tools.</p>
           </div>
+          <div class="tr-md-ai">
+            <p><span class="tr-md-ai-label">Assistant:</span> Here is a table of the options I found, with links and caveats…</p>
+          </div>
+          <p class="tr-md-attach">+ attachments: sources.json</p>
         </div>
       </div>
     </div>
@@ -52,112 +67,106 @@
 </section>
 
 <style>
-  .v6-section {
-    padding: var(--space-8) var(--space-4);
-    border-bottom: 1px solid #E2E8F0;
+  .tr-section { border-top: 1px solid #E2E8F0; background: #FFFFFF; }
+  .tr-grid-bg {
+    background-image: linear-gradient(to right, #F8FAFC 1px, transparent 1px),
+                      linear-gradient(to bottom, #F8FAFC 1px, transparent 1px);
+    background-size: 32px 32px;
   }
-  .bg-light { background: #F8FAFC; }
-  .library-mockup-wrapper {
-    margin-top: var(--space-8);
+  .tr-container { max-width: 1400px; margin: 0 auto; padding: 80px 40px 112px; }
+  .tr-section-header { margin-bottom: 48px; max-width: 576px; }
+  .tr-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #2F7BFF;
   }
-  .lib-window {
-    background: #0F172A;
-    border: 1px solid #334155;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  .tr-section-title {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 12px 0 0 0;
+    color: #0B0F19;
   }
-  .lib-bar {
-    background: #1E293B;
-    padding: 12px 16px;
+  .tr-section-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #64748B;
+    margin: 16px 0 0 0;
+  }
+  .tr-lib-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #E2E8F0;
+    border: 1px solid #E2E8F0;
+  }
+  .tr-lib-panel { background: #FFFFFF; }
+  .tr-win-bar {
     display: flex;
     align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #334155;
-  }
-  .lib-dots {
-    display: flex;
     gap: 6px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    background: #F8FAFC;
+    height: 36px;
   }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .red { background: #EF4444; }
-  .yellow { background: #F59E0B; }
-  .green { background: #10B981; }
-  .lib-title {
+  .tr-win-dot { width: 10px; height: 10px; border-radius: 50%; background: #E2E8F0; }
+  .tr-win-title {
+    margin-left: 12px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-    color: #94A3B8;
-  }
-  .lib-columns {
-    display: grid;
-    grid-template-columns: 240px 280px 1fr;
-    min-height: 320px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .col-heading {
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-size: 11px;
     color: #64748B;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
   }
-  .lib-col-left {
-    background: #0B0F19;
-    padding: 16px;
-    border-right: 1px solid #1E293B;
+  .tr-lib-body { display: grid; grid-template-columns: 140px 1fr; }
+  .tr-lib-sidebar { border-right: 1px solid #E2E8F0; padding: 12px 0; }
+  .tr-lib-folder {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #64748B;
   }
-  .tree-node {
-    color: #F8FAFC;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+  .tr-folder-active { color: #0B0F19; font-weight: 500; }
+  .tr-lib-files { padding: 12px 0; }
+  .tr-lib-file {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
   }
-  .tree-sub {
-    color: #94A3B8;
-    font-size: 0.8rem;
-    padding-left: 16px;
-    margin-bottom: 6px;
+  .tr-lib-file:hover { background: rgba(241, 245, 249, 0.4); }
+  .tr-file-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0B0F19;
   }
-  .lib-col-middle {
-    background: #0F172A;
-    padding: 16px;
-    border-right: 1px solid #1E293B;
+  .tr-file-icon { color: #64748B; }
+  .tr-file-size {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #64748B;
+    margin-left: 12px;
+    flex-shrink: 0;
   }
-  .file-row {
-    font-size: 0.8rem;
-    color: #94A3B8;
-    padding: 8px 10px;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    cursor: pointer;
-  }
-  .file-row.active {
-    background: #1E3A8A;
-    color: #FFFFFF;
-  }
-  .lib-col-right {
-    background: #1E293B;
-    padding: 20px;
-    color: #E2E8F0;
-  }
-  .preview-doc {
-    background: #0F172A;
-    border: 1px solid #334155;
-    border-radius: 6px;
-    padding: 16px;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-  .preview-doc h4 {
-    margin: 0 0 8px 0;
-    color: #38BDF8;
-  }
-  .preview-doc hr {
-    border: none;
-    border-top: 1px solid #334155;
-    margin: 12px 0;
-  }
+  .tr-md-preview { padding: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; }
+  .tr-md-title { font-size: 18px; font-weight: 600; margin: 0; color: #0B0F19; }
+  .tr-md-meta { color: #64748B; margin: 12px 0; }
+  .tr-md-you { border-left: 2px solid #2F7BFF; padding-left: 12px; margin: 12px 0; }
+  .tr-md-you-label { color: #2F7BFF; }
+  .tr-md-ai { border-left: 2px solid #E2E8F0; padding-left: 12px; margin: 12px 0; }
+  .tr-md-ai-label { color: #64748B; }
+  .tr-md-attach { color: #64748B; font-size: 11px; }
   @media (max-width: 900px) {
-    .lib-columns { grid-template-columns: 1fr; }
+    .tr-lib-grid { grid-template-columns: 1fr; }
   }
 </style>

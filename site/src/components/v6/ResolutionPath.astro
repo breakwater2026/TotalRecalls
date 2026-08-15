@@ -1,61 +1,55 @@
 ---
-// Resolution Path 01 Component
+// Base44 ResolutionPath — Resolution Path · 01 (1:1 port)
+const STEPS = [
+  { n: "01", t: "Buy once", d: "Checkout via Lemon Squeezy. One-time $24, no subscription." },
+  { n: "02", t: "Install", d: "Unzip and run the Windows app. Local sign-in only." },
+  { n: "03", t: "Pick a provider", d: "ChatGPT, Claude, Perplexity, Gemini, or Grok." },
+  { n: "04", t: "Export", d: "Chats land as Markdown + JSON under your Library folder." },
+];
 ---
-<section class="v6-section bg-light">
-  <div class="sec-container">
-    <div class="sec-header">
-      <span class="sec-num">RESOLUTION PATH · 01</span>
-      <h2>From concern to resolution in under a minute.</h2>
-    </div>
-
-    <div class="res-grid">
-      <div class="res-steps">
-        <div class="step-card">
-          <span class="step-badge">01</span>
-          <h3>Buy once</h3>
-          <p>One-time payment of $24 via Lemon Squeezy. No subscription, no recurring charges, no cloud locker fees.</p>
-        </div>
-        <div class="step-card">
-          <span class="step-badge">02</span>
-          <h3>Install</h3>
-          <p>Download the lightweight Windows app, unzip, and sign in locally. Zero administrator privileges required.</p>
-        </div>
-        <div class="step-card">
-          <span class="step-badge">03</span>
-          <h3>Pick a provider</h3>
-          <p>Select from ChatGPT, Claude, Perplexity, Gemini, or Grok. Your session cookies never leave your machine.</p>
-        </div>
-        <div class="step-card">
-          <span class="step-badge">04</span>
-          <h3>Export</h3>
-          <p>Instantly writes clean, structured Markdown and JSON files directly into a folder of your choice on your drive.</p>
-        </div>
+<section id="resolution" class="tr-section">
+  <div class="tr-container">
+    <header class="tr-section-header">
+      <span class="tr-kicker">Resolution Path · 01</span>
+      <h2 class="tr-section-title">From concern to resolution in under a minute.</h2>
+    </header>
+    <div class="tr-res-grid">
+      <div class="tr-steps-grid">
+        {STEPS.map((s) => (
+          <div class="tr-step-card">
+            <span class="tr-step-num">STEP {s.n}</span>
+            <h3 class="tr-step-title">{s.t}</h3>
+            <p class="tr-step-desc">{s.d}</p>
+          </div>
+        ))}
       </div>
-
-      <div class="res-mockup">
-        <div class="mockup-window">
-          <div class="mockup-bar">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-            <span class="mockup-path">C:\TotalRecalls\Library</span>
-          </div>
-          <div class="mockup-content">
-            <div class="mockup-tree">
-              <div class="tree-item active">📁 ChatGPT (284 files)</div>
-              <div class="tree-item">📁 Claude (192 files)</div>
-              <div class="tree-item">📁 Perplexity (145 files)</div>
-              <div class="tree-item">📁 Gemini (98 files)</div>
-              <div class="tree-item">📁 Grok (78 files)</div>
+      <div class="tr-drive-panel">
+        <div class="tr-drive-box">
+          <!-- DriveTree -->
+          <div class="tr-drive-window">
+            <div class="tr-win-bar">
+              <span class="tr-win-dot"></span>
+              <span class="tr-win-dot"></span>
+              <span class="tr-win-dot"></span>
+              <span class="tr-win-title">TotalRecalls — Library</span>
             </div>
-            <div class="mockup-command-center">
-              <strong>Local storage. Your drive. Your files.</strong>
-              <span>No remote servers intercepting your intellectual property.</span>
+            <div class="tr-drive-tree">
+              <div class="tr-tree-row tr-tree-active"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Library</div>
+              <div class="tr-tree-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> ChatGPT</div>
+              <div class="tr-tree-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Claude</div>
+              <div class="tr-tree-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Perplexity</div>
+              <div class="tr-tree-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Gemini</div>
+              <div class="tr-tree-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> Grok</div>
             </div>
           </div>
-        </div>
-        <div class="mockup-cta">
-          <a href="/pricing/" class="buy-button" data-tr-buy>BEGIN RESOLUTION →</a>
+          <div class="tr-drive-footer">
+            <span class="tr-drive-label">Action Command Center</span>
+            <p class="tr-drive-title">Local storage. Your drive. Your files.</p>
+            <a href="#pricing" class="tr-drive-cta">
+              Begin Resolution
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -63,150 +57,138 @@
 </section>
 
 <style>
-  .v6-section {
-    padding: var(--space-8) var(--space-4);
-    border-bottom: 1px solid #E2E8F0;
-  .bg-light { background: #F8FAFC; }
-  }
-  .sec-container {
-    max-width: 1200px;
+  .tr-section { border-top: 1px solid #E2E8F0; background: #FFFFFF; }
+  .tr-container {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 80px 40px 112px;
   }
-  .sec-header {
-    margin-bottom: var(--space-8);
-  }
-  .sec-num {
+  .tr-section-header { margin-bottom: 48px; max-width: 576px; }
+  .tr-kicker {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
     color: #2F7BFF;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 8px;
   }
-  .sec-header h2 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 800;
-    color: #0F172A;
-    letter-spacing: -0.5px;
-    margin: 0;
+  .tr-section-title {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 12px 0 0 0;
+    color: #0B0F19;
   }
-  .res-grid {
+  .tr-res-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: var(--space-8);
-    align-items: center;
+    grid-template-columns: 1fr 440px;
+    gap: 48px;
   }
-  .res-steps {
+  .tr-steps-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-5);
-  }
-  .step-card {
-    background: #FFFFFF;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #E2E8F0;
     border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: var(--space-5);
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    position: relative;
   }
-  .step-badge {
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: #0F172A;
-    color: #FFFFFF;
+  .tr-step-card {
+    background: #FFFFFF;
+    padding: 24px;
+  }
+  .tr-step-num {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-size: 11px;
+    color: #2F7BFF;
+    letter-spacing: 0.16em;
   }
-  .step-card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #0F172A;
-    margin: var(--space-2) 0 var(--space-2) 0;
+  .tr-step-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 12px 0 0 0;
+    color: #0B0F19;
   }
-  .step-card p {
-    font-size: 0.9rem;
-    color: #475569;
-    margin: 0;
-    line-height: 1.5;
+  .tr-step-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748B;
+    margin: 8px 0 0 0;
   }
-  .mockup-window {
-    background: #0F172A;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2);
+  .tr-drive-panel { position: sticky; top: 96px; height: fit-content; }
+  .tr-drive-box { border: 1px solid #E2E8F0; background: #FFFFFF; }
+  .tr-drive-window { border-bottom: 1px solid #E2E8F0; }
+  .tr-win-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    background: #F8FAFC;
   }
-  .mockup-bar {
-    background: #1E293B;
-    padding: 10px 14px;
+  .tr-win-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #E2E8F0;
+  }
+  .tr-win-title {
+    margin-left: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #64748B;
+  }
+  .tr-drive-tree {
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .tr-tree-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid #334155;
-  }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .red { background: #EF4444; }
-  .yellow { background: #F59E0B; }
-  .green { background: #10B981; }
-  .mockup-path {
-    margin-left: 8px;
+    padding: 6px 16px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    color: #94A3B8;
+    font-size: 11px;
+    color: #64748B;
   }
-  .mockup-content {
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
+  .tr-tree-active {
+    color: #0B0F19;
+    font-weight: 500;
   }
-  .mockup-tree {
-    display: flex;
-    flex-direction: column;
+  .tr-drive-footer { padding: 24px; }
+  .tr-drive-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #64748B;
+  }
+  .tr-drive-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 8px 0 0 0;
+    color: #0B0F19;
+  }
+  .tr-drive-cta {
+    margin-top: 20px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem;
-  }
-  .tree-item {
-    background: #1E293B;
-    color: #CBD5E1;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #334155;
-  }
-  .tree-item.active {
-    background: #1E3A8A;
+    background: #2F7BFF;
     color: #FFFFFF;
-    border-color: #2F7BFF;
+    padding: 14px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
   }
-  .mockup-command-center {
-    background: #0B0F19;
-    border: 1px dashed #334155;
-    padding: 14px;
-    border-radius: 6px;
-    text-align: center;
-  }
-  .mockup-command-center strong {
-    display: block;
-    color: #38BDF8;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-  }
-  .mockup-command-center span {
-    font-size: 0.8rem;
-    color: #94A3B8;
-  }
-  .mockup-cta {
-    margin-top: var(--space-5);
-    text-align: center;
-  }
+  .tr-drive-cta:hover { opacity: 0.9; }
   @media (max-width: 900px) {
-    .res-grid { grid-template-columns: 1fr; }
-    .res-steps { grid-template-columns: 1fr; }
+    .tr-res-grid { grid-template-columns: 1fr; }
+    .tr-steps-grid { grid-template-columns: 1fr; }
+    .tr-drive-panel { position: static; }
   }
 </style>

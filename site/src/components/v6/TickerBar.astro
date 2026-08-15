@@ -1,78 +1,89 @@
 ---
-// Top Live Feed Ticker Bar (Exact Base44 Spacing & Microcopy)
+// Base44 ThreatFeed — LIVE FEED ticker (1:1 port)
+const EVENTS = [
+  "2026-08-15 · chatgpt · export failed · thread lost",
+  "2026-08-15 · claude · ui revision · 4 threads orphaned",
+  "2026-08-14 · perplexity · session expired · research trail gone",
+  "2026-08-14 · gemini · takeout parse error · 2 archives unreadable",
+  "2026-08-13 · grok · tab closed · debug session lost",
+  "2026-08-13 · chatgpt · 9 months of prompts · no backup",
+];
+const row = [...EVENTS, ...EVENTS];
 ---
-<div class="v6-ticker">
-  <div class="ticker-content">
-    <div class="ticker-left">
-      <span class="live-indicator"><span class="red-dot"></span>LIVE FEED</span>
-      <span class="ticker-log">2026-08-15 · claude · ui revision · 4 threads orphaned</span>
-      <span class="ticker-sep">|</span>
-      <span class="ticker-log">2026-08-14 · perplexity · session expired · research trail gone</span>
-    </div>
-    <div class="ticker-right">
-      <span class="ticker-sys">v1.3.0 · SECURED_EXPORT</span>
+<div class="bg-foreground text-background tr-ticker-bar">
+  <span class="tr-live-badge">
+    <span class="tr-live-dot"></span> Live Feed
+  </span>
+  <div class="tr-ticker-viewport">
+    <div class="tr-ticker-track">
+      {row.map((e, i) => (
+        <span class="tr-ticker-item"><span class="tr-ticker-mark">▍</span>{e}</span>
+      ))}
     </div>
   </div>
 </div>
 
 <style>
-  .v6-ticker {
-    background: #0F172A;
-    color: #F8FAFC;
+  .tr-ticker-bar {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #0B0F19;
+    color: #FFFFFF;
+  }
+  .tr-live-badge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    height: 100%;
+    background: #DC2626;
+    color: #FFFFFF;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    padding: 6px 20px;
-    border-bottom: 1px solid #1E293B;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
   }
-  .ticker-content {
-    max-width: 1240px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .ticker-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .live-indicator {
-    background: #991B1B;
-    color: #FCA5A5;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 700;
-    font-size: 0.68rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    letter-spacing: 0.5px;
-  }
-  .red-dot {
+  .tr-live-dot {
     width: 6px;
     height: 6px;
-    background: #EF4444;
     border-radius: 50%;
-    box-shadow: 0 0 6px #EF4444;
+    background: #FFFFFF;
+    animation: tr-pulse 1.2s ease-in-out infinite;
   }
-  .ticker-log {
-    color: #CBD5E1;
-    opacity: 0.9;
+  @keyframes tr-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
   }
-  .ticker-sep {
-    color: #334155;
+  .tr-ticker-viewport {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
   }
-  .ticker-right {
-    color: #38BDF8;
-    font-weight: 600;
-    font-size: 0.7rem;
+  .tr-ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: tr-scroll 40s linear infinite;
+    will-change: transform;
   }
-  @media (max-width: 768px) {
-    .v6-ticker { display: none; }
+  @keyframes tr-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .tr-ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tr-ticker-mark {
+    color: #DC2626;
   }
 </style>
