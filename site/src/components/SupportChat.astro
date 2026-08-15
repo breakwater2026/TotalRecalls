@@ -1,0 +1,235 @@
+---
+// Custom Support Chat Component backed by our native /api/chat proxy
+---
+<div id="tr-support-widget">
+  <!-- Toggle Button -->
+  <button id="tr-chat-toggle" aria-label="Toggle Support Chat">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span>Support</span>
+  </button>
+
+  <!-- Chat Box Container -->
+  <div id="tr-chat-container" class="tr-chat-hidden">
+    <div class="tr-chat-header">
+      <div class="tr-chat-title">
+        <span class="tr-status-dot"></span>
+        <span>TotalRecalls Support</span>
+      </div>
+      <button id="tr-chat-close" aria-label="Close Chat">&times;</button>
+    </div>
+    
+    <div id="tr-chat-messages">
+      <div class="tr-msg tr-bot">
+        Hello! I'm your TotalRecalls assistant. How can I help you own your AI conversations today?
+      </div>
+    </div>
+
+    <div class="tr-chat-input-area">
+      <input type="text" id="tr-chat-input" placeholder="Ask a question (e.g. price)..." autocomplete="off" />
+      <button id="tr-chat-send">Send</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #tr-support-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  #tr-chat-toggle {
+    background: #2F7BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(47, 123, 255, 0.4);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  #tr-chat-toggle:hover {
+    background: #1d64e8;
+    transform: scale(1.05);
+  }
+  #tr-chat-container {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    width: 360px;
+    height: 480px;
+    background: #0F172A;
+    border: 1px solid rgba(47, 123, 255, 0.3);
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  #tr-chat-container.tr-chat-hidden {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+  }
+  .tr-chat-header {
+    background: #1E293B;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tr-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .tr-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10B981;
+  }
+  #tr-chat-close {
+    background: none;
+    border: none;
+    color: #94A3B8;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  #tr-chat-close:hover {
+    color: #FFFFFF;
+  }
+  #tr-chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #0B0F19;
+  }
+  .tr-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .tr-bot {
+    background: #1E293B;
+    color: #F8FAFC;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+  }
+  .tr-user {
+    background: #2F7BFF;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+  }
+  .tr-chat-input-area {
+    padding: 12px;
+    background: #1E293B;
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  #tr-chat-input {
+    flex: 1;
+    background: #0F172A;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  #tr-chat-input:focus {
+    border-color: #2F7BFF;
+  }
+  #tr-chat-send {
+    background: #2F7BFF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #tr-chat-send:hover {
+    background: #1d64e8;
+  }
+</style>
+
+<script>
+  const toggleBtn = document.getElementById('tr-chat-toggle');
+  const closeBtn = document.getElementById('tr-chat-close');
+  const container = document.getElementById('tr-chat-container');
+  const sendBtn = document.getElementById('tr-chat-send');
+  const inputEl = document.getElementById('tr-chat-input') as HTMLInputElement;
+  const messagesEl = document.getElementById('tr-chat-messages');
+
+  let sessionId = 'web-session-' + Math.random().toString(36).substring(2, 9);
+
+  function toggleChat() {
+    container.classList.toggle('tr-chat-hidden');
+    if (!container.classList.contains('tr-chat-hidden')) {
+      inputEl.focus();
+    }
+  }
+
+  toggleBtn.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', toggleChat);
+
+  async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    // Append user message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'tr-msg tr-user';
+    userMsg.textContent = text;
+    messagesEl.appendChild(userMsg);
+    inputEl.value = '';
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    // Append loading bot message
+    const botMsg = document.createElement('div');
+    botMsg.className = 'tr-msg tr-bot';
+    botMsg.textContent = 'Thinking...';
+    messagesEl.appendChild(botMsg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, sessionId: sessionId })
+      });
+      const data = await res.json();
+      botMsg.textContent = data.reply || "Sorry, I couldn't reach the support assistant.";
+    } catch (err) {
+      botMsg.textContent = "Network error connecting to support assistant.";
+    }
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
