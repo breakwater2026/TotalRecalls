@@ -32,7 +32,7 @@ export default function ResolutionPath() {
               <div className="p-6">
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Action Command Center</span>
                 <p className="font-heading text-xl font-semibold mt-2">Local storage. Your drive. Your files.</p>
-                <a href="#pricing" className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+                <a href="#pricing" data-tr-buy className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
                   Begin Resolution <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

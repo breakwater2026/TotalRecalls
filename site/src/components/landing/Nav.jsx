@@ -32,8 +32,8 @@ export default function Nav() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-5">
-          <a href="#pricing" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">Download</a>
-          <a href="#pricing" className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+          <a href="#pricing" data-tr-download className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">Download</a>
+          <a href="#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
             Buy — $24 <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -50,7 +50,7 @@ export default function Nav() {
                 {l.label}
               </a>
             ))}
-            <a href="#pricing" onClick={() => setOpen(false)} className="mt-1 inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 font-mono text-[12px] uppercase tracking-[0.14em]">
+            <a href="#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 font-mono text-[12px] uppercase tracking-[0.14em]">
               Buy — $24
             </a>
           </nav>
