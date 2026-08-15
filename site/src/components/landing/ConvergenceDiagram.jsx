@@ -13,12 +13,8 @@ const ClaudeIcon = () => (
 );
 
 const PerplexityIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-white">
-    <line x1="12" y1="3" x2="12" y2="21" />
-    <line x1="3" y1="12" x2="21" y2="12" />
-    <polygon points="12,3 21,12 12,21 3,12" />
-    <line x1="5.64" y1="5.64" x2="18.36" y2="18.36" />
-    <line x1="18.36" y1="5.64" x2="5.64" y2="18.36" />
+  <svg viewBox="0 0 24 24" fill="#FFFFFF" className="w-3.5 h-3.5 text-white">
+    <path d="M12 2L4 6v12l8 4 8-4V6l-8-4zm0 2.2L18 7.5v9L12 19.5l-6-3v-9l6-3.3zM11 8h2v8h-2V8z" />
   </svg>
 );
 
@@ -59,16 +55,16 @@ export default function ConvergenceDiagram() {
   return (
     <div className="relative aspect-[4/3] border border-border overflow-hidden bg-card">
       <div className="absolute top-0 left-0 right-0 h-px bg-primary tr-scanline z-20" />
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 font-mono text-[10px] text-muted-foreground bg-card/90 px-2.5 py-1 z-20 whitespace-nowrap tracking-wider">
+      <div className="absolute top-3 left-1/2 -translate-x-1/2 font-mono text-[10px] text-muted-foreground bg-card px-2.5 py-1 z-20 whitespace-nowrap tracking-wider">
         CONVERGENCE · LIVE
       </div>
-      <div className="absolute top-3 right-3 font-mono text-[10px] text-primary bg-card/90 px-2 py-1 z-20">
+      <div className="absolute top-3 right-3 font-mono text-[10px] text-primary bg-card px-2 py-1 z-20">
         5 SOURCES → 1 FOLDER
       </div>
 
-      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full z-0">
         {YS.map((y, i) => {
-          const d = `M150,${y} C195,${y} 195,150 240,150`;
+          const d = `M90,${y} C170,${y} 185,150 232,150`;
           return (
             <g key={i}>
               <path d={d} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
@@ -82,7 +78,7 @@ export default function ConvergenceDiagram() {
       </svg>
 
       {PROVIDERS.map((p, i) => (
-        <div key={p.name} className="absolute left-[2.5%] w-[33%] flex items-center gap-2 z-10" style={{ top: `${(YS[i] / 300) * 100}%`, transform: "translateY(-50%)" }}>
+        <div key={p.name} className="absolute left-[2.5%] w-[33%] flex items-center gap-2 z-10 bg-card p-1.5 rounded-sm border border-border/50 shadow-sm" style={{ top: `${(YS[i] / 300) * 100}%`, transform: "translateY(-50%)" }}>
           <span className={`grid place-items-center w-6 h-6 ${p.bg} shrink-0 rounded-sm shadow-sm`}>
             <p.Icon />
           </span>
