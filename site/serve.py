@@ -1,7 +1,7 @@
 """Static file server + API proxy for the TotalRecalls site container.
 
 Serves /var/www with explicit charset=utf-8 on HTML/CSS/JS/JSON responses,
-and provides a native POST /api/chat endpoint backed by Dialogflow CX.
+and provides a native POST /api/chat endpoint backed by Dialogflow CX with full CORS support.
 """
 import http.server
 import os
@@ -50,6 +50,16 @@ class CharsetHandler(http.server.SimpleHTTPRequestHandler):
         ext = os.path.splitext(path)[1].lower()
         return CHARSET_TEXT_TYPES.get(ext, base)
 
+    def do_OPTIONS(self):
+        if self.path == "/api/chat":
+            self.send_response(204)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+        else:
+            super().do_OPTIONS()
+
     def do_POST(self):
         if self.path == "/api/chat":
             content_length = int(self.headers.get('Content-Length', 0))
@@ -66,6 +76,9 @@ class CharsetHandler(http.server.SimpleHTTPRequestHandler):
 
                 response_data = json.dumps({"reply": reply}).encode("utf-8")
                 self.send_response(200)
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+                self.send_header("Access-Control-Allow-Headers", "Content-Type")
                 self.send_header("Content-Type", "application/json; charset=utf-8")
                 self.send_header("Content-Length", str(len(response_data)))
                 self.end_headers()
@@ -74,6 +87,7 @@ class CharsetHandler(http.server.SimpleHTTPRequestHandler):
             except Exception as e:
                 err_data = json.dumps({"reply": f"Error processing request: {str(e)}"}).encode("utf-8")
                 self.send_response(500)
+                self.send_header("Access-Control-Allow-Origin", "*")
                 self.send_header("Content-Type", "application/json; charset=utf-8")
                 self.send_header("Content-Length", str(len(err_data)))
                 self.end_headers()
