@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<style>
+<style is:global>
   #tr-support-widget {
     position: fixed;
     bottom: 24px;
@@ -42,8 +42,8 @@
     font-family: system-ui, -apple-system, sans-serif;
   }
   #tr-chat-toggle {
-    background: #2F7BFF;
-    color: #ffffff;
+    background: #2F7BFF !important;
+    color: #ffffff !important;
     border: none;
     border-radius: 30px;
     padding: 12px 20px;
@@ -57,7 +57,7 @@
     transition: transform 0.2s ease, background 0.2s ease;
   }
   #tr-chat-toggle:hover {
-    background: #1d64e8;
+    background: #1d64e8 !important;
     transform: scale(1.05);
   }
   #tr-chat-container {
@@ -66,7 +66,7 @@
     right: 0;
     width: 360px;
     height: 480px;
-    background: #0F172A;
+    background: #0F172A !important;
     border: 1px solid rgba(47, 123, 255, 0.3);
     border-radius: 14px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -81,7 +81,7 @@
     pointer-events: none;
   }
   .tr-chat-header {
-    background: #1E293B;
+    background: #1E293B !important;
     padding: 14px 16px;
     display: flex;
     justify-content: space-between;
@@ -92,26 +92,26 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-weight: 700;
     font-size: 0.95rem;
   }
   .tr-status-dot {
     width: 8px;
     height: 8px;
-    background: #10B981;
+    background: #10B981 !important;
     border-radius: 50%;
     box-shadow: 0 0 8px #10B981;
   }
   #tr-chat-close {
     background: none;
     border: none;
-    color: #94A3B8;
+    color: #94A3B8 !important;
     font-size: 1.5rem;
     cursor: pointer;
   }
   #tr-chat-close:hover {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
   }
   #tr-chat-messages {
     flex: 1;
@@ -120,7 +120,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    background: #0B0F19;
+    background: #0B0F19 !important;
   }
   .tr-msg {
     max-width: 85%;
@@ -130,44 +130,45 @@
     line-height: 1.5;
   }
   .tr-bot {
-    background: #FFFFFF;
-    color: #0F172A;
-    border: 1px solid #CBD5E1;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1px solid #CBD5E1 !important;
     align-self: flex-start;
     border-bottom-left-radius: 3px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    font-weight: 600 !important;
   }
   .tr-user {
-    background: #2F7BFF;
-    color: #FFFFFF;
+    background: #2F7BFF !important;
+    color: #FFFFFF !important;
     align-self: flex-end;
     border-bottom-right-radius: 3px;
     box-shadow: 0 2px 8px rgba(47,123,255,0.3);
+    font-weight: 600 !important;
   }
   .tr-chat-input-area {
     padding: 12px;
-    background: #1E293B;
+    background: #1E293B !important;
     display: flex;
     gap: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
   #tr-chat-input {
     flex: 1;
-    background: #0F172A;
+    background: #0F172A !important;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     padding: 10px 12px;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-size: 0.95rem;
     outline: none;
   }
   #tr-chat-input:focus {
-    border-color: #2F7BFF;
+    border-color: #2F7BFF !important;
   }
   #tr-chat-send {
-    background: #2F7BFF;
-    color: #FFFFFF;
+    background: #2F7BFF !important;
+    color: #FFFFFF !important;
     border: none;
     border-radius: 6px;
     padding: 10px 18px;
@@ -175,7 +176,7 @@
     cursor: pointer;
   }
   #tr-chat-send:hover {
-    background: #1d64e8;
+    background: #1d64e8 !important;
   }
 </style>
 
