@@ -1,3 +1,10 @@
+/* ============================================================================
+ * LOCKED COMPONENT — DO NOT MODIFY WITHOUT EXPLICIT USER DIRECTIVE
+ * File: site/src/components/landing/DriveTree.jsx
+ * Status: LOCKED & FROZEN
+ * ============================================================================
+ */
+
 import { Folder, FileText, HardDrive } from "lucide-react";
 
 const PROVIDERS = [
