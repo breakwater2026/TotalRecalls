@@ -1,6 +1,5 @@
-import { useState } from "react";
 import ConvergenceDiagram from "./ConvergenceDiagram";
-import { ArrowRight, Download, ShieldCheck, Lock, Database, ScanLine } from "lucide-react";
+import { ArrowRight, Download, ShieldCheck, Lock, Database } from "lucide-react";
 
 const TRUST = [
   { Icon: Lock, l: "Private by design", s: "Local sign-in · no cloud" },
@@ -9,14 +8,6 @@ const TRUST = [
 ];
 
 export default function SentinelHero() {
-  const [q, setQ] = useState("");
-  const [result, setResult] = useState(null);
-  const scan = (e) => {
-    e.preventDefault();
-    setResult("scan");
-    setTimeout(() => setResult("clear"), 1400);
-  };
-
   return (
     <section id="top" className="relative border-b border-border overflow-hidden">
       <div className="absolute inset-0 tr-grid-bg opacity-60 pointer-events-none" />
@@ -33,26 +24,7 @@ export default function SentinelHero() {
               A Windows app that exports your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder of Markdown + JSON you keep forever — long after the tab closes and the UI changes.
             </p>
 
-            <form onSubmit={scan} className="mt-9 border border-border bg-card">
-              <div className="flex items-center">
-                <span className="font-mono text-[11px] text-muted-foreground pl-4 pr-2">▍</span>
-                <input
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder="Verify a conversation is safe — thread, date, or provider…"
-                  className="flex-1 bg-transparent font-mono text-[13px] py-4 outline-none placeholder:text-muted-foreground/70 min-w-0"
-                />
-                <button type="submit" className="m-1 inline-flex items-center gap-2 bg-foreground text-background px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] hover:bg-primary hover:text-white transition-colors shrink-0">
-                  <ScanLine className="w-3.5 h-3.5" /> Scan
-                </button>
-              </div>
-            </form>
-            <div className="h-6 mt-2 font-mono text-[11px]">
-              {result === "scan" && <span className="text-primary">▍ Scanning library…</span>}
-              {result === "clear" && <span className="text-primary">✓ Scan complete · 0 active threats · library secure</span>}
-            </div>
-
-            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+            <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <a href="#pricing" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
                 Buy TotalRecalls — $24 <ArrowRight className="w-4 h-4" />
               </a>
