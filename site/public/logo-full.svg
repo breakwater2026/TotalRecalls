@@ -1,0 +1,30 @@
+<svg viewBox="0 0 420 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="neuralGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2F7BFF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#38BDF8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A3FFD6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bubbleGradH" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E293B;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#0F172A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Miniature Icon Mark -->
+  <g transform="translate(4, 4) scale(0.45)">
+    <path d="M30 20 C30 10 38 2 48 2 L142 2 C152 2 160 10 160 20 L160 115 C160 125 152 133 142 133 L95 133 L70 160 L70 133 L48 133 C38 133 30 125 30 115 Z" fill="url(#bubbleGradH)" stroke="url(#neuralGradH)" stroke-width="4"/>
+    <path d="M65 45 C50 45 40 55 40 70 C40 85 55 95 65 100 C75 95 80 85 80 70 C80 55 75 45 65 45 Z" fill="none" stroke="#2F7BFF" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M115 45 C130 45 140 55 140 70 C140 85 125 95 115 100 C105 95 100 85 100 70 C100 55 105 45 115 Z" fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="80" y1="70" x2="100" y2="70" stroke="#A3FFD6" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="90" cy="70" r="24" fill="none" stroke="#A3FFD6" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.8"/>
+    <circle cx="65" cy="70" r="6" fill="#2F7BFF"/>
+    <circle cx="115" cy="70" r="6" fill="#38BDF8"/>
+    <circle cx="90" cy="70" r="8" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="92" y="52" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="34" letter-spacing="-0.5">
+    <tspan fill="#000000">Total</tspan><tspan fill="#2F7BFF">Recalls</tspan>
+  </text>
+</svg>
