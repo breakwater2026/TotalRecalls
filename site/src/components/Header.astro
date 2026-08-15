@@ -1,5 +1,5 @@
 ---
-// Base44 Nav — sticky header (1:1 port)
+// Base44 Nav — sticky header with canonical Leonardo AI logo.png
 const LINKS = [
   { label: "How It Works", href: "#resolution" },
   { label: "Providers", href: "#matrix" },
@@ -11,10 +11,7 @@ const LINKS = [
 <header class="tr-nav">
   <div class="tr-nav-inner">
     <a href="#top" class="tr-brand">
-      <span class="tr-brand-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </span>
-      <span class="tr-wordmark">Total<span class="tr-primary-text">Recalls</span></span>
+      <img src="/logo.png" alt="TotalRecalls" class="tr-logo-img" />
     </a>
     <nav class="tr-nav-links">
       {LINKS.map((l) => (
@@ -36,7 +33,7 @@ const LINKS = [
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid #E2E8F0;
   }
@@ -52,25 +49,13 @@ const LINKS = [
   .tr-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
     text-decoration: none;
   }
-  .tr-brand-icon {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    background: #0B0F19;
-    color: #FFFFFF;
-  }
-  .tr-wordmark {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #0B0F19;
-  }
-  .tr-primary-text {
-    color: #2F7BFF;
+  .tr-logo-img {
+    height: 52px;
+    max-height: 52px;
+    width: auto;
+    display: block;
   }
   .tr-nav-links {
     display: flex;
