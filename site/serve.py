@@ -1,12 +1,14 @@
-"""Static file server for the TotalRecalls site container.
+"""Static file server + API proxy for the TotalRecalls site container.
 
-Serves /var/www with explicit charset=utf-8 on HTML/CSS/JS/JSON responses.
-Python's default SimpleHTTPRequestHandler omits the charset directive for
-text/html, which makes browsers fall back to Latin-1 and garble em-dashes /
-middle-dots — exactly the mojibake the V4 review flagged.
+Serves /var/www with explicit charset=utf-8 on HTML/CSS/JS/JSON responses,
+and provides a native POST /api/chat endpoint backed by Dialogflow CX.
 """
 import http.server
 import os
+import json
+from google.auth import default
+from google.cloud.dialogflowcx_v3.services.sessions import SessionsClient
+from google.cloud.dialogflowcx_v3.types import session
 
 CHARSET_TEXT_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -21,12 +23,65 @@ CHARSET_TEXT_TYPES = {
     ".md": "text/markdown; charset=utf-8",
 }
 
+def query_dialogflow(user_query, session_id="web-user-session"):
+    try:
+        creds, _ = default()
+        agent_path = "projects/cs-poc-gw89wethbilefc1wrhgq7d7/locations/us-central1/agents/d8f11aa3-683c-4f06-b015-3e6d9b97f81c"
+        session_path = f"{agent_path}/sessions/{session_id}"
+
+        client_options = {"api_endpoint": "us-central1-dialogflow.googleapis.com"}
+        client = SessionsClient(client_options=client_options, credentials=creds)
+
+        query_input = session.QueryInput(text=session.TextInput(text=user_query), language_code="en")
+        request = session.DetectIntentRequest(session=session_path, query_input=query_input)
+
+        response = client.detect_intent(request=request)
+        messages = response.query_result.response_messages
+        if messages and messages[0].text.text:
+            return messages[0].text.text[0]
+        return "I'm here to help you own your AI conversations. How can I assist you today?"
+    except Exception as e:
+        return f"Support Assistant is currently connecting (Error: {str(e)[:60]})"
+
 
 class CharsetHandler(http.server.SimpleHTTPRequestHandler):
     def guess_type(self, path):
         base = super().guess_type(path)
         ext = os.path.splitext(path)[1].lower()
         return CHARSET_TEXT_TYPES.get(ext, base)
+
+    def do_POST(self):
+        if self.path == "/api/chat":
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length)
+            try:
+                data = json.loads(body.decode("utf-8"))
+                user_msg = data.get("message", "").strip()
+                session_id = data.get("sessionId", "web-visitor")
+                
+                if not user_msg:
+                    reply = "Please type a message or question."
+                else:
+                    reply = query_dialogflow(user_msg, session_id)
+
+                response_data = json.dumps({"reply": reply}).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(response_data)))
+                self.end_headers()
+                self.wfile.write(response_data)
+                return
+            except Exception as e:
+                err_data = json.dumps({"reply": f"Error processing request: {str(e)}"}).encode("utf-8")
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(err_data)))
+                self.end_headers()
+                self.wfile.write(err_data)
+                return
+        else:
+            self.send_response(404)
+            self.end_headers()
 
 
 def main():
