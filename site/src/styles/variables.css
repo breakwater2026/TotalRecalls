@@ -1,14 +1,14 @@
 :root {
-  /* Color tokens (light theme, as specified in §5) */
-  --color-midnight: #0A1A2F;
+  /* Color tokens — Midnight Blue Theme Variant */
+  --color-midnight: #07090F;
   --color-electric: #2F7BFF;
-  --color-slate:    #4A5568;
-  --color-soft:     #E2E8F0;
+  --color-slate:    #64748B;
+  --color-soft:     #1E293B;
   --color-emerald:  #10B981;
   --color-amber:    #F59E0B;
   --color-crimson:  #DC2626;
-  --color-bg:       #FAFAFA;
-  --color-surface:  #FFFFFF;
+  --color-bg:       #030712;
+  --color-surface:  #0F172A;
 
   /* Spacing scale */
   --space-1: 4px;
@@ -34,24 +34,28 @@ img, picture, video, canvas { display: block; max-width: 100%; }
 nav {
   position: sticky;
   top: 0;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-soft);
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(47, 123, 255, 0.2);
   padding: var(--space-4) var(--space-6);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 100;
 }
 main {
   max-width: 900px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-4);
+  color: #F8FAFC;
 }
 footer {
   background: var(--color-midnight);
-  color: var(--color-surface);
+  color: #94A3B8;
   text-align: center;
   padding: var(--space-6) var(--space-4);
   margin-top: var(--space-8);
+  border-top: 1px solid rgba(47, 123, 255, 0.2);
 }
 .buy-button {
   background: var(--color-electric);
@@ -60,4 +64,5 @@ footer {
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
+  box-shadow: 0 4px 14px rgba(47,123,255,0.4);
 }
