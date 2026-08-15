@@ -21,12 +21,12 @@ export default function PricingSection() {
               One-time purchase. No subscription. Local files only. 14-day money-back guarantee — if it doesn't work for you, email us and we'll refund it, no questions asked.
             </p>
             <div className="mt-10 flex items-end gap-4">
-              <span className="font-heading text-7xl font-bold">$24</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-background/50 mb-3">launch price · one-time</span>
+              <span className="font-heading text-7xl font-bold">$24 USD</span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-background/50 mb-3">discounted launch price · one-time</span>
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
-                Buy TotalRecalls — $24 <ArrowRight className="w-4 h-4" />
+                Buy TotalRecalls — $24 USD <ArrowRight className="w-4 h-4" />
               </a>
               <a href="#pricing" data-tr-download className="inline-flex items-center justify-center gap-2 border border-background/20 text-background px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] hover:bg-background/10 transition-colors">
                 <Download className="w-4 h-4" /> Download ZIP

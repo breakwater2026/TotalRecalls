@@ -2,7 +2,7 @@ import DriveTree from "./DriveTree";
 import { ArrowRight } from "lucide-react";
 
 const STEPS = [
-  { n: "01", t: "Buy once", d: "Checkout via Lemon Squeezy. One-time $24, no subscription." },
+  { n: "01", t: "Buy once", d: "Checkout via Lemon Squeezy. One-time $24 USD, no subscription." },
   { n: "02", t: "Install", d: "Unzip and run the Windows app. Local sign-in only." },
   { n: "03", t: "Pick a provider", d: "ChatGPT, Claude, Perplexity, Gemini, or Grok." },
   { n: "04", t: "Export", d: "Chats land as Markdown + JSON under your Library folder." },

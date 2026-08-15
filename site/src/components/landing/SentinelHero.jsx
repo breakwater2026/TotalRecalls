@@ -26,7 +26,7 @@ export default function SentinelHero() {
 
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
-                Buy TotalRecalls — $24 <ArrowRight className="w-4 h-4" />
+                Buy TotalRecalls — $24 USD <ArrowRight className="w-4 h-4" />
               </a>
               <a href="#pricing" data-tr-download className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] hover:bg-muted transition-colors">
                 <Download className="w-4 h-4" /> Download ZIP
