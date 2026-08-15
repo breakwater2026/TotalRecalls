@@ -1,3 +1,10 @@
+/* ============================================================================
+ * LOCKED COMPONENT — DO NOT MODIFY WITHOUT EXPLICIT USER DIRECTIVE
+ * File: site/src/components/landing/Nav.jsx
+ * Status: LOCKED (Base44 Navigation Header with 39px scaled logo, single-row layout)
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 
@@ -15,7 +22,7 @@ export default function Nav() {
     <header className="sticky top-0 z-40 bg-background/85 backdrop-blur border-b border-border">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 h-16 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="TotalRecalls" className="h-[26px] max-h-[26px] w-auto block" />
+          <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
         </a>
         <nav className="hidden md:flex items-center gap-8">
           {LINKS.map((l) => (
