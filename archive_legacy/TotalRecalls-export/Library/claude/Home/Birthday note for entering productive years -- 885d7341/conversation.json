@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "provider": "claude",
+  "account": {
+    "email": "adenis258@gmail.com",
+    "external_id": "02718520-a074-4d0e-b648-ddb2f9b578e8",
+    "display_name": "Andre"
+  },
+  "conversation": {
+    "id": "885d7341-308c-4873-88fc-cbd103923a35",
+    "title": "Birthday note for entering productive years",
+    "created_at": "2026-06-07T18:23:35.191334Z",
+    "updated_at": "2026-06-07T18:43:30.121394Z",
+    "folder": "Home",
+    "messages": [
+      {
+        "role": "user",
+        "content_md": "can you suggest a two sentence birthday note to a 33 years old. Touch the topic about entering into his most productive years both in terms of his career and personal life.",
+        "created_at": "2026-06-07T18:23:35.475793Z",
+        "model": "",
+        "citations": [],
+        "external_id": "019ea353-6e7e-7b2c-8cef-85645e028b56"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Here's a birthday note for him:\n\n> Happy 33rd birthday! You're stepping into what many consider the most powerful chapter of life — where experience meets energy, and your greatest achievements in both career and love are not just possible, but inevitable.",
+        "created_at": "2026-06-07T18:23:37.655248Z",
+        "model": "",
+        "citations": [],
+        "external_id": "019ea353-6e7e-73fd-8590-a2ac541e85b2"
+      },
+      {
+        "role": "user",
+        "content_md": "can you generate a French version of the above birthday message",
+        "created_at": "2026-06-07T18:43:27.928475Z",
+        "model": "",
+        "citations": [],
+        "external_id": "019ea365-a161-785e-8ddd-16c995ca2a78"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Here's the French version:\n\n> Joyeux 33ème anniversaire ! Tu entres dans ce que beaucoup considèrent comme le chapitre le plus puissant de la vie — là où l'expérience rencontre l'énergie, et où tes plus grandes réussites, tant sur le plan professionnel que personnel, ne sont pas seulement possibles, mais inévitables.",
+        "created_at": "2026-06-07T18:43:30.121394Z",
+        "model": "",
+        "citations": [],
+        "external_id": "019ea365-a161-7496-83a2-99e2aa8f7cce"
+      }
+    ]
+  },
+  "raw": {
+    "detail": {
+      "uuid": "885d7341-308c-4873-88fc-cbd103923a35",
+      "name": "Birthday note for entering productive years",
+      "summary": "",
+      "model": "claude-sonnet-4-6",
+      "created_at": "2026-06-07T18:23:35.191334Z",
+      "updated_at": "2026-06-07T18:43:30.121394Z",
+      "settings": {
+        "enabled_web_search": true,
+        "paprika_mode": "extended",
+        "enabled_monkeys_in_a_barrel": true,
+        "tool_search_mode": "auto",
+        "preview_feature_uses_artifacts": true,
+        "enabled_turmeric": true,
+        "thinking_mode": "off",
+        "effort_level": "low"
+      },
+      "is_starred": false,
+      "is_temporary": false,
+      "platform": "CLAUDE_AI",
+      "is_wiggle_enabled": true,
+      "effective_thinking_mode": "off",
+      "current_leaf_message_uuid": "019ea365-a161-7496-83a2-99e2aa8f7cce",
+      "chat_messages": [
+        {
+          "uuid": "019ea353-6e7e-7b2c-8cef-85645e028b56",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2026-06-07T18:23:35.475699Z",
+              "stop_timestamp": "2026-06-07T18:23:35.475699Z",
+              "type": "text",
+              "text": "can you suggest a two sentence birthday note to a 33 years old. Touch the topic about entering into his most productive years both in terms of his career and personal life.",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 0,
+          "created_at": "2026-06-07T18:23:35.475793Z",
+          "updated_at": "2026-06-07T18:23:35.475793Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "uuid": "019ea353-6e7e-73fd-8590-a2ac541e85b2",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2026-06-07T18:23:36.347000Z",
+              "stop_timestamp": "2026-06-07T18:23:37.623747Z",
+              "type": "text",
+              "text": " Here's a birthday note for him:\n\n> Happy 33rd birthday! You're stepping into what many consider the most powerful chapter of life — where experience meets energy, and your greatest achievements in both career and love are not just possible, but inevitable.",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 1,
+          "created_at": "2026-06-07T18:23:37.655248Z",
+          "updated_at": "2026-06-07T18:23:37.655248Z",
+          "truncated": false,
+          "stop_reason": "end_turn",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "019ea353-6e7e-7b2c-8cef-85645e028b56"
+        },
+        {
+          "uuid": "019ea365-a161-785e-8ddd-16c995ca2a78",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2026-06-07T18:43:27.928358Z",
+              "stop_timestamp": "2026-06-07T18:43:27.928358Z",
+              "type": "text",
+              "text": "can you generate a French version of the above birthday message",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 2,
+          "created_at": "2026-06-07T18:43:27.928475Z",
+          "updated_at": "2026-06-07T18:43:27.928475Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "019ea353-6e7e-73fd-8590-a2ac541e85b2"
+        },
+        {
+          "uuid": "019ea365-a161-7496-83a2-99e2aa8f7cce",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2026-06-07T18:43:28.729686Z",
+              "stop_timestamp": "2026-06-07T18:43:30.085928Z",
+              "type": "text",
+              "text": " Here's the French version:\n\n> Joyeux 33ème anniversaire ! Tu entres dans ce que beaucoup considèrent comme le chapitre le plus puissant de la vie — là où l'expérience rencontre l'énergie, et où tes plus grandes réussites, tant sur le plan professionnel que personnel, ne sont pas seulement possibles, mais inévitables.",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 3,
+          "created_at": "2026-06-07T18:43:30.121394Z",
+          "updated_at": "2026-06-07T18:43:30.121394Z",
+          "truncated": false,
+          "stop_reason": "end_turn",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "019ea365-a161-785e-8ddd-16c995ca2a78"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "provider": "claude",
+  "account": {
+    "email": "adenis258@gmail.com",
+    "external_id": "02718520-a074-4d0e-b648-ddb2f9b578e8",
+    "display_name": "Andre"
+  },
+  "conversation": {
+    "id": "4e7a2eff-2bcf-4a5a-bdda-a5768c150fd1",
+    "title": "Accessing Claude Model for Web Browsing",
+    "created_at": "2025-03-16T11:01:00.292677Z",
+    "updated_at": "2025-03-16T11:01:05.985198Z",
+    "folder": "Home",
+    "messages": [
+      {
+        "role": "user",
+        "content_md": "I need to access a Claude model that does web browsing",
+        "created_at": "2025-03-16T11:01:00.935782Z",
+        "model": "",
+        "citations": [],
+        "external_id": "e7371008-ccdd-4a39-8334-b47b8517bf9c"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I don't currently have web browsing capabilities. While Claude can help with many tasks, I don't have the ability to search the internet or browse websites in real-time.\n\nIf you're looking for a version of Claude with web browsing capabilities, I'd recommend checking Anthropic's website or their support documentation at https://support.anthropic.com for the most up-to-date information about available features and services.\n\nIn the meantime, I'd be happy to help with other tasks that don't require web access. Is there something specific you're trying to accomplish that I might be able to assist with in another way?",
+        "created_at": "2025-03-16T11:01:04.026961Z",
+        "model": "",
+        "citations": [],
+        "external_id": "00604d73-b93f-4a1c-a590-be941e51360f"
+      }
+    ]
+  },
+  "raw": {
+    "detail": {
+      "uuid": "4e7a2eff-2bcf-4a5a-bdda-a5768c150fd1",
+      "name": "Accessing Claude Model for Web Browsing",
+      "summary": "",
+      "model": "claude-sonnet-4-5-20250929",
+      "created_at": "2025-03-16T11:01:00.292677Z",
+      "updated_at": "2025-03-16T11:01:05.985198Z",
+      "settings": {
+        "tool_search_mode": "auto",
+        "preview_feature_uses_artifacts": true
+      },
+      "is_starred": false,
+      "is_temporary": false,
+      "platform": "CLAUDE_AI",
+      "is_wiggle_enabled": true,
+      "effective_thinking_mode": "off",
+      "current_leaf_message_uuid": "00604d73-b93f-4a1c-a590-be941e51360f",
+      "chat_messages": [
+        {
+          "uuid": "e7371008-ccdd-4a39-8334-b47b8517bf9c",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-03-14T21:49:40.588826Z",
+              "stop_timestamp": "2025-03-14T21:49:40.588826Z",
+              "type": "text",
+              "text": "I need to access a Claude model that does web browsing",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 0,
+          "created_at": "2025-03-16T11:01:00.935782Z",
+          "updated_at": "2025-03-16T11:01:00.935782Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "uuid": "00604d73-b93f-4a1c-a590-be941e51360f",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-03-16T11:01:01.762771Z",
+              "stop_timestamp": "2025-03-16T11:01:03.846939Z",
+              "type": "text",
+              "text": " I don't currently have web browsing capabilities. While Claude can help with many tasks, I don't have the ability to search the internet or browse websites in real-time.\n\nIf you're looking for a version of Claude with web browsing capabilities, I'd recommend checking Anthropic's website or their support documentation at https://support.anthropic.com for the most up-to-date information about available features and services.\n\nIn the meantime, I'd be happy to help with other tasks that don't require web access. Is there something specific you're trying to accomplish that I might be able to assist with in another way?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 1,
+          "created_at": "2025-03-16T11:01:04.026961Z",
+          "updated_at": "2025-03-16T11:01:04.026961Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "e7371008-ccdd-4a39-8334-b47b8517bf9c"
+        }
+      ]
+    }
+  }
+}

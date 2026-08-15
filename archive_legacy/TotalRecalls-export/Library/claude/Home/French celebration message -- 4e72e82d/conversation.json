@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "provider": "claude",
+  "account": {
+    "email": "adenis258@gmail.com",
+    "external_id": "02718520-a074-4d0e-b648-ddb2f9b578e8",
+    "display_name": "Andre"
+  },
+  "conversation": {
+    "id": "4e72e82d-0ce2-43b1-aaec-a53f515870aa",
+    "title": "French celebration message",
+    "created_at": "2025-10-14T16:30:47.823178Z",
+    "updated_at": "2025-10-14T16:33:11.008510Z",
+    "folder": "Home",
+    "messages": [
+      {
+        "role": "user",
+        "content_md": "please help me write in the French language a combined birthday and wedding anniversary congratulatory message .",
+        "created_at": "2025-10-14T16:30:48.673750Z",
+        "model": "",
+        "citations": [],
+        "external_id": "ba6a2c20-3240-4e3d-967e-f471730f589e"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I'd be happy to help you write a combined birthday and wedding anniversary message in French! To make it perfect for your needs, could you tell me:\n\n1. Who is this message for? (e.g., a couple, your parents, friends)\n2. What tone would you like? (formal, warm and affectionate, humorous, etc.)\n3. Is there anything specific you'd like to mention?\n\nIn the meantime, here's a warm, general version you can adapt:\n\n---\n\n**Joyeux anniversaire et bonne fête de mariage !**\n\nQuelle merveilleuse journée pour célébrer deux événements si spéciaux ! Nous vous souhaitons un très joyeux anniversaire ainsi qu'un merveilleux anniversaire de mariage. Que cette double célébration soit remplie de joie, d'amour et de moments précieux.\n\nQue l'année à venir vous apporte santé, bonheur et de nombreuses raisons de sourire. Puisse votre amour continuer de grandir et de s'épanouir avec chaque année qui passe.\n\nToutes nos félicitations et nos meilleurs vœux !\n\n---\n\nThis translates roughly to congratulations on both occasions, wishing them joy, love, health, and happiness in the year ahead, with hopes that their love continues to grow.\n\nWould you like me to adjust the tone or add more personal touches?",
+        "created_at": "2025-10-14T16:30:57.343682Z",
+        "model": "",
+        "citations": [],
+        "external_id": "0592c0d8-9cbd-4de1-ae6c-0a4e170e14fa"
+      },
+      {
+        "role": "user",
+        "content_md": "1. my 35 year-old daughter",
+        "created_at": "2025-10-14T16:31:21.952429Z",
+        "model": "",
+        "citations": [],
+        "external_id": "6e4ccfc5-e010-442f-92ff-80a49c10d690"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Voici un message chaleureux et affectueux pour votre fille :\n\n---\n\n**Ma chère fille,**\n\nJoyeux 35e anniversaire et bonne fête de mariage !\n\nQuelle joie de célébrer avec toi cette journée doublement spéciale ! Il y a 35 ans, tu es entrée dans ma vie et tu l'as remplie de bonheur. Aujourd'hui, je suis si fière de la femme extraordinaire que tu es devenue et du beau couple que vous formez.\n\nQue cette nouvelle année t'apporte tout le bonheur que tu mérites, et que votre amour continue de grandir et de s'épanouir avec chaque jour qui passe. Vous êtes une inspiration pour tous ceux qui vous entourent.\n\nProfite bien de cette journée magique entourée des personnes que tu aimes. Tu es une fille merveilleuse et une épouse formidable.\n\nJe t'aime de tout mon cœur et je vous souhaite à tous les deux une vie remplie d'amour, de rires et de beaux moments.\n\nAvec tout mon amour,\n\n[Votre nom / Maman/Papa]\n\n---\n\nSi vous préférez un ton différent (plus léger, plus court, ou avec des détails personnels), n'hésitez pas à me le dire et je l'ajusterai avec plaisir !",
+        "created_at": "2025-10-14T16:31:31.083786Z",
+        "model": "",
+        "citations": [],
+        "external_id": "5852ed7b-5779-4f4e-88b0-63a536298a3b"
+      },
+      {
+        "role": "user",
+        "content_md": "very good. Can I see a humorous version.",
+        "created_at": "2025-10-14T16:33:00.143478Z",
+        "model": "",
+        "citations": [],
+        "external_id": "340c9ef1-a9e8-4f29-9e6d-df1223cc47fa"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Voici une version humoristique et affectueuse :\n\n---\n\n**Ma chère fille,**\n\nJoyeux 35e anniversaire et bonne fête de mariage !\n\nAlors voilà, tu as 35 ans aujourd'hui ET c'est aussi ton anniversaire de mariage ? Tu as vraiment décidé de nous faciliter la vie en combinant tout ça – plus besoin de se souvenir de deux dates différentes ! Brillante stratégie !\n\n35 ans déjà... Je me souviens encore quand tu avais besoin de moi pour tout. Maintenant, c'est plutôt toi qui dois m'expliquer comment fonctionne mon téléphone ! Le temps passe vite, mais au moins tu vieillis avec style (et avec quelqu'un qui accepte de te supporter toute l'année, chapeau à lui/elle !).\n\nSérieusement, je suis tellement fière de toi et du couple merveilleux que vous formez. Continuez à vous aimer, à rire ensemble et à partager le dessert (ou pas, chacun son truc).\n\nQue cette journée soit aussi exceptionnelle que toi – ce qui veut dire : pleine de gâteau, de cadeaux, et sans vaisselle à faire !\n\nJe t'aime énormément,\n\n[Votre nom / Maman/Papa]\n\n---\n\nÇa vous plaît ? Je peux ajuster le niveau d'humour si vous voulez quelque chose de plus ou moins taquin !",
+        "created_at": "2025-10-14T16:33:11.008510Z",
+        "model": "",
+        "citations": [],
+        "external_id": "2a4f27f6-b129-4c49-bdca-8ebaf2882631"
+      }
+    ]
+  },
+  "raw": {
+    "detail": {
+      "uuid": "4e72e82d-0ce2-43b1-aaec-a53f515870aa",
+      "name": "French celebration message",
+      "summary": "",
+      "model": "claude-sonnet-4-5-20250929",
+      "created_at": "2025-10-14T16:30:47.823178Z",
+      "updated_at": "2025-10-14T16:33:11.008510Z",
+      "settings": {
+        "enabled_web_search": true,
+        "enabled_monkeys_in_a_barrel": false,
+        "tool_search_mode": "auto",
+        "preview_feature_uses_artifacts": true
+      },
+      "is_starred": false,
+      "is_temporary": false,
+      "platform": "CLAUDE_AI",
+      "is_wiggle_enabled": false,
+      "effective_thinking_mode": "off",
+      "current_leaf_message_uuid": "2a4f27f6-b129-4c49-bdca-8ebaf2882631",
+      "chat_messages": [
+        {
+          "uuid": "ba6a2c20-3240-4e3d-967e-f471730f589e",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:30:48.660753Z",
+              "stop_timestamp": "2025-10-14T16:30:48.660753Z",
+              "type": "text",
+              "text": "please help me write in the French language a combined birthday and wedding anniversary congratulatory message .",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 0,
+          "created_at": "2025-10-14T16:30:48.673750Z",
+          "updated_at": "2025-10-14T16:30:48.673750Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "uuid": "0592c0d8-9cbd-4de1-ae6c-0a4e170e14fa",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:30:50.572046Z",
+              "stop_timestamp": "2025-10-14T16:30:57.179478Z",
+              "type": "text",
+              "text": " I'd be happy to help you write a combined birthday and wedding anniversary message in French! To make it perfect for your needs, could you tell me:\n\n1. Who is this message for? (e.g., a couple, your parents, friends)\n2. What tone would you like? (formal, warm and affectionate, humorous, etc.)\n3. Is there anything specific you'd like to mention?\n\nIn the meantime, here's a warm, general version you can adapt:\n\n---\n\n**Joyeux anniversaire et bonne fête de mariage !**\n\nQuelle merveilleuse journée pour célébrer deux événements si spéciaux ! Nous vous souhaitons un très joyeux anniversaire ainsi qu'un merveilleux anniversaire de mariage. Que cette double célébration soit remplie de joie, d'amour et de moments précieux.\n\nQue l'année à venir vous apporte santé, bonheur et de nombreuses raisons de sourire. Puisse votre amour continuer de grandir et de s'épanouir avec chaque année qui passe.\n\nToutes nos félicitations et nos meilleurs vœux !\n\n---\n\nThis translates roughly to congratulations on both occasions, wishing them joy, love, health, and happiness in the year ahead, with hopes that their love continues to grow.\n\nWould you like me to adjust the tone or add more personal touches?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 1,
+          "created_at": "2025-10-14T16:30:57.343682Z",
+          "updated_at": "2025-10-14T16:30:57.343682Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "ba6a2c20-3240-4e3d-967e-f471730f589e"
+        },
+        {
+          "uuid": "6e4ccfc5-e010-442f-92ff-80a49c10d690",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:31:21.943032Z",
+              "stop_timestamp": "2025-10-14T16:31:21.943032Z",
+              "type": "text",
+              "text": "1. my 35 year-old daughter",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 2,
+          "created_at": "2025-10-14T16:31:21.952429Z",
+          "updated_at": "2025-10-14T16:31:21.952429Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "0592c0d8-9cbd-4de1-ae6c-0a4e170e14fa"
+        },
+        {
+          "uuid": "5852ed7b-5779-4f4e-88b0-63a536298a3b",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:31:24.271310Z",
+              "stop_timestamp": "2025-10-14T16:31:30.938545Z",
+              "type": "text",
+              "text": " Voici un message chaleureux et affectueux pour votre fille :\n\n---\n\n**Ma chère fille,**\n\nJoyeux 35e anniversaire et bonne fête de mariage !\n\nQuelle joie de célébrer avec toi cette journée doublement spéciale ! Il y a 35 ans, tu es entrée dans ma vie et tu l'as remplie de bonheur. Aujourd'hui, je suis si fière de la femme extraordinaire que tu es devenue et du beau couple que vous formez.\n\nQue cette nouvelle année t'apporte tout le bonheur que tu mérites, et que votre amour continue de grandir et de s'épanouir avec chaque jour qui passe. Vous êtes une inspiration pour tous ceux qui vous entourent.\n\nProfite bien de cette journée magique entourée des personnes que tu aimes. Tu es une fille merveilleuse et une épouse formidable.\n\nJe t'aime de tout mon cœur et je vous souhaite à tous les deux une vie remplie d'amour, de rires et de beaux moments.\n\nAvec tout mon amour,\n\n[Votre nom / Maman/Papa]\n\n---\n\nSi vous préférez un ton différent (plus léger, plus court, ou avec des détails personnels), n'hésitez pas à me le dire et je l'ajusterai avec plaisir !",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 3,
+          "created_at": "2025-10-14T16:31:31.083786Z",
+          "updated_at": "2025-10-14T16:31:31.083786Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "6e4ccfc5-e010-442f-92ff-80a49c10d690"
+        },
+        {
+          "uuid": "340c9ef1-a9e8-4f29-9e6d-df1223cc47fa",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:33:00.132784Z",
+              "stop_timestamp": "2025-10-14T16:33:00.132784Z",
+              "type": "text",
+              "text": "very good. Can I see a humorous version.",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 4,
+          "created_at": "2025-10-14T16:33:00.143478Z",
+          "updated_at": "2025-10-14T16:33:00.143478Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "5852ed7b-5779-4f4e-88b0-63a536298a3b"
+        },
+        {
+          "uuid": "2a4f27f6-b129-4c49-bdca-8ebaf2882631",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-10-14T16:33:02.247978Z",
+              "stop_timestamp": "2025-10-14T16:33:10.852071Z",
+              "type": "text",
+              "text": " Voici une version humoristique et affectueuse :\n\n---\n\n**Ma chère fille,**\n\nJoyeux 35e anniversaire et bonne fête de mariage !\n\nAlors voilà, tu as 35 ans aujourd'hui ET c'est aussi ton anniversaire de mariage ? Tu as vraiment décidé de nous faciliter la vie en combinant tout ça – plus besoin de se souvenir de deux dates différentes ! Brillante stratégie !\n\n35 ans déjà... Je me souviens encore quand tu avais besoin de moi pour tout. Maintenant, c'est plutôt toi qui dois m'expliquer comment fonctionne mon téléphone ! Le temps passe vite, mais au moins tu vieillis avec style (et avec quelqu'un qui accepte de te supporter toute l'année, chapeau à lui/elle !).\n\nSérieusement, je suis tellement fière de toi et du couple merveilleux que vous formez. Continuez à vous aimer, à rire ensemble et à partager le dessert (ou pas, chacun son truc).\n\nQue cette journée soit aussi exceptionnelle que toi – ce qui veut dire : pleine de gâteau, de cadeaux, et sans vaisselle à faire !\n\nJe t'aime énormément,\n\n[Votre nom / Maman/Papa]\n\n---\n\nÇa vous plaît ? Je peux ajuster le niveau d'humour si vous voulez quelque chose de plus ou moins taquin !",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 5,
+          "created_at": "2025-10-14T16:33:11.008510Z",
+          "updated_at": "2025-10-14T16:33:11.008510Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "340c9ef1-a9e8-4f29-9e6d-df1223cc47fa"
+        }
+      ]
+    }
+  }
+}

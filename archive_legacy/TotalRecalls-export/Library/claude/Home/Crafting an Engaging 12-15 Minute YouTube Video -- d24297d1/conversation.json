@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "provider": "claude",
+  "account": {
+    "email": "adenis258@gmail.com",
+    "external_id": "02718520-a074-4d0e-b648-ddb2f9b578e8",
+    "display_name": "Andre"
+  },
+  "conversation": {
+    "id": "d24297d1-3153-4e8a-8d46-e6d50f597ac4",
+    "title": "Crafting an Engaging 12-15 Minute YouTube Video",
+    "created_at": "2025-01-11T19:07:39.487708Z",
+    "updated_at": "2025-01-11T19:22:00.824196Z",
+    "folder": "Home",
+    "messages": [
+      {
+        "role": "user",
+        "content_md": "can you write a script for a 12-15 minute YouTube video",
+        "created_at": "2025-01-11T19:07:40.144626Z",
+        "model": "",
+        "citations": [],
+        "external_id": "886888db-f5c9-4992-822c-70636a607654"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I'd be happy to help write a YouTube video script. Could you let me know:\n\n1. What topic or type of content you'd like to cover?\n2. What style you're going for (educational, entertainment, vlog, etc.)?\n3. Who your target audience is?\n\nThis will help me create a script that's well-suited to your needs and maintains viewer engagement for the full 12-15 minutes.",
+        "created_at": "2025-01-11T19:07:42.519013Z",
+        "model": "",
+        "citations": [],
+        "external_id": "bca7be24-e3df-4e64-85a6-7269eecb9577"
+      },
+      {
+        "role": "user",
+        "content_md": "The following are the key points of the script for which words are needed:",
+        "created_at": "2025-01-11T19:09:48.217151Z",
+        "model": "",
+        "citations": [],
+        "external_id": "19c1b9b5-18b8-4e5a-bf34-e18daf29d29a"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I'd be happy to help write the script, but I don't see any key points listed in your message. Could you share the main points or topics you'd like the script to cover? This will help me create a focused and engaging script that effectively communicates your message.",
+        "created_at": "2025-01-11T19:09:49.871062Z",
+        "model": "",
+        "citations": [],
+        "external_id": "40e69413-fde9-4475-9463-878c480185b9"
+      },
+      {
+        "role": "user",
+        "content_md": "Based on the search results, here are 10 rules a trader must adopt to be successful:\n1. Develop a well-defined strategy and playbook: Have a clear system and edge in the market\n1\n2\n.\n2. Limit risk: Risk less than 1% per trade and no more than 10% of your liquid net worth\n4\n.\n3. Follow your rules without question: Stick to your strategy and avoid second-guessing yourself\n4\n.\n4. Practice patience: Understand that becoming a successful trader is a marathon, not a sprint\n2\n.\n5. Maintain consistency: Apply your strategy consistently across all market conditions\n5\n.\n6. Respect the market: Recognize the unpredictability and volatility of trading\n5\n.\n7. Establish a routine: Develop and follow a consistent trading routine\n5\n.\n8. Cut losses and let profits run: Implement a strategy of riding winners and cutting losers\n4\n.\n9. Continuously learn and adapt: Stay updated with market changes and refine your strategies\n1\n.\n10. Manage your psychology: Maintain discipline and control your emotions during trading\n6",
+        "created_at": "2025-01-11T19:10:11.029698Z",
+        "model": "",
+        "citations": [],
+        "external_id": "768c01d3-e216-4efa-b1d5-c91d5b78cea6"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I'll help you create a script that explains these trading rules in an engaging and educational way. Given this is a 12-15 minute video, we'll want to spend roughly 1-1.5 minutes on each rule.\n\n\n\n<antArtifact identifier=\"trading-rules-script\" type=\"text/markdown\" title=\"10 Essential Trading Rules YouTube Script\">\n# 10 Essential Trading Rules Every Trader Must Follow\n\n## Introduction (45 seconds)\nHey traders! Welcome back to the channel. Today we're diving into something crucial - the 10 fundamental rules that every successful trader needs to follow. Whether you're just starting out or you've been trading for years, these rules will help protect your capital and improve your results. Let's jump right in!\n\n## Rule #1: Develop a Well-Defined Strategy (1 minute)\nYou wouldn't start a business without a business plan, right? Well, trading is no different. Your strategy is your roadmap to success. Here's what you need:\n- A clear entry and exit criteria\n- Specific market conditions you trade in\n- Your preferred timeframes\n- Risk management parameters\n\nRemember, a strategy doesn't need to be complicated to be effective. In fact, the simpler it is, the easier it will be to follow consistently.\n\n## Rule #2: Limit Your Risk (1.5 minutes)\nThis rule is absolutely non-negotiable. The fastest way to blow up your account is to risk too much on a single trade. Here's the golden rule: never risk more than 1% of your trading account on a single trade.\n\nLet me break this down with a real example:\nIf you have a $10,000 account, your maximum risk per trade should be $100. That means if you're buying a stock at $50 and placing your stop loss at $48, you can only buy 50 shares. This way, even if you have a losing streak, you'll still have plenty of capital to trade with.\n\n## Rule #3: Follow Your Rules Without Question (1 minute)\nOnce you've established your strategy and rules, stick to them like your life depends on it. The market will constantly tempt you to break your rules - don't fall for it. Every time you break your rules and win, you're reinforcing bad habits that will eventually lead to significant losses.\n\n## Rule #4: Practice Patience (1.5 minutes)\nWarren Buffett once said, \"The stock market is a device for transferring money from the impatient to the patient.\" This couldn't be more true in trading. You need patience in two key areas:\n\nFirst, patience in waiting for the right setups. Don't force trades because you're bored or feel like you need to be in the market.\n\nSecond, patience in developing your skills. No one becomes a successful trader overnight. It takes months, often years, of consistent practice and learning to become profitable.\n\n## Rule #5: Maintain Consistency (1 minute)\nConsistency is the key to success in trading. This means:\n- Trading the same hours each day\n- Following the same pre-market routine\n- Using the same criteria for your trades\n- Maintaining the same position sizes\n\nThink of yourself as a casino. The house doesn't change its rules based on who's playing or how much money is on the table.\n\n## Rule #6: Respect the Market (1.5 minutes)\nThe market doesn't care about your opinions or your positions. It can and will move against you without warning. This means:\n- Never fight the trend\n- Don't try to pick tops and bottoms\n- Accept that you'll never catch every move\n- Understand that being right doesn't always mean making money\n\n## Rule #7: Establish a Routine (1 minute)\nSuccessful traders treat this like a business. Here's a basic routine you might follow:\n- Pre-market preparation\n- Market analysis\n- Trade execution\n- Trade journaling\n- End-of-day review\n\n## Rule #8: Cut Losses and Let Profits Run (1.5 minutes)\nThis simple rule is what separates professional traders from amateurs. Most losing traders do exactly the opposite - they cut their winners short and let their losses run.\n\nHere's how to implement this rule:\n- Set your stop loss before entering any trade\n- Never move your stop loss to a worse price\n- Use trailing stops to protect profits\n- Don't exit winning trades just because you're \"up enough\"\n\n## Rule #9: Continuously Learn and Adapt (1 minute)\nThe market is constantly evolving, and so should you. Keep a trading journal, review your trades regularly, and stay informed about market conditions. But remember - there's a difference between adapting your strategy and completely changing it every week.\n\n## Rule #10: Manage Your Psychology (1.5 minutes)\nYour biggest enemy in trading isn't the market - it's yourself. Fear, greed, and overconfidence will destroy your trading results faster than any market crash. Here's how to stay mentally strong:\n- Accept that losses are part of trading\n- Don't overtrade after big wins or losses\n- Take breaks when you're not in the right mindset\n- Focus on the process, not the profits\n\n## Conclusion (30 seconds)\nThere you have it - the 10 essential rules every trader must follow. Remember, knowing these rules is one thing, but following them consistently is what makes the difference. Start implementing these rules today, and you'll see the improvement in your trading results.\n\nDon't forget to like, subscribe, and hit that notification bell to stay updated with more trading tips and strategies. Drop a comment below letting me know which rule you find most challenging to follow. Thanks for watching, and I'll see you in the next video!\n</antArtifact>\n\nI've created a comprehensive script that:\n1. Breaks down each rule into clear, actionable advice\n2. Includes specific examples and analogies to help viewers understand\n3. Maintains an engaging pace with varied content density\n4. Uses a conversational tone while remaining professional\n5. Includes appropriate transitions between topics\n6. Adds a strong call-to-action at the end\n\nWould you like me to adjust anything about the script? For example, I could:\n- Add more specific examples\n- Include more technical details\n- Modify the tone or pacing\n- Add more interactive elements for viewer engagement",
+        "created_at": "2025-01-11T19:10:35.304967Z",
+        "model": "",
+        "citations": [],
+        "external_id": "2571b46c-253c-4e7b-a23e-30d34948252e"
+      },
+      {
+        "role": "user",
+        "content_md": "can you produce an white board animation video with that script you submitted.",
+        "created_at": "2025-01-11T19:12:09.335655Z",
+        "model": "",
+        "citations": [],
+        "external_id": "3148c793-e81a-4a3f-8d3c-30ccce99a0b2"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I apologize, but I cannot actually produce or create videos, animations, or any kind of visual media. I can help you by:\n\n1. Writing scripts (as I did)\n2. Creating storyboards describing what should appear on screen\n3. Providing detailed descriptions for each scene\n4. Suggesting visual elements that would work well with each section\n5. Writing directions for an animator\n\nWould you like me to create any of these supporting materials to help you produce your whiteboard animation? For example, I could write a detailed storyboard that describes exactly what should be drawn and animated for each part of the script, which you could then give to an animator or use with whiteboard animation software.",
+        "created_at": "2025-01-11T19:12:13.432898Z",
+        "model": "",
+        "citations": [],
+        "external_id": "dd9454bd-2a98-4793-a568-e9cf34d1ac61"
+      },
+      {
+        "role": "user",
+        "content_md": "Yes, please go forward.",
+        "created_at": "2025-01-11T19:12:50.076574Z",
+        "model": "",
+        "citations": [],
+        "external_id": "c072fcba-fce5-4226-bdb9-e6fd630eb2bb"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I'll create a detailed storyboard for the whiteboard animation that pairs with our script.\n\n\n\n<antArtifact identifier=\"trading-rules-storyboard\" type=\"text/markdown\" title=\"Whiteboard Animation Storyboard - Trading Rules\">\n# Whiteboard Animation Storyboard: 10 Essential Trading Rules\n\n## Opening Sequence (0:00-0:45)\n- Draw a large \"$\" symbol that transforms into a trading chart line\n- Hand draws \"10 Essential Trading Rules\" as main title\n- Animate small icons appearing around the title: calculator, chart, clock, brain\n- Draw a simple trader character looking at screens (stick figure style)\n\n## Rule #1: Strategy (0:45-1:45)\n- Draw a large puzzle piece\n- Inside puzzle piece, animate:\n  * Small chart patterns\n  * Entry/exit arrows\n  * Clock showing timeframes\n- Draw a roadmap unfurling from left to right\n- Animate checkmarks appearing next to key points\n\n## Rule #2: Risk Management (1:45-3:15)\n- Draw a shield icon\n- Animate numbers: \"1%\" appearing large\n- Draw a pie chart showing portfolio allocation\n- Create simple animation of:\n  * $10,000 account example\n  * Arrow pointing to $100 maximum risk\n  * 50 shares calculation with price points\n- Red X over larger risk percentages\n\n## Rule #3: Follow Rules (3:15-4:15)\n- Draw a large rulebook\n- Animate pages flipping open\n- Draw stick figure trader standing firm against:\n  * Money floating by (temptation)\n  * Market waves\n  * FOMO clouds\n- Show checkmark vs. X marks for rule following\n\n## Rule #4: Patience (4:15-5:45)\n- Draw a large clock\n- Animate hour hand moving slowly\n- Draw Warren Buffett quote appearing word by word\n- Split screen effect:\n  * One side: Rushed trader losing money\n  * Other side: Patient trader winning\n- Draw growing plant/tree metaphor\n\n## Rule #5: Consistency (5:45-6:45)\n- Draw casino building\n- Inside casino:\n  * Routine checklist\n  * Trading schedule\n  * Position sizing calculator\n- Animate routine arrows in circular motion\n- Draw equal sign between consistent actions and results\n\n## Rule #6: Market Respect (6:45-8:15)\n- Draw large market bull and bear\n- Animate price chart with unexpected moves\n- Draw trader stick figure:\n  * Bowing to market\n  * Stepping aside from falling prices\n  * Successfully riding trends\n- X over \"crystal ball\" and \"fortune telling\"\n\n## Rule #7: Routine (8:15-9:15)\n- Draw clock face\n- Animate daily schedule appearing around clock:\n  * Pre-market prep\n  * Analysis\n  * Trading\n  * Review\n- Draw checkbox list completing itself\n\n## Rule #8: Cut Losses/Let Profits Run (9:15-10:45)\n- Draw scissors cutting loss line\n- Animate winning trade with:\n  * Entry point\n  * Trailing stop moving up\n  * Profit target extending\n- Split screen comparing:\n  * Professional approach (small loss, big win)\n  * Amateur approach (big loss, small win)\n\n## Rule #9: Continuous Learning (10:45-11:45)\n- Draw trading journal\n- Animate flipping pages showing:\n  * Trade screenshots\n  * Notes\n  * Lessons learned\n- Draw evolving market conditions\n- Show upgrade/level up symbols\n\n## Rule #10: Psychology (11:45-13:15)\n- Draw brain with different sections:\n  * Fear zone (red)\n  * Greed zone (green)\n  * Logic zone (blue)\n- Animate emotional waves\n- Draw stick figure trader:\n  * Balancing on tightrope\n  * Staying centered\n  * Managing emotions\n\n## Conclusion (13:15-13:45)\n- All 10 rules connect in circular pattern\n- Draw subscribe button\n- Animate notification bell\n- Draw comment section\n- Final trading success imagery\n\n## Technical Notes for Animator:\n1. Use consistent color scheme:\n   - Blue for technical elements\n   - Green for positive/success\n   - Red for warnings/risks\n   - Black for main drawings\n   - White background throughout\n\n2. Drawing Style:\n   - Simple, clean lines\n   - Professional but not too complex\n   - Stick figures for human elements\n   - Basic geometric shapes for concepts\n\n3. Animation Timing:\n   - Smooth, steady drawing speed\n   - 2-3 seconds for simple elements\n   - 5-7 seconds for complex drawings\n   - Allow pauses for key points to register\n\n4. Transitions:\n   - Smooth wipes between major sections\n   - Fade out previous rule's elements\n   - Keep title number visible in corner\n   - Use small connecting elements between rules\n\nWould you like me to adjust any of these sections or add more specific details for certain scenes?",
+        "created_at": "2025-01-11T19:13:14.097496Z",
+        "model": "",
+        "citations": [],
+        "external_id": "a75bfe1e-69c2-4a4d-8412-92f4f49cca7a"
+      },
+      {
+        "role": "user",
+        "content_md": "No. this is perfect. Can you recommend a video making app that would implement your plan",
+        "created_at": "2025-01-11T19:13:56.482487Z",
+        "model": "",
+        "citations": [],
+        "external_id": "835175e7-c1f6-4b31-984c-c4fd783bbb66"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Based on your needs for creating a whiteboard animation video, here are some top recommendations:\n\n1. Doodly\n- Best for true whiteboard-style animations\n- Very intuitive for beginners\n- Has a large library of pre-made assets\n- Supports custom images and drawings\n- Perfect for the trading rules script style\n- Price: Starts at $39/month\n\n2. VideoScribe\n- Industry standard for whiteboard animations\n- Extensive image library\n- Smooth drawing animations\n- Great for professional-looking results\n- Strong export options\n- Price: Starts at $35/month\n\n3. Vyond (formerly GoAnimate)\n- More versatile than just whiteboard style\n- Professional-grade animations\n- Large asset library\n- Good for character animations\n- Price: Starts at $299/month\n\n4. RawShorts\n- AI-powered video creation\n- Good template library\n- Easy to use\n- More affordable option\n- Price: Starts at $39/month\n\nFor your specific project, I would recommend Doodly or VideoScribe as they:\n- Match perfectly with the storyboard style we created\n- Have reasonable learning curves\n- Include the necessary tools for all our planned animations\n- Are cost-effective for this type of project\n- Allow for custom images and drawings\n\nWould you like me to explain more about any of these options or suggest some alternatives?",
+        "created_at": "2025-01-11T19:14:03.409353Z",
+        "model": "",
+        "citations": [],
+        "external_id": "3219f575-bbe2-4cbe-8317-d0d650e57679"
+      },
+      {
+        "role": "user",
+        "content_md": "sure, please do so",
+        "created_at": "2025-01-11T19:15:05.639020Z",
+        "model": "",
+        "citations": [],
+        "external_id": "1367fb00-e9b9-4f3a-b996-da84bd818d2c"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Let me break down each option in more detail, including their key features, pros and cons, and best use cases.\n\n1. Doodly (Most Beginner-Friendly)\nPros:\n- Extremely user-friendly interface\n- No technical animation skills needed\n- Custom drawing paths easily created\n- 4 different animation styles (whiteboard, blackboard, glassboard, greenboard)\n- Can import your own images and convert them to doodle style\n- Works well with both Mac and PC\n\nCons:\n- Limited animation effects\n- Stock library could be more extensive\n- Rendering can be slow on longer videos\n- Monthly subscription required\n\nBest for: Complete beginners who want professional-looking results quickly\n\n2. VideoScribe (Most Professional)\nPros:\n- Professional-grade output\n- Huge library of SVG images\n- More control over animation timing\n- One-time purchase option available\n- Excellent customer support\n- Can handle longer videos well\n\nCons:\n- Steeper learning curve than Doodly\n- More expensive up front if buying lifetime license\n- Interface can be overwhelming at first\n- Some features require more technical knowledge\n\nBest for: Those willing to invest time learning for higher-quality results\n\n3. Vyond (Most Versatile)\nPros:\n- Multiple animation styles beyond whiteboard\n- Professional character animations\n- Extensive template library\n- Good audio synchronization\n- Regular feature updates\n\nCons:\n- Significantly more expensive\n- Might be overkill for simple whiteboard videos\n- Takes longer to master\n- Subscription-only model\n\nBest for: Businesses needing various animation styles and ongoing content creation\n\n4. RawShorts (Most Cost-Effective)\nPros:\n- AI-assisted video creation\n- Quick turnaround time\n- Good template selection\n- More affordable than competitors\n- Regular updates\n\nCons:\n- Less customization options\n- Limited animation styles\n- Smaller asset library\n- AI suggestions aren't always perfect\n\nBest for: Quick projects on a budget\n\nFor your trading rules video specifically, here's my detailed recommendation:\n\nIf you're new to video creation:\nStart with Doodly because:\n- It will handle all the elements in our storyboard\n- You can complete the project with minimal learning time\n- The monthly cost is reasonable for a one-off project\n- The built-in assets work well for trading concepts\n\nIf you plan to make videos regularly:\nConsider VideoScribe because:\n- It offers more professional results\n- The one-time purchase option could save money long-term\n- You'll have more control over animation details\n- The extensive SVG library will be useful for future projects\n\nWould you like me to:\n1. Provide more specific details about any of these options?\n2. Share some tips for getting started with your chosen platform?\n3. Suggest some alternative options I haven't mentioned?",
+        "created_at": "2025-01-11T19:15:17.665238Z",
+        "model": "",
+        "citations": [],
+        "external_id": "7275dfcc-b687-4e12-849f-5d1d6c8be0c0"
+      },
+      {
+        "role": "user",
+        "content_md": "does videoscribe or doodly have a free trial period",
+        "created_at": "2025-01-11T19:15:52.057679Z",
+        "model": "",
+        "citations": [],
+        "external_id": "4a25dc17-8e1f-415f-bfa7-bf8e4a3c6bce"
+      },
+      {
+        "role": "assistant",
+        "content_md": "Yes, both offer free trial periods:\n\nVideoScribe:\n- 7-day free trial\n- Full access to all features\n- No credit card required to start\n- Can export videos with watermark during trial\n- Must register on their website to access trial\n\nDoodly:\n- 14-day money-back guarantee (not a true free trial)\n- Requires payment information upfront\n- Full refund if you're not satisfied\n- Complete access to all features during this period\n- Must purchase first, then can request refund if needed\n\nIf you're looking to test before committing, VideoScribe offers the better option since it's a true free trial with no upfront payment required. You could use the 7-day period to create your video and see if you like the platform before purchasing.\n\nWould you like me to provide the direct links to sign up for either trial?",
+        "created_at": "2025-01-11T19:15:56.631418Z",
+        "model": "",
+        "citations": [],
+        "external_id": "791a2ab9-bbea-4e77-8c52-f7c5f5f28e07"
+      },
+      {
+        "role": "user",
+        "content_md": "using VideoScribe how do I upload the script for them to generate a video.",
+        "created_at": "2025-01-11T19:21:55.936066Z",
+        "model": "",
+        "citations": [],
+        "external_id": "822c1c0f-7d1d-4970-91a5-e908fa0b2d6e"
+      },
+      {
+        "role": "assistant",
+        "content_md": "I need to clarify something: VideoScribe doesn't automatically generate videos from scripts. It's a tool where you create the whiteboard animations yourself using their interface and assets. There isn't a feature to simply upload a script and have it automatically create the video.\n\nInstead, you would need to:\n1. Create a new project in VideoScribe\n2. Manually add images and elements from their library\n3. Set up the drawing animations\n4. Add text and voiceover\n5. Adjust timing and transitions\n6. Export your final video\n\nHowever, if you're looking for a service that can generate a video directly from a script, you might want to consider:\n1. Synthesia.io - AI video creation from text\n2. InVideo - Template-based video creation\n3. Pictory - Automatically converts scripts to videos\n\nWould you like me to:\n1. Explain how to get started with VideoScribe manually?\n2. Share information about automatic video generation services instead?",
+        "created_at": "2025-01-11T19:22:00.824196Z",
+        "model": "",
+        "citations": [],
+        "external_id": "b7f88684-4257-450e-bb19-0ba01e77455c"
+      }
+    ]
+  },
+  "raw": {
+    "detail": {
+      "uuid": "d24297d1-3153-4e8a-8d46-e6d50f597ac4",
+      "name": "Crafting an Engaging 12-15 Minute YouTube Video",
+      "summary": "",
+      "model": "claude-sonnet-4-5-20250929",
+      "created_at": "2025-01-11T19:07:39.487708Z",
+      "updated_at": "2025-01-11T19:22:00.824196Z",
+      "settings": {
+        "tool_search_mode": "auto",
+        "preview_feature_uses_artifacts": true
+      },
+      "is_starred": false,
+      "is_temporary": false,
+      "platform": "CLAUDE_AI",
+      "is_wiggle_enabled": true,
+      "effective_thinking_mode": "off",
+      "current_leaf_message_uuid": "b7f88684-4257-450e-bb19-0ba01e77455c",
+      "chat_messages": [
+        {
+          "uuid": "886888db-f5c9-4992-822c-70636a607654",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:07:40.144626Z",
+              "stop_timestamp": "2025-01-11T19:07:40.144626Z",
+              "type": "text",
+              "text": "can you write a script for a 12-15 minute YouTube video",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 0,
+          "created_at": "2025-01-11T19:07:40.144626Z",
+          "updated_at": "2025-01-11T19:07:40.144626Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+        },
+        {
+          "uuid": "bca7be24-e3df-4e64-85a6-7269eecb9577",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:07:42.519013Z",
+              "stop_timestamp": "2025-01-11T19:07:42.519013Z",
+              "type": "text",
+              "text": " I'd be happy to help write a YouTube video script. Could you let me know:\n\n1. What topic or type of content you'd like to cover?\n2. What style you're going for (educational, entertainment, vlog, etc.)?\n3. Who your target audience is?\n\nThis will help me create a script that's well-suited to your needs and maintains viewer engagement for the full 12-15 minutes.",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 1,
+          "created_at": "2025-01-11T19:07:42.519013Z",
+          "updated_at": "2025-01-11T19:07:42.519013Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "886888db-f5c9-4992-822c-70636a607654"
+        },
+        {
+          "uuid": "19c1b9b5-18b8-4e5a-bf34-e18daf29d29a",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:09:48.217151Z",
+              "stop_timestamp": "2025-01-11T19:09:48.217151Z",
+              "type": "text",
+              "text": "The following are the key points of the script for which words are needed:",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 2,
+          "created_at": "2025-01-11T19:09:48.217151Z",
+          "updated_at": "2025-01-11T19:09:48.217151Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "bca7be24-e3df-4e64-85a6-7269eecb9577"
+        },
+        {
+          "uuid": "40e69413-fde9-4475-9463-878c480185b9",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:09:49.871062Z",
+              "stop_timestamp": "2025-01-11T19:09:49.871062Z",
+              "type": "text",
+              "text": " I'd be happy to help write the script, but I don't see any key points listed in your message. Could you share the main points or topics you'd like the script to cover? This will help me create a focused and engaging script that effectively communicates your message.",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 3,
+          "created_at": "2025-01-11T19:09:49.871062Z",
+          "updated_at": "2025-01-11T19:09:49.871062Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "19c1b9b5-18b8-4e5a-bf34-e18daf29d29a"
+        },
+        {
+          "uuid": "768c01d3-e216-4efa-b1d5-c91d5b78cea6",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:10:11.029698Z",
+              "stop_timestamp": "2025-01-11T19:10:11.029698Z",
+              "type": "text",
+              "text": "Based on the search results, here are 10 rules a trader must adopt to be successful:\n1. Develop a well-defined strategy and playbook: Have a clear system and edge in the market\n1\n2\n.\n2. Limit risk: Risk less than 1% per trade and no more than 10% of your liquid net worth\n4\n.\n3. Follow your rules without question: Stick to your strategy and avoid second-guessing yourself\n4\n.\n4. Practice patience: Understand that becoming a successful trader is a marathon, not a sprint\n2\n.\n5. Maintain consistency: Apply your strategy consistently across all market conditions\n5\n.\n6. Respect the market: Recognize the unpredictability and volatility of trading\n5\n.\n7. Establish a routine: Develop and follow a consistent trading routine\n5\n.\n8. Cut losses and let profits run: Implement a strategy of riding winners and cutting losers\n4\n.\n9. Continuously learn and adapt: Stay updated with market changes and refine your strategies\n1\n.\n10. Manage your psychology: Maintain discipline and control your emotions during trading\n6",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 4,
+          "created_at": "2025-01-11T19:10:11.029698Z",
+          "updated_at": "2025-01-11T19:10:11.029698Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "40e69413-fde9-4475-9463-878c480185b9"
+        },
+        {
+          "uuid": "2571b46c-253c-4e7b-a23e-30d34948252e",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:10:35.304967Z",
+              "stop_timestamp": "2025-01-11T19:10:35.304967Z",
+              "type": "text",
+              "text": " I'll help you create a script that explains these trading rules in an engaging and educational way. Given this is a 12-15 minute video, we'll want to spend roughly 1-1.5 minutes on each rule.\n\n\n\n<antArtifact identifier=\"trading-rules-script\" type=\"text/markdown\" title=\"10 Essential Trading Rules YouTube Script\">\n# 10 Essential Trading Rules Every Trader Must Follow\n\n## Introduction (45 seconds)\nHey traders! Welcome back to the channel. Today we're diving into something crucial - the 10 fundamental rules that every successful trader needs to follow. Whether you're just starting out or you've been trading for years, these rules will help protect your capital and improve your results. Let's jump right in!\n\n## Rule #1: Develop a Well-Defined Strategy (1 minute)\nYou wouldn't start a business without a business plan, right? Well, trading is no different. Your strategy is your roadmap to success. Here's what you need:\n- A clear entry and exit criteria\n- Specific market conditions you trade in\n- Your preferred timeframes\n- Risk management parameters\n\nRemember, a strategy doesn't need to be complicated to be effective. In fact, the simpler it is, the easier it will be to follow consistently.\n\n## Rule #2: Limit Your Risk (1.5 minutes)\nThis rule is absolutely non-negotiable. The fastest way to blow up your account is to risk too much on a single trade. Here's the golden rule: never risk more than 1% of your trading account on a single trade.\n\nLet me break this down with a real example:\nIf you have a $10,000 account, your maximum risk per trade should be $100. That means if you're buying a stock at $50 and placing your stop loss at $48, you can only buy 50 shares. This way, even if you have a losing streak, you'll still have plenty of capital to trade with.\n\n## Rule #3: Follow Your Rules Without Question (1 minute)\nOnce you've established your strategy and rules, stick to them like your life depends on it. The market will constantly tempt you to break your rules - don't fall for it. Every time you break your rules and win, you're reinforcing bad habits that will eventually lead to significant losses.\n\n## Rule #4: Practice Patience (1.5 minutes)\nWarren Buffett once said, \"The stock market is a device for transferring money from the impatient to the patient.\" This couldn't be more true in trading. You need patience in two key areas:\n\nFirst, patience in waiting for the right setups. Don't force trades because you're bored or feel like you need to be in the market.\n\nSecond, patience in developing your skills. No one becomes a successful trader overnight. It takes months, often years, of consistent practice and learning to become profitable.\n\n## Rule #5: Maintain Consistency (1 minute)\nConsistency is the key to success in trading. This means:\n- Trading the same hours each day\n- Following the same pre-market routine\n- Using the same criteria for your trades\n- Maintaining the same position sizes\n\nThink of yourself as a casino. The house doesn't change its rules based on who's playing or how much money is on the table.\n\n## Rule #6: Respect the Market (1.5 minutes)\nThe market doesn't care about your opinions or your positions. It can and will move against you without warning. This means:\n- Never fight the trend\n- Don't try to pick tops and bottoms\n- Accept that you'll never catch every move\n- Understand that being right doesn't always mean making money\n\n## Rule #7: Establish a Routine (1 minute)\nSuccessful traders treat this like a business. Here's a basic routine you might follow:\n- Pre-market preparation\n- Market analysis\n- Trade execution\n- Trade journaling\n- End-of-day review\n\n## Rule #8: Cut Losses and Let Profits Run (1.5 minutes)\nThis simple rule is what separates professional traders from amateurs. Most losing traders do exactly the opposite - they cut their winners short and let their losses run.\n\nHere's how to implement this rule:\n- Set your stop loss before entering any trade\n- Never move your stop loss to a worse price\n- Use trailing stops to protect profits\n- Don't exit winning trades just because you're \"up enough\"\n\n## Rule #9: Continuously Learn and Adapt (1 minute)\nThe market is constantly evolving, and so should you. Keep a trading journal, review your trades regularly, and stay informed about market conditions. But remember - there's a difference between adapting your strategy and completely changing it every week.\n\n## Rule #10: Manage Your Psychology (1.5 minutes)\nYour biggest enemy in trading isn't the market - it's yourself. Fear, greed, and overconfidence will destroy your trading results faster than any market crash. Here's how to stay mentally strong:\n- Accept that losses are part of trading\n- Don't overtrade after big wins or losses\n- Take breaks when you're not in the right mindset\n- Focus on the process, not the profits\n\n## Conclusion (30 seconds)\nThere you have it - the 10 essential rules every trader must follow. Remember, knowing these rules is one thing, but following them consistently is what makes the difference. Start implementing these rules today, and you'll see the improvement in your trading results.\n\nDon't forget to like, subscribe, and hit that notification bell to stay updated with more trading tips and strategies. Drop a comment below letting me know which rule you find most challenging to follow. Thanks for watching, and I'll see you in the next video!\n</antArtifact>\n\nI've created a comprehensive script that:\n1. Breaks down each rule into clear, actionable advice\n2. Includes specific examples and analogies to help viewers understand\n3. Maintains an engaging pace with varied content density\n4. Uses a conversational tone while remaining professional\n5. Includes appropriate transitions between topics\n6. Adds a strong call-to-action at the end\n\nWould you like me to adjust anything about the script? For example, I could:\n- Add more specific examples\n- Include more technical details\n- Modify the tone or pacing\n- Add more interactive elements for viewer engagement",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 5,
+          "created_at": "2025-01-11T19:10:35.304967Z",
+          "updated_at": "2025-01-11T19:10:35.304967Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "768c01d3-e216-4efa-b1d5-c91d5b78cea6"
+        },
+        {
+          "uuid": "3148c793-e81a-4a3f-8d3c-30ccce99a0b2",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:12:09.335655Z",
+              "stop_timestamp": "2025-01-11T19:12:09.335655Z",
+              "type": "text",
+              "text": "can you produce an white board animation video with that script you submitted.",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 6,
+          "created_at": "2025-01-11T19:12:09.335655Z",
+          "updated_at": "2025-01-11T19:12:09.335655Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "2571b46c-253c-4e7b-a23e-30d34948252e"
+        },
+        {
+          "uuid": "dd9454bd-2a98-4793-a568-e9cf34d1ac61",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:12:13.432898Z",
+              "stop_timestamp": "2025-01-11T19:12:13.432898Z",
+              "type": "text",
+              "text": " I apologize, but I cannot actually produce or create videos, animations, or any kind of visual media. I can help you by:\n\n1. Writing scripts (as I did)\n2. Creating storyboards describing what should appear on screen\n3. Providing detailed descriptions for each scene\n4. Suggesting visual elements that would work well with each section\n5. Writing directions for an animator\n\nWould you like me to create any of these supporting materials to help you produce your whiteboard animation? For example, I could write a detailed storyboard that describes exactly what should be drawn and animated for each part of the script, which you could then give to an animator or use with whiteboard animation software.",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 7,
+          "created_at": "2025-01-11T19:12:13.432898Z",
+          "updated_at": "2025-01-11T19:12:13.432898Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "3148c793-e81a-4a3f-8d3c-30ccce99a0b2"
+        },
+        {
+          "uuid": "c072fcba-fce5-4226-bdb9-e6fd630eb2bb",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:12:50.076574Z",
+              "stop_timestamp": "2025-01-11T19:12:50.076574Z",
+              "type": "text",
+              "text": "Yes, please go forward.",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 8,
+          "created_at": "2025-01-11T19:12:50.076574Z",
+          "updated_at": "2025-01-11T19:12:50.076574Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "dd9454bd-2a98-4793-a568-e9cf34d1ac61"
+        },
+        {
+          "uuid": "a75bfe1e-69c2-4a4d-8412-92f4f49cca7a",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:13:14.097496Z",
+              "stop_timestamp": "2025-01-11T19:13:14.097496Z",
+              "type": "text",
+              "text": " I'll create a detailed storyboard for the whiteboard animation that pairs with our script.\n\n\n\n<antArtifact identifier=\"trading-rules-storyboard\" type=\"text/markdown\" title=\"Whiteboard Animation Storyboard - Trading Rules\">\n# Whiteboard Animation Storyboard: 10 Essential Trading Rules\n\n## Opening Sequence (0:00-0:45)\n- Draw a large \"$\" symbol that transforms into a trading chart line\n- Hand draws \"10 Essential Trading Rules\" as main title\n- Animate small icons appearing around the title: calculator, chart, clock, brain\n- Draw a simple trader character looking at screens (stick figure style)\n\n## Rule #1: Strategy (0:45-1:45)\n- Draw a large puzzle piece\n- Inside puzzle piece, animate:\n  * Small chart patterns\n  * Entry/exit arrows\n  * Clock showing timeframes\n- Draw a roadmap unfurling from left to right\n- Animate checkmarks appearing next to key points\n\n## Rule #2: Risk Management (1:45-3:15)\n- Draw a shield icon\n- Animate numbers: \"1%\" appearing large\n- Draw a pie chart showing portfolio allocation\n- Create simple animation of:\n  * $10,000 account example\n  * Arrow pointing to $100 maximum risk\n  * 50 shares calculation with price points\n- Red X over larger risk percentages\n\n## Rule #3: Follow Rules (3:15-4:15)\n- Draw a large rulebook\n- Animate pages flipping open\n- Draw stick figure trader standing firm against:\n  * Money floating by (temptation)\n  * Market waves\n  * FOMO clouds\n- Show checkmark vs. X marks for rule following\n\n## Rule #4: Patience (4:15-5:45)\n- Draw a large clock\n- Animate hour hand moving slowly\n- Draw Warren Buffett quote appearing word by word\n- Split screen effect:\n  * One side: Rushed trader losing money\n  * Other side: Patient trader winning\n- Draw growing plant/tree metaphor\n\n## Rule #5: Consistency (5:45-6:45)\n- Draw casino building\n- Inside casino:\n  * Routine checklist\n  * Trading schedule\n  * Position sizing calculator\n- Animate routine arrows in circular motion\n- Draw equal sign between consistent actions and results\n\n## Rule #6: Market Respect (6:45-8:15)\n- Draw large market bull and bear\n- Animate price chart with unexpected moves\n- Draw trader stick figure:\n  * Bowing to market\n  * Stepping aside from falling prices\n  * Successfully riding trends\n- X over \"crystal ball\" and \"fortune telling\"\n\n## Rule #7: Routine (8:15-9:15)\n- Draw clock face\n- Animate daily schedule appearing around clock:\n  * Pre-market prep\n  * Analysis\n  * Trading\n  * Review\n- Draw checkbox list completing itself\n\n## Rule #8: Cut Losses/Let Profits Run (9:15-10:45)\n- Draw scissors cutting loss line\n- Animate winning trade with:\n  * Entry point\n  * Trailing stop moving up\n  * Profit target extending\n- Split screen comparing:\n  * Professional approach (small loss, big win)\n  * Amateur approach (big loss, small win)\n\n## Rule #9: Continuous Learning (10:45-11:45)\n- Draw trading journal\n- Animate flipping pages showing:\n  * Trade screenshots\n  * Notes\n  * Lessons learned\n- Draw evolving market conditions\n- Show upgrade/level up symbols\n\n## Rule #10: Psychology (11:45-13:15)\n- Draw brain with different sections:\n  * Fear zone (red)\n  * Greed zone (green)\n  * Logic zone (blue)\n- Animate emotional waves\n- Draw stick figure trader:\n  * Balancing on tightrope\n  * Staying centered\n  * Managing emotions\n\n## Conclusion (13:15-13:45)\n- All 10 rules connect in circular pattern\n- Draw subscribe button\n- Animate notification bell\n- Draw comment section\n- Final trading success imagery\n\n## Technical Notes for Animator:\n1. Use consistent color scheme:\n   - Blue for technical elements\n   - Green for positive/success\n   - Red for warnings/risks\n   - Black for main drawings\n   - White background throughout\n\n2. Drawing Style:\n   - Simple, clean lines\n   - Professional but not too complex\n   - Stick figures for human elements\n   - Basic geometric shapes for concepts\n\n3. Animation Timing:\n   - Smooth, steady drawing speed\n   - 2-3 seconds for simple elements\n   - 5-7 seconds for complex drawings\n   - Allow pauses for key points to register\n\n4. Transitions:\n   - Smooth wipes between major sections\n   - Fade out previous rule's elements\n   - Keep title number visible in corner\n   - Use small connecting elements between rules\n\nWould you like me to adjust any of these sections or add more specific details for certain scenes?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 9,
+          "created_at": "2025-01-11T19:13:14.097496Z",
+          "updated_at": "2025-01-11T19:13:14.097496Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "c072fcba-fce5-4226-bdb9-e6fd630eb2bb"
+        },
+        {
+          "uuid": "835175e7-c1f6-4b31-984c-c4fd783bbb66",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:13:56.482487Z",
+              "stop_timestamp": "2025-01-11T19:13:56.482487Z",
+              "type": "text",
+              "text": "No. this is perfect. Can you recommend a video making app that would implement your plan",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 10,
+          "created_at": "2025-01-11T19:13:56.482487Z",
+          "updated_at": "2025-01-11T19:13:56.482487Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "a75bfe1e-69c2-4a4d-8412-92f4f49cca7a"
+        },
+        {
+          "uuid": "3219f575-bbe2-4cbe-8317-d0d650e57679",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:14:03.409353Z",
+              "stop_timestamp": "2025-01-11T19:14:03.409353Z",
+              "type": "text",
+              "text": " Based on your needs for creating a whiteboard animation video, here are some top recommendations:\n\n1. Doodly\n- Best for true whiteboard-style animations\n- Very intuitive for beginners\n- Has a large library of pre-made assets\n- Supports custom images and drawings\n- Perfect for the trading rules script style\n- Price: Starts at $39/month\n\n2. VideoScribe\n- Industry standard for whiteboard animations\n- Extensive image library\n- Smooth drawing animations\n- Great for professional-looking results\n- Strong export options\n- Price: Starts at $35/month\n\n3. Vyond (formerly GoAnimate)\n- More versatile than just whiteboard style\n- Professional-grade animations\n- Large asset library\n- Good for character animations\n- Price: Starts at $299/month\n\n4. RawShorts\n- AI-powered video creation\n- Good template library\n- Easy to use\n- More affordable option\n- Price: Starts at $39/month\n\nFor your specific project, I would recommend Doodly or VideoScribe as they:\n- Match perfectly with the storyboard style we created\n- Have reasonable learning curves\n- Include the necessary tools for all our planned animations\n- Are cost-effective for this type of project\n- Allow for custom images and drawings\n\nWould you like me to explain more about any of these options or suggest some alternatives?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 11,
+          "created_at": "2025-01-11T19:14:03.409353Z",
+          "updated_at": "2025-01-11T19:14:03.409353Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "835175e7-c1f6-4b31-984c-c4fd783bbb66"
+        },
+        {
+          "uuid": "1367fb00-e9b9-4f3a-b996-da84bd818d2c",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:15:05.639020Z",
+              "stop_timestamp": "2025-01-11T19:15:05.639020Z",
+              "type": "text",
+              "text": "sure, please do so",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 12,
+          "created_at": "2025-01-11T19:15:05.639020Z",
+          "updated_at": "2025-01-11T19:15:05.639020Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "3219f575-bbe2-4cbe-8317-d0d650e57679"
+        },
+        {
+          "uuid": "7275dfcc-b687-4e12-849f-5d1d6c8be0c0",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:15:17.665238Z",
+              "stop_timestamp": "2025-01-11T19:15:17.665238Z",
+              "type": "text",
+              "text": " Let me break down each option in more detail, including their key features, pros and cons, and best use cases.\n\n1. Doodly (Most Beginner-Friendly)\nPros:\n- Extremely user-friendly interface\n- No technical animation skills needed\n- Custom drawing paths easily created\n- 4 different animation styles (whiteboard, blackboard, glassboard, greenboard)\n- Can import your own images and convert them to doodle style\n- Works well with both Mac and PC\n\nCons:\n- Limited animation effects\n- Stock library could be more extensive\n- Rendering can be slow on longer videos\n- Monthly subscription required\n\nBest for: Complete beginners who want professional-looking results quickly\n\n2. VideoScribe (Most Professional)\nPros:\n- Professional-grade output\n- Huge library of SVG images\n- More control over animation timing\n- One-time purchase option available\n- Excellent customer support\n- Can handle longer videos well\n\nCons:\n- Steeper learning curve than Doodly\n- More expensive up front if buying lifetime license\n- Interface can be overwhelming at first\n- Some features require more technical knowledge\n\nBest for: Those willing to invest time learning for higher-quality results\n\n3. Vyond (Most Versatile)\nPros:\n- Multiple animation styles beyond whiteboard\n- Professional character animations\n- Extensive template library\n- Good audio synchronization\n- Regular feature updates\n\nCons:\n- Significantly more expensive\n- Might be overkill for simple whiteboard videos\n- Takes longer to master\n- Subscription-only model\n\nBest for: Businesses needing various animation styles and ongoing content creation\n\n4. RawShorts (Most Cost-Effective)\nPros:\n- AI-assisted video creation\n- Quick turnaround time\n- Good template selection\n- More affordable than competitors\n- Regular updates\n\nCons:\n- Less customization options\n- Limited animation styles\n- Smaller asset library\n- AI suggestions aren't always perfect\n\nBest for: Quick projects on a budget\n\nFor your trading rules video specifically, here's my detailed recommendation:\n\nIf you're new to video creation:\nStart with Doodly because:\n- It will handle all the elements in our storyboard\n- You can complete the project with minimal learning time\n- The monthly cost is reasonable for a one-off project\n- The built-in assets work well for trading concepts\n\nIf you plan to make videos regularly:\nConsider VideoScribe because:\n- It offers more professional results\n- The one-time purchase option could save money long-term\n- You'll have more control over animation details\n- The extensive SVG library will be useful for future projects\n\nWould you like me to:\n1. Provide more specific details about any of these options?\n2. Share some tips for getting started with your chosen platform?\n3. Suggest some alternative options I haven't mentioned?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 13,
+          "created_at": "2025-01-11T19:15:17.665238Z",
+          "updated_at": "2025-01-11T19:15:17.665238Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "1367fb00-e9b9-4f3a-b996-da84bd818d2c"
+        },
+        {
+          "uuid": "4a25dc17-8e1f-415f-bfa7-bf8e4a3c6bce",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:15:52.057679Z",
+              "stop_timestamp": "2025-01-11T19:15:52.057679Z",
+              "type": "text",
+              "text": "does videoscribe or doodly have a free trial period",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 14,
+          "created_at": "2025-01-11T19:15:52.057679Z",
+          "updated_at": "2025-01-11T19:15:52.057679Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "7275dfcc-b687-4e12-849f-5d1d6c8be0c0"
+        },
+        {
+          "uuid": "791a2ab9-bbea-4e77-8c52-f7c5f5f28e07",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:15:56.631418Z",
+              "stop_timestamp": "2025-01-11T19:15:56.631418Z",
+              "type": "text",
+              "text": " Yes, both offer free trial periods:\n\nVideoScribe:\n- 7-day free trial\n- Full access to all features\n- No credit card required to start\n- Can export videos with watermark during trial\n- Must register on their website to access trial\n\nDoodly:\n- 14-day money-back guarantee (not a true free trial)\n- Requires payment information upfront\n- Full refund if you're not satisfied\n- Complete access to all features during this period\n- Must purchase first, then can request refund if needed\n\nIf you're looking to test before committing, VideoScribe offers the better option since it's a true free trial with no upfront payment required. You could use the 7-day period to create your video and see if you like the platform before purchasing.\n\nWould you like me to provide the direct links to sign up for either trial?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 15,
+          "created_at": "2025-01-11T19:15:56.631418Z",
+          "updated_at": "2025-01-11T19:15:56.631418Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "4a25dc17-8e1f-415f-bfa7-bf8e4a3c6bce"
+        },
+        {
+          "uuid": "822c1c0f-7d1d-4970-91a5-e908fa0b2d6e",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:21:55.936066Z",
+              "stop_timestamp": "2025-01-11T19:21:55.936066Z",
+              "type": "text",
+              "text": "using VideoScribe how do I upload the script for them to generate a video.",
+              "citations": []
+            }
+          ],
+          "sender": "human",
+          "index": 16,
+          "created_at": "2025-01-11T19:21:55.936066Z",
+          "updated_at": "2025-01-11T19:21:55.936066Z",
+          "truncated": false,
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "791a2ab9-bbea-4e77-8c52-f7c5f5f28e07"
+        },
+        {
+          "uuid": "b7f88684-4257-450e-bb19-0ba01e77455c",
+          "text": "",
+          "content": [
+            {
+              "start_timestamp": "2025-01-11T19:22:00.824196Z",
+              "stop_timestamp": "2025-01-11T19:22:00.824196Z",
+              "type": "text",
+              "text": " I need to clarify something: VideoScribe doesn't automatically generate videos from scripts. It's a tool where you create the whiteboard animations yourself using their interface and assets. There isn't a feature to simply upload a script and have it automatically create the video.\n\nInstead, you would need to:\n1. Create a new project in VideoScribe\n2. Manually add images and elements from their library\n3. Set up the drawing animations\n4. Add text and voiceover\n5. Adjust timing and transitions\n6. Export your final video\n\nHowever, if you're looking for a service that can generate a video directly from a script, you might want to consider:\n1. Synthesia.io - AI video creation from text\n2. InVideo - Template-based video creation\n3. Pictory - Automatically converts scripts to videos\n\nWould you like me to:\n1. Explain how to get started with VideoScribe manually?\n2. Share information about automatic video generation services instead?",
+              "citations": []
+            }
+          ],
+          "sender": "assistant",
+          "index": 17,
+          "created_at": "2025-01-11T19:22:00.824196Z",
+          "updated_at": "2025-01-11T19:22:00.824196Z",
+          "truncated": false,
+          "stop_reason": "stop_sequence",
+          "attachments": [],
+          "files": [],
+          "sync_sources": [],
+          "parent_message_uuid": "822c1c0f-7d1d-4970-91a5-e908fa0b2d6e"
+        }
+      ]
+    }
+  }
+}
