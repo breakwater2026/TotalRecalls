@@ -30,20 +30,24 @@ const links = [
     background: #FFFFFF;
     border-bottom: 1px solid #E2E8F0;
     padding: 0 var(--space-8);
-    height: 120px;
+    height: 72px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: visible !important;
   }
   .brand {
     display: flex;
     align-items: center;
     text-decoration: none;
+    overflow: visible !important;
   }
   .large-logo {
-    height: 100px;
+    height: 200px;
     width: auto;
     display: block;
+    max-width: none;
+    margin-top: 8px;
   }
   .nav-links {
     display: flex;
@@ -52,7 +56,6 @@ const links = [
     flex-wrap: wrap;
   }
   @media (max-width: 900px) {
-    .large-logo { height: 70px; }
-    .v6-nav { height: 80px; }
+    .large-logo { height: 120px; }
   }
 </style>
