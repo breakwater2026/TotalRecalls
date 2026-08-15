@@ -9,11 +9,9 @@ const links = [
 ];
 ---
 <nav class="v6-nav">
-  <div class="brand-wrapper">
-    <a href="/" class="brand">
-      <img src="/logo.png" alt="TotalRecalls" class="large-logo" />
-    </a>
-  </div>
+  <a href="/" class="brand">
+    <img src="/logo.png" alt="TotalRecalls" class="large-logo" />
+  </a>
   <span class="nav-links">
     {
       links.map((l) => (
@@ -36,25 +34,20 @@ const links = [
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: visible !important;
   }
-  .brand-wrapper {
-    position: relative;
-    height: 72px;
+  .brand {
     display: flex;
     align-items: center;
-    overflow: visible;
+    text-decoration: none;
+    overflow: visible !important;
   }
   .large-logo {
     height: 200px;
-    max-height: none;
     width: auto;
     display: block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    z-index: 20;
-    pointer-events: auto;
+    max-width: none;
+    margin-top: 12px;
   }
   .nav-links {
     display: flex;
