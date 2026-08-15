@@ -13,8 +13,12 @@ const ClaudeIcon = () => (
 );
 
 const PerplexityIcon = () => (
-  <svg viewBox="0 0 24 24" fill="#FFFFFF" className="w-3.5 h-3.5 text-white">
-    <path d="M12 2L4 6v12l8 4 8-4V6l-8-4zm0 2.2L18 7.5v9L12 19.5l-6-3v-9l6-3.3zM11 8h2v8h-2V8z"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-white">
+    <line x1="12" y1="3" x2="12" y2="21" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <polygon points="12,3 21,12 12,21 3,12" />
+    <line x1="5.64" y1="5.64" x2="18.36" y2="18.36" />
+    <line x1="18.36" y1="5.64" x2="5.64" y2="18.36" />
   </svg>
 );
 
