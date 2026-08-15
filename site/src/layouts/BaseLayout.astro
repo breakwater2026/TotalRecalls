@@ -37,5 +37,22 @@ const canonicalPath = Astro.url.pathname;
     </main>
 
     <Footer />
+
+    <!-- Dialogflow CX Support Assistant Widget (Powered by GCP promotional credits) -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1" async></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="TotalRecalls Support"
+      agent-id="YOUR-TOTALRECALLS-AGENT-ID"
+      language-code="en"
+      location-region="us-central1">
+    </df-messenger>
+    <style>
+      df-messenger {
+        --df-messenger-primary-color: #2F7BFF;
+        --df-messenger-chat-background: #0F172A;
+        --df-messenger-font-family: system-ui, -apple-system, sans-serif;
+      }
+    </style>
   </body>
 </html>
