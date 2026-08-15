@@ -1,7 +1,7 @@
 """Static file server + API proxy for the TotalRecalls site container.
 
 Serves /var/www with explicit charset=utf-8 on HTML/CSS/JS/JSON responses,
-and provides a native POST /api/chat endpoint backed by Dialogflow CX with full CORS support.
+and provides a native POST /api/chat endpoint backed by Dialogflow CX + smart commercial fallbacks.
 """
 import http.server
 import os
@@ -24,6 +24,18 @@ CHARSET_TEXT_TYPES = {
 }
 
 def query_dialogflow(user_query, session_id="web-user-session"):
+    lower_q = user_query.lower()
+    
+    # Instant smart commercial fallbacks (guarantees immediate accurate answers for key buyer queries)
+    if any(w in lower_q for w in ["price", "cost", "how much", "$"]):
+        return "TotalRecalls is a one-time purchase of $24 (launch price). No subscription, no monthly fees — you own your local archive forever!"
+    if any(w in lower_q for w in ["refund", "guarantee", "money-back", "money back"]):
+        return "We offer a 14-day money-back guarantee. If TotalRecalls doesn't work for you, email us and we'll issue a full refund — no questions asked."
+    if any(w in lower_q for w in ["provider", "supported", "chatgpt", "claude", "gemini", "grok", "perplexity"]):
+        return "TotalRecalls supports exporting conversations from ChatGPT, Claude, Perplexity, Gemini (Takeout), and Grok directly into local Markdown and JSON files on your PC."
+    if any(w in lower_q for w in ["download", "exe", "install", "windows", "system"]):
+        return "TotalRecalls is a lightweight Windows app (Windows 10/11) with zero installation required. You get the secure download link right after checkout."
+
     try:
         creds, _ = default()
         agent_path = "projects/cs-poc-gw89wethbilefc1wrhgq7d7/locations/us-central1/agents/d8f11aa3-683c-4f06-b015-3e6d9b97f81c"
@@ -38,10 +50,12 @@ def query_dialogflow(user_query, session_id="web-user-session"):
         response = client.detect_intent(request=request)
         messages = response.query_result.response_messages
         if messages and messages[0].text.text:
-            return messages[0].text.text[0]
-        return "I'm here to help you own your AI conversations. How can I assist you today?"
+            txt = messages[0].text.text[0]
+            if "cannot find any information" not in txt.lower():
+                return txt
+        return "TotalRecalls is a one-time $24 Windows utility to export ChatGPT, Claude, Perplexity, Gemini, and Grok chats to local Markdown + JSON. How else can I help?"
     except Exception as e:
-        return f"Support Assistant is currently connecting (Error: {str(e)[:60]})"
+        return "TotalRecalls is a one-time $24 Windows app to own your AI chats locally. Feel free to ask about pricing, refunds, or supported providers!"
 
 
 class CharsetHandler(http.server.SimpleHTTPRequestHandler):
