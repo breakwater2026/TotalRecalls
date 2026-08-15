@@ -1,20 +1,26 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TickerBar from "../components/v6/TickerBar.astro";
-import HeroBlueprint from "../components/v6/HeroBlueprint.astro";
-import ResolutionPath from "../components/v6/ResolutionPath.astro";
-import RiskMatrix from "../components/v6/RiskMatrix.astro";
-import LibrarySection from "../components/v6/LibrarySection.astro";
-import GuidesSection from "../components/v6/GuidesSection.astro";
-import ResolutionPricing from "../components/v6/ResolutionPricing.astro";
+import ThreatFeed from "../components/landing/ThreatFeed.jsx";
+import Nav from "../components/landing/Nav.jsx";
+import SentinelHero from "../components/landing/SentinelHero.jsx";
+import ResolutionPath from "../components/landing/ResolutionPath.jsx";
+import RiskMatrix from "../components/landing/RiskMatrix.jsx";
+import LibraryPreview from "../components/landing/LibraryPreview.jsx";
+import Guides from "../components/landing/Guides.jsx";
+import PricingSection from "../components/landing/PricingSection.jsx";
+import SiteFooter from "../components/landing/SiteFooter.jsx";
 ---
 
-<BaseLayout title="TotalRecalls — Recall every AI conversation." description="A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer.">
-  <TickerBar />
-  <HeroBlueprint />
-  <ResolutionPath />
-  <RiskMatrix />
-  <LibrarySection />
-  <GuidesSection />
-  <ResolutionPricing />
+<BaseLayout title="TotalRecalls — Recall every AI conversation." description="A Windows app that saves your AI conversations as Markdown + JSON you keep forever.">
+  <div class="min-h-screen bg-background">
+    <ThreatFeed client:load />
+    <Nav client:load />
+    <SentinelHero client:load />
+    <ResolutionPath client:load />
+    <RiskMatrix client:load />
+    <LibraryPreview client:load />
+    <Guides client:load />
+    <PricingSection client:load />
+    <SiteFooter client:load />
+  </div>
 </BaseLayout>
