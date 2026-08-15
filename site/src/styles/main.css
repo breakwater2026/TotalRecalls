@@ -280,6 +280,126 @@ code, pre {
   margin: 2px 0 0 0 !important;
 }
 
+/* ===== Hero Right Schematic Diagram ===== */
+.tr-hero-right {
+  display: block !important;
+  width: 100% !important;
+}
+.blueprint-diagram {
+  background: #FFFFFF !important;
+  border: 1.5px solid #2F7BFF !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 16px 36px rgba(47, 123, 255, 0.12) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  display: block !important;
+}
+.diag-header {
+  background: #FFFFFF !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  font-size: 0.75rem !important;
+}
+.diag-title {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.live-dot {
+  width: 8px !important;
+  height: 8px !important;
+  background: #10B981 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 6px #10B981 !important;
+  display: inline-block !important;
+}
+.diag-status {
+  color: #2F7BFF !important;
+  font-weight: 700 !important;
+}
+.diag-body {
+  padding: 20px !important;
+  background: #F8FBFF !important;
+  background-image: linear-gradient(to right, #EFF6FF 1px, transparent 1px),
+                    linear-gradient(to bottom, #EFF6FF 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+}
+.convergence-svg {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+.conv-path {
+  fill: none !important;
+  stroke: #2F7BFF !important;
+  stroke-width: 2 !important;
+  stroke-dasharray: 6,4 !important;
+  opacity: 0.85 !important;
+}
+.conv-node { fill: #2F7BFF !important; }
+.conv-dot { fill: #2F7BFF !important; }
+.source-icon { fill: #0F172A !important; }
+.source-arrow {
+  fill: none !important;
+  stroke: #FFFFFF !important;
+  stroke-width: 2.2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+.source-name {
+  fill: #0F172A !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
+.source-code {
+  fill: #64748B !important;
+  font-size: 10px !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+}
+.dest-box {
+  fill: #EFF6FF !important;
+  stroke: #2F7BFF !important;
+  stroke-width: 1.8 !important;
+}
+.dest-folder path {
+  fill: none !important;
+  stroke: #2F7BFF !important;
+  stroke-width: 2 !important;
+  stroke-linejoin: round !important;
+}
+.dest-path {
+  fill: #0F172A !important;
+  font-size: 11px !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-weight: 700 !important;
+}
+.dest-status {
+  fill: #2F7BFF !important;
+  font-size: 11px !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-weight: 700 !important;
+}
+.dest-note {
+  fill: #475569 !important;
+  font-size: 10px !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+}
+.diag-footer {
+  background: #FFFFFF !important;
+  padding: 10px 16px !important;
+  text-align: center !important;
+  font-size: 0.7rem !important;
+  color: #64748B !important;
+  border-top: 1px solid #E2E8F0 !important;
+}
+
 /* ===== Resolution Path 01 Layout ===== */
 .tr-section {
   border-top: 1px solid #E2E8F0 !important;
