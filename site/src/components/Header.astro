@@ -8,22 +8,69 @@ const links = [
   { href: "/download/", label: "Download" },
 ];
 ---
-<nav class="v6-nav">
-  <a href="/" class="brand" style="display: flex; align-items: center; text-decoration: none;">
-    <img src="/logo.png" alt="TotalRecalls" style="height: 250px; max-height: 250px; width: auto; display: block;" />
-  </a>
-  <span class="nav-links">
-    {
-      links.map((l) => (
-        <a href={l.href}>{l.label}</a>
-      ))
-    }
-    <a href="/pricing/" class="buy-button" data-tr-buy>Buy — $24</a>
-  </span>
-</nav>
+<header class="v6-header">
+  <div class="logo-banner">
+    <a href="/" class="brand">
+      <img src="/logo.png" alt="TotalRecalls" style="height: 250px; max-height: 250px; width: auto; display: block; margin: 0 auto;" />
+    </a>
+  </div>
+  <nav class="v6-subnav">
+    <div class="subnav-inner">
+      <span class="nav-links">
+        {
+          links.map((l) => (
+            <a href={l.href}>{l.label}</a>
+          ))
+        }
+      </span>
+      <a href="/pricing/" class="buy-button" data-tr-buy>Buy — $24</a>
+    </div>
+  </nav>
+</header>
 
 <style>
-  .v6-nav {
-    padding: var(--space-6) var(--space-8);
+  .v6-header {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .logo-banner {
+    padding: var(--space-6) var(--space-4);
+    background: #FFFFFF;
+    text-align: center;
+    border-bottom: 1px solid #F1F5F9;
+  }
+  .v6-subnav {
+    background: #F8FAFC;
+    padding: var(--space-3) var(--space-8);
+    border-top: 1px solid #E2E8F0;
+  }
+  .subnav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    color: #0F172A;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .nav-links a:hover {
+    color: #2F7BFF;
+  }
+  @media (max-width: 768px) {
+    .subnav-inner { flex-direction: column; gap: 12px; }
+    .logo-banner img { height: 160px !important; max-height: 160px !important; }
   }
 </style>
