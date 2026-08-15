@@ -32,28 +32,14 @@ const GUIDES = [
   </div>
 </section>
 
-<style>
-  .tr-section { border-top: 1px solid #E2E8F0; background: #FFFFFF; }
-  .tr-container { max-width: 1400px; margin: 0 auto; padding: 80px 40px 112px; }
-  .tr-kicker {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #2F7BFF;
-  }
-  .tr-section-title {
-    font-size: clamp(30px, 4vw, 48px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 12px 0 0 0;
-    color: #0B0F19;
-  }
+<style is:global>
   .tr-guides-header {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 40px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    margin-bottom: 40px !important;
   }
   .tr-guides-badge {
     font-family: 'IBM Plex Mono', monospace;
@@ -102,4 +88,7 @@ const GUIDES = [
     transition: color 0.2s;
   }
   .tr-guide-row:hover .tr-guide-arrow { color: #2F7BFF; }
+  @media (max-width: 900px) {
+    .tr-guides-header { flex-direction: column !important; align-items: flex-start !important; }
+  }
 </style>
