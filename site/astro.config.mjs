@@ -7,4 +7,14 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  vite: {
+    server: {
+      proxy: {
+        '/api/chat': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+        }
+      }
+    }
+  }
 });

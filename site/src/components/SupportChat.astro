@@ -214,8 +214,12 @@
     messagesEl.appendChild(botMsg);
     messagesEl.scrollTop = messagesEl.scrollHeight;
 
+    // Smart endpoint: direct to local python server on 8080 during dev, relative /api/chat in production
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiEndpoint = isLocal ? 'http://localhost:8080/api/chat' : '/api/chat';
+
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, sessionId: sessionId })
