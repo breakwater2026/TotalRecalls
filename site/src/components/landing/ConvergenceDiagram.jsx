@@ -14,8 +14,12 @@ export default function ConvergenceDiagram() {
   return (
     <div className="relative aspect-[4/3] border border-border overflow-hidden bg-card">
       <div className="absolute top-0 left-0 right-0 h-px bg-primary tr-scanline z-20" />
-      <div className="absolute top-3 left-3 font-mono text-[10px] text-muted-foreground bg-card/90 px-2 py-1 z-20">CONVERGENCE · LIVE</div>
-      <div className="absolute top-3 right-3 font-mono text-[10px] text-primary bg-card/90 px-2 py-1 z-20">5 SOURCES → 1 FOLDER</div>
+      <div className="absolute top-3 left-1/2 -translate-x-1/2 font-mono text-[10px] text-muted-foreground bg-card/90 px-2.5 py-1 z-20 whitespace-nowrap tracking-wider">
+        CONVERGENCE · LIVE
+      </div>
+      <div className="absolute top-3 right-3 font-mono text-[10px] text-primary bg-card/90 px-2 py-1 z-20">
+        5 SOURCES → 1 FOLDER
+      </div>
 
       <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full">
         {YS.map((y, i) => {
