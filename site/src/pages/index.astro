@@ -1,21 +1,20 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import Why from "../components/Why.astro";
-import How from "../components/How.astro";
-import Providers from "../components/Providers.astro";
-import Screenshots from "../components/Screenshots.astro";
-import Guides from "../components/Guides.astro";
-import StraightTalk from "../components/StraightTalk.astro";
-import Pricing from "../components/Pricing.astro";
+import TickerBar from "../components/v6/TickerBar.astro";
+import HeroBlueprint from "../components/v6/HeroBlueprint.astro";
+import ResolutionPath from "../components/v6/ResolutionPath.astro";
+import RiskMatrix from "../components/v6/RiskMatrix.astro";
+import LibrarySection from "../components/v6/LibrarySection.astro";
+import GuidesSection from "../components/v6/GuidesSection.astro";
+import ResolutionPricing from "../components/v6/ResolutionPricing.astro";
 ---
-<BaseLayout title="TotalRecalls — Own every AI conversation." description="A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.">
-  <Hero />
-  <Why />
-  <How />
-  <Providers />
-  <Screenshots />
-  <Guides />
-  <StraightTalk />
-  <Pricing />
+
+<BaseLayout title="TotalRecalls — Recall every AI conversation." description="A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer.">
+  <TickerBar />
+  <HeroBlueprint />
+  <ResolutionPath />
+  <RiskMatrix />
+  <LibrarySection />
+  <GuidesSection />
+  <ResolutionPricing />
 </BaseLayout>

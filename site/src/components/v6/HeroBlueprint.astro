@@ -1,0 +1,295 @@
+---
+// Landing Page Hero (Blueprint Aesthetic)
+---
+<section class="v6-hero">
+  <div class="hero-container">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span>FORENSIC GUARDIAN · TOTALRECALLS</span>
+      </div>
+      <h1 class="hero-title">Recall every AI conversation.</h1>
+      <p class="hero-subhead">
+        A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder on your computer — readable Markdown + JSON you keep forever.
+      </p>
+
+      <div class="hero-search-box">
+        <span class="search-prompt">$</span>
+        <input type="text" placeholder="Search saved archives or test providers..." readonly />
+        <span class="search-kbd">ESC</span>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — $24</a>
+        <a href="/download/" class="buy-secondary buy-lg" data-tr-download>Download ZIP</a>
+      </div>
+
+      <div class="hero-trust-badges">
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Private by design</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>One library</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Yours forever</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="blueprint-diagram">
+        <div class="diag-header">
+          <span class="diag-title">DATA FLOW SCHEMATIC</span>
+          <span class="diag-status">SECURE LOCAL PIPELINE</span>
+        </div>
+        <div class="diag-body">
+          <div class="diag-sources">
+            <div class="source-node">ChatGPT</div>
+            <div class="source-node">Claude</div>
+            <div class="source-node">Perplexity</div>
+            <div class="source-node">Gemini</div>
+            <div class="source-node">Grok</div>
+          </div>
+          <div class="diag-conduits">
+            <div class="conduit-line"></div>
+            <div class="conduit-pulse"></div>
+          </div>
+          <div class="diag-destination">
+            <div class="dest-box">
+              <strong>TotalRecalls Library</strong>
+              <span>C:\TotalRecalls\Library\</span>
+              <small>Markdown + JSON</small>
+            </div>
+          </div>
+        </div>
+        <div class="diag-footer">
+          <span>Zero cloud relay · Direct disk write</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v6-hero {
+    background: #FFFFFF;
+    color: #0F172A;
+    padding: var(--space-8) var(--space-4);
+    border-bottom: 1px solid #E2E8F0;
+    position: relative;
+    background-image: linear-gradient(to right, #F8FAFC 1px, transparent 1px),
+                      linear-gradient(to bottom, #F8FAFC 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #EFF6FF;
+    color: #2F7BFF;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    border: 1px solid #DBEAFE;
+  }
+  .tag-dot {
+    width: 6px;
+    height: 6px;
+    background: #2F7BFF;
+    border-radius: 50%;
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+  }
+  .hero-subhead {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+  .hero-search-box {
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: var(--space-6);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  }
+  .search-prompt {
+    color: #38BDF8;
+    font-weight: 700;
+  }
+  .hero-search-box input {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+  }
+  .hero-search-box input::placeholder {
+    color: #64748B;
+  }
+  .search-kbd {
+    background: #1E293B;
+    color: #94A3B8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    border: 1px solid #334155;
+  }
+  .hero-cta-group {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .hero-trust-badges {
+    display: flex;
+    gap: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid #E2E8F0;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: #334155;
+    font-weight: 600;
+  }
+  .trust-item svg {
+    color: #2F7BFF;
+  }
+  .blueprint-diagram {
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .diag-header {
+    background: #1E293B;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+    font-size: 0.75rem;
+  }
+  .diag-title {
+    color: #F8FAFC;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .diag-status {
+    color: #38BDF8;
+  }
+  .diag-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .diag-sources {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .source-node {
+    background: #1E293B;
+    color: #E2E8F0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    border: 1px solid #475569;
+  }
+  .diag-conduits {
+    position: relative;
+    width: 2px;
+    height: 40px;
+    background: #2F7BFF;
+  }
+  .conduit-pulse {
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 8px;
+    height: 12px;
+    background: #38BDF8;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #38BDF8;
+    animation: pulseDown 2s infinite ease-in-out;
+  }
+  @keyframes pulseDown {
+    0% { top: 0%; opacity: 1; }
+    100% { top: 100%; opacity: 0.2; }
+  }
+  .diag-destination {
+    width: 100%;
+  }
+  .dest-box {
+    background: #1E3A8A;
+    border: 2px solid #2F7BFF;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+  .dest-box strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  .dest-box span {
+    font-size: 0.8rem;
+    color: #93C5FD;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dest-box small {
+    font-size: 0.75rem;
+    background: #1D4ED8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #DBEAFE;
+  }
+  .diag-footer {
+    background: #0B0F19;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #64748B;
+    border-top: 1px solid #1E293B;
+  }
+  @media (max-width: 900px) {
+    .hero-container { grid-template-columns: 1fr; }
+  }
+</style>

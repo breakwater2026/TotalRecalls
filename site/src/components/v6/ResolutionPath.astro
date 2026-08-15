@@ -1,0 +1,212 @@
+---
+// Resolution Path 01 Component
+---
+<section class="v6-section bg-light">
+  <div class="sec-container">
+    <div class="sec-header">
+      <span class="sec-num">RESOLUTION PATH · 01</span>
+      <h2>From concern to resolution in under a minute.</h2>
+    </div>
+
+    <div class="res-grid">
+      <div class="res-steps">
+        <div class="step-card">
+          <span class="step-badge">01</span>
+          <h3>Buy once</h3>
+          <p>One-time payment of $24 via Lemon Squeezy. No subscription, no recurring charges, no cloud locker fees.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-badge">02</span>
+          <h3>Install</h3>
+          <p>Download the lightweight Windows app, unzip, and sign in locally. Zero administrator privileges required.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-badge">03</span>
+          <h3>Pick a provider</h3>
+          <p>Select from ChatGPT, Claude, Perplexity, Gemini, or Grok. Your session cookies never leave your machine.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-badge">04</span>
+          <h3>Export</h3>
+          <p>Instantly writes clean, structured Markdown and JSON files directly into a folder of your choice on your drive.</p>
+        </div>
+      </div>
+
+      <div class="res-mockup">
+        <div class="mockup-window">
+          <div class="mockup-bar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="mockup-path">C:\TotalRecalls\Library</span>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-tree">
+              <div class="tree-item active">📁 ChatGPT (284 files)</div>
+              <div class="tree-item">📁 Claude (192 files)</div>
+              <div class="tree-item">📁 Perplexity (145 files)</div>
+              <div class="tree-item">📁 Gemini (98 files)</div>
+              <div class="tree-item">📁 Grok (78 files)</div>
+            </div>
+            <div class="mockup-command-center">
+              <strong>Local storage. Your drive. Your files.</strong>
+              <span>No remote servers intercepting your intellectual property.</span>
+            </div>
+          </div>
+        </div>
+        <div class="mockup-cta">
+          <a href="/pricing/" class="buy-button" data-tr-buy>BEGIN RESOLUTION →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v6-section {
+    padding: var(--space-8) var(--space-4);
+    border-bottom: 1px solid #E2E8F0;
+  .bg-light { background: #F8FAFC; }
+  }
+  .sec-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sec-header {
+    margin-bottom: var(--space-8);
+  }
+  .sec-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #2F7BFF;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .sec-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+    margin: 0;
+  }
+  .res-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .res-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+  .step-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: var(--space-5);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    position: relative;
+  }
+  .step-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #0F172A;
+    color: #FFFFFF;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .step-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin: var(--space-2) 0 var(--space-2) 0;
+  }
+  .step-card p {
+    font-size: 0.9rem;
+    color: #475569;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .mockup-window {
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2);
+  }
+  .mockup-bar {
+    background: #1E293B;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #334155;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .red { background: #EF4444; }
+  .yellow { background: #F59E0B; }
+  .green { background: #10B981; }
+  .mockup-path {
+    margin-left: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: #94A3B8;
+  }
+  .mockup-content {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .mockup-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+  }
+  .tree-item {
+    background: #1E293B;
+    color: #CBD5E1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #334155;
+  }
+  .tree-item.active {
+    background: #1E3A8A;
+    color: #FFFFFF;
+    border-color: #2F7BFF;
+  }
+  .mockup-command-center {
+    background: #0B0F19;
+    border: 1px dashed #334155;
+    padding: 14px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .mockup-command-center strong {
+    display: block;
+    color: #38BDF8;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .mockup-command-center span {
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+  .mockup-cta {
+    margin-top: var(--space-5);
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    .res-grid { grid-template-columns: 1fr; }
+    .res-steps { grid-template-columns: 1fr; }
+  }
+</style>

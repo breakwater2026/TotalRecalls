@@ -1,0 +1,202 @@
+---
+// Risk Matrix 02 Component
+---
+<section class="v6-section bg-white">
+  <div class="sec-container">
+    <div class="sec-header">
+      <span class="sec-num">RISK MATRIX · 02</span>
+      <h2>Five assistants. One library. Zero data loss.</h2>
+      <p class="sec-sub">Every provider graded by export integrity. Complete local archive security across all major AI platforms.</p>
+    </div>
+
+    <div class="matrix-grid">
+      <div class="matrix-card">
+        <div class="card-meta">
+          <span class="card-id">OAI-001</span>
+          <span class="card-badge secured">SECURED</span>
+        </div>
+        <h3>ChatGPT</h3>
+        <p>Full thread extraction via secure browser automation or conversation JSON import. Preserves system instructions and model markers.</p>
+        <div class="card-footer">
+          <span>284 files backed up</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="card-meta">
+          <span class="card-id">ANT-002</span>
+          <span class="card-badge secured">SECURED</span>
+        </div>
+        <h3>Claude</h3>
+        <p>Complete project &amp; conversation history extraction. Captures multi-file context, artifacts, and inline code blocks cleanly.</p>
+        <div class="card-footer">
+          <span>192 files backed up</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="card-meta">
+          <span class="card-id">PRX-003</span>
+          <span class="card-badge secured">SECURED</span>
+        </div>
+        <h3>Perplexity</h3>
+        <p>Original source lineage preserved. Grabs deep research collections, thread attachments, and inline citation metadata.</p>
+        <div class="card-footer">
+          <span>145 files backed up</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="card-meta">
+          <span class="card-id">GEM-004</span>
+          <span class="card-badge secured">SECURED</span>
+        </div>
+        <h3>Gemini</h3>
+        <p>Seamless Google Takeout JSON parser. Converts massive archive bundles into human-readable Markdown without truncation.</p>
+        <div class="card-footer">
+          <span>98 files backed up</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="matrix-card">
+        <div class="card-meta">
+          <span class="card-id">GRK-005</span>
+          <span class="card-badge secured">SECURED</span>
+        </div>
+        <h3>Grok</h3>
+        <p>Direct live conversation sync. Captures real-time reasoning outputs and deep-dive query sessions in pristine format.</p>
+        <div class="card-footer">
+          <span>78 files backed up</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="matrix-card summary-card">
+        <div class="summary-content">
+          <span class="summary-num">797</span>
+          <strong>Total files secured locally</strong>
+          <p>One predictable folder. Searchable. Backups yours forever.</p>
+          <a href="/pricing/" class="buy-button" data-tr-buy>Get TotalRecalls — $24</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v6-section {
+    padding: var(--space-8) var(--space-4);
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .bg-white { background: #FFFFFF; }
+  .sec-sub {
+    font-size: 1.05rem;
+    color: #475569;
+    margin-top: 8px;
+  }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+  .matrix-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .matrix-card:hover {
+    transform: translateY(-2px);
+    border-color: #2F7BFF;
+  }
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+  .card-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+  .card-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #DCFCE7;
+    color: #166534;
+  }
+  .matrix-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0 0 var(--space-2) 0;
+  }
+  .matrix-card p {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0 0 var(--space-6) 0;
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid #F1F5F9;
+    font-size: 0.85rem;
+    color: #64748B;
+    font-weight: 600;
+  }
+  .card-footer svg {
+    color: #2F7BFF;
+  }
+  .summary-card {
+    background: #0F172A;
+    border-color: #0F172A;
+    color: #FFFFFF;
+  }
+  .summary-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .summary-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #38BDF8;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .summary-card strong {
+    font-size: 1.1rem;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+  .summary-card p {
+    color: #94A3B8;
+    margin-bottom: var(--space-6);
+  }
+  @media (max-width: 1024px) {
+    .matrix-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .matrix-grid { grid-template-columns: 1fr; }
+  }
+</style>

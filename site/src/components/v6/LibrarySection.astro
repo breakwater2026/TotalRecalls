@@ -1,0 +1,163 @@
+---
+// Library 03 Component
+---
+<section class="v6-section bg-light">
+  <div class="sec-container">
+    <div class="sec-header">
+      <span class="sec-num">LIBRARY · 03</span>
+      <h2>Your library, organized.</h2>
+      <p class="sec-sub">Clean folder structure you can browse, search, and back up. Predictable formatting — easy to diff, annotate, or feed into your own tools.</p>
+    </div>
+
+    <div class="library-mockup-wrapper">
+      <div class="lib-window">
+        <div class="lib-bar">
+          <div class="lib-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="lib-title">TotalRecalls — Local File Explorer</span>
+        </div>
+        <div class="lib-columns">
+          <div class="lib-col-left">
+            <div class="col-heading">DIRECTORY</div>
+            <div class="tree-node active">📁 TotalRecalls</div>
+            <div class="tree-sub">📂 chatgpt/</div>
+            <div class="tree-sub">📂 claude/</div>
+            <div class="tree-sub">📂 perplexity/</div>
+            <div class="tree-sub">📂 gemini/</div>
+            <div class="tree-sub">📂 grok/</div>
+          </div>
+          <div class="lib-col-middle">
+            <div class="col-heading">FILES (.md)</div>
+            <div class="file-row">2026-08-01-pricing.md</div>
+            <div class="file-row active">2026-08-05-architecture.md</div>
+            <div class="file-row">2026-08-10-refactor.md</div>
+            <div class="file-row">2026-08-14-launch.md</div>
+          </div>
+          <div class="lib-col-right">
+            <div class="col-heading">MARKDOWN PREVIEW</div>
+            <div class="preview-doc">
+              <h4># Cloud Run Architecture</h4>
+              <p><strong>Date:</strong> 2026-08-05<br/><strong>Provider:</strong> Claude<br/><strong>Messages:</strong> 42 turns</p>
+              <hr/>
+              <p><strong>You:</strong> How do we wire the promotional credits?<br/><strong>Assistant:</strong> Route all requests through Agent Builder...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v6-section {
+    padding: var(--space-8) var(--space-4);
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .bg-light { background: #F8FAFC; }
+  .library-mockup-wrapper {
+    margin-top: var(--space-8);
+  }
+  .lib-window {
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  }
+  .lib-bar {
+    background: #1E293B;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #334155;
+  }
+  .lib-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .red { background: #EF4444; }
+  .yellow { background: #F59E0B; }
+  .green { background: #10B981; }
+  .lib-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+  .lib-columns {
+    display: grid;
+    grid-template-columns: 240px 280px 1fr;
+    min-height: 320px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .col-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748B;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .lib-col-left {
+    background: #0B0F19;
+    padding: 16px;
+    border-right: 1px solid #1E293B;
+  }
+  .tree-node {
+    color: #F8FAFC;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .tree-sub {
+    color: #94A3B8;
+    font-size: 0.8rem;
+    padding-left: 16px;
+    margin-bottom: 6px;
+  }
+  .lib-col-middle {
+    background: #0F172A;
+    padding: 16px;
+    border-right: 1px solid #1E293B;
+  }
+  .file-row {
+    font-size: 0.8rem;
+    color: #94A3B8;
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+  .file-row.active {
+    background: #1E3A8A;
+    color: #FFFFFF;
+  }
+  .lib-col-right {
+    background: #1E293B;
+    padding: 20px;
+    color: #E2E8F0;
+  }
+  .preview-doc {
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .preview-doc h4 {
+    margin: 0 0 8px 0;
+    color: #38BDF8;
+  }
+  .preview-doc hr {
+    border: none;
+    border-top: 1px solid #334155;
+    margin: 12px 0;
+  }
+  @media (max-width: 900px) {
+    .lib-columns { grid-template-columns: 1fr; }
+  }
+</style>

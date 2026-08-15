@@ -1,0 +1,54 @@
+---
+// Top Live Feed Ticker Bar
+---
+<div class="v6-ticker">
+  <div class="ticker-content">
+    <span class="ticker-badge">SECURED_EXPORT</span>
+    <span class="ticker-text">TotalRecalls v1.3.0 · 5 AI Providers Supported · Local Markdown &amp; JSON Storage · Zero Cloud Retention</span>
+    <span class="ticker-status">● SYSTEM ONLINE</span>
+  </div>
+</div>
+
+<style>
+  .v6-ticker {
+    background: #0F172A;
+    color: #F8FAFC;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(47, 123, 255, 0.2);
+  }
+  .ticker-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ticker-badge {
+    background: #2F7BFF;
+    color: #FFFFFF;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+  .ticker-text {
+    opacity: 0.85;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ticker-status {
+    color: #10B981;
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+  @media (max-width: 768px) {
+    .v6-ticker { display: none; }
+  }
+</style>
