@@ -22,6 +22,7 @@
     
     <div id="tr-chat-messages">
       <div class="tr-msg tr-bot">
+        <div class="tr-sender-label">TotalRecalls Assistant</div>
         Hello! I'm your TotalRecalls assistant. How can I help you own your AI conversations today?
       </div>
     </div>
@@ -129,14 +130,27 @@
     font-size: 0.95rem;
     line-height: 1.5;
   }
+  .tr-sender-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
   .tr-bot {
-    background: #FFFFFF !important;
+    background: #F1F5F9 !important;
     color: #0F172A !important;
-    border: 1px solid #CBD5E1 !important;
+    border-left: 4px solid #2F7BFF !important;
+    border-top: 1px solid #CBD5E1 !important;
+    border-right: 1px solid #CBD5E1 !important;
+    border-bottom: 1px solid #CBD5E1 !important;
     align-self: flex-start;
     border-bottom-left-radius: 3px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-weight: 500 !important;
+  }
+  .tr-bot .tr-sender-label {
+    color: #2F7BFF !important;
   }
   .tr-user {
     background: #2F7BFF !important;
@@ -145,6 +159,9 @@
     border-bottom-right-radius: 3px;
     box-shadow: 0 2px 8px rgba(47,123,255,0.3);
     font-weight: 600 !important;
+  }
+  .tr-user .tr-sender-label {
+    color: rgba(255, 255, 255, 0.85) !important;
   }
   .tr-chat-input-area {
     padding: 12px;
@@ -207,7 +224,7 @@
     // Append user message
     const userMsg = document.createElement('div');
     userMsg.className = 'tr-msg tr-user';
-    userMsg.textContent = text;
+    userMsg.innerHTML = '<div class="tr-sender-label">You</div>' + escapeHtml(text);
     messagesEl.appendChild(userMsg);
     inputEl.value = '';
     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -215,7 +232,7 @@
     // Append loading bot message
     const botMsg = document.createElement('div');
     botMsg.className = 'tr-msg tr-bot';
-    botMsg.textContent = 'Thinking...';
+    botMsg.innerHTML = '<div class="tr-sender-label">TotalRecalls Assistant</div>Thinking...';
     messagesEl.appendChild(botMsg);
     messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -229,11 +246,16 @@
         body: JSON.stringify({ message: text, sessionId: sessionId })
       });
       const data = await res.json();
-      botMsg.textContent = data.reply || "Sorry, I couldn't reach the support assistant.";
+      const reply = data.reply || "Sorry, I couldn't reach the support assistant.";
+      botMsg.innerHTML = '<div class="tr-sender-label">TotalRecalls Assistant</div>' + escapeHtml(reply);
     } catch (err) {
-      botMsg.textContent = "Network error connecting to support assistant.";
+      botMsg.innerHTML = '<div class="tr-sender-label">TotalRecalls Assistant</div>Network error connecting to support assistant.';
     }
     messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/&lt;/g, "&lt;").replace(/&gt;/g, "&gt;");
   }
 
   sendBtn.addEventListener('click', sendMessage);
