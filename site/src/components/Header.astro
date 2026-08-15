@@ -29,25 +29,20 @@ const links = [
     z-index: 1000;
     background: #FFFFFF;
     border-bottom: 1px solid #E2E8F0;
-    padding: 0 var(--space-8);
-    height: 72px;
+    padding: var(--space-3) var(--space-8);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: visible !important;
   }
   .brand {
     display: flex;
     align-items: center;
     text-decoration: none;
-    overflow: visible !important;
   }
   .large-logo {
-    height: 200px;
+    height: 90px;
     width: auto;
     display: block;
-    max-width: none;
-    margin-top: 8px;
   }
   .nav-links {
     display: flex;
@@ -56,6 +51,6 @@ const links = [
     flex-wrap: wrap;
   }
   @media (max-width: 900px) {
-    .large-logo { height: 120px; }
+    .large-logo { height: 60px; }
   }
 </style>
