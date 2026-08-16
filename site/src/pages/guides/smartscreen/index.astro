@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="SmartScreen Help — TotalRecalls" description="Windows SmartScreen guidance.">
+<PageLayout title="SmartScreen Help — TotalRecalls" description="Windows SmartScreen guidance." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "SmartScreen" }]}>
   <h1>SmartScreen Help</h1>
   <p>Windows SmartScreen may show a warning when you first run TotalRecalls. This is expected for unsigned apps.</p>
   <h2>Steps</h2>

@@ -1,48 +1,50 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Export ChatGPT Conversations" description="Back up all your ChatGPT conversations to local Markdown and JSON with TotalRecalls.">
-  <h1>Export ChatGPT Conversations</h1>
-  <p>TotalRecalls lets you export every ChatGPT conversation—prompts, responses, images, and metadata—to local Markdown and JSON files that you fully own.</p>
-  
-  <h2>Before You Begin</h2>
-  <p>You will need:</p>
-  <ul>
-    <li><a href="/download/">TotalRecalls for Windows</a> installed on your PC</li>
-    <li>A valid ChatGPT account (free or Plus)</li>
-    <li>About 2 minutes per 100 conversations</li>
-  </ul>
 
-  <h2>Method 1: Native Export (Recommended)</h2>
-  <p>TotalRecalls reads your local ChatGPT session and exports conversations directly:</p>
-  <ol>
-    <li>Open TotalRecalls and select <strong>"ChatGPT"</strong> as the source.</li>
-    <li>Click <strong>Scan</strong>; TotalRecalls reads local session data from your browser's ChatGPT cache.</li>
-    <li>Select which conversations to export (or click Select All).</li>
-    <li>Choose <strong>Markdown + JSON</strong> format.</li>
-    <li>Pick a destination folder and click <strong>Export</strong>.</li>
-  </ol>
+<PageLayout 
+  title="Export ChatGPT Conversations" 
+  description="Back up all your ChatGPT conversations to local Markdown and JSON with TotalRecalls."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "ChatGPT" }]}
+>
+  <h1>How to export ChatGPT conversations</h1>
+    <p class="lead">If you’ve spent months thinking out loud in ChatGPT, that history is an asset. Here’s how official export works — and when a local library is a better fit.</p>
+    <h2>What “export” usually means</h2>
+    <p>People searching for this want one of three outcomes:</p>
+    <ul>
+      <li><strong>Backup</strong> — don’t lose threads if the account changes</li>
+      <li><strong>Migration</strong> — move ideas into docs, notes, or another tool</li>
+      <li><strong>Searchable archive</strong> — find an old answer without scrolling forever</li>
+    </ul>
+    <h2>Option A — Official ChatGPT data export</h2>
+    <p>OpenAI provides a full account data export (settings → data controls). It’s the right choice for a complete legal/compliance dump.</p>
+    <ul>
+      <li><strong>Pros:</strong> official, complete bundle</li>
+      <li><strong>Cons:</strong> slow turnaround, bulk zip, not shaped like a day-to-day library</li>
+    </ul>
+    <h2>Option B — Local library with TotalRecalls (Windows)</h2>
+    <p>TotalRecalls runs on your PC, connects to your ChatGPT session locally, and writes conversations into folders as Markdown + JSON you can open in any editor.</p>
+    <ol>
+      <li>Buy / install TotalRecalls for Windows</li>
+      <li>Choose <strong>ChatGPT</strong> as the provider</li>
+      <li>Sign in through the local login window</li>
+      <li>Export — files land under your Library folder</li>
+    </ol>
+    <h2>Which should you use?</h2>
+    <p>Use <strong>official export</strong> when you need a full account archive. Use <strong>TotalRecalls</strong> when you want a usable personal library sooner — especially if you also use Claude, Perplexity, Gemini, or Grok and want one archive location for all of them.</p>
+    <h2>Tips for a clean ChatGPT archive</h2>
+    <ul>
+      <li>Export before you cancel a plan or close an account</li>
+      <li>Keep the folder inside a backup drive or cloud backup you control</li>
+      <li>Prefer Markdown for reading; keep JSON if you might process later</li>
+    </ul>
 
-  <h2>Method 2: ChatGPT Data Export Package</h2>
-  <p>If you prefer OpenAI's official export:</p>
-  <ol>
-    <li>Go to <a href="https://chatgpt.com/settings/data">ChatGPT Settings → Data</a>.</li>
-    <li>Click <strong>Create export of your data</strong>. Wait for the email link.</li>
-    <li>Download the ZIP file and extract it.</li>
-    <li>In TotalRecalls, click <strong>Import Package</strong> and select the extracted <code>conversations.json</code>.</li>
-  </ol>
-
-  <h2>Output Format</h2>
-  <p>Each conversation is saved as:</p>
-  <ul>
-    <li><code>YYYY-MM-DD-title.md</code> — human-readable Markdown</li>
-    <li><code>YYYY-MM-DD-title.json</code> — machine-parseable JSON</li>
-  </ul>
-  <p>All files include metadata: model, timestamps, and session tokens.</p>
-
-  <h2>Troubleshooting</h2>
-  <ul>
-    <li><strong>No conversations found:</strong> ensure you are logged into ChatGPT in your default browser.</li>
-    <li><strong>Partial export:</strong> retry; network interruptions are retried.</li>
-  </ul>
-</BaseLayout>
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
+</PageLayout>

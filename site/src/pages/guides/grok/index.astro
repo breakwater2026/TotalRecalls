@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Export Grok Chats" description="Back up your Grok conversations from xAI with TotalRecalls.">
+<PageLayout title="Export Grok Chats" description="Back up your Grok conversations from xAI with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Grok" }]}>
   <h1>Exporting Grok Conversations</h1>
   <p>TotalRecalls reads your local Grok (grok.com) session and exports every conversation to local Markdown and JSON.</p>
   

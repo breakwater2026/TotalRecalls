@@ -1,20 +1,38 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Backup Perplexity Threads" description="Save your Perplexity threads locally with TotalRecalls.">
-  <h1>Backing Up Perplexity Threads</h1>
-  <p>TotalRecalls exports every Perplexity thread—including multi-turn follow-ups—into your local library.</p>
-  
-  <h2>Setup</h2>
-  <ol>
-    <li>Open <a href="https://perplexity.ai">perplexity.ai</a> in your browser and sign in.</li>
-    <li>Launch TotalRecalls. Select <strong>"Perplexity"</strong> as the provider.</li>
-    <li>Click <strong>Scan Threads</strong>. TotalRecalls detects recent and saved threads.</li>
-    <li>Choose which threads to export.</li>
-    <li>Select <strong>Markdown + JSON</strong> and pick a folder.</li>
-    <li>Click <strong>Export</strong>.</li>
-  </ol>
 
-  <h2>Rename Collections</h2>
-  <p>While scanning, TotalRecalls preserves your labeled thread collections. You can rename them during export to match your local folder structure.</p>
-</BaseLayout>
+<PageLayout 
+  title="Backup Perplexity Threads" 
+  description="Save your Perplexity threads locally with TotalRecalls."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Perplexity" }]}
+>
+  <h1>Backup Perplexity threads</h1>
+    <p class="lead">Perplexity threads often mix answers, sources, and follow-ups. That’s valuable research history — and it’s fragile if it only lives in the web app.</p>
+    <h2>When to backup</h2>
+    <ul>
+      <li>Before switching plans or accounts</li>
+      <li>After a deep research sprint you may cite later</li>
+      <li>If you use Perplexity alongside ChatGPT/Claude and want one archive location</li>
+    </ul>
+    <h2>Backup with TotalRecalls</h2>
+    <p>TotalRecalls treats Perplexity as a first-class provider on Windows:</p>
+    <ol>
+      <li>Open TotalRecalls → choose <strong>Perplexity</strong></li>
+      <li>Sign in locally when asked</li>
+      <li>Export threads to your Library folder</li>
+    </ol>
+    <h2>What you get on disk</h2>
+    <p>Each conversation is stored as files you can open offline — typically Markdown for reading and JSON for structure. That’s the difference between “I have a zip somewhere” and “I can find that answer.”</p>
+    <h2>Be a good citizen</h2>
+    <p>Use your own account, respect Perplexity’s terms, and don’t hammer servers. TotalRecalls keeps conservative pacing for that reason.</p>
+
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
+</PageLayout>

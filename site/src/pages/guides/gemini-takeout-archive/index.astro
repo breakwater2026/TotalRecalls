@@ -1,37 +1,39 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Using the Gemini Takeout Archive" description="Export your Gemini conversations via Google Takeout with TotalRecalls.">
-  <h1>Using the Gemini Takeout Archive</h1>
-  <p>Google's "Gemini Activity" export is the official path to back up your Gemini conversations. TotalRecalls reads the resulting archive and converts it to local Markdown and JSON.</p>
-  
-  <h2>Generate the Takeout Archive</h2>
-  <ol>
-    <li>Go to <a href="https://takeout.google.com">Google Takeout</a> and sign in.</li>
-    <li>Click <strong>Deselect all</strong> then scroll down and check only <strong>Gemini</strong>.</li>
-    <li>Choose export format:
-      <ul><li>Frequency: <strong>One-time export</strong></li></li>
-      <li>Data type: <strong>.zip</strong></li>
-      <li>Folder size: <strong>100 MB</strong> max per archive</li></ul>
-    </li>
-    <li>Click <strong>Next step</strong> → <strong>Create export</strong>. Google will email you when ready.</li>
-  </ol>
 
-  <h2>Import into TotalRecalls</h2>
-  <ol>
-    <li>When the Takeout ZIP arrives, extract it. The file path looks like <code>Takeout/Gemini/conversations.json</code>.</li>
-    <li>Launch TotalRecalls and select <strong>"Gemini (Takeout)"</strong> as the source.</li>
-    <li>Click <strong>Import Archive</strong> and select the extracted folder (or the ZIP file).</li>
-    <li>TotalRecalls will index the threads and show a preview.</li>
-    <li>Select threads to export and choose format: <strong>Markdown + JSON</strong>.</li>
-    <li>Pick a destination folder and click <strong>Export</strong>.</li>
-  </ol>
+<PageLayout 
+  title="Using the Gemini Takeout Archive" 
+  description="Export your Gemini conversations via Google Takeout with TotalRecalls."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Gemini" }]}
+>
+  <h1>Gemini Takeout → readable archive</h1>
+    <p class="lead">Google’s Takeout path is the dependable way to pull Gemini-related data. The dump is complete — but not friendly. TotalRecalls helps turn it into a readable local archive.</p>
+    <h2>Why Takeout (not a fragile scrape)</h2>
+    <p>Gemini’s web surface changes often. For v1, TotalRecalls prioritizes a <strong>filesystem Takeout folder or JSON</strong> you already downloaded from Google. That stays honest and stable.</p>
+    <h2>Steps</h2>
+    <ol>
+      <li>Create a Google Takeout that includes your Gemini / Gemini Apps data (as offered in your account region).</li>
+      <li>Download and unzip the Takeout package on your PC.</li>
+      <li>In TotalRecalls, choose <strong>Gemini</strong>.</li>
+      <li>Paste the folder path or use <strong>Browse…</strong> to select it.</li>
+      <li>Export into your TotalRecalls library layout.</li>
+    </ol>
+    <h2>Tips</h2>
+    <ul>
+      <li>Keep the original Takeout zip as cold backup</li>
+      <li>Use TotalRecalls output as your day-to-day readable layer</li>
+      <li>Re-run when you generate a fresh Takeout</li>
+    </ul>
+    <h2>Multi-provider reality</h2>
+    <p>Many people use Gemini for some tasks and ChatGPT/Claude for others. A Takeout-only workflow is fine for Google — TotalRecalls exists so the rest of your assistants can live in the same archive philosophy.</p>
 
-  <h2>Output Format</h2>
-  <p>Each thread becomes:</p>
-  <ul>
-    <li><code>gemini-thread-YYYY-MM-DD-title.md</code></li>
-    <li><code>gemini-thread-YYYY-MM-DD-title.json</code></li>
-  </ul>
-  <p>Files include the model used (Gemini 1.5 Pro, Flash, etc.) and any uploaded files referenced.</p>
-</BaseLayout>
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
+</PageLayout>

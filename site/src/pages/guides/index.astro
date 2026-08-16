@@ -1,53 +1,17 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import GuidesComponent from "../../components/landing/Guides.jsx";
+import SiteFooter from "../../components/landing/SiteFooter.jsx";
 ---
-<BaseLayout title="Guides — TotalRecalls" description="How-to guides for exporting and owning AI conversations.">
-  <h1>Guides</h1>
-  <p class="guides-intro">Free reading. Buy only when you want the Windows app — these guides cover every provider, SmartScreen help, and the Library format.</p>
 
-  <div class="guide-grid">
-    <a class="card guide-card" href="/guides/export-chatgpt-conversations/">
-      <strong>Export ChatGPT conversations</strong>
-      <p>Official export vs a local library you can actually use.</p>
-    </a>
-    <a class="card guide-card" href="/guides/export-claude-chat-history/">
-      <strong>Download your Claude history</strong>
-      <p>Keep Projects and long threads as files.</p>
-    </a>
-    <a class="card guide-card" href="/guides/backup-perplexity-threads/">
-      <strong>Backup Perplexity threads</strong>
-      <p>Save research threads before you lose the tab trail.</p>
-    </a>
-    <a class="card guide-card" href="/guides/gemini-takeout-archive/">
-      <strong>Gemini Takeout → Markdown</strong>
-      <p>Turn Google Takeout dumps into Markdown conversations.</p>
-    </a>
-    <a class="card guide-card" href="/guides/grok/">
-      <strong>Export Grok chats</strong>
-      <p>grok.com session scanning, step by step.</p>
-    </a>
-    <a class="card guide-card" href="/guides/own-your-ai-chat-data/">
-      <strong>Own your AI chat data</strong>
-      <p>Why multi-assistant export matters in 2026.</p>
-    </a>
-    <a class="card guide-card" href="/guides/library-format/">
-      <strong>Library format</strong>
-      <p>How your exports are organized — folders, files, and JSON schema.</p>
-    </a>
-    <a class="card guide-card" href="/guides/smartscreen/">
-      <strong>SmartScreen help</strong>
-      <p>What the warning means and how to run the app anyway.</p>
-    </a>
-    <a class="card guide-card" href="/guides/troubleshooting/">
-      <strong>Troubleshooting</strong>
-      <p>Common issues with sign-in, export, and takeout paths.</p>
-    </a>
+<BaseLayout 
+  title="Guides — TotalRecalls" 
+  description="How to export and backup AI chats from ChatGPT, Claude, Perplexity, Gemini, and Grok. Free guides from TotalRecalls."
+>
+  <Nav client:load />
+  <div class="tr-grid-bg min-h-screen">
+    <GuidesComponent client:load />
   </div>
-
-  <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
-    <h2 style="color: var(--color-surface);">Ready to try it?</h2>
-    <a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — <span data-tr-price>$24</span></a>
-    <p><a href="/download/" style="color: var(--color-surface);">Already purchased? Download ZIP</a></p>
-  </section>
-
+  <SiteFooter client:load />
 </BaseLayout>

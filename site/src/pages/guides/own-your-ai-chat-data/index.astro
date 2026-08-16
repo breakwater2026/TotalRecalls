@@ -1,30 +1,44 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Own Your AI Chat Data" description="Why keeping local backups of your AI conversations matters.">
-  <h1>Owning Your AI Chat Data</h1>
-  <p>TotalRecalls exists because your conversations are yours. Yet most AI platforms make it hard to leave, hard to delete, and hard to export your full history.</p>
-  
-  <h2>The Problem</h2>
-  <ul>
-    <li><strong>Locked-in exports.</strong> You can export today but rarely search, tag, or migrate.</li>
-    <li><strong>Fragile links.</strong> If a provider shuts down or your account is suspended, everything vanishes.</li>
-    <li><strong>Vendor lock-in.</strong> Your context, your insights, your research—trapped.</li>
-  </ul>
 
-  <h2>The Solution</h2>
-  <p>TotalRecalls moves your conversations onto your hard drive in standard formats (Markdown + JSON). Once local, you control everything:</p>
-  <ul>
-    <li>Search with your own tools.</li>
-    <li>Migrate between assistants.</li>
-    <li>Back up to any cloud drive.</li>
-    <li>Audit your data at any time.</li>
-  </ul>
+<PageLayout 
+  title="Own Your AI Chat Data" 
+  description="Why keeping local backups of your AI conversations matters."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Own Your Data" }]}
+>
+  <h1>Own your AI chat data</h1>
+    <p class="lead">AI chats are becoming a second brain. If that brain only exists inside someone else’s web app, you don’t own it — you’re renting access to your own words.</p>
+    <h2>Three risks of “leaving it in the tab”</h2>
+    <ul>
+      <li><strong>Product risk</strong> — features, pricing, and UIs change</li>
+      <li><strong>Account risk</strong> — lockouts, plan changes, lost access</li>
+      <li><strong>Tool sprawl</strong> — ChatGPT + Claude + Perplexity + Gemini + Grok = fragmented memory</li>
+    </ul>
+    <h2>What ownership looks like</h2>
+    <p>Files on your disk. Open formats. Backups you control. That’s it. Not a new cloud silo with another password.</p>
+    <h2>Where TotalRecalls fits</h2>
+    <p><strong>TotalRecalls</strong> is a Windows app for exporting multi-assistant chat history into a local library. One-time <span data-tr-price>$24</span>. Built so we never need to collect your provider session tokens on a server.</p>
+    <h2>A simple policy for yourself</h2>
+    <ol>
+      <li>Export on a schedule (monthly) or after big projects</li>
+      <li>Keep one parent folder, e.g. <code>AI-Archive</code></li>
+      <li>Back up that folder like photos and tax docs</li>
+    </ol>
+    <h2>Related guides</h2>
+    <ul>
+      <li><a href=\"/guides/export-chatgpt-conversations/\">Export ChatGPT conversations</a></li>
+      <li><a href=\"/guides/export-claude-chat-history/\">Claude chat history</a></li>
+      <li><a href=\"/guides/backup-perplexity-threads/\">Backup Perplexity</a></li>
+      <li><a href=\"/guides/gemini-takeout-archive/\">Gemini Takeout archive</a></li>
+    </ul>
 
-  <h2>Legal Notes</h2>
-  <ul>
-    <li>Exporting conversations is your right under GDPR and CCPA.</li>
-    <li>Provider terms (ChatGPT, Claude, Perplexity, Gemini) vary. We never host your tokens.</li>
-    <li>TotalRecalls is a local tool; it never sees your credentials.</li>
-  </ul>
-</BaseLayout>
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
+</PageLayout>

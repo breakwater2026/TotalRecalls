@@ -13,11 +13,14 @@ export default function LibraryPreview() {
   return (
     <section id="library" className="border-t border-border tr-grid-bg">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
-        <header className="mb-12 max-w-2xl">
+        <header className="mb-12 max-w-3xl">
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Library · 03</span>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Your library, organized.</h2>
           <p className="font-body text-muted-foreground text-[15px] leading-relaxed mt-4">
-            Clean folder structure you can browse, search, and back up. Predictable formatting — easy to diff, annotate, or feed into your own tools.
+            Clean folder structure you can browse, search, and back up.
+          </p>
+          <p className="font-body text-muted-foreground text-[15px] leading-relaxed mt-4">
+            Predictable formatting (.MD and .JSON formats) giving you the full flexibility to work with on <span className="whitespace-nowrap">your own tools.</span>
           </p>
         </header>
         <div className="grid lg:grid-cols-2 gap-px bg-border border border-border">

@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="FAQ — TotalRecalls" description="Frequently asked questions about TotalRecalls.">
+<PageLayout title="FAQ — TotalRecalls" description="Frequently asked questions about TotalRecalls." breadcrumbs={[{ label: "FAQ" }]}>
   <h1>FAQ</h1>
 
   <dl>
@@ -52,4 +52,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <dt>Can I get help?</dt>
     <dd>Yes — see the <a href="/guides/">guides</a>: ChatGPT export, Claude Projects, Perplexity threads, Gemini Takeout, Multi-assistant workflows. Visit <a href="/help/">Help &amp; Guides</a>.</dd>
   </dl>
-</BaseLayout>
+</PageLayout>

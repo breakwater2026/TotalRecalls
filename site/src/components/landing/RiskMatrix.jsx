@@ -15,11 +15,9 @@ export default function RiskMatrix() {
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Risk Matrix · 02</span>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Five assistants. One library. Zero data loss.</h2>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Five AI providers. All in one library on your computer. Instant Relief.</h2>
           </div>
-          <p className="font-body text-muted-foreground max-w-sm text-[15px] leading-relaxed">
-            Every provider graded by export integrity. Hover any tile to inspect the forensic file structure written to disk.
-          </p>
+
         </header>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
           {PROVIDERS.map((p) => (

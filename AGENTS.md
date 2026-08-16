@@ -11,3 +11,6 @@
 ## Locked Components (UNTOUCHABLE & FROZEN)
 - **Header Navigation:** `site/src/components/landing/Nav.jsx` is **LOCKED**. Do not alter the header, 1.5x logo dimensions (`39px` height), links, or single-row layout in future sessions.
 - **Landing Page Suite:** All landing page components in `site/src/components/landing/` (`ThreatFeed.jsx`, `SentinelHero.jsx`, `ConvergenceDiagram.jsx`, `ResolutionPath.jsx`, `DriveTree.jsx`, `RiskMatrix.jsx`, `LibraryPreview.jsx`, `Guides.jsx`, `PricingSection.jsx`, `SiteFooter.jsx`) and `site/src/pages/index.astro` are **LOCKED & FROZEN**. Do not modify any layout, text copy, icons, or pricing in future sessions without explicit user instruction.
+- **Risk Matrix:** `site/src/components/landing/RiskMatrix.jsx` is **LOCKED** with headline "Five AI providers. All in one library on your computer. Instant Relief." and the sub-paragraph removed.
+- **Library 03:** `site/src/components/landing/LibraryPreview.jsx` is **LOCKED** with split paragraphs, container width `max-w-3xl`, and no-wrap formatting around `"your own tools."`
+- **Guides 04:** `site/src/components/landing/Guides.jsx` is **LOCKED** with headline "Free reading." and the old subtext removed.

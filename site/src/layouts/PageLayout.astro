@@ -1,0 +1,116 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Nav from "../components/landing/Nav.jsx";
+import SiteFooter from "../components/landing/SiteFooter.jsx";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+}
+
+const { title, description, breadcrumbs = [] } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Navigation Header -->
+  <Nav client:load />
+
+  <!-- Breadcrumbs and Article Wrapper -->
+  <div class="tr-grid-bg min-h-screen border-b border-border/50">
+    <div class="mx-auto max-w-[900px] px-5 md:px-10 py-12 md:py-20">
+      <!-- Breadcrumbs -->
+      {breadcrumbs.length > 0 && (
+        <nav class="flex items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wider mb-8">
+          <a href="/" class="hover:text-primary transition-colors">Home</a>
+          {breadcrumbs.map((crumb) => (
+            <>
+              <span class="text-border-foreground/30">›</span>
+              {crumb.href ? (
+                <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.label}</a>
+              ) : (
+                <span class="text-foreground font-medium">{crumb.label}</span>
+              )}
+            </>
+          ))}
+        </nav>
+      )}
+
+      <!-- Main Article Slot -->
+      <article class="prose max-w-none">
+        <slot />
+      </article>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <SiteFooter client:load />
+</BaseLayout>
+
+<style is:global>
+  /* Base44 High-End Article Typography and Layout Styles */
+  .prose h1 {
+    @apply font-heading text-4xl md:text-5xl font-bold tracking-tight mb-8 mt-2 text-foreground leading-[1.1];
+  }
+  .prose h2 {
+    @apply font-heading text-2xl md:text-3xl font-semibold tracking-tight mt-12 mb-5 text-foreground border-b border-neutral-200 pb-2.5;
+  }
+  .prose h3 {
+    @apply font-heading text-xl font-semibold mt-8 mb-4 text-foreground;
+  }
+  .prose p {
+    @apply font-body text-muted-foreground text-[15.5px] leading-relaxed mb-5;
+  }
+  .prose ul {
+    @apply list-disc list-outside pl-6 space-y-2.5 mb-6 text-muted-foreground text-[15px];
+  }
+  .prose ol {
+    @apply list-decimal list-outside pl-6 space-y-2.5 mb-6 text-muted-foreground text-[15px];
+  }
+  .prose li {
+    @apply text-muted-foreground leading-relaxed pl-1;
+  }
+  .prose li strong {
+    @apply text-foreground font-semibold;
+  }
+  .prose p strong {
+    @apply text-foreground font-semibold;
+  }
+  .prose code {
+    @apply font-mono text-[13.5px] bg-slate-100 px-1.5 py-0.5 border border-neutral-200/40 text-foreground rounded-sm;
+  }
+  .prose pre {
+    @apply bg-slate-50 border border-neutral-200/60 p-4 overflow-x-auto mb-6 font-mono text-[13px] text-foreground leading-relaxed;
+  }
+  .prose pre code {
+    @apply bg-transparent p-0 border-none rounded-none text-current;
+  }
+  .prose a {
+    @apply text-primary hover:underline font-medium transition-colors;
+  }
+  .prose dl {
+    @apply my-6 text-[15px];
+  }
+  .prose dt {
+    @apply font-semibold text-foreground mt-5 mb-1.5;
+  }
+  .prose dd {
+    @apply text-muted-foreground leading-relaxed mb-3 ml-4;
+  }
+  .prose blockquote {
+    @apply border-l-2 border-neutral-200 pl-5 italic text-muted-foreground my-6;
+  }
+
+  /* Override .prose p specificity for footer-cta box content */
+  .prose .footer-cta p {
+    color: #000000 !important;
+    font-weight: 600 !important;
+  }
+  .prose .footer-cta a {
+    color: #000000 !important;
+  }
+  .prose .footer-cta a[data-tr-buy="true"] {
+    color: #217 100% 59% !important;
+  }
+
+</style>
