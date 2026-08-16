@@ -1,0 +1,12 @@
+# Exclude heavy/generated dirs from gcloud builds submit context uploads.
+# The Dockerfile only needs site/ sources + config files at repo root.
+.git
+site/node_modules
+site/dist
+site/.astro
+build/
+.venv/
+__pycache__/
+.aider*
+.kilo/
+.hermes/

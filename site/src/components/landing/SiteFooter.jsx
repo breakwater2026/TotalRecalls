@@ -21,9 +21,9 @@ const COLS = [
   { 
     h: "Legal", 
     links: [
-      { l: "Privacy Policy", href: "/legal/#privacy" },
-      { l: "Terms of Service", href: "/legal/#terms" },
-      { l: "Refund Policy", href: "/legal/#refund" }
+      { l: "Privacy Policy", href: "/legals/#privacy" },
+      { l: "Terms of Service", href: "/legals/#terms" },
+      { l: "Refund Policy", href: "/legals/#refund" }
     ] 
   },
 ];
