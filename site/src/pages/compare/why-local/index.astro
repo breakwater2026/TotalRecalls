@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Why Local — TotalRecalls" description="Durability, portability, independence, backups, privacy.">
+<PageLayout title="Why Local — TotalRecalls" description="Durability, portability, independence, backups, privacy." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Local" }]}>
   <h1>Why Local Wins</h1>
   <p>Your conversations are your most valuable context. Here's why keeping them local matters:</p>
   <ul>
@@ -11,4 +11,4 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
     <li><strong>Backups.</strongstrong> Your library syncs to any backup tool you choose.</li>
     <li><strong>Privacy.</strongstrong> We never host your tokens, your chats, or your session data.</li>
   </ul>
-</BaseLayout>
+</PageLayout>

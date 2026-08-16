@@ -1,0 +1,68 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+---
+
+<PageLayout 
+  title="Legal & Policies — TotalRecalls" 
+  description="Privacy Policy, Terms of Service, and Refund Policy for TotalRecalls."
+  breadcrumbs={[{ label: "Legal" }]}
+>
+
+<div class="mb-6">
+  <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal · 07</span>
+  <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Legal & Policies</h1>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version v1.0 · Last updated August 2026</p>
+</div>
+
+<div class="space-y-10 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
+  {/* Section 1: Privacy Policy */}
+  <section id="privacy" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
+    <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-primary">01</span> Privacy Policy
+    </h2>
+    <p class="mb-3">
+      TotalRecalls is built with a local-first, privacy-by-design architecture. We never collect, host, store, or transmit your AI chat conversations, session tokens, login credentials, or exported files.
+    </p>
+    <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
+      <li><strong>Local Processing:</strong> All exports are executed locally on your Windows PC.</li>
+      <li><strong>No Telemetry:</strong> We do not run background analytics, tracking pixels, or telemetry scripts.</li>
+      <li><strong>No Server Locker:</strong> Your exported Markdown and JSON files remain exclusively on your local storage drive.</li>
+    </ul>
+  </section>
+
+  {/* Section 2: Terms of Service */}
+  <section id="terms" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
+    <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-primary">02</span> Terms of Service
+    </h2>
+    <p class="mb-3">
+      By downloading or using TotalRecalls, you agree to these terms:
+    </p>
+    <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
+      <li><strong>License:</strong> Your purchase provides a non-exclusive, single-user license to run the TotalRecalls Windows executable on your personal machines.</li>
+      <li><strong>Account Responsibility:</strong> You are responsible for ensuring your data exports comply with the terms of service of each underlying AI provider (ChatGPT, Claude, Perplexity, Gemini, Grok).</li>
+      <li><strong>As-Is Warranty:</strong> TotalRecalls is provided "as is" without warranty of any kind. We are not liable for third-party web interface changes or service disruptions.</li>
+    </ul>
+  </section>
+
+  {/* Section 3: Refund Policy */}
+  <section id="refund" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
+    <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-primary">03</span> Refund Policy
+    </h2>
+    <p class="mb-3">
+      We want you to be 100% satisfied with TotalRecalls.
+    </p>
+    <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
+      <li><strong>14-Day Money-Back Guarantee:</strong> If TotalRecalls does not work for your setup or fails to meet your expectations within 14 days of purchase, email us at <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline font-medium">support@totalrecalls.app</a>.</li>
+      <li><strong>No-Hassle Refunds:</strong> We will issue a 100% full refund through Lemon Squeezy, no questions asked.</li>
+    </ul>
+  </section>
+</div>
+
+<div class="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-muted-foreground">
+  <span>Questions? Email <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline">support@totalrecalls.app</a></span>
+  <a href="/" class="hover:text-primary transition-colors">← Back to TotalRecalls Home</a>
+</div>
+
+</PageLayout>

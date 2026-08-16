@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Pricing — TotalRecalls" description="One-time $24 launch price. No subscription. 14-day refund.">
+<PageLayout title="Pricing — TotalRecalls" description="One-time $24 launch price. No subscription. 14-day refund." breadcrumbs={[{ label: "Pricing" }]}>
 
   <h1>Pricing</h1>
   <p>TotalRecalls is a small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
@@ -60,4 +60,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <p><a href="/download/" style="color: var(--color-surface);">Already purchased? Download ZIP</a></p>
   </section>
 
-</BaseLayout>
+</PageLayout>

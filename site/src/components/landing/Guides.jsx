@@ -45,7 +45,7 @@ export default function Guides() {
         <header className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Guides · 04</span>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Free reading.</h2>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Reading.</h2>
           </div>
           <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.14em]">No email gate · No AdSense</p>
         </header>

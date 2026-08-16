@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import Nav from "../components/landing/Nav.jsx";
-import SiteFooter from "../components/landing/SiteFooter.jsx";
 
 export interface Props {
   title?: string;
@@ -13,38 +12,37 @@ const { title, description, breadcrumbs = [] } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Navigation Header -->
-  <Nav client:load />
+  <div class="min-h-screen flex flex-col bg-background text-foreground">
+    <!-- Navigation Header -->
+    <Nav client:load />
 
-  <!-- Breadcrumbs and Article Wrapper -->
-  <div class="tr-grid-bg min-h-screen border-b border-border/50">
-    <div class="mx-auto max-w-[900px] px-5 md:px-10 py-12 md:py-20">
-      <!-- Breadcrumbs -->
-      {breadcrumbs.length > 0 && (
-        <nav class="flex items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wider mb-8">
-          <a href="/" class="hover:text-primary transition-colors">Home</a>
-          {breadcrumbs.map((crumb) => (
-            <>
-              <span class="text-border-foreground/30">›</span>
-              {crumb.href ? (
-                <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.label}</a>
-              ) : (
-                <span class="text-foreground font-medium">{crumb.label}</span>
-              )}
-            </>
-          ))}
-        </nav>
-      )}
+    <!-- Breadcrumbs and Article Wrapper -->
+    <main class="flex-1 tr-grid-bg border-b border-border/50">
+      <div class="mx-auto max-w-[900px] px-5 md:px-10 py-12 md:py-20">
+        <!-- Breadcrumbs -->
+        {breadcrumbs.length > 0 && (
+          <nav class="flex items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wider mb-8">
+            <a href="/" class="hover:text-primary transition-colors">Home</a>
+            {breadcrumbs.map((crumb) => (
+              <>
+                <span class="text-border-foreground/30">›</span>
+                {crumb.href ? (
+                  <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.label}</a>
+                ) : (
+                  <span class="text-foreground font-medium">{crumb.label}</span>
+                )}
+              </>
+            ))}
+          </nav>
+        )}
 
-      <!-- Main Article Slot -->
-      <article class="prose max-w-none">
-        <slot />
-      </article>
-    </div>
+        <!-- Main Article Slot -->
+        <article class="prose max-w-none">
+          <slot />
+        </article>
+      </div>
+    </main>
   </div>
-
-  <!-- Footer -->
-  <SiteFooter client:load />
 </BaseLayout>
 
 <style is:global>
@@ -110,7 +108,6 @@ const { title, description, breadcrumbs = [] } = Astro.props;
     color: #000000 !important;
   }
   .prose .footer-cta a[data-tr-buy="true"] {
-    color: #217 100% 59% !important;
+    color: #2F7BFF !important;
   }
-
 </style>

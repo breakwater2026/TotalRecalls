@@ -1,17 +1,15 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 import Nav from "../../components/landing/Nav.jsx";
 import GuidesComponent from "../../components/landing/Guides.jsx";
-import SiteFooter from "../../components/landing/SiteFooter.jsx";
 ---
 
-<BaseLayout 
+<PageLayout 
   title="Guides — TotalRecalls" 
   description="How to export and backup AI chats from ChatGPT, Claude, Perplexity, Gemini, and Grok. Free guides from TotalRecalls."
->
+ breadcrumbs={[{ label: "Guides" }]}>
   <Nav client:load />
   <div class="tr-grid-bg min-h-screen">
     <GuidesComponent client:load />
   </div>
-  <SiteFooter client:load />
-</BaseLayout>
+</PageLayout>

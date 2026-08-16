@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Compare — TotalRecalls" description="TotalRecalls vs official exports and DIY scripts.">
+<PageLayout title="Compare — TotalRecalls" description="TotalRecalls vs official exports and DIY scripts." breadcrumbs={[{ label: "Compare" }]}>
   <h1>Compare</h1>
   <p>How TotalRecalls stacks up against the two realistic alternatives: each provider's official export, and do-it-yourself scripts.</p>
 
@@ -58,4 +58,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   </table>
 
   <p><a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Get TotalRecalls — <span data-tr-price>$24</span></a></p>
-</BaseLayout>
+</PageLayout>

@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Release Notes v1.3.0" description="What's new in TotalRecalls v1.3.0.">
+<PageLayout title="Release Notes v1.3.0" description="What's new in TotalRecalls v1.3.0." breadcrumbs={[{ label: "Release Notes" }]}>
   <h1>Release Notes v1.3.0</h1>
   <h2>New Features</h2>
   <ul>
@@ -20,4 +20,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <li>Fixed SmartScreen false positive on some Windows 11 builds</li>
     <li>Fixed timestamp parsing in Perplexity exports</li>
   </ul>
-</BaseLayout>
+</PageLayout>

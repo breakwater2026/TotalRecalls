@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Claude vs TotalRecalls" description="Claude official export vs. TotalRecalls.">
+<PageLayout title="Claude vs TotalRecalls" description="Claude official export vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Claude" }]}>
   <h1>Claude vs. TotalRecalls</h1>
   <p>Anthropic does not provide a native data export tool for chats. TotalRecalls reads your local Claude.ai session and converts it to a durable library.</p>
   <ul>
     <li><strong>Official export:</strong> Not available.</li>
     <li><strong>TotalRecalls:</strong> Markdown + JSON export with model metadata (3.5 Sonnet, Haiku).</li>
   </ul>
-</BaseLayout>
+</PageLayout>

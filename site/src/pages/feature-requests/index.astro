@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Feature Requests — TotalRecalls" description="Suggest improvements to TotalRecalls.">
+<PageLayout title="Feature Requests — TotalRecalls" description="Suggest improvements to TotalRecalls." breadcrumbs={[{ label: "Feature Requests" }]}>
   <h1>Feature Requests</h1>
   <p>We are constantly improving TotalRecalls. Here is how to request a feature:</p>
   <ul>
@@ -9,4 +9,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <li>Open a GitHub Issue at <a href="https://github.com/breakwater2026/TotalRecalls">breakwater2026/TotalRecalls</a>.</li>
   </ul>
   <p>We review all requests and track the most popular ones on our <a href="/roadmap/">roadmap</a>.</p>
-</BaseLayout>
+</PageLayout>

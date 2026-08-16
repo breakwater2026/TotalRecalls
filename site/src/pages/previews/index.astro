@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Previews" description="Planned integrations for TotalRecalls.">
+<PageLayout title="Previews" description="Planned integrations for TotalRecalls." breadcrumbs={[{ label: "Previews" }]}>
   <h1>Planned Integrations</h1>
   <ul>
     <li><a href="/previews/obsidian/">Obsidian Sync</a></li>
@@ -10,4 +10,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <li><a href="/previews/rag-containers/">RAG Containers</a></li>
     <li><a href="/previews/multi-device-memory/">Multi-Device Memory</a></li>
   </ul>
-</BaseLayout>
+</PageLayout>

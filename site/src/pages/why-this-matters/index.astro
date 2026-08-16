@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Why This Matters — TotalRecalls" description="Own your AI conversations forever.">
+<PageLayout title="Why This Matters — TotalRecalls" description="Own your AI conversations forever." breadcrumbs={[{ label: "Why This Matters" }]}>
   <h1>Why This Matters</h1>
   <p>AI assistants are becoming the place where your thinking happens — research, planning, writing, debugging, learning, and long threads of reasoning. But none of them give you real ownership.</p>
   <ul>
@@ -16,4 +16,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   <p>A folder of Markdown on your disk still opens in ten years. It survives account changes, UI redesigns, pricing shifts, and platform churn.</p>
   <p><strong>Your conversations become files — not tabs.</strong></p>
   <p>This is why TotalRecalls exists.</p>
-</BaseLayout>
+</PageLayout>

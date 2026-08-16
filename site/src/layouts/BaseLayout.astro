@@ -28,5 +28,14 @@ const canonicalPath = Astro.url.pathname;
   </head>
   <body class="bg-background text-foreground antialiased selection:bg-primary selection:text-white">
     <slot />
+    
+    <!-- Global Footer Statement — Pure HTML, no JS required -->
+    <footer class="border-t border-border bg-background py-8 mt-12">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10 text-center">
+        <p class="font-body text-muted-foreground text-[13.5px] leading-relaxed italic whitespace-nowrap overflow-x-auto">
+          Built by a solo developer who was tired of losing months of AI conversations to broken exports and shifting UIs.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="ChatGPT vs TotalRecalls" description="ChatGPT official export vs. TotalRecalls.">
+<PageLayout title="ChatGPT vs TotalRecalls" description="ChatGPT official export vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "ChatGPT" }]}>
   <h1>ChatGPT vs. TotalRecalls</h1>
   <p>OpenAI's built-in export gives you a JSON dump of your conversations. TotalRecalls gives you a <strong>searchable, tagged, Markdown library</strong> with full metadata.</p>
   <ul>
     <li><strong>Official export:</strong> ZIP file with conversations.json — no search, no structure.</li>
     <li><strong>TotalRecalls:</strong> Markdown + JSON, organized folders, timestamps, model names, and full-text search.</li>
   </ul>
-</BaseLayout>
+</PageLayout>

@@ -1,51 +1,66 @@
 import { Check, ArrowRight, Download } from "lucide-react";
 
 const STRAIGHT = [
-  "Windows app today (WebView2). Mac later if demand is real.",
-  "Gemini uses your Google Takeout JSON.",
-  "Unsigned builds may show SmartScreen until code-signing is complete.",
-  "Windows 11 Smart App Control may block unsigned apps.",
-  "You must follow each provider's terms.",
-  "No AdSense clutter.",
+  "Windows 10/11 now.",
+  "Windows 10/11 anti-virus/firewall blue smartscreen solution.",
+  "No AdSense clutter. This site sells a tool, not pageviews.",
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="border-t border-border bg-foreground text-background">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
-        <div className="grid lg:grid-cols-2 gap-16">
+    <section id="pricing" className="border-t border-border bg-background text-foreground">
+      <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-16 md:py-24">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column: Pricing & CTAs */}
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Resolution · 05</span>
-            <h2 className="font-heading text-4xl md:text-6xl font-bold tracking-tight mt-3">Begin resolution.</h2>
-            <p className="font-body text-background/70 text-[15px] leading-relaxed mt-5 max-w-md">
-              One-time purchase. No subscription. Local files only. 14-day money-back guarantee — if it doesn't work for you, email us and we'll refund it, no questions asked.
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Relief · 06</span>
+            
+            <p className="font-body text-muted-foreground text-[15.5px] leading-relaxed mt-4 max-w-lg">
+              One-time purchase. No subscription. Local files only.
+              <br />
+              14-day money-back guarantee — if it doesn't work for your setup, email us and we'll refund it, no questions asked.
             </p>
-            <div className="mt-10 flex flex-col items-start gap-1">
-              <span className="font-heading text-7xl font-bold">$24USD</span>
-              <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-primary mt-1.5 font-medium">discounted launch price</span>
+            
+            <div className="mt-8 flex flex-col items-start gap-1">
+              <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">$24USD</span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary mt-1 font-semibold">discounted launch price</span>
             </div>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <a href="#pricing" data-tr-buy="true" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity shadow-sm">
                 Buy TotalRecalls — $24USD <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#pricing" data-tr-download className="inline-flex items-center justify-center gap-2 border border-background/20 text-background px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] hover:bg-background/10 transition-colors">
+              <a href="/download/" data-tr-download="true" class="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors">
                 <Download className="w-4 h-4" /> Download ZIP
               </a>
             </div>
-            <p className="font-mono text-[11px] text-background/40 mt-5">Early access build · actively improving on feedback</p>
+
+            {/* Vertical Provider List */}
+            <div className="mt-8 font-mono text-[11px] text-muted-foreground">
+              <span className="font-semibold text-foreground uppercase tracking-wider block mb-2.5">Includes providers:</span>
+              <ul className="space-y-1.5 border-l-2 border-primary/30 pl-3">
+                <li className="text-foreground/90 font-medium">Perplexity</li>
+                <li className="text-foreground/90 font-medium">ChatGPT</li>
+                <li className="text-foreground/90 font-medium">Claude</li>
+                <li className="text-foreground/90 font-medium">Gemini (Takeout)</li>
+                <li className="text-foreground/90 font-medium">Grok</li>
+              </ul>
+              <span className="block mt-3 text-[10.5px] opacity-70">Version v1.0</span>
+            </div>
           </div>
-          <div className="lg:border-l lg:border-background/10 lg:pl-12">
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-background/50">Straight talk</span>
-            <ul className="mt-6 space-y-4">
+
+          {/* Right Column: Straight Talk & Checkmarks */}
+          <div className="lg:border-l lg:border-border lg:pl-12">
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary font-medium">Straight talk</span>
+            
+            <ul className="mt-6 space-y-3.5">
               {STRAIGHT.map((s) => (
-                <li key={s} className="flex gap-3 font-body text-[14px] text-background/80 leading-relaxed">
-                  <Check className="w-4 h-4 text-primary shrink-0 mt-1" /> {s}
+                <li key={s} className="flex items-start gap-3.5 bg-card/60 border border-border/80 p-4 rounded-sm hover:border-primary/40 transition-colors">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="font-body text-[14.5px] text-foreground font-medium leading-relaxed">{s}</span>
                 </li>
               ))}
             </ul>
-            <p className="font-body text-background/50 text-[13px] mt-8 leading-relaxed italic">
-              Built by a solo developer who was tired of losing months of AI conversations to broken exports and shifting UIs.
-            </p>
           </div>
         </div>
       </div>

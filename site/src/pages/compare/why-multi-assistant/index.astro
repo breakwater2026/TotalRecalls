@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Why Multi-Assistant — TotalRecalls" description="Switching providers and cross-assistant workflows.">
+<PageLayout title="Why Multi-Assistant — TotalRecalls" description="Switching providers and cross-assistant workflows." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Multi Assistant" }]}>
   <h1>Why Multi-Assistant</h1>
   <p>You don't use just one AI. You switch between ChatGPT, Claude, Perplexity, Gemini, and Grok. TotalRecalls unifies them all into one library.</p>
   <ul>
@@ -9,4 +9,4 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
     <li><strong>Cross-assistant workflows.</strong> Use Claude for research, ChatGPT for coding, Grok for quick takes—all backed up.</li>
     <li><strong>Future-proof.</strong> If you switch providers, your history moves with you.</li>
   </ul>
-</BaseLayout>
+</PageLayout>

@@ -1,7 +1,17 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 ---
-<BaseLayout title="404 — Page Not Found" description="The requested page does not exist.">
-  <h1>Not found</h1>
-  <p>The page you requested does not exist. Try one of the <a href="/">main pages</a>.</p>
-</BaseLayout>
+
+<PageLayout 
+  title="404 — Page Not Found" 
+  description="The requested page does not exist."
+  breadcrumbs={[{ label: "404" }]}
+>
+  <h1>Page Not found</h1>
+  <p>The page you requested does not exist or has been moved.</p>
+  <div class="mt-8">
+    <a href="/" class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+      Return to Home
+    </a>
+  </div>
+</PageLayout>

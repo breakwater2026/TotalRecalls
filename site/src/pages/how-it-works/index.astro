@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="How TotalRecalls Works" description="Export AI chats to local Markdown and JSON in 4 steps.">
+<PageLayout title="How TotalRecalls Works" description="Export AI chats to local Markdown and JSON in 4 steps." breadcrumbs={[{ label: "How It Works" }]}>
   <h1>How It Works</h1>
   <p>TotalRecalls saves your AI conversations into a private folder on your computer — readable Markdown + JSON you keep forever. Four steps, start to finish.</p>
 
@@ -52,4 +52,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <p><a href="/download/" style="color: var(--color-surface);">Already purchased? Download ZIP</a></p>
   </section>
 
-</BaseLayout>
+</PageLayout>

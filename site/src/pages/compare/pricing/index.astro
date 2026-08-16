@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<BaseLayout title="Pricing Comparison — TotalRecalls" description="Free official exports vs. one-time utility.">
+<PageLayout title="Pricing Comparison — TotalRecalls" description="Free official exports vs. one-time utility." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Pricing" }]}>
   <h1>Pricing Comparison</h1>
   <p>Official AI exports are free. TotalRecalls is a paid utility with one key difference: your data stays local.</p>
   <table border="1" cellpadding="8" style="width:100%; border-collapse: collapse;">
@@ -29,4 +29,4 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
     <td>Yes</td>
   </tr>
   </table>
-</BaseLayout>
+</PageLayout>
