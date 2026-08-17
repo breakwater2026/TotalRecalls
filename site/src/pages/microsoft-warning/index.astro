@@ -1,0 +1,54 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="Microsoft Warning — TotalRecalls"
+  description="Why Microsoft Defender SmartScreen may show a warning on this newly launched website, and what it means."
+  breadcrumbs={[{ label: "Microsoft Warning" }]}
+>
+
+<div class="mb-6">
+  <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Microsoft Warning · 05</span>
+  <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Microsoft Warning</h1>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Microsoft Defender SmartScreen · Newly launched website</p>
+</div>
+
+<div class="space-y-5 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
+  <p>
+    This website may occasionally trigger a Microsoft Defender SmartScreen warning (“Windows protected your PC” or similar) when accessed or when files are downloaded from it. This is a standard, automated caution — not an indication of malware or malicious content.
+  </p>
+  <p>
+    SmartScreen builds trust in new domains gradually, based on cumulative traffic volume, download history, and user feedback over time. Since this site is newly launched, it simply hasn’t yet accumulated the reputation signals SmartScreen uses to classify it as “known safe,” which is why the warning appears.
+  </p>
+  <p>
+    This is common and expected for new websites, and the warning typically resolves on its own as visitor traffic grows and no unsafe activity is reported.
+  </p>
+</div>
+
+<div class="space-y-8 border-t border-border/60 pt-8">
+  <figure>
+    <img
+      src="/smartscreen/smartscreen-alert-annotated.png"
+      alt="Microsoft Defender SmartScreen alert — click More info"
+      class="w-full max-w-xl mx-auto rounded-sm border border-border/60"
+      loading="lazy"
+    />
+    <figcaption class="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground mt-3">
+      Step 1 — Click “More info” to reveal the options
+    </figcaption>
+  </figure>
+  <figure>
+    <img
+      src="/smartscreen/smartscreen-run-annotated.png"
+      alt="Microsoft Defender SmartScreen — click Run anyway"
+      class="w-full max-w-xl mx-auto rounded-sm border border-border/60"
+      loading="lazy"
+    />
+    <figcaption class="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground mt-3">
+      Step 2 — Click “Run anyway” to launch the app
+    </figcaption>
+  </figure>
+</div>
+
+</PageLayout>
