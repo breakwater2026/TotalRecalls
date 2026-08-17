@@ -19,7 +19,7 @@ export default function RiskMatrix() {
           </div>
 
         </header>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border max-h-[70vh] overflow-y-auto">
           {PROVIDERS.map((p) => (
             <div key={p.name} className="group relative bg-card border-l-2 border-primary overflow-hidden min-h-[220px]">
               <div className="p-6 transition-opacity duration-200 group-hover:opacity-0">
