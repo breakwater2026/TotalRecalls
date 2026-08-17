@@ -30,8 +30,8 @@ export default function PricingSection() {
               <a href="#pricing" data-tr-buy="true" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity shadow-sm">
                 Buy TotalRecalls — $24USD <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="/download/" data-tr-download="true" class="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors">
-                <Download className="w-4 h-4" /> Download ZIP
+              <a href="/download/" class="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors">
+                <Download className="w-4 h-4" /> Download
               </a>
             </div>
 

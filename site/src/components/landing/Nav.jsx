@@ -33,7 +33,7 @@ export default function Nav() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-5">
-          <a href="/#pricing" data-tr-download className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">Download</a>
+          <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">Download</a>
           <div className="flex flex-col items-center">
             <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-primary text-white px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
               Buy — $24USD <ArrowRight className="w-3.5 h-3.5" />
@@ -51,7 +51,7 @@ export default function Nav() {
         <div className="md:hidden border-t border-border bg-background relative overflow-hidden mt-2.5">
           <span className="absolute left-0 top-0 h-full w-px bg-primary tr-scanline" />
           <nav className="px-5 py-4 flex flex-col gap-3.5">
-            {LINKS.concat([{ label: "Download", href: "/#pricing" }]).map((l) => (
+            {LINKS.concat([{ label: "Download", href: "/download/" }]).map((l) => (
               <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted-foreground">
                 {l.label}
               </a>

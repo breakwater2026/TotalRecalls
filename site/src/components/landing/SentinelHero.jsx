@@ -1,5 +1,5 @@
 import ConvergenceDiagram from "./ConvergenceDiagram";
-import { ArrowRight, Download, ShieldCheck, Lock, Database } from "lucide-react";
+import { ArrowRight, ShieldCheck, Lock, Database } from "lucide-react";
 
 const TRUST = [
   { Icon: Lock, l: "Private by design", s: "Local sign-in · no cloud" },
@@ -25,12 +25,9 @@ export default function SentinelHero() {
               <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
                 Buy TotalRecalls — $24USD <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#pricing" data-tr-download className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] hover:bg-muted transition-colors">
-                <Download className="w-4 h-4" /> Download ZIP
-              </a>
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary mt-2.5 font-medium">
-              discounted launch price · one-time
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mt-3">
+              Discounted launch price · One-time · Download link sent after checkout
             </p>
 
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">
