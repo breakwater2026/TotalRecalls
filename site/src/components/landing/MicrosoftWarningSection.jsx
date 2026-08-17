@@ -27,12 +27,20 @@ export default function MicrosoftWarningSection() {
           <p className="font-body text-muted-foreground text-[15px] leading-relaxed">
             This is common and expected for new websites, and the warning typically resolves on its own as visitor traffic grows and no unsafe activity is reported.
           </p>
-          <img
-            src="/smartscreen/smartscreen-alert-annotated.png"
-            alt="Microsoft Defender SmartScreen alert — click More info"
-            className="mt-6 w-full max-w-xl mx-auto rounded-sm border border-border/60"
-            loading="lazy"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            <img
+              src="/smartscreen/smartscreen-alert-annotated.png"
+              alt="Microsoft Defender SmartScreen alert — click More info"
+              className="w-full rounded-sm border border-border/60"
+              loading="lazy"
+            />
+            <img
+              src="/smartscreen/smartscreen-run-annotated.png"
+              alt="Microsoft Defender SmartScreen — click Run anyway"
+              className="w-full rounded-sm border border-border/60"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>
