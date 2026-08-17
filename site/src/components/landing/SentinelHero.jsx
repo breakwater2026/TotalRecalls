@@ -14,9 +14,6 @@ export default function SentinelHero() {
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
           <div>
-            <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-primary border border-primary/30 px-3 py-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" /> Forensic Guardian · v1.0
-            </span>
             <h1 className="font-heading text-[44px] md:text-[68px] leading-[0.98] font-bold tracking-tight mt-6">
               Recall every AI conversation.
             </h1>
