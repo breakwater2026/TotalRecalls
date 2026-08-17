@@ -3,7 +3,7 @@ import { ArrowRight, Download, ShieldCheck, Lock, Database } from "lucide-react"
 
 const TRUST = [
   { Icon: Lock, l: "Private by design", s: "Local sign-in · no cloud" },
-  { Icon: Database, l: "One library", s: "Every ai provider, one local folder" },
+  { Icon: Database, l: "One library", s: "Every AI provider, one local folder" },
   { Icon: ShieldCheck, l: "Yours forever", s: "" },
 ];
 

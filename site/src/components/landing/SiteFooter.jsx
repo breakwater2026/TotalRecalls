@@ -2,10 +2,11 @@ const COLS = [
   { 
     h: "Product", 
     links: [
-      { l: "How It Works", href: "#how-it-works" },
-      { l: "Providers", href: "#providers" },
-      { l: "Pricing", href: "#pricing" },
-      { l: "Download", href: "/download/" }
+      { l: "How It Works", href: "/#resolution" },
+      { l: "Providers", href: "/#matrix" },
+      { l: "Pricing", href: "/#pricing" },
+      { l: "Download", href: "/download/" },
+      { l: "Release Notes", href: "/release-notes/" }
     ] 
   },
   { 

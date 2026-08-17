@@ -2,7 +2,7 @@ import { Check, ArrowRight, Download } from "lucide-react";
 
 const STRAIGHT = [
   "Windows 10/11 now.",
-  "Windows 10/11 anti-virus/firewall blue smartscreen solution.",
+  "SmartScreen warning explained — what it means and how to proceed.",
   "No AdSense clutter. This site sells a tool, not pageviews.",
 ];
 
