@@ -14,7 +14,7 @@ export default function RiskMatrix() {
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Risk Matrix · 02</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Current AI Models Providers · 02</span>
             <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Five AI providers. All in one library on your computer. Instant Relief.</h2>
           </div>
 
@@ -50,12 +50,8 @@ export default function RiskMatrix() {
               </div>
             </div>
           ))}
-          <div className="bg-foreground text-background p-6 flex flex-col justify-between">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-background/60">Your library</span>
-            <div>
-              <p className="font-heading text-2xl font-semibold leading-tight">797 files secured</p>
-              <p className="font-mono text-[12px] text-background/60 mt-3">One predictable folder. Searchable. Backups yours.</p>
-            </div>
+          <div className="bg-card border-l-2 border-primary p-6 flex flex-col items-center justify-center text-center">
+            <p className="font-heading text-2xl font-semibold leading-tight">many more to come</p>
           </div>
         </div>
       </div>
