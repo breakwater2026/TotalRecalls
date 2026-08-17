@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 export default function MicrosoftWarningSection() {
   return (
     <section id="microsoft-warning" className="border-t border-border">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
+      <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-10 md:py-20">
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Microsoft Warning · 05</span>
