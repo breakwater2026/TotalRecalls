@@ -36,7 +36,7 @@ export default function SiteFooter() {
         <div className="grid md:grid-cols-4 gap-10 text-center items-start justify-items-center">
           <div className="flex flex-col items-center text-center">
             <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-7 h-7 bg-foreground text-background font-mono text-[13px]">TR</span>
+              <img src="/logo.png" alt="TotalRecalls logo" className="h-[39px] w-auto object-contain" />
               <span className="font-heading text-[17px] font-bold">TotalRecalls</span>
             </div>
             <p className="font-body text-muted-foreground text-[14px] mt-4 max-w-xs leading-relaxed text-center">
@@ -60,7 +60,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8 font-mono text-[11px] text-muted-foreground text-center">
-          <span>© 2026 TotalRecalls v1.0</span>
+          <span>© 2026 TotalRecalls v1.0.0</span>
           <span>·</span>
           <span>Local files storage · No subscription</span>
         </div>

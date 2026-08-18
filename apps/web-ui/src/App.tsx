@@ -34,7 +34,7 @@ export default function App() {
     n: 0,
   })
   const [busyExport, setBusyExport] = useState(false)
-  const [versionLabel, setVersionLabel] = useState('TotalRecalls')
+  const [versionLabel, setVersionLabel] = useState('v1.0.0')
   const [bridgeHint, setBridgeHint] = useState('')
   const logRef = useRef<HTMLDivElement>(null)
   const connectingRef = useRef(false)
@@ -294,7 +294,7 @@ export default function App() {
   return (
     <div className="wrap">
       <header>
-        <div className="logo">T</div>
+        <div className="logo"><img src="/logo.png" alt="TotalRecalls" style={{width:'39px',height:'39px',objectFit:'contain'}} /></div>
         <div className="brand">TotalRecalls</div>
         <div className={`pill${pill.ok ? ' ok' : ''}`}>{pill.text}</div>
       </header>
