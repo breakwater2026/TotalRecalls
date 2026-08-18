@@ -29,9 +29,9 @@ def main():
                 import ctypes
                 ctypes.windll.user32.MessageBoxW(
                     0,
-                    "Perplexity Exporter could not start because another copy is still running.\n"
-                    "Open Task Manager, end all PerplexityExporter.exe tasks, then try again.",
-                    f"Perplexity Exporter {APP_VERSION} ({APP_BUILD_TAG})",
+                    "TotalRecalls could not start because another copy is still running.\n"
+                        "Open Task Manager, end all TotalRecalls.exe tasks, then try again.",
+                        f"TotalRecalls {APP_VERSION} ({APP_BUILD_TAG})",
                     0x10,
                 )
         except Exception:
@@ -154,7 +154,7 @@ def main():
             if p.is_file():
                 html = p.read_text(encoding="utf-8")
                 html = html.replace(
-                    'id="ver">Perplexity Exporter v1.0.0</footer>',
+                    'id="ver">TotalRecalls v1.0.0</footer>',
                     f'id="ver">TotalRecalls v{APP_VERSION} · {APP_BUILD_TAG}</footer>',
                 )
                 html = html.replace(

@@ -34,7 +34,7 @@ def kill_other_exporter_processes(force: bool = True) -> list[int]:
         import subprocess
         # CSV: ImageName,PID,SessionName,Session#,MemUsage
         r = subprocess.run(
-            ["tasklist", "/FI", "IMAGENAME eq PerplexityExporter.exe", "/FO", "CSV", "/NH"],
+            ["tasklist", "/FI", "IMAGENAME eq TotalRecalls.exe", "/FO", "CSV", "/NH"],
             capture_output=True, text=True, timeout=15,
         )
         for line in (r.stdout or "").splitlines():
@@ -78,7 +78,7 @@ def acquire_single_instance(takeover: bool = True) -> tuple[object | None, bool]
     try:
         import ctypes
         kernel32 = ctypes.windll.kernel32
-        mutex_name = "Global\\PerplexityExporter_Instance"
+        mutex_name = "Global\\\\TotalRecalls_Instance"
 
         def _try():
             # Clear last error so ERROR_ALREADY_EXISTS is trustworthy
