@@ -82,7 +82,7 @@
         </select>
       </div>
       <h2>Step 2 &mdash; Connect your account</h2>
-      <p class="note" style="margin-bottom:14px">Click the button below. A sign-in window opens inside the app —
+      <p class="note" style="margin-bottom:14px;color:var(--text)">Click the button below. A sign-in window opens inside the app —
         log in there. When sign-in succeeds, this screen advances automatically.
         Prefer not to use the embedded window? Use the session-cookie option.</p>
       <div class="row">
@@ -90,7 +90,7 @@
         <button class="link" id="btn-cookie-alt">or use a <span id="provider-name-cookie-label">Perplexity</span> session cookie…</button>
       </div>
       <div id="cookie-box" class="hidden" style="margin-top:14px">
-        <p class="note" style="margin-bottom:8px">For advanced users: in your browser, open
+        <p class="note" style="margin-bottom:8px;color:var(--text)">For advanced users: in your browser, open
           <span id="provider-domain">perplexity.ai</span> &rarr; press F12 &rarr; Application &rarr; Cookies &rarr; <span id="provider-domain2">perplexity.ai</span> &rarr;
           copy the value of <b id="cookie-name">__Secure-next-auth.session-token</b> and paste it here.</p>
         <div class="row">
@@ -99,13 +99,14 @@
         </div>
       </div>
       <div id="waiting" class="hidden" style="margin-top:14px">
-        <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for you to sign in on <span id="provider-name-waiting">Perplexity</span>…</span>
+        <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for <span id="provider-name-waiting">Perplexity</span> to accept the connection request (normally a few seconds, up to 3-5 minutes)…</span>
+        <span class="status" id="waiting-timer" style="margin-left:8px;color:var(--accent2)"></span>
         <div style="margin-top:8px"><button class="btn-ghost" id="btn-cancel-login">Cancel</button></div>
       </div>
       <div class="error" id="err-connect"></div>
     </div>
-    <div class="fine">
-      <b>Privacy:</b> your login stays in this app and on this computer. Exporter only talks to
+    <div class="fine" style="color:var(--text)">
+      <b>Privacy:</b> your login stays in this app and on this computer. TotalRecalls only talks to
       <span id="provider-name-privacy">Perplexity</span>, as you do in your browser. No account data ever leaves your machine.
     </div>
   </section>
@@ -152,14 +153,14 @@
         </div>
       </div>
     </div>
-    <div class="fine">
+      <div class="fine" style="color:var(--text)">
       Files are grouped like <span id="provider-name-files">Perplexity</span> itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
       for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
       <b>conversation.md</b> + <b>conversation.json</b>. Open <b>README.md</b> in the export folder for a full index.
       Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
       The app pulls from several <span id="provider-name-library">Perplexity</span> library indexes; if a chat still missing after a full run,
       use <span id="provider-name-request">Perplexity</span>&rsquo;s official data request
-      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener">typeform data request</a>)
+      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener" style="color:var(--accent2)">typeform data request</a>)
       for a legal complete dump (can take weeks).
       <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
@@ -176,6 +177,8 @@
   let pendingConnect = false;
   let pendingConnectTimer = null;
   let pendingConnectAttempts = 0;
+  let waitingStartTime = null;
+  let waitingTimerInterval = null;
 
   function getApi() {
     try {
@@ -205,6 +208,7 @@
     if (ec) { ec.style.display = 'none'; ec.textContent = ''; }
   }
   function resetLoginUi() {
+    if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
     q('btn-connect').disabled = false;
     q('btn-cookie-alt').disabled = false;
     q('waiting').classList.add('hidden');
@@ -222,6 +226,7 @@
     if (p.type === 'reset_login_ui') {
       resetLoginUi();
     } else if (p.type === 'connected') {
+      if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
       resetLoginUi();
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
@@ -234,6 +239,19 @@
       q('btn-cookie-alt').disabled = true;
       q('waiting').classList.remove('hidden');
       q('cookie-box').classList.add('hidden');
+      q('waiting-text').innerHTML = 'Waiting for <span id="provider-name-waiting">' + (q('provider-name-waiting').textContent || 'the provider') + '</span> to accept the connection request (normally a few seconds, up to 3-5 minutes)…';
+      if (q('waiting-timer')) q('waiting-timer').textContent = '';
+      // Start timer
+      if (waitingTimerInterval) clearInterval(waitingTimerInterval);
+      waitingStartTime = Date.now();
+      waitingTimerInterval = setInterval(function() {
+        if (q('waiting-timer')) {
+          const elapsed = Math.floor((Date.now() - waitingStartTime) / 1000);
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          q('waiting-timer').textContent = 'Elapsed: ' + (mins > 0 ? mins + 'm ' : '') + String(secs).padStart(2, '0') + 's';
+        }
+      }, 1000);
       setPill('Signing in…', false);
     } else if (p.type === 'login_cancelled') {
       resetLoginUi();
@@ -267,6 +285,7 @@
       q('folder-input').disabled = false;
       q('chk-refresh').disabled = false;
     } else if (p.type === 'error') {
+      if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
       showErr(p.message);
       q('btn-export').disabled = false;
       q('btn-folder').disabled = false;
@@ -278,6 +297,7 @@
       q('btn-cookie-alt').disabled = false;
       q('waiting').classList.add('hidden');
     } else if (p.type === 'disconnected') {
+      if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
       q('scr-export').classList.add('hidden');
       q('scr-connect').classList.remove('hidden');
       setPill('Not connected', false);
@@ -493,7 +513,14 @@
   };
   // Helper: update all provider name references in UI
   function updateProviderUI(pid) {
-    const name = pid.charAt(0).toUpperCase() + pid.slice(1);
+    const nameMap = {
+      'perplexity': 'Perplexity',
+      'chatgpt': 'ChatGPT',
+      'claude': 'Claude',
+      'grok': 'Grok',
+      'gemini': 'Gemini'
+    };
+    const name = nameMap[pid] || (pid.charAt(0).toUpperCase() + pid.slice(1));
     const domainMap = {
       perplexity: 'perplexity.ai',
       chatgpt: 'chat.openai.com',
