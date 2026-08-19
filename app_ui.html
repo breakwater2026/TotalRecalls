@@ -45,7 +45,7 @@
   .status { font-size:13px; color:var(--muted); min-height:20px; }
   .log { margin-top:12px; background:#0b0d12; border:1px solid var(--border); border-radius:9px;
          padding:10px 12px; font-family:Consolas,monospace; font-size:11.5px; color:var(--muted);
-         max-height:170px; overflow-y:auto; white-space:pre-wrap; }
+         max-height:240px; overflow-y:auto; white-space:pre-wrap; }
   .log:empty { display:none; }
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
   .error { color:var(--bad); font-size:13.5px; padding:10px 14px; background:rgba(248,113,113,.08);
@@ -142,7 +142,7 @@
       </div>
       <div class="bar hidden" id="bar-row"><div id="fill"></div></div>
       <div class="status" id="status-line"></div>
-      <div class="log" id="log"></div>
+      <div class="log" id="log" style="max-height:200px;overflow-y:auto"></div>
       <div class="error" id="err"></div>
       <div id="done-box" class="hidden" style="margin-top:14px">
         <div class="ok-line big">Export complete!</div>
@@ -158,10 +158,6 @@
       for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
       <b>conversation.md</b> + <b>conversation.json</b>. Open <b>README.md</b> in the export folder for a full index.
       Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
-      The app pulls from several <span id="provider-name-library">Perplexity</span> library indexes; if a chat still missing after a full run,
-      use <span id="provider-name-request">Perplexity</span>&rsquo;s official data request
-      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener" style="color:var(--accent2)">request your data</a>)
-      for a legal complete dump (can take weeks).
       <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
   </section>
@@ -199,7 +195,7 @@
   }
 
   function setPill(text, ok) {
-    const p = q('pill'); p.textContent = text; p.className = 'pill' + (ok ? ' ok' : '');
+    const p = q('pill'); p.innerHTML = text; p.className = 'pill' + (ok ? ' ok' : '');
   }
   function showErr(msg) {
     const e = q('err');
@@ -262,7 +258,8 @@
           q('waiting-timer').textContent = 'Elapsed: ' + (mins > 0 ? mins + 'm ' : '') + String(secs).padStart(2, '0') + 's';
         }
       }, 1000);
-      setPill('Signing in…', false);
+      setPill('Signing in to <span id="provider-name-pill">Perplexity</span>…', false);
+    updateProviderUI(getCurrentProviderId());
     } else if (p.type === 'login_cancelled') {
       resetLoginUi();
     } else if (p.type === 'export_start') {
@@ -333,7 +330,8 @@
       q('btn-connect').disabled = false;
     } else if (s.connecting) {
       // Keep spinner visible — do NOT full-reset (that flashed the blue button every poll).
-      setPill('Signing in…', false);
+      setPill('Signing in to <span id="provider-name-pill">Perplexity</span>…', false);
+    updateProviderUI(getCurrentProviderId());
       q('scr-connect').classList.remove('hidden');
       q('scr-export').classList.add('hidden');
       q('btn-connect').disabled = true;
@@ -466,7 +464,8 @@
     q('btn-cookie-alt').disabled = true;
     q('waiting').classList.remove('hidden');
     q('cookie-box').classList.add('hidden');
-    setPill('Signing in…', false);
+    setPill('Signing in to <span id="provider-name-pill">Perplexity</span>…', false);
+    updateProviderUI(getCurrentProviderId());
     const a = getApi();
     if (a && typeof a.connect === 'function') {
       pendingConnect = false;
@@ -553,14 +552,6 @@
       gemini: '__Secure-1PSID'
     };
     const cookie = cookieMap[pid] || 'session_token';
-    const requestMap = {
-      perplexity: 'https://perplexity.typeform.com/datarequest',
-      chatgpt: 'https://help.openai.com/en/articles/6383510-how-can-i-delete-my-chatgpt-history',
-      claude: 'https://www.anthropic.com/legal/data-requests',
-      grok: 'https://help.x.com/en/rules-and-policies/x-privacy-policy',
-      gemini: 'https://takeout.google.com/'
-    };
-    const requestLink = requestMap[pid] || 'https://help.' + pid + '.com/';
 
     // Update connect screen spans
     if (q('provider-name-connect')) q('provider-name-connect').textContent = name;
@@ -569,13 +560,11 @@
     if (q('provider-domain2')) q('provider-domain2').textContent = domain;
     if (q('cookie-name')) q('cookie-name').textContent = cookie;
     if (q('provider-name-waiting')) q('provider-name-waiting').textContent = name;
+    if (q('provider-name-pill')) q('provider-name-pill').textContent = name;
     if (q('provider-name-privacy')) q('provider-name-privacy').textContent = name;
 
     // Update export screen spans
     if (q('provider-name-files')) q('provider-name-files').textContent = name;
-    if (q('provider-name-library')) q('provider-name-library').textContent = name;
-    if (q('provider-name-request')) q('provider-name-request').textContent = name;
-    if (q('provider-request-link')) q('provider-request-link').href = requestLink;
     if (q('provider-path')) q('provider-path').textContent = 'Library/' + pid + '/home';
   }
 
