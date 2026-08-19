@@ -12,3 +12,6 @@ Thumbs.db
 
 # secrets
 .env
+
+# Hermes desktop attachments (local only)
+.hermes/
