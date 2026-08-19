@@ -161,6 +161,13 @@ def main():
                     "<body>",
                     f'<body data-app-version="{APP_VERSION}" data-boot-state="loading">',
                 )
+                # Inject logo as base64 data URI
+                import base64
+                logo_path = p.parent / "ui" / "logo.png"
+                if logo_path.is_file():
+                    logo_b64 = base64.b64encode(logo_path.read_bytes()).decode('ascii')
+                    data_uri = f"data:image/png;base64,{logo_b64}"
+                    html = html.replace('src="./ui/logo.png"', f'src="{data_uri}"')
                 return "html", html, str(p)
         return "html", f"<h1>UI missing</h1><p>TotalRecalls v{APP_VERSION}</p>", "missing"
 

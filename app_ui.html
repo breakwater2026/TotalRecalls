@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Perplexity Exporter</title>
+<title>TotalRecalls</title>
 <style>
   :root {
     --bg: #0f1117; --panel: #171a23; --panel2: #1d2130; --border: #2a2f42;
@@ -16,8 +16,7 @@
   .wrap { max-width:760px; margin:0 auto; padding:28px 24px 40px; width:100%; }
   header { display:flex; align-items:center; gap:12px; padding-bottom:20px;
            border-bottom:1px solid var(--border); margin-bottom:24px; }
-  .logo { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-          display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; }
+  .logo { width:34px; height:34px; object-fit:contain; }
   .brand { font-size:18px; font-weight:600; flex:1; }
   .pill { font-size:12px; padding:4px 12px; border-radius:99px; border:1px solid var(--border);
           color:var(--muted); background:var(--panel); }
@@ -64,16 +63,16 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="logo">P</div>
-    <div class="brand">Perplexity Exporter</div>
+    <img class="logo" src="./ui/logo.png" alt="TotalRecalls">
+    <div class="brand">TotalRecalls</div>
     <div class="pill" id="pill">Not connected</div>
   </header>
 
   <!-- ============ CONNECT SCREEN ============ -->
   <section id="scr-connect">
     <h1>Your conversations. On your computer.</h1>
-    <div class="sub">Perplexity Exporter downloads every thread from your Perplexity account &mdash;
-      questions, answers, and sources &mdash; as clean Markdown and JSON files.
+    <div class="sub">TotalRecalls downloads your AI chat history from multiple providers &mdash;
+      conversations, threads, and metadata &mdash; as clean Markdown and JSON files.
       Everything runs on this computer. Nothing is uploaded anywhere.</div>
     <div class="card">
       <h2>Step 1 &mdash; Connect your account</h2>
@@ -154,7 +153,7 @@
     </div>
   </section>
 
-  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver">Perplexity Exporter v1.0.0</footer>
+  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver">TotalRecalls v1.0.0</footer>
 </div>
 
 <script>
@@ -276,7 +275,7 @@
   function applyState(s) {
     if (!s) return;
     if (s.folder) q('folder-input').value = s.folder;
-    if (s.version) q('ver').textContent = 'Perplexity Exporter v' + s.version + (s.build ? (' · ' + s.build) : '');
+    if (s.version) q('ver').textContent = 'TotalRecalls v' + s.version + (s.build ? (' · ' + s.build) : '');
     if (s.connected) {
       setPill('Connected', true);
       q('scr-connect').classList.add('hidden');
@@ -313,7 +312,7 @@
   function boot() {
     api = getApi();
     if (!q('ver').textContent) {
-      q('ver').textContent = 'Perplexity Exporter v1.0.0';
+      q('ver').textContent = 'TotalRecalls v1.0.0';
     }
     if (!api) {
       q('status-line').textContent = 'Connecting to the app bridge…';
@@ -344,7 +343,7 @@
   // official pywebviewready event + load fallback (whichever fires first)
   window.addEventListener('pywebviewready', boot);
   window.addEventListener('load', function() {
-    q('ver').textContent = 'Perplexity Exporter v1.0.0';
+    q('ver').textContent = 'TotalRecalls v1.0.0';
     boot();
   });
   boot();
