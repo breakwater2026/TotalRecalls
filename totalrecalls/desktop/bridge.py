@@ -1402,7 +1402,8 @@ class Bridge:
         except Exception:
             pass
         log(f"login: accepted session token for {email} via {provider}")
-        self._push({"type": "connected", "email": email, "count": count})
+        self._push({"type": "connected", "email": email, "count": count,
+                    "provider": provider})
         log(f"connected: {email}, {count} threads ({provider})")
 
 
@@ -1468,7 +1469,13 @@ class Bridge:
                 return
 
             # ----- classic path (TOTALRECALLS_CLASSIC_EXPORT=1) -----
-            self._push({"type": "log", "line": "Discovering conversations (multiple Perplexity indexes)…"})
+            provider_name = getattr(self, "_provider_id", "perplexity")
+            try:
+                adapter = get_adapter(provider_name)
+                provider_display = adapter.display_name
+            except Exception:
+                provider_display = provider_name.capitalize()
+            self._push({"type": "log", "line": f"Discovering conversations ({provider_display})…"})
             threads = list_threads(token, deep=True)
             total = len(threads)
             self._push({"type": "log",

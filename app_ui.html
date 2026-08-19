@@ -100,7 +100,7 @@
       </div>
       <div id="waiting" class="hidden" style="margin-top:14px">
         <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for <span id="provider-name-waiting">Perplexity</span> to accept the connection request (normally a few seconds, up to 3-5 minutes)…</span>
-        <span class="status" id="waiting-timer" style="margin-left:8px;color:var(--accent2)"></span>
+        <span class="status" id="waiting-timer" style="margin-left:8px;color:var(--accent2);white-space:nowrap"></span>
         <div style="margin-top:8px"><button class="btn-ghost" id="btn-cancel-login">Cancel</button></div>
       </div>
       <div class="error" id="err-connect"></div>
@@ -154,13 +154,13 @@
       </div>
     </div>
       <div class="fine" style="color:var(--text)">
-      Files are grouped like <span id="provider-name-files">Perplexity</span> itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
+      Files are grouped the same way <span id="provider-name-files">Perplexity</span> does for itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
       for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
       <b>conversation.md</b> + <b>conversation.json</b>. Open <b>README.md</b> in the export folder for a full index.
       Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
       The app pulls from several <span id="provider-name-library">Perplexity</span> library indexes; if a chat still missing after a full run,
       use <span id="provider-name-request">Perplexity</span>&rsquo;s official data request
-      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener" style="color:var(--accent2)">typeform data request</a>)
+      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener" style="color:var(--accent2)">request your data</a>)
       for a legal complete dump (can take weeks).
       <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
@@ -191,6 +191,12 @@
     } catch (e) { return null; }
   }
   function q(id) { return document.getElementById(id); }
+  // Get the current provider ID from the connect-screen dropdown (or fallback to state)
+  function getCurrentProviderId() {
+    const sel = q('provider-select');
+    if (sel) return sel.value;
+    return 'perplexity';
+  }
 
   function setPill(text, ok) {
     const p = q('pill'); p.textContent = text; p.className = 'pill' + (ok ? ' ok' : '');
@@ -233,6 +239,10 @@
       q('acct-email').textContent = p.email || '—';
       q('acct-count').textContent = p.count;
       setPill('Connected', true);
+      // Sync export-provider-select to match the selected provider
+      const sel2 = q('export-provider-select');
+      if (sel2) sel2.value = (p.provider || q('provider-select').value);
+      updateProviderUI(getCurrentProviderId());
     } else if (p.type === 'waiting_login') {
       hideErr();
       q('btn-connect').disabled = true;
@@ -309,6 +319,12 @@
     if (s.folder) q('folder-input').value = s.folder;
     if (s.connected) {
       setPill('Connected', true);
+      // Sync export-provider-select to match the connected provider
+      const sel1 = q('provider-select');
+      const sel2 = q('export-provider-select');
+      if (s.provider && sel2) sel2.value = s.provider;
+      if (s.provider && sel1) sel1.value = s.provider;
+      if (sel2) updateProviderUI(sel2.value || 'perplexity');
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
       if (s.email) q('acct-email').textContent = s.email;
