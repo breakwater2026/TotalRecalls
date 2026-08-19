@@ -75,41 +75,52 @@
       conversations, threads, and metadata &mdash; as clean Markdown and JSON files.
       Everything runs on this computer. Nothing is uploaded anywhere.</div>
     <div class="card">
-      <h2>Step 1 &mdash; Connect your account</h2>
+      <h2>Step 1 &mdash; Choose your AI provider</h2>
+      <div class="row" style="margin-bottom:16px">
+        <select id="provider-select" style="font:inherit;background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:10px 12px;flex:1">
+          <option value="perplexity">Perplexity</option>
+        </select>
+      </div>
+      <h2>Step 2 &mdash; Connect your account</h2>
       <p class="note" style="margin-bottom:14px">Click the button below. A sign-in window opens inside the app —
-        log in to Perplexity there. When sign-in succeeds, this screen advances automatically.
+        log in there. When sign-in succeeds, this screen advances automatically.
         Prefer not to use the embedded window? Use the session-cookie option.</p>
       <div class="row">
-        <button class="btn-primary" id="btn-connect">Log in to Perplexity</button>
-        <button class="link" id="btn-cookie-alt">or use a session cookie…</button>
+        <button class="btn-primary" id="btn-connect">Log in to <span id="provider-name-connect">Perplexity</span></button>
+        <button class="link" id="btn-cookie-alt">or use a <span id="provider-name-cookie-label">Perplexity</span> session cookie…</button>
       </div>
       <div id="cookie-box" class="hidden" style="margin-top:14px">
         <p class="note" style="margin-bottom:8px">For advanced users: in your browser, open
-          perplexity.ai &rarr; press F12 &rarr; Application &rarr; Cookies &rarr; perplexity.ai &rarr;
-          copy the value of <b>__Secure-next-auth.session-token</b> and paste it here.</p>
+          <span id="provider-domain">perplexity.ai</span> &rarr; press F12 &rarr; Application &rarr; Cookies &rarr; <span id="provider-domain2">perplexity.ai</span> &rarr;
+          copy the value of <b id="cookie-name">__Secure-next-auth.session-token</b> and paste it here.</p>
         <div class="row">
           <input type="password" id="cookie-input" placeholder="Paste the session token…" style="flex:1">
           <button class="btn-primary" id="btn-cookie-go">Connect</button>
         </div>
       </div>
       <div id="waiting" class="hidden" style="margin-top:14px">
-        <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for you to sign in on Perplexity…</span>
+        <span class="spinner"></span> <span class="status" id="waiting-text">Waiting for you to sign in on <span id="provider-name-waiting">Perplexity</span>…</span>
         <div style="margin-top:8px"><button class="btn-ghost" id="btn-cancel-login">Cancel</button></div>
       </div>
       <div class="error" id="err-connect"></div>
     </div>
     <div class="fine">
       <b>Privacy:</b> your login stays in this app and on this computer. Exporter only talks to
-      Perplexity, as you do in your browser. No account data ever leaves your machine.
+      <span id="provider-name-privacy">Perplexity</span>, as you do in your browser. No account data ever leaves your machine.
     </div>
   </section>
 
   <!-- ============ EXPORT SCREEN ============ -->
   <section id="scr-export" class="hidden">
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
         <h2 style="margin-bottom:0">Connected</h2>
-        <button class="btn-danger" id="btn-disconnect">Disconnect</button>
+        <div style="display:flex;align-items:center;gap:8px">
+          <select id="export-provider-select" style="font:inherit;background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:8px 10px">
+            <option value="perplexity">Perplexity</option>
+          </select>
+          <button class="btn-danger" id="btn-disconnect">Disconnect</button>
+        </div>
       </div>
       <div class="kv">
         <b>Account</b><span id="acct-email">—</span>
@@ -142,18 +153,19 @@
       </div>
     </div>
     <div class="fine">
-      Files are grouped like Perplexity itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
+      Files are grouped like <span id="provider-name-files">Perplexity</span> itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
       for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
-      <b>conversation.md</b> + <b>thread.json</b>. Open <b>README.md</b> in the export folder for a full index.
+      <b>conversation.md</b> + <b>conversation.json</b>. Open <b>README.md</b> in the export folder for a full index.
       Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
-      The app pulls from several Perplexity library indexes; if a chat still missing after a full run,
-      use Perplexity&rsquo;s official data request
-      (<a href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener">typeform data request</a>)
+      The app pulls from several <span id="provider-name-library">Perplexity</span> library indexes; if a chat still missing after a full run,
+      use <span id="provider-name-request">Perplexity</span>&rsquo;s official data request
+      (<a id="provider-request-link" href="https://perplexity.typeform.com/datarequest" target="_blank" rel="noopener">typeform data request</a>)
       for a legal complete dump (can take weeks).
+      <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
   </section>
 
-  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver">TotalRecalls v1.0.0</footer>
+  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver"></footer>
 </div>
 
 <script>
@@ -214,7 +226,7 @@
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
       q('acct-email').textContent = p.email || '—';
-      q('acct-count').textContent = p.count + ' conversation' + (p.count === 1 ? '' : 's');
+      q('acct-count').textContent = p.count;
       setPill('Connected', true);
     } else if (p.type === 'waiting_login') {
       hideErr();
@@ -239,7 +251,7 @@
       const pct = p.total ? Math.round(p.done / p.total * 100) : 0;
       q('fill').style.width = pct + '%';
       const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-      q('status-line').textContent = 'Conversation ' + p.done + ' of ' + p.total + ' — ' + t;
+      q('status-line').textContent = p.done + '/' + p.total + ' — ' + t;
     } else if (p.type === 'log') {
       const el = q('log');
       el.textContent += p.line + '\n';
@@ -275,13 +287,12 @@
   function applyState(s) {
     if (!s) return;
     if (s.folder) q('folder-input').value = s.folder;
-    if (s.version) q('ver').textContent = 'TotalRecalls v' + s.version + (s.build ? (' · ' + s.build) : '');
     if (s.connected) {
       setPill('Connected', true);
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
       if (s.email) q('acct-email').textContent = s.email;
-      q('acct-count').textContent = (s.count || 0) + ' conversation' + ((s.count || 0) === 1 ? '' : 's');
+      q('acct-count').textContent = (s.count || 0);
       q('waiting').classList.add('hidden');
       q('btn-connect').disabled = false;
     } else if (s.connecting) {
@@ -312,7 +323,7 @@
   function boot() {
     api = getApi();
     if (!q('ver').textContent) {
-      q('ver').textContent = 'TotalRecalls v1.0.0';
+      // version will be set by main.py injection
     }
     if (!api) {
       q('status-line').textContent = 'Connecting to the app bridge…';
@@ -320,6 +331,27 @@
       return;
     }
     hideErr();
+    // Populate provider dropdown from bridge
+    try {
+      api.listProviders().then(function(list) {
+        const sel = q('provider-select');
+        const sel2 = q('export-provider-select');
+        if (sel && list) {
+          sel.innerHTML = list.map(function(p) {
+            const disabled = p.available ? '' : ' disabled';
+            const suffix = p.note ? ' (' + p.note + ')' : (p.available ? '' : ' (coming soon)');
+            return '<option value="' + p.id + '"' + disabled + '>' + p.name + suffix + '</option>';
+          }).join('');
+        }
+        if (sel2 && list) {
+          sel2.innerHTML = list.map(function(p) {
+            const disabled = p.available ? '' : ' disabled';
+            const suffix = p.note ? ' (' + p.note + ')' : (p.available ? '' : ' (coming soon)');
+            return '<option value="' + p.id + '"' + disabled + '>' + p.name + suffix + '</option>';
+          }).join('');
+        }
+      });
+    } catch (e) {}
     if (pendingConnect) {
       flushPendingConnect();
     }
@@ -343,7 +375,6 @@
   // official pywebviewready event + load fallback (whichever fires first)
   window.addEventListener('pywebviewready', boot);
   window.addEventListener('load', function() {
-    q('ver').textContent = 'TotalRecalls v1.0.0';
     boot();
   });
   boot();
@@ -459,6 +490,78 @@
   q('btn-again').onclick = function() {
     q('done-box').classList.add('hidden');
     q('status-line').textContent = '';
+  };
+  // Helper: update all provider name references in UI
+  function updateProviderUI(pid) {
+    const name = pid.charAt(0).toUpperCase() + pid.slice(1);
+    const domainMap = {
+      perplexity: 'perplexity.ai',
+      chatgpt: 'chat.openai.com',
+      claude: 'claude.ai',
+      grok: 'grok.x.ai',
+      gemini: 'gemini.google.com'
+    };
+    const domain = domainMap[pid] || pid + '.ai';
+    const cookieMap = {
+      perplexity: '__Secure-next-auth.session-token',
+      chatgpt: '__Secure-next-auth.session-token',
+      claude: 'sessionKey',
+      grok: 'session_token',
+      gemini: '__Secure-1PSID'
+    };
+    const cookie = cookieMap[pid] || 'session_token';
+    const requestMap = {
+      perplexity: 'https://perplexity.typeform.com/datarequest',
+      chatgpt: 'https://help.openai.com/en/articles/6383510-how-can-i-delete-my-chatgpt-history',
+      claude: 'https://www.anthropic.com/legal/data-requests',
+      grok: 'https://help.x.com/en/rules-and-policies/x-privacy-policy',
+      gemini: 'https://takeout.google.com/'
+    };
+    const requestLink = requestMap[pid] || 'https://help.' + pid + '.com/';
+
+    // Update connect screen spans
+    if (q('provider-name-connect')) q('provider-name-connect').textContent = name;
+    if (q('provider-name-cookie-label')) q('provider-name-cookie-label').textContent = name;
+    if (q('provider-domain')) q('provider-domain').textContent = domain;
+    if (q('provider-domain2')) q('provider-domain2').textContent = domain;
+    if (q('cookie-name')) q('cookie-name').textContent = cookie;
+    if (q('provider-name-waiting')) q('provider-name-waiting').textContent = name;
+    if (q('provider-name-privacy')) q('provider-name-privacy').textContent = name;
+
+    // Update export screen spans
+    if (q('provider-name-files')) q('provider-name-files').textContent = name;
+    if (q('provider-name-library')) q('provider-name-library').textContent = name;
+    if (q('provider-name-request')) q('provider-name-request').textContent = name;
+    if (q('provider-request-link')) q('provider-request-link').href = requestLink;
+    if (q('provider-path')) q('provider-path').textContent = 'Library/' + pid + '/home';
+  }
+
+  // Provider selector (connect screen)
+  q('provider-select').onchange = function() {
+    const pid = q('provider-select').value;
+    const a = needApi();
+    if (a) {
+      a.setProvider(pid).then(function(res) {
+        if (res && res.ok) {
+          updateProviderUI(pid);
+        }
+      });
+    }
+  };
+  // Provider selector (export screen)
+  q('export-provider-select').onchange = function() {
+    const pid = q('export-provider-select').value;
+    const a = needApi();
+    if (a) {
+      a.setProvider(pid).then(function(res) {
+        if (res && res.ok) {
+          // Sync the connect-screen dropdown too
+          const sel1 = q('provider-select');
+          if (sel1) sel1.value = pid;
+          updateProviderUI(pid);
+        }
+      });
+    }
   };
 </script>
 </body>

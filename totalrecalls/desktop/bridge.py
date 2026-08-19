@@ -1418,7 +1418,7 @@ class Bridge:
             os.makedirs(outdir, exist_ok=True)
             self._push({"type": "export_start"})
             self._push({"type": "log",
-                        "line": f"TotalRecalls {APP_VERSION} ({APP_BUILD_TAG}) — preparing export…"})
+                        "line": f"TotalRecalls v{APP_VERSION} — preparing export…"})
             killed = kill_other_exporter_processes(force=True)
             if killed:
                 self._push({"type": "log",

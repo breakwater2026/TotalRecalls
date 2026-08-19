@@ -154,8 +154,8 @@ def main():
             if p.is_file():
                 html = p.read_text(encoding="utf-8")
                 html = html.replace(
-                    'id="ver">TotalRecalls v1.0.0</footer>',
-                    f'id="ver">TotalRecalls v{APP_VERSION} · {APP_BUILD_TAG}</footer>',
+                    'id="ver"></footer>',
+                    f'id="ver">TotalRecalls v{APP_VERSION}</footer>',
                 )
                 html = html.replace(
                     "<body>",
@@ -189,46 +189,6 @@ def main():
     log(f"main: UI mode={ui_mode} path={ui_label}")
 
     bridge = Bridge(ui_html=ui_html or "<html></html>")
-
-    # auto-reconnect if we have a saved session
-    saved = load_session()
-    if saved and saved.get("token"):
-        def _try_reconnect():
-            # Wait until pywebview has injected the JS bridge (events.loaded).
-            for _ in range(40):  # up to ~20s
-                w = bridge._window
-                if w is not None:
-                    loaded = getattr(getattr(w, "events", None), "loaded", None)
-                    if loaded is not None and loaded.is_set():
-                        break
-                time.sleep(0.5)
-            provider = str(saved.get("provider") or "perplexity").strip().lower()
-            try:
-                from totalrecalls.adapters.base import get_adapter
-                adapter = get_adapter(provider)
-                account = adapter.validate(saved["token"])
-                email = (account.email or account.display_name or account.external_id or "").strip()
-                if not email and provider == "perplexity":
-                    raise ApiError("auth-failed")
-                if not email:
-                    email = f"{adapter.display_name} user"
-                bridge._provider_id = provider
-                bridge.token = saved["token"]
-                bridge.email = email
-                count = 0
-                try:
-                    count = len(adapter.list_conversations(saved["token"], deep=False))
-                except Exception:
-                    pass
-                bridge._conversation_count = count
-                bridge._push({"type": "connected", "email": bridge.email, "count": count})
-                log(f"auto-reconnected: {bridge.email} via {provider}")
-                return
-            except Exception as e:
-                log(f"saved session reconnect failed ({provider}): {e}")
-            clear_session()
-            log("saved session expired")
-        threading.Thread(target=_try_reconnect, daemon=True).start()
 
     try:
         api = JsApi(bridge)

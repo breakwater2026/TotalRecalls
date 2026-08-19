@@ -163,7 +163,7 @@ def _write_manifest(outdir: str, account: str, provider: str, records: list[dict
         f"- **Exported:** {exported_at}",
         f"- **Conversations:** {len(records)}",
         "",
-        "Conversations live under `Library/<provider>/…` as `conversation.md` + `conversation.json`.",
+        "Conversations live under `Library/<provider>/home` as `conversation.md` + `conversation.json`.",
         "",
         "## Conversations",
         "",
