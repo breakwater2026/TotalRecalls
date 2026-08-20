@@ -86,12 +86,6 @@ def cookie_header_from_credential(credential: str) -> str:
     if not raw:
         raise GeminiApiError("auth-failed")
     if "Cookie:" in raw or "__Secure-1PSID=" in raw or "__Host-" in raw or "NID=" in raw or "SID=" in raw:
-        # Inject default CONSENT and SOCS cookies if not already present
-        # Google's clients6 API requires these for consent checking
-        if "CONSENT=" not in raw:
-            raw += "; CONSENT=YES+cb.2-ag_moin_imu_sa_41_2c58c8b39b776595d73e8238c3e5a413ec5b9f9cc5c4c7f7f9e978e6329f29307wAA"
-        if "SOCS=" not in raw:
-            raw += "; SOCS=0"
         return raw
     if "=" not in raw:
         return f"__Secure-1PSID={raw}"
@@ -364,8 +358,7 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
 def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
                       content_type: str = "application/x-www-form-urlencoded") -> bytes:
     """POST an RPC body to the Gemini API endpoint."""
-    # Ensure consent cookies are present for all requests
-    cookie = _ensure_consent_cookies(cookie)
+    # No synthetic CONSENT/SOCS injection — see _ensure_consent_cookies note
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
@@ -469,7 +462,7 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     try:
         result = json.loads(raw.decode("utf-8", "replace"))
     except Exception:
-        log("gemini live: failed to parse RPC response")
+        log(f"gemini live: failed to parse RPC response, raw={raw[:200]}")
         return []
 
     conversations = []
