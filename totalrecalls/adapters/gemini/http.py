@@ -254,7 +254,18 @@ def extract_page_config(html: str) -> tuple[str | None, str | None, str | None]:
             rpc_path = m.group(1).replace('\\', '')
             break
 
-    return base_url, rpc_path, api_key
+    # Extract thykhd (auth/CSRF token) for the RPC call
+    at_token = None
+    for pattern in [
+        r'"thykhd":"([^"]+)"',
+        r'\\\"thykhd\\\":\\\"([^\\\"]+)',
+    ]:
+        m = re.search(pattern, html)
+        if m:
+            at_token = m.group(1).replace("\\", "")
+            break
+
+    return base_url, rpc_path, api_key, at_token
 
 
 def extract_detail_rpc_path(html: str) -> str | None:
@@ -399,7 +410,7 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         log("gemini live: could not extract API key from page HTML")
         raise GeminiApiError("auth-failed")
 
-    base_url, rpc_path, _ = extract_page_config(html)
+    base_url, rpc_path, _, at_token = extract_page_config(html)
     if not base_url or not rpc_path:
         base_url = "https://geminiweb-pa.clients6.google.com"
         rpc_path = "/feeds/mcudyrk2a4khkz"
@@ -409,6 +420,8 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         rpc_path = "/" + rpc_path
     base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{rpc_path}?key={api_key}"
+    if at_token:
+        rpc_url += f"&at={at_token}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
     # Google boq RPC: POST to the feeds endpoint with f.req form data
@@ -477,7 +490,7 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
     if not api_key:
         raise GeminiApiError("auth-failed")
 
-    base_url, _, _ = extract_page_config(html)
+    base_url, _, _, at_token = extract_page_config(html)
     detail_rpc_path = extract_detail_rpc_path(html)
     if not base_url:
         base_url = "https://geminiweb-pa.clients6.google.com"
@@ -489,6 +502,9 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
         detail_rpc_path = "/" + detail_rpc_path
     base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
+    if at_token:
+        rpc_url += f"&at={at_token}"
+    log(f"gemini fetch: calling {rpc_url[:80]}...")
     # Google boq RPC: POST to the feeds endpoint with f.req form data
     import urllib.parse as _urlparse
     rpc_body_json = json.dumps([[conv_id]])
