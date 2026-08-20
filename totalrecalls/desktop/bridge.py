@@ -369,7 +369,10 @@ class Bridge:
 
     def startExport(self, refresh: bool = False):
         log("bridge: startExport() called from UI")
-        if not self.token or self._export_thread and self._export_thread.is_alive():
+        if not self.token:
+            self._push({"type": "error", "message": "Please log in to a provider first."})
+            return
+        if self._export_thread and self._export_thread.is_alive():
             return
         self._export_thread = threading.Thread(target=self._export_worker,
                                                args=(bool(refresh),), daemon=True)
@@ -389,6 +392,7 @@ class Bridge:
         self.email = None
         self._conversation_count = 0
         self._connecting = False
+        self._push({"type": "clear_results"})  # Clear stale results
         self._push({"type": "disconnected"})
         log("disconnected")
 
@@ -1520,6 +1524,9 @@ class Bridge:
         self._conversation_count = count
         self._connecting = False
         save_session(token, email)
+        # Notify UI of successful connection with account selection prompt
+        if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude"):
+            self._push({"type": "log", "line": f"Connected to {provider}. If you have multiple accounts, select the correct one in the browser."})
         # persist provider with session for reconnect awareness
         try:
             import json as _json
@@ -1593,7 +1600,8 @@ class Bridge:
                     ),
                 })
                 self._push({"type": "export_done", "done": len(result.get("records") or []),
-                            "folder": outdir})
+                            "folder": outdir,
+                            "provider_path": f"Library/{provider_name}/home"})
                 log(f"export finished via adapter: {result.get('exported')} new, "
                     f"{result.get('skipped')} skipped -> {outdir} (library-v1)")
                 return
@@ -1608,6 +1616,11 @@ class Bridge:
             self._push({"type": "log", "line": f"Discovering conversations ({provider_display})…"})
             threads = list_threads(token, deep=True)
             total = len(threads)
+            # Update the conversation count displayed in the UI (may differ from
+            # the shallow count shown during connect)
+            self._conversation_count = total
+            self._push({"type": "connected", "email": self.email or "",
+                        "count": total, "provider": provider})
             self._push({"type": "log",
                         "line": f"Found {total} conversation(s) after multi-source discovery. Organizing by Space…"})
 
@@ -1723,7 +1736,8 @@ class Bridge:
             if empty_n:
                 self._push({"type": "log", "line": f"Note: {empty_n} conversation(s) have no answer text (see README warnings)."})
             self._push({"type": "log", "line": f"Skipped (already saved): {skipped}. Failed: {failed}."})
-            self._push({"type": "export_done", "done": len(records), "folder": outdir})
+            self._push({"type": "export_done", "done": len(records), "folder": outdir,
+                        "provider_path": f"Library/{provider_name}/home"})
             log(f"export finished: {len(records)}/{total} -> {outdir} (spaces-v1 classic)")
         except ApiError as e:
             self._push({"type": "error", "message": friendly_error(e)})

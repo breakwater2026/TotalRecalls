@@ -282,7 +282,7 @@
     } else if (p.type === 'export_done') {
       q('fill').style.width = '100%';
       q('status-line').textContent = p.done + ' conversation' + (p.done === 1 ? '' : 's') + ' exported.';
-      q('done-line').textContent = p.folder;
+      q('done-line').textContent = (p.provider_path || p.folder);
       q('done-box').classList.remove('hidden');
       q('btn-export').disabled = false;
       q('btn-folder').disabled = false;
@@ -463,6 +463,9 @@
 
   q('btn-connect').onclick = function() {
     hideErr();
+    // Clear any stale results from previous provider session
+    if (q('done-box')) q('done-box').classList.add('hidden');
+    if (q('status-line')) q('status-line').textContent = '';
     pendingConnect = true;
     pendingConnectAttempts = 0;
     q('btn-connect').disabled = true;
