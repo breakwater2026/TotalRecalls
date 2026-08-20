@@ -86,6 +86,12 @@ def cookie_header_from_credential(credential: str) -> str:
     if not raw:
         raise GeminiApiError("auth-failed")
     if "Cookie:" in raw or "__Secure-1PSID=" in raw or "__Host-" in raw or "NID=" in raw or "SID=" in raw:
+        # Inject default CONSENT and SOCS cookies if not already present
+        # Google's clients6 API requires these for consent checking
+        if "CONSENT=" not in raw:
+            raw += "; CONSENT=YES+cb.2-ag_moin_imu_sa_41_2c58c8b39b776595d73e8238c3e5a413ec5b9f9cc5c4c7f7f9e978e6329f29307wAA"
+        if "SOCS=" not in raw:
+            raw += "; SOCS=0"
         return raw
     if "=" not in raw:
         return f"__Secure-1PSID={raw}"
