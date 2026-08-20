@@ -62,11 +62,18 @@ def looks_like_cookie(credential: str) -> bool:
     c = (credential or "").strip().strip('"')
     if not c:
         return False
-    if "__Secure-1PSID=" in c:
+    # Google cookies may have __Secure-, __Host-, _Secure- or no prefix
+    for prefix in ["__Secure-1PSID", "__Secure-1PSIDCC", "__Secure-1PAPISID",
+                   "_Secure-1PSID", "_Secure-1PAPISID"]:
+        if prefix + "=" in c:
+            return True
+    if "__Host-" in c:
         return True
     if c.startswith("eyJ") and c.count(".") >= 2:
         return True
-    if c.startswith("__Secure-1PSID="):
+    if "SID=" in c and "HSID=" in c:
+        return True
+    if c.startswith("__Secure-1PSID=") or c.startswith("_Secure-1PSID="):
         return True
     if "=" not in c and len(c) > 50 and not c.startswith("Bearer"):
         return True
@@ -78,7 +85,7 @@ def cookie_header_from_credential(credential: str) -> str:
     raw = (credential or "").strip().strip('"')
     if not raw:
         raise GeminiApiError("auth-failed")
-    if "Cookie:" in raw or "__Secure-1PSID=" in raw or "__Host-" in raw or "NID=" in raw:
+    if "Cookie:" in raw or "__Secure-1PSID=" in raw or "__Host-" in raw or "NID=" in raw or "SID=" in raw:
         return raw
     if "=" not in raw:
         return f"__Secure-1PSID={raw}"
