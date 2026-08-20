@@ -344,6 +344,10 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "Referer": APP_BASE + "/app",
         "Origin": APP_BASE,
         "Cookie": cookie,
+        "X-Goog-Visitor-Id": "gemini",
+        "X-Goog-AuthUser": "[]",
+        "X-Goog-AuthServer": "1",
+        "X-Goog-AuthMethod": "credentials",
     }
 
     cffi_error = None
@@ -407,10 +411,10 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     rpc_url = f"{base_url}{rpc_path}?key={api_key}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
-    # Google boq RPC: uses f.req form parameter format
-    # The path encodes the method, body is wrapped in f.req as JSON string
+    # Google boq RPC: POST to f.req with form-encoded data
+    # The body is f.req=<urlencoded_json> where json is [["<rpc_name>", args, ""]]
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([{"page_size": 100}])
+    rpc_body_json = json.dumps([["gemini.conversation.list", {"page_size": 100}, ""]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
@@ -485,9 +489,9 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
         detail_rpc_path = "/" + detail_rpc_path
     base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
-    # Google boq RPC: uses f.req form parameter format
+    # Google boq RPC: POST to f.req with form-encoded data
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([{"conversation_id": conv_id, "page_size": 100}])
+    rpc_body_json = json.dumps([["gemini.conversation.get", {"conversation_id": conv_id, "page_size": 100}, ""]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
