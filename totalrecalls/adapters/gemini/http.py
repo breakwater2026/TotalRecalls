@@ -204,7 +204,7 @@ def extract_page_config(html: str) -> tuple[str | None, str | None, str | None]:
     """Extract the RPC base URL, RPC path, and API key from the Gemini page.
 
     The Gemini page embeds a JSON config blob (WIZ_global_data) with:
-      - HUGLxb: API base URL (e.g. https://geminiweb-pa.clients6.google.com)
+      - HUGNlb/HUGLxb: API base URL (e.g. https://geminiweb-pa.clients6.google.com)
       - qKIAYe: feed path for conversation list (e.g. feeds/mcudyrk2a4khkz)
       - KnDnFf: feed path for conversation detail (e.g. feeds/nrij2vo2gajxiu)
       - API key: AIza... token
@@ -216,15 +216,19 @@ def extract_page_config(html: str) -> tuple[str | None, str | None, str | None]:
 
     api_key = extract_api_key(html)
 
-    # Extract HUGLxb (API base URL) — the real API server, not a static CDN
+    # Extract HUGNlb (API base URL) — the real API server, not a static CDN
+    # Key may appear as HUGNlb or HUGLxb depending on Google's build
     base_url = None
-    for pattern in [
-        r'"HUGLxb":"(https?://[^"]+)"',
-        r'\\"HUGLxb\\":\\"([^\\"]+)',
-    ]:
-        m = re.search(pattern, html)
-        if m:
-            base_url = m.group(1).replace('\\', '')
+    for config_key in ["HUGNlb", "HUGLxb"]:
+        for pattern in [
+            rf'"{config_key}":"(https?://[^"]+)"',
+            rf'\\"{config_key}\\":\\\"([^\\\"]+)',
+        ]:
+            m = re.search(pattern, html)
+            if m:
+                base_url = m.group(1).replace("\\", "")
+                break
+        if base_url:
             break
 
     # Fallback to p9hQne (static CDN URL) if HUGLxb not found
@@ -396,8 +400,12 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     base_url, rpc_path, _ = extract_page_config(html)
     if not base_url or not rpc_path:
         base_url = "https://geminiweb-pa.clients6.google.com"
-        rpc_path = "feeds/mcudyrk2a4khkz"
+        rpc_path = "/feeds/mcudyrk2a4khkz"
 
+    # Ensure path starts with / and base_url does not end with /
+    if not rpc_path.startswith("/"):
+        rpc_path = "/" + rpc_path
+    base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{rpc_path}?key={api_key}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
@@ -470,8 +478,12 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
     if not base_url:
         base_url = "https://geminiweb-pa.clients6.google.com"
     if not detail_rpc_path:
-        detail_rpc_path = "feeds/nrij2vo2gajxiu"
+        detail_rpc_path = "/feeds/nrij2vo2gajxiu"
 
+    # Ensure path starts with / and base_url does not end with /
+    if not detail_rpc_path.startswith("/"):
+        detail_rpc_path = "/" + detail_rpc_path
+    base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
     rpc_body = json.dumps([
         ["gemini.conversation.get", {"conversation_id": conv_id, "page_size": 100}, ""]
