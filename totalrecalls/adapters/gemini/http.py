@@ -357,9 +357,21 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
     raise GeminiApiError("network") from last_err
 
 
+def _ensure_consent_cookies(cookie: str) -> str:
+    "Ensure CONSENT and SOCS cookies are present for Google's clients6 API."
+    c = cookie or ""
+    if "CONSENT=" not in c:
+        c += "; CONSENT=YES+cb.2-ag_moin_imu_sa_41_2c58c8b39b776595d73e8238c3e5a413ec5b9f9cc5c4c7f7f9e978e6329f29307wAA"
+    if "SOCS=" not in c:
+        c += "; SOCS=0"
+    return c
+
+
 def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
                       content_type: str = "application/x-www-form-urlencoded") -> bytes:
     """POST an RPC body to the Gemini API endpoint."""
+    # Ensure consent cookies are present for all requests
+    cookie = _ensure_consent_cookies(cookie)
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
