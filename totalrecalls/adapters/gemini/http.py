@@ -267,15 +267,19 @@ def extract_page_config(html: str) -> tuple[str | None, str | None, str | None]:
             rpc_path = m.group(1).replace('\\', '')
             break
 
-    # Extract thykhd (auth/CSRF token) for the RPC call
+    # Extract at token (Anti-XSRF) — needed for clients6 feed RPC calls
+    # The key may be "SNlM0e" (Google's current format) or "thykhd" (older builds)
     at_token = None
-    for pattern in [
-        r'"thykhd":"([^"]+)"',
-        r'\\\"thykhd\\\":\\\"([^\\\"]+)',
-    ]:
-        m = re.search(pattern, html)
-        if m:
-            at_token = m.group(1).replace("\\", "")
+    for token_key in ["SNlM0e", "thykhd"]:
+        for pattern in [
+            rf'"{token_key}":"([^"]+)"',
+            rf'\\\\"{token_key}\\":\\"([^\\\\"]+)',
+        ]:
+            m = re.search(pattern, html)
+            if m:
+                at_token = m.group(1).replace("\\", "")
+                break
+        if at_token:
             break
 
     return base_url, rpc_path, api_key, at_token
@@ -357,16 +361,6 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
     raise GeminiApiError("network") from last_err
 
 
-def _ensure_consent_cookies(cookie: str) -> str:
-    "Ensure CONSENT and SOCS cookies are present for Google's clients6 API."
-    c = cookie or ""
-    if "CONSENT=" not in c:
-        c += "; CONSENT=YES+cb.2-ag_moin_imu_sa_41_2c58c8b39b776595d73e8238c3e5a413ec5b9f9cc5c4c7f7f9e978e6329f29307wAA"
-    if "SOCS=" not in c:
-        c += "; SOCS=0"
-    return c
-
-
 def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
                       content_type: str = "application/x-www-form-urlencoded") -> bytes:
     """POST an RPC body to the Gemini API endpoint."""
@@ -376,14 +370,16 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
         "Accept-Language": "en-US,en;q=0.9",
-        "Content-Type": content_type,
-        "Referer": APP_BASE + "/app",
-        "Origin": APP_BASE,
-        "Cookie": cookie,
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "X-Same-Domain": "1",
+        "Origin": "https://gemini.google.com",
+        "Referer": "https://gemini.google.com/",
+        "X-Goog-BatchExecute-Path": "/app",
         "X-Goog-Visitor-Id": "gemini",
         "X-Goog-AuthUser": "[]",
         "X-Goog-AuthServer": "1",
         "X-Goog-AuthMethod": "credentials",
+        "Cookie": cookie,
     }
 
     cffi_error = None
@@ -449,10 +445,12 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         rpc_url += f"&at={at_token}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
-    # Google boq RPC: POST to the feeds endpoint with f.req form data
-    # The path (qKIAYe) encodes the RPC method; body is f.req=[params]
+    # Google's data-4 RPC protocol: f.req is a nested array with:
+    # [RPC_ID, stringified_params_json, null, "generic"]
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([[""]])
+    # The params are stringified JSON inside the outer f.req array
+    params_json = json.dumps({"page_size": 100})
+    rpc_body_json = json.dumps([["", params_json, None, "generic"]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
@@ -471,20 +469,46 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     try:
         result = json.loads(raw.decode("utf-8", "replace"))
     except Exception:
+        log("gemini live: failed to parse RPC response")
         return []
 
     conversations = []
-    if isinstance(result, list) and len(result) > 0:
-        outer = result[0]
-        if isinstance(outer, dict):
-            if isinstance(outer.get("result"), list):
-                conversations = outer["result"]
-            elif isinstance(outer.get("result"), dict):
-                r = outer["result"]
+    # Google's data-4 / batchexecute protocol returns a deeply nested array:
+    # [[[["conv_id", "title", ...], ...]]]
+    # We need to unwrap multiple layers to get to the conversation list
+    def _unwrap(obj):
+        """Recursively find conversation-like arrays in the response."""
+        if isinstance(obj, list):
+            for item in obj:
+                if isinstance(item, dict):
+                    if isinstance(item.get("result"), list):
+                        return item["result"]
+                    elif isinstance(item.get("result"), dict):
+                        r = item["result"]
+                        if isinstance(r.get("conversations"), list):
+                            return r["conversations"]
+                _unwrap(item)
+        if isinstance(obj, dict):
+            if isinstance(obj.get("result"), list):
+                return obj["result"]
+            if isinstance(obj.get("result"), dict):
+                r = obj["result"]
                 if isinstance(r.get("conversations"), list):
-                    conversations = r["conversations"]
-                elif "conversations" in outer:
-                    conversations = outer["conversations"]
+                    return r["conversations"]
+        return []
+
+    conversations = _unwrap(result)
+    # Fallback: look for a list of lists pattern (each containing conv_id, title)
+    if not conversations and isinstance(result, list):
+        # Try direct unwrap through the nested structure
+        current = result
+        for _ in range(4):  # Google nests up to 4 levels
+            if isinstance(current, list) and len(current) > 0:
+                current = current[0]
+            else:
+                break
+        if isinstance(current, list):
+            conversations = current
 
     out = []
     for item in conversations:
@@ -530,9 +554,11 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
     if at_token:
         rpc_url += f"&at={at_token}"
     log(f"gemini fetch: calling {rpc_url[:80]}...")
-    # Google boq RPC: POST to the feeds endpoint with f.req form data
+    # Google's data-4 RPC protocol: f.req is a nested array with:
+    # [RPC_ID, stringified_params_json, null, "generic"]
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([[conv_id]])
+    params_json = json.dumps({"conversation_id": conv_id, "page_size": 100})
+    rpc_body_json = json.dumps([["", params_json, None, "generic"]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
