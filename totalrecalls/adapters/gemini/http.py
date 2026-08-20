@@ -404,7 +404,7 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         origin = "https://gemini.google.com"
         sapisid_hash = _build_sapisid_hash(sapisid, origin)
         headers["Authorization"] = f"SAPISIDHASH {sapisid_hash}"
-        log(f"gemini rpc: adding SAPISIDHASH auth header")
+        log(f"gemini rpc: adding SAPISIDHASH auth header ({len(cookie.split(';'))} cookies)")
 
     cffi_error = None
     if _HAS_CFFI and _cffi_requests is not None:
@@ -474,10 +474,10 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     # Google's data-4 RPC protocol: f.req is a nested array with:
     # [RPC_ID, stringified_params_json, null, "generic"]
     import urllib.parse as _urlparse
-    # The params are stringified JSON inside the outer f.req array
-    params_json = json.dumps({"page_size": 100})
-    rpc_body_json = json.dumps([["", params_json, None, "generic"]])
+    # Log RPC body for debugging (redacted params)
+    rpc_body_json = json.dumps([["conversation.list", json.dumps({"page_size": 100}), None, "generic"]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
+    log(f"gemini live: sending RPC body={rpc_body_json[:100]}...")
 
     try:
         raw = _make_rpc_request(rpc_url, rpc_body, cookie)
