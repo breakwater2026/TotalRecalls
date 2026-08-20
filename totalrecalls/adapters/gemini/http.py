@@ -411,10 +411,10 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     rpc_url = f"{base_url}{rpc_path}?key={api_key}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
-    # Google boq RPC: POST to f.req with form-encoded data
-    # The body is f.req=<urlencoded_json> where json is [["<rpc_name>", args, ""]]
+    # Google boq RPC: POST to the feeds endpoint with f.req form data
+    # The path (qKIAYe) encodes the RPC method; body is f.req=[params]
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([["gemini.conversation.list", {"page_size": 100}, ""]])
+    rpc_body_json = json.dumps([[""]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
@@ -489,9 +489,9 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
         detail_rpc_path = "/" + detail_rpc_path
     base_url = base_url.rstrip("/")
     rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
-    # Google boq RPC: POST to f.req with form-encoded data
+    # Google boq RPC: POST to the feeds endpoint with f.req form data
     import urllib.parse as _urlparse
-    rpc_body_json = json.dumps([["gemini.conversation.get", {"conversation_id": conv_id, "page_size": 100}, ""]])
+    rpc_body_json = json.dumps([[conv_id]])
     rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
 
     try:
