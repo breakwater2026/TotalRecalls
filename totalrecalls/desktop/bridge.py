@@ -180,6 +180,17 @@ class Bridge:
         self._connecting = True
         self._login_completion_pending = False
         self._stop_login.clear()
+        # Clear cached WebView2 session data to force a fresh sign-in window
+        # (supports users with multiple accounts at the same provider)
+        provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
+        udf = os.path.join(appdata_dir(), f"login-webview-{provider}")
+        try:
+            import shutil
+            if os.path.exists(udf):
+                log(f"login: clearing cached WebView2 data for {provider}")
+                shutil.rmtree(udf, ignore_errors=True)
+        except Exception as e:
+            log(f"login: could not clear WebView2 cache ({e})")
         # Show spinner only — do not reset first (avoids blue-button flash).
         self._push({"type": "waiting_login"})
 
@@ -415,6 +426,16 @@ class Bridge:
         cookie_filter: optional cookie name to require (e.g. '__Secure-1PSID' for
         Gemini).  When set, the flow waits for this specific cookie to appear.
         """
+        # Clear cached WebView2 data to force a fresh sign-in (supports
+        # multi-account users who need to pick a different account)
+        udf = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
+        try:
+            import shutil
+            if os.path.exists(udf):
+                log(f"login: clearing cached WebView2 data at {udf}")
+                shutil.rmtree(udf, ignore_errors=True)
+        except Exception as e:
+            log(f"login: could not clear WebView2 cache ({e})")
         try:
             import clr
             from System.Threading import Thread, ThreadStart, ApartmentState
@@ -1526,7 +1547,7 @@ class Bridge:
         save_session(token, email)
         # Notify UI of successful connection with account selection prompt
         if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude"):
-            self._push({"type": "log", "line": f"Connected to {provider}. If you have multiple accounts, select the correct one in the browser."})
+            self._push({"type": "log", "line": f"Connected to {provider}. If you have multiple accounts, select the correct one in the sign-in window."})
         # persist provider with session for reconnect awareness
         try:
             import json as _json

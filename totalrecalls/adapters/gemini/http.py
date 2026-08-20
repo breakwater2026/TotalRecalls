@@ -344,6 +344,7 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str) -> bytes:
         "X-Goog-AuthMethod": "credentials",
     }
 
+    cffi_error = None
     if _HAS_CFFI and _cffi_requests is not None:
         try:
             resp = _cffi_requests.post(
@@ -353,15 +354,26 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str) -> bytes:
             if resp.status_code in (401, 403):
                 raise GeminiApiError("auth-failed")
             if resp.status_code >= 400:
-                log(f"gemini rpc HTTP {resp.status_code} on {rpc_url}")
+                log(f"gemini rpc HTTP {resp.status_code} on {rpc_url[:80]}...")
                 return b""
             return resp.content
+        except GeminiApiError:
+            raise
         except Exception as e:
+            cffi_error = e
             log(f"gemini rpc cffi fail: {e}")
-            # fall through to urllib
-    req = urllib.request.Request(rpc_url, data=rpc_body, headers=headers, method="POST")
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return resp.read()
+    # Fallback to urllib (less effective — Google may reject stdlib UA)
+    try:
+        req = urllib.request.Request(rpc_url, data=rpc_body, headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return resp.read()
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 403):
+            raise GeminiApiError("auth-failed")
+        raise GeminiApiError(f"http-{e.code}") from e
+    except Exception as e:
+        log(f"gemini rpc urllib fail: {e} (cffi_error={cffi_error})")
+        raise GeminiApiError("network") from e
 
 
 def list_conversations_live(html: str, cookie: str) -> list[dict]:
