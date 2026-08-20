@@ -390,7 +390,7 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
     log(f"gemini live: calling {rpc_url[:80]}...")
 
     rpc_body = json.dumps([
-        {"method": "gem.conversation.list", "params": {"page_size": 100}}
+        ["gemini.conversation.list", {"page_size": 100}, ""]
     ]).encode("utf-8")
 
     try:
@@ -462,7 +462,7 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
 
     rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
     rpc_body = json.dumps([
-        {"method": "gem.conversation.get", "params": {"conversation_id": conv_id, "page_size": 100}}
+        ["gemini.conversation.get", {"conversation_id": conv_id, "page_size": 100}, ""]
     ]).encode("utf-8")
 
     try:
