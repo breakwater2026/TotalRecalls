@@ -154,10 +154,7 @@
       </div>
     </div>
       <div class="fine" style="color:var(--text)">
-      Files are grouped the same way <span id="provider-name-files">Perplexity</span> does for itself: <b>Spaces/&lt;name&gt;/</b> folders, plus <b>Home/</b>
-      for chats outside a Space. Each conversation uses a readable title (not a random id) and contains
-      <b>conversation.md</b> + <b>conversation.json</b>. Open <b>README.md</b> in the export folder for a full index.
-      Re-running continues where it left off unless you tick &ldquo;re-export everything&rdquo;.
+      Files are grouped the same way <span id="provider-name-files">Perplexity</span> does for itself.
       <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
   </section>
@@ -305,6 +302,14 @@
       q('waiting').classList.add('hidden');
     } else if (p.type === 'disconnected') {
       if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
+      q('scr-export').classList.add('hidden');
+      q('scr-connect').classList.remove('hidden');
+      setPill('Not connected', false);
+    } else if (p.type === 'clear_results') {
+      // Clear old results when switching providers
+      if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
+      q('status-line').textContent = '';
+      q('done-box').classList.add('hidden');
       q('scr-export').classList.add('hidden');
       q('scr-connect').classList.remove('hidden');
       setPill('Not connected', false);
@@ -565,7 +570,7 @@
 
     // Update export screen spans
     if (q('provider-name-files')) q('provider-name-files').textContent = name;
-    if (q('provider-path')) q('provider-path').textContent = 'Library/' + pid + '/home';
+    if (q('provider-path')) q('provider-path').textContent = 'Library/' + name + '/home';
   }
 
   // Provider selector (connect screen)

@@ -123,7 +123,7 @@ class Bridge:
             {"id": "perplexity", "name": "Perplexity", "available": True},
             {"id": "chatgpt", "name": "ChatGPT", "available": True},
             {"id": "claude", "name": "Claude", "available": True},
-            {"id": "gemini", "name": "Gemini", "available": True, "note": "Takeout path"},
+            {"id": "gemini", "name": "Gemini", "available": True},
             {"id": "grok", "name": "Grok", "available": True},
         ]
         try:
@@ -155,6 +155,7 @@ class Bridge:
             clear_session()
             cleared = True
             self._push({"type": "disconnected"})
+            self._push({"type": "clear_results"})  # Clear old results from UI
         self._provider_id = pid
         # Keep UI in sync even when host state poll is slow
         self._push({
@@ -169,13 +170,13 @@ class Bridge:
 
     def connect(self):
         log("bridge: connect() called from UI")
+        if self.token or self._connecting:
+            log(f"bridge: connect() ignored (token={bool(self.token)}, connecting={self._connecting})")
+            return
         try:
             self._push({"type": "log", "line": "Received login request from UI"})
         except Exception:
             pass
-        if self.token or self._connecting:
-            log(f"bridge: connect() ignored (token={bool(self.token)}, connecting={self._connecting})")
-            return
         self._connecting = True
         self._login_completion_pending = False
         self._stop_login.clear()
@@ -202,11 +203,15 @@ class Bridge:
                 prefer_bearer=True,
             )
         elif provider == "gemini":
-            self._connecting = False
-            self._push({"type": "error",
-                        "message": "Gemini export uses Google Takeout. Click “session cookie”, "
-                                   "then paste the full path to your Takeout folder or Gemini JSON export."})
-            self._push({"type": "login_cancelled"})
+            log("login: starting embedded WebView2 login for Gemini")
+            self._start_generic_cookie_login(
+                title="Sign in to Gemini",
+                start_url="https://gemini.google.com/app",
+                host_substr="gemini.google.com",
+                profile_suffix="gemini",
+                prefer_bearer=False,
+                cookie_filter="__Secure-1PSID",
+            )
         else:
             self._connecting = False
             self._push({"type": "error",
@@ -399,13 +404,18 @@ class Bridge:
 
 
     def _start_generic_cookie_login(self, *, title: str, start_url: str, host_substr: str,
-                                    profile_suffix: str, prefer_bearer: bool = False):
-        """STA WebView2 login that captures Cookie header and optional Bearer tokens."""
+                                    profile_suffix: str, prefer_bearer: bool = False,
+                                    cookie_filter: str | None = None):
+        """STA WebView2 login that captures Cookie header and optional Bearer tokens.
+
+        cookie_filter: optional cookie name to require (e.g. '__Secure-1PSID' for
+        Gemini).  When set, the flow waits for this specific cookie to appear.
+        """
         try:
             import clr
             from System.Threading import Thread, ThreadStart, ApartmentState
             def runner():
-                self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer)
+                self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter)
             th = Thread(ThreadStart(runner))
             th.SetApartmentState(ApartmentState.STA)
             th.IsBackground = True
@@ -418,7 +428,7 @@ class Bridge:
             self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
             self._push({"type": "login_cancelled"})
 
-    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer):
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None):
         try:
             import clr
         except Exception:
@@ -444,9 +454,14 @@ class Bridge:
             self._push({"type": "login_cancelled"})
             return
 
-        form = Form(); form.Text = title; form.Size = Size(980, 760)
+        form = Form(); form.Text = title; form.Size = Size(980, 760); form.TopMost = True
         form.StartPosition = FormStartPosition.CenterScreen
+        from System.Windows.Forms import Button as WinButton
         status = Label(); status.Text = f"  Loading {title}…"; status.Dock = DockStyle.Top; status.Height = 28
+        # Paste token button — an alternative to the embedded WebView2 login
+        paste_panel = WinButton(); paste_panel.Text = "Can't sign in? Paste session token/cookie"; paste_panel.Height = 32
+        paste_panel.Dock = DockStyle.Bottom
+        paste_panel.Click += lambda s, e: _show_paste_dialog(profile_suffix, title, finished, closed, timer)
         wv = WebView2(); wv.Dock = DockStyle.Fill
         try:
             props = CoreWebView2CreationProperties()
@@ -454,9 +469,50 @@ class Bridge:
             wv.CreationProperties = props
         except Exception:
             pass
-        form.Controls.Add(wv); form.Controls.Add(status)
+        form.Controls.Add(wv); form.Controls.Add(status); form.Controls.Add(paste_panel)
         closed = threading.Event(); finished = {"done": False}
         self._login_form = form
+
+        def _show_paste_dialog(suffix, dlg_title, finished_dict, closed_evt, timer_obj):
+            """Show a simple dialog allowing the user to paste a session token/cookie."""
+            try:
+                from System.Windows.Forms import Form as DForm, Label as DLabel, Button as DBtn, TextBox as DText, DockStyle as DDock, FormStartPosition as DStart, Size as DSize
+                from System.Drawing import Size as DSize2
+                dlg = DForm()
+                dlg.Text = "Paste session token — " + dlg_title
+                dlg.Size = DSize2(600, 200)
+                dlg.StartPosition = DStart.CenterScreen
+                dlg.TopMost = True
+                lbl = DLabel()
+                lbl.Text = "Paste your session token or cookie here, then click OK:"
+                lbl.Dock = DDock.Top
+                lbl.Height = 26
+                txt = DText()
+                txt.Multiline = True
+                txt.Dock = DDock.Fill
+                txt.ScrollBars = 2  # Vertical
+                btn_panel = DForm()  # placeholder
+                btn_ok = DBtn(); btn_ok.Text = "OK"; btn_ok.DialogResult = 1
+                btn_cancel = DBtn(); btn_cancel.Text = "Cancel"; btn_cancel.DialogResult = 2
+                from System.Windows.Forms import FlowLayoutPanel
+                flp = FlowLayoutPanel(); flp.Dock = DDock.Bottom; flp.Height = 40
+                flp.Controls.Add(btn_ok); flp.Controls.Add(btn_cancel)
+                dlg.Controls.Add(txt); dlg.Controls.Add(flp); dlg.Controls.Add(lbl)
+                dlg.AcceptButton = btn_ok
+                dlg.CancelButton = btn_cancel
+                result = dlg.ShowDialog()
+                if result == 1:
+                    val = (txt.Text or "").strip()
+                    if val:
+                        finished_dict["done"] = True
+                        try: timer_obj.Stop()
+                        except Exception: pass
+                        closed_evt.set()
+                        log(f"{suffix} login: pasted token ({len(val)} chars)")
+                        safe_close()
+                        threading.Thread(target=self._accept_token, args=(val, False), daemon=True).start()
+            except Exception as e:
+                log(f"paste dialog error: {e}")
 
         def safe_close():
             try:
@@ -488,7 +544,12 @@ class Bridge:
                 req = getattr(args, "Request", None)
                 if req is None: return
                 uri = str(getattr(req, "Uri", "") or "").lower()
-                if host_substr.lower() not in uri and "x.com" not in uri: return
+                # For Gemini, also capture cookies from google.com / accounts.google.com
+                # (Google auth redirects through these domains before landing on gemini.google.com)
+                if (host_substr.lower() not in uri
+                        and "x.com" not in uri
+                        and "google.com" not in uri
+                        and "googleapis.com" not in uri): return
                 headers = getattr(req, "Headers", None)
                 if headers is None: return
                 if prefer_bearer:
@@ -505,10 +566,18 @@ class Bridge:
                 try: cookie_header = headers.GetHeader("Cookie")
                 except Exception: cookie_header = None
                 if cookie_header and len(cookie_header) > 20:
-                    if form.IsHandleCreated:
-                        form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie")))
-                    else:
-                        finish(cookie_header, "Cookie")
+                    # If a cookie_filter is specified, make sure the required cookie is present
+                    if cookie_filter and cookie_filter not in cookie_header:
+                        # Still intercept — the user might be in the middle of auth redirect
+                        # Don't finish, just let it through (cookie might arrive on next request)
+                        return
+                    # For cookie-only providers: if cookie_filter is set and the cookie
+                    # is present, we're done.  Otherwise accept any cookie from the host.
+                    if cookie_filter or host_substr.lower() in uri:
+                        if form.IsHandleCreated:
+                            form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie")))
+                        else:
+                            finish(cookie_header, "Cookie")
             except Exception as e:
                 log(f"generic login hook error: {e}")
 
@@ -521,6 +590,42 @@ class Bridge:
                 cv = wv.CoreWebView2
                 cv.AddWebResourceRequestedFilter("https://*/*", CoreWebView2WebResourceContext.All)
                 cv.WebResourceRequested += on_req
+                # For Gemini: use CookieManager to extract ALL session cookies
+                # after navigation completes. The WebResourceRequested event
+                # only captures the Cookie header from individual requests, which
+                # may be incomplete (Google sets cookies on multiple domains:
+                # accounts.google.com, google.com, gemini.google.com).
+                def on_nav_completed(sender, args):
+                    try:
+                        if closed.is_set() or finished["done"]: return
+                        uri = str(getattr(args, "Uri", "") or "").lower()
+                        if cookie_filter and cookie_filter:
+                            # For cookie-filtered providers (Gemini), extract ALL
+                            # cookies via the CookieManager when we reach the target host
+                            if host_substr.lower() in uri:
+                                cm = cv.CookieManager
+                                if cm:
+                                    cookies = cm.GetCookies(uri)
+                                    parts = []
+                                    for c in cookies:
+                                        try:
+                                            name = str(getattr(c, "Name", ""))
+                                            value = str(getattr(c, "Value", ""))
+                                            if name and value:
+                                                parts.append(f"{name}={value}")
+                                        except Exception:
+                                            pass
+                                    if parts:
+                                        cookie_str = "; ".join(parts)
+                                        if cookie_filter in cookie_str:
+                                            log(f"{profile_suffix} login: captured all cookies via CookieManager ({len(parts)} cookies)")
+                                            if form.IsHandleCreated:
+                                                form.BeginInvoke(Action(lambda: finish(cookie_str, "CookieManager")))
+                                            else:
+                                                finish(cookie_str, "CookieManager")
+                    except Exception as e:
+                        log(f"{profile_suffix} nav_completed hook error: {e}")
+                cv.NavigationCompleted += on_nav_completed
                 cv.Navigate(start_url)
                 status.Text = f"  Sign in, then continue in this window…"
             except Exception as e:
@@ -542,6 +647,12 @@ class Bridge:
             self._push({"type": "login_cancelled"})
             return
         timer.Start()
+        try:
+            form.Show()
+            form.BringToFront()
+            form.Activate()
+        except Exception:
+            pass
         Application.Run(form)
         try: timer.Stop()
         except Exception: pass
@@ -596,7 +707,7 @@ class Bridge:
 
         form = Form()
         form.Text = "Sign in to Claude"
-        form.Size = Size(980, 760)
+        form.Size = Size(980, 760); form.TopMost = True
         form.StartPosition = FormStartPosition.CenterScreen
         status = Label(); status.Text = "  Loading Claude…"; status.Dock = DockStyle.Top; status.Height = 28
         wv = WebView2(); wv.Dock = DockStyle.Fill
@@ -701,6 +812,12 @@ class Bridge:
             self._push({"type": "login_cancelled"})
             return
         timer.Start()
+        try:
+            form.Show()
+            form.BringToFront()
+            form.Activate()
+        except Exception:
+            pass
         Application.Run(form)
         try: timer.Stop()
         except Exception: pass
@@ -759,7 +876,7 @@ class Bridge:
 
         form = Form()
         form.Text = "Sign in to ChatGPT"
-        form.Size = Size(980, 760)
+        form.Size = Size(980, 760); form.TopMost = True
         form.StartPosition = FormStartPosition.CenterScreen
         form.MinimumSize = Size(640, 560)
         try:
@@ -925,6 +1042,12 @@ class Bridge:
             self._push({"type": "login_cancelled"})
             return
         timer.Start()
+        try:
+            form.Show()
+            form.BringToFront()
+            form.Activate()
+        except Exception:
+            pass
         Application.Run(form)
         try:
             timer.Stop()
@@ -993,7 +1116,7 @@ class Bridge:
 
         form = Form()
         form.Text = "Sign in to Perplexity"
-        form.Size = Size(980, 760)
+        form.Size = Size(980, 760); form.TopMost = True
         form.StartPosition = FormStartPosition.CenterScreen
         form.MinimumSize = Size(640, 560)
         try:
@@ -1387,6 +1510,13 @@ class Bridge:
             count = len(adapter.list_conversations(token, deep=False))
         except Exception:
             pass
+        if count == 0:
+            # Fallback: try deep listing (some providers, e.g. Grok, have
+            # API shape differences between shallow and deep listing)
+            try:
+                count = len(adapter.list_conversations(token, deep=True))
+            except Exception:
+                pass
         self._conversation_count = count
         self._connecting = False
         save_session(token, email)
