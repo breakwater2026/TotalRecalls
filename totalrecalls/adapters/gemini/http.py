@@ -7,6 +7,8 @@ Supports:
 
 from __future__ import annotations
 
+import hashlib
+import base64
 import json
 import re
 import time
@@ -355,10 +357,31 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
     raise GeminiApiError("network") from last_err
 
 
+def _extract_sapisid_hash(cookie: str) -> str:
+    "Extract the SAPISID value from cookie string to compute SAPISIDHASH."
+    for part in cookie.split(";"):
+        part = part.strip()
+        if "=" in part:
+            name, value = part.split("=", 1)
+            if name.strip() in ("SAPISID", "__Secure-1PAPISID", "__Secure-3PAPISID", "APISID"):
+                return value
+    return ""
+
+
+def _build_sapisid_hash(sapisid: str, origin: str) -> str:
+    "Compute Google's SAPISIDHASH for API authorization."
+    timestamp = str(int(time.time()))
+    raw = timestamp + origin + sapisid
+    sha1_hash = hashlib.sha1(raw.encode("utf-8")).digest()
+    b64_hash = base64.b64encode(sha1_hash).decode("ascii").rstrip("=")
+    return f"{timestamp}_{b64_hash}"
+
+
 def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
                       content_type: str = "application/x-www-form-urlencoded") -> bytes:
     """POST an RPC body to the Gemini API endpoint."""
-    # No synthetic CONSENT/SOCS injection — see _ensure_consent_cookies note
+    # No synthetic CONSENT/SOCS injection — see note above
+    # Add SAPISIDHASH for Google API authorization
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
@@ -374,6 +397,14 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "X-Goog-AuthMethod": "credentials",
         "Cookie": cookie,
     }
+    
+    # Compute and add SAPISIDHASH if we have a SAPISID cookie
+    sapisid = _extract_sapisid_hash(cookie)
+    if sapisid:
+        origin = "https://gemini.google.com"
+        sapisid_hash = _build_sapisid_hash(sapisid, origin)
+        headers["Authorization"] = f"SAPISIDHASH {sapisid_hash}"
+        log(f"gemini rpc: adding SAPISIDHASH auth header")
 
     cffi_error = None
     if _HAS_CFFI and _cffi_requests is not None:
@@ -425,6 +456,8 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         raise GeminiApiError("auth-failed")
 
     base_url, rpc_path, _, at_token = extract_page_config(html)
+    # Log extracted config (values redacted for security)
+    log(f"gemini live: base_url={'***' if base_url else None}, rpc_path={rpc_path}, at_token={'***' if at_token else None}")
     if not base_url or not rpc_path:
         base_url = "https://geminiweb-pa.clients6.google.com"
         rpc_path = "/feeds/mcudyrk2a4khkz"
