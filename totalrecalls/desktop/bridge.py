@@ -632,14 +632,35 @@ class Bridge:
                                 if cm:
                                     cookies = cm.GetCookies(uri)
                                     parts = []
+                                    seen_names = set()
                                     for c in cookies:
                                         try:
                                             name = str(getattr(c, "Name", ""))
                                             value = str(getattr(c, "Value", ""))
-                                            if name and value:
+                                            if name and value and name not in seen_names:
+                                                seen_names.add(name)
                                                 parts.append(f"{name}={value}")
                                         except Exception:
                                             pass
+                                    
+                                    # Also pull cookies from google.com / accounts.google.com
+                                    # which Set-Cookie on the .google.com parent domain
+                                    # these are needed for clients6.google.com RPC calls
+                                    for extra_uri in ["https://www.google.com/", "https://accounts.google.com/"]:
+                                        try:
+                                            extra_cookies = cm.GetCookies(extra_uri)
+                                            for c in extra_cookies:
+                                                try:
+                                                    name = str(getattr(c, "Name", ""))
+                                                    value = str(getattr(c, "Value", ""))
+                                                    if name and value and name not in seen_names:
+                                                        seen_names.add(name)
+                                                        parts.append(f"{name}={value}")
+                                                except Exception:
+                                                    pass
+                                        except Exception:
+                                            pass
+                                    
                                     if parts:
                                         cookie_str = "; ".join(parts)
                                         if cookie_filter in cookie_str:
