@@ -10,9 +10,12 @@ from __future__ import annotations
 import hashlib
 import base64
 import json
+import random
 import re
 import time
+import uuid
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -20,6 +23,11 @@ from totalrecalls.core.paths import log
 
 BASE = "https://gemini.google.com"
 APP_BASE = "https://gemini.google.com"
+BATCH_EXECUTE = "https://gemini.google.com/_/BardChatUi/data/batchexecute"
+LIST_CONVERSATIONS_RPC = "MaZiqc"
+LIST_CONVERSATION_TURNS_RPC = "hNvQHb"
+_BATCH_SESSION_ID = str(uuid.uuid4()).upper()
+_BATCH_REQUEST_ID = random.randint(10000, 99999)
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
@@ -378,7 +386,9 @@ def _build_sapisid_hash(sapisid: str, origin: str) -> str:
 
 
 def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
-                      content_type: str = "application/x-www-form-urlencoded") -> bytes:
+                      content_type: str = "application/x-www-form-urlencoded",
+                      rpc_ids: str | None = None,
+                      source_path: str = "/app") -> bytes:
     """POST an RPC body to the Gemini API endpoint."""
     # No synthetic CONSENT/SOCS injection — see note above
     # Add SAPISIDHASH for Google API authorization
@@ -386,7 +396,7 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
         "Accept-Language": "en-US,en;q=0.9",
-        "Content-Type": "application/x-protobuf",
+        "Content-Type": content_type,
         "X-Same-Domain": "1",
         "Origin": "https://gemini.google.com",
         "Referer": "https://gemini.google.com/",
@@ -396,6 +406,11 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "X-Goog-AuthServer": "1",
         "X-Goog-AuthMethod": "credentials",
         "Cookie": cookie,
+        "x-goog-ext-525001261-jspb": json.dumps(
+            [1, None, None, None, None, None, None, None, [4, 5, 6, 8],
+             None, None, None, None, None, None, _BATCH_SESSION_ID]
+        ),
+        "x-goog-ext-73010989-jspb": "[0]",
     }
     
     # Compute and add SAPISIDHASH if we have a SAPISID cookie
@@ -407,19 +422,33 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         log(f"gemini rpc: adding SAPISIDHASH auth header ({len(cookie.split(';'))} cookies)")
 
     cffi_error = None
+    request_url = rpc_url
+    if rpc_ids:
+        global _BATCH_REQUEST_ID
+        request_id = _BATCH_REQUEST_ID
+        _BATCH_REQUEST_ID += 100000
+        query = urllib.parse.urlencode({
+            "rpcids": rpc_ids,
+            "hl": "en",
+            "_reqid": request_id,
+            "rt": "c",
+            "source-path": source_path,
+        })
+        request_url = f"{rpc_url}&{query}" if "?" in rpc_url else f"{rpc_url}?{query}"
+
     if _HAS_CFFI and _cffi_requests is not None:
         # Log full request details for debugging (headers names only, not values)
         header_names = list(headers.keys())
-        log(f"gemini rpc request: POST {rpc_url[:80]}... headers={header_names} body_len={len(rpc_body)} body_type={type(rpc_body).__name__}")
+        log(f"gemini rpc request: POST {request_url[:100]}... headers={header_names} body_len={len(rpc_body)} body_type={type(rpc_body).__name__}")
         try:
             resp = _cffi_requests.post(
-                rpc_url, data=rpc_body, headers=headers, timeout=60,
+                request_url, data=rpc_body, headers=headers, timeout=60,
                 impersonate="chrome151", allow_redirects=True,
             )
             if resp.status_code in (401, 403):
                 raise GeminiApiError("auth-failed")
             if resp.status_code >= 400:
-                log(f"gemini rpc HTTP {resp.status_code} on {rpc_url[:80]}... body={resp.text[:200]}")
+                log(f"gemini rpc HTTP {resp.status_code} on {request_url[:100]}... body={resp.text[:200]}")
                 return b""
             return resp.content
         except GeminiApiError:
@@ -429,7 +458,7 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
             log(f"gemini rpc cffi fail: {e}")
     # Fallback to urllib (less effective — Google may reject stdlib UA)
     try:
-        req = urllib.request.Request(rpc_url, data=rpc_body, headers=headers, method="POST")
+        req = urllib.request.Request(request_url, data=rpc_body, headers=headers, method="POST")
         with urllib.request.urlopen(req, timeout=60) as resp:
             return resp.read()
     except urllib.error.HTTPError as e:
@@ -439,6 +468,70 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
     except Exception as e:
         log(f"gemini rpc urllib fail: {e} (cffi_error={cffi_error})")
         raise GeminiApiError("network") from e
+
+
+def _batchexecute_body(rpc_id: str, payload: list, at_token: str | None) -> bytes:
+    """Build the form body used by Gemini's BardChatUi RPC client."""
+    rpc = [rpc_id, json.dumps(payload, separators=(",", ":")), None, "generic"]
+    form = {
+        "at": at_token or "",
+        "f.req": json.dumps([[rpc]], separators=(",", ":")),
+    }
+    return urllib.parse.urlencode(form).encode("utf-8")
+
+
+def _parse_batchexecute_response(raw: bytes) -> list:
+    """Parse Google's XSSI-prefixed, length-framed batchexecute response."""
+    text = raw.decode("utf-8", "replace").lstrip()
+    if text.startswith(")]}'"):
+        text = text[4:].lstrip("\r\n")
+
+    frames: list = []
+    offset = 0
+    while offset < len(text):
+        newline = text.find("\n", offset)
+        if newline < 0:
+            break
+        length_text = text[offset:newline].strip()
+        if not length_text.isdigit():
+            break
+        length = int(length_text)
+        start = newline + 1
+        frame = text[start:start + length]
+        if len(frame) != length:
+            break
+        try:
+            frames.append(json.loads(frame))
+        except json.JSONDecodeError:
+            pass
+        offset = start + length
+        while offset < len(text) and text[offset] in "\r\n":
+            offset += 1
+
+    if frames:
+        return frames
+    try:
+        parsed = json.loads(text.strip())
+    except json.JSONDecodeError as exc:
+        raise GeminiApiError("http-empty") from exc
+    return parsed if isinstance(parsed, list) else [parsed]
+
+
+def _rpc_response_bodies(raw: bytes) -> list[list]:
+    """Return decoded RPC body arrays from a batchexecute response."""
+    bodies: list[list] = []
+    for part in _parse_batchexecute_response(raw):
+        if not isinstance(part, list) or len(part) < 3:
+            continue
+        body = part[2]
+        if isinstance(body, str):
+            try:
+                body = json.loads(body)
+            except json.JSONDecodeError:
+                continue
+        if isinstance(body, list):
+            bodies.append(body)
+    return bodies
 
 
 def list_conversations_live(html: str, cookie: str) -> list[dict]:
@@ -458,105 +551,38 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         log("gemini live: could not extract API key from page HTML")
         raise GeminiApiError("auth-failed")
 
-    base_url, rpc_path, _, at_token = extract_page_config(html)
-    # Log extracted config (values redacted for security)
-    log(f"gemini live: base_url={'***' if base_url else None}, rpc_path={rpc_path}, at_token={'***' if at_token else None}")
-    if not base_url or not rpc_path:
-        base_url = "https://geminiweb-pa.clients6.google.com"
-        rpc_path = "/feeds/mcudyrk2a4khkz"
-
-    # Ensure path starts with / and base_url does not end with /
-    if not rpc_path.startswith("/"):
-        rpc_path = "/" + rpc_path
-    base_url = base_url.rstrip("/")
-    rpc_url = f"{base_url}{rpc_path}?key={api_key}"
-    if at_token:
-        rpc_url += f"&at={at_token}"
-    log(f"gemini live: calling {rpc_url[:80]}...")
-
-    # Google's /feeds/ ProtoRPC endpoints use direct JSON (NOT f.req form-encoded)
-    # Format: [[["METHOD_ID", "PARAMS_JSON_OR_PAYLOAD"]]]
-    import urllib.parse as _urlparse
-    # The method name is the RPC ID (e.g., "conversation.list" or similar)
-    # Params are passed as a JSON string inside the payload
-    rpc_body_json = json.dumps([["", json.dumps({"page_size": 100})]])
-    # Try sending as raw JSON (ProtoRPC format), not form-encoded f.req
-    rpc_body = rpc_body_json.encode("utf-8")
-    log(f"gemini live: sending ProtoRPC body={rpc_body_json[:100]}...")
-
-    try:
-        raw = _make_rpc_request(rpc_url, rpc_body, cookie)
-    except GeminiApiError:
-        raise
-    except Exception as e:
-        log(f"gemini live list failed: {e}")
-        raise GeminiApiError("network")
-
-    if not raw:
-        # Google returns 404 for expired/unauthorized sessions on these
-        # internal endpoints — treat it as auth failure, not network error
-        raise GeminiApiError("auth-failed")
-
-    try:
-        result = json.loads(raw.decode("utf-8", "replace"))
-    except Exception:
-        log(f"gemini live: failed to parse RPC response, raw={raw[:200]}")
-        return []
-
-    conversations = []
-    # Google's data-4 / batchexecute protocol returns a deeply nested array:
-    # [[[["conv_id", "title", ...], ...]]]
-    # We need to unwrap multiple layers to get to the conversation list
-    def _unwrap(obj):
-        """Recursively find conversation-like arrays in the response."""
-        if isinstance(obj, list):
-            for item in obj:
-                if isinstance(item, dict):
-                    if isinstance(item.get("result"), list):
-                        return item["result"]
-                    elif isinstance(item.get("result"), dict):
-                        r = item["result"]
-                        if isinstance(r.get("conversations"), list):
-                            return r["conversations"]
-                _unwrap(item)
-        if isinstance(obj, dict):
-            if isinstance(obj.get("result"), list):
-                return obj["result"]
-            if isinstance(obj.get("result"), dict):
-                r = obj["result"]
-                if isinstance(r.get("conversations"), list):
-                    return r["conversations"]
-        return []
-
-    conversations = _unwrap(result)
-    # Fallback: look for a list of lists pattern (each containing conv_id, title)
-    if not conversations and isinstance(result, list):
-        # Try direct unwrap through the nested structure
-        current = result
-        for _ in range(4):  # Google nests up to 4 levels
-            if isinstance(current, list) and len(current) > 0:
-                current = current[0]
-            else:
-                break
-        if isinstance(current, list):
-            conversations = current
-
-    out = []
-    for item in conversations:
-        if not isinstance(item, dict):
-            continue
-        cid = str(item.get("id") or item.get("conversationId") or item.get("uuid") or "")
-        if not cid:
-            continue
-        title = str(item.get("title") or item.get("name") or "Gemini conversation")
-        out.append({
-            "id": cid,
-            "title": title.strip() or "Gemini conversation",
-            "updated_at": str(item.get("updated_at") or item.get("modifiedTime") or item.get("updatedTime") or ""),
-            "created_at": str(item.get("created_at") or item.get("createTime") or item.get("createdTime") or ""),
-            "raw": item,
-        })
-    return out
+    _, _, _, at_token = extract_page_config(html)
+    params = urllib.parse.urlencode({"at": at_token or "", "rpcids": LIST_CONVERSATIONS_RPC})
+    rpc_url = f"{BATCH_EXECUTE}?{params}"
+    conversations: list[dict] = []
+    for payload in ([13, None, [1, None, 1]], [13, None, [0, None, 1]]):
+        raw = _make_rpc_request(
+            rpc_url,
+            _batchexecute_body(LIST_CONVERSATIONS_RPC, payload, at_token),
+            cookie,
+            "application/x-www-form-urlencoded;charset=UTF-8",
+            LIST_CONVERSATIONS_RPC,
+        )
+        for body in _rpc_response_bodies(raw):
+            chat_list = body[2] if len(body) > 2 else []
+            if not isinstance(chat_list, list):
+                continue
+            for item in chat_list:
+                if not isinstance(item, list) or len(item) < 2:
+                    continue
+                cid = str(item[0] or "")
+                if not cid or any(existing["id"] == cid for existing in conversations):
+                    continue
+                timestamp = item[5] if len(item) > 5 else None
+                updated_at = str(timestamp[0]) if isinstance(timestamp, list) and timestamp else ""
+                conversations.append({
+                    "id": cid,
+                    "title": str(item[1] or "Gemini conversation").strip(),
+                    "updated_at": updated_at,
+                    "created_at": "",
+                    "raw": item,
+                })
+    return conversations
 
 
 def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None:
@@ -570,30 +596,23 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
     if not api_key:
         raise GeminiApiError("auth-failed")
 
-    base_url, _, _, at_token = extract_page_config(html)
-    detail_rpc_path = extract_detail_rpc_path(html)
-    if not base_url:
-        base_url = "https://geminiweb-pa.clients6.google.com"
-    if not detail_rpc_path:
-        detail_rpc_path = "/feeds/nrij2vo2gajxiu"
-
-    # Ensure path starts with / and base_url does not end with /
-    if not detail_rpc_path.startswith("/"):
-        detail_rpc_path = "/" + detail_rpc_path
-    base_url = base_url.rstrip("/")
-    rpc_url = f"{base_url}{detail_rpc_path}?key={api_key}"
-    if at_token:
-        rpc_url += f"&at={at_token}"
-    log(f"gemini fetch: calling {rpc_url[:80]}...")
-    # Google's data-4 RPC protocol: f.req is a nested array with:
-    # [RPC_ID, stringified_params_json, null, "generic"]
-    import urllib.parse as _urlparse
-    params_json = json.dumps({"conversation_id": conv_id, "page_size": 100})
-    rpc_body_json = json.dumps([["", params_json, None, "generic"]])
-    rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
+    _, _, _, at_token = extract_page_config(html)
+    params = urllib.parse.urlencode({"at": at_token or "", "rpcids": LIST_CONVERSATION_TURNS_RPC})
+    rpc_url = f"{BATCH_EXECUTE}?{params}"
+    rpc_body = _batchexecute_body(
+        LIST_CONVERSATION_TURNS_RPC,
+        [conv_id, 100, None, 1, [1], [4], None, 1],
+        at_token,
+    )
 
     try:
-        raw = _make_rpc_request(rpc_url, rpc_body, cookie)
+        raw = _make_rpc_request(
+            rpc_url,
+            rpc_body,
+            cookie,
+            "application/x-www-form-urlencoded;charset=UTF-8",
+            LIST_CONVERSATION_TURNS_RPC,
+        )
     except GeminiApiError:
         raise
     except Exception as e:
@@ -605,26 +624,30 @@ def fetch_conversation_live(html: str, cookie: str, conv_id: str) -> dict | None
         raise GeminiApiError("auth-failed")
 
     try:
-        result = json.loads(raw.decode("utf-8", "replace"))
+        bodies = _rpc_response_bodies(raw)
     except Exception:
         return None
-
-    detail = None
-    if isinstance(result, list) and len(result) > 0:
-        outer = result[0]
-        if isinstance(outer, dict):
-            if isinstance(outer.get("result"), dict):
-                detail = outer["result"]
-            elif "conversation" in outer:
-                detail = outer["conversation"]
-    if not detail and isinstance(result, dict):
-        if isinstance(result.get("result"), dict):
-            detail = result["result"]
-        elif "conversation" in result:
-            detail = result["conversation"]
-    if not detail:
-        detail = {"id": conv_id, "messages": []}
-    return detail
+    messages: list[dict] = []
+    for body in bodies:
+        turns = body[0] if body else []
+        if not isinstance(turns, list):
+            continue
+        for turn in turns:
+            if not isinstance(turn, list):
+                continue
+            turn_messages: list[dict] = []
+            if len(turn) > 2 and isinstance(turn[2], list):
+                user_text = turn[2][0][0] if turn[2] and isinstance(turn[2][0], list) and turn[2][0] else ""
+                if user_text:
+                    turn_messages.append({"role": "user", "content": str(user_text)})
+            candidates = turn[3][0] if len(turn) > 3 and isinstance(turn[3], list) and turn[3] and isinstance(turn[3][0], list) else []
+            if candidates and isinstance(candidates[0], list):
+                candidate = candidates[0]
+                text = candidate[1][0] if len(candidate) > 1 and isinstance(candidate[1], list) and candidate[1] else ""
+                if text:
+                    turn_messages.append({"role": "assistant", "content": str(text)})
+            messages[0:0] = turn_messages
+    return {"id": conv_id, "messages": messages}
 
 
 # ---------------------------------------------------------------------------

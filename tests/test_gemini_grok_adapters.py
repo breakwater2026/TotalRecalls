@@ -7,15 +7,55 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from urllib.parse import parse_qs
 
 from totalrecalls.adapters.base import get_adapter, list_provider_ids
 from totalrecalls.adapters.gemini.adapter import GeminiAdapter
-from totalrecalls.adapters.gemini.http import load_offline_export
+from totalrecalls.adapters.gemini.http import (
+    LIST_CONVERSATIONS_RPC,
+    _batchexecute_body,
+    _parse_batchexecute_response,
+    fetch_conversation_live,
+    list_conversations_live,
+    load_offline_export,
+)
 from totalrecalls.adapters.grok.adapter import GrokAdapter
 from totalrecalls.core.schema import AccountInfo
 
 
 class GeminiOfflineTests(unittest.TestCase):
+    @staticmethod
+    def _frame(part):
+        encoded = json.dumps(part, separators=(",", ":"))
+        return b")]}'\n" + str(len(encoded)) .encode() + b"\n" + encoded.encode()
+
+    def test_batchexecute_body(self):
+        body = parse_qs(_batchexecute_body(LIST_CONVERSATIONS_RPC, [13, None, [1, None, 1]], "token").decode())
+        self.assertEqual(body["at"], ["token"])
+        request = json.loads(body["f.req"][0])
+        self.assertEqual(request[0][0][0], LIST_CONVERSATIONS_RPC)
+        self.assertEqual(json.loads(request[0][0][1]), [13, None, [1, None, 1]])
+
+    def test_batchexecute_response_frame(self):
+        part = ["wrb.fr", LIST_CONVERSATIONS_RPC, json.dumps([None, None, []])]
+        self.assertEqual(_parse_batchexecute_response(self._frame(part))[0], part)
+
+    def test_live_list_and_fetch_mapping(self):
+        api_key = "AIza" + "A" * 30
+        html = json.dumps({"key": api_key, "SNlM0e": "token"})
+        list_part = ["wrb.fr", LIST_CONVERSATIONS_RPC, json.dumps([None, None, [["c1", "One", True]]])]
+        turn = ["rid", None, [["Question"]], [[["rcid", ["Answer"]]]]]
+        turn_part = ["wrb.fr", "hNvQHb", json.dumps([[turn]])]
+        with patch(
+            "totalrecalls.adapters.gemini.http._make_rpc_request",
+            side_effect=[self._frame(list_part), self._frame(list_part), self._frame(turn_part)],
+        ):
+            summaries = list_conversations_live(html, "SID=s; SAPISID=p")
+            detail = fetch_conversation_live(html, "SID=s; SAPISID=p", "c1")
+        self.assertEqual(summaries[0]["title"], "One")
+        self.assertEqual([m["role"] for m in detail["messages"]], ["user", "assistant"])
+        self.assertEqual(detail["messages"][1]["content"], "Answer")
+
     def test_registered(self):
         self.assertIn("gemini", list_provider_ids())
         self.assertIsInstance(get_adapter("gemini"), GeminiAdapter)
