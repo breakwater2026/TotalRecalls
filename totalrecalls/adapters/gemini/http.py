@@ -317,10 +317,10 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
             try:
                 resp = _cffi_requests.get(
                     url, headers=headers, timeout=60,
-                    impersonate="chrome131", allow_redirects=True,
+                    impersonate="chrome151", allow_redirects=True,
                 )
                 if resp.status_code in (401, 403):
-                    raise urllib.error.HTTPError(url, resp.status_code, "auth", {}, None)
+                        raise urllib.error.HTTPError(url, resp.status_code, "auth", {}, None)
                 if resp.status_code >= 400:
                     raise urllib.error.HTTPError(url, resp.status_code, "http", {}, None)
                 return resp.text or ""
@@ -408,10 +408,13 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
 
     cffi_error = None
     if _HAS_CFFI and _cffi_requests is not None:
+        # Log full request details for debugging (headers names only, not values)
+        header_names = list(headers.keys())
+        log(f"gemini rpc request: POST {rpc_url[:80]}... headers={header_names} body_len={len(rpc_body)} body_type={type(rpc_body).__name__}")
         try:
             resp = _cffi_requests.post(
                 rpc_url, data=rpc_body, headers=headers, timeout=60,
-                impersonate="chrome131", allow_redirects=True,
+                impersonate="chrome151", allow_redirects=True,
             )
             if resp.status_code in (401, 403):
                 raise GeminiApiError("auth-failed")
