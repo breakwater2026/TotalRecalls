@@ -142,6 +142,7 @@
       </div>
       <div class="bar hidden" id="bar-row"><div id="fill"></div></div>
       <div class="status" id="status-line"></div>
+      <div class="status hidden" id="perf-timer" style="color:var(--accent2);font-size:12px"></div>
       <div class="log" id="log" style="max-height:200px;overflow-y:auto"></div>
       <div class="error" id="err"></div>
       <div id="done-box" class="hidden" style="margin-top:14px">
@@ -269,6 +270,17 @@
       q('bar-row').classList.remove('hidden');
       q('fill').style.width = '0%';
       q('status-line').textContent = 'Preparing…';
+    } else if (p.type === 'timer') {
+      // Troubleshooting: seconds between connection established and first download.
+      const pt = q('perf-timer');
+      if (pt) {
+        const s = p.seconds || 0;
+        const mins = Math.floor(s / 60);
+        const secs = Math.round(s % 60);
+        const label = (p.label || 'connect -> first download');
+        pt.textContent = '⏱ ' + label + ': ' + (mins > 0 ? mins + 'm ' : '') + String(secs).padStart(2, '0') + 's';
+        pt.classList.remove('hidden');
+      }
     } else if (p.type === 'progress') {
       const pct = p.total ? Math.round(p.done / p.total * 100) : 0;
       q('fill').style.width = pct + '%';

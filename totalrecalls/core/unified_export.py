@@ -234,6 +234,7 @@ def export_via_adapter(
     refresh: bool = False,
     on_progress: Callable[[dict], None] | None = None,
     on_log: Callable[[str], None] | None = None,
+    on_first_download: Callable[[], None] | None = None,
 ) -> dict:
     """Run a full export through a ProviderAdapter into Library/<provider>/."""
 
@@ -266,6 +267,7 @@ def export_via_adapter(
     done = 0
     skipped = 0
     failed = 0
+    first_download_noted = False
 
     for pos, summary in enumerate(summaries, 1):
         title_disp = (summary.title or summary.id)[:70]
@@ -298,6 +300,9 @@ def export_via_adapter(
 
         _log(f"[{pos}/{total}] {folder_label} / {title_disp} — downloading…")
         _prog({"done": done, "total": total, "title": f"{folder_label}: {title_disp}"})
+        if on_first_download and not first_download_noted:
+            first_download_noted = True
+            on_first_download()
         try:
             conv = adapter.fetch_conversation(credential, summary.id)
             # ensure folder/title from summary when detail is sparse

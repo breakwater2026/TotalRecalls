@@ -56,6 +56,8 @@ class Bridge:
         self._login_completion_pending = False
         self._conversation_count = 0
         self._provider_id = "perplexity"
+        self._connected_at: float | None = None  # monotonic ts of connection established
+        self._first_download_at: float | None = None
 
     # -- helpers ------------------------------------------------------------
 
@@ -100,6 +102,21 @@ class Bridge:
             log(f"restore UI failed: {e}")
 
     # -- UI entry points (called from JavaScript) ---------------------------
+
+    def _note_first_download(self):
+        """Troubleshooting timer: seconds between connection-established and the
+        first conversation download. Emitted once to log + UI."""
+        if getattr(self, "_first_download_at", None) is not None:
+            return  # already recorded
+        self._first_download_at = time.monotonic()
+        started = getattr(self, "_connected_at", None)
+        if started is None:
+            return
+        elapsed = self._first_download_at - started
+        mins, secs = divmod(int(elapsed), 60)
+        label = f"{mins}m {secs:02d}s" if mins else f"{secs:02d}s"
+        log(f"timer: connection -> first download = {label} ({elapsed:.1f}s)")
+        self._push({"type": "timer", "label": "connect->first download", "seconds": round(elapsed, 1)})
 
     def ping(self):
         return "pong"
@@ -385,6 +402,8 @@ class Bridge:
             return
         if self._export_thread and self._export_thread.is_alive():
             return
+        # Re-arm the connect->first-download timer for this run.
+        self._first_download_at = None
         self._export_thread = threading.Thread(target=self._export_worker,
                                                args=(bool(refresh),), daemon=True)
         self._export_thread.start()
@@ -436,11 +455,26 @@ class Bridge:
                 shutil.rmtree(udf, ignore_errors=True)
         except Exception as e:
             log(f"login: could not clear WebView2 cache ({e})")
+        if os.path.exists(udf):
+            # Profile folder is locked (e.g. orphaned WebView2 processes from a
+            # previous crash). A locked profile makes WebView2 init hang with a
+            # blank window — fall back to a unique folder for this attempt.
+            fallback = f"{udf}-{os.getpid()}"
+            log(f"login: profile folder still locked; using temporary folder {os.path.basename(fallback)}")
+            udf = fallback
         try:
             import clr
             from System.Threading import Thread, ThreadStart, ApartmentState
             def runner():
-                self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter)
+                try:
+                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf)
+                except Exception as e:
+                    # Without this wrapper an exception on the CLR thread is
+                    # unobserved and kills the whole process silently.
+                    log(f"generic login flow crashed: {e}\n{traceback.format_exc()}")
+                    self._connecting = False
+                    self._push({"type": "error", "message": f"{title} embedded login failed to start. Try again, or paste a session token/cookie instead."})
+                    self._push({"type": "login_cancelled"})
             th = Thread(ThreadStart(runner))
             th.SetApartmentState(ApartmentState.STA)
             th.IsBackground = True
@@ -453,7 +487,10 @@ class Bridge:
             self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
             self._push({"type": "login_cancelled"})
 
-    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None):
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None):
+        if udf is None:
+            udf = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
+        log(f"{profile_suffix} login: flow starting (profile={os.path.basename(udf)})")
         try:
             import clr
         except Exception:
@@ -490,7 +527,7 @@ class Bridge:
         wv = WebView2(); wv.Dock = DockStyle.Fill
         try:
             props = CoreWebView2CreationProperties()
-            props.UserDataFolder = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
+            props.UserDataFolder = udf
             wv.CreationProperties = props
         except Exception:
             pass
@@ -1553,18 +1590,16 @@ class Bridge:
         self.email = email
         count = 0
         try:
-            count = len(adapter.list_conversations(token, deep=False))
+            # Use deep listing so the displayed count matches what the export
+            # will actually download (shallow/single-page undercounts, e.g.
+            # Gemini caps one page at 50 while deep pagination reaches all).
+            count = len(adapter.list_conversations(token, deep=True))
         except Exception:
             pass
-        if count == 0:
-            # Fallback: try deep listing (some providers, e.g. Grok, have
-            # API shape differences between shallow and deep listing)
-            try:
-                count = len(adapter.list_conversations(token, deep=True))
-            except Exception:
-                pass
         self._conversation_count = count
         self._connecting = False
+        self._connected_at = time.monotonic()
+        self._first_download_at: float | None = None
         save_session(token, email)
         # Notify UI of successful connection with account selection prompt
         if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude"):
@@ -1592,6 +1627,7 @@ class Bridge:
             self._push({"type": "error", "message": "Not connected. Please log in first."})
             return
         outdir = self._default_folder
+        provider_name = getattr(self, "_provider_id", "perplexity") or "perplexity"
         # Opt-in classic Spaces/Home-at-root layout (pre-Phase-3). Default = Library/<provider>/.
         classic = os.environ.get("TOTALRECALLS_CLASSIC_EXPORT", "").strip().lower() in ("1", "true", "yes")
         try:
@@ -1627,6 +1663,7 @@ class Bridge:
                     refresh=refresh,
                     on_log=on_log,
                     on_progress=on_progress,
+                    on_first_download=self._note_first_download,
                 )
                 empty_n = len(
                     ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []
@@ -1649,7 +1686,6 @@ class Bridge:
                 return
 
             # ----- classic path (TOTALRECALLS_CLASSIC_EXPORT=1) -----
-            provider_name = getattr(self, "_provider_id", "perplexity")
             try:
                 adapter = get_adapter(provider_name)
                 provider_display = adapter.display_name
@@ -1662,7 +1698,7 @@ class Bridge:
             # the shallow count shown during connect)
             self._conversation_count = total
             self._push({"type": "connected", "email": self.email or "",
-                        "count": total, "provider": provider})
+                        "count": total, "provider": provider_name})
             self._push({"type": "log",
                         "line": f"Found {total} conversation(s) after multi-source discovery. Organizing by Space…"})
 
@@ -1724,6 +1760,7 @@ class Bridge:
 
                 self._push({"type": "log", "line": f"[{pos}/{total}] {space} / {title_disp} — downloading…"})
                 self._push({"type": "progress", "done": done, "total": total, "title": f"{space}: {title_disp}"})
+                self._note_first_download()
                 try:
                     detail = get_thread(token, uuid)
                 except ApiError as e:

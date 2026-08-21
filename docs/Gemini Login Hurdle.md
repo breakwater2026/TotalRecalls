@@ -73,3 +73,49 @@ gemini-webapi already implements list_chats and read_chat with the same cookies 
 The working clients use BardChatUi batchexecute, not clients6.google.com/feeds/. I’ll pull the public RPC IDs and chat-list flow so we can call the same endpoint the Gemini page already uses.
 The 400s came from posting RPC bodies to a push-feed id (qKIAYe = feeds/mcudyrk2a4khkz), not the conversation API. I’ll switch the live path to BardChatUi batchexecute and fix Gemini cookie capture so we actually send a complete session.
 
+Resolution (2026-08-21 — SOLVED, verified against live API)
+============================================================
+
+Root causes (three stacked bugs, in order of impact):
+
+1. WRONG ENDPOINT (the one Grok 4.6 identified)
+   The live path POSTed to the push-feed id (qKIAYe = feeds/mcudyrk2a4khkz
+   on clients6.google.com). That endpoint is for push notifications and
+   never accepts conversation RPCs. Switched to BardChatUi batchexecute:
+   POST https://gemini.google.com/_/BardChatUi/data/batchexecute
+   RPC ids: MaZiqc (list conversations), hNvQHb (read conversation).
+
+2. BROKEN TLS IMPERSONATION (the silent killer)
+   _make_rpc_request used impersonate="chrome151" — but our curl_cffi
+   0.16.0 only supports up to chrome146. Every RPC raised
+   ImpersonateError, which was caught and SILENTLY fell back to plain
+   stdlib urllib — which Google always rejects. That masked bug #1 for
+   every debugging session. Fixed to impersonate="chrome145" (the value
+   the working gemini-webapi reference uses) and removed the silent
+   fallback: cffi errors now surface immediately.
+
+3. WRONG RESPONSE PARSING
+   Google's chunked frames are "<byte-length>\n<JSON>" where the length
+   INCLUDES the trailing newline, so json.loads on an exact-length slice
+   failed with "Extra data". Each frame is also an ARRAY of envelopes
+   ([["wrb.fr",...],["di",...],["af.httprm",...]]) — the parser now
+   walks the frame list and only unwraps wrb.fr envelopes.
+
+Additional cleanup: removed all non-standard debug headers the real
+client never sends (SAPISIDHASH Authorization, X-Goog-AuthUser/
+Server/Method, X-Goog-Visitor-Id, X-Goog-BatchExecute-Path). Google's
+gateway rejects unexpected auth headers. Also extracts bl (cfb2h build
+label) and f.sid (FdrFJe session id) from the page HTML and sends them
+as query params, matching the browser exactly.
+
+Verification (live, on this machine, 2026-08-21):
+- GET gemini.google.com/app with captured cookies: 200, 826KB HTML
+- list_conversations_live: 15 real conversations returned with titles
+  and update timestamps
+- fetch_conversation_live: full message thread retrieved (user +
+  assistant turns)
+- Unit tests: 10/10 Gemini/Grok adapter tests pass
+
+Note: the stale dist/TotalRecalls.exe (built 11:32) predated commit
+d42a80b (11:43), so the user's manual EXE test never even ran the
+batchexecute connector. Always rebuild after source changes.

@@ -48,7 +48,7 @@ class GeminiOfflineTests(unittest.TestCase):
         turn_part = ["wrb.fr", "hNvQHb", json.dumps([[turn]])]
         with patch(
             "totalrecalls.adapters.gemini.http._make_rpc_request",
-            side_effect=[self._frame(list_part), self._frame(list_part), self._frame(turn_part)],
+            side_effect=[self._frame(list_part), self._frame(turn_part)],
         ):
             summaries = list_conversations_live(html, "SID=s; SAPISID=p")
             detail = fetch_conversation_live(html, "SID=s; SAPISID=p", "c1")

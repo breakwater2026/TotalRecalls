@@ -39,6 +39,17 @@ from totalrecalls.core.schema import (
 )
 
 
+def _ts(value) -> str:
+    """Render a Gemini epoch-seconds timestamp as UTC ISO-8601."""
+    if value in (None, ""):
+        return ""
+    try:
+        from datetime import datetime, timezone
+        return datetime.fromtimestamp(float(value), tz=timezone.utc).isoformat()
+    except (TypeError, ValueError, OSError):
+        return str(value)
+
+
 class GeminiAdapter:
     id = "gemini"
     display_name = "Gemini"
@@ -152,7 +163,7 @@ class GeminiAdapter:
         if not self._page_html:
             self._page_html = fetch_page_html(self._cookie, delay=0)
         try:
-            live_items = list_conversations_live(self._page_html, self._cookie)
+            live_items = list_conversations_live(self._page_html, self._cookie, deep=deep)
         except GeminiApiError:
             raise
         except Exception as e:
@@ -171,8 +182,8 @@ class GeminiAdapter:
                 ConversationSummary(
                     id=cid,
                     title=title.strip() or "Gemini conversation",
-                    updated_at=str(item.get("updated_at") or ""),
-                    created_at=str(item.get("created_at") or ""),
+                    updated_at=_ts(item.get("updated_at") or ""),
+                    created_at=_ts(item.get("created_at") or ""),
                     folder=HOME_SPACE_NAME,
                     raw=item,
                 )
@@ -255,8 +266,8 @@ class GeminiAdapter:
             account=account or AccountInfo(),
             id=cid,
             title=title.strip() or "Gemini conversation",
-            created_at=str(detail.get("created_at") or ""),
-            updated_at=str(detail.get("updated_at") or ""),
+            created_at=_ts(detail.get("created_at") or ""),
+            updated_at=_ts(detail.get("updated_at") or ""),
             folder=HOME_SPACE_NAME,
             messages=messages,
             raw={"detail": detail.get("raw") or detail},
