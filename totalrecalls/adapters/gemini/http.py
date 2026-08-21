@@ -386,7 +386,7 @@ def _make_rpc_request(rpc_url: str, rpc_body: bytes, cookie: str,
         "User-Agent": USER_AGENT,
         "Accept": "*/*",
         "Accept-Language": "en-US,en;q=0.9",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Content-Type": "application/x-protobuf",
         "X-Same-Domain": "1",
         "Origin": "https://gemini.google.com",
         "Referer": "https://gemini.google.com/",
@@ -471,13 +471,15 @@ def list_conversations_live(html: str, cookie: str) -> list[dict]:
         rpc_url += f"&at={at_token}"
     log(f"gemini live: calling {rpc_url[:80]}...")
 
-    # Google's data-4 RPC protocol: f.req is a nested array with:
-    # [RPC_ID, stringified_params_json, null, "generic"]
+    # Google's /feeds/ ProtoRPC endpoints use direct JSON (NOT f.req form-encoded)
+    # Format: [[["METHOD_ID", "PARAMS_JSON_OR_PAYLOAD"]]]
     import urllib.parse as _urlparse
-    # Log RPC body for debugging (redacted params)
-    rpc_body_json = json.dumps([["conversation.list", json.dumps({"page_size": 100}), None, "generic"]])
-    rpc_body = ("f.req=" + _urlparse.quote(rpc_body_json)).encode("utf-8")
-    log(f"gemini live: sending RPC body={rpc_body_json[:100]}...")
+    # The method name is the RPC ID (e.g., "conversation.list" or similar)
+    # Params are passed as a JSON string inside the payload
+    rpc_body_json = json.dumps([["", json.dumps({"page_size": 100})]])
+    # Try sending as raw JSON (ProtoRPC format), not form-encoded f.req
+    rpc_body = rpc_body_json.encode("utf-8")
+    log(f"gemini live: sending ProtoRPC body={rpc_body_json[:100]}...")
 
     try:
         raw = _make_rpc_request(rpc_url, rpc_body, cookie)
