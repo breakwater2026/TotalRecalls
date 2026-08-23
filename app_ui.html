@@ -231,7 +231,9 @@
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
       q('acct-email').textContent = p.email || '—';
-      q('acct-count').textContent = p.count;
+      // Count may stream in later (deep listing runs after Connected) — show
+      // "…" placeholder instead of a misleading 0, update when it arrives.
+      q('acct-count').textContent = (p.count === null || p.count === undefined) ? '…' : p.count;
       setPill('Connected', true);
       // Sync export-provider-select to match the selected provider
       const sel2 = q('export-provider-select');

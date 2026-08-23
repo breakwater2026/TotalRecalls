@@ -44,7 +44,10 @@ class LoginTokenExtractionTests(unittest.TestCase):
 
     def test_default_version_footer_is_present_in_html(self):
         html = Path(__file__).resolve().parents[1].joinpath("app_ui.html").read_text(encoding="utf-8")
-        self.assertIn('id="ver">Perplexity Exporter v1.0.0</footer>', html)
+        # Footer ships EMPTY; main.py injects "TotalRecalls v{APP_VERSION}" at
+        # runtime via the id="ver"></footer> anchor. (Pre-rename literal
+        # 'Perplexity Exporter v1.0.0' is gone from the product.)
+        self.assertIn('id="ver"></footer>', html)
         self.assertIn('id="err-connect"', html)
         self.assertIn("sign-in window opens inside the app", html.lower())
         self.assertIn('id="btn-connect"', html)
@@ -68,6 +71,10 @@ class LoginTokenExtractionTests(unittest.TestCase):
         with patch("totalrecalls.desktop.bridge.get_adapter", return_value=fake_adapter), \
              patch.object(bridge, "_push"):
             bridge._accept_token("abc123", False)
+            # Deep conversation count now streams in from a background worker
+            # (Connected shows instantly); join it so the assert is deterministic.
+            if getattr(bridge, "_count_thread", None):
+                bridge._count_thread.join(timeout=10)
 
         self.assertEqual(bridge.token, "abc123")
         self.assertEqual(bridge.email, "user@example.com")

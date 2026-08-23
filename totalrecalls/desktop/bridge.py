@@ -225,10 +225,11 @@ class Bridge:
             log("login: starting embedded WebView2 login for Grok")
             self._start_generic_cookie_login(
                 title="Sign in to Grok",
-                start_url="https://grok.x.ai/",
-                host_substr="grok.x.ai",
+                start_url="https://grok.com/",
+                host_substr="grok.com",
                 profile_suffix="grok",
                 prefer_bearer=True,
+                cookie_names=("sso", "sso_rw"),
             )
         elif provider == "gemini":
             log("login: starting embedded WebView2 login for Gemini")
@@ -439,11 +440,14 @@ class Bridge:
 
     def _start_generic_cookie_login(self, *, title: str, start_url: str, host_substr: str,
                                     profile_suffix: str, prefer_bearer: bool = False,
-                                    cookie_filter: str | None = None):
+                                    cookie_filter: str | None = None,
+                                    cookie_names: tuple | None = None):
         """STA WebView2 login that captures Cookie header and optional Bearer tokens.
 
         cookie_filter: optional cookie name to require (e.g. '__Secure-1PSID' for
         Gemini).  When set, the flow waits for this specific cookie to appear.
+        cookie_names: optional set of cookie names to poll for via CookieManager
+        every tick (works even when request headers don't carry a Cookie header).
         """
         # Clear cached WebView2 data to force a fresh sign-in (supports
         # multi-account users who need to pick a different account)
@@ -467,7 +471,7 @@ class Bridge:
             from System.Threading import Thread, ThreadStart, ApartmentState
             def runner():
                 try:
-                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf)
+                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf, cookie_names)
                 except Exception as e:
                     # Without this wrapper an exception on the CLR thread is
                     # unobserved and kills the whole process silently.
@@ -487,7 +491,7 @@ class Bridge:
             self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
             self._push({"type": "login_cancelled"})
 
-    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None):
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None, cookie_names=None):
         if udf is None:
             udf = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
         log(f"{profile_suffix} login: flow starting (profile={os.path.basename(udf)})")
@@ -633,6 +637,19 @@ class Bridge:
                         # Still intercept — the user might be in the middle of auth redirect
                         # Don't finish, just let it through (cookie might arrive on next request)
                         return
+                    # Named-cookie gate (grok.com): do NOT finish on logged-out
+                    # baseline cookies (grok.com sets grok_device_id instantly on
+                    # any visit — capturing it "connects" with a dead credential).
+                    # Require one of cookie_names, or at least one non-baseline
+                    # cookie, before accepting.
+                    if cookie_names:
+                        _BL = {"grok_device_id", "__cf_bm", "cf_clearance", "__cfruid", "_cfuvid"}
+                        try:
+                            names_present = {p.split("=", 1)[0].strip() for p in cookie_header.split(";") if "=" in p}
+                        except Exception:
+                            names_present = set()
+                        if not (names_present & set(cookie_names)) and not (names_present - _BL):
+                            return
                     # For cookie-only providers: if cookie_filter is set and the cookie
                     # is present, we're done.  Otherwise accept any cookie from the host.
                     if cookie_filter or host_substr.lower() in uri:
@@ -716,10 +733,42 @@ class Bridge:
 
         wv.CoreWebView2InitializationCompleted += on_init
         timer = WinTimer(); timer.Interval = 2500
+        # Cookies that exist even when logged OUT — their presence alone does
+        # not mean login succeeded.  Anything else on the host = session cookie.
+        _BASELINE_COOKIES = {"grok_device_id", "__cf_bm", "cf_clearance", "__cfruid", "_cfuvid"}
         def on_tick(sender, e):
             if closed.is_set() or finished["done"] or self.token: return
             if self._stop_login.is_set():
                 safe_close(); return
+            # Poll the CookieManager directly — works even when intercepted
+            # requests don't expose a readable Cookie header (e.g. grok.com).
+            if cookie_names:
+                try:
+                    cv = wv.CoreWebView2
+                    if cv is None: return
+                    cm = cv.CookieManager
+                    if cm is None: return
+                    cookies = cm.GetCookies(start_url)
+                    parts = []
+                    names_seen = set()
+                    for c in cookies:
+                        try:
+                            nm = str(getattr(c, "Name", ""))
+                            val = str(getattr(c, "Value", ""))
+                            if nm and val and nm not in names_seen:
+                                names_seen.add(nm)
+                                parts.append(f"{nm}={val}")
+                        except Exception:
+                            pass
+                    if not parts: return
+                    hit = [n for n in names_seen if n in cookie_names]
+                    extra = [n for n in names_seen if n not in _BASELINE_COOKIES]
+                    if hit or extra:
+                        cookie_str = "; ".join(parts)
+                        log(f"{profile_suffix} login: cookie poll captured {len(parts)} cookies (names: {sorted(names_seen)})")
+                        finish(cookie_str, "CookiePoll")
+                except Exception as ex:
+                    log(f"{profile_suffix} cookie poll error: {ex}")
         timer.Tick += on_tick
         try:
             wv.EnsureCoreWebView2Async(None)
@@ -1588,18 +1637,30 @@ class Bridge:
             email = f"{adapter.display_name} user"
         self.token = token
         self.email = email
-        count = 0
-        try:
-            # Use deep listing so the displayed count matches what the export
-            # will actually download (shallow/single-page undercounts, e.g.
-            # Gemini caps one page at 50 while deep pagination reaches all).
-            count = len(adapter.list_conversations(token, deep=True))
-        except Exception:
-            pass
-        self._conversation_count = count
+        # Show "Connected" INSTANTLY; stream the deep conversation count in
+        # right after. The old blocking deep list here held the Connected
+        # state hostage after login had already succeeded (Gemini/Grok
+        # pagination can take minutes) — the worst perceived-latency spot
+        # in the app. The UI just displays whatever count arrives.
+        self._conversation_count = 0
         self._connecting = False
         self._connected_at = time.monotonic()
         self._first_download_at: float | None = None
+
+        def _count_worker():
+            try:
+                # Deep listing so the displayed count matches what the export
+                # will actually download (shallow/single-page undercounts,
+                # e.g. Gemini caps one page at 50 while deep pagination
+                # reaches all).
+                n = len(adapter.list_conversations(token, deep=True))
+            except Exception:
+                n = 0
+            self._conversation_count = n
+            self._push({"type": "connected", "email": email, "count": n,
+                        "provider": provider})
+            log(f"login: deep count ready for {email} via {provider}: {n}")
+
         save_session(token, email)
         # Notify UI of successful connection with account selection prompt
         if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude"):
@@ -1616,9 +1677,13 @@ class Bridge:
         except Exception:
             pass
         log(f"login: accepted session token for {email} via {provider}")
-        self._push({"type": "connected", "email": email, "count": count,
+        # Instant Connected state; the real count arrives from _count_worker.
+        self._count_pending = True
+        self._push({"type": "connected", "email": email, "count": None,
                     "provider": provider})
-        log(f"connected: {email}, {count} threads ({provider})")
+        self._count_thread = threading.Thread(target=_count_worker, daemon=True)
+        self._count_thread.start()
+        log(f"connected: {email} ({provider}); deep conversation count pending")
 
 
     def _export_worker(self, refresh: bool):

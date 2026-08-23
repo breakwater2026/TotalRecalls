@@ -77,7 +77,11 @@ def request(path: str, token: str, method: str = "GET", body: dict | None = None
             return resp.status, parsed
 
     for attempt in range(MAX_RETRIES + 1):
-        if delay > 0:
+        # Politeness delay applies BETWEEN requests, not before the first one.
+        # Sleeping on attempt 0 added a flat 3s to every single call (connect
+        # validate, list_conversations, every conversation fetch) with no
+        # anti-ban benefit — pacing only matters once requests have flowed.
+        if delay > 0 and attempt > 0:
             time.sleep(delay)
         try:
             return _one_attempt()

@@ -34,11 +34,12 @@ class GrokAdapter:
 
     def validate(self, credential: str) -> AccountInfo:
         token, cookie = _resolve_auth(credential)
-        # Probe a few known session/user endpoints
+        # Probe known session/user endpoints (grok.com since the 2025 move;
+        # /api/auth/session verified live — returns {"status": ...}).
         paths = [
-            ("/rest/user", "https://grok.x.ai"),
-            ("/api/auth/session", "https://grok.x.ai"),
-            ("/2/user", "https://api.x.ai"),
+            ("/api/auth/session", "https://grok.com"),
+            ("/rest/app-chat/conversations", "https://grok.com"),
+            ("/rest/user", "https://grok.com"),
         ]
         last_err: Exception | None = None
         for path, base in paths:
@@ -50,15 +51,26 @@ class GrokAdapter:
                 uid = ""
                 name = ""
                 if isinstance(data, dict):
+                    # /api/auth/session unauthenticated -> {"status": "unauthenticated"}
+                    if data.get("status") == "unauthenticated":
+                        last_err = GrokApiError("session-unauthenticated")
+                        continue
                     user = data.get("user") if isinstance(data.get("user"), dict) else data
                     email = str(user.get("email") or data.get("email") or "")
                     uid = str(user.get("id") or user.get("user_id") or data.get("id") or "")
                     name = str(user.get("name") or user.get("username") or "")
-                if email or uid or data is not None:
+                if email or uid or (isinstance(data, dict) and data.get("status") == "authenticated"):
                     return AccountInfo(
                         email=email or "grok-session@local",
                         external_id=uid or "grok",
                         display_name=name or "Grok user",
+                    )
+                # Non-empty JSON from a grok.com endpoint = credential accepted
+                if data is not None and not (isinstance(data, dict) and "status" in data and len(data) == 1):
+                    return AccountInfo(
+                        email="grok-session@local",
+                        external_id=(token or "cookie")[:16] if (token or cookie) else "grok",
+                        display_name="Grok user",
                     )
             except Exception as e:
                 last_err = e
@@ -76,10 +88,10 @@ class GrokAdapter:
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
         token, cookie = _resolve_auth(credential)
         candidates = [
-            ("/rest/app-chat/conversations", "https://grok.x.ai"),
-            ("/rest/conversations", "https://grok.x.ai"),
-            ("/api/conversations", "https://grok.x.ai"),
-            ("/v1/conversations", "https://api.x.ai"),
+            ("/rest/app-chat/conversations", "https://grok.com"),
+            ("/rest/app-chat/conversations/list", "https://grok.com"),
+            ("/rest/conversations", "https://grok.com"),
+            ("/api/conversations", "https://grok.com"),
         ]
         items: list = []
         for path, base in candidates:
@@ -127,13 +139,19 @@ class GrokAdapter:
 
     def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
         token, cookie = _resolve_auth(credential)
-        account = self.validate(credential)
+        # Reuse the account identity from the summary instead of re-validating.
+        # The old self.validate() here re-probed up to 3 endpoints before EVERY
+        # conversation download — the single biggest contributor to Grok's
+        # multi-minute export starts (N conversations × 3 probes × retry
+        # backoffs on failing paths).
+        if not getattr(self, "_account", None):
+            self._account = self.validate(credential)
+        account = self._account
         candidates = [
-            (f"/rest/app-chat/conversations/{conv_id}/messages", "https://grok.x.ai"),
-            (f"/rest/app-chat/conversations/{conv_id}", "https://grok.x.ai"),
-            (f"/rest/conversations/{conv_id}", "https://grok.x.ai"),
-            (f"/api/conversations/{conv_id}", "https://grok.x.ai"),
-            (f"/v1/conversations/{conv_id}", "https://api.x.ai"),
+            (f"/rest/app-chat/conversations/{conv_id}/messages", "https://grok.com"),
+            (f"/rest/app-chat/conversations/{conv_id}", "https://grok.com"),
+            (f"/rest/conversations/{conv_id}", "https://grok.com"),
+            (f"/api/conversations/{conv_id}", "https://grok.com"),
         ]
         detail = None
         for path, base in candidates:

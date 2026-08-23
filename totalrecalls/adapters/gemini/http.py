@@ -159,7 +159,8 @@ def request(
 
     last_err: Exception | None = None
     for attempt in range(max_retries + 1):
-        if delay > 0:
+        # Politeness delay applies BETWEEN requests, not before the first one.
+        if delay > 0 and attempt > 0:
             time.sleep(delay)
         try:
             code, parsed = _one()
@@ -324,8 +325,8 @@ def fetch_page_html(cookie: str, *, delay: float = 0) -> str | None:
         "Origin": APP_BASE,
         "Cookie": cookie,
     }
-    if delay > 0:
-        time.sleep(delay)
+    # No leading sleep — callers pass delay=0 anyway; pacing belongs between
+    # retries, which the backoff below already handles.
 
     def _one():
         if _HAS_CFFI and _cffi_requests is not None:

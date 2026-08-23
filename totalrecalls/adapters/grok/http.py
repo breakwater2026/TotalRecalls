@@ -1,6 +1,8 @@
-"""Grok (xAI / grok.x.ai) web transport.
+"""Grok (xAI / grok.com) web transport.
 
-Credential: Bearer access token (eyJ…) or Cookie header from grok.x.ai / x.com.
+The consumer app moved from grok.x.ai to grok.com (grok.x.ai now 301s to the
+x.ai marketing site). Credential: Bearer access token (eyJ…) or Cookie header
+from grok.com / x.com.
 """
 
 from __future__ import annotations
@@ -12,13 +14,16 @@ import urllib.request
 
 from totalrecalls.core.paths import log
 
-BASE = "https://grok.x.ai"
+BASE = "https://grok.com"
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+    "(KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
 )
 DEFAULT_DELAY = 1.25
-MAX_RETRIES = 6
+# 6 retries × doubling backoff (~102s worst case) made one bad endpoint stall
+# an export start for minutes. 3 retries cap the damage at ~14s; the adapter
+# moves on to the next candidate endpoint.
+MAX_RETRIES = 3
 
 try:
     from curl_cffi import requests as _cffi_requests
