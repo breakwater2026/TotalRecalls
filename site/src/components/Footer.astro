@@ -1,12 +1,145 @@
-<footer>
-  <p>
-    <a href="/privacy/">Privacy</a> ·
-    <a href="/terms/">Terms</a> ·
-    <a href="/support/">Support</a> ·
-    <a href="/faq/">FAQ</a> ·
-    <a href="/release-notes/">Release Notes</a>
-  </p>
-  <p>TotalRecalls <span class="version-badge">v1.0.0</span></p>
-  <p>Not affiliated with OpenAI, Anthropic, Perplexity, Google, or xAI.</p>
-  <p>© TotalRecalls</p>
+---
+const cols = [
+  {
+    h: "Product",
+    links: [
+      { l: "How It Works", href: "/#resolution" },
+      { l: "Providers", href: "/#matrix" },
+      { l: "Pricing", href: "/pricing/" },
+      { l: "Download", href: "/download/" },
+      { l: "Release Notes", href: "/release-notes/" }
+    ]
+  },
+  {
+    h: "Guides",
+    links: [
+      { l: "Export ChatGPT", href: "/guides/export-chatgpt-conversations/" },
+      { l: "Download Claude", href: "/guides/export-claude-chat-history/" },
+      { l: "Backup Perplexity", href: "/guides/backup-perplexity-threads/" },
+      { l: "Gemini Takeout", href: "/guides/gemini-takeout-archive/" },
+      { l: "Export Grok", href: "/guides/grok/" }
+    ]
+  },
+  {
+    h: "Legal",
+    links: [
+      { l: "Privacy Policy", href: "/legals/#privacy" },
+      { l: "Terms of Service", href: "/legals/#terms" },
+      { l: "Refund Policy", href: "/legals/#refund" },
+      { l: "Microsoft Warning", href: "/microsoft-warning/" }
+    ]
+  }
+];
+const currentYear = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-grid">
+      <div class="site-footer-brand">
+        <a href="/" class="site-footer-logo-link">
+          <img src="/logo.png" alt="TotalRecalls" class="site-footer-logo" />
+          <span class="site-footer-name">TotalRecalls</span>
+        </a>
+        <p class="site-footer-tagline">
+          A Windows app that saves your AI conversations as Markdown + JSON you keep forever.
+        </p>
+      </div>
+      {cols.map((c) => (
+        <div class="site-footer-col">
+          <span class="site-footer-h">{c.h}</span>
+          <ul class="site-footer-list">
+            {c.links.map((link) => (
+              <li><a href={link.href}>{link.l}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="site-footer-bottom">
+      <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v1.0.0</span></span>
+      <span class="site-footer-disclaimer">
+        Not affiliated with OpenAI, Anthropic, Perplexity, Google, or xAI.
+      </span>
+    </div>
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    background: var(--color-background, #fff);
+    padding: 2.5rem 0 1.5rem;
+    margin-top: 4rem;
+    font-size: 14px;
+    color: var(--color-muted, #64748b);
+  }
+  .site-footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .site-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+  }
+  @media (max-width: 768px) {
+    .site-footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .site-footer-grid { grid-template-columns: 1fr; }
+  }
+  .site-footer-brand { max-width: 320px; }
+  .site-footer-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .site-footer-logo { height: 26px; width: auto; }
+  .site-footer-name {
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--color-foreground, #0b0f19);
+  }
+  .site-footer-tagline { margin-top: 0.75rem; line-height: 1.5; }
+  .site-footer-h {
+    display: block;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-muted, #64748b);
+    margin-bottom: 1rem;
+  }
+  .site-footer-list { list-style: none; padding: 0; margin: 0; }
+  .site-footer-list li { margin-bottom: 0.5rem; }
+  .site-footer-list a {
+    color: var(--color-foreground, #0b0f19);
+    text-decoration: none;
+    opacity: 0.85;
+  }
+  .site-footer-list a:hover { color: var(--color-primary, #2f7bff); }
+  .site-footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+  }
+  .version-badge {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 0.25rem;
+  }
+</style>

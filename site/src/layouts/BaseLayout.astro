@@ -22,29 +22,27 @@ const canonicalPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={`${site}${canonicalPath}`} />
+        <link rel="canonical" href={`${site}${canonicalPath}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TotalRecalls" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={`${site}${canonicalPath}`} />
+    <meta property="og:image" content={`${site}/og-image.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="TotalRecalls — save your AI conversations" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${site}/og-image.png`} />
+    <meta name="theme-color" content="#0b0f19" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script src="/js/config.js" is:inline defer></script>
   </head>
   <body class="bg-background text-foreground antialiased selection:bg-primary selection:text-white">
     <slot />
     
-    <!-- Global Footer Statement — Pure HTML, no JS required -->
-    <footer class="border-t border-border bg-background py-8 mt-12">
-      <div class="mx-auto max-w-[1400px] px-5 md:px-10 text-center">
-        <p class="font-body text-muted-foreground text-[13.5px] leading-relaxed italic whitespace-nowrap overflow-x-auto">
-          Built by a solo developer who was tired of losing months of AI conversations to broken exports and shifting UIs.
-        </p>
-        <p class="font-mono text-[11px] text-muted-foreground mt-2 flex items-center justify-center gap-3">
-          <a href="/legals/" class="text-primary hover:underline">Legal & Policies</a>
-          <span class="text-border-foreground/30">·</span>
-          <a href="/release-notes/" class="text-primary hover:underline">Release Notes</a>
-        </p>
-        <p class="font-mono text-[10px] text-muted-foreground/60 mt-3">
-          Not affiliated with or endorsed by OpenAI, Anthropic, Perplexity, Google, or xAI.
-        </p>
-      </div>
-    </footer>
-
-  </body>
+    <!-- Global Footer Statement — Pure HTML, no JS required --></body>
 </html>
