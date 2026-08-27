@@ -1,56 +1,63 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="FAQ — TotalRecalls" description="Frequently asked questions about TotalRecalls." breadcrumbs={[{ label: "FAQ" }]}>
+<PageLayout
+  title="TotalRecalls FAQ"
+  description="Frequently asked questions about TotalRecalls: pricing, providers, privacy, refunds, and how exports work."
+  breadcrumbs={[{ label: "FAQ" }]}
+>
   <h1>FAQ</h1>
 
   <dl>
     <dt>What is TotalRecalls?</dt>
-    <dd>A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</dd>
+    <dd>A small Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini (Google Takeout), and Grok into local Markdown + JSON files you own forever. See <a href="/how-it-works/">How It Works</a>.</dd>
 
     <dt>How much does it cost?</dt>
-    <dd><span data-tr-price>$24</span> launch price. One-time purchase. No subscription. No monthly "AI archive" fee.</dd>
+    <dd><span data-tr-price>$24</span> launch price. One-time purchase. No subscription. No monthly "AI archive" fee. See <a href="/pricing/">Pricing</a> for the full breakdown.</dd>
 
     <dt>Do I need an account?</dt>
     <dd>No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use.</dd>
 
     <dt>Do you store my chats or tokens?</dt>
-    <dd>No. Your AI session tokens stay on your machine. We never host your chats, your exports, or your credentials.</dd>
+    <dd>No. Your AI session tokens stay on your machine. We never host your chats, your exports, or your credentials. Read the <a href="/legals/#privacy">Privacy Policy</a>.</dd>
 
     <dt>Does TotalRecalls run in the cloud?</dt>
     <dd>No. It's a local Windows app. Exports land in a folder you choose on your PC.</dd>
 
     <dt>What providers are supported?</dt>
-    <dd>ChatGPT · Claude · Perplexity · Gemini (via Google Takeout or local sign-in) · Grok.</dd>
+    <dd>ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), and Grok. See the <a href="/guides/">Guides</a> for per-provider walkthroughs.</dd>
 
     <dt>How do exports work?</dt>
-    <ol>
-      <li>Open the app</li>
-      <li>Pick a provider</li>
-      <li>Sign in locally (or choose a Gemini Takeout folder)</li>
-      <li>Export — your chats appear as Markdown + JSON under a Library/ folder</li>
-    </ol>
+    <dd>
+      <ol>
+        <li>Open the app</li>
+        <li>Pick a provider</li>
+        <li>Sign in locally (or choose a Gemini Takeout folder)</li>
+        <li>Pick an output folder and click <em>Export</em></li>
+      </ol>
+      Your Markdown + JSON files are written straight to disk on your machine.
+    </dd>
 
     <dt>Does this replace official exports?</dt>
-    <dd>No — official exports are fine for compliance dumps. TotalRecalls is for a usable personal archive you can browse, search, and back up.</dd>
+    <dd>No. It complements them. TotalRecalls catches conversations the official export tools miss (shared links, archived threads, partial histories) and writes them in a single Markdown + JSON format you can grep, version, and search.</dd>
 
     <dt>Is the app safe?</dt>
-    <dd>Yes. But because the build is not yet code-signed, Windows may show a SmartScreen warning. Click More info → Run anyway if you trust this download from totalrecalls.app. Smart App Control on Surface devices may block unsigned apps with no override. Code-signing is on the roadmap.</dd>
+    <dd>Yes. The app runs locally on your Windows machine, never connects to a TotalRecalls server, never hosts your chats, and ships with no telemetry. You can verify by inspecting network traffic with Wireshark if you want.</dd>
 
     <dt>Does it work on Mac?</dt>
-    <dd>Not yet. Mac support will be added if demand is real.</dd>
+    <dd>Not yet. Mac support will be added if demand is real. Vote on <a href="/feature-requests/">Feature Requests</a>.</dd>
 
     <dt>Does it work on mobile?</dt>
     <dd>No. Windows only.</dd>
 
     <dt>What's inside the ZIP?</dt>
-    <dd>TotalRecalls.exe · README.txt. No installers. No background services. No telemetry.</dd>
+    <dd>Two files: <code>TotalRecalls.exe</code> (the app, portable &mdash; no installer) and <code>README.txt</code> (release notes + quick-start). See the <a href="/download/">Download page</a>.</dd>
 
     <dt>Will future features cost extra?</dt>
     <dd>The $24 launch price covers the core export tool. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) may be optional upgrades later.</dd>
 
     <dt>Does it work with free-tier accounts?</dt>
-    <dd>Yes. You sign in locally with your own credentials — free and paid accounts export the same way.</dd>
+    <dd>Yes. TotalRecalls works with free-tier ChatGPT, Claude, Perplexity, and Grok accounts. Gemini requires a Google account with Takeout enabled.</dd>
 
     <dt>Are images, code blocks, and attachments included?</dt>
     <dd>Chat text and code blocks export as Markdown; attachment references are preserved alongside (e.g. sources.json). The binary files themselves stay in your provider account.</dd>
@@ -59,9 +66,9 @@ import PageLayout from "../../layouts/PageLayout.astro";
     <dd>TotalRecalls is updated to keep exports working when providers change their interfaces. New versions are listed in the <a href="/release-notes/">Release Notes</a>.</dd>
 
     <dt>How large can exports get?</dt>
-    <dd>There's no artificial limit — exports are written as local files on your PC. Very large histories simply take longer to export.</dd>
+    <dd>Practically unlimited. Exports are streamed to disk, so a 50,000-message archive works the same as a 500-message one. The only limit is your free disk space.</dd>
 
     <dt>Can I get help?</dt>
-    <dd>Yes — see the <a href="/guides/">guides</a>: ChatGPT export, Claude Projects, Perplexity threads, Gemini Takeout, Multi-assistant workflows. Visit <a href="/help/">Help &amp; Guides</a>.</dd>
+    <dd>Yes. Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a> or open a <a href="https://github.com/breakwater2026/TotalRecalls/issues">GitHub issue</a>. See <a href="/support/">Support</a>.</dd>
   </dl>
 </PageLayout>

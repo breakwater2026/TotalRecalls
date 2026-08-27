@@ -45,7 +45,7 @@ export default function PricingSection() {
                 <li className="text-foreground/90 font-medium">Gemini (Takeout)</li>
                 <li className="text-foreground/90 font-medium">Grok</li>
               </ul>
-              <span className="block mt-3 text-[10.5px] opacity-70">Version v1.0</span>
+              <span className="block mt-3 text-[10.5px] opacity-70">Version v1.0.0</span>
             </div>
           </div>
 

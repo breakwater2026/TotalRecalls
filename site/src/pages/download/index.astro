@@ -1,25 +1,66 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+
+// All values below are placeholders. After the first PyInstaller build, copy
+// the real ZIP URL, SHA-256, size, and release date from build/release.json
+// (or paste from `Get-FileHash TotalRecalls.zip` + the build log).
+const VERSION = "v1.0.0";
+const RELEASE_DATE = "2026-08-26";
+const ZIP_URL = "https://totalrecalls.app/downloads/TotalRecalls-1.0.0.zip";
+const ZIP_SIZE_MB = 50;
+const SHA256 = "0000000000000000000000000000000000000000000000000000000000000000";
 ---
-<PageLayout title="Download TotalRecalls" description="Download the Windows app that saves your AI chats to local Markdown + JSON." breadcrumbs={[{ label: "Download" }]}>
+<PageLayout
+  title={`Download TotalRecalls ${VERSION}`}
+  description={`Download TotalRecalls ${VERSION} for Windows 10/11. Local-only AI conversation archive as Markdown + JSON. Released ${RELEASE_DATE}.`}
+  breadcrumbs={[{ label: "Download" }]}
+>
   <h1>Download TotalRecalls for Windows</h1>
-  <p>A small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, and Grok conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>
-  <p><strong>This page is for customers who already purchased.</strong> New here? <a href="/pricing/">Buy TotalRecalls — $24</a> first; your download link arrives right after checkout.</p>
+
+  <p class="version-banner">
+    <strong>Latest release:</strong> TotalRecalls {VERSION} &middot; {RELEASE_DATE}
+  </p>
 
   <section>
     <h2>Get Your Download</h2>
-    <p><strong>After checkout</strong>, your download link is sent to the email you used to purchase — right on the order-confirmation page and in your receipt.</p>
-    <p><strong>Re-download any time</strong> from the <strong>Customer Portal</strong> — open the "My Orders" link in your receipt email to grab the latest version of the ZIP whenever you need it.</p>
-    <p class="meta">Windows 10/11 · ~50 MB · One-time purchase required</p>
-    <p>Provides: ChatGPT · Claude · Perplexity · Gemini (Takeout) · Grok</p>
-    <p>Unzip it anywhere on your PC and run the app — no installer.</p>
+    <p>
+      <a class="download-btn" href={ZIP_URL} data-tr-buy="true">
+        � Download TotalRecalls {VERSION} (ZIP, ~{ZIP_SIZE_MB} MB)
+      </a>
+    </p>
+    <p class="hash-line">
+      <strong>SHA-256:</strong> <code>{SHA256}</code>
+    </p>
+    <p class="hash-note">
+      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{VERSION}.zip -Algorithm SHA256</code>
+    </p>
+    <p class="check-updates">
+      <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
+      or watch the <a href="https://github.com/breakwater2026/TotalRecalls">GitHub repo</a>.
+      Auto-update is on the roadmap.
+    </p>
+  </section>
+
+  <section>
+    <h2>Already purchased?</h2>
+    <p>
+      Re-download any time from the
+      <a href="https://totalrecalls.lemonsqueezy.com/billing">Lemon Squeezy Customer Portal</a>
+      or use the download link from your purchase email.
+    </p>
+    <p>
+      <strong>14-day money-back guarantee.</strong> If TotalRecalls doesn't work for your
+      setup, email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>
+      within 14 days of purchase for a full refund. See the
+      <a href="/legals/#refund">full refund policy</a>.
+    </p>
   </section>
 
   <section>
     <h2>What's Inside the ZIP?</h2>
     <ul>
-      <li>TotalRecalls.exe — the Windows app</li>
-      <li>README.txt — quick instructions</li>
+      <li><code>TotalRecalls.exe</code> &mdash; the Windows app (portable, no installer)</li>
+      <li><code>README.txt</code> &mdash; quick-start notes and version history</li>
     </ul>
     <p>No installers, no background services, no telemetry. Just unzip and run.</p>
   </section>
@@ -27,19 +68,20 @@ import PageLayout from "../../layouts/PageLayout.astro";
   <section class="technical-notes">
     <h2>Technical Notes</h2>
     <ul>
-      <li>Unsigned builds may show SmartScreen — “More info → Run anyway” until code-signing is complete. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
-      <li>Windows 11 Smart App Control may block unsigned apps with no override. Code-signing is on the roadmap.</li>
+      <li>Windows 10/11 required. No Mac or mobile build yet.</li>
+      <li>Windows 11 Smart App Control may block unsigned apps with no override. Code-signing is on the roadmap. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
       <li>Gemini uses your Google Takeout folder/JSON (most reliable path). See <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
+      <li>All exports land in a folder <em>you choose</em> on your PC. TotalRecalls never sees, stores, or transmits your AI chat data.</li>
     </ul>
   </section>
 
   <section>
     <h2>How to Use the App (4 steps)</h2>
     <ol>
-      <li><strong>Open TotalRecalls.exe</strong> — No installation required.</li>
-      <li><strong>Pick a provider</strong> — ChatGPT, Claude, Perplexity, Gemini (Takeout), or Grok.</li>
-      <li><strong>Sign in locally</strong> — A small window opens so you can sign in normally—like a browser. (Gemini uses your Google Takeout folder.)</li>
-      <li><strong>Export</strong> — Your chats land in a folder you choose, under Library/, as Markdown + JSON.</li>
+      <li><strong>Unzip</strong> the archive to any folder (e.g. <code>Desktop\TotalRecalls</code>).</li>
+      <li><strong>Run</strong> <code>TotalRecalls.exe</code>. SmartScreen may show a warning on first launch &mdash; click <em>More info &rarr; Run anyway</em>.</li>
+      <li><strong>Pick a provider</strong> (ChatGPT, Claude, Perplexity, Gemini, or Grok) and sign in locally. For Gemini, point at your Takeout folder instead.</li>
+      <li><strong>Choose an output folder</strong> and click <em>Export</em>. Your Markdown + JSON files are written straight to disk.</li>
     </ol>
   </section>
 
@@ -47,13 +89,13 @@ import PageLayout from "../../layouts/PageLayout.astro";
     <h2>Privacy &amp; Security</h2>
     <ul>
       <li>Your AI session tokens stay on your machine</li>
-      <li>We never host your chats</li>
-      <li>No cloud locker</li>
+      <li>We never host your chats, exports, or credentials</li>
+      <li>No cloud locker &mdash; data lives where you put it</li>
       <li>No TotalRecalls account required</li>
       <li>No background processes</li>
-      <li>No telemetry</li>
+      <li>No telemetry, no analytics, no tracking pixels</li>
+      <li>You can read the full <a href="/legals/#privacy">Privacy Policy</a> or the <a href="/privacy/">standalone privacy page</a></li>
     </ul>
-    <p>Your conversations stay on your disk — not ours.</p>
   </section>
 
   <section>
@@ -65,6 +107,7 @@ import PageLayout from "../../layouts/PageLayout.astro";
       <li><a href="/guides/backup-perplexity-threads/">Perplexity export guide</a></li>
       <li><a href="/guides/export-claude-chat-history/">Claude Projects export guide</a></li>
       <li><a href="/faq/">FAQ</a></li>
+      <li>Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a></li>
     </ul>
   </section>
 
@@ -74,7 +117,6 @@ import PageLayout from "../../layouts/PageLayout.astro";
       <span class="price-current" data-tr-price>$24</span>
       <span class="price-badge">launch price</span>
     </div>
-    <a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Buy TotalRecalls — <span data-tr-price>$24</span></a>
   </section>
 
 </PageLayout>
