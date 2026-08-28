@@ -1,0 +1,24 @@
+---
+import PageLayout from "../../../layouts/PageLayout.astro";
+---
+<PageLayout title="Export Mistral (Le Chat) Chats" description="Back up your Mistral Le Chat conversations to local Markdown with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Mistral" }]}>
+  <h1>Export Mistral (Le Chat) Chats</h1>
+  <p>TotalRecalls reads your active Mistral Le Chat (chat.mistral.ai) session and exports every conversation to local Markdown and JSON.</p>
+
+  <h2>Steps</h2>
+  <ol>
+    <li>Open <a href="https://chat.mistral.ai">chat.mistral.ai</a> and sign in.</li>
+    <li>Launch TotalRecalls. Select <strong>"Mistral"</strong> as the provider.</li>
+    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads your session cookie from the browser profile.</li>
+    <li>Choose which chats to export.</li>
+    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
+    <li>Click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Notes</h2>
+  <ul>
+    <li><strong>Free-tier focus.</strong> Mistral's Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads from your browser session, which works for the free tier and any future tiers that share the same web UI.</li>
+    <li><strong>EU / multilingual.</strong> Mistral is the most popular non-US chat product in the EU. Multilingual exports are preserved (UTF-8 Markdown).</li>
+    <li><strong>Same shape as ChatGPT/Claude.</strong> Mistral's web API surface is similar in structure to other consumer products, so the export format is consistent across providers in your unified Library folder.</li>
+  </ul>
+</PageLayout>

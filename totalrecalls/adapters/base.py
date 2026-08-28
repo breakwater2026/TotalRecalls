@@ -71,3 +71,19 @@ def _ensure_builtins() -> None:
     if "grok" not in _REGISTRY:
         from totalrecalls.adapters.grok.adapter import GrokAdapter
         register_provider("grok", GrokAdapter)
+    if "mistral" not in _REGISTRY:
+        from totalrecalls.adapters.mistral.adapter import MistralAdapter
+        register_provider("mistral", MistralAdapter)
+    if "deepseek" not in _REGISTRY:
+        from totalrecalls.adapters.deepseek.adapter import DeepSeekAdapter
+        register_provider("deepseek", DeepSeekAdapter)
+    if "qwen" not in _REGISTRY:
+        from totalrecalls.adapters.qwen.adapter import QwenChatAdapter
+        register_provider("qwen", QwenChatAdapter)
+    if "mistral" not in _REGISTRY:
+        try:
+            from totalrecalls.adapters.mistral.adapter import MistralAdapter
+            register_provider("mistral", MistralAdapter)
+        except ImportError:
+            # Mistral scaffold may not be done yet (subagent in flight)
+            pass

@@ -55,6 +55,21 @@ def extract_session_token_from_cdp_json(raw: str | None) -> str | None:
     cookies = data.get("cookies") if isinstance(data, dict) else None
     if not cookies:
         return None
+    # Also remember Cloudflare cookies (cf_clearance / __cf_bm) so export
+    # requests can present them — without them Cloudflare challenges the
+    # bare session cookie after ~10 rapid thread fetches (HTTP 403).
+    try:
+        cf_parts = []
+        for cookie in cookies:
+            if isinstance(cookie, dict):
+                nm = cookie.get("name") or ""
+                val = cookie.get("value") or ""
+                if nm in ("cf_clearance", "__cf_bm") and val:
+                    cf_parts.append(f"{nm}={val}")
+        if cf_parts:
+            save_cf_cookies("; ".join(cf_parts))
+    except Exception:
+        pass
     for cookie in cookies:
         try:
             if not isinstance(cookie, dict):
@@ -64,6 +79,30 @@ def extract_session_token_from_cdp_json(raw: str | None) -> str | None:
         except Exception:
             continue
     return None
+
+
+def _cf_cookie_path() -> str:
+    import os as _os
+    from totalrecalls.core.paths import appdata_dir as _ad
+    return _os.path.join(_ad(), "perplexity_cf_cookies.txt")
+
+
+def save_cf_cookies(header: str):
+    try:
+        with open(_cf_cookie_path(), "w", encoding="utf-8") as f:
+            f.write(header)
+        from totalrecalls.core.paths import log as _log
+        _log("auth: saved Cloudflare cookies for export requests")
+    except Exception:
+        pass
+
+
+def load_cf_cookies() -> str:
+    try:
+        with open(_cf_cookie_path(), encoding="utf-8") as f:
+            return f.read().strip()
+    except Exception:
+        return ""
 
 
 def validate_session(token: str) -> dict:

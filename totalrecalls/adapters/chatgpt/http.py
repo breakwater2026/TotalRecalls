@@ -16,7 +16,8 @@ import urllib.request
 from totalrecalls.core.paths import log
 
 BASE = "https://chatgpt.com"
-DEFAULT_DELAY = 1.25  # slightly faster than Perplexity; still conservative
+DEFAULT_DELAY = 3.0   # ChatGPT rate-limits aggressively after ~3 rapid fetches (429 storm
+                      # observed live 2026-08-24); 3s pacing avoids tripping it
 MAX_RETRIES = 6
 RETRY_BASE = 2.0
 RETRY_MAX = 45.0
@@ -101,7 +102,9 @@ def request(
             if e.code in (429, 500, 502, 503, 504):
                 backoff = min(RETRY_BASE * (2 ** attempt), RETRY_MAX)
                 if e.code == 429:
-                    backoff = max(backoff, 15.0)
+                    # ChatGPT's limiter needs real cooldowns — 15s retries kept
+                    # re-tripping 429 for minutes (observed live 2026-08-24).
+                    backoff = max(backoff, 30.0) + attempt * 10
                 log(f"chatgpt HTTP {e.code} on {path.split('?')[0]} — retry in {backoff:.0f}s")
                 time.sleep(backoff)
                 continue

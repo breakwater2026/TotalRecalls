@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "provider": "qwen",
+    "synthetic": true,
+    "captured_at": "2026-08-27T22:32:20Z"
+  },
+  "response": {
+    "data": {
+      "list": [
+        {
+          "id": "synth-0000",
+          "title": "Synthetic Qwen conversation #1",
+          "created_at": "1787869940",
+          "updated_at": "1787873540"
+        },
+        {
+          "id": "synth-0001",
+          "title": "Synthetic Qwen conversation #2",
+          "created_at": "1787783540",
+          "updated_at": "1787787140"
+        },
+        {
+          "id": "synth-0002",
+          "title": "Synthetic Qwen conversation #3",
+          "created_at": "1787697140",
+          "updated_at": "1787700740"
+        },
+        {
+          "id": "synth-0003",
+          "title": "Synthetic Qwen conversation #4",
+          "created_at": "1787610740",
+          "updated_at": "1787614340"
+        },
+        {
+          "id": "synth-0004",
+          "title": "Synthetic Qwen conversation #5",
+          "created_at": "1787524340",
+          "updated_at": "1787527940"
+        }
+      ]
+    }
+  }
+}

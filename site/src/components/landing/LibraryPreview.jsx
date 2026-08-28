@@ -2,11 +2,11 @@ import { Folder, FileText } from "lucide-react";
 
 const PROVIDERS = ["Library", "ChatGPT", "Claude", "Perplexity", "Gemini", "Grok"];
 const FILES = [
-  { path: "chatgpt/2026-08-01-pricing-research.md", size: "12 KB" },
-  { path: "claude/2026-07-28-refactor-plan.md", size: "31 KB" },
-  { path: "perplexity/2026-07-21-market-scan.md", size: "8 KB" },
-  { path: "gemini/2026-07-14-takeout-thread.md", size: "19 KB" },
-  { path: "grok/2026-07-02-debug-session.md", size: "6 KB" },
+  { path: "chatgpt/2026-08-01-pricing-research.md", occurred: "2026-08-01 09:14" },
+  { path: "claude/2026-07-28-refactor-plan.md", occurred: "2026-07-28 22:41" },
+  { path: "perplexity/2026-07-21-market-scan.md", occurred: "2026-07-21 14:07" },
+  { path: "gemini/2026-07-14-takeout-thread.md", occurred: "2026-07-14 18:52" },
+  { path: "grok/2026-07-02-debug-session.md", occurred: "2026-07-02 11:30" },
 ];
 
 export default function LibraryPreview() {
@@ -43,7 +43,7 @@ export default function LibraryPreview() {
                 {FILES.map((f) => (
                   <div key={f.path} className="px-4 py-2 flex items-center justify-between hover:bg-muted/40">
                     <span className="font-mono text-[11px] truncate"><FileText className="w-3.5 h-3.5 inline mr-2 text-muted-foreground" />{f.path}</span>
-                    <span className="font-mono text-[10px] text-muted-foreground shrink-0 ml-3">{f.size}</span>
+                    <span className="font-mono text-[10px] text-muted-foreground shrink-0 ml-3">{f.occurred}</span>
                   </div>
                 ))}
               </div>

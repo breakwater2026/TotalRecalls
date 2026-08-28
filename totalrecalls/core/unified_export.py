@@ -2,7 +2,7 @@
 
 Layout:
   <outdir>/
-    Library/<provider>/<Home|Spaces/...>/<Title -- shortid>/
+    Library/<provider>/<Home|Spaces/...>/<YYYY-MM-DD HH-MM> -- <Title> -- <shortid>/
       conversation.md
       conversation.json   # unified schema
     README.md
@@ -30,12 +30,64 @@ from totalrecalls.core.paths import log
 from totalrecalls.core.schema import UnifiedConversation
 
 
+def _parse_iso(ts: str) -> datetime | None:
+    """Best-effort ISO-8601 parser. Accepts 'Z' suffix and '+00:00'.
+
+    Returns None on empty/garbage input so callers can fall back gracefully.
+    """
+    if not ts:
+        return None
+    s = ts.strip()
+    if not s:
+        return None
+    # Normalize trailing Z to +00:00 for fromisoformat
+    if s.endswith("Z"):
+        s = s[:-1] + "+00:00"
+    try:
+        return datetime.fromisoformat(s)
+    except (ValueError, TypeError):
+        return None
+
+
+def conversation_occurred(conv: UnifiedConversation) -> datetime | None:
+    """When the conversation took place — prefer created_at, fall back to updated_at."""
+    dt = _parse_iso(getattr(conv, "created_at", "") or "")
+    if dt is not None:
+        return dt
+    return _parse_iso(getattr(conv, "updated_at", "") or "")
+
+
+def conversation_occurred_slug(conv: UnifiedConversation) -> str:
+    """Filesystem-safe prefix for the leaf folder: 'YYYY-MM-DD HH-MM' (or 'undated').
+
+    Uses hyphen instead of colon so the string is a valid Windows path segment
+    even on systems where `:` is forbidden in filenames.
+    """
+    dt = conversation_occurred(conv)
+    if dt is None:
+        return "undated"
+    return dt.strftime("%Y-%m-%d %H-%M")
+
+
+def conversation_occurred_display(conv: UnifiedConversation) -> str:
+    """Human-readable timestamp for the website and markdown frontmatter: 'YYYY-MM-DD HH:MM'."""
+    dt = conversation_occurred(conv)
+    if dt is None:
+        return "—"
+    return dt.strftime("%Y-%m-%d %H:%M")
+
+
 def conversation_rel_path(conv: UnifiedConversation) -> str:
-    """Relative path (posix) from export root to conversation folder."""
+    """Relative path (posix) from export root to conversation folder.
+
+    The leaf folder name is prefixed with the conversation's occurred timestamp
+    so a parent-directory listing in Explorer (or any file browser) shows the
+    date/time next to the title. Falls back to 'undated' if no timestamp.
+    """
     provider = safe_name(conv.provider or "unknown", max_len=40) or "unknown"
     folder = (conv.folder or HOME_SPACE_NAME).strip() or HOME_SPACE_NAME
     title = conv.title or "Untitled conversation"
-    leaf = f"{safe_name(title, max_len=72)} -- {short_id(conv.id)}"
+    leaf = f"{conversation_occurred_slug(conv)} -- {safe_name(title, max_len=72)} -- {short_id(conv.id)}"
     if folder == HOME_SPACE_NAME:
         mid = HOME_SPACE_NAME
     else:
@@ -51,6 +103,7 @@ def render_unified_markdown(conv: UnifiedConversation) -> str:
         f"- **Account:** {(conv.account.email if conv.account else '') or '—'}",
         f"- **Folder:** {conv.folder or HOME_SPACE_NAME}",
         f"- **ID:** {conv.id or '—'}",
+        f"- **Occurred:** {conversation_occurred_display(conv)}",
         f"- **Created:** {conv.created_at or '—'}",
         f"- **Updated:** {conv.updated_at or '—'}",
         "",
@@ -117,7 +170,12 @@ def _message_stats(conv: UnifiedConversation) -> dict:
 
 
 def write_unified_conversation(outdir: str, conv: UnifiedConversation) -> dict:
-    """Write one conversation folder. Returns index record dict."""
+    """Write one conversation folder. Returns index record dict.
+
+    The folder's filesystem mtime is set to the conversation's occurred time
+    (created_at, falling back to updated_at) so Explorer's "Date modified"
+    column reflects when the conversation took place, not when it was exported.
+    """
     rel = conversation_rel_path(conv).replace("\\", "/")
     folder = os.path.join(outdir, *rel.split("/"))
     os.makedirs(folder, exist_ok=True)
@@ -133,6 +191,23 @@ def write_unified_conversation(outdir: str, conv: UnifiedConversation) -> dict:
     with open(os.path.join(folder, "conversation.json"), "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
+    # Best-effort: set the folder mtime so Explorer's "Date modified" column
+    # surfaces the conversation's true occurred time, not the export time.
+    # Naive datetimes are assumed to be in the local timezone of the export.
+    occurred_dt = conversation_occurred(conv)
+    if occurred_dt is not None:
+        try:
+            from datetime import datetime as _dt
+            ts = occurred_dt
+            if ts.tzinfo is not None:
+                # Convert to a naive UTC timestamp for os.utime
+                ts = ts.astimezone(timezone.utc).replace(tzinfo=None)
+            mtime = ts.timestamp()
+            os.utime(folder, (mtime, mtime))
+        except OSError:
+            # Read-only or unsupported FS — don't fail the export over a cosmetic detail
+            pass
+
     stats = _message_stats(conv)
     return {
         "uuid": conv.id,
@@ -142,6 +217,7 @@ def write_unified_conversation(outdir: str, conv: UnifiedConversation) -> dict:
         "space": conv.folder or HOME_SPACE_NAME,
         "folder": conv.folder or HOME_SPACE_NAME,
         "rel_path": rel,
+        "occurred_at": conversation_occurred_display(conv),
         "updated_at": conv.updated_at,
         "stats": stats,
         "empty_answers": stats.get("all_answers_empty", False),
@@ -305,10 +381,17 @@ def export_via_adapter(
             on_first_download()
         try:
             conv = adapter.fetch_conversation(credential, summary.id)
-            # ensure folder/title from summary when detail is sparse
+            # ensure folder/title from summary when detail is sparse or generic.
+            # Gemini/Grok fetch paths fall back to "<Provider> conversation" as the
+            # title even when the listing knew the real name — the summary title is
+            # always the authoritative one, so replace generic fallbacks outright.
             if not conv.folder:
                 conv.folder = summary.folder
-            if not conv.title:
+            generic_title = conv.title.strip().lower() in (
+                "", f"{adapter.display_name.lower()} conversation",
+                f"{adapter.id} conversation", "untitled conversation",
+            )
+            if not conv.title or generic_title:
                 conv.title = summary.title
             if not conv.account.email and account.email:
                 conv.account = account

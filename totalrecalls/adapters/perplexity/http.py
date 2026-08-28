@@ -11,8 +11,8 @@ from totalrecalls.core.paths import log
 
 BASE = "https://www.perplexity.ai"
 API_VERSION = "2.18"
-USER_AGENT = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-              "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
+USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36")
 DEFAULT_DELAY = 3.0          # seconds between requests — do NOT lower (session-kill risk)
 MAX_RETRIES = 8
 RETRY_BASE = 2.0
@@ -33,7 +33,17 @@ class ApiError(Exception):
 
 
 def make_cookie_header(token: str) -> str:
-    return f"{COOKIE_NAME}={token}"
+    parts = [f"{COOKIE_NAME}={token}"]
+    # Attach Cloudflare cookies captured at login — without cf_clearance,
+    # Cloudflare challenges bare session cookies after ~10 rapid fetches.
+    try:
+        from totalrecalls.adapters.perplexity.auth import load_cf_cookies
+        cf = load_cf_cookies()
+        if cf:
+            parts.append(cf)
+    except Exception:
+        pass
+    return "; ".join(parts)
 
 
 def request(path: str, token: str, method: str = "GET", body: dict | None = None,
@@ -94,6 +104,14 @@ def request(path: str, token: str, method: str = "GET", body: dict | None = None
                 time.sleep(backoff)
                 continue
             if e.code in (401, 403):
+                # A genuinely dead session 401s on EVERY request — but listing
+                # succeeded moments earlier. Transient 401/403 here is usually a
+                # Cloudflare challenge; retry with backoff before giving up.
+                if attempt < MAX_RETRIES:
+                    backoff = min(RETRY_BASE * (2 ** attempt), RETRY_MAX)
+                    log(f"HTTP {e.code} on {path.split('?')[0]} — challenge? retry in {backoff:.0f}s")
+                    time.sleep(backoff)
+                    continue
                 raise ApiError("auth-failed")
             raise ApiError(f"http-{e.code}")
         except Exception as e:

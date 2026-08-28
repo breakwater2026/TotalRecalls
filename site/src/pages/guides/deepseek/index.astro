@@ -1,0 +1,24 @@
+---
+import PageLayout from "../../../layouts/PageLayout.astro";
+---
+<PageLayout title="Export DeepSeek Chats" description="Back up your DeepSeek conversations to local Markdown with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Deepseek" }]}>
+  <h1>Export DeepSeek Chats</h1>
+  <p>TotalRecalls reads your active DeepSeek (chat.deepseek.com) session and exports every conversation to local Markdown and JSON.</p>
+
+  <h2>Steps</h2>
+  <ol>
+    <li>Open <a href="https://chat.deepseek.com">chat.deepseek.com</a> and sign in.</li>
+    <li>Launch TotalRecalls. Select <strong>"DeepSeek"</strong> as the provider.</li>
+    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads your session cookie from the browser profile.</li>
+    <li>Choose which chats to export.</li>
+    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
+    <li>Click <strong>Export</strong>.</li>
+  </ol>
+
+  <h2>Notes</h2>
+  <ul>
+    <li><strong>DeepSeek serves chain-of-thought.</strong> When DeepSeek streams its reasoning, we capture the thinking content as a collapsible <code>&lt;details&gt;</code> block in Markdown so the reasoning stays with the final answer.</li>
+    <li><strong>Thinking model variant.</strong> DeepSeek-R1 is the default reasoning model — its thinking blocks are the most valuable part of any export.</li>
+    <li><strong>Free tier friendly.</strong> TotalRecalls reads your browser session; it does not call the DeepSeek API, so it works regardless of which DeepSeek plan you have.</li>
+  </ul>
+</PageLayout>

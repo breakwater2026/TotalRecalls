@@ -110,13 +110,18 @@ class ClaudeAdapter:
             if not cid:
                 continue
             title = str(it.get("name") or it.get("title") or "Untitled conversation").strip()
+            # If the conversations walker tagged this with a project, route it
+            # under the project name as a Space rather than dumping everything
+            # in Home.
+            project = (it.get("_project_title") or "").strip()
+            folder = project or HOME_SPACE_NAME
             out.append(
                 ConversationSummary(
                     id=cid,
                     title=title or "Untitled conversation",
                     updated_at=_ts(it.get("updated_at") or it.get("modified_at")),
                     created_at=_ts(it.get("created_at")),
-                    folder=HOME_SPACE_NAME,
+                    folder=folder,
                     raw=it,
                 )
             )

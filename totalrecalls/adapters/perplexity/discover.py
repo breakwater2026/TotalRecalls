@@ -5,6 +5,11 @@ from __future__ import annotations
 from totalrecalls.core.paths import log
 from totalrecalls.adapters.perplexity.http import API_VERSION, ApiError, request
 
+# Safety ceiling for deep pagination. The prior 5000 was a floor that left
+# conversations on the table for power users (some accounts exceed 10k).
+# 50k is well above any single user's real account size.
+_DEEP_MAX_OFFSET = 50_000
+
 def _normalize_thread_items(raw) -> list[dict]:
     """Accept list or {data|threads|results: [...]} shapes from various endpoints."""
     if raw is None:
@@ -69,7 +74,7 @@ def list_spaces(token: str) -> list[dict]:
 
 
 def _discover_list_ask_threads(token: str, seen: dict, on_progress=None,
-                               page_size: int = 50, max_offset: int = 5000) -> int:
+                               page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET) -> int:
     """Source A: POST list_ask_threads (primary library index). Returns new count."""
     path = f"/rest/thread/list_ask_threads?version={API_VERSION}&source=default"
     offset = 0
@@ -123,7 +128,7 @@ def _discover_list_ask_threads(token: str, seen: dict, on_progress=None,
 
 
 def _discover_thread_list(token: str, seen: dict, on_progress=None,
-                          page_size: int = 50, max_offset: int = 5000) -> int:
+                          page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET) -> int:
     """Source B: GET /rest/thread/list — alternate library index."""
     offset = 0
     added = 0

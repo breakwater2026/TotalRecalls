@@ -87,32 +87,44 @@ class GrokAdapter:
 
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
         token, cookie = _resolve_auth(credential)
+        # Endpoints known to exist on grok.com. Most return 401/403 with
+        # webview-captured cookies — the prior memory note (2026-08-23)
+        # documents that all of these reject SSO cookies. We try several
+        # shapes and paginate the first one that returns data, in case xAI
+        # ever enables a working path. Any 4xx/5xx is silently skipped.
         candidates = [
-            ("/rest/app-chat/conversations", "https://grok.com"),
-            ("/rest/app-chat/conversations/list", "https://grok.com"),
-            ("/rest/conversations", "https://grok.com"),
-            ("/api/conversations", "https://grok.com"),
+            "/rest/app-chat/conversations",
+            "/rest/app-chat/conversations/list",
+            "/rest/conversations",
+            "/api/conversations",
+            "/rest/user/conversations",          # user-scoped alt
+            "/api/conversations/me",             # me-scoped alt
+            "/rest/app-chat/users/me/conversations",  # gizmo-style alt
         ]
-        items: list = []
-        for path, base in candidates:
-            try:
-                status, data = request(path, access_token=token, cookie=cookie, base=base)
-            except GrokApiError as e:
-                log(f"grok list {path} failed: {e}")
+        seen: dict[str, dict] = {}
+        tried_paths: list[str] = []
+        for path in candidates:
+            items = _grok_paginate(path, token, cookie, base="https://grok.com")
+            tried_paths.append(path)
+            for it in items:
+                cid = _grok_conv_id(it)
+                if cid and cid not in seen:
+                    seen[cid] = it
+            if items and deep:
+                # Already got some from a working endpoint — try the next
+                # candidate too in case it surfaces a different set.
                 continue
-            if isinstance(data, list):
-                items = data
-            elif isinstance(data, dict):
-                items = (
-                    data.get("conversations")
-                    or data.get("items")
-                    or data.get("data")
-                    or data.get("results")
-                    or []
-                )
             if items:
                 break
+        items = list(seen.values())
         if not items:
+            # Endpoints reachable but no list shape matched (auth rejected or
+            # API moved). Raise a soft error: the connection's 0-conversation
+            # count is the real signal that the session cookie is dead.
+            log(
+                "grok list: all candidate endpoints returned no conversations "
+                f"(tried {len(tried_paths)} paths, auth rejected or API shape changed)."
+            )
             raise GrokApiError(
                 "Could not list Grok conversations (API shape may have changed). "
                 "Try a fresh browser session token/cookie."
@@ -121,7 +133,7 @@ class GrokAdapter:
         for it in items:
             if not isinstance(it, dict):
                 continue
-            cid = str(it.get("id") or it.get("conversation_id") or it.get("uuid") or "")
+            cid = _grok_conv_id(it) or ""
             if not cid:
                 continue
             title = str(it.get("title") or it.get("name") or it.get("summary") or "Grok conversation")
@@ -129,8 +141,8 @@ class GrokAdapter:
                 ConversationSummary(
                     id=cid,
                     title=title.strip() or "Grok conversation",
-                    updated_at=str(it.get("updated_at") or it.get("modified_at") or it.get("create_time") or ""),
-                    created_at=str(it.get("created_at") or ""),
+                    updated_at=str(it.get("updated_at") or it.get("modifyTime") or it.get("modified_at") or ""),
+                    created_at=str(it.get("createTime") or it.get("created_at") or ""),
                     folder=HOME_SPACE_NAME,
                     raw=it,
                 )
@@ -249,3 +261,55 @@ class GrokAdapter:
 
 
 ApiError = GrokApiError
+
+
+def _grok_conv_id(it: dict) -> str | None:
+    """Extract a conversation id from a Grok response item (shape varies)."""
+    for k in ("id", "conversationId", "conversation_id", "uuid", "thread_id"):
+        v = it.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+
+def _grok_paginate(path: str, token: str | None, cookie: str | None,
+                   *, base: str = "https://grok.com",
+                   max_pages: int = 50) -> list[dict]:
+    """Paginate a Grok list endpoint. Some shapes return all items at once;
+    others (notably /rest/app-chat/conversations) use a lastId cursor.
+    """
+    out: list[dict] = []
+    cursor: str | None = None
+    for page in range(max_pages):
+        sep = "&" if "?" in path else "?"
+        suffix = f"{sep}lastId={cursor}" if cursor else ""
+        try:
+            status, data = request(path + suffix, access_token=token,
+                                   cookie=cookie, base=base)
+        except GrokApiError as e:
+            log(f"grok list {path} page={page} failed: {e}")
+            return out
+        if not isinstance(data, (dict, list)):
+            return out
+        items = data if isinstance(data, list) else (
+            data.get("conversations") or data.get("items")
+            or data.get("data") or data.get("results") or []
+        )
+        if not isinstance(items, list) or not items:
+            return out
+        for it in items:
+            if isinstance(it, dict):
+                out.append(it)
+        # Look for the next cursor in the response envelope
+        next_cursor = None
+        if isinstance(data, dict):
+            for k in ("lastId", "last_id", "next_cursor", "nextCursor", "cursor"):
+                v = data.get(k)
+                if isinstance(v, str) and v.strip() and v != cursor:
+                    next_cursor = v.strip()
+                    break
+        if not next_cursor or next_cursor == cursor:
+            return out
+        cursor = next_cursor
+    log(f"grok list {path} hit {max_pages}-page safety cap")
+    return out

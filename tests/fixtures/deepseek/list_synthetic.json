@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "provider": "deepseek",
+    "synthetic": true,
+    "captured_at": "2026-08-27T22:32:19Z"
+  },
+  "response": {
+    "data": {
+      "business_history_list": [
+        {
+          "chat_session_id": "synth-0000",
+          "title": "Synthetic DeepSeek conversation #1",
+          "created_time": 1787869939.8527768,
+          "updated_time": 1787873539.8527768
+        },
+        {
+          "chat_session_id": "synth-0001",
+          "title": "Synthetic DeepSeek conversation #2",
+          "created_time": 1787783539.8527768,
+          "updated_time": 1787787139.8527768
+        },
+        {
+          "chat_session_id": "synth-0002",
+          "title": "Synthetic DeepSeek conversation #3",
+          "created_time": 1787697139.8527768,
+          "updated_time": 1787700739.8527768
+        },
+        {
+          "chat_session_id": "synth-0003",
+          "title": "Synthetic DeepSeek conversation #4",
+          "created_time": 1787610739.8527768,
+          "updated_time": 1787614339.8527768
+        },
+        {
+          "chat_session_id": "synth-0004",
+          "title": "Synthetic DeepSeek conversation #5",
+          "created_time": 1787524339.8527768,
+          "updated_time": 1787527939.8527768
+        }
+      ]
+    }
+  }
+}

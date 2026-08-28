@@ -175,6 +175,36 @@ class UnifiedExportTests(unittest.TestCase):
         self.assertIn("Home", rel)
         self.assertIn("Hello World", rel)
         self.assertIn("aaaaaaaa", rel)
+        # The leaf must be prefixed with an 'undated' marker when no timestamp
+        # is set on the conversation, so the folder name sorts predictably.
+        self.assertIn("undated", rel)
+
+    def test_rel_path_prefixes_occurred_timestamp_when_available(self):
+        conv = UnifiedConversation(
+            provider="perplexity",
+            id="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            title="Hello World",
+            folder="Home",
+            created_at="2024-02-18T14:32:00+00:00",
+        )
+        rel = conversation_rel_path(conv).replace("\\", "/")
+        # Slug form: YYYY-MM-DD HH-MM (filename-safe, hyphen not colon)
+        self.assertIn("2024-02-18 14-32", rel)
+        # Display form: YYYY-MM-DD HH:MM (human-readable, with colon)
+        from totalrecalls.core.unified_export import conversation_occurred_display
+        self.assertEqual(conversation_occurred_display(conv), "2024-02-18 14:32")
+
+    def test_rel_path_falls_back_to_updated_at(self):
+        conv = UnifiedConversation(
+            provider="perplexity",
+            id="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            title="Hello World",
+            folder="Home",
+            updated_at="2025-01-09T09:00:00Z",
+        )
+        rel = conversation_rel_path(conv).replace("\\", "/")
+        self.assertIn("2025-01-09 09-00", rel)
+        self.assertNotIn("undated", rel)
 
     def test_write_unified_conversation_files(self):
         conv = UnifiedConversation(

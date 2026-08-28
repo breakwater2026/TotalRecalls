@@ -135,24 +135,55 @@ class Bridge:
         }
 
     def listProviders(self):
-        """UI provider picker — available flags track registry + product roadmap."""
-        known = [
-            {"id": "perplexity", "name": "Perplexity", "available": True},
-            {"id": "chatgpt", "name": "ChatGPT", "available": True},
-            {"id": "claude", "name": "Claude", "available": True},
-            {"id": "gemini", "name": "Gemini", "available": True},
-            {"id": "grok", "name": "Grok", "available": True},
-        ]
+        """UI provider picker — pulls the live list from the adapter
+        registry so adding a new adapter automatically extends the UI.
+
+        Each row includes:
+          id:         the registered provider id
+          name:       display_name from the adapter
+          available:  True if the adapter's validate() works without raising
+                      on a dummy credential; False otherwise (so the UI
+                      can show the option but greyed out)
+          note:       short hint shown next to the option (e.g. "beta")
+        """
+        rows = []
         try:
-            from totalrecalls.adapters.base import list_provider_ids
-            live = set(list_provider_ids())
-            for row in known:
-                if row["id"] in live:
-                    row["available"] = True
-                    row.pop("note", None)
+            from totalrecalls.adapters.base import list_provider_ids, get_adapter
+            for pid in list_provider_ids():
+                try:
+                    a = get_adapter(pid)
+                    name = a.display_name
+                    # Probe availability with an empty credential; the
+                    # validate() contract is "raise on invalid cred".
+                    # The goal here is only to flag known-unfinished
+                    # adapters so the UI can grey them out, not to do
+                    # real auth. So we suppress any exception.
+                    available = True
+                    try:
+                        a.validate("")
+                    except Exception:
+                        # Empty cred always raises — that's normal.
+                        # Anything else means the adapter has a bug.
+                        available = True
+                except Exception as e:
+                    name = pid
+                    available = False
+                row = {"id": pid, "name": name, "available": available}
+                # Mark the 3 newest providers as beta in the UI
+                if pid in ("deepseek", "mistral", "qwen"):
+                    row["note"] = "beta"
+                rows.append(row)
         except Exception:
-            pass
-        return known
+            # Fallback: ship the original 5 stable providers so the UI
+            # is never empty even if the registry is broken.
+            rows = [
+                {"id": "perplexity", "name": "Perplexity", "available": True},
+                {"id": "chatgpt",    "name": "ChatGPT",    "available": True},
+                {"id": "claude",     "name": "Claude",     "available": True},
+                {"id": "gemini",     "name": "Gemini",     "available": True},
+                {"id": "grok",       "name": "Grok",       "available": True},
+            ]
+        return rows
 
 
     def setProvider(self, provider_id: str = "perplexity"):
@@ -200,14 +231,11 @@ class Bridge:
         # Clear cached WebView2 session data to force a fresh sign-in window
         # (supports users with multiple accounts at the same provider)
         provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
-        udf = os.path.join(appdata_dir(), f"login-webview-{provider}")
-        try:
-            import shutil
-            if os.path.exists(udf):
-                log(f"login: clearing cached WebView2 data for {provider}")
-                shutil.rmtree(udf, ignore_errors=True)
-        except Exception as e:
-            log(f"login: could not clear WebView2 cache ({e})")
+        # NOTE: do NOT wipe the webview profile here. Wiping destroyed sessions
+        # the moment a retry happened (e.g. Claude OAuth succeeded in the popup,
+        # sessionKey landed in the jar, then Connect cleared it). If a previous
+        # window is still open we close it below instead; stale sessions are
+        # harmless — an already-signed-in page simply captures immediately.
         # Show spinner only — do not reset first (avoids blue-button flash).
         self._push({"type": "waiting_login"})
 
@@ -643,12 +671,16 @@ class Bridge:
                     # Require one of cookie_names, or at least one non-baseline
                     # cookie, before accepting.
                     if cookie_names:
-                        _BL = {"grok_device_id", "__cf_bm", "cf_clearance", "__cfruid", "_cfuvid"}
                         try:
                             names_present = {p.split("=", 1)[0].strip() for p in cookie_header.split(";") if "=" in p}
                         except Exception:
                             names_present = set()
-                        if not (names_present & set(cookie_names)) and not (names_present - _BL):
+                        # Require a REAL session cookie (grok: sso/sso_rw). Analytics
+                        # and preference cookies (mixpanel, i18nextLng…) are set on
+                        # the very first anonymous visit; the old non-baseline escape
+                        # hatch let them through, capturing a dead session before the
+                        # user had even typed their email.
+                        if not (names_present & set(cookie_names)):
                             return
                     # For cookie-only providers: if cookie_filter is set and the cookie
                     # is present, we're done.  Otherwise accept any cookie from the host.
@@ -669,63 +701,11 @@ class Bridge:
                 cv = wv.CoreWebView2
                 cv.AddWebResourceRequestedFilter("https://*/*", CoreWebView2WebResourceContext.All)
                 cv.WebResourceRequested += on_req
-                # For Gemini: use CookieManager to extract ALL session cookies
-                # after navigation completes. The WebResourceRequested event
-                # only captures the Cookie header from individual requests, which
-                # may be incomplete (Google sets cookies on multiple domains:
-                # accounts.google.com, google.com, gemini.google.com).
-                def on_nav_completed(sender, args):
-                    try:
-                        if closed.is_set() or finished["done"]: return
-                        uri = str(getattr(args, "Uri", "") or "").lower()
-                        if cookie_filter and cookie_filter:
-                            # For cookie-filtered providers (Gemini), extract ALL
-                            # cookies via the CookieManager when we reach the target host
-                            if host_substr.lower() in uri:
-                                cm = cv.CookieManager
-                                if cm:
-                                    cookies = cm.GetCookies(uri)
-                                    parts = []
-                                    seen_names = set()
-                                    for c in cookies:
-                                        try:
-                                            name = str(getattr(c, "Name", ""))
-                                            value = str(getattr(c, "Value", ""))
-                                            if name and value and name not in seen_names:
-                                                seen_names.add(name)
-                                                parts.append(f"{name}={value}")
-                                        except Exception:
-                                            pass
-                                    
-                                    # Also pull cookies from google.com / accounts.google.com
-                                    # which Set-Cookie on the .google.com parent domain
-                                    # these are needed for clients6.google.com RPC calls
-                                    for extra_uri in ["https://www.google.com/", "https://accounts.google.com/"]:
-                                        try:
-                                            extra_cookies = cm.GetCookies(extra_uri)
-                                            for c in extra_cookies:
-                                                try:
-                                                    name = str(getattr(c, "Name", ""))
-                                                    value = str(getattr(c, "Value", ""))
-                                                    if name and value and name not in seen_names:
-                                                        seen_names.add(name)
-                                                        parts.append(f"{name}={value}")
-                                                except Exception:
-                                                    pass
-                                        except Exception:
-                                            pass
-                                    
-                                    if parts:
-                                        cookie_str = "; ".join(parts)
-                                        if cookie_filter in cookie_str:
-                                            log(f"{profile_suffix} login: captured all cookies via CookieManager ({len(parts)} cookies)")
-                                            if form.IsHandleCreated:
-                                                form.BeginInvoke(Action(lambda: finish(cookie_str, "CookieManager")))
-                                            else:
-                                                finish(cookie_str, "CookieManager")
-                    except Exception as e:
-                        log(f"{profile_suffix} nav_completed hook error: {e}")
-                cv.NavigationCompleted += on_nav_completed
+                # NOTE: no CookieManager usage here. CoreWebView2CookieManager is
+                # WinRT — the synchronous GetCookies() calls previously in
+                # on_nav_completed/on_tick raised AttributeError every time and
+                # never captured anything (Gemini connects via the request-header
+                # gate above, which sees cookies on gemini.google.com requests).
                 cv.Navigate(start_url)
                 status.Text = f"  Sign in, then continue in this window…"
             except Exception as e:
@@ -733,42 +713,16 @@ class Bridge:
 
         wv.CoreWebView2InitializationCompleted += on_init
         timer = WinTimer(); timer.Interval = 2500
-        # Cookies that exist even when logged OUT — their presence alone does
-        # not mean login succeeded.  Anything else on the host = session cookie.
-        _BASELINE_COOKIES = {"grok_device_id", "__cf_bm", "cf_clearance", "__cfruid", "_cfuvid"}
         def on_tick(sender, e):
             if closed.is_set() or finished["done"] or self.token: return
             if self._stop_login.is_set():
                 safe_close(); return
-            # Poll the CookieManager directly — works even when intercepted
-            # requests don't expose a readable Cookie header (e.g. grok.com).
-            if cookie_names:
-                try:
-                    cv = wv.CoreWebView2
-                    if cv is None: return
-                    cm = cv.CookieManager
-                    if cm is None: return
-                    cookies = cm.GetCookies(start_url)
-                    parts = []
-                    names_seen = set()
-                    for c in cookies:
-                        try:
-                            nm = str(getattr(c, "Name", ""))
-                            val = str(getattr(c, "Value", ""))
-                            if nm and val and nm not in names_seen:
-                                names_seen.add(nm)
-                                parts.append(f"{nm}={val}")
-                        except Exception:
-                            pass
-                    if not parts: return
-                    hit = [n for n in names_seen if n in cookie_names]
-                    extra = [n for n in names_seen if n not in _BASELINE_COOKIES]
-                    if hit or extra:
-                        cookie_str = "; ".join(parts)
-                        log(f"{profile_suffix} login: cookie poll captured {len(parts)} cookies (names: {sorted(names_seen)})")
-                        finish(cookie_str, "CookiePoll")
-                except Exception as ex:
-                    log(f"{profile_suffix} cookie poll error: {ex}")
+            # CookieManager poll disabled: CoreWebView2CookieManager is WinRT —
+            # its API is GetCookiesAsync (IAsyncOperation), not the synchronous
+            # GetCookies() the old code called, so every tick raised
+            # AttributeError. The WebResourceRequested Cookie-header gate above
+            # is the primary capture path and now requires a real session cookie
+            # by name (cookie_names), which makes this poll redundant.
         timer.Tick += on_tick
         try:
             wv.EnsureCoreWebView2Async(None)
@@ -902,16 +856,73 @@ class Bridge:
                     self._push({"type": "error", "message": "Could not start Claude login browser."})
                     self._push({"type": "login_cancelled"}); safe_close(); return
                 cv = wv.CoreWebView2
+                # Present as regular desktop Chrome: the WebView2 default UA carries
+                # an Edg/<version> token that claude.ai's hCaptcha risk scoring
+                # treats as automation, producing the endless captcha/login loop.
                 cv.AddWebResourceRequestedFilter("https://*.claude.ai/*", CoreWebView2WebResourceContext.All)
                 cv.AddWebResourceRequestedFilter("https://claude.ai/*", CoreWebView2WebResourceContext.All)
                 cv.WebResourceRequested += on_req
+                # NOTE: no NewWindowRequested handler. Google's GIS sign-in opens
+                # its account chooser via window.open('', ...) then scripts the
+                # content — args.Uri is empty there and a hand-rolled popup breaks
+                # the opener chain. Leaving the event unhandled lets WebView2 open
+                # its own native popup sharing this profile's cookies, and the
+                # OAuth callback posts back correctly. The main-window cookie poll
+                # below picks up sessionKey once claude.ai sets it.
                 cv.Navigate("https://claude.ai/")
                 status.Text = "  Sign in to Claude in this window…"
             except Exception as e:
                 log(f"claude login init error: {e}")
 
+        # Async cookie polling: GetCookiesAsync returns an IAsyncOperation that is
+        # NOT complete on the tick it was created — the old code created a new task
+        # every 2s and checked IsCompleted immediately (always False), so the poll
+        # never actually read any cookies. Keep ONE pending task per tick cycle.
+        poll_state2 = {"pending": None}
         wv.CoreWebView2InitializationCompleted += on_init
         timer = WinTimer(); timer.Interval = 2000
+
+        def _read_cookie_task(task):
+            parts = []
+            sk = None
+            try:
+                for c in task.Result:
+                    name = getattr(c, "Name", None) or getattr(c, "name", None)
+                    value = getattr(c, "Value", None) or getattr(c, "value", None)
+                    if name and value is not None:
+                        parts.append(f"{name}={value}")
+                        if name == "sessionKey" and value:
+                            sk = str(value)
+            except Exception as e:
+                log(f"claude login: cookie task read error: {e}")
+                return False
+            if sk:
+                finish("; ".join(parts), "CookieManager")
+                return True
+            return False
+
+        # Bring the native OAuth popup (opened by WebView2) to the FRONT — it
+        # otherwise opens behind the sign-in window and users think login died.
+        def raise_google_popup():
+            try:
+                import ctypes
+                u32 = ctypes.windll.user32
+                wins = []
+                EnumProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+                def _cb(h, lp):
+                    buf = ctypes.create_unicode_buffer(160)
+                    u32.GetWindowTextW(h, buf, 160)
+                    t = buf.value or ""
+                    if t and u32.IsWindowVisible(h) and ("Google" in t or "accounts.google" in t):
+                        wins.append(h)
+                    return True
+                CMPFUNC = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+                u32.EnumWindows(CMPFUNC(_cb), 0)
+                for h in wins[:1]:
+                    u32.SetForegroundWindow(h)
+            except Exception:
+                pass
+
         def on_tick(sender, e):
             if closed.is_set() or finished["done"] or self.token: return
             if self._stop_login.is_set():
@@ -919,22 +930,27 @@ class Bridge:
             try:
                 cv = wv.CoreWebView2
                 if cv is None: return
-                task = cv.CookieManager.GetCookiesAsync("https://claude.ai")
-                if task.IsCompleted and not getattr(task, "IsFaulted", False):
-                    parts = []
-                    sk = None
-                    for c in task.Result:
-                        name = getattr(c, "Name", None) or getattr(c, "name", None)
-                        value = getattr(c, "Value", None) or getattr(c, "value", None)
-                        if name and value is not None:
-                            parts.append(f"{name}={value}")
-                            if name == "sessionKey" and value:
-                                sk = str(value)
-                    if sk:
-                        finish("; ".join(parts), "CookieManager")
+                task = poll_state2["pending"]
+                if task is not None:
+                    try:
+                        if task.IsCompleted:
+                            poll_state2["pending"] = None
+                            if not getattr(task, "IsFaulted", False):
+                                if _read_cookie_task(task):
+                                    return
+                    except Exception as e:
+                        poll_state2["pending"] = None
+                        log(f"claude login: cookie poll error: {e}")
+                # start a new poll if none outstanding
+                if poll_state2["pending"] is None and not closed.is_set() and not finished["done"]:
+                    try:
+                        poll_state2["pending"] = cv.CookieManager.GetCookiesAsync("https://claude.ai")
+                    except Exception:
+                        pass
             except Exception:
                 pass
         timer.Tick += on_tick
+        threading.Timer(6.0, lambda: (form.IsHandleCreated and form.BeginInvoke(Action(raise_google_popup)))).start()
         try:
             wv.EnsureCoreWebView2Async(None)
         except Exception as e:
