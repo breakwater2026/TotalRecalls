@@ -1,24 +1,63 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Export Mistral (Le Chat) Chats" description="Back up your Mistral Le Chat conversations to local Markdown with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Mistral" }]}>
-  <h1>Export Mistral (Le Chat) Chats</h1>
-  <p>TotalRecalls reads your active Mistral Le Chat (chat.mistral.ai) session and exports every conversation to local Markdown and JSON.</p>
 
-  <h2>Steps</h2>
+<PageLayout
+  title="Export Mistral (Le Chat) Conversations"
+  description="Back up your Mistral Le Chat conversations to local Markdown with TotalRecalls."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Mistral" }]}
+>
+  <h1>How to export Mistral (Le Chat) conversations</h1>
+  <p class="lead">Mistral is the dominant non-US chat product in the EU. TotalRecalls reads from your browser session and writes everything to local files you control.</p>
+
+  <h2>What "export" usually means</h2>
+  <p>People searching for this want one of three outcomes:</p>
+  <ul>
+    <li><strong>Backup</strong> — don't lose threads if the account changes</li>
+    <li><strong>Multilingual archive</strong> — French, German, Spanish threads stay UTF-8 readable</li>
+    <li><strong>Searchable library</strong> — find an old answer without scrolling forever</li>
+  </ul>
+
+  <h2>Option A — Manual copy/paste from chat.mistral.ai</h2>
+  <p>Mistral does not provide a built-in data export for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <ul>
+    <li><strong>Pros:</strong> no tooling, no install</li>
+    <li><strong>Cons:</strong> loses formatting, doesn't scale past a few threads, easy to lose the order of long threads</li>
+  </ul>
+
+  <h2>Option B — Local library with TotalRecalls (Windows)</h2>
+  <p>TotalRecalls runs on your PC, connects to your Mistral Le Chat session locally, and writes conversations into folders as Markdown + JSON.</p>
   <ol>
-    <li>Open <a href="https://chat.mistral.ai">chat.mistral.ai</a> and sign in.</li>
-    <li>Launch TotalRecalls. Select <strong>"Mistral"</strong> as the provider.</li>
-    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads your session cookie from the browser profile.</li>
-    <li>Choose which chats to export.</li>
-    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
-    <li>Click <strong>Export</strong>.</li>
+    <li>Buy / install TotalRecalls for Windows</li>
+    <li>Choose <strong>Mistral</strong> as the provider</li>
+    <li>Sign in through the local login window at <a href="https://chat.mistral.ai">chat.mistral.ai</a></li>
+    <li>Export — files land under <code>Library/mistral/</code></li>
   </ol>
 
-  <h2>Notes</h2>
+  <h2>Why Mistral specifically</h2>
+  <p>Most consumer chat products are US-based. Mistral is the most common alternative for EU users who want their data to stay in European jurisdictions. Backing up locally complements that — even if your Mistral account is EU-resident, a local copy means you're not depending on Mistral's uptime, retention policy, or pricing changes to keep your history.</p>
+  <p>TotalRecalls preserves UTF-8 throughout, so French, German, Spanish, Italian, and Portuguese threads stay readable in any editor.</p>
+
+  <h2>Which should you use?</h2>
+  <p>Use <strong>manual copy/paste</strong> for one or two threads you need right now. Use <strong>TotalRecalls</strong> when you want a complete, searchable archive — especially if you also use ChatGPT, Claude, Perplexity, Gemini, or Grok and want one archive location for all of them.</p>
+
+  <h2>Tips for a clean Mistral archive</h2>
   <ul>
-    <li><strong>Free-tier focus.</strong> Mistral's Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads from your browser session, which works for the free tier and any future tiers that share the same web UI.</li>
-    <li><strong>EU / multilingual.</strong> Mistral is the most popular non-US chat product in the EU. Multilingual exports are preserved (UTF-8 Markdown).</li>
-    <li><strong>Same shape as ChatGPT/Claude.</strong> Mistral's web API surface is similar in structure to other consumer products, so the export format is consistent across providers in your unified Library folder.</li>
+    <li>Run the export while you still have an active session — Mistral sessions expire on inactivity</li>
+    <li>Keep the folder inside a backup drive or cloud backup you control</li>
+    <li>Prefer Markdown for reading; keep JSON if you might process later</li>
+    <li>Mistral's free tier and Le Chat Pro both share the same web UI, so both export cleanly through the same path</li>
   </ul>
+
+  <h2>About Mistral's Pro tier</h2>
+  <p>Mistral's Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads from your browser session, which works for the free tier and any future tier that shares the same web UI.</p>
+
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
 </PageLayout>

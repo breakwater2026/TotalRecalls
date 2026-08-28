@@ -6,6 +6,9 @@ const PROVIDERS = [
   { name: "Perplexity", code: "PPL-003", status: "Direct Export", grade: "SECURED", count: "96 files", paths: ["perplexity/2026-07-21-market-scan.md", "perplexity/2026-06-04-source-trail.md"] },
   { name: "Gemini", code: "GEM-004", status: "Takeout → Markdown", grade: "CONVERTED", count: "47 files", paths: ["gemini/2026-07-14-takeout-thread.md", "gemini/2026-03-22-takeout-dump.md"] },
   { name: "Grok", code: "GRK-005", status: "Direct Export", grade: "SECURED", count: "58 files", paths: ["grok/2026-07-02-debug-session.md", "grok/2026-06-18-quick-prompts.md"] },
+  { name: "DeepSeek", code: "DSK-006", status: "Direct Export", grade: "SECURED", count: "126 files", paths: ["deepseek/2026-08-15-r1-thinking-trace.md", "deepseek/2026-08-09-code-review-session.md"] },
+  { name: "Mistral", code: "MST-007", status: "Direct Export", grade: "SECURED", count: "84 files", paths: ["mistral/2026-08-12-le-chat-translation.md", "mistral/2026-08-04-french-research-thread.md"] },
+  { name: "Qwen Chat", code: "QWN-008", status: "Direct Export", grade: "SECURED", count: "47 files", paths: ["qwen/2026-08-14-qwen-multilingual-thread.md", "qwen/2026-08-06-translation-batch.md"] },
 ];
 
 export default function RiskMatrix() {
@@ -15,7 +18,7 @@ export default function RiskMatrix() {
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Current AI Models Providers · 02</span>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Five AI providers. All in one library on your computer. Instant Relief.</h2>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Eight AI providers. All in one library on your computer. Instant Relief.</h2>
           </div>
 
         </header>
@@ -51,7 +54,9 @@ export default function RiskMatrix() {
             </div>
           ))}
           <div className="bg-card border-l-2 border-primary p-6 flex flex-col items-center justify-center text-center">
-            <p className="font-heading text-2xl font-semibold leading-tight">many more to come</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">+</p>
+            <p className="font-heading text-2xl font-semibold leading-tight mt-1">new beta</p>
+            <p className="font-mono text-[10px] text-muted-foreground mt-2">Live-probing live accounts</p>
           </div>
         </div>
       </div>

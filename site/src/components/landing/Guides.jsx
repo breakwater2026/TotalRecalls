@@ -30,9 +30,37 @@ const GUIDES = [
     bullets: ["How to request a Takeout", "Extracting the ZIP", "Pointing TotalRecalls to folder", "JSON → Markdown conversion", "Troubleshooting"]
   },
   { 
+    t: "Export DeepSeek chats", 
+    d: "Back up reasoning chains (R1 thinking traces) to local Markdown", 
+    tag: "guide · 05",
+    href: "/guides/deepseek/",
+    bullets: ["Why R1 thinking matters", "Markdown + JSON output", "Chain-of-thought preservation", "Free tier friendly"]
+  },
+  { 
+    t: "Export Mistral (Le Chat) conversations", 
+    d: "Back up EU chat history with UTF-8 fidelity", 
+    tag: "guide · 06",
+    href: "/guides/mistral/",
+    bullets: ["Multilingual archive", "Markdown + JSON output", "Free and Le Chat Pro", "Folder structure"]
+  },
+  { 
+    t: "Export Qwen Chat conversations", 
+    d: "Back up chat.qwen.ai history — never the DashScope API", 
+    tag: "guide · 07",
+    href: "/guides/qwen/",
+    bullets: ["Consumer vs developer API", "Markdown + JSON output", "International vs domestic", "UTF-8 fidelity"]
+  },
+  { 
+    t: "Exporting Grok conversations", 
+    d: "Save xAI Grok chats to local Markdown and JSON", 
+    tag: "guide · 08",
+    href: "/guides/grok/",
+    bullets: ["Session scanning", "Markdown + JSON output", "Referenced X posts", "Folder structure"]
+  },
+  { 
     t: "Own your AI chat data", 
     d: "Why multi-assistant export matters in 2026", 
-    tag: "guide · 05",
+    tag: "guide · 09",
     href: "/guides/own-your-ai-chat-data/",
     bullets: ["Switching providers", "Cross-assistant research", "Unified library", "Long-term durability"]
   },

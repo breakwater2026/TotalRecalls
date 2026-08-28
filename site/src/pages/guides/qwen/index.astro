@@ -1,24 +1,67 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Export Qwen Chat (chat.qwen.ai)" description="Back up your Qwen Chat consumer conversations to local Markdown with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Qwen" }]}>
-  <h1>Export Qwen Chat (chat.qwen.ai)</h1>
-  <p>TotalRecalls reads your active Qwen Chat (chat.qwen.ai) session and exports every conversation to local Markdown and JSON.</p>
 
-  <h2>Steps</h2>
+<PageLayout
+  title="Export Qwen Chat (chat.qwen.ai) Conversations"
+  description="Back up your Qwen Chat consumer conversations to local Markdown with TotalRecalls."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Qwen Chat" }]}
+>
+  <h1>How to export Qwen Chat (chat.qwen.ai) conversations</h1>
+  <p class="lead">Qwen Chat is Alibaba's consumer chat product. TotalRecalls reads from your browser session — the DashScope developer API is a different product and is not used.</p>
+
+  <h2>What "export" usually means</h2>
+  <p>People searching for this want one of three outcomes:</p>
+  <ul>
+    <li><strong>Backup</strong> — don't lose threads if the account changes</li>
+    <li><strong>Multilingual archive</strong> — Chinese, English, Japanese, Korean threads stay UTF-8 readable</li>
+    <li><strong>Searchable library</strong> — find an old answer without scrolling forever</li>
+  </ul>
+
+  <h2>Option A — Manual copy/paste from chat.qwen.ai</h2>
+  <p>Qwen Chat does not provide a built-in data export for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <ul>
+    <li><strong>Pros:</strong> no tooling, no install</li>
+    <li><strong>Cons:</strong> loses formatting, doesn't scale past a few threads, easy to lose the order of long threads</li>
+  </ul>
+
+  <h2>Option B — Local library with TotalRecalls (Windows)</h2>
+  <p>TotalRecalls runs on your PC, connects to your Qwen Chat session locally, and writes conversations into folders as Markdown + JSON.</p>
   <ol>
-    <li>Open <a href="https://chat.qwen.ai">chat.qwen.ai</a> and sign in.</li>
-    <li>Launch TotalRecalls. Select <strong>"Qwen Chat"</strong> as the provider.</li>
-    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads your session cookie from the browser profile.</li>
-    <li>Choose which chats to export.</li>
-    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
-    <li>Click <strong>Export</strong>.</li>
+    <li>Buy / install TotalRecalls for Windows</li>
+    <li>Choose <strong>Qwen Chat</strong> as the provider</li>
+    <li>Sign in through the local login window at <a href="https://chat.qwen.ai">chat.qwen.ai</a></li>
+    <li>Export — files land under <code>Library/qwen/</code></li>
   </ol>
 
-  <h2>Notes</h2>
+  <h2>Why two Qwen products matter</h2>
+  <p>Alibaba ships Qwen two ways:</p>
   <ul>
-    <li><strong>Consumer product only.</strong> TotalRecalls targets the Qwen Chat consumer product at <code>chat.qwen.ai</code>, not Alibaba's DashScope / Bailian / Model Studio developer APIs.</li>
-    <li><strong>Alibaba ToS compliance.</strong> We never call DashScope endpoints or use Alibaba API keys. We read your consumer chat history the same way a backup tool would read a webmail inbox — from your own browser session.</li>
-    <li><strong>Why two products?</strong> Alibaba ships Qwen two ways: a consumer chat at <code>chat.qwen.ai</code> (which is what users want to back up) and a developer model API at DashScope (which has its own ToS rules). TotalRecalls only touches the former.</li>
+    <li><strong>Qwen Chat (chat.qwen.ai)</strong> — the consumer chat product. This is what users want to back up.</li>
+    <li><strong>DashScope / Bailian / Model Studio (dashscope.aliyuncs.com)</strong> — Alibaba's developer API for the Qwen model family. Has its own ToS rules.</li>
   </ul>
+  <p>TotalRecalls only touches the consumer chat product. We never call DashScope endpoints, never use Alibaba API keys, and never touch your developer-account credentials. The export path is the same path a backup tool would use for webmail — read the visible content from your own browser session.</p>
+
+  <h2>Which should you use?</h2>
+  <p>Use <strong>manual copy/paste</strong> for one or two threads you need right now. Use <strong>TotalRecalls</strong> when you want a complete, searchable archive — especially if you also use ChatGPT, Claude, Perplexity, Gemini, or Grok and want one archive location for all of them.</p>
+
+  <h2>Tips for a clean Qwen Chat archive</h2>
+  <ul>
+    <li>Run the export while you still have an active session — Qwen Chat sessions expire on inactivity</li>
+    <li>Keep the folder inside a backup drive or cloud backup you control</li>
+    <li>Prefer Markdown for reading; keep JSON if you might process later</li>
+    <li>UTF-8 throughout — Chinese, English, Japanese, Korean all stay readable in any editor</li>
+  </ul>
+
+  <h2>About the international vs domestic domain</h2>
+  <p>Qwen Chat is served from <code>chat.qwen.ai</code> (international) and from <code>qianwen.com</code> / <code>tongyi.aliyun.com</code> (domestic). TotalRecalls targets the international web app. If you're on the domestic app, sign in via the international one to export.</p>
+
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
 </PageLayout>

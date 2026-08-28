@@ -41,15 +41,37 @@ const GrokIcon = () => (
   </svg>
 );
 
+const DeepSeekIcon = () => (
+  <svg viewBox="0 0 24 24" fill="#FFFFFF" className="w-3.5 h-3.5 text-white">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="#FFFFFF" strokeWidth="1.5" />
+    <path d="M7 9h4l3 4-3 4H7l3-4-3-4zm6 0h4l-3 4 3 4h-4l-3-4 3-4z" fill="#FFFFFF" />
+  </svg>
+);
+
+const MistralIcon = () => (
+  <svg viewBox="0 0 24 24" fill="#FFFFFF" className="w-3.5 h-3.5 text-white">
+    <path d="M5 3h14v3h-3l-1 4 1 4h3v3H5v-3h3l1-4-1-4H5V3zm4 11h2v2H9v-2zm0 3h2v2H9v-2zm0 3h2v2H9v-2zm4-6h2v2h-2v-2zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2z" />
+  </svg>
+);
+
+const QwenIcon = () => (
+  <svg viewBox="0 0 24 24" fill="#FFFFFF" className="w-3.5 h-3.5 text-white">
+    <path d="M12 2L4 7v10l8 5 8-5V7L12 2zm0 2.5L18 8v8l-6 3.7L6 16V8l6-3.5zM9 10h6v1.5H9V10zm0 2.5h6V14H9v-1.5z" />
+  </svg>
+);
+
 const PROVIDERS = [
   { name: "ChatGPT", code: "OAI-001", Icon: ChatGptIcon, bg: "bg-[#10A37F]" },
   { name: "Claude", code: "ANT-002", Icon: ClaudeIcon, bg: "bg-[#D97757]" },
   { name: "Perplexity", code: "PPL-003", Icon: PerplexityIcon, bg: "bg-[#1FA2B8]" },
   { name: "Gemini", code: "GEM-004", Icon: GeminiIcon, bg: "bg-[#000000]" },
   { name: "Grok", code: "GRK-005", Icon: GrokIcon, bg: "bg-[#0F172A]" },
+  { name: "DeepSeek", code: "DSK-006", Icon: DeepSeekIcon, bg: "bg-[#1E40AF]" },
+  { name: "Mistral", code: "MST-007", Icon: MistralIcon, bg: "bg-[#FF7000]" },
+  { name: "Qwen Chat", code: "QWN-008", Icon: QwenIcon, bg: "bg-[#615CED]" },
 ];
 
-const YS = [36, 96, 156, 216, 276];
+const YS = [22, 64, 106, 148, 190, 232, 252, 268];
 
 export default function ConvergenceDiagram() {
   return (
@@ -59,7 +81,7 @@ export default function ConvergenceDiagram() {
         CONVERGENCE · LIVE
       </div>
       <div className="absolute top-3 right-3 font-mono text-[10px] text-primary bg-card px-2 py-1 z-20">
-        5 SOURCES → 1 FOLDER
+        8 SOURCES → 1 FOLDER
       </div>
 
       <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full z-0">

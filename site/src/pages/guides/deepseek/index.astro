@@ -1,24 +1,63 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Export DeepSeek Chats" description="Back up your DeepSeek conversations to local Markdown with TotalRecalls." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Deepseek" }]}>
-  <h1>Export DeepSeek Chats</h1>
-  <p>TotalRecalls reads your active DeepSeek (chat.deepseek.com) session and exports every conversation to local Markdown and JSON.</p>
 
-  <h2>Steps</h2>
+<PageLayout
+  title="Export DeepSeek Chats"
+  description="Back up your DeepSeek conversations to local Markdown with TotalRecalls — including the model's chain-of-thought reasoning."
+  breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "DeepSeek" }]}
+>
+  <h1>How to export DeepSeek conversations</h1>
+  <p class="lead">DeepSeek is unusually valuable to back up because the reasoning is the artifact. TotalRecalls keeps the chain-of-thought with the final answer so neither is lost.</p>
+
+  <h2>What "export" usually means</h2>
+  <p>People searching for this want one of three outcomes:</p>
+  <ul>
+    <li><strong>Backup</strong> — don't lose threads if the account changes</li>
+    <li><strong>Reasoning archive</strong> — keep the R1 thinking traces alongside the final answer</li>
+    <li><strong>Searchable library</strong> — find an old answer without scrolling forever</li>
+  </ul>
+
+  <h2>Option A — Manual copy/paste from chat.deepseek.com</h2>
+  <p>DeepSeek does not provide a built-in data export for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <ul>
+    <li><strong>Pros:</strong> no tooling, no install</li>
+    <li><strong>Cons:</strong> loses formatting, loses thinking blocks, doesn't scale past a few threads</li>
+  </ul>
+
+  <h2>Option B — Local library with TotalRecalls (Windows)</h2>
+  <p>TotalRecalls runs on your PC, connects to your DeepSeek session locally, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays attached to the answer.</p>
   <ol>
-    <li>Open <a href="https://chat.deepseek.com">chat.deepseek.com</a> and sign in.</li>
-    <li>Launch TotalRecalls. Select <strong>"DeepSeek"</strong> as the provider.</li>
-    <li>Click <strong>Scan Chats</strong>. TotalRecalls reads your session cookie from the browser profile.</li>
-    <li>Choose which chats to export.</li>
-    <li>Select format: <strong>Markdown + JSON</strong> and pick a destination folder.</li>
-    <li>Click <strong>Export</strong>.</li>
+    <li>Buy / install TotalRecalls for Windows</li>
+    <li>Choose <strong>DeepSeek</strong> as the provider</li>
+    <li>Sign in through the local login window at <a href="https://chat.deepseek.com">chat.deepseek.com</a></li>
+    <li>Export — files land under <code>Library/deepseek/</code></li>
   </ol>
 
-  <h2>Notes</h2>
+  <h2>Why the chain-of-thought matters</h2>
+  <p>DeepSeek-R1 streams a <code>thinking_content</code> block before its final answer. That reasoning is often more useful than the answer itself — it's the worked solution, the self-correction, the trade-off analysis. TotalRecalls preserves it as a collapsible <code>&lt;details&gt;</code> section in Markdown so you can read or skip it on demand.</p>
+  <p>If you back up by hand, the thinking block is gone within a few page refreshes. If you back up with TotalRecalls, it's stored next to the final answer with the timestamp and model name.</p>
+
+  <h2>Which should you use?</h2>
+  <p>Use <strong>manual copy/paste</strong> for one or two threads you need right now. Use <strong>TotalRecalls</strong> when you want a complete, searchable archive with the reasoning intact — especially if you also use ChatGPT, Claude, Perplexity, Gemini, or Grok and want one archive location for all of them.</p>
+
+  <h2>Tips for a clean DeepSeek archive</h2>
   <ul>
-    <li><strong>DeepSeek serves chain-of-thought.</strong> When DeepSeek streams its reasoning, we capture the thinking content as a collapsible <code>&lt;details&gt;</code> block in Markdown so the reasoning stays with the final answer.</li>
-    <li><strong>Thinking model variant.</strong> DeepSeek-R1 is the default reasoning model — its thinking blocks are the most valuable part of any export.</li>
-    <li><strong>Free tier friendly.</strong> TotalRecalls reads your browser session; it does not call the DeepSeek API, so it works regardless of which DeepSeek plan you have.</li>
+    <li>Run the export while you still have an active session — DeepSeek sessions expire on inactivity</li>
+    <li>Keep the folder inside a backup drive or cloud backup you control</li>
+    <li>Prefer Markdown for reading; keep JSON if you might process later</li>
+    <li>DeepSeek-V3 and DeepSeek-R1 share the same export path; both models export cleanly</li>
   </ul>
+
+  <h2>Free tier friendly</h2>
+  <p>TotalRecalls reads your browser session — it does not call the DeepSeek API. Works on the free tier, the pro tier, and any plan that uses the chat.deepseek.com web app.</p>
+
+  <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>
+      <a href="/download/" style="color: #000000 !important; font-weight: 600;" class="font-mono text-[11px] uppercase tracking-[0.18em] text-black hover:text-slate-800 font-semibold transition-colors">Already purchased? Download ZIP</a>
+    </div>
+  </section>
 </PageLayout>

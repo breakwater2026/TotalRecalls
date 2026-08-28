@@ -13,6 +13,9 @@ const PROVIDERS = [
   { name: "Perplexity", count: "96 files" },
   { name: "Gemini", count: "47 files" },
   { name: "Grok", count: "58 files" },
+  { name: "DeepSeek", count: "126 files" },
+  { name: "Mistral", count: "84 files" },
+  { name: "Qwen Chat", count: "47 files" },
 ];
 
 export default function DriveTree() {
