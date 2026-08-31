@@ -72,7 +72,7 @@ export default function Guides() {
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Guides · 04</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Guides</span>
             <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Reading.</h2>
           </div>
           <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.14em]">No email gate · No AdSense</p>
@@ -80,7 +80,6 @@ export default function Guides() {
         <div className="border-t border-border">
           {GUIDES.map((g) => (
             <a key={g.t} href={g.href} className="group flex items-center gap-6 border-b border-border py-6 hover:bg-muted/30 transition-colors px-2 -mx-2">
-              <span className="font-mono text-[11px] text-muted-foreground w-20 shrink-0">{g.tag}</span>
               <div className="flex-1">
                 <h3 className="font-heading text-xl md:text-2xl font-semibold group-hover:text-primary transition-colors">{g.t}</h3>
                 <p className="font-body text-muted-foreground text-[14px] mt-1">{g.d}</p>

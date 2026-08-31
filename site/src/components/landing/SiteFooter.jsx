@@ -24,7 +24,7 @@ const COLS = [
     links: [
       { l: "Privacy Policy", href: "/legals/#privacy" },
       { l: "Terms of Service", href: "/legals/#terms" },
-      { l: "Refund Policy", href: "/legals/#refund" }
+      { l: "Pricing & Free Tier", href: "/legals/#pricing" }
     ] 
   },
 ];
@@ -40,7 +40,7 @@ export default function SiteFooter() {
               <span className="font-heading text-[17px] font-bold">TotalRecalls</span>
             </div>
             <p className="font-body text-muted-foreground text-[14px] mt-4 max-w-xs leading-relaxed text-center">
-              A Windows app that saves your AI conversations as Markdown + JSON you keep forever.
+              A Windows app that saves your AI conversations from eight providers as Markdown + JSON you keep forever.
             </p>
           </div>
           {COLS.map((c) => (

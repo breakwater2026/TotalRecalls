@@ -11,7 +11,7 @@ import { ArrowRight } from "lucide-react";
 const STEPS = [
   { n: "01", t: "Buy once", d: "Checkout via Lemon Squeezy. One-time $24USD, no subscription." },
   { n: "02", t: "Install", d: "Unzip and run the Windows app. Local sign-in only." },
-  { n: "03", t: "Pick your providers", d: "ChatGPT, Claude, Perplexity, Gemini, or Grok." },
+  { n: "03", t: "Pick your providers", d: "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, or Qwen." },
   { n: "04", t: "Export", d: "Chats land as Markdown + JSON under your Library folder." },
 ];
 
@@ -20,15 +20,14 @@ export default function ResolutionPath() {
     <section id="resolution" className="border-t border-border">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="mb-12 max-w-4xl">
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Relief Path · 01</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Relief Path</span>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">From concern to relief in a minute.</h2>
         </header>
         <div className="grid lg:grid-cols-[1fr_440px] gap-12">
           <div className="grid sm:grid-cols-2 gap-px bg-border border border-border">
             {STEPS.map((s) => (
               <div key={s.n} className="bg-card p-6">
-                <span className="font-mono text-[11px] text-primary tracking-[0.16em]">STEP {s.n}</span>
-                <h3 className="font-heading text-2xl font-semibold mt-3">{s.t}</h3>
+                <h3 className="font-heading text-2xl font-semibold">{s.t}</h3>
                 <p className="font-body text-muted-foreground text-[14px] leading-relaxed mt-2">{s.d}</p>
               </div>
             ))}

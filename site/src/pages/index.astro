@@ -6,12 +6,15 @@ import SentinelHero from "../components/landing/SentinelHero.jsx";
 import ResolutionPath from "../components/landing/ResolutionPath.jsx";
 import RiskMatrix from "../components/landing/RiskMatrix.jsx";
 import LibraryPreview from "../components/landing/LibraryPreview.jsx";
+import ProductShowcase from "../components/landing/ProductShowcase.jsx";
 import Guides from "../components/landing/Guides.jsx";
 import MicrosoftWarningSection from "../components/landing/MicrosoftWarningSection.jsx";
+import PortabilitySection from "../components/landing/PortabilitySection.jsx";
 import PricingSection from "../components/landing/PricingSection.jsx";
+import FaqSection from "../components/landing/FaqSection.jsx";
 import LegalSection from "../components/landing/LegalSection.jsx";
 import SiteFooter from "../components/landing/SiteFooter.jsx";
-const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TotalRecalls", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows 10, Windows 11", "offers": {"@type": "Offer", "price": "24.00", "priceCurrency": "USD"}, "description": "A Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini, and Grok into local Markdown + JSON files you own forever.", "url": "https://totalrecalls.app/", "downloadUrl": "https://totalrecalls.app/download/", "softwareVersion": "1.0.0", "author": {"@type": "Organization", "name": "TotalRecalls", "url": "https://totalrecalls.app/"}}';
+const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TotalRecalls", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows 10, Windows 11", "offers": {"@type": "Offer", "price": "24", "priceCurrency": "USD"}, "description": "A Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen into local Markdown + JSON files you own forever.", "url": "https://totalrecalls.app/", "downloadUrl": "https://totalrecalls.app/download/", "softwareVersion": "1.0.0", "author": {"@type": "Organization", "name": "TotalRecalls", "url": "https://totalrecalls.app/"}}';
 ---
 
 <BaseLayout title="TotalRecalls — Recall every AI conversation." description="A Windows app that saves your AI conversations as Markdown + JSON you keep forever.">
@@ -22,9 +25,12 @@ const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication
     <ResolutionPath client:load />
     <RiskMatrix client:load />
     <LibraryPreview client:load />
+    <ProductShowcase client:load />
     <Guides client:load />
     <MicrosoftWarningSection client:load />
+    <PortabilitySection client:load />
     <PricingSection client:load />
+    <FaqSection client:load />
     <LegalSection client:load />
     <SiteFooter client:load />
   </div>
@@ -37,10 +43,10 @@ const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication
     "operatingSystem": "Windows 10, Windows 11",
     "offers": {
       "@type": "Offer",
-      "price": "24.00",
+      "price": "24",
       "priceCurrency": "USD"
     },
-    "description": "A Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini, and Grok into local Markdown + JSON files you own forever.",
+    "description": "A Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen into local Markdown + JSON files you own forever.",
     "url": "https://totalrecalls.app/",
     "downloadUrl": "https://totalrecalls.app/download/",
     "softwareVersion": "1.0.0",

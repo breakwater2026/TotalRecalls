@@ -13,9 +13,9 @@ const POLICIES = [
     blurb: "One-time purchase, single-user license, and your responsibility to follow each provider's terms.",
   },
   {
-    label: "Refund Policy",
-    href: "/legals/#refund",
-    blurb: "14-day money-back guarantee. A 100% full refund through Lemon Squeezy, no questions asked.",
+    label: "Pricing & Free Tier",
+    href: "/legals/#pricing",
+    blurb: "One-time $24 USD, lifetime license and updates. A free web tier is on the way — our answer to refunds.",
   },
 ];
 
@@ -25,7 +25,7 @@ export default function LegalSection() {
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Legal · 07</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Legal</span>
             <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Policies, plainly stated.</h2>
           </div>
           <a

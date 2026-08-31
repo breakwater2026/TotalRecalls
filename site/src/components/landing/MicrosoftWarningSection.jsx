@@ -7,7 +7,7 @@ export default function MicrosoftWarningSection() {
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-10 md:py-20">
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Microsoft Warning · 05</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Microsoft Warning</span>
             <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">A standard, automated caution.</h2>
           </div>
           <a

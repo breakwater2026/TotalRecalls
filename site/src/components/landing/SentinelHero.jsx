@@ -7,6 +7,8 @@ const TRUST = [
   { Icon: ShieldCheck, l: "Yours forever", s: "" },
 ];
 
+const PROVIDERS = ["ChatGPT", "Claude", "Perplexity", "Gemini", "Grok", "DeepSeek", "Mistral", "Qwen Chat"];
+
 export default function SentinelHero() {
   return (
     <section id="top" className="relative border-b border-border overflow-hidden">
@@ -14,20 +16,32 @@ export default function SentinelHero() {
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
           <div>
+            <span className="inline-flex items-center gap-2 border border-primary/40 text-primary font-mono text-[10px] uppercase tracking-[0.18em] px-3 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" /> 100% local · zero cloud upload
+            </span>
             <h1 className="font-heading text-[44px] md:text-[68px] leading-[0.98] font-bold tracking-tight mt-6">
               Recall every AI conversation.
             </h1>
             <p className="font-body text-muted-foreground text-[16px] md:text-[18px] leading-relaxed mt-6 max-w-xl">
-              A Windows app that exports your ChatGPT, Claude, Perplexity, Gemini, and Grok chats into a private folder of Markdown + JSON you keep forever — long after the tab closes and the UI changes.
+              A Windows app that exports your ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen chats into a private folder of Markdown + JSON you keep forever — long after the tab closes and the UI changes.
             </p>
 
+            <div className="mt-5 flex flex-wrap gap-2">
+              {PROVIDERS.map((p) => (
+                <span key={p} className="font-mono text-[10px] uppercase tracking-[0.12em] border border-border rounded-sm px-2.5 py-1 text-muted-foreground">{p}</span>
+              ))}
+            </div>
+
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
-              <a href="#pricing" data-tr-buy className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
-                Buy TotalRecalls — $24USD <ArrowRight className="w-4 h-4" />
+              <a href="/buy/" data-tr-buy="true" aria-label="Buy TotalRecalls — $24 USD — discounted launch price" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+                Buy TotalRecalls — $24 USD · discounted launch price <ArrowRight className="w-4 h-4" />
+              </a>
+              <a href="#resolution" className="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors">
+                See how it works
               </a>
             </div>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mt-3">
-              Discounted launch price · One-time · Download link sent after checkout
+              Free web tier coming soon · One-time $24 · No subscription
             </p>
 
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">

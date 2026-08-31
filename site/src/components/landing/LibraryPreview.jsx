@@ -17,7 +17,7 @@ export default function LibraryPreview() {
     <section id="library" className="border-t border-border tr-grid-bg">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="mb-12 max-w-3xl">
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Library · 03</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Library</span>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mt-3">Your library, organized.</h2>
           <p className="font-body text-muted-foreground text-[15px] leading-relaxed mt-4">
             Clean folder structure you can browse, search, and back up.

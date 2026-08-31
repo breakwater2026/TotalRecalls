@@ -1,15 +1,17 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+
+const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen";
 ---
 
 <PageLayout 
   title="Legal & Policies — TotalRecalls" 
-  description="Privacy Policy, Terms of Service, and Refund Policy for TotalRecalls."
+  description="Privacy Policy and Terms of Service for TotalRecalls."
   breadcrumbs={[{ label: "Legal" }]}
 >
 
 <div class="mb-6">
-  <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal · 07</span>
+  <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
   <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Legal & Policies</h1>
   <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version v1.0 · Last updated August 2026</p>
 </div>
@@ -40,23 +42,24 @@ import PageLayout from "../../layouts/PageLayout.astro";
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
       <li><strong>License:</strong> Your purchase provides a non-exclusive, single-user license to run the TotalRecalls Windows executable on your personal machines.</li>
-      <li><strong>Account Responsibility:</strong> You are responsible for ensuring your data exports comply with the terms of service of each underlying AI provider (ChatGPT, Claude, Perplexity, Gemini, Grok).</li>
+      <li><strong>Account Responsibility:</strong> You are responsible for ensuring your data exports comply with the terms of service of each underlying AI provider ({PROVIDERS}).</li>
       <li><strong>As-Is Warranty:</strong> TotalRecalls is provided "as is" without warranty of any kind. We are not liable for third-party web interface changes or service disruptions.</li>
       <li><strong>Governing Law and Dispute Resolution:</strong> These terms and conditions will be governed by the laws of Canada. Any purchases made through TotalRecalls' online stores will be governed by the End User License Agreement and Terms of Sale applicable to that purchase.</li>
     </ul>
   </section>
 
-  {/* Section 3: Refund Policy */}
-  <section id="refund" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
+  {/* Section 3: Pricing & Free Tier */}
+  <section id="pricing" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
     <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
-      <span class="font-mono text-[11px] uppercase tracking-wider text-primary">03</span> Refund Policy
+      <span class="font-mono text-[11px] uppercase tracking-wider text-primary">03</span> Pricing & Free Tier
     </h2>
     <p class="mb-3">
-      We want you to be 100% satisfied with TotalRecalls.
+      TotalRecalls is a one-time purchase. There is no subscription and no recurring charge.
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
-      <li><strong>14-Day Money-Back Guarantee:</strong> If TotalRecalls does not work for your setup or fails to meet your expectations within 14 days of purchase, email us at <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline font-medium">support@totalrecalls.app</a>.</li>
-      <li><strong>No-Hassle Refunds:</strong> We will issue a 100% full refund through Lemon Squeezy, no questions asked.</li>
+      <li><strong>One-Time Price:</strong> $24 USD — discounted launch price. Your purchase is a single-user, lifetime license covering future updates.</li>
+      <li><strong>Free Tier:</strong> A free web tier is on the way, so you can run a full export on your own chats before paying anything. It replaces a traditional money-back refund as our try-before-you-buy guarantee.</li>
+      <li><strong>Questions?</strong> If something genuinely doesn't work, email us at <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline font-medium">support@totalrecalls.app</a> and we'll sort it out.</li>
     </ul>
   </section>
 </div>
