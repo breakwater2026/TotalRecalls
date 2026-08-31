@@ -39,16 +39,23 @@ def validate_credential(credential: str) -> tuple[AccountInfo, str, str]:
     return AccountInfo(email=email, external_id=uid, display_name=name), cookie, org_id
 
 
-def _first_org_id(cookie: str) -> str:
+def list_org_ids(cookie: str) -> list[str]:
+    """Return every organization id the session can access (multi-org users)."""
     try:
         _s, data = request("/api/organizations", cookie, delay=0)
     except ClaudeApiError:
-        return ""
+        return []
     # list or {organizations: [...]}
     items = data if isinstance(data, list) else (data.get("organizations") if isinstance(data, dict) else None)
     if not isinstance(items, list):
-        return ""
+        return []
+    ids: list[str] = []
     for it in items:
         if isinstance(it, dict) and (it.get("uuid") or it.get("id")):
-            return str(it.get("uuid") or it.get("id"))
-    return ""
+            ids.append(str(it.get("uuid") or it.get("id")))
+    return ids
+
+
+def _first_org_id(cookie: str) -> str:
+    ids = list_org_ids(cookie)
+    return ids[0] if ids else ""

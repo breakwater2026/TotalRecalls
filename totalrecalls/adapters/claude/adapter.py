@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from totalrecalls.adapters.claude.auth import validate_credential
-from totalrecalls.adapters.claude.conversations import get_conversation, list_conversations
+from totalrecalls.adapters.claude.auth import list_org_ids, validate_credential
+from totalrecalls.adapters.claude.conversations import (
+    get_conversation_multi,
+    list_conversations_multi,
+)
 from totalrecalls.adapters.claude.http import ClaudeApiError
 from totalrecalls.core.export_fs import HOME_SPACE_NAME
 from totalrecalls.core.schema import (
@@ -103,7 +106,10 @@ class ClaudeAdapter:
 
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
         _account, cookie, org_id = validate_credential(credential)
-        items = list_conversations(cookie, org_id, deep=deep)
+        # Multi-org accounts keep a separate conversation index per org; walk
+        # all of them, not just the first.
+        org_ids = list_org_ids(cookie) or [org_id]
+        items = list_conversations_multi(cookie, org_ids, deep=deep)
         out: list[ConversationSummary] = []
         for it in items:
             cid = str(it.get("uuid") or it.get("id") or "")
@@ -129,7 +135,8 @@ class ClaudeAdapter:
 
     def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
         account, cookie, org_id = validate_credential(credential)
-        detail = get_conversation(cookie, org_id, conv_id)
+        org_ids = list_org_ids(cookie) or [org_id]
+        detail = get_conversation_multi(cookie, org_ids, conv_id)
         return self.to_unified(detail, account=account)
 
     def to_unified(

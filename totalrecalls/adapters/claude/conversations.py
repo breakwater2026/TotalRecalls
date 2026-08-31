@@ -133,3 +133,47 @@ def get_conversation(cookie: str, org_id: str, conv_id: str) -> dict:
     if not isinstance(data, dict):
         raise ClaudeApiError("http-empty")
     return data
+
+
+def list_conversations_multi(cookie: str, org_ids: list[str], *, deep: bool = False) -> list[dict]:
+    """List conversations across every organization the session can access.
+
+    Multi-org accounts keep a separate conversation index per organization;
+    the old single-org path only ever surfaced the first org. This walks all
+    of them and tags each item with `_org_id` so callers can disambiguate.
+    """
+    out: list[dict] = []
+    seen: set[str] = set()
+    for org_id in org_ids:
+        try:
+            items = list_conversations(cookie, org_id, deep=deep)
+        except ClaudeApiError as e:
+            log(f"claude list org {org_id[:8]}… failed: {e}")
+            continue
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            cid = it.get("uuid") or it.get("id")
+            key = str(cid) if cid else None
+            if key and key in seen:
+                continue
+            if key:
+                seen.add(key)
+            tagged = dict(it)
+            tagged["_org_id"] = org_id
+            out.append(tagged)
+    return out
+
+
+def get_conversation_multi(cookie: str, org_ids: list[str], conv_id: str) -> dict:
+    """Fetch a conversation across orgs, returning the first org that has it."""
+    for org_id in org_ids:
+        try:
+            detail = get_conversation(cookie, org_id, conv_id)
+        except ClaudeApiError:
+            continue
+        # Some orgs return an error-shaped dict instead of 404ing.
+        if isinstance(detail, dict) and detail.get("error"):
+            continue
+        return detail
+    raise ClaudeApiError("http-empty")
