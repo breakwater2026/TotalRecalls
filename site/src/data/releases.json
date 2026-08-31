@@ -9,8 +9,8 @@
       "summary": "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat.",
       "changes": [
         "Eight AI providers in one library on your computer.",
-        "DeepSeek, Mistral, and Qwen Chat export.",
-        "Unified Library export layout: Markdown + JSON for every provider.",
+        "DeepSeek, Mistral, and Qwen Chat download.",
+        "Unified Library download layout: Markdown + JSON for every provider.",
         "Website launched at totalrecalls.app."
       ]
     }

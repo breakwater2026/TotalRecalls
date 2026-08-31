@@ -1,10 +1,10 @@
-import { Check, ArrowRight } from "lucide-react";
+import { Check } from "lucide-react";
 
 const PROVIDERS = [
   "ChatGPT",
   "Claude",
   "Perplexity",
-  "Gemini (Takeout)",
+  "Gemini",
   "Grok",
   "DeepSeek",
   "Mistral",
@@ -12,7 +12,7 @@ const PROVIDERS = [
 ];
 
 const STRAIGHT = [
-  "Windows 10/11 now.",
+  "Windows 10/11 now. Linux and Apple apps are on the way.",
   "SmartScreen warning explained — what it means and how to proceed.",
   "No AdSense clutter. This site sells a tool, not pageviews.",
 ];
@@ -24,16 +24,17 @@ export default function PricingSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left Column: Pricing & CTAs */}
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Relief</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Ownership</span>
 
             <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mt-4">
               One price. Every conversation. Yours forever.
             </h2>
 
             <p className="font-body text-muted-foreground text-[15.5px] leading-relaxed mt-4 max-w-lg">
-              A free web tier is on the way — a browser app you can run on your own chats before
-              paying a cent, which is our replacement for money-back refunds. Until it lands, one
-              $24 purchase gets you the Windows app today and every update after.
+              Try it free first. The free version lets you test the app on your own chats —
+              limited to 3 AI providers and 5 conversations per download, so you can get
+              comfortable before you pay. A one-time $24 purchase unlocks Pro: all 8 providers
+              and unlimited downloads.
             </p>
 
             <div className="mt-8 flex flex-col items-start gap-1">
@@ -49,16 +50,18 @@ export default function PricingSection() {
                 href="/buy/"
                 data-tr-buy="true"
                 aria-label="Buy TotalRecalls — $24 USD — discounted launch price"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity shadow-sm"
+                className="inline-flex flex-col items-center justify-center gap-0.5 bg-primary text-white px-7 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity shadow-sm w-full sm:w-auto"
+                style={{ maxWidth: 300 }}
               >
-                Buy TotalRecalls — $24 USD · discounted launch price <ArrowRight className="w-4 h-4" />
+                <span className="whitespace-nowrap">Buy TotalRecalls — $24 USD</span>
+                <span className="text-[10px] font-normal opacity-85 tracking-[0.12em] whitespace-nowrap">discounted launch price</span>
               </a>
               <a
-                href="/faq/"
-                aria-label="When does the free tier launch?"
-                className="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-4 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors"
+                href="/download/"
+                aria-label="Try the free version"
+                className="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors"
               >
-                Free tier coming soon
+                Try it free
               </a>
             </div>
 

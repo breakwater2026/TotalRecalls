@@ -58,9 +58,9 @@ export default function LibraryPreview() {
             </div>
             <div className="p-6 font-mono text-[12px] leading-relaxed space-y-3">
               <p className="font-heading text-foreground text-lg"># Pricing research</p>
-              <p className="text-muted-foreground">exported 2026-08-01 · provider: chatgpt · 14 messages</p>
+              <p className="text-muted-foreground">downloaded 2026-08-01 · provider: chatgpt · 14 messages</p>
               <div className="border-l-2 border-primary pl-3">
-                <p className="text-foreground"><span className="text-primary">You:</span> Compare one-time pricing for export tools.</p>
+                <p className="text-foreground"><span className="text-primary">You:</span> Compare one-time pricing for download tools.</p>
               </div>
               <div className="border-l-2 border-border pl-3">
                 <p className="text-foreground/80"><span className="text-muted-foreground">Assistant:</span> Here is a table of the options I found, with links and caveats…</p>

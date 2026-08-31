@@ -1,5 +1,5 @@
 const EVENTS = [
-  "2026-08-15 · chatgpt · export failed · thread lost",
+  "2026-08-15 · chatgpt · download failed · thread lost",
   "2026-08-15 · claude · ui revision · 4 threads orphaned",
   "2026-08-14 · perplexity · session expired · research trail gone",
   "2026-08-14 · gemini · takeout parse error · 2 archives unreadable",

@@ -3,14 +3,14 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 ---
 
 <PageLayout
-  title="Export DeepSeek Chats"
+  title="Download DeepSeek Chats"
   description="Back up your DeepSeek conversations to local Markdown with TotalRecalls — including the model's chain-of-thought reasoning."
   breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "DeepSeek" }]}
 >
-  <h1>How to export DeepSeek conversations</h1>
+  <h1>How to download DeepSeek conversations</h1>
   <p class="lead">DeepSeek is unusually valuable to back up because the reasoning is the artifact. TotalRecalls keeps the chain-of-thought with the final answer so neither is lost.</p>
 
-  <h2>What "export" usually means</h2>
+  <h2>What "download" usually means</h2>
   <p>People searching for this want one of three outcomes:</p>
   <ul>
     <li><strong>Backup</strong> — don't lose threads if the account changes</li>
@@ -19,7 +19,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   </ul>
 
   <h2>Option A — Manual copy/paste from chat.deepseek.com</h2>
-  <p>DeepSeek does not provide a built-in data export for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <p>DeepSeek does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
   <ul>
     <li><strong>Pros:</strong> no tooling, no install</li>
     <li><strong>Cons:</strong> loses formatting, loses thinking blocks, doesn't scale past a few threads</li>
@@ -31,7 +31,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
     <li>Buy / install TotalRecalls for Windows</li>
     <li>Choose <strong>DeepSeek</strong> as the provider</li>
     <li>Sign in through the local login window at <a href="https://chat.deepseek.com">chat.deepseek.com</a></li>
-    <li>Export — files land under <code>Library/deepseek/</code></li>
+    <li>Download — files land under <code>Library/deepseek/</code></li>
   </ol>
 
   <h2>Why the chain-of-thought matters</h2>
@@ -43,17 +43,17 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 
   <h2>Tips for a clean DeepSeek archive</h2>
   <ul>
-    <li>Run the export while you still have an active session — DeepSeek sessions expire on inactivity</li>
+    <li>Run the download while you still have an active session — DeepSeek sessions expire on inactivity</li>
     <li>Keep the folder inside a backup drive or cloud backup you control</li>
     <li>Prefer Markdown for reading; keep JSON if you might process later</li>
-    <li>DeepSeek-V3 and DeepSeek-R1 share the same export path; both models export cleanly</li>
+    <li>DeepSeek-V3 and DeepSeek-R1 share the same download path; both models download cleanly</li>
   </ul>
 
   <h2>Free tier friendly</h2>
   <p>TotalRecalls reads your browser session — it does not call the DeepSeek API. Works on the free tier, the pro tier, and any plan that uses the chat.deepseek.com web app.</p>
 
   <section class="footer-cta bg-primary text-white p-4 md:p-6 text-center rounded-sm border border-white/20 mt-8 mb-4">
-    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Export with TotalRecalls</h2>
+    <h2 class="font-heading text-xl md:text-2xl font-bold tracking-tight text-white mb-3">Download with TotalRecalls</h2>
     <p style="color: #000000 !important; font-weight: 600;" class="font-body text-black font-semibold text-[15px] mb-5 max-w-md mx-auto">One-time $24USD. Chats stay as private Markdown and JSON files on your PC.</p>
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="/#pricing" data-tr-buy="true" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">Buy TotalRecalls — $24USD</a>

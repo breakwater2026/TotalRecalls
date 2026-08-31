@@ -14,7 +14,7 @@ const ITEMS = [
   {
     icon: Truck,
     title: "Move machines freely",
-    body: "Copy your export folder to a new PC and it just works. Your library follows you without a login.",
+    body: "Copy your download folder to a new PC and it just works. Your library follows you without a login.",
   },
   {
     icon: ShieldCheck,
@@ -79,7 +79,7 @@ export default function PortabilitySection() {
               </div>
             </div>
             <p className="font-mono text-[10px] text-muted-foreground text-center mt-4">
-              Copy the export folder — that's the whole migration.
+              Copy the download folder — that's the whole migration.
             </p>
           </div>
         </div>

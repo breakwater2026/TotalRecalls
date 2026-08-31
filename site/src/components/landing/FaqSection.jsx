@@ -3,7 +3,11 @@ import { Plus } from "lucide-react";
 const FAQS = [
   {
     q: "Which providers does it work with?",
-    a: "Eight: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen. One app exports your conversations from all of them.",
+    a: "Eight: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen. One app downloads your conversations from all of them.",
+  },
+  {
+    q: "What's the refund policy?",
+    a: "In lieu of a refund policy, we have a free trial available from our website. You can download the app and test it to your liking. The free version has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download.",
   },
   {
     q: "Is there a subscription?",
@@ -18,16 +22,12 @@ const FAQS = [
     a: "No. It runs 100% locally and never sends your conversations to a server.",
   },
   {
-    q: "What's the refund policy?",
-    a: "There isn't one — and you won't need it. Download it free first, run it on your own chats, and only pay if it's right for you.",
-  },
-  {
     q: "Which platforms are supported?",
-    a: "Windows 10 and 11. The app is a portable desktop tool you download and run locally.",
+    a: "Windows 10 and 11 today. The app is a portable desktop tool you download and run locally. Developing an application for Linux and Apple (macOS) is in the works.",
   },
   {
     q: "Do I get updates?",
-    a: "Yes. Every future update is included in the one-time purchase.",
+    a: "Yes. We generate updates to your product version as we make them — check the about/updates section of our website. Additional features (add-ons) will be developed on an ongoing basis and made available for purchase as we expand the scope of our product offering.",
   },
 ];
 

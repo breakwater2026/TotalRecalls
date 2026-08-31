@@ -5,7 +5,7 @@ export default function ProductShowcase() {
         <div className="max-w-2xl">
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">See it work</span>
           <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mt-4">
-            Watch a real export in action.
+            Watch a real download in action.
           </h2>
           <p className="font-body text-muted-foreground text-[15.5px] leading-relaxed mt-4">
             A short walkthrough of pulling a conversation out of a provider and saving it as
@@ -23,7 +23,7 @@ export default function ProductShowcase() {
             loop
             playsInline
             preload="metadata"
-            aria-label="Demo of TotalRecalls exporting a conversation"
+            aria-label="Demo of TotalRecalls downloading a conversation"
           />
         </div>
 

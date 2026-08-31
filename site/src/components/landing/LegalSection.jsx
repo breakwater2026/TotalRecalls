@@ -15,7 +15,7 @@ const POLICIES = [
   {
     label: "Pricing & Free Tier",
     href: "/legals/#pricing",
-    blurb: "One-time $24 USD, lifetime license and updates. A free web tier is on the way — our answer to refunds.",
+    blurb: "One-time $24 USD, lifetime license and updates. A free version is available now — our answer to refunds.",
   },
 ];
 

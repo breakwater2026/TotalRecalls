@@ -12,11 +12,11 @@ const COLS = [
   { 
     h: "Guides", 
     links: [
-      { l: "Export ChatGPT", href: "/guides/export-chatgpt-conversations/" },
+      { l: "Download ChatGPT", href: "/guides/export-chatgpt-conversations/" },
       { l: "Download Claude", href: "/guides/export-claude-chat-history/" },
       { l: "Backup Perplexity", href: "/guides/backup-perplexity-threads/" },
       { l: "Gemini Takeout", href: "/guides/gemini-takeout-archive/" },
-      { l: "Export Grok", href: "/guides/grok/" }
+      { l: "Download Grok", href: "/guides/grok/" }
     ] 
   },
   { 
