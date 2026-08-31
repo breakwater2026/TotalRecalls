@@ -300,19 +300,18 @@ class Bridge:
             )
         elif provider == "qwen":
             log("login: starting embedded WebView2 login for Qwen Chat")
-            # Qwen Chat authenticates the web client purely via session
-            # cookies (no Authorization header). The signed-in session sets
-            # Alibaba's xlly_s login cookie on .qwen.ai — gate on it so the
-            # pre-login baseline cookies (isg/tfstk/cna/...) don't capture a
-            # dead session. (The old __login_type__ gate never fired — the
-            # chat.qwen.ai web app does not set that cookie.)
+            # Qwen Chat authenticates the web client purely via session cookies,
+            # but the session cookie name is opaque (set server-side by
+            # POST /api/v1/auths/signin) and xlly_s is only Alibaba's logged-out
+            # "1" sentinel set on first load. So gate on API auth: probe
+            # /api/v2/chats until it returns success:true, then capture.
             self._start_generic_cookie_login(
                 title="Sign in to Qwen Chat",
                 start_url="https://chat.qwen.ai/",
                 host_substr="qwen.ai",
                 profile_suffix="qwen",
                 prefer_bearer=False,
-                cookie_names=("xlly_s",),
+                probe_url="https://chat.qwen.ai/api/v2/chats/?page=1&exclude_project=true",
             )
         else:
             self._connecting = False
@@ -514,13 +513,17 @@ class Bridge:
     def _start_generic_cookie_login(self, *, title: str, start_url: str, host_substr: str,
                                     profile_suffix: str, prefer_bearer: bool = False,
                                     cookie_filter: str | None = None,
-                                    cookie_names: tuple | None = None):
+                                    cookie_names: tuple | None = None,
+                                    probe_url: str | None = None):
         """STA WebView2 login that captures Cookie header and optional Bearer tokens.
 
         cookie_filter: optional cookie name to require (e.g. '__Secure-1PSID' for
         Gemini).  When set, the flow waits for this specific cookie to appear.
         cookie_names: optional set of cookie names to poll for via CookieManager
         every tick (works even when request headers don't carry a Cookie header).
+        probe_url: when set, capture by probing this URL with the intercepted
+        Cookie header until it returns an authenticated (success:true) response —
+        for providers whose session cookie name is opaque (e.g. Qwen Chat).
         """
         # Clear cached WebView2 data to force a fresh sign-in (supports
         # multi-account users who need to pick a different account)
@@ -544,7 +547,7 @@ class Bridge:
             from System.Threading import Thread, ThreadStart, ApartmentState
             def runner():
                 try:
-                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf, cookie_names)
+                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf, cookie_names, probe_url)
                 except Exception as e:
                     # Without this wrapper an exception on the CLR thread is
                     # unobserved and kills the whole process silently.
@@ -564,7 +567,7 @@ class Bridge:
             self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
             self._push({"type": "login_cancelled"})
 
-    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None, cookie_names=None):
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None, cookie_names=None, probe_url=None):
         if udf is None:
             udf = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
         log(f"{profile_suffix} login: flow starting (profile={os.path.basename(udf)})")
@@ -670,6 +673,37 @@ class Bridge:
             safe_close()
             threading.Thread(target=self._accept_token, args=(token, False), daemon=True).start()
 
+        # API-probe capture: for providers whose session cookie name is opaque
+        # (e.g. Qwen Chat — the cookie is set server-side by POST /auths/signin),
+        # validate the intercepted Cookie header against probe_url in a background
+        # thread and finish only once it authenticates. Throttled to one probe per
+        # ~2.5s to avoid hammering the API while the user is still signing in.
+        _probe_lock = threading.Lock()
+        _probe_ts = [0.0]
+
+        def _probe_once(cookie: str):
+            try:
+                from totalrecalls.adapters.qwen.http import request as _qreq
+                status, data = _qreq(probe_url, cookie=cookie, delay=0)
+                ok = status == 200 and isinstance(data, dict) and data.get("success") is True
+            except Exception as e:
+                log(f"{profile_suffix} login: auth probe error: {e}")
+                return
+            if ok and not finished["done"]:
+                log(f"{profile_suffix} login: auth probe passed ({status})")
+                if form.IsHandleCreated:
+                    form.BeginInvoke(Action(lambda: finish(cookie, "API probe")))
+                else:
+                    finish(cookie, "API probe")
+
+        def _maybe_probe(cookie: str):
+            now = time.time()
+            with _probe_lock:
+                if now - _probe_ts[0] < 2.5:
+                    return
+                _probe_ts[0] = now
+            threading.Thread(target=_probe_once, args=(cookie,), daemon=True).start()
+
         def on_closing(sender, e):
             closed.set()
             if not self.token and not finished["done"]:
@@ -713,6 +747,9 @@ class Bridge:
                     if cookie_filter and cookie_filter not in cookie_header:
                         # Still intercept — the user might be in the middle of auth redirect
                         # Don't finish, just let it through (cookie might arrive on next request)
+                        return
+                    if probe_url:
+                        _maybe_probe(cookie_header)
                         return
                     # Named-cookie gate (grok.com): do NOT finish on logged-out
                     # baseline cookies (grok.com sets grok_device_id instantly on

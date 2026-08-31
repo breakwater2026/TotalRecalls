@@ -198,7 +198,7 @@ class LoginWiringTests(unittest.TestCase):
         login.assert_called_once()
         kwargs = login.call_args.kwargs
         self.assertEqual(kwargs["start_url"], "https://chat.qwen.ai/")
-        self.assertEqual(kwargs["cookie_names"], ("xlly_s",))
+        self.assertEqual(kwargs["probe_url"], "https://chat.qwen.ai/api/v2/chats/?page=1&exclude_project=true")
         emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
 
 
