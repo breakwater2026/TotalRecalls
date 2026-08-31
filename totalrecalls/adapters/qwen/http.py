@@ -6,11 +6,14 @@ restrictions that prohibit non-interactive batch use (i.e. our use case).
 
 Credential is a session cookie captured from the WebView2 login flow.
 
-NOTE: The Qwen Chat web app uses Alibaba's internal `__login_type__`
-and `_csrf_token` mechanism. As of 2026-08 the consumer chat is
-served from chat.qwen.ai (international) and qianwen.com / tongyi.aliyun.com
-(domestic). The exact REST surface may shift; we try a few candidates
-and fail soft (log + return []) on mismatch.
+NOTE: As of 2026-08 the consumer chat is served from chat.qwen.ai
+(international) and qianwen.com / tongyi.aliyun.com (domestic). The web
+client authenticates via session cookies only (no Authorization header),
+with a `source: web` header, against the `/api/v2/*` REST surface
+(reverse-engineered from the qwen-chat-fe frontend bundle):
+
+  GET /api/v2/chats/?page=<n>&exclude_project=true  -> {success, data:[{id,title,...}]}
+  GET /api/v2/chats/<id>                            -> {success, data:{chat:{history:{messages,...}, title, ...}}}
 """
 
 from __future__ import annotations
@@ -23,6 +26,7 @@ import urllib.request
 from totalrecalls.core.paths import log
 
 BASE = "https://chat.qwen.ai"
+BASE_V2 = "https://chat.qwen.ai/api/v2"
 # Domestic mirror candidate
 BASE_ALT = "https://qianwen.com"
 DEFAULT_DELAY = 1.5
@@ -61,8 +65,13 @@ def _headers(cookie: str, base: str = BASE) -> dict[str, str]:
         "User-Agent": USER_AGENT,
         "Accept": "application/json",
         "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "application/json",
         "Origin": base,
         "Referer": base + "/",
+        # The web client identifies itself with `source: web` and sends no
+        # Authorization header — auth is carried by the session cookie.
+        "source": "web",
+        "Version": "0.2.89",
         "Cookie": cookie,
     }
 

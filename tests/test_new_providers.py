@@ -98,7 +98,7 @@ class ListMappingTests(unittest.TestCase):
     def test_qwen_list_maps_fixture(self):
         adapter = QwenChatAdapter()
         with self._mock_request("totalrecalls.adapters.qwen.adapter", "qwen/list_synthetic.json"):
-            out = adapter.list_conversations("__login_type__=x", deep=False)
+            out = adapter.list_conversations("xlly_s=deadbeef", deep=False)
         self.assertEqual(len(out), 5)
         self.assertEqual(out[0].id, "synth-0000")
         self.assertTrue(out[0].title.startswith("Synthetic Qwen"))
@@ -136,12 +136,28 @@ class ToUnifiedTests(unittest.TestCase):
 
     def test_qwen_to_unified_roles(self):
         conv = QwenChatAdapter().to_unified(
-            {"id": "q1", "messages": [
-                {"role": "user", "content": "Hi"},
-                {"role": "assistant", "content": "Hey"},
-            ]}
+            {
+                "id": "q1",
+                "title": "Qwen demo",
+                "history": {
+                    "currentId": "a1",
+                    "messages": {
+                        "u1": {"id": "u1", "role": "user", "content": "Hi",
+                               "parentId": None, "childrenIds": ["a1"]},
+                        "a1": {"id": "a1", "role": "assistant", "parentId": "u1",
+                               "childrenIds": [],
+                               "content_list": [
+                                   {"phase": "thinking_summary", "content": "thinking..."},
+                                   {"phase": "answer", "content": "Hey"},
+                               ]},
+                    },
+                },
+            }
         )
+        self.assertEqual(conv.id, "q1")
         self.assertEqual([m.role for m in conv.messages], ["user", "assistant"])
+        # Only the "answer" phase is surfaced, not the thinking summary.
+        self.assertEqual(conv.messages[1].content_md, "Hey")
 
 
 class LoginWiringTests(unittest.TestCase):
@@ -182,7 +198,7 @@ class LoginWiringTests(unittest.TestCase):
         login.assert_called_once()
         kwargs = login.call_args.kwargs
         self.assertEqual(kwargs["start_url"], "https://chat.qwen.ai/")
-        self.assertEqual(kwargs["cookie_names"], ("__login_type__",))
+        self.assertEqual(kwargs["cookie_names"], ("xlly_s",))
         emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
 
 

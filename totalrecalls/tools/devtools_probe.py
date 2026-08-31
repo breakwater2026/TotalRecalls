@@ -43,7 +43,7 @@ DEFAULT_UA = (
 
 PROVIDER_HINTS: dict[str, dict[str, str]] = {
     "deepseek": {"base": "https://chat.deepseek.com", "list_path": "/api/v0/chat_session/fetch_page?lte_cursor.pinned=false"},
-    "qwen":     {"base": "https://chat.qwen.ai",     "list_path": "/api/v1/chat/sessions?page=1&page_size=10"},
+    "qwen":     {"base": "https://chat.qwen.ai",     "list_path": "/api/v2/chats/?page=1&exclude_project=true"},
     "mistral":  {"base": "https://chat.mistral.ai",  "list_path": "/api/chat/conversations?page=1&page_size=10"},
 }
 
@@ -200,7 +200,7 @@ def _replay(args: argparse.Namespace) -> int:
         orig = qwen_adapter.request
 
         def fake_request(path, *, cookie, base=qwen_http.BASE, delay=None):
-            if "chat/sessions" in path and "page" in path:
+            if "chats/" in path and "page" in path:
                 return 200, next_page()
             return orig(path, cookie=cookie, base=base, delay=delay)
 
@@ -299,7 +299,7 @@ def _replay_args(provider: str, fx: Path) -> str:
         orig = ad.request
 
         def fake(p, *, cookie, base=h.BASE, delay=None):
-            if "chat/sessions" in p and "page" in p:
+            if "chats/" in p and "page" in p:
                 return 200, next_page()
             return orig(p, cookie=cookie, base=base, delay=delay)
 
@@ -383,7 +383,7 @@ def _synthesize(args: argparse.Namespace) -> int:
             },
         }
     elif args.provider == "qwen":
-        body = {"data": {"list": items}}
+        body = {"success": True, "data": items}
     elif args.provider == "mistral":
         body = {"conversations": items}
     else:

@@ -42,7 +42,7 @@ class SynthesizeTests(unittest.TestCase):
             r = _run(["synthesize", "--provider", "qwen", "--out", str(out), "--count", "2"])
             self.assertEqual(r.returncode, 0, r.stderr)
             data = json.loads(out.read_text(encoding="utf-8"))
-            items = data["response"]["data"]["list"]
+            items = data["response"]["data"]
             self.assertEqual(len(items), 2)
             self.assertTrue(items[0]["id"].startswith("synth-"))
 
@@ -107,7 +107,7 @@ class DiffTests(unittest.TestCase):
             snap = Path(d) / "snap.json"
             data = json.loads(fx.read_text(encoding="utf-8"))
             # Mutate one synthetic id
-            data["response"]["data"]["list"][0]["id"] = "different-id"
+            data["response"]["data"][0]["id"] = "different-id"
             fake_out = {
                 "fixture": str(fx),
                 "parsed_count": 0,

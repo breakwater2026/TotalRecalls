@@ -300,16 +300,19 @@ class Bridge:
             )
         elif provider == "qwen":
             log("login: starting embedded WebView2 login for Qwen Chat")
-            # Qwen Chat sets an internal __login_type__ cookie once signed in
-            # (see totalrecalls/adapters/qwen/http.py). Gate on it so the
-            # pre-login baseline cookies don't capture a dead session.
+            # Qwen Chat authenticates the web client purely via session
+            # cookies (no Authorization header). The signed-in session sets
+            # Alibaba's xlly_s login cookie on .qwen.ai — gate on it so the
+            # pre-login baseline cookies (isg/tfstk/cna/...) don't capture a
+            # dead session. (The old __login_type__ gate never fired — the
+            # chat.qwen.ai web app does not set that cookie.)
             self._start_generic_cookie_login(
                 title="Sign in to Qwen Chat",
                 start_url="https://chat.qwen.ai/",
                 host_substr="qwen.ai",
                 profile_suffix="qwen",
                 prefer_bearer=False,
-                cookie_names=("__login_type__",),
+                cookie_names=("xlly_s",),
             )
         else:
             self._connecting = False
