@@ -99,10 +99,12 @@ def request(path: str, *, cookie: str, base: str = BASE,
             return status, data
         except urllib.error.HTTPError as e:
             last_err = e
-            if e.code in (401, 403):
-                raise QwenChatApiError(f"http-{e.code}") from e
             if e.code == 429:
-                continue
+                continue  # rate limit — retry
+            if 400 <= e.code < 500:
+                # 4xx = wrong endpoint/auth; retrying won't help and hangs the app.
+                raise QwenChatApiError(f"http-{e.code}") from e
+            # 5xx — transient server error; fall through to retry
         except Exception as e:
             last_err = e
             continue

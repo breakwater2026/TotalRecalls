@@ -91,16 +91,18 @@ def request(path: str, *, cookie: str,
             return status, data
         except urllib.error.HTTPError as e:
             last_err = e
-            if e.code in (401, 403):
-                # Return the failure body to the caller; do not raise.
+            if e.code == 429:
+                continue  # rate limit — retry
+            if 400 <= e.code < 500:
+                # Fail fast on 4xx: return the body so the adapter can decide
+                # (auth vs. wrong endpoint); retrying would just hang.
                 body = ""
                 try:
                     body = e.read().decode("utf-8", errors="replace")
                 except Exception:
                     pass
                 return e.code, body
-            if e.code == 429:
-                continue
+            # 5xx — transient server error; fall through to retry
         except Exception as e:
             last_err = e
             continue
