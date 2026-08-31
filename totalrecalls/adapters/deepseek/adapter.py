@@ -1,4 +1,16 @@
-"""DeepSeek chat provider adapter (chat.deepseek.com)."""
+"""DeepSeek chat provider adapter (chat.deepseek.com).
+
+Verified against Aver005/deep-reverse (live-captured 2026-06-27). Endpoints:
+
+    validate -> GET /api/v0/users/current
+    list     -> GET /api/v0/chat_session/fetch_page   (keyset cursor + has_more)
+    fetch    -> GET /api/v0/chat/history_messages?chat_session_id=<uuid>
+
+Every response is the {code, msg, data: {biz_code, biz_msg, biz_data}} envelope.
+DeepSeek's full-history list is cursor-paginated (`lte_cursor.updated_at` +
+`lte_cursor.id`); the old `/api/v0/chat/sessions?page=` guess silently returned
+only the first page (~50), which is what caused the shallow listing.
+"""
 
 from __future__ import annotations
 
@@ -13,18 +25,22 @@ from totalrecalls.core.export_fs import HOME_SPACE_NAME
 from totalrecalls.core.paths import log
 from totalrecalls.core.schema import (
     AccountInfo,
+    Citation,
     ConversationSummary,
     Message,
     UnifiedConversation,
 )
 
+# Safety cap for keyset-cursor pagination, per pinned pass.
+_MAX_DEEP_PAGES = 200
+
 
 def _resolve_auth(credential: str) -> tuple[str | None, str | None]:
     """Split a credential into (access_token, cookie).
 
-    The login flow captures either a Bearer token (JWT or DeepSeek's opaque
-    non-JWT token) or a cookie header. A bare token has no '=' or ';'; a
-    cookie always carries 'name=value' pairs.
+    The login flow captures a Bearer token (JWT or DeepSeek's opaque non-JWT
+    token). A bare token has no '=' or ';'; a cookie always carries
+    'name=value' pairs.
     """
     cred = (credential or "").strip()
     if not cred:
@@ -37,12 +53,27 @@ def _resolve_auth(credential: str) -> tuple[str | None, str | None]:
     return None, cookie_header_from_credential(cred)
 
 
+def _biz_data(data) -> object:
+    """Unwrap the {code,msg,data:{biz_code,biz_msg,biz_data}} envelope."""
+    if not isinstance(data, dict):
+        return data
+    if data.get("code") not in (0, None):
+        raise DeepSeekApiError(f"api-{data.get('code')}: {data.get('msg', '')}")
+    inner = data.get("data")
+    if isinstance(inner, dict):
+        if inner.get("biz_code") not in (0, None):
+            raise DeepSeekApiError(f"biz-{inner.get('biz_code')}: {inner.get('biz_msg', '')}")
+        bd = inner.get("biz_data")
+        if bd is not None:
+            return bd
+    return data
+
+
 def _ts(value) -> str:
-    """Best-effort timestamp coercion to ISO-ish string."""
+    """Best-effort timestamp coercion (DeepSeek uses fractional epoch seconds)."""
     if value is None:
         return ""
     if isinstance(value, (int, float)):
-        # Treat as seconds since epoch
         try:
             from datetime import datetime, timezone
             return datetime.fromtimestamp(float(value), tz=timezone.utc).isoformat()
@@ -57,126 +88,104 @@ class DeepSeekAdapter:
 
     def validate(self, credential: str) -> AccountInfo:
         token, cookie = _resolve_auth(credential)
-        # Probe an account-scoped endpoint. /api/v0/user/info or /api/user/profile
-        # are common shapes; fall back to listing the first page.
-        for path in ("/api/v0/user/info", "/api/user/profile", "/api/v0/chat/sessions?page=0&page_size=1"):
-            try:
-                status, data = request(path, access_token=token, cookie=cookie, delay=0)
-            except DeepSeekApiError as e:
-                log(f"deepseek validate {path}: {e}")
-                continue
-            if status == 200 and isinstance(data, dict):
-                user = data.get("data") or data.get("user") or data
-                if isinstance(user, dict):
-                    email = str(user.get("email") or user.get("mail") or "")
-                    uid = str(user.get("id") or user.get("user_id") or "")
-                    name = str(user.get("nickname") or user.get("name") or user.get("username") or "")
-                    if email or uid or name:
-                        return AccountInfo(
-                            email=email or "deepseek-session@local",
-                            external_id=uid or "deepseek",
-                            display_name=name or "DeepSeek user",
-                        )
-        # Optimistic accept if we got anything at all
-        if cookie:
+        user = None
+        try:
+            status, data = request("/api/v0/users/current", access_token=token, cookie=cookie, delay=0)
+            user = _biz_data(data)
+        except DeepSeekApiError as e:
+            log(f"deepseek validate users/current: {e}")
+        if isinstance(user, dict):
+            email = str(user.get("email") or "")
+            uid = str(user.get("id") or "")
+            if email or uid:
+                return AccountInfo(
+                    email=email or "deepseek-session@local",
+                    external_id=uid or "deepseek",
+                    display_name=email or "DeepSeek user",
+                )
+        # Optimistic accept: login captured a real Bearer token.
+        if token or cookie:
             return AccountInfo(
                 email="deepseek-session@local",
-                external_id="deepseek",
+                external_id=(token or "cookie")[:16],
                 display_name="DeepSeek user",
             )
         raise DeepSeekApiError("auth-failed")
 
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
         token, cookie = _resolve_auth(credential)
-        out: list[ConversationSummary] = []
-        seen: set[str] = set()
-        # Try a few list endpoint shapes; DeepSeek's API has shifted over time.
-        endpoint_candidates = [
-            "/api/v0/chat/sessions?page={page}&page_size=50",
-            "/api/chat/sessions?page={page}&page_size=50",
-        ]
-        max_pages = 200 if deep else 1
-        for tmpl in endpoint_candidates:
-            added_any = False
-            for page in range(max_pages):
-                path = tmpl.format(page=page)
+        seen: dict[str, dict] = {}
+        # DeepSeek separates pinned and unpinned sessions; walk both to avoid
+        # missing pinned chats (which the default list omits).
+        max_pages = _MAX_DEEP_PAGES if deep else 1
+        for pinned in (True, False):
+            cursor_ts: float | None = None
+            cursor_id: str | None = None
+            pages = 0
+            while pages < max_pages:
+                pages += 1
+                params = [f"lte_cursor.pinned={str(pinned).lower()}"]
+                if cursor_ts is not None:
+                    params.append(f"lte_cursor.updated_at={cursor_ts}")
+                if cursor_id:
+                    params.append(f"lte_cursor.id={cursor_id}")
+                path = "/api/v0/chat_session/fetch_page?" + "&".join(params)
                 try:
                     status, data = request(path, access_token=token, cookie=cookie)
                 except DeepSeekApiError as e:
                     log(f"deepseek list {path}: {e}")
                     break
-                if status != 200 or not isinstance(data, (dict, list)):
+                payload = _biz_data(data)
+                if not isinstance(payload, dict):
                     break
-                # Shape: {data: {business_history_list: [...]}} or {sessions: [...]} or [...]
-                if isinstance(data, list):
-                    items = data
-                else:
-                    items = (data.get("data") or {}).get("business_history_list") if isinstance(data.get("data"), dict) else None
-                    if items is None:
-                        items = data.get("sessions") or data.get("conversations") or data.get("items") or data.get("list") or []
-                if not isinstance(items, list) or not items:
+                sessions = payload.get("chat_sessions") or []
+                if not isinstance(sessions, list) or not sessions:
                     break
-                added_any = True
-                for it in items:
-                    if not isinstance(it, dict):
+                for s in sessions:
+                    if not isinstance(s, dict):
                         continue
-                    cid = str(
-                        it.get("chat_session_id") or it.get("session_id")
-                        or it.get("id") or it.get("conv_id") or it.get("uuid") or ""
-                    )
-                    if not cid or cid in seen:
-                        continue
-                    seen.add(cid)
-                    title = str(
-                        it.get("title") or it.get("name") or it.get("summary")
-                        or "DeepSeek conversation"
-                    )
-                    out.append(
-                        ConversationSummary(
-                            id=cid,
-                            title=title.strip() or "DeepSeek conversation",
-                            updated_at=_ts(it.get("updated_time") or it.get("updated_at") or it.get("modify_time")),
-                            created_at=_ts(it.get("created_time") or it.get("created_at") or it.get("create_time")),
-                            folder=HOME_SPACE_NAME,
-                            raw=it,
-                        )
-                    )
-                if len(items) < 50:
+                    sid = str(s.get("id") or "")
+                    if sid and sid not in seen:
+                        seen[sid] = s
+                if not payload.get("has_more", False):
                     break
-            if added_any and out:
-                # Got data from this endpoint; don't try the others.
-                break
+                last = sessions[-1]
+                cursor_ts = last.get("updated_at")
+                cursor_id = str(last.get("id") or "") or None
+                if cursor_ts is None and not cursor_id:
+                    break
+
+        out: list[ConversationSummary] = []
+        for s in seen.values():
+            sid = str(s.get("id") or "")
+            title = str(s.get("title") or "").strip() or "DeepSeek conversation"
+            out.append(
+                ConversationSummary(
+                    id=sid,
+                    title=title,
+                    updated_at=_ts(s.get("updated_at")),
+                    created_at=_ts(s.get("inserted_at") or s.get("created_at")),
+                    folder=HOME_SPACE_NAME,
+                    raw=s,
+                )
+            )
         if not out:
             log("deepseek list: no conversations returned (auth failed or API shape changed)")
         return out
 
     def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
         token, cookie = _resolve_auth(credential)
-        # Reuse account identity from validate (caller can pass a summary to skip reprobe)
-        detail = None
-        for path in (
-            f"/api/v0/chat/session/{conv_id}",
-            f"/api/chat/session/{conv_id}",
-            f"/api/v0/chat/sessions/{conv_id}",
-        ):
-            try:
-                status, data = request(path, access_token=token, cookie=cookie)
-            except DeepSeekApiError as e:
-                log(f"deepseek fetch {path}: {e}")
-                continue
-            if status == 200 and isinstance(data, (dict, list)):
-                if isinstance(data, list):
-                    detail = {"id": conv_id, "messages": data}
-                else:
-                    detail = data
-                break
-        if not detail:
+        status, data = request(
+            f"/api/v0/chat/history_messages?chat_session_id={conv_id}",
+            access_token=token, cookie=cookie,
+        )
+        payload = _biz_data(data)
+        if not isinstance(payload, dict):
             raise DeepSeekApiError("http-empty")
-        return self.to_unified(detail, account=AccountInfo(
-            email="deepseek-session@local",
-            external_id="deepseek",
-            display_name="DeepSeek user",
-        ))
+        return self.to_unified(
+            payload,
+            summary=ConversationSummary(id=conv_id, title="", folder=HOME_SPACE_NAME),
+        )
 
     def to_unified(
         self,
@@ -186,47 +195,72 @@ class DeepSeekAdapter:
         account: AccountInfo | None = None,
     ) -> UnifiedConversation:
         detail = detail if isinstance(detail, dict) else {}
-        # Title
+        session = detail.get("chat_session") if isinstance(detail.get("chat_session"), dict) else {}
         title = str(
-            detail.get("title") or detail.get("name")
+            session.get("title")
+            or detail.get("title")
             or (summary.title if summary else "")
-            or "DeepSeek conversation"
-        )
+        ).strip() or "DeepSeek conversation"
         cid = str(
-            detail.get("id") or detail.get("chat_session_id")
-            or detail.get("session_id")
+            session.get("id")
+            or detail.get("id")
             or (summary.id if summary else "")
             or ""
         )
-        # DeepSeek serves thinking_content + final_answer; both are valuable
-        msg_data = (
-            detail.get("messages")
-            or detail.get("data")
-            or detail.get("conversation")
-            or []
+        model_type = str(session.get("model_type") or "")
+        return UnifiedConversation(
+            provider=self.id,
+            account=account or AccountInfo(),
+            id=cid,
+            title=title,
+            created_at=_ts(session.get("inserted_at") or detail.get("inserted_at")),
+            updated_at=_ts(session.get("updated_at") or detail.get("updated_at")),
+            folder=(summary.folder if summary else HOME_SPACE_NAME) or HOME_SPACE_NAME,
+            messages=self._messages_from_detail(detail, model_type),
+            raw={"detail": detail},
         )
-        if isinstance(detail.get("data"), dict):
-            msg_data = detail["data"].get("messages") or msg_data
+
+    def _messages_from_detail(self, detail: dict, model_type: str = "") -> list[Message]:
+        msgs = detail.get("chat_messages") or []
         messages: list[Message] = []
-        for m in msg_data if isinstance(msg_data, list) else []:
+        if not isinstance(msgs, list):
+            return messages
+        for m in msgs:
             if not isinstance(m, dict):
                 continue
-            role_raw = str(m.get("role") or m.get("sender") or "").lower()
-            if role_raw in ("user", "human"):
+            role_raw = str(m.get("role") or "").lower()
+            if role_raw == "user":
                 role = "user"
-            elif role_raw in ("assistant", "model", "bot", "ai"):
+            elif role_raw == "assistant":
                 role = "assistant"
             else:
-                role = "assistant"
-            # DeepSeek exposes both thinking and final answer text
-            text = str(
-                m.get("final_answer") or m.get("content") or m.get("message")
-                or m.get("text") or ""
-            ).strip()
-            thinking = str(m.get("thinking_content") or "").strip()
+                continue
+            fragments = m.get("fragments") or []
+            text_parts: list[str] = []
+            thinking_parts: list[str] = []
+            cites: list[Citation] = []
+            if isinstance(fragments, list):
+                for f in fragments:
+                    if not isinstance(f, dict):
+                        continue
+                    ftype = str(f.get("type") or "").upper()
+                    content = str(f.get("content") or "")
+                    if ftype in ("REQUEST", "RESPONSE"):
+                        text_parts.append(content)
+                    elif ftype == "THINK":
+                        thinking_parts.append(content)
+                    refs = f.get("references")
+                    if isinstance(refs, list):
+                        for r in refs:
+                            if isinstance(r, dict):
+                                url = str(r.get("url") or r.get("link") or "")
+                                t = str(r.get("title") or r.get("name") or url)
+                                if url or t:
+                                    cites.append(Citation(title=t, url=url))
+            text = "\n".join(p for p in text_parts if p.strip()).strip()
+            thinking = "\n".join(p for p in thinking_parts if p.strip()).strip()
             if thinking:
-                # Preserve chain-of-thought in markdown; it is often the most
-                # valuable part of a DeepSeek export.
+                # Preserve chain-of-thought; often the most valuable part.
                 text = f"<details><summary>Thinking</summary>\n\n{thinking}\n\n</details>\n\n{text}"
             if not text.strip():
                 continue
@@ -234,19 +268,10 @@ class DeepSeekAdapter:
                 Message(
                     role=role,
                     content_md=text,
-                    created_at=_ts(m.get("created_time") or m.get("timestamp") or m.get("created_at")),
-                    model=str(m.get("model") or ""),
-                    external_id=str(m.get("id") or m.get("message_id") or ""),
+                    created_at=_ts(m.get("inserted_at") or m.get("created_at")),
+                    model=model_type,
+                    citations=cites,
+                    external_id=str(m.get("message_id") or ""),
                 )
             )
-        return UnifiedConversation(
-            provider=self.id,
-            account=account or AccountInfo(),
-            id=cid,
-            title=title.strip() or "DeepSeek conversation",
-            created_at=_ts(detail.get("created_time") or detail.get("created_at") or detail.get("create_time")),
-            updated_at=_ts(detail.get("updated_time") or detail.get("updated_at") or detail.get("modify_time")),
-            folder=HOME_SPACE_NAME,
-            messages=messages,
-            raw={"detail": detail},
-        )
+        return messages

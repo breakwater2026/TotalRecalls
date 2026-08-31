@@ -34,7 +34,7 @@ class SynthesizeTests(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stderr)
             data = json.loads(out.read_text(encoding="utf-8"))
             self.assertTrue(data["_meta"]["synthetic"])
-            self.assertEqual(len(data["response"]["data"]["business_history_list"]), 3)
+            self.assertEqual(len(data["response"]["data"]["biz_data"]["chat_sessions"]), 3)
 
     def test_synthesize_qwen(self):
         with tempfile.TemporaryDirectory() as d:

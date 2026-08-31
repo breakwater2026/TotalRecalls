@@ -108,11 +108,13 @@ class ToUnifiedTests(unittest.TestCase):
     def test_deepseek_preserves_thinking(self):
         conv = DeepSeekAdapter().to_unified(
             {
-                "id": "c1",
-                "title": "T",
-                "messages": [
-                    {"role": "user", "content": "Q"},
-                    {"role": "assistant", "thinking_content": "hmm", "final_answer": "A"},
+                "chat_session": {"id": "c1", "title": "T", "model_type": "default"},
+                "chat_messages": [
+                    {"message_id": 1, "role": "USER", "fragments": [{"type": "REQUEST", "content": "Q"}]},
+                    {"message_id": 2, "role": "ASSISTANT", "fragments": [
+                        {"type": "THINK", "content": "hmm"},
+                        {"type": "RESPONSE", "content": "A"},
+                    ]},
                 ],
             },
             account=AccountInfo(email="d@x.com"),
@@ -182,6 +184,63 @@ class LoginWiringTests(unittest.TestCase):
         self.assertEqual(kwargs["start_url"], "https://chat.qwen.ai/")
         self.assertEqual(kwargs["cookie_names"], ("__login_type__",))
         emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
+
+
+def _env(biz_data):
+    """Wrap a biz_data payload in the DeepSeek two-level envelope."""
+    return {"code": 0, "msg": "", "data": {"biz_code": 0, "biz_msg": "", "biz_data": biz_data}}
+
+
+class DeepSeekApiTests(unittest.TestCase):
+    """DeepSeek adapter behavior against the verified API surface."""
+
+    def test_validate_users_current(self):
+        adapter = DeepSeekAdapter()
+        req = MagicMock(return_value=(200, _env({"id": "u1", "email": "d@x.com"})))
+        with patch("totalrecalls.adapters.deepseek.adapter.request", req):
+            acct = adapter.validate("smxxx")
+        self.assertEqual(acct.email, "d@x.com")
+        self.assertEqual(acct.external_id, "u1")
+
+    def test_list_follows_keyset_cursor(self):
+        adapter = DeepSeekAdapter()
+        s0 = {"id": "a", "title": "A", "updated_at": 300.0, "inserted_at": 100.0}
+        s1 = {"id": "b", "title": "B", "updated_at": 200.0, "inserted_at": 100.0}
+        s2 = {"id": "c", "title": "C", "updated_at": 100.0, "inserted_at": 100.0}
+        page1 = _env({"chat_sessions": [s0, s1], "has_more": True})
+        page2 = _env({"chat_sessions": [s2], "has_more": False})
+        empty = _env({"chat_sessions": [], "has_more": False})
+        req = MagicMock(side_effect=[(200, page1), (200, page2), (200, empty)])
+        with patch("totalrecalls.adapters.deepseek.adapter.request", req):
+            out = adapter.list_conversations("smxxx", deep=True)
+        self.assertEqual({o.id for o in out}, {"a", "b", "c"})
+        # The second request must carry the keyset cursor from page one.
+        second_path = req.call_args_list[1].args[0]
+        self.assertIn("lte_cursor.updated_at=", second_path)
+        self.assertIn("lte_cursor.id=", second_path)
+
+    def test_fetch_history_messages(self):
+        adapter = DeepSeekAdapter()
+        payload = _env({
+            "chat_session": {"id": "c1", "title": "T", "model_type": "default"},
+            "chat_messages": [
+                {"message_id": 1, "role": "USER", "fragments": [{"type": "REQUEST", "content": "Hi"}]},
+                {"message_id": 2, "role": "ASSISTANT", "fragments": [
+                    {"type": "THINK", "content": "hmm"},
+                    {"type": "RESPONSE", "content": "Hello",
+                     "references": [{"url": "https://x.com", "title": "X"}]},
+                ]},
+            ],
+        })
+        req = MagicMock(return_value=(200, payload))
+        with patch("totalrecalls.adapters.deepseek.adapter.request", req):
+            conv = adapter.fetch_conversation("smxxx", "c1")
+        self.assertEqual(conv.id, "c1")
+        self.assertEqual(conv.title, "T")
+        self.assertEqual([m.role for m in conv.messages], ["user", "assistant"])
+        self.assertIn("Hello", conv.messages[1].content_md)
+        self.assertIn("Thinking", conv.messages[1].content_md)
+        self.assertEqual(conv.messages[1].citations[0].url, "https://x.com")
 
 
 if __name__ == "__main__":

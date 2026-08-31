@@ -42,7 +42,7 @@ DEFAULT_UA = (
 )
 
 PROVIDER_HINTS: dict[str, dict[str, str]] = {
-    "deepseek": {"base": "https://chat.deepseek.com", "list_path": "/api/v0/chat/sessions?page=0&page_size=10"},
+    "deepseek": {"base": "https://chat.deepseek.com", "list_path": "/api/v0/chat_session/fetch_page?lte_cursor.pinned=false"},
     "qwen":     {"base": "https://chat.qwen.ai",     "list_path": "/api/v1/chat/sessions?page=1&page_size=10"},
     "mistral":  {"base": "https://chat.mistral.ai",  "list_path": "/api/chat/conversations?page=1&page_size=10"},
 }
@@ -140,7 +140,7 @@ def _replay(args: argparse.Namespace) -> int:
         orig = ds_adapter.request
 
         def fake_request(path, *, cookie, access_token=None, delay=None):
-            if "chat/sessions" in path and "page" in path:
+            if "chat_session/fetch_page" in path:
                 return 200, response
             return orig(path, access_token=access_token, cookie=cookie, delay=delay)
 
@@ -238,7 +238,7 @@ def _replay_args(provider: str, fx: Path) -> str:
         orig = ad.request
 
         def fake(p, *, cookie, access_token=None, delay=None):
-            if "chat/sessions" in p and "page" in p:
+            if "chat_session/fetch_page" in p:
                 return 200, response
             return orig(p, access_token=access_token, cookie=cookie, delay=delay)
 
@@ -308,10 +308,12 @@ def _synthesize(args: argparse.Namespace) -> int:
         ts = now - (i * 86400)  # one day apart
         if args.provider == "deepseek":
             items.append({
-                "chat_session_id": f"synth-{i:04d}",
+                "id": f"synth-{i:04d}",
                 "title": f"Synthetic DeepSeek conversation #{i+1}",
-                "created_time": ts,
-                "updated_time": ts + 3600,
+                "pinned": False,
+                "model_type": "default",
+                "inserted_at": ts,
+                "updated_at": ts + 3600,
             })
         elif args.provider == "qwen":
             items.append({
@@ -328,7 +330,13 @@ def _synthesize(args: argparse.Namespace) -> int:
                 "updated_at": str(int(ts + 3600)),
             })
     if args.provider == "deepseek":
-        body = {"data": {"business_history_list": items}}
+        body = {
+            "code": 0, "msg": "",
+            "data": {
+                "biz_code": 0, "biz_msg": "",
+                "biz_data": {"chat_sessions": items, "has_more": False},
+            },
+        }
     elif args.provider == "qwen":
         body = {"data": {"list": items}}
     elif args.provider == "mistral":

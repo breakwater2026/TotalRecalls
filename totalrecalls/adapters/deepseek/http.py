@@ -1,12 +1,13 @@
 """DeepSeek (chat.deepseek.com) web backend transport.
 
-Credential: a Bearer access token and/or a `ds_session_id` session cookie,
-captured from the WebView2 login flow. The web app authenticates its
-/api/v0/* calls with `Authorization: Bearer <token>`; the cookie accompanies
-it. Both are accepted here (the adapter resolves which one it received).
+Verified against the reverse-engineered web-client spec (Aver005/deep-reverse,
+live-captured 2026-06-27). Auth is a Bearer token in the `Authorization` header
+(issued by POST /api/v0/users/login, re-read via GET /api/v0/users/current).
+A `ds_session_id` cookie is accepted as a legacy fallback.
 
-Endpoints are the same JSON surface the web app uses (NOT the developer
-DeepSeek API at api-docs.deepseek.com).
+Every JSON response uses a two-level envelope:
+
+    {"code": 0, "msg": "", "data": {"biz_code": 0, "biz_msg": "", "biz_data": …}}
 """
 
 from __future__ import annotations
@@ -27,6 +28,9 @@ USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
 )
+# The web client sends x-app-version / x-client-version; the API may reject
+# requests without a plausible client version.
+APP_VERSION = "2.0.0"
 
 try:
     from curl_cffi import requests as _cffi_requests
@@ -72,6 +76,10 @@ def _headers(cookie: str | None, access_token: str | None) -> dict[str, str]:
         "Accept-Language": "en-US,en;q=0.9",
         "Origin": BASE,
         "Referer": BASE + "/",
+        "x-client-platform": "web",
+        "x-client-bundle-id": "com.deepseek.chat",
+        "x-app-version": APP_VERSION,
+        "x-client-version": APP_VERSION,
     }
     if access_token:
         h["Authorization"] = f"Bearer {access_token}"
@@ -83,7 +91,7 @@ def _headers(cookie: str | None, access_token: str | None) -> dict[str, str]:
 def request(path: str, *, cookie: str | None = None,
             access_token: str | None = None,
             delay: float | None = None) -> tuple[int, object]:
-    """Make one HTTP request. Returns (status, parsed_json_or_text)."""
+    """Make one HTTP GET. Returns (status, parsed_json_or_text)."""
     url = path if path.startswith("http") else BASE + path
     if delay is None:
         delay = DEFAULT_DELAY
