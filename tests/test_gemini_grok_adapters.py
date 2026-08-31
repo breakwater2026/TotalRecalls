@@ -117,42 +117,51 @@ class GrokAdapterTests(unittest.TestCase):
     def test_list_and_fetch_mapping(self):
         adapter = GrokAdapter()
         with patch("totalrecalls.adapters.grok.adapter.request") as req:
-            # validate probes then list then fetch
             req.side_effect = [
-                (200, {"user": {"email": "g@x.com", "id": "1"}}),  # validate
-                (200, {"conversations": [{"id": "c1", "title": "One"}]}),  # list
-                (200, {"user": {"email": "g@x.com", "id": "1"}}),  # validate in fetch
-                (200, {"id": "c1", "title": "One", "messages": [
-                    {"role": "user", "content": "Hi"},
-                    {"role": "assistant", "content": "Hey"},
+                (200, {"conversations": [
+                    {"conversationId": "c1", "title": "One",
+                     "createTime": "2026-01-01T00:00:00Z", "modifyTime": "2026-01-02T00:00:00Z"},
                 ]}),
-            ]
-            # validate once
-            adapter.validate("eyJhbGciOi.test.sig")
-            # reset side effect carefully for list
-            req.side_effect = [
-                (200, {"conversations": [{"id": "c1", "title": "One"}]}),
             ]
             summaries = adapter.list_conversations("eyJhbGciOi.test.sig")
             self.assertEqual(summaries[0].id, "c1")
-            req.side_effect = [
-                (200, {"user": {"email": "g@x.com"}}),
-                (200, {"id": "c1", "messages": [
-                    {"role": "user", "content": "Hi"},
-                    {"role": "assistant", "content": "Hey"},
-                ]}),
-            ]
-            # fetch_conversation calls validate then request loop
+            self.assertEqual(summaries[0].created_at, "2026-01-01T00:00:00Z")
+            self.assertEqual(summaries[0].updated_at, "2026-01-02T00:00:00Z")
             with patch.object(adapter, "validate", return_value=AccountInfo(email="g@x.com")):
                 req.side_effect = [
-                    (200, {"id": "c1", "title": "One", "messages": [
-                        {"role": "user", "content": "Hi"},
-                        {"role": "assistant", "content": "Hey"},
+                    # metadata
+                    (200, {"conversationId": "c1", "title": "One",
+                           "createTime": "2026-01-01T00:00:00Z", "modifyTime": "2026-01-02T00:00:00Z"}),
+                    # responses (messages)
+                    (200, {"responses": [
+                        {"responseId": "r1", "sender": "human", "message": "Hi",
+                         "createTime": "2026-01-01T00:00:01Z"},
+                        {"responseId": "r2", "sender": "assistant", "message": "Hey",
+                         "createTime": "2026-01-01T00:00:02Z",
+                         "webSearchResults": [{"url": "https://x.com", "title": "X", "preview": "p"}]},
                     ]}),
                 ]
                 conv = adapter.fetch_conversation("eyJhbGciOi.test.sig", "c1")
             self.assertEqual(conv.provider, "grok")
+            self.assertEqual(conv.id, "c1")
             self.assertEqual(len(conv.messages), 2)
+            self.assertEqual(conv.messages[0].role, "user")
+            self.assertEqual(conv.messages[0].content_md, "Hi")
+            self.assertEqual(conv.messages[1].role, "assistant")
+            self.assertEqual(conv.messages[1].citations[0].url, "https://x.com")
+            self.assertEqual(conv.created_at, "2026-01-01T00:00:00Z")
+            self.assertEqual(conv.updated_at, "2026-01-02T00:00:00Z")
+
+    def test_fetch_skips_error_response(self):
+        adapter = GrokAdapter()
+        with patch.object(adapter, "validate", return_value=AccountInfo(email="g@x.com")), \
+             patch("totalrecalls.adapters.grok.adapter.request") as req:
+            req.side_effect = [
+                (200, {"code": 5, "message": "Not Found"}),  # metadata error envelope
+                (200, {"responses": []}),                     # empty responses
+            ]
+            conv = adapter.fetch_conversation("sso=deadcookie", "missing")
+        self.assertEqual(conv.messages, [])
 
     def test_to_unified(self):
         conv = GrokAdapter().to_unified(

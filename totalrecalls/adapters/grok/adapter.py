@@ -13,6 +13,7 @@ from totalrecalls.core.export_fs import HOME_SPACE_NAME
 from totalrecalls.core.paths import log
 from totalrecalls.core.schema import (
     AccountInfo,
+    Citation,
     ConversationSummary,
     Message,
     UnifiedConversation,
@@ -26,6 +27,11 @@ def _resolve_auth(credential: str) -> tuple[str | None, str | None]:
     if looks_like_bearer(cred):
         return normalize_bearer(cred), None
     return None, cookie_header_from_credential(cred)
+
+
+def _is_error(data) -> bool:
+    """Grok returns error envelopes like {code: 5, message: 'Not Found'}."""
+    return isinstance(data, dict) and data.get("code") not in (0, None)
 
 
 class GrokAdapter:
@@ -152,36 +158,32 @@ class GrokAdapter:
     def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
         token, cookie = _resolve_auth(credential)
         # Reuse the account identity from the summary instead of re-validating.
-        # The old self.validate() here re-probed up to 3 endpoints before EVERY
-        # conversation download — the single biggest contributor to Grok's
-        # multi-minute export starts (N conversations × 3 probes × retry
-        # backoffs on failing paths).
         if not getattr(self, "_account", None):
             self._account = self.validate(credential)
         account = self._account
-        candidates = [
-            (f"/rest/app-chat/conversations/{conv_id}/messages", "https://grok.com"),
-            (f"/rest/app-chat/conversations/{conv_id}", "https://grok.com"),
-            (f"/rest/conversations/{conv_id}", "https://grok.com"),
-            (f"/api/conversations/{conv_id}", "https://grok.com"),
-        ]
-        detail = None
-        for path, base in candidates:
-            try:
-                status, data = request(path, access_token=token, cookie=cookie, base=base)
-                if isinstance(data, dict):
-                    detail = data
-                    break
-                if isinstance(data, list):
-                    detail = {"id": conv_id, "messages": data}
-                    break
-            except GrokApiError as e:
-                log(f"grok fetch {path}: {e}")
-                continue
-        if not detail:
-            raise GrokApiError("http-empty")
-        if "id" not in detail:
-            detail = {**detail, "id": conv_id}
+        detail: dict = {}
+        # Grok serves conversation metadata at .../{id} and the message thread
+        # at .../{id}/responses (the old .../messages path 404s).
+        try:
+            status, data = request(
+                f"/rest/app-chat/conversations/{conv_id}",
+                access_token=token, cookie=cookie,
+            )
+            if isinstance(data, dict) and not _is_error(data):
+                detail.update(data)
+        except GrokApiError as e:
+            log(f"grok fetch metadata {conv_id[:8]}…: {e}")
+        try:
+            status, data = request(
+                f"/rest/app-chat/conversations/{conv_id}/responses",
+                access_token=token, cookie=cookie,
+            )
+            if isinstance(data, dict) and not _is_error(data):
+                detail["responses"] = data.get("responses") or []
+        except GrokApiError as e:
+            log(f"grok fetch responses {conv_id[:8]}…: {e}")
+        detail.setdefault("responses", [])
+        detail.setdefault("id", conv_id)
         return self.to_unified(detail, account=account)
 
     def to_unified(
@@ -198,9 +200,16 @@ class GrokAdapter:
             or (summary.title if summary else "")
             or "Grok conversation"
         )
-        cid = str(detail.get("id") or detail.get("conversation_id") or (summary.id if summary else "") or "")
+        cid = str(
+            detail.get("conversationId")
+            or detail.get("id")
+            or detail.get("conversation_id")
+            or (summary.id if summary else "")
+            or ""
+        )
         raw_msgs = (
-            detail.get("messages")
+            detail.get("responses")
+            or detail.get("messages")
             or detail.get("items")
             or detail.get("conversation")
             or []
@@ -212,7 +221,7 @@ class GrokAdapter:
             for m in raw_msgs:
                 if not isinstance(m, dict):
                     continue
-                role_raw = str(m.get("role") or m.get("sender") or m.get("author") or "").lower()
+                role_raw = str(m.get("sender") or m.get("role") or m.get("author") or "").lower()
                 if role_raw in ("user", "human"):
                     role = "user"
                 elif role_raw in ("assistant", "grok", "model", "bot"):
@@ -220,10 +229,10 @@ class GrokAdapter:
                 elif role_raw == "system":
                     role = "system"
                 else:
-                    role = "assistant" if m.get("content") or m.get("message") else "user"
+                    role = "assistant" if (m.get("content") or m.get("message")) else "user"
                 text = str(
-                    m.get("content")
-                    or m.get("message")
+                    m.get("message")
+                    or m.get("content")
                     or m.get("text")
                     or m.get("response")
                     or ""
@@ -238,13 +247,24 @@ class GrokAdapter:
                     text = "\n".join(parts).strip()
                 if not text:
                     continue
+                cites: list[Citation] = []
+                for c in (m.get("webSearchResults") or []):
+                    if isinstance(c, dict):
+                        url = str(c.get("url") or "")
+                        t = str(c.get("title") or "")
+                        if url or t:
+                            cites.append(
+                                Citation(title=t or url, url=url,
+                                         snippet=str(c.get("preview") or ""))
+                            )
                 messages.append(
                     Message(
                         role=role,
                         content_md=text,
-                        created_at=str(m.get("created_at") or m.get("timestamp") or ""),
+                        created_at=str(m.get("createTime") or m.get("created_at") or m.get("timestamp") or ""),
                         model=str(m.get("model") or ""),
-                        external_id=str(m.get("id") or ""),
+                        citations=cites,
+                        external_id=str(m.get("responseId") or m.get("id") or ""),
                     )
                 )
         return UnifiedConversation(
@@ -252,8 +272,8 @@ class GrokAdapter:
             account=account or AccountInfo(),
             id=cid,
             title=title.strip() or "Grok conversation",
-            created_at=str(detail.get("created_at") or ""),
-            updated_at=str(detail.get("updated_at") or ""),
+            created_at=str(detail.get("createTime") or detail.get("created_at") or ""),
+            updated_at=str(detail.get("modifyTime") or detail.get("updated_at") or ""),
             folder=HOME_SPACE_NAME,
             messages=messages,
             raw={"detail": detail},

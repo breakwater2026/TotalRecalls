@@ -69,6 +69,9 @@ class LoginTokenExtractionTests(unittest.TestCase):
         fake_adapter.display_name = "Perplexity"
         fake_adapter.id = "perplexity"
         with patch("totalrecalls.desktop.bridge.get_adapter", return_value=fake_adapter), \
+             patch("totalrecalls.desktop.bridge.save_session"), \
+             patch("totalrecalls.core.paths.SESSION_FILE",
+                   tempfile.gettempdir() + "/tr-test-session.json"), \
              patch.object(bridge, "_push"):
             bridge._accept_token("abc123", False)
             # Deep conversation count now streams in from a background worker

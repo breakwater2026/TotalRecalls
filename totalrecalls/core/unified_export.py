@@ -395,6 +395,13 @@ def export_via_adapter(
                 conv.title = summary.title
             if not conv.account.email and account.email:
                 conv.account = account
+            # Some providers (Grok) return conversation timestamps only in the
+            # list response, not the detail fetch — fall back to the summary's
+            # timestamps so the export is never "undated".
+            if not conv.created_at and summary.created_at:
+                conv.created_at = summary.created_at
+            if not conv.updated_at and summary.updated_at:
+                conv.updated_at = summary.updated_at
             rec = write_unified_conversation(outdir, conv)
             records.append(rec)
             done += 1
