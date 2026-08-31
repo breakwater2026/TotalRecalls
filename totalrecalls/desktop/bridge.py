@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import threading
 import time
 import traceback
@@ -483,10 +484,28 @@ class Bridge:
 
     def openFolder(self):
         log("bridge: openFolder() called from UI")
+        path = os.path.abspath(self._default_folder or "")
+        if not path:
+            log("open folder error: empty default folder")
+            return
         try:
-            os.startfile(self._default_folder)  # type: ignore[attr-defined]
+            os.makedirs(path, exist_ok=True)
         except Exception as e:
-            log(f"open folder error: {e}")
+            log(f"open folder error (mkdir): {e}")
+        # `explorer <dir>` opens a fresh foreground Explorer window. os.startfile
+        # (ShellExecuteW) can open the folder *behind* the app window, which
+        # reads as "the button did nothing". Use explorer first, startfile as
+        # fallback, and surface any real failure to the UI.
+        try:
+            subprocess.Popen(["explorer", path])
+            log(f"open folder ok: {path}")
+        except Exception as e:
+            log(f"open folder error (explorer): {e}")
+            try:
+                os.startfile(path)  # type: ignore[attr-defined]
+            except Exception as e2:
+                log(f"open folder error (startfile): {e2}")
+                self._push({"type": "error", "message": f"Could not open folder: {e2}"})
 
     def disconnect(self):
         log("bridge: disconnect() called from UI")
