@@ -52,7 +52,7 @@ class SynthesizeTests(unittest.TestCase):
             r = _run(["synthesize", "--provider", "mistral", "--out", str(out), "--count", "4"])
             self.assertEqual(r.returncode, 0, r.stderr)
             data = json.loads(out.read_text(encoding="utf-8"))
-            self.assertEqual(len(data["response"]["conversations"]), 4)
+            self.assertEqual(len(data["response"]["result"]["data"]["json"]["items"]), 4)
 
 
 class ReplayTests(unittest.TestCase):

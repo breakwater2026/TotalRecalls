@@ -2,40 +2,67 @@
   "_meta": {
     "provider": "mistral",
     "synthetic": true,
-    "captured_at": "2026-08-27T22:32:20Z"
+    "captured_at": "2026-08-31T20:29:30Z"
   },
   "response": {
-    "conversations": [
-      {
-        "id": "synth-0000",
-        "title": "Synthetic Mistral conversation #1",
-        "created_at": "1787869940",
-        "updated_at": "1787873540"
-      },
-      {
-        "id": "synth-0001",
-        "title": "Synthetic Mistral conversation #2",
-        "created_at": "1787783540",
-        "updated_at": "1787787140"
-      },
-      {
-        "id": "synth-0002",
-        "title": "Synthetic Mistral conversation #3",
-        "created_at": "1787697140",
-        "updated_at": "1787700740"
-      },
-      {
-        "id": "synth-0003",
-        "title": "Synthetic Mistral conversation #4",
-        "created_at": "1787610740",
-        "updated_at": "1787614340"
-      },
-      {
-        "id": "synth-0004",
-        "title": "Synthetic Mistral conversation #5",
-        "created_at": "1787524340",
-        "updated_at": "1787527940"
+    "result": {
+      "data": {
+        "json": {
+          "items": [
+            {
+              "id": "synth-0000",
+              "title": "New chat",
+              "generatedTitle": "Synthetic Mistral conversation #1",
+              "userTitle": null,
+              "createdAt": "2026-08-31T20:29:30.000Z",
+              "updatedAt": "2026-08-31T20:29:30.000Z",
+              "pinned": false,
+              "projectId": null
+            },
+            {
+              "id": "synth-0001",
+              "title": "New chat",
+              "generatedTitle": "Synthetic Mistral conversation #2",
+              "userTitle": null,
+              "createdAt": "2026-08-30T20:29:30.000Z",
+              "updatedAt": "2026-08-30T20:29:30.000Z",
+              "pinned": false,
+              "projectId": null
+            },
+            {
+              "id": "synth-0002",
+              "title": "New chat",
+              "generatedTitle": "Synthetic Mistral conversation #3",
+              "userTitle": null,
+              "createdAt": "2026-08-29T20:29:30.000Z",
+              "updatedAt": "2026-08-29T20:29:30.000Z",
+              "pinned": false,
+              "projectId": null
+            },
+            {
+              "id": "synth-0003",
+              "title": "New chat",
+              "generatedTitle": "Synthetic Mistral conversation #4",
+              "userTitle": null,
+              "createdAt": "2026-08-28T20:29:30.000Z",
+              "updatedAt": "2026-08-28T20:29:30.000Z",
+              "pinned": false,
+              "projectId": null
+            },
+            {
+              "id": "synth-0004",
+              "title": "New chat",
+              "generatedTitle": "Synthetic Mistral conversation #5",
+              "userTitle": null,
+              "createdAt": "2026-08-27T20:29:30.000Z",
+              "updatedAt": "2026-08-27T20:29:30.000Z",
+              "pinned": false,
+              "projectId": null
+            }
+          ],
+          "nextCursor": null
+        }
       }
-    ]
+    }
   }
 }

@@ -1,6 +1,13 @@
 """Mistral (chat.mistral.ai) web backend transport.
 
 Credential is a session cookie captured from the WebView2 login flow.
+
+chat.mistral.ai (Le Chat) exposes its web app API as tRPC under
+``/api/trpc``.  Auth is the Ory Kratos session cookie (``ory_session_<id>``)
+plus ancillary cookies; there is no Authorization header.  The client uses a
+superjson transformer, so queries are sent as ``?input={"json": <input>}`` and
+responses arrive wrapped as ``{"result": {"data": {"json": <payload>, "meta":
+...}}``.
 """
 
 from __future__ import annotations
@@ -8,11 +15,13 @@ from __future__ import annotations
 import json
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 from totalrecalls.core.paths import log
 
 BASE = "https://chat.mistral.ai"
+TRPC = BASE + "/api/trpc"
 DEFAULT_DELAY = 1.5
 MAX_RETRIES = 6
 RETRY_BASE = 2.0
@@ -47,7 +56,7 @@ def cookie_header_from_credential(credential: str) -> str:
 def _headers(cookie: str) -> dict[str, str]:
     return {
         "User-Agent": USER_AGENT,
-        "Accept": "application/json",
+        "Accept": "application/json, text/plain, */*",
         "Accept-Language": "en-US,en;q=0.9",
         "Origin": BASE,
         "Referer": BASE + "/",
@@ -57,10 +66,10 @@ def _headers(cookie: str) -> dict[str, str]:
 
 def request(path: str, *, cookie: str,
             delay: float | None = None) -> tuple[int, object]:
-    """Make one HTTP request. Returns (status, parsed_json_or_text).
+    """Make one HTTP GET. Returns (status, parsed_json_or_text).
 
-    On 401/403 returns (status, body) instead of raising, so the adapter
-    can decide whether to retry, fail soft, or surface auth-failed.
+    On 4xx returns (status, body) instead of raising, so the adapter can
+    decide whether to retry, fail soft, or surface auth-failed.
     """
     url = path if path.startswith("http") else BASE + path
     if delay is None:
@@ -73,7 +82,8 @@ def request(path: str, *, cookie: str,
         time.sleep(delay)
         try:
             if _HAS_CFFI:
-                r = _cffi_requests.get(url, headers=_headers(cookie), timeout=30)
+                r = _cffi_requests.get(url, headers=_headers(cookie), timeout=30,
+                                       impersonate="chrome")
                 status = r.status_code
                 try:
                     data = r.json()
@@ -94,8 +104,6 @@ def request(path: str, *, cookie: str,
             if e.code == 429:
                 continue  # rate limit — retry
             if 400 <= e.code < 500:
-                # Fail fast on 4xx: return the body so the adapter can decide
-                # (auth vs. wrong endpoint); retrying would just hang.
                 body = ""
                 try:
                     body = e.read().decode("utf-8", errors="replace")
@@ -107,3 +115,34 @@ def request(path: str, *, cookie: str,
             last_err = e
             continue
     raise MistralApiError(f"network: {last_err}")
+
+
+def trpc_query(procedure: str, input_: dict, *, cookie: str,
+               delay: float | None = None) -> tuple[int, object]:
+    """Call a tRPC query procedure and return (status, unwrapped_payload).
+
+    Uses the non-batch httpLink GET form (``?input={"json": <input>}``) which
+    returns a single JSON document.  On success the payload is the superjson
+    ``result.data.json`` value (the ``meta`` side-channel is dropped).  On a
+    tRPC error the returned value is the ``error`` object.
+    """
+    payload = json.dumps({"json": input_})
+    qs = urllib.parse.quote(payload)
+    url = f"{TRPC}/{procedure}?input={qs}"
+    status, data = request(url, cookie=cookie, delay=delay)
+    if isinstance(data, str):
+        try:
+            data = json.loads(data)
+        except Exception:
+            pass
+    if isinstance(data, dict):
+        if "error" in data:
+            return status, data.get("error")
+        result = data.get("result")
+        if isinstance(result, dict):
+            inner = result.get("data")
+            if isinstance(inner, dict) and "json" in inner:
+                return status, inner["json"]
+            return status, inner
+        return status, result
+    return status, data

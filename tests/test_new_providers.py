@@ -89,7 +89,9 @@ class ListMappingTests(unittest.TestCase):
 
     def test_mistral_list_maps_fixture(self):
         adapter = MistralAdapter()
-        with self._mock_request("totalrecalls.adapters.mistral.adapter", "mistral/list_synthetic.json"):
+        raw = _load_fixture("mistral/list_synthetic.json")
+        payload = raw["result"]["data"]["json"]
+        with patch("totalrecalls.adapters.mistral.adapter.trpc_query", return_value=(200, payload)):
             out = adapter.list_conversations("ory_session_xyz", deep=False)
         self.assertEqual(len(out), 5)
         self.assertEqual(out[0].id, "synth-0000")

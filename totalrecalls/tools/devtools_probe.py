@@ -44,7 +44,7 @@ DEFAULT_UA = (
 PROVIDER_HINTS: dict[str, dict[str, str]] = {
     "deepseek": {"base": "https://chat.deepseek.com", "list_path": "/api/v0/chat_session/fetch_page?lte_cursor.pinned=false"},
     "qwen":     {"base": "https://chat.qwen.ai",     "list_path": "/api/v2/chats/?page=1&exclude_project=true"},
-    "mistral":  {"base": "https://chat.mistral.ai",  "list_path": "/api/chat/conversations?page=1&page_size=10"},
+    "mistral":  {"base": "https://chat.mistral.ai",  "list_path": "/api/trpc/chat.last?input=%7B%22json%22%3A%7B%7D%7D"},
 }
 
 
@@ -213,18 +213,18 @@ def _replay(args: argparse.Namespace) -> int:
         from totalrecalls.adapters.mistral import adapter as m_adapter
         from totalrecalls.adapters.mistral import http as m_http
         a = m_adapter.MistralAdapter()
-        orig = m_adapter.request
+        orig = m_http.request
 
         def fake_request(path, *, cookie, delay=None):
-            if "chat/conversations" in path and "page" in path:
+            if "/api/trpc/chat.last" in path:
                 return 200, next_page()
             return orig(path, cookie=cookie, delay=delay)
 
-        m_adapter.request = fake_request
+        m_http.request = fake_request
         try:
             results = a.list_conversations("session=dummy", deep=True)
         finally:
-            m_adapter.request = orig
+            m_http.request = orig
     else:
         print(f"ERROR: replay not implemented for provider {args.provider!r}", file=sys.stderr)
         return 2
@@ -312,18 +312,18 @@ def _replay_args(provider: str, fx: Path) -> str:
         from totalrecalls.adapters.mistral import adapter as ad
         from totalrecalls.adapters.mistral import http as h
         a = ad.MistralAdapter()
-        orig = ad.request
+        orig = h.request
 
         def fake(p, *, cookie, delay=None):
-            if "chat/conversations" in p and "page" in p:
+            if "/api/trpc/chat.last" in p:
                 return 200, next_page()
             return orig(p, cookie=cookie, delay=delay)
 
-        ad.request = fake
+        h.request = fake
         try:
             results = a.list_conversations("session=dummy", deep=True)
         finally:
-            ad.request = orig
+            h.request = orig
     else:
         raise ValueError(provider)
     return json.dumps({
@@ -368,11 +368,16 @@ def _synthesize(args: argparse.Namespace) -> int:
                 "updated_at": str(int(ts + 3600)),
             })
         elif args.provider == "mistral":
+            iso = _t.strftime("%Y-%m-%dT%H:%M:%S.000Z", _t.gmtime(ts))
             items.append({
                 "id": f"synth-{i:04d}",
-                "title": f"Synthetic Mistral conversation #{i+1}",
-                "created_at": str(int(ts)),
-                "updated_at": str(int(ts + 3600)),
+                "title": "New chat",
+                "generatedTitle": f"Synthetic Mistral conversation #{i+1}",
+                "userTitle": None,
+                "createdAt": iso,
+                "updatedAt": iso,
+                "pinned": False,
+                "projectId": None,
             })
     if args.provider == "deepseek":
         body = {
@@ -385,7 +390,9 @@ def _synthesize(args: argparse.Namespace) -> int:
     elif args.provider == "qwen":
         body = {"success": True, "data": items}
     elif args.provider == "mistral":
-        body = {"conversations": items}
+        # Raw tRPC httpLink response: the adapter's trpc_query() unwraps
+        # result.data.json to reach {"items": [...], "nextCursor": ...}.
+        body = {"result": {"data": {"json": {"items": items, "nextCursor": None}}}}
     else:
         body = items
     payload = {
