@@ -1,23 +1,26 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+import releases from "../../data/releases.json";
 ---
-<PageLayout title="Release Notes v1.0.0" description="What's new in TotalRecalls v1.0.0." breadcrumbs={[{ label: "Release Notes" }]}>
-  <h1>Release Notes v1.0.0</h1>
-  <h2>New Features</h2>
-  <ul>
-    <li>Added Grok export support (grok.com session scanning)</li>
-    <li>Added Claude web session export (no official tool required)</li>
-    <li>Added multi-device sync configuration</li>
-  </ul>
-  <h2>Improvements</h2>
-  <ul>
-    <li>Markdown export now includes model name per message</li>
-    <li>Improved JSON schema for easier import into Obsidian/Notion</li>
-    <li>Export speed improved 3x for large conversations</li>
-  </ul>
-  <h2>Fixes</h2>
-  <ul>
-    <li>Fixed SmartScreen false positive on some Windows 11 builds</li>
-    <li>Fixed timestamp parsing in Perplexity exports</li>
-  </ul>
+<PageLayout
+  title="Release Notes"
+  description="Release notes for TotalRecalls — what's new in each version."
+  breadcrumbs={[{ label: "Release Notes" }]}
+>
+  <h1>Release Notes</h1>
+
+  <p>
+    TotalRecalls ships updates regularly. The current release is{" "}
+    <strong>{releases.releases[0].tag}</strong> ({releases.releases[0].date}).
+  </p>
+
+  {releases.releases.map((r) => (
+    <section>
+      <h2>{r.tag} — {r.title}</h2>
+      <p class="text-muted-foreground">{r.date} · {r.summary}</p>
+      <ul>
+        {r.changes.map((c) => <li>{c}</li>)}
+      </ul>
+    </section>
+  ))}
 </PageLayout>

@@ -1,0 +1,97 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import releases from "../../data/releases.json";
+
+const latest = releases.releases[0];
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TotalRecalls",
+  "url": "https://totalrecalls.app",
+  "logo": "https://totalrecalls.app/logo.png",
+  "description":
+    "A Windows app that exports your AI chat history from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat into local Markdown + JSON files you own forever.",
+});
+---
+<PageLayout
+  title="About TotalRecalls"
+  description="TotalRecalls is a Windows app that exports your AI conversations from 8 providers into local Markdown + JSON files you own. Learn who we are and what we believe."
+  breadcrumbs={[{ label: "About" }]}
+>
+  <h1>About TotalRecalls</h1>
+
+  <p>
+    TotalRecalls is a small Windows app that exports your AI conversations from
+    <strong>eight providers</strong> — ChatGPT, Claude, Perplexity, Gemini,
+    Grok, DeepSeek, Mistral, and Qwen Chat — into plain
+    <strong>Markdown + JSON files</strong> on your own computer.
+  </p>
+
+  <p>
+    Every provider tells you that you own your conversations. When you try to
+    actually take them with you, most make you wait days for an export request
+    — or hand back only a fraction of what you wrote. TotalRecalls is the
+    difference between <em>being told</em> you own your chats and
+    <em>actually owning</em> them.
+  </p>
+
+  <h2>Why we built it</h2>
+  <p>
+    Your conversations are years of thinking: decisions, drafts, research, and
+    ideas you'll want again. They live inside other companies' accounts, locked
+    behind their interfaces. We built TotalRecalls so the archive lands where
+    it belongs — in a folder on your PC, in a format you can grep, version,
+    back up, and keep forever.
+  </p>
+
+  <h2>What we believe</h2>
+  <ul>
+    <li><strong>Your chats are yours.</strong> Not ours, and not on a rental plan.</li>
+    <li><strong>Local first.</strong> Exports are written straight to disk. No cloud, no account with us.</li>
+    <li><strong>No telemetry.</strong> The app never phones home. Your session tokens stay on your machine.</li>
+    <li><strong>One price, no subscription.</strong> $24, one time. No monthly "AI archive" fee.</li>
+  </ul>
+
+  <h2>Supported providers</h2>
+  <p>
+    ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), Grok,
+    DeepSeek, Mistral, and Qwen Chat. See the
+    <a href="/guides/">Guides</a> for per-provider walkthroughs.
+  </p>
+
+  <h2>Your data stays yours</h2>
+  <p>
+    TotalRecalls runs locally on Windows. It never connects to a TotalRecalls
+    server, never hosts your chats, and never collects your credentials. You
+    can verify this yourself by watching its network traffic. Read the
+    <a href="/legals/#privacy">Privacy Policy</a> for the details.
+  </p>
+
+  <h2>14-day money-back guarantee</h2>
+  <p>
+    If TotalRecalls isn't right for you, email us within 14 days of purchase
+    for a full, no-questions-asked refund. See the
+    <a href="/legals/#refund">Refund Policy</a>.
+  </p>
+
+  <h2>Current version</h2>
+  <p>
+    The current release is <strong>{latest.tag}</strong> ({latest.date}) —
+    {latest.title}. TotalRecalls is a new product and ships updates regularly,
+    so this page updates automatically as new versions land.
+  </p>
+  <h3>What's new in {latest.tag}</h3>
+  <ul>
+    {latest.changes.map((c) => <li>{c}</li>)}
+  </ul>
+  <p>Full history lives in the <a href="/release-notes/">Release Notes</a>.</p>
+
+  <h2>Contact</h2>
+  <p>
+    Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>,
+    open a <a href="https://github.com/breakwater2026/TotalRecalls/issues">GitHub
+    issue</a>, or see the <a href="/support/">Support</a> page.
+  </p>
+
+  <script type="application/ld+json" set:html={jsonLd} />
+</PageLayout>

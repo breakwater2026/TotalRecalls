@@ -174,14 +174,17 @@ class Bridge:
                     row["note"] = "beta"
                 rows.append(row)
         except Exception:
-            # Fallback: ship the original 5 stable providers so the UI
-            # is never empty even if the registry is broken.
+            # Fallback: ship all 8 providers so the UI is never empty even if
+            # the registry is broken.
             rows = [
                 {"id": "perplexity", "name": "Perplexity", "available": True},
                 {"id": "chatgpt",    "name": "ChatGPT",    "available": True},
                 {"id": "claude",     "name": "Claude",     "available": True},
                 {"id": "gemini",     "name": "Gemini",     "available": True},
                 {"id": "grok",       "name": "Grok",       "available": True},
+                {"id": "deepseek",   "name": "DeepSeek",   "available": True, "note": "beta"},
+                {"id": "mistral",    "name": "Mistral",    "available": True, "note": "beta"},
+                {"id": "qwen",       "name": "Qwen Chat",  "available": True, "note": "beta"},
             ]
         return rows
 
@@ -268,6 +271,45 @@ class Bridge:
                 profile_suffix="gemini",
                 prefer_bearer=False,
                 cookie_filter="__Secure-1PSID",
+            )
+        elif provider == "deepseek":
+            log("login: starting embedded WebView2 login for DeepSeek")
+            # DeepSeek's web app authenticates with a Bearer token (sent on
+            # /api/v0/* requests) plus a ds_session_id cookie. Capture the
+            # Bearer token first, fall back to the cookie.
+            self._start_generic_cookie_login(
+                title="Sign in to DeepSeek",
+                start_url="https://chat.deepseek.com/",
+                host_substr="deepseek.com",
+                profile_suffix="deepseek",
+                prefer_bearer=True,
+                cookie_names=("ds_session_id",),
+            )
+        elif provider == "mistral":
+            log("login: starting embedded WebView2 login for Mistral")
+            # Mistral (Le Chat) auth is an Ory Kratos session cookie named
+            # ory_session_<id> (plus ory_kratos_continuity). Gate on that
+            # prefix so we never capture Cloudflare/intercom baseline cookies.
+            self._start_generic_cookie_login(
+                title="Sign in to Mistral",
+                start_url="https://chat.mistral.ai/",
+                host_substr="mistral.ai",
+                profile_suffix="mistral",
+                prefer_bearer=False,
+                cookie_filter="ory_session_",
+            )
+        elif provider == "qwen":
+            log("login: starting embedded WebView2 login for Qwen Chat")
+            # Qwen Chat sets an internal __login_type__ cookie once signed in
+            # (see totalrecalls/adapters/qwen/http.py). Gate on it so the
+            # pre-login baseline cookies don't capture a dead session.
+            self._start_generic_cookie_login(
+                title="Sign in to Qwen Chat",
+                start_url="https://chat.qwen.ai/",
+                host_substr="qwen.ai",
+                profile_suffix="qwen",
+                prefer_bearer=False,
+                cookie_names=("__login_type__",),
             )
         else:
             self._connecting = False
@@ -651,7 +693,11 @@ class Bridge:
                     except Exception: auth = None
                     if auth and "bearer" in str(auth).lower():
                         tok = str(auth).split(None, 1)[-1].strip()
-                        if tok.startswith("eyJ"):
+                        # Accept any real bearer token. xAI (Grok) tokens are
+                        # JWTs (eyJ…), but DeepSeek's bearer token is a non-JWT
+                        # opaque string — gate on length instead of JWT shape so
+                        # both providers capture correctly.
+                        if len(tok) >= 16:
                             if form.IsHandleCreated:
                                 form.BeginInvoke(Action(lambda: finish(tok, "Bearer")))
                             else:
@@ -1679,7 +1725,7 @@ class Bridge:
 
         save_session(token, email)
         # Notify UI of successful connection with account selection prompt
-        if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude"):
+        if provider in ("perplexity", "chatgpt", "grok", "gemini", "claude", "deepseek", "mistral", "qwen"):
             self._push({"type": "log", "line": f"Connected to {provider}. If you have multiple accounts, select the correct one in the sign-in window."})
         # persist provider with session for reconnect awareness
         try:

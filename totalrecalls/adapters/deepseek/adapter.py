@@ -5,6 +5,8 @@ from __future__ import annotations
 from totalrecalls.adapters.deepseek.http import (
     DeepSeekApiError,
     cookie_header_from_credential,
+    looks_like_bearer,
+    normalize_bearer,
     request,
 )
 from totalrecalls.core.export_fs import HOME_SPACE_NAME
@@ -15,6 +17,24 @@ from totalrecalls.core.schema import (
     Message,
     UnifiedConversation,
 )
+
+
+def _resolve_auth(credential: str) -> tuple[str | None, str | None]:
+    """Split a credential into (access_token, cookie).
+
+    The login flow captures either a Bearer token (JWT or DeepSeek's opaque
+    non-JWT token) or a cookie header. A bare token has no '=' or ';'; a
+    cookie always carries 'name=value' pairs.
+    """
+    cred = (credential or "").strip()
+    if not cred:
+        raise DeepSeekApiError("auth-failed")
+    if looks_like_bearer(cred):
+        return normalize_bearer(cred), None
+    if "=" not in cred and ";" not in cred:
+        # Bare opaque bearer token (DeepSeek's token is not a standard JWT).
+        return cred, None
+    return None, cookie_header_from_credential(cred)
 
 
 def _ts(value) -> str:
@@ -36,12 +56,12 @@ class DeepSeekAdapter:
     display_name = "DeepSeek"
 
     def validate(self, credential: str) -> AccountInfo:
-        cookie = cookie_header_from_credential(credential)
+        token, cookie = _resolve_auth(credential)
         # Probe an account-scoped endpoint. /api/v0/user/info or /api/user/profile
         # are common shapes; fall back to listing the first page.
         for path in ("/api/v0/user/info", "/api/user/profile", "/api/v0/chat/sessions?page=0&page_size=1"):
             try:
-                status, data = request(path, cookie=cookie, delay=0)
+                status, data = request(path, access_token=token, cookie=cookie, delay=0)
             except DeepSeekApiError as e:
                 log(f"deepseek validate {path}: {e}")
                 continue
@@ -67,7 +87,7 @@ class DeepSeekAdapter:
         raise DeepSeekApiError("auth-failed")
 
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
-        cookie = cookie_header_from_credential(credential)
+        token, cookie = _resolve_auth(credential)
         out: list[ConversationSummary] = []
         seen: set[str] = set()
         # Try a few list endpoint shapes; DeepSeek's API has shifted over time.
@@ -81,7 +101,7 @@ class DeepSeekAdapter:
             for page in range(max_pages):
                 path = tmpl.format(page=page)
                 try:
-                    status, data = request(path, cookie=cookie)
+                    status, data = request(path, access_token=token, cookie=cookie)
                 except DeepSeekApiError as e:
                     log(f"deepseek list {path}: {e}")
                     break
@@ -131,7 +151,7 @@ class DeepSeekAdapter:
         return out
 
     def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
-        cookie = cookie_header_from_credential(credential)
+        token, cookie = _resolve_auth(credential)
         # Reuse account identity from validate (caller can pass a summary to skip reprobe)
         detail = None
         for path in (
@@ -140,7 +160,7 @@ class DeepSeekAdapter:
             f"/api/v0/chat/sessions/{conv_id}",
         ):
             try:
-                status, data = request(path, cookie=cookie)
+                status, data = request(path, access_token=token, cookie=cookie)
             except DeepSeekApiError as e:
                 log(f"deepseek fetch {path}: {e}")
                 continue

@@ -25,6 +25,7 @@ try:
     from curl_cffi import requests as _cffi_requests
     _HAS_CFFI = True
 except Exception:
+    _cffi_requests = None  # type: ignore
     _HAS_CFFI = False
 
 

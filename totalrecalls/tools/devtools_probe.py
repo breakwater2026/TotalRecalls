@@ -139,10 +139,10 @@ def _replay(args: argparse.Namespace) -> int:
         a = ds_adapter.DeepSeekAdapter()
         orig = ds_adapter.request
 
-        def fake_request(path, *, cookie, delay=None):
+        def fake_request(path, *, cookie, access_token=None, delay=None):
             if "chat/sessions" in path and "page" in path:
                 return 200, response
-            return orig(path, cookie=cookie, delay=delay)
+            return orig(path, access_token=access_token, cookie=cookie, delay=delay)
 
         ds_adapter.request = fake_request
         try:
@@ -237,10 +237,10 @@ def _replay_args(provider: str, fx: Path) -> str:
         a = ad.DeepSeekAdapter()
         orig = ad.request
 
-        def fake(p, *, cookie, delay=None):
+        def fake(p, *, cookie, access_token=None, delay=None):
             if "chat/sessions" in p and "page" in p:
                 return 200, response
-            return orig(p, cookie=cookie, delay=delay)
+            return orig(p, access_token=access_token, cookie=cookie, delay=delay)
 
         ad.request = fake
         try:

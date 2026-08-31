@@ -80,10 +80,3 @@ def _ensure_builtins() -> None:
     if "qwen" not in _REGISTRY:
         from totalrecalls.adapters.qwen.adapter import QwenChatAdapter
         register_provider("qwen", QwenChatAdapter)
-    if "mistral" not in _REGISTRY:
-        try:
-            from totalrecalls.adapters.mistral.adapter import MistralAdapter
-            register_provider("mistral", MistralAdapter)
-        except ImportError:
-            # Mistral scaffold may not be done yet (subagent in flight)
-            pass

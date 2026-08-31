@@ -1,0 +1,18 @@
+{
+  "currentVersion": "1.0.0",
+  "releases": [
+    {
+      "version": "1.0.0",
+      "tag": "v1.0.0",
+      "date": "August 2026",
+      "title": "Launch release — all eight providers",
+      "summary": "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat.",
+      "changes": [
+        "Eight AI providers in one library on your computer.",
+        "DeepSeek, Mistral, and Qwen Chat export.",
+        "Unified Library export layout: Markdown + JSON for every provider.",
+        "Website launched at totalrecalls.app."
+      ]
+    }
+  ]
+}

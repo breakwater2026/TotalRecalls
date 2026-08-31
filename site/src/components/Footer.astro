@@ -1,4 +1,6 @@
 ---
+import releases from "../data/releases.json";
+
 const cols = [
   {
     h: "Product",
@@ -7,6 +9,7 @@ const cols = [
       { l: "Providers", href: "/#matrix" },
       { l: "Pricing", href: "/pricing/" },
       { l: "Download", href: "/download/" },
+      { l: "About", href: "/about/" },
       { l: "Release Notes", href: "/release-notes/" }
     ]
   },
@@ -56,7 +59,7 @@ const currentYear = new Date().getFullYear();
       ))}
     </div>
     <div class="site-footer-bottom">
-      <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v1.0.0</span></span>
+      <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v{releases.currentVersion}</span></span>
       <span class="site-footer-disclaimer">
         Not affiliated with OpenAI, Anthropic, Perplexity, Google, or xAI.
       </span>
