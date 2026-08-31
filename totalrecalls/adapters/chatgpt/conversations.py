@@ -249,7 +249,15 @@ def _walk_projects(access_token: str, seen: dict[str, dict]) -> None:
 
 def get_conversation(access_token: str, conv_id: str) -> dict:
     path = f"/backend-api/conversation/{conv_id}"
-    status, data = request(path, access_token=access_token)
+    try:
+        status, data = request(path, access_token=access_token)
+    except ChatGptApiError:
+        # Newer cohorts serve conversation detail at the plural path with
+        # include_has_versions. Fall back if the singular endpoint is gone.
+        status, data = request(
+            f"/backend-api/conversations/{conv_id}?include_has_versions=true",
+            access_token=access_token,
+        )
     if not isinstance(data, dict):
         raise ChatGptApiError("http-empty")
     return data

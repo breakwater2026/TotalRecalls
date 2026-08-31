@@ -88,13 +88,16 @@ class MistralAdapter:
                     break
                 if isinstance(data, list):
                     items = data
+                    has_more = False
                 else:
                     items = (data.get("conversations") or data.get("items")
                              or data.get("list") or (data.get("data") or {}).get("conversations")
                              or [])
+                    has_more = bool(data.get("has_more") or (data.get("data") or {}).get("has_more"))
                 if not isinstance(items, list) or not items:
                     break
                 added_any = True
+                new_here = 0
                 for c in items:
                     if not isinstance(c, dict):
                         continue
@@ -102,6 +105,7 @@ class MistralAdapter:
                     if not cid or cid in seen:
                         continue
                     seen.add(cid)
+                    new_here += 1
                     title = str(c.get("title") or c.get("name") or c.get("summary") or "Mistral conversation")
                     out.append(
                         ConversationSummary(
@@ -113,7 +117,9 @@ class MistralAdapter:
                             raw=c,
                         )
                     )
-                if len(items) < 50:
+                # Stop on an explicit has_more=false, or when this page added
+                # no new IDs (the API ignores paging / cursor isn't advancing).
+                if not has_more or new_here == 0:
                     break
             if added_any and out:
                 break

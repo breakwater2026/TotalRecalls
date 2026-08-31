@@ -98,14 +98,18 @@ class QwenChatAdapter:
                     break
                 if isinstance(data, list):
                     items = data
+                    has_more = False
                 else:
-                    items = (data.get("data") or {}).get("list") if isinstance(data.get("data"), dict) else None
+                    data_inner = data.get("data") if isinstance(data.get("data"), dict) else {}
+                    items = data_inner.get("list")
                     if items is None:
                         items = (data.get("sessions") or data.get("conversations")
                                  or data.get("items") or data.get("history") or [])
+                    has_more = bool(data.get("has_more") or data_inner.get("has_more"))
                 if not isinstance(items, list) or not items:
                     break
                 added_any = True
+                new_here = 0
                 for it in items:
                     if not isinstance(it, dict):
                         continue
@@ -116,6 +120,7 @@ class QwenChatAdapter:
                     if not cid or cid in seen:
                         continue
                     seen.add(cid)
+                    new_here += 1
                     title = str(
                         it.get("title") or it.get("name") or it.get("summary")
                         or "Qwen conversation"
@@ -130,7 +135,9 @@ class QwenChatAdapter:
                             raw=it,
                         )
                     )
-                if len(items) < 50:
+                # Stop on an explicit has_more=false, or when this page added
+                # no new IDs (the API ignores paging / cursor isn't advancing).
+                if not has_more or new_here == 0:
                     break
             if added_any and out:
                 break

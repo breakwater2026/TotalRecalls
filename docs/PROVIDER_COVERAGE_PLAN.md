@@ -5,11 +5,15 @@ what it takes to reach "everything the provider will give us."
 
 **Status date:** 2026-08-30 · branch `RedesignV8`
 
-> **Update 2026-08-30:** DeepSeek is now implemented against the verified spec
-> (`chat_session/fetch_page` keyset cursor, `users/current` validate,
-> `chat/history_messages` fetch). ChatGPT now covers archived chats
-> (`is_archived=true`) and Projects (`gizmos/snorlax/sidebar`). Claude now
-> enumerates all organizations instead of just the first.
+> **Update 2026-08-30 (final):** DeepSeek (keyset cursor), ChatGPT (archived +
+> Projects), and Claude (multi-org) are implemented. Mistral + Qwen pagination
+> now stops on `has_more`/no-new-IDs instead of a fragile `len < 50` check.
+> ChatGPT detail fetch gained a plural-endpoint fallback. `devtools_probe record`
+> now captures pagination sequences (`--pages`). **Remaining blockers (need a
+> live account):** Qwen has no server-side history API (reverse-engineered
+> client is completion-only); Mistral's consumer `chat.mistral.ai` list endpoint
+> is unpublished; Grok's consumer list endpoint is unpublished (auth is an OAuth
+> Bearer token — our capture is correct, the endpoint shape needs a live capture).
 
 ---
 

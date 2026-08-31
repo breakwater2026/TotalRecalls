@@ -130,5 +130,48 @@ class RecordTests(unittest.TestCase):
         self.assertIn("cookie", r.stderr.lower())
 
 
+class SequenceFixtureTests(unittest.TestCase):
+    """Multi-page capture (`record --pages`) + sequence replay."""
+
+    def test_load_fixture_returns_pages_list(self):
+        from totalrecalls.tools import devtools_probe as dp
+        with tempfile.TemporaryDirectory() as d:
+            fx = Path(d) / "seq.json"
+            fx.write_text(json.dumps({
+                "_meta": {"provider": "deepseek"},
+                "responses": [{"url": "u1", "status": 200, "data": {"a": 1}},
+                              {"url": "u2", "status": 200, "data": {"b": 2}}],
+            }), encoding="utf-8")
+            meta, pages = dp._load_fixture(fx)
+            self.assertEqual(len(pages), 2)
+            self.assertEqual(pages[0], {"a": 1})
+
+    def test_load_fixture_single_response(self):
+        from totalrecalls.tools import devtools_probe as dp
+        with tempfile.TemporaryDirectory() as d:
+            fx = Path(d) / "s.json"
+            fx.write_text(json.dumps({"_meta": {"provider": "deepseek"}, "response": {"x": 1}}), encoding="utf-8")
+            meta, pages = dp._load_fixture(fx)
+            self.assertEqual(len(pages), 1)
+            self.assertEqual(pages[0], {"x": 1})
+
+    def test_replay_across_pages(self):
+        with tempfile.TemporaryDirectory() as d:
+            fx = Path(d) / "seq.json"
+
+            def env(sessions, has_more):
+                return {"code": 0, "msg": "", "data": {"biz_code": 0, "biz_msg": "", "biz_data": {"chat_sessions": sessions, "has_more": has_more}}}
+
+            p1 = env([{"id": "a", "title": "A", "updated_at": 300.0, "inserted_at": 100.0},
+                      {"id": "b", "title": "B", "updated_at": 200.0, "inserted_at": 100.0}], True)
+            p2 = env([{"id": "c", "title": "C", "updated_at": 100.0, "inserted_at": 100.0}], False)
+            fx.write_text(json.dumps({"_meta": {"provider": "deepseek"}, "responses": [
+                {"url": "u1", "status": 200, "data": p1}, {"url": "u2", "status": 200, "data": p2}]}), encoding="utf-8")
+            r = _run(["replay", "--provider", "deepseek", "--list-fixture", str(fx)])
+            self.assertEqual(r.returncode, 0, r.stderr)
+            out = json.loads(r.stdout)
+            self.assertEqual(out["parsed_count"], 3)
+
+
 if __name__ == "__main__":
     unittest.main()

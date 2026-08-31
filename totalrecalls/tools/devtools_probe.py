@@ -48,6 +48,17 @@ PROVIDER_HINTS: dict[str, dict[str, str]] = {
 }
 
 
+def _fetch_once(url: str, headers: dict) -> tuple[int, str]:
+    """One GET; returns (status, body). HTTP errors return their status/body."""
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return resp.status, resp.read().decode("utf-8", errors="replace")
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace") if hasattr(e, "read") else str(e)
+        return e.code, body
+
+
 def _record(args: argparse.Namespace) -> int:
     url = args.url
     if not url.startswith("http"):
@@ -68,55 +79,87 @@ def _record(args: argparse.Namespace) -> int:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    print(f"GET {url}", file=sys.stderr)
-    t0 = time.time()
-    try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            status = resp.status
-            body = resp.read().decode("utf-8", errors="replace")
-    except urllib.error.HTTPError as e:
-        # Save the error body too — sometimes the JSON we want comes
-        # back in a 401/403/404 body (path-discovery case).
-        body = e.read().decode("utf-8", errors="replace") if hasattr(e, "read") else str(e)
-        status = e.code
-    except Exception as e:
-        print(f"ERROR: {e}", file=sys.stderr)
-        return 1
-    elapsed = time.time() - t0
+    pages_n = int(getattr(args, "pages", 1) or 1)
+    page_param = getattr(args, "page_param", None)
+    page_start = int(getattr(args, "page_start", 1) or 1)
+    page_step = int(getattr(args, "page_step", 1) or 1)
 
-    # Try to parse as JSON; if it parses, save pretty; else save raw text.
-    try:
-        data = json.loads(body)
+    captured: list[dict] = []
+    for i in range(pages_n):
+        page_url = url
+        if page_param and pages_n > 1:
+            val = page_start + i * page_step
+            sep = "&" if "?" in url else "?"
+            page_url = f"{url}{sep}{page_param}={val}"
+        print(f"GET {page_url}", file=sys.stderr)
+        t0 = time.time()
+        try:
+            status, body = _fetch_once(page_url, headers)
+        except Exception as e:
+            print(f"ERROR page {i + 1}: {e}", file=sys.stderr)
+            return 1
+        elapsed = time.time() - t0
+        try:
+            data = json.loads(body)
+        except json.JSONDecodeError:
+            data = body
+        captured.append({"url": page_url, "status": status, "data": data})
+        print(f"  page {i + 1}/{pages_n} status={status} bytes={len(body)} elapsed={elapsed:.2f}s",
+              file=sys.stderr)
+
+    meta = {
+        "provider": args.provider,
+        "captured_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    if page_param and pages_n > 1:
+        meta["page_param"] = page_param
+        meta["page_start"] = page_start
+        meta["page_step"] = page_step
+    if len(captured) == 1:
         payload = {
-            "_meta": {
-                "provider": args.provider,
-                "url": url,
-                "status": status,
-                "elapsed_s": round(elapsed, 3),
-                "captured_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            },
-            "response": data,
+            "_meta": {**meta, "url": captured[0]["url"], "status": captured[0]["status"]},
+            "response": captured[0]["data"],
         }
-        out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-    except json.JSONDecodeError:
-        out.write_text(body, encoding="utf-8")
-
-    print(f"  status={status} bytes={len(body)} elapsed={elapsed:.2f}s", file=sys.stderr)
-    print(f"  saved -> {out}", file=sys.stderr)
+    else:
+        payload = {
+            "_meta": meta,
+            "responses": [{"url": c["url"], "status": c["status"], "data": c["data"]} for c in captured],
+        }
+    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"  saved -> {out} ({len(captured)} page(s))", file=sys.stderr)
     return 0
 
 
-def _load_fixture(path: Path) -> tuple[dict, Any]:
-    """Return (meta, response). meta is the _meta block or {} if missing."""
+def _load_fixture(path: Path) -> tuple[dict, list]:
+    """Return (meta, pages). `pages` is a list of raw response bodies (length 1
+    for a single-response fixture, longer for a captured pagination sequence)."""
     raw = path.read_text(encoding="utf-8")
     try:
         data = json.loads(raw)
-        if isinstance(data, dict) and "_meta" in data and "response" in data:
-            return data["_meta"], data["response"]
-        return {}, data  # bare JSON
     except json.JSONDecodeError:
-        return {}, raw  # text fixture
+        return {}, [raw]  # text fixture
+    if isinstance(data, dict) and "_meta" in data:
+        meta = data["_meta"]
+        if "responses" in data:
+            pages = [
+                r.get("data", r) if isinstance(r, dict) else r
+                for r in data["responses"]
+            ]
+            return meta, pages
+        if "response" in data:
+            return meta, [data["response"]]
+        return meta, [data]
+    return {}, [data]  # bare JSON
+
+
+def _sequence(pages: list):
+    """Return a callable that yields captured pages in order; the last page
+    repeats if the adapter over-fetches (so replay never crashes)."""
+    if not pages:
+        return lambda: {}
+    it = iter(pages)
+    last = pages[-1]
+    return lambda: next(it, last)
 
 
 def _replay(args: argparse.Namespace) -> int:
@@ -124,7 +167,8 @@ def _replay(args: argparse.Namespace) -> int:
     if not fx.exists():
         print(f"ERROR: fixture not found: {fx}", file=sys.stderr)
         return 2
-    meta, response = _load_fixture(fx)
+    meta, pages = _load_fixture(fx)
+    next_page = _sequence(pages)
     print(f"fixture={fx}", file=sys.stderr)
     if meta:
         print(f"  captured_at={meta.get('captured_at')} url={meta.get('url')} status={meta.get('status')}", file=sys.stderr)
@@ -141,7 +185,7 @@ def _replay(args: argparse.Namespace) -> int:
 
         def fake_request(path, *, cookie, access_token=None, delay=None):
             if "chat_session/fetch_page" in path:
-                return 200, response
+                return 200, next_page()
             return orig(path, access_token=access_token, cookie=cookie, delay=delay)
 
         ds_adapter.request = fake_request
@@ -157,7 +201,7 @@ def _replay(args: argparse.Namespace) -> int:
 
         def fake_request(path, *, cookie, base=qwen_http.BASE, delay=None):
             if "chat/sessions" in path and "page" in path:
-                return 200, response
+                return 200, next_page()
             return orig(path, cookie=cookie, base=base, delay=delay)
 
         qwen_adapter.request = fake_request
@@ -173,7 +217,7 @@ def _replay(args: argparse.Namespace) -> int:
 
         def fake_request(path, *, cookie, delay=None):
             if "chat/conversations" in path and "page" in path:
-                return 200, response
+                return 200, next_page()
             return orig(path, cookie=cookie, delay=delay)
 
         m_adapter.request = fake_request
@@ -230,7 +274,8 @@ def _diff(args: argparse.Namespace) -> int:
 
 def _replay_args(provider: str, fx: Path) -> str:
     """Internal helper: replay a fixture and return the JSON string."""
-    meta, response = _load_fixture(fx)
+    meta, pages = _load_fixture(fx)
+    next_page = _sequence(pages)
     if provider == "deepseek":
         from totalrecalls.adapters.deepseek import adapter as ad
         from totalrecalls.adapters.deepseek import http as h
@@ -239,7 +284,7 @@ def _replay_args(provider: str, fx: Path) -> str:
 
         def fake(p, *, cookie, access_token=None, delay=None):
             if "chat_session/fetch_page" in p:
-                return 200, response
+                return 200, next_page()
             return orig(p, access_token=access_token, cookie=cookie, delay=delay)
 
         ad.request = fake
@@ -255,7 +300,7 @@ def _replay_args(provider: str, fx: Path) -> str:
 
         def fake(p, *, cookie, base=h.BASE, delay=None):
             if "chat/sessions" in p and "page" in p:
-                return 200, response
+                return 200, next_page()
             return orig(p, cookie=cookie, base=base, delay=delay)
 
         ad.request = fake
@@ -271,7 +316,7 @@ def _replay_args(provider: str, fx: Path) -> str:
 
         def fake(p, *, cookie, delay=None):
             if "chat/conversations" in p and "page" in p:
-                return 200, response
+                return 200, next_page()
             return orig(p, cookie=cookie, delay=delay)
 
         ad.request = fake
@@ -368,6 +413,12 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument("--cookie", help="Cookie header value (from DevTools)")
     pr.add_argument("--bearer", help="Bearer token (from DevTools)")
     pr.add_argument("--out", required=True, help="Output fixture path (.json)")
+    pr.add_argument("--pages", type=int, default=1,
+                    help="Capture N pages as a pagination sequence")
+    pr.add_argument("--page-param", default=None,
+                    help="Query param to vary per page (e.g. offset, page)")
+    pr.add_argument("--page-start", type=int, default=1, help="Value for page 1")
+    pr.add_argument("--page-step", type=int, default=1, help="Increment per page")
     pr.set_defaults(func=_record)
 
     py = sub.add_parser("replay", help="Run a captured fixture through the adapter parser")
