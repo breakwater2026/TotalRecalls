@@ -7,7 +7,8 @@ what it takes to reach "everything the provider will give us."
 
 > **Update 2026-08-30:** DeepSeek is now implemented against the verified spec
 > (`chat_session/fetch_page` keyset cursor, `users/current` validate,
-> `chat/history_messages` fetch). See commit on `RedesignV8`.
+> `chat/history_messages` fetch). ChatGPT now covers archived chats
+> (`is_archived=true`) and Projects (`gizmos/snorlax/sidebar`).
 
 ---
 

@@ -144,5 +144,33 @@ class BridgeProviderTests(unittest.TestCase):
         self.assertIn("perplexity", ids)
 
 
+class ChatGptDeepListTests(unittest.TestCase):
+    """Deep listing must cover archived chats and Projects (snorlax)."""
+
+    def test_deep_list_includes_archived_pass(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        with patch.object(conv, "request", return_value=(200, {"items": [], "total": 0})) as req:
+            conv.list_conversations("tok", deep=True)
+        paths = [str(c.args[0]) for c in req.call_args_list if c.args]
+        self.assertTrue(any("is_archived=true" in p for p in paths))
+
+    def test_deep_list_walks_projects(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        sidebar = {"gizmos": [{"id": "proj1", "name": "My Project"}]}
+        proj_convs = {"items": [{"id": "c1", "title": "In project"}]}
+
+        def fake_req(path, **kw):
+            if "snorlax/sidebar" in path:
+                return 200, sidebar
+            if path.startswith("/backend-api/gizmos/proj1/conversations"):
+                return 200, proj_convs
+            return 200, {"items": [], "total": 0}
+
+        with patch.object(conv, "request", side_effect=fake_req):
+            out = conv.list_conversations("tok", deep=True)
+        ids = {str(c.get("id")) for c in out}
+        self.assertIn("c1", ids)
+
+
 if __name__ == "__main__":
     unittest.main()
