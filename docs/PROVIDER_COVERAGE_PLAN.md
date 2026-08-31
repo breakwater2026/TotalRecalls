@@ -7,13 +7,12 @@ what it takes to reach "everything the provider will give us."
 
 > **Update 2026-08-30 (final):** DeepSeek (keyset cursor), ChatGPT (archived +
 > Projects), and Claude (multi-org) are implemented. Mistral + Qwen pagination
-> now stops on `has_more`/no-new-IDs instead of a fragile `len < 50` check.
-> ChatGPT detail fetch gained a plural-endpoint fallback. `devtools_probe record`
-> now captures pagination sequences (`--pages`). **Remaining blockers (need a
-> live account):** Qwen has no server-side history API (reverse-engineered
-> client is completion-only); Mistral's consumer `chat.mistral.ai` list endpoint
-> is unpublished; Grok's consumer list endpoint is unpublished (auth is an OAuth
-> Bearer token — our capture is correct, the endpoint shape needs a live capture).
+> now stops on `has_more`/no-new-IDs. ChatGPT detail fetch gained a plural
+> fallback. `devtools_probe record` captures pagination sequences. **Grok is now
+> fixed end-to-end** against the live API (`/rest/app-chat/conversations` list +
+> `.../{id}/responses` for messages, with timestamps + citations). **Remaining
+> (need a live account):** Qwen has no server-side history API; Mistral's
+> consumer list endpoint is unpublished.
 
 ---
 
