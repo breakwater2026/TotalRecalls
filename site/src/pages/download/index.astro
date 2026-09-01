@@ -1,14 +1,13 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 
-// All values below are placeholders. After the first PyInstaller build, copy
-// the real ZIP URL, SHA-256, size, and release date from build/release.json
-// (or paste from `Get-FileHash TotalRecalls.zip` + the build log).
+// Free Tier release. Real build artifacts — recompute after each PyInstaller build:
+//   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
 const VERSION = "v1.0.0";
-const RELEASE_DATE = "2026-08-26";
-const ZIP_URL = "https://totalrecalls.app/downloads/TotalRecalls-1.0.0.zip";
-const ZIP_SIZE_MB = 50;
-const SHA256 = "0000000000000000000000000000000000000000000000000000000000000000";
+const RELEASE_DATE = "September 1, 2026";
+const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
+const ZIP_SIZE_MB = 17.1;
+const SHA256 = "de03e3c0abed36c93f21d1fa412f06aa8a049cd87d51345cde457075248bce2f";
 ---
 <PageLayout
   title={`Download TotalRecalls ${VERSION}`}
@@ -22,17 +21,27 @@ const SHA256 = "0000000000000000000000000000000000000000000000000000000000000000
   </p>
 
   <section>
-    <h2>Get Your Download</h2>
+    <h2>Get Your Download — Free Tier</h2>
     <p>
-      <a class="download-btn" href={ZIP_URL} data-tr-buy="true">
-        &#8681; Download TotalRecalls {VERSION} (ZIP, ~{ZIP_SIZE_MB} MB)
+      Full-featured app, no installation, no account required. The Free Tier
+      includes <strong>3 providers</strong> (Perplexity, ChatGPT, Claude) and up to
+      <strong>5 conversations per download</strong>.
+    </p>
+    <p>
+      <a class="download-btn" href={ZIP_URL}>
+        &#8681; Download TotalRecalls {VERSION} — Free Tier (ZIP, ~{ZIP_SIZE_MB} MB)
+      </a>
+    </p>
+    <p>
+      <a href="/buy/" class="buy-pro-link">
+        Need all 8 providers &amp; unlimited conversations? <strong>Upgrade to Pro — one-time $24</strong>
       </a>
     </p>
     <p class="hash-line">
       <strong>SHA-256:</strong> <code>{SHA256}</code>
     </p>
     <p class="hash-note">
-      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{VERSION}.zip -Algorithm SHA256</code>
+      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{VERSION}-free-tier.zip -Algorithm SHA256</code>
     </p>
     <p class="check-updates">
       <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
@@ -49,7 +58,7 @@ const SHA256 = "0000000000000000000000000000000000000000000000000000000000000000
       or use the download link from your purchase email.
     </p>
     <p>
-      <strong>A free version is available now</strong> — download the app and test it
+      <strong>The Free Tier is available now</strong> — download the app and test it
       on your own chats before paying a cent. Downloads are limited to 3 AI providers and
       5 conversations per download. That's our replacement for money-back refunds. Purchases
       are one-time and include every future update.
@@ -106,10 +115,10 @@ const SHA256 = "0000000000000000000000000000000000000000000000000000000000000000
       <li><a href="/guides/export-chatgpt-conversations/">ChatGPT download guide</a></li>
       <li><a href="/guides/backup-perplexity-threads/">Perplexity download guide</a></li>
       <li><a href="/guides/export-claude-chat-history/">Claude Projects download guide</a></li>
-      <li><a href="/guides/export-deepseek-chats/">DeepSeek download guide</a></li>
-      <li><a href="/guides/export-mistral-chats/">Mistral download guide</a></li>
-      <li><a href="/guides/export-qwen-chats/">Qwen download guide</a></li>
-      <li><a href="/guides/export-grok-chats/">Grok download guide</a></li>
+      <li><a href="/guides/deepseek/">DeepSeek download guide</a></li>
+      <li><a href="/guides/mistral/">Mistral download guide</a></li>
+      <li><a href="/guides/qwen/">Qwen download guide</a></li>
+      <li><a href="/guides/grok/">Grok download guide</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li>Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a></li>
     </ul>

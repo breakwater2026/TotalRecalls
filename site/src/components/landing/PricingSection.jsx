@@ -31,7 +31,7 @@ export default function PricingSection() {
             </h2>
 
             <p className="font-body text-muted-foreground text-[15.5px] leading-relaxed mt-4 max-w-lg">
-              Try it free first. The free version lets you test the app on your own chats —
+              Try it free first. The Free Tier lets you test the app on your own chats —
               limited to 3 AI providers and 5 conversations per download, so you can get
               comfortable before you pay. A one-time $24 purchase unlocks Pro: all 8 providers
               and unlimited downloads.
@@ -58,7 +58,7 @@ export default function PricingSection() {
               </a>
               <a
                 href="/download/"
-                aria-label="Try the free version"
+                aria-label="Try the Free Tier"
                 className="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors"
               >
                 Try it free

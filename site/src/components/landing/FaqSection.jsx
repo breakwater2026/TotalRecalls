@@ -7,7 +7,7 @@ const FAQS = [
   },
   {
     q: "What's the refund policy?",
-    a: "In lieu of a refund policy, we have a free trial available from our website. You can download the app and test it to your liking. The free version has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download.",
+    a: "In lieu of a refund policy, we have a Free Tier available from our website. You can download the app and test it to your liking. The Free Tier has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download.",
   },
   {
     q: "Is there a subscription?",

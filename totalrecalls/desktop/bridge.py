@@ -1937,6 +1937,14 @@ class Bridge:
             self._push({"type": "log",
                         "line": f"Found {total} conversation(s) after multi-source discovery. Organizing by Space…"})
 
+            # Free Tier cap (classic path): same rule as the adapter path.
+            if not licensing.is_pro() and total > licensing.FREE_CONVERSATION_LIMIT:
+                self._push({"type": "log",
+                            "line": f"Free Tier: downloading the first {licensing.FREE_CONVERSATION_LIMIT} of {total} conversations. "
+                                    "Upgrade to Pro for unlimited downloads."})
+                threads = threads[:licensing.FREE_CONVERSATION_LIMIT]
+                total = len(threads)
+
             uuid_index = load_uuid_index(outdir)
             records = []
             done = 0

@@ -42,7 +42,7 @@ export default function SentinelHero() {
               </a>
             </div>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mt-3">
-              Try the free version today · One-time $24 · No subscription
+              Try the Free Tier today · One-time $24 · No subscription
             </p>
 
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">

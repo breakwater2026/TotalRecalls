@@ -30,11 +30,11 @@ def query_dialogflow(user_query, session_id="web-user-session"):
     if any(w in lower_q for w in ["price", "cost", "how much", "$"]):
         return "TotalRecalls is a one-time purchase of $24 (launch price). No subscription, no monthly fees — you own your local archive forever!"
     if any(w in lower_q for w in ["refund", "guarantee", "money-back", "money back"]):
-        return "We offer a 14-day money-back guarantee. If TotalRecalls doesn't work for you, email us and we'll issue a full refund — no questions asked."
+        return "In lieu of a refund policy, we offer a Free Tier: download the app and test it on your own chats before paying. The Free Tier is limited to 3 providers and 5 conversations per download. Pro is a one-time $24 purchase — no subscription."
     if any(w in lower_q for w in ["provider", "supported", "chatgpt", "claude", "gemini", "grok", "perplexity"]):
-        return "TotalRecalls supports exporting conversations from ChatGPT, Claude, Perplexity, Gemini (Takeout), and Grok directly into local Markdown and JSON files on your PC."
+        return "TotalRecalls supports downloading conversations from ChatGPT, Claude, Perplexity, Gemini (Takeout), Grok, DeepSeek, Mistral, and Qwen Chat directly into local Markdown and JSON files on your PC."
     if any(w in lower_q for w in ["download", "exe", "install", "windows", "system"]):
-        return "TotalRecalls is a lightweight Windows app (Windows 10/11) with zero installation required. You get the secure download link right after checkout."
+        return "TotalRecalls is a lightweight Windows app (Windows 10/11) with zero installation required. The Free Tier is available to download now — test it on your own chats before paying. Purchasers get a secure download link by email."
 
     try:
         creds, _ = default()
@@ -53,9 +53,9 @@ def query_dialogflow(user_query, session_id="web-user-session"):
             txt = messages[0].text.text[0]
             if "cannot find any information" not in txt.lower():
                 return txt
-        return "TotalRecalls is a one-time $24 Windows utility to export ChatGPT, Claude, Perplexity, Gemini, and Grok chats to local Markdown + JSON. How else can I help?"
+        return "TotalRecalls is a one-time $24 Windows utility to download ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat chats to local Markdown + JSON. How else can I help?"
     except Exception as e:
-        return "TotalRecalls is a one-time $24 Windows app to own your AI chats locally. Feel free to ask about pricing, refunds, or supported providers!"
+        return "TotalRecalls is a one-time $24 Windows app to own your AI chats locally. Feel free to ask about pricing, the Free Tier, or supported providers!"
 
 
 class CharsetHandler(http.server.SimpleHTTPRequestHandler):
