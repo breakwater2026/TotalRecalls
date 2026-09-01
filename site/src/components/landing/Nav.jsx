@@ -6,7 +6,7 @@
  */
 
 import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 
 const LINKS = [
   { label: "How It Works", href: "/#resolution" },
@@ -34,6 +34,10 @@ export default function Nav() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-5">
+          <button type="button" data-theme-toggle className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors" aria-label="Toggle theme">
+            <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
+            <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
+          </button>
           <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">Download</a>
           <div className="flex flex-col items-center">
             <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-primary text-white px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
@@ -52,6 +56,13 @@ export default function Nav() {
         <div className="md:hidden border-t border-border bg-background relative overflow-hidden mt-2.5">
           <span className="absolute left-0 top-0 h-full w-px bg-primary tr-scanline" />
           <nav className="px-5 py-4 flex flex-col gap-3.5">
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Appearance</span>
+              <button type="button" data-theme-toggle className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle theme">
+                <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
+                <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
+              </button>
+            </div>
             {LINKS.concat([{ label: "Download", href: "/download/" }]).map((l) => (
               <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted-foreground">
                 {l.label}

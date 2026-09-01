@@ -14,6 +14,29 @@
     --destructive: 0 84.2% 60.2%;
     --border: 214.3 31.8% 91.4%;
   }
+
+  /* Dark theme — background is Grok's true black: oklch(17.8% .0048 274.69)
+     == hsl(228 8% 7%) == #101113 (pulled from Grok's CDN CSS, 2026-09-01). */
+  html[data-theme="dark"] {
+    --background: 228 8% 7%;        /* #101113 — Grok pitch black */
+    --foreground: 220 12% 92%;      /* #E8EAED — near-white body text */
+    --card: 228 7% 10%;             /* #16181B — raised surface */
+    --card-foreground: 220 12% 92%;
+    --primary: 217 100% 59%;        /* #2F7BFF — unchanged, reads on dark */
+    --muted: 228 6% 13%;            /* #1E2126 — subtle fill */
+    --muted-foreground: 220 8% 64%; /* #9AA3AF — secondary text */
+    --destructive: 0 84.2% 60.2%;
+    --border: 228 6% 18%;           /* #26292E — hairlines */
+  }
+
+  /* Base44 token aliases used by the non-landing .astro components */
+  html[data-theme="dark"] {
+    --color-midnight: #101113;
+    --color-slate: #C7CCD4;
+    --color-soft: #26292E;
+    --color-bg: #101113;
+    --color-surface: #16181B;
+  }
 }
 
 /* Base44 Custom Animations & Utility Classes */
@@ -21,6 +44,10 @@
   background-image: linear-gradient(to right, #F8FAFC 1px, transparent 1px),
                     linear-gradient(to bottom, #F8FAFC 1px, transparent 1px);
   background-size: 32px 32px;
+}
+html[data-theme="dark"] .tr-grid-bg {
+  background-image: linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
 }
 
 .tr-scanline {
