@@ -14,11 +14,25 @@ class SetProviderTests(unittest.TestCase):
         b = Bridge(ui_html="<html></html>")
         pushes = []
         with patch.object(b, "_push", side_effect=lambda p: pushes.append(p)):
+            r = b.setProvider("chatgpt")
+        self.assertTrue(r.get("ok"))
+        self.assertEqual(r.get("provider"), "chatgpt")
+        self.assertEqual(b._provider_id, "chatgpt")
+        self.assertTrue(any(p.get("type") == "provider" and p.get("provider") == "chatgpt" for p in pushes))
+
+    def test_pro_only_provider_blocked_when_free(self):
+        b = Bridge(ui_html="<html></html>")
+        with patch.object(b, "_push"), patch("totalrecalls.licensing.is_pro", return_value=False):
+            r = b.setProvider("gemini")
+        self.assertFalse(r.get("ok"))
+        self.assertNotEqual(b._provider_id, "gemini")
+
+    def test_pro_only_provider_allowed_when_pro(self):
+        b = Bridge(ui_html="<html></html>")
+        with patch.object(b, "_push"), patch("totalrecalls.licensing.is_pro", return_value=True):
             r = b.setProvider("gemini")
         self.assertTrue(r.get("ok"))
-        self.assertEqual(r.get("provider"), "gemini")
         self.assertEqual(b._provider_id, "gemini")
-        self.assertTrue(any(p.get("type") == "provider" and p.get("provider") == "gemini" for p in pushes))
 
     def test_switch_clears_session(self):
         b = Bridge(ui_html="<html></html>")

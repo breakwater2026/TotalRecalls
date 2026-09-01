@@ -1,4 +1,4 @@
-# Lemon Squeezy setup — TotalRecalls ($24 one-time)
+# Lemon Squeezy setup — TotalRecalls (free trial + $24 Pro)
 
 ## Locked decisions
 
@@ -7,7 +7,9 @@
 | Provider | **Lemon Squeezy** |
 | Price | **$24 USD** one-time |
 | Product | TotalRecalls for Windows |
-| License keys in app | **Not required for v1** (paid download first) |
+| License keys in app | **Required** — issue a key on purchase; the app validates it to unlock Pro |
+| Free tier | 3 providers, 5 conversations per download (no key) |
+| Pro ($24) | all 8 providers, unlimited downloads (license key) |
 | Payouts | **Wise USD balance — hold USD**, no auto-conversion (Wise has none on arrival; convert to CAD manually or via rate-triggered Auto Conversion when desired) |
 | Site config | `site/public/js/config.js` → `lemonCheckoutUrl` (Astro build path; the V1 `site/js/config.js` copy was deleted) |
 
@@ -55,12 +57,12 @@ Notes:
    - Price: **$24** · One-time
    - Tax category: Software (follow Lemon’s prompts)
 4. **Digital files:** upload  
-   `TotalRecalls-windows-x64-v1.3.0.zip`  
+   `TotalRecalls-windows-x64-v1.0.0.zip`  
    (same file as GitHub Release)
 5. Description (short):
 
 ```text
-Windows app to export AI chats from ChatGPT, Claude, Perplexity, Gemini (Takeout), and Grok into a private folder on your PC. One-time purchase. We don't host your session tokens.
+Windows app to download your AI chats from ChatGPT, Claude, Perplexity, Gemini, Grok and more into a private folder on your PC. Free tier (3 providers, 5 conversations per download) — a one-time $24 Pro purchase unlocks all 8 providers and unlimited downloads. We don't host your session tokens.
 ```
 
 6. After save, open **Share** / **Checkout link** and copy the full URL  
@@ -95,7 +97,7 @@ https://totalrecalls.app/thanks.html
 | 1 | Payout method (bank) | ✅ done (user-confirmed) |
 | 2 | Tax profile / W-8 | ✅ done (user-confirmed) |
 | 3 | Publish product: switch from Test mode to **Live**, set status **Published** | ❌ product is `draft`, `test_mode: true` |
-| 4 | Attach digital file `TotalRecalls-windows-x64-v1.3.0.zip` to the variant | ❌ 0 files attached |
+| 4 | Attach digital file `TotalRecalls-windows-x64-v1.0.0.zip` to the variant | ❌ 0 files attached |
 | 5 | Store email (support@totalrecalls.app) in Store Settings | ❌ API shows `email: None` |
 | 6 | Confirmation redirect → thanks page | ❌ not set |
 | 7 | Rotate API key at launch (new live-mode key; update `.env`) | 🔜 at launch |
@@ -122,8 +124,11 @@ orders today it's inert, but at launch it must be one of:
 - **Option C — repoint it to a placeholder that 200s.** Keep the webhook slot
   but avoid error noise until a real handler exists.
 
-**Recommendation:** Option B for v1 launch; revisit when license keys ship
-(v1.1+). If B, delete the webhook in Settings → Webhooks before going live.
+**Recommendation:** With the free-trial + Pro model, license keys now ship at
+launch — enable **License keys** on the product variant and reference the
+license key + checkout URL in `site/public/js/config.js`. The webhook itself is
+still optional for v1 (Lemon emails the key automatically); Option B remains
+acceptable, but Option A becomes worth it if you want order→email automation.
 
 ## Test checklist
 

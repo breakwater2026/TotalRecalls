@@ -311,6 +311,7 @@ def export_via_adapter(
     on_progress: Callable[[dict], None] | None = None,
     on_log: Callable[[str], None] | None = None,
     on_first_download: Callable[[], None] | None = None,
+    max_conversations: int | None = None,
 ) -> dict:
     """Run a full export through a ProviderAdapter into Library/<provider>/."""
 
@@ -329,6 +330,11 @@ def export_via_adapter(
     summaries = adapter.list_conversations(credential, deep=deep)
     total = len(summaries)
     _log(f"Found {total} conversation(s) on {adapter.display_name}")
+    if max_conversations is not None and total > max_conversations:
+        _log(f"Free tier: downloading the first {max_conversations} of {total} conversations. "
+             f"Upgrade to Pro for unlimited downloads.")
+        summaries = summaries[:max_conversations]
+        total = max_conversations
 
     # load prior index for skip
     index_path = os.path.join(outdir, "uuid_index.json")

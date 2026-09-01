@@ -32,6 +32,7 @@ from totalrecalls.adapters.perplexity.thread import get_thread, extract_entry, r
 from totalrecalls.adapters.base import get_adapter
 from totalrecalls.core.unified_export import export_via_adapter
 from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
+from totalrecalls import licensing
 
 class Bridge:
     """Called from the web UI via pywebview's js_api bridge.
@@ -52,7 +53,11 @@ class Bridge:
         self._login_form = None
         self._export_thread: threading.Thread | None = None
         self._connecting = False
-        self._default_folder = os.path.join(os.path.expanduser("~"), "TotalRecalls-export")
+        self._default_folder = os.path.join(os.path.expanduser("~"), "TotalRecalls-download")
+        # Keep pre-existing users on their old folder so nothing is orphaned.
+        _legacy = os.path.join(os.path.expanduser("~"), "TotalRecalls-export")
+        if os.path.isdir(_legacy) and not os.path.isdir(self._default_folder):
+            self._default_folder = _legacy
         self._LOGIN_TIMEOUT = 8 * 60  # seconds
         self._login_completion_pending = False
         self._conversation_count = 0
@@ -133,7 +138,36 @@ class Bridge:
             "connecting": bool(self._connecting),
             "count": self._conversation_count,
             "provider": getattr(self, "_provider_id", "perplexity"),
+            "pro": licensing.is_pro(),
+            "tier": licensing.tier_name(),
+            "provider_limit": licensing.FREE_PROVIDER_LIMIT,
+            "conversation_limit": licensing.FREE_CONVERSATION_LIMIT,
         }
+
+    def activateLicense(self, key: str = ""):
+        """Validate + persist a Pro license key (called from the UI)."""
+        result = licensing.activate_license(key or "")
+        log(f"bridge: activateLicense ok={result['ok']} — {result['message']}")
+        self._push({
+            "type": "license",
+            "pro": licensing.is_pro(),
+            "tier": licensing.tier_name(),
+            "message": result["message"],
+            "ok": result["ok"],
+        })
+        return {
+            "ok": result["ok"],
+            "message": result["message"],
+            "pro": licensing.is_pro(),
+            "tier": licensing.tier_name(),
+        }
+
+    def openBuyPage(self):
+        """Open the purchase page in the user's default browser."""
+        import webbrowser
+        log("bridge: openBuyPage() called from UI")
+        webbrowser.open("https://totalrecalls.app/buy")
+        return {"ok": True}
 
     def listProviders(self):
         """UI provider picker — pulls the live list from the adapter
@@ -148,6 +182,7 @@ class Bridge:
           note:       short hint shown next to the option (e.g. "beta")
         """
         rows = []
+        pro = licensing.is_pro()
         try:
             from totalrecalls.adapters.base import list_provider_ids, get_adapter
             for pid in list_provider_ids():
@@ -173,6 +208,11 @@ class Bridge:
                 # Mark the 3 newest providers as beta in the UI
                 if pid in ("deepseek", "mistral", "qwen"):
                     row["note"] = "beta"
+                # Free tier: providers beyond the first N require Pro.
+                if licensing.provider_is_pro_only(pid):
+                    row["pro"] = True
+                    if not pro:
+                        row["available"] = False
                 rows.append(row)
         except Exception:
             # Fallback: ship all 8 providers so the UI is never empty even if
@@ -187,12 +227,20 @@ class Bridge:
                 {"id": "mistral",    "name": "Mistral",    "available": True, "note": "beta"},
                 {"id": "qwen",       "name": "Qwen Chat",  "available": True, "note": "beta"},
             ]
+            for row in rows:
+                if licensing.provider_is_pro_only(row["id"]):
+                    row["pro"] = True
+                    if not pro:
+                        row["available"] = False
         return rows
 
 
     def setProvider(self, provider_id: str = "perplexity"):
         """Select active provider for login/export (UI dropdown)."""
         pid = (provider_id or "perplexity").strip().lower()
+        if licensing.provider_is_pro_only(pid) and not licensing.is_pro():
+            self._push({"type": "error", "message": f"{pid} requires Pro — upgrade to unlock all 8 providers."})
+            return {"ok": False, "provider": getattr(self, "_provider_id", "perplexity")}
         try:
             get_adapter(pid)
         except Exception:
@@ -1820,7 +1868,7 @@ class Bridge:
             os.makedirs(outdir, exist_ok=True)
             self._push({"type": "export_start"})
             self._push({"type": "log",
-                        "line": f"TotalRecalls v{APP_VERSION} — preparing export…"})
+                        "line": f"TotalRecalls v{APP_VERSION} — preparing download…"})
             killed = kill_other_exporter_processes(force=True)
             if killed:
                 self._push({"type": "log",
@@ -1840,7 +1888,7 @@ class Bridge:
                         "title": p.get("title", ""),
                     })
 
-                self._push({"type": "log", "line": f"Export via {adapter.display_name} adapter → Library/{adapter.id}/ …"})
+                self._push({"type": "log", "line": f"Downloading via {adapter.display_name} adapter → Library/{adapter.id}/ …"})
                 result = export_via_adapter(
                     adapter,
                     credential=token,
@@ -1850,6 +1898,7 @@ class Bridge:
                     on_log=on_log,
                     on_progress=on_progress,
                     on_first_download=self._note_first_download,
+                    max_conversations=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
                 )
                 empty_n = len(
                     ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []

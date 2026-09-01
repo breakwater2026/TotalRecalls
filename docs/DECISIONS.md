@@ -21,8 +21,8 @@ Source: user answers + agent recommendations locked in planning session.
 | 2 | Desktop shell | **Python + pywebview/WebView2 host first**; architecture stays shell-swappable for **Tauri later** | Preserves hard-won STA WebView2 login (primary product risk). Tauri rewrite of auth is deferred until adapters + React UI are stable. |
 | 3 | `xref-PerplexityExporter.html` (52,250 lines) | **(A) Preserve as artifact / dependency map** — do **not** port into React as app source | File is PyInstaller modulegraph cross-reference HTML, not business logic. Real logic is `app.py` + `app_ui.html` + CLI lineage. Entire v1 folder including xref remains preserved. |
 | 4 | Provider #2 | **ChatGPT** | User confirmed |
-| 5 | Pricing | **$24 USD one-time** (band was $19–29) | Locked 2026-08-10 with Lemon Squeezy |
-| 6 | Payments | **Lemon Squeezy** (merchant of record) | Paid download first; license keys in-app deferred |
+| 5 | Pricing | **$24 USD one-time Pro** + free tier (3 providers, 5 conversations per download) | Free trial replaces the 14-day refund policy (2026-08-31) |
+| 6 | Payments | **Lemon Squeezy** (merchant of record) | Free download + $24 Pro unlocked by a license key (validated in-app) |
 
 ## Working trees
 

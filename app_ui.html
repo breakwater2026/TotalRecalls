@@ -21,6 +21,13 @@
   .pill { font-size:12px; padding:4px 12px; border-radius:99px; border:1px solid var(--border);
           color:var(--muted); background:var(--panel); }
   .pill.ok { color:var(--good); border-color:rgba(52,211,153,.35); }
+  .tier-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:99px;
+                background:var(--panel2); color:var(--muted); border:1px solid var(--border);
+                text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
+  .tier-badge.pro { color:#f5c76a; border-color:rgba(245,199,106,.4); background:rgba(245,199,106,.08); }
+  .license-box { background:var(--panel); border:1px solid var(--border); border-radius:14px;
+                 padding:20px; margin-bottom:18px; }
+  .license-box h2 { font-size:15px; margin-bottom:6px; color:var(--accent2); }
   h1 { font-size:26px; margin-bottom:8px; }
   .sub { color:var(--muted); font-size:14px; line-height:1.55; margin-bottom:24px; }
   .card { background:var(--panel); border:1px solid var(--border); border-radius:14px;
@@ -65,8 +72,26 @@
   <header>
     <img class="logo" src="./ui/logo.png" alt="TotalRecalls">
     <div class="brand">TotalRecalls</div>
-    <div class="pill" id="pill">Not connected</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="tier-badge" id="tier-badge">Free</span>
+      <button class="link hidden" id="btn-upgrade">Upgrade to Pro &mdash; $24</button>
+      <div class="pill" id="pill">Not connected</div>
+    </div>
   </header>
+
+  <!-- ============ UPGRADE / LICENSE ============ -->
+  <div class="license-box hidden" id="license-box">
+    <h2>Unlock Pro</h2>
+    <p class="note" style="margin-bottom:12px">One price. Every conversation. Yours forever.
+      The free trial includes 3 providers and 5 conversations per download.
+      Pro unlocks all 8 providers and unlimited downloads.</p>
+    <div class="row">
+      <input type="text" id="license-input" placeholder="Paste your license key&hellip;" style="flex:1;min-width:220px">
+      <button class="btn-primary" id="btn-activate">Activate</button>
+      <button class="btn-ghost" id="btn-buy">Buy Pro &mdash; $24</button>
+    </div>
+    <div class="status" id="license-status" style="margin-top:8px"></div>
+  </div>
 
   <!-- ============ CONNECT SCREEN ============ -->
   <section id="scr-connect">
@@ -88,6 +113,7 @@
           <option value="qwen">Qwen Chat</option>
         </select>
       </div>
+      <p class="note" id="tier-note" style="margin-bottom:14px;color:var(--warn)"></p>
       <h2>Step 2 &mdash; Connect your account</h2>
       <p class="note" style="margin-bottom:14px;color:var(--text)">Click the button below. A sign-in window opens inside the app —
         log in there. When sign-in succeeds, this screen advances automatically.
@@ -148,11 +174,11 @@
       </div>
       <div class="check">
         <input type="checkbox" id="chk-refresh">
-        <label for="chk-refresh">Re-export everything (slower &mdash; skip if you already exported before)</label>
+        <label for="chk-refresh">Re-download everything (slower &mdash; skip if you already downloaded before)</label>
       </div>
       <div style="margin-top:16px">
         <button class="btn-primary" id="btn-export" style="font-size:15px;padding:13px 26px">
-          Export my conversations</button>
+          Download my conversations</button>
       </div>
       <div class="bar hidden" id="bar-row"><div id="fill"></div></div>
       <div class="status" id="status-line"></div>
@@ -160,17 +186,17 @@
       <div class="log" id="log" style="max-height:200px;overflow-y:auto"></div>
       <div class="error" id="err"></div>
       <div id="done-box" class="hidden" style="margin-top:14px">
-        <div class="ok-line big">Export complete!</div>
+        <div class="ok-line big">Download complete!</div>
         <div class="status" id="done-line" style="margin:6px 0 12px"></div>
         <div class="row">
           <button class="btn-primary" id="btn-open">Open folder</button>
-          <button class="btn-ghost" id="btn-again">Export again</button>
+          <button class="btn-ghost" id="btn-again">Download again</button>
         </div>
       </div>
     </div>
       <div class="fine" style="color:var(--text)">
       Files are grouped the same way <span id="provider-name-files">Perplexity</span> does for itself.
-      <div style="margin-top:8px"><b>Export location:</b> <code id="provider-path">Library/perplexity/home</code></div>
+      <div style="margin-top:8px"><b>Download location:</b> <code id="provider-path">Library/perplexity/home</code></div>
     </div>
   </section>
 
@@ -187,6 +213,7 @@
   let pendingConnectAttempts = 0;
   let waitingStartTime = null;
   let waitingTimerInterval = null;
+  let isPro = false;
 
   function getApi() {
     try {
@@ -232,6 +259,53 @@
     q('scr-connect').classList.remove('hidden');
     q('scr-export').classList.add('hidden');
     setPill('Not connected', false);
+  }
+
+  function renderTier() {
+    const badge = q('tier-badge');
+    if (badge) {
+      badge.textContent = isPro ? 'Pro' : 'Free';
+      badge.className = 'tier-badge' + (isPro ? ' pro' : '');
+    }
+    const up = q('btn-upgrade');
+    if (up) up.classList.toggle('hidden', isPro);
+    const note = q('tier-note');
+    if (note) {
+      if (isPro) {
+        note.classList.add('hidden');
+      } else {
+        note.textContent = 'Free trial: 3 providers, 5 conversations per download. ' +
+          'Upgrade to Pro for all 8 providers and unlimited downloads.';
+        note.classList.remove('hidden');
+      }
+    }
+    if (isPro) {
+      const lb = q('license-box');
+      if (lb) lb.classList.add('hidden');
+    }
+  }
+
+  function providerOptionHtml(p) {
+    const disabled = p.available ? '' : ' disabled';
+    let suffix = '';
+    if (p.note) suffix = ' (' + p.note + ')';
+    else if (p.pro && !isPro) suffix = ' (Pro)';
+    else if (!p.available) suffix = ' (coming soon)';
+    return '<option value="' + p.id + '"' + disabled + '>' + p.name + suffix + '</option>';
+  }
+
+  function renderProviderOptions(list) {
+    const sel = q('provider-select');
+    const sel2 = q('export-provider-select');
+    if (sel && list) sel.innerHTML = list.map(providerOptionHtml).join('');
+    if (sel2 && list) sel2.innerHTML = list.map(providerOptionHtml).join('');
+  }
+
+  function refreshProviders() {
+    if (!api) return;
+    try {
+      api.listProviders().then(function(list) { renderProviderOptions(list); });
+    } catch (e) {}
   }
 
   // Called by Python via window.__push(payload)
@@ -309,7 +383,7 @@
       if (el.textContent.split('\n').length > 250) el.textContent = el.textContent.split('\n').slice(-200).join('\n');
     } else if (p.type === 'export_done') {
       q('fill').style.width = '100%';
-      q('status-line').textContent = p.done + ' conversation' + (p.done === 1 ? '' : 's') + ' exported.';
+      q('status-line').textContent = p.done + ' conversation' + (p.done === 1 ? '' : 's') + ' downloaded.';
       q('done-line').textContent = (p.provider_path || p.folder);
       q('done-box').classList.remove('hidden');
       q('btn-export').disabled = false;
@@ -333,6 +407,11 @@
       q('scr-export').classList.add('hidden');
       q('scr-connect').classList.remove('hidden');
       setPill('Not connected', false);
+    } else if (p.type === 'license') {
+      isPro = !!p.pro;
+      renderTier();
+      if (p.message && q('license-status')) q('license-status').textContent = p.message;
+      refreshProviders();
     } else if (p.type === 'clear_results') {
           // Clear old results when switching providers — including the progress/log
           // box, so a new session starts with a blank display instead of showing
@@ -352,6 +431,12 @@
 
   function applyState(s) {
     if (!s) return;
+    if (typeof s.pro === 'boolean') {
+      const changed = s.pro !== isPro;
+      isPro = s.pro;
+      renderTier();
+      if (changed) refreshProviders();
+    }
     if (s.folder) q('folder-input').value = s.folder;
     if (s.connected) {
       setPill('Connected', true);
@@ -404,27 +489,8 @@
       return;
     }
     hideErr();
-    // Populate provider dropdown from bridge
-    try {
-      api.listProviders().then(function(list) {
-        const sel = q('provider-select');
-        const sel2 = q('export-provider-select');
-        if (sel && list) {
-          sel.innerHTML = list.map(function(p) {
-            const disabled = p.available ? '' : ' disabled';
-            const suffix = p.note ? ' (' + p.note + ')' : (p.available ? '' : ' (coming soon)');
-            return '<option value="' + p.id + '"' + disabled + '>' + p.name + suffix + '</option>';
-          }).join('');
-        }
-        if (sel2 && list) {
-          sel2.innerHTML = list.map(function(p) {
-            const disabled = p.available ? '' : ' disabled';
-            const suffix = p.note ? ' (' + p.note + ')' : (p.available ? '' : ' (coming soon)');
-            return '<option value="' + p.id + '"' + disabled + '>' + p.name + suffix + '</option>';
-          }).join('');
-        }
-      });
-    } catch (e) {}
+    // Populate provider dropdowns from the bridge (with free/pro gating)
+    refreshProviders();
     if (pendingConnect) {
       flushPendingConnect();
     }
@@ -553,7 +619,7 @@
   q('btn-export').onclick = function() {
     const a = needApi();
     if (a) { a.startExport(q('chk-refresh').checked); }
-    else { showErr('Export is unavailable until the app bridge reconnects.'); }
+    else { showErr('Download is unavailable until the app bridge reconnects.'); }
   };
   q('btn-open').onclick = function() {
     const a = needApi();
@@ -567,6 +633,33 @@
   q('btn-again').onclick = function() {
     q('done-box').classList.add('hidden');
     q('status-line').textContent = '';
+  };
+  q('btn-upgrade').onclick = function() {
+    const lb = q('license-box');
+    if (lb) lb.classList.toggle('hidden');
+  };
+  q('btn-activate').onclick = function() {
+    const key = q('license-input').value.trim();
+    const st = q('license-status');
+    if (!key) { if (st) st.textContent = 'Enter your license key.'; return; }
+    const a = needApi();
+    if (!a) { if (st) st.textContent = 'App bridge not ready — try again in a moment.'; return; }
+    if (st) st.textContent = 'Activating…';
+    a.activateLicense(key).then(function(res) {
+      if (st) st.textContent = (res && res.message) ? res.message : '';
+      if (res && res.ok) {
+        isPro = true;
+        renderTier();
+        refreshProviders();
+        q('license-input').value = '';
+      }
+    }).catch(function(e) {
+      if (st) st.textContent = 'Activation failed: ' + (e && e.message ? e.message : e);
+    });
+  };
+  q('btn-buy').onclick = function() {
+    const a = needApi();
+    if (a && typeof a.openBuyPage === 'function') a.openBuyPage();
   };
   // Helper: update all provider name references in UI
   function updateProviderUI(pid) {
