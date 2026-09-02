@@ -179,7 +179,7 @@ class Bridge:
           available:  True if the adapter's validate() works without raising
                       on a dummy credential; False otherwise (so the UI
                       can show the option but greyed out)
-          note:       short hint shown next to the option (e.g. "beta")
+          note:       optional short hint shown next to the option
         """
         rows = []
         pro = licensing.is_pro()
@@ -205,9 +205,6 @@ class Bridge:
                     name = pid
                     available = False
                 row = {"id": pid, "name": name, "available": available}
-                # Mark the 3 newest providers as beta in the UI
-                if pid in ("deepseek", "mistral", "qwen"):
-                    row["note"] = "beta"
                 # Free tier: providers beyond the first N require Pro.
                 if licensing.provider_is_pro_only(pid):
                     row["pro"] = True
@@ -223,9 +220,9 @@ class Bridge:
                 {"id": "claude",     "name": "Claude",     "available": True},
                 {"id": "gemini",     "name": "Gemini",     "available": True},
                 {"id": "grok",       "name": "Grok",       "available": True},
-                {"id": "deepseek",   "name": "DeepSeek",   "available": True, "note": "beta"},
-                {"id": "mistral",    "name": "Mistral",    "available": True, "note": "beta"},
-                {"id": "qwen",       "name": "Qwen Chat",  "available": True, "note": "beta"},
+                {"id": "deepseek",   "name": "DeepSeek",   "available": True},
+                {"id": "mistral",    "name": "Mistral",    "available": True},
+                {"id": "qwen",       "name": "Qwen Chat",  "available": True},
             ]
             for row in rows:
                 if licensing.provider_is_pro_only(row["id"]):
@@ -2066,4 +2063,3 @@ class Bridge:
         except Exception as e:
             log("export crash: " + traceback.format_exc())
             self._push({"type": "error", "message": friendly_error(e)})
-

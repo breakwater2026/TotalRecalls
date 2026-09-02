@@ -10,6 +10,13 @@ from totalrecalls.desktop.js_api import JsApi
 
 
 class SetProviderTests(unittest.TestCase):
+    def test_provider_list_has_no_beta_labels(self):
+        b = Bridge(ui_html="<html></html>")
+        providers = b.listProviders()
+        self.assertFalse(
+            any(provider.get("note") == "beta" for provider in providers)
+        )
+
     def test_set_provider_ok_and_push(self):
         b = Bridge(ui_html="<html></html>")
         pushes = []
