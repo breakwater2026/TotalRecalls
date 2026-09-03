@@ -18,6 +18,26 @@ const LINKS = [
   { label: "Legals", href: "/legals/" },
 ];
 
+function toggleTheme(event) {
+  event.stopPropagation();
+  const root = document.documentElement;
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try {
+    localStorage.setItem("tr-theme", next);
+  } catch {
+    // Theme persistence is optional when storage is unavailable.
+  }
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    const sun = button.querySelector("[data-icon-sun]");
+    const moon = button.querySelector("[data-icon-moon]");
+    if (sun) sun.style.display = next === "dark" ? "none" : "inline-block";
+    if (moon) moon.style.display = next === "dark" ? "inline-block" : "none";
+    button.setAttribute("aria-label", next === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    button.setAttribute("title", next === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  });
+}
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
   return (
@@ -34,7 +54,7 @@ export default function Nav() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-5">
-          <button type="button" data-theme-toggle className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors" aria-label="Toggle theme">
+          <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors" aria-label="Toggle theme">
             <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
             <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
           </button>
@@ -58,7 +78,7 @@ export default function Nav() {
           <nav className="px-5 py-4 flex flex-col gap-3.5">
             <div className="flex items-center justify-between mb-1">
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Appearance</span>
-              <button type="button" data-theme-toggle className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle theme">
+              <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle theme">
                 <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
                 <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
               </button>

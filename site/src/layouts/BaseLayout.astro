@@ -35,6 +35,8 @@ const canonicalPath = Astro.url.pathname;
       // Delegated theme toggle — any button carrying [data-theme-toggle] flips
       // light/dark, persists the choice, and swaps the sun/moon glyphs.
       (function () {
+        if (window.__trThemeToggleBound) return;
+        window.__trThemeToggleBound = true;
         function refresh() {
           var dark = document.documentElement.getAttribute("data-theme") === "dark";
           document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
@@ -47,7 +49,7 @@ const canonicalPath = Astro.url.pathname;
           });
         }
         document.addEventListener("click", function (e) {
-          var el = e.target;
+          var el = e.target && e.target.nodeType === 1 ? e.target : null;
           var btn = el && el.closest ? el.closest("[data-theme-toggle]") : null;
           if (!btn) return;
           var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";

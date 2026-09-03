@@ -1,4 +1,5 @@
 import ConvergenceDiagram from "./ConvergenceDiagram";
+import { LOGOS, PROVIDER_COLORS } from "./RiskMatrix";
 import { ArrowRight, ShieldCheck, Lock, Database } from "lucide-react";
 
 const TRUST = [
@@ -7,7 +8,16 @@ const TRUST = [
   { Icon: ShieldCheck, l: "Yours forever", s: "" },
 ];
 
-const PROVIDERS = ["ChatGPT", "Claude", "Perplexity", "Gemini", "Grok", "DeepSeek", "Mistral", "Qwen Chat"];
+const PROVIDERS = [
+  { name: "ChatGPT", logo: "ChatGPT" },
+  { name: "Claude", logo: "Claude" },
+  { name: "Perplexity", logo: "Perplexity" },
+  { name: "Gemini", logo: "Gemini" },
+  { name: "Grok", logo: "Grok" },
+  { name: "DeepSeek", logo: "DeepSeek" },
+  { name: "Mistral", logo: "Mistral" },
+  { name: "Qwen Chat", logo: "Qwen" },
+];
 
 export default function SentinelHero() {
   return (
@@ -26,9 +36,25 @@ export default function SentinelHero() {
               A Windows app that downloads your ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen chats into a private folder of Markdown + JSON you keep forever — long after the tab closes and the UI changes.
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
               {PROVIDERS.map((p) => (
-                <span key={p} className="font-mono text-[10px] uppercase tracking-[0.12em] border border-border rounded-sm px-2.5 py-1 text-muted-foreground">{p}</span>
+                <span
+                  key={p.name}
+                  className="inline-flex items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] border rounded-sm px-2.5 py-1"
+                  style={{ color: PROVIDER_COLORS[p.logo], borderColor: PROVIDER_COLORS[p.logo] }}
+                >
+                  <svg
+                    role="img"
+                    aria-label={`${p.name} logo`}
+                    viewBox={LOGOS[p.logo].vb}
+                    className="h-3 w-3 shrink-0"
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <path d={LOGOS[p.logo].d} />
+                  </svg>
+                  {p.name}
+                </span>
               ))}
             </div>
 
