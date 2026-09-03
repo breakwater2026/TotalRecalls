@@ -22,18 +22,21 @@
    python app.py --selftest
    ```
 
-2. **UI build**
+2. **Website build**
    ```bash
-   cd apps/web-ui && npm ci && npm run build
-   rm -rf ../../ui && mkdir ../../ui && cp -r dist/* ../../ui/
+   cd site
+   npm ci
+   npm run build
    ```
 
 3. **Desktop EXE**
    ```bash
-   taskkill /IM TotalRecalls.exe /F
-   .venv\Scripts\python.exe -m PyInstaller PerplexityExporter.spec --noconfirm
-   copy /Y dist\PerplexityExporter.exe dist\TotalRecalls.exe
+   .venv\Scripts\python.exe tools\build_exe.py --edition free
    ```
+   PyInstaller is native: build Windows artifacts on Windows, macOS artifacts
+   on macOS, and Linux artifacts on Linux.  See
+   [`PLATFORM_SUPPORT.md`](PLATFORM_SUPPORT.md) for state paths, folder
+   opening, and platform-specific process commands.
 
 4. **Marketing site**
    - **Primary:** GitHub Pages workflow `.github/workflows/pages.yml` deploys `site/` on push

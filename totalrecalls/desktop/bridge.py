@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import json
+import html
 import os
+import re
+import shutil
 import subprocess
 import threading
 import time
 import traceback
+from pathlib import Path
 
 from totalrecalls import APP_VERSION, APP_BUILD_TAG
 from totalrecalls.core.paths import (
@@ -30,7 +34,12 @@ from totalrecalls.adapters.perplexity.auth import (
 from totalrecalls.adapters.perplexity.discover import list_threads
 from totalrecalls.adapters.perplexity.thread import get_thread, extract_entry, render_markdown
 from totalrecalls.adapters.base import get_adapter
-from totalrecalls.core.unified_export import export_via_adapter
+from totalrecalls.core.schema import UnifiedConversation
+from totalrecalls.core.unified_export import (
+    conversation_turn_ranges,
+    export_via_adapter,
+    write_selected_unified_conversation,
+)
 from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
 from totalrecalls import licensing
 
@@ -64,6 +73,7 @@ class Bridge:
         self._provider_id = "perplexity"
         self._connected_at: float | None = None  # monotonic ts of connection established
         self._first_download_at: float | None = None
+        self._last_markdown_path: str | None = None
 
     # -- helpers ------------------------------------------------------------
 
@@ -527,6 +537,21 @@ class Bridge:
                                                args=(bool(refresh),), daemon=True)
         self._export_thread.start()
 
+    def startLatestExport(self):
+        log("bridge: startLatestExport() called from UI")
+        if not self.token:
+            self._push({"type": "error", "message": "Please log in to a provider first."})
+            return
+        if self._export_thread and self._export_thread.is_alive():
+            return
+        self._first_download_at = None
+        self._export_thread = threading.Thread(
+            target=self._export_worker,
+            args=(True, True),
+            daemon=True,
+        )
+        self._export_thread.start()
+
     def openFolder(self):
         log("bridge: openFolder() called from UI")
         path = os.path.abspath(self._default_folder or "")
@@ -551,6 +576,336 @@ class Bridge:
             except Exception as e2:
                 log(f"open folder error (startfile): {e2}")
                 self._push({"type": "error", "message": f"Could not open folder: {e2}"})
+
+    def _latest_markdown(self) -> str | None:
+        """Return the latest exported Markdown, including after app restart."""
+        path = self._last_markdown_path
+        if path and os.path.isfile(path):
+            return path
+        root = os.path.abspath(self._default_folder or "")
+        candidates: list[str] = []
+        if os.path.isdir(root):
+            for dirpath, _dirs, files in os.walk(root):
+                if "conversation.md" in files and "Selected exports" not in dirpath:
+                    candidates.append(os.path.join(dirpath, "conversation.md"))
+        if not candidates:
+            return None
+        return max(candidates, key=lambda p: os.path.getmtime(p))
+
+    @staticmethod
+    def _find_headless_browser() -> str | None:
+        """Find an installed Chromium-family browser without adding dependencies."""
+        configured = os.environ.get("TOTALRECALLS_BROWSER", "").strip().strip('"')
+        if configured and os.path.isfile(configured):
+            return configured
+        names = ("msedge.exe", "chrome.exe", "brave.exe", "chromium.exe")
+        for name in names:
+            found = shutil.which(name)
+            if found:
+                return found
+        roots = (
+            os.environ.get("PROGRAMFILES", ""),
+            os.environ.get("PROGRAMFILES(X86)", ""),
+            os.environ.get("LOCALAPPDATA", ""),
+        )
+        relative = (
+            "Microsoft\\Edge\\Application\\msedge.exe",
+            "Google\\Chrome\\Application\\chrome.exe",
+            "BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+            "Chromium\\Application\\chromium.exe",
+        )
+        for root in roots:
+            for suffix in relative:
+                candidate = os.path.join(root, suffix)
+                if os.path.isfile(candidate):
+                    return candidate
+        return None
+
+    @staticmethod
+    def _printable_markdown_html(markdown: str, title: str) -> str:
+        return (
+            "<!doctype html><meta charset=\"utf-8\"><title>"
+            + html.escape(title)
+            + "</title><style>"
+            "body{font-family:Segoe UI,Arial,sans-serif;color:#111;margin:28px}"
+            "h1{font-size:22px;border-bottom:1px solid #bbb;padding-bottom:8px}"
+            "pre{font:13px/1.5 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}"
+            "@page{margin:18mm}"
+            "</style><h1>"
+            + html.escape(title)
+            + "</h1><pre>"
+            + html.escape(markdown)
+            + "</pre>"
+        )
+
+    def exportLatestPdf(self):
+        """Print the latest exported conversation to PDF using a local browser."""
+        markdown_path = self._latest_markdown()
+        if not markdown_path:
+            message = "Export a conversation first, then create its PDF."
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+        browser = self._find_headless_browser()
+        if not browser:
+            message = (
+                "PDF export needs Microsoft Edge, Google Chrome, Brave, or Chromium "
+                "installed on this computer."
+            )
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+        pdf_path = os.path.splitext(markdown_path)[0] + ".pdf"
+        html_path = markdown_path + f".print-{os.getpid()}-{time.time_ns()}.html"
+        try:
+            with open(markdown_path, encoding="utf-8") as f:
+                markdown = f.read()
+            title = os.path.basename(os.path.dirname(markdown_path)) or "TotalRecalls export"
+            with open(html_path, "w", encoding="utf-8") as f:
+                f.write(self._printable_markdown_html(markdown, title))
+            command = [
+                browser,
+                "--headless",
+                "--disable-gpu",
+                "--no-pdf-header-footer",
+                f"--print-to-pdf={pdf_path}",
+                Path(html_path).resolve().as_uri(),
+            ]
+            completed = subprocess.run(
+                command, check=False, capture_output=True, text=True, timeout=90
+            )
+            if completed.returncode != 0 or not os.path.isfile(pdf_path) or os.path.getsize(pdf_path) == 0:
+                detail = (completed.stderr or completed.stdout or "").strip()
+                raise RuntimeError(detail or "the browser did not create a PDF")
+            message = f"PDF saved: {pdf_path}"
+            return {"ok": True, "message": message, "path": pdf_path}
+        except (OSError, subprocess.SubprocessError, RuntimeError) as e:
+            log(f"PDF export error: {e}")
+            message = f"Could not create PDF: {e}"
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+        finally:
+            try:
+                os.remove(html_path)
+            except OSError:
+                pass
+
+    def listExportedConversations(self):
+        """List exported conversations with metadata for the desktop preview."""
+        root = os.path.abspath(self._default_folder or "")
+        rows: list[dict] = []
+        if not os.path.isdir(root):
+            return rows
+        for dirpath, dirs, files in os.walk(root):
+            if "selected exports" in {part.lower() for part in Path(dirpath).parts}:
+                dirs[:] = []
+                continue
+            if "conversation.json" not in files:
+                continue
+            path = os.path.join(dirpath, "conversation.json")
+            try:
+                with open(path, encoding="utf-8") as f:
+                    payload = json.load(f)
+                conv = UnifiedConversation.from_dict(payload)
+                metadata = self._conversation_preview_metadata(conv, path, payload)
+                rel = os.path.relpath(path, root).replace(os.sep, "/")
+                rows.append({
+                    "path": rel,
+                    "id": conv.id,
+                    **metadata,
+                    "occurred_at": conv.created_at or conv.updated_at or "",
+                })
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                continue
+        rows.sort(key=lambda r: (r.get("occurred_at") or "", r.get("title") or ""), reverse=True)
+        return rows
+
+    @staticmethod
+    def _format_preview_size(size_bytes: int) -> str:
+        size = float(max(0, size_bytes))
+        for unit in ("B", "KB", "MB", "GB"):
+            if size < 1024 or unit == "GB":
+                return f"{size:.0f} {unit}" if unit == "B" else f"{size:.1f} {unit}"
+            size /= 1024
+        return "0 B"
+
+    @staticmethod
+    def _media_count_in_text(text: str) -> int:
+        """Count common media references without changing the unified schema."""
+        if not text:
+            return 0
+        count = 0
+        # Remove complete references as they are counted so an image URL inside
+        # Markdown/HTML is not counted a second time as a standalone URL.
+        for pattern in (
+            r"!\[[^\]]*\]\([^)]*\)",  # Markdown image
+            r"<(?:img|video|audio|source)\b[^>]*>",  # HTML media
+        ):
+            matches = re.findall(pattern, text, flags=re.IGNORECASE)
+            count += len(matches)
+            text = re.sub(pattern, " ", text, flags=re.IGNORECASE)
+        return count + len(re.findall(
+            r"https?://[^\s)>\]]+\.(?:avif|gif|jpeg|jpg|png|svg|webm|mp3|mp4|wav)(?:\?[^\s)>\]]*)?",
+            text,
+            flags=re.IGNORECASE,
+        ))
+
+    @classmethod
+    def _raw_media_count(cls, value) -> int:
+        """Read attachment-like fields emitted by older/provider-specific exports."""
+        if isinstance(value, dict):
+            total = 0
+            for key, item in value.items():
+                key_name = str(key).lower().replace("-", "_")
+                if key_name in {
+                    "media", "attachments", "images", "videos", "audio",
+                    "media_urls", "attachment_urls",
+                }:
+                    if isinstance(item, (list, tuple, set)):
+                        total += len(item)
+                    elif item:
+                        total += 1
+                elif isinstance(item, (dict, list)):
+                    total += cls._raw_media_count(item)
+            return total
+        if isinstance(value, list):
+            return sum(cls._raw_media_count(item) for item in value)
+        return 0
+
+    @classmethod
+    def _conversation_preview_metadata(
+        cls, conv: UnifiedConversation, json_path: str, payload=None
+    ) -> dict:
+        """Return stable, UI-friendly metadata for an exported conversation."""
+        message_count = len(conv.messages)
+        citation_count = sum(len(message.citations or []) for message in conv.messages)
+        text_media_count = sum(
+            cls._media_count_in_text(message.content_md or "") for message in conv.messages
+        )
+        media_count = max(text_media_count, cls._raw_media_count(payload))
+        folder = Path(json_path).parent
+        size_bytes = 0
+        try:
+            for item in folder.rglob("*"):
+                if item.is_file():
+                    size_bytes += item.stat().st_size
+        except OSError:
+            try:
+                size_bytes = os.path.getsize(json_path)
+            except OSError:
+                pass
+        size_label = cls._format_preview_size(size_bytes)
+        return {
+            "provider": conv.provider or "Unknown provider",
+            "title": conv.title or "Untitled conversation",
+            "message_count": message_count,
+            "media_count": media_count,
+            "citation_count": citation_count,
+            "media": media_count,
+            "citations": citation_count,
+            "size_bytes": size_bytes,
+            "size": size_label,
+            "size_label": size_label,
+        }
+
+    def _conversation_path(self, relative_path: str) -> str:
+        root = os.path.abspath(self._default_folder or "")
+        candidate = os.path.abspath(os.path.join(root, str(relative_path or "")))
+        if (
+            os.path.commonpath((root, candidate)) != root
+            or os.path.basename(candidate).lower() != "conversation.json"
+        ):
+            raise ValueError("Choose a conversation from the exported library.")
+        if not os.path.isfile(candidate):
+            raise ValueError("That exported conversation no longer exists.")
+        return candidate
+
+    def getExportedConversation(self, relative_path: str = ""):
+        """Load conversation metadata, message previews, and turn groupings."""
+        try:
+            path = self._conversation_path(relative_path)
+            with open(path, encoding="utf-8") as f:
+                payload = json.load(f)
+            conv = UnifiedConversation.from_dict(payload)
+            metadata = self._conversation_preview_metadata(conv, path, payload)
+            groups = conversation_turn_ranges(conv)
+            by_index = {
+                index: number
+                for group in groups
+                for number in [group["turn"]]
+                for index in group["indexes"]
+            }
+            return {
+                "ok": True,
+                "path": relative_path,
+                "metadata": metadata,
+                **metadata,
+                "messages": [
+                    {
+                        "index": index,
+                        "role": message.role,
+                        "preview": (message.content_md or "").strip()[:240] or "(empty)",
+                        "turn": by_index.get(index, 1),
+                    }
+                    for index, message in enumerate(conv.messages)
+                ],
+                "turns": groups,
+            }
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as e:
+            message = str(e)
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+
+    def exportSelectedMessages(self, relative_path: str = "", message_indexes=None):
+        """Write selected unified messages to a separate Markdown + JSON export."""
+        try:
+            path = self._conversation_path(relative_path)
+            with open(path, encoding="utf-8") as f:
+                conv = UnifiedConversation.from_dict(json.load(f))
+            result = write_selected_unified_conversation(
+                self._default_folder,
+                conv,
+                message_indexes if isinstance(message_indexes, list) else [],
+                source=relative_path,
+            )
+            return {
+                "ok": True,
+                "message": (
+                    f"Selection exported ({result['message_count']} message"
+                    f"{'' if result['message_count'] == 1 else 's'}) to "
+                    f"{result['folder']}"
+                ),
+                **result,
+            }
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as e:
+            message = str(e)
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+
+    def copyLatestMarkdown(self):
+        """Copy the most recently exported conversation's Markdown to clipboard."""
+        path = self._last_markdown_path
+        if not path or not os.path.isfile(path):
+            message = "Export a conversation first, then copy its Markdown."
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
+        try:
+            with open(path, encoding="utf-8") as f:
+                markdown = f.read()
+            if os.name == "nt":
+                subprocess.run(
+                    ["clip.exe"],
+                    input=markdown,
+                    text=True,
+                    check=True,
+                    capture_output=True,
+                )
+            else:
+                raise RuntimeError("Clipboard export is supported on Windows builds only.")
+            return {"ok": True, "message": "Markdown copied to the clipboard."}
+        except (OSError, subprocess.SubprocessError, RuntimeError) as e:
+            log(f"copy markdown error: {e}")
+            message = f"Could not copy Markdown: {e}"
+            self._push({"type": "error", "message": message})
+            return {"ok": False, "message": message}
 
     def disconnect(self):
         log("bridge: disconnect() called from UI")
@@ -1852,7 +2207,7 @@ class Bridge:
         log(f"connected: {email} ({provider}); deep conversation count pending")
 
 
-    def _export_worker(self, refresh: bool):
+    def _export_worker(self, refresh: bool, latest_only: bool = False):
         token = self.token
         if not token:
             self._push({"type": "error", "message": "Not connected. Please log in first."})
@@ -1896,6 +2251,7 @@ class Bridge:
                     on_progress=on_progress,
                     on_first_download=self._note_first_download,
                     max_conversations=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
+                    latest_only=latest_only,
                 )
                 empty_n = len(
                     ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []
@@ -1913,6 +2269,10 @@ class Bridge:
                 self._push({"type": "export_done", "done": len(result.get("records") or []),
                             "folder": outdir,
                             "provider_path": f"Library/{provider_name}/home"})
+                records = result.get("records") or []
+                if records:
+                    rel = str(records[-1].get("rel_path") or "").replace("/", os.sep)
+                    self._last_markdown_path = os.path.join(outdir, rel, "conversation.md")
                 log(f"export finished via adapter: {result.get('exported')} new, "
                     f"{result.get('skipped')} skipped -> {outdir} (library-v1)")
                 return
@@ -1925,6 +2285,18 @@ class Bridge:
                 provider_display = provider_name.capitalize()
             self._push({"type": "log", "line": f"Discovering conversations ({provider_display})…"})
             threads = list_threads(token, deep=True)
+            if latest_only:
+                threads.sort(
+                    key=lambda t: str(
+                        t.get("last_query_datetime")
+                        or t.get("updated_at")
+                        or t.get("created_at")
+                        or ""
+                    ) if isinstance(t, dict) else "",
+                    reverse=True,
+                )
+                threads = threads[:1]
+                self._push({"type": "log", "line": "Quick export: selecting the latest conversation."})
             total = len(threads)
             # Update the conversation count displayed in the UI (may differ from
             # the shallow count shown during connect)
@@ -2057,6 +2429,9 @@ class Bridge:
             self._push({"type": "log", "line": f"Skipped (already saved): {skipped}. Failed: {failed}."})
             self._push({"type": "export_done", "done": len(records), "folder": outdir,
                         "provider_path": f"Library/{provider_name}/home"})
+            if records:
+                rel = str(records[-1].get("rel_path") or records[-1].get("folder_name") or "").replace("/", os.sep)
+                self._last_markdown_path = os.path.join(outdir, rel, "conversation.md")
             log(f"export finished: {len(records)}/{total} -> {outdir} (spaces-v1 classic)")
         except ApiError as e:
             self._push({"type": "error", "message": friendly_error(e)})

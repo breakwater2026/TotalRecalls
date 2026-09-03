@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import os
 from datetime import datetime, timezone
+from dataclasses import replace
 from pathlib import Path
 from typing import Callable
 
@@ -143,6 +144,100 @@ def render_unified_markdown(conv: UnifiedConversation) -> str:
             lines.append(body)
             lines.append("")
     return "\n".join(lines)
+
+
+def conversation_turn_ranges(conv: UnifiedConversation) -> list[dict]:
+    """Return 1-based turn groups, preserving every message in each turn.
+
+    A turn starts at a user message and includes following assistant/tool/system
+    messages until the next user message. Leading non-user messages are kept in
+    the first group, and conversations without user messages are one group.
+    """
+    if not conv.messages:
+        return []
+    groups: list[list[int]] = []
+    current: list[int] = []
+    for index, message in enumerate(conv.messages):
+        if current and (message.role or "").lower() == "user":
+            groups.append(current)
+            current = []
+        current.append(index)
+    if current:
+        groups.append(current)
+    return [
+        {
+            "turn": number,
+            "indexes": indexes,
+            "preview": next(
+                (
+                    (conv.messages[i].content_md or "").splitlines()[0][:120]
+                    for i in indexes
+                    if (conv.messages[i].role or "").lower() == "user"
+                    and (conv.messages[i].content_md or "").strip()
+                ),
+                "(no question text)",
+            ),
+        }
+        for number, indexes in enumerate(groups, 1)
+    ]
+
+
+def select_unified_messages(
+    conv: UnifiedConversation,
+    message_indexes: list[int],
+) -> tuple[UnifiedConversation, list[int]]:
+    """Validate and return a conversation containing the requested messages."""
+    if not isinstance(message_indexes, list) or not message_indexes:
+        raise ValueError("Select at least one message to export.")
+    indexes: list[int] = []
+    for value in message_indexes:
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise ValueError("Message selections must be numeric indexes.")
+        if value < 0 or value >= len(conv.messages):
+            raise ValueError("A selected message is no longer available.")
+        if value not in indexes:
+            indexes.append(value)
+    indexes.sort()
+    return replace(conv, messages=[conv.messages[i] for i in indexes]), indexes
+
+
+def write_selected_unified_conversation(
+    outdir: str,
+    conv: UnifiedConversation,
+    message_indexes: list[int],
+    *,
+    source: str = "",
+) -> dict:
+    """Write a validated message selection as Markdown and unified JSON."""
+    selected, indexes = select_unified_messages(conv, message_indexes)
+    stamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    title = safe_name(selected.title or "Untitled conversation", max_len=72) or "Untitled conversation"
+    leaf = f"{stamp} -- {title} -- {short_id(selected.id) or 'selection'}"
+    folder = os.path.join(outdir, "Selected exports", leaf)
+    suffix = 2
+    while os.path.exists(folder):
+        folder = os.path.join(outdir, "Selected exports", f"{leaf} ({suffix})")
+        suffix += 1
+    os.makedirs(folder, exist_ok=True)
+    markdown_path = os.path.join(folder, "conversation.md")
+    json_path = os.path.join(folder, "conversation.json")
+    with open(markdown_path, "w", encoding="utf-8") as f:
+        f.write(render_unified_markdown(selected))
+    payload = selected.to_dict()
+    payload["selection"] = {
+        "source": source,
+        "message_indexes": indexes,
+        "message_count": len(indexes),
+    }
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    return {
+        "folder": folder,
+        "markdown_path": markdown_path,
+        "json_path": json_path,
+        "message_indexes": indexes,
+        "message_count": len(indexes),
+    }
 
 
 def _message_stats(conv: UnifiedConversation) -> dict:
@@ -312,6 +407,7 @@ def export_via_adapter(
     on_log: Callable[[str], None] | None = None,
     on_first_download: Callable[[], None] | None = None,
     max_conversations: int | None = None,
+    latest_only: bool = False,
 ) -> dict:
     """Run a full export through a ProviderAdapter into Library/<provider>/."""
 
@@ -328,6 +424,13 @@ def export_via_adapter(
     account = adapter.validate(credential)
     _log(f"Connected as {account.email or account.external_id or 'account'} via {adapter.id}")
     summaries = adapter.list_conversations(credential, deep=deep)
+    if latest_only:
+        summaries.sort(
+            key=lambda s: (s.updated_at or s.created_at or ""),
+            reverse=True,
+        )
+        max_conversations = 1
+        _log("Quick export: selecting the latest conversation.")
     total = len(summaries)
     _log(f"Found {total} conversation(s) on {adapter.display_name}")
     if max_conversations is not None and total > max_conversations:

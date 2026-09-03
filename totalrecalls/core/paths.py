@@ -2,13 +2,26 @@
 
 from __future__ import annotations
 
-import json
 import os
 import time
 from datetime import datetime, timezone
 
+from totalrecalls.core.platform import (
+    app_state_dir,
+    parse_process_ids,
+    process_list_command,
+    process_terminate_command,
+)
+from totalrecalls.core.secure_storage import (
+    SecureStorageError,
+    delete as delete_secure_state,
+    load_json,
+    save_json,
+)
+
+
 def appdata_dir() -> str:
-    d = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), "PerplexityExporter")
+    d = app_state_dir()
     os.makedirs(d, exist_ok=True)
     return d
 
@@ -27,35 +40,27 @@ def kill_other_exporter_processes(force: bool = True) -> list[int]:
     discovery so a leftover GUI cannot keep the old build on screen.
     """
     killed: list[int] = []
-    if os.name != "nt":
-        return killed
     me = _my_pid()
     try:
         import subprocess
-        # CSV: ImageName,PID,SessionName,Session#,MemUsage
+        process_name = "TotalRecalls.exe" if os.name == "nt" else "TotalRecalls"
         r = subprocess.run(
-            ["tasklist", "/FI", "IMAGENAME eq TotalRecalls.exe", "/FO", "CSV", "/NH"],
-            capture_output=True, text=True, timeout=15,
+            process_list_command(process_name),
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
         )
-        for line in (r.stdout or "").splitlines():
-            line = line.strip().strip('"')
-            if not line:
-                continue
-            # "PerplexityExporter.exe","1234","Console","1","12,345 K"
-            parts = [p.strip().strip('"') for p in line.split('","')]
-            if len(parts) < 2:
-                # fallback split
-                parts = [p.strip().strip('"') for p in line.split(",")]
-            try:
-                pid = int(parts[1])
-            except Exception:
-                continue
+        for pid in parse_process_ids(r.stdout or ""):
             if pid == me or pid <= 0:
                 continue
-            cmd = ["taskkill", "/PID", str(pid)]
-            if force:
-                cmd.append("/F")
-            kr = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+            kr = subprocess.run(
+                process_terminate_command(pid, force=force),
+                capture_output=True,
+                text=True,
+                timeout=15,
+                check=False,
+            )
             if kr.returncode == 0:
                 killed.append(pid)
                 log(f"killed other exporter pid={pid}")
@@ -153,45 +158,53 @@ def log(msg: str):
 
 
 def save_session(token: str, email: str):
-    with open(SESSION_FILE, "w", encoding="utf-8") as f:
-        json.dump({"token": token, "email": email,
-                   "saved_at": datetime.now(timezone.utc).isoformat()}, f)
+    save_json(
+        SESSION_FILE,
+        {
+            "token": token,
+            "email": email,
+            "saved_at": datetime.now(timezone.utc).isoformat(),
+        },
+    )
 
 
 def load_session() -> dict | None:
     try:
-        with open(SESSION_FILE, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
+        return load_json(SESSION_FILE)
+    except SecureStorageError as exc:
+        log(f"could not load protected session: {exc}")
         return None
 
 
 def clear_session():
     try:
-        os.remove(SESSION_FILE)
-    except Exception:
-        pass
+        delete_secure_state(SESSION_FILE)
+    except SecureStorageError as exc:
+        log(f"could not clear protected session: {exc}")
 
 
 def write_signin_callback(token: str):
     try:
-        with open(SIGNIN_CALLBACK_FILE, "w", encoding="utf-8") as f:
-            json.dump({"token": token, "saved_at": datetime.now(timezone.utc).isoformat()}, f)
-    except Exception:
-        pass
+        save_json(
+            SIGNIN_CALLBACK_FILE,
+            {
+                "token": token,
+                "saved_at": datetime.now(timezone.utc).isoformat(),
+            },
+        )
+    except SecureStorageError as exc:
+        log(f"could not save protected sign-in callback: {exc}")
 
 
 def consume_signin_callback() -> str | None:
     try:
-        if not os.path.exists(SIGNIN_CALLBACK_FILE):
+        payload = load_json(SIGNIN_CALLBACK_FILE)
+        if payload is None:
             return None
-        with open(SIGNIN_CALLBACK_FILE, encoding="utf-8") as f:
-            payload = json.load(f)
         token = (payload or {}).get("token")
         if token:
-            os.remove(SIGNIN_CALLBACK_FILE)
+            delete_secure_state(SIGNIN_CALLBACK_FILE)
             return str(token)
-    except Exception:
-        pass
+    except SecureStorageError as exc:
+        log(f"could not consume protected sign-in callback: {exc}")
     return None
-

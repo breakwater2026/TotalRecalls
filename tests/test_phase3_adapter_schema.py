@@ -21,6 +21,9 @@ from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
 from totalrecalls.core.unified_export import (
     render_unified_markdown,
     write_unified_conversation,
+    conversation_turn_ranges,
+    select_unified_messages,
+    write_selected_unified_conversation,
     conversation_rel_path,
     export_via_adapter,
 )
@@ -252,6 +255,46 @@ class UnifiedExportTests(unittest.TestCase):
         self.assertIn("Question", md)
         self.assertIn("Answer", md)
 
+    def test_selection_validates_indexes_and_groups_turns(self):
+        conv = UnifiedConversation(
+            provider="perplexity",
+            id="selection",
+            title="Selection",
+            messages=[
+                Message(role="user", content_md="First question"),
+                Message(role="assistant", content_md="First answer"),
+                Message(role="user", content_md="Second question"),
+            ],
+        )
+        groups = conversation_turn_ranges(conv)
+        self.assertEqual([g["indexes"] for g in groups], [[0, 1], [2]])
+        selected, indexes = select_unified_messages(conv, [2, 0, 2])
+        self.assertEqual(indexes, [0, 2])
+        self.assertEqual([m.content_md for m in selected.messages], ["First question", "Second question"])
+        with self.assertRaises(ValueError):
+            select_unified_messages(conv, [])
+        with self.assertRaises(ValueError):
+            select_unified_messages(conv, [99])
+
+    def test_write_selected_conversation_keeps_original_untouched(self):
+        conv = UnifiedConversation(
+            provider="chatgpt",
+            id="selection-id",
+            title="Selected",
+            messages=[
+                Message(role="user", content_md="Keep"),
+                Message(role="assistant", content_md="Drop"),
+                Message(role="user", content_md="Keep too"),
+            ],
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            result = write_selected_unified_conversation(tmp, conv, [0, 2], source="Library/chatgpt/conversation.json")
+            self.assertTrue(Path(result["markdown_path"]).is_file())
+            payload = json.loads(Path(result["json_path"]).read_text(encoding="utf-8"))
+            self.assertEqual(payload["selection"]["message_indexes"], [0, 2])
+            self.assertEqual(len(payload["conversation"]["messages"]), 2)
+            self.assertNotIn("Drop", Path(result["markdown_path"]).read_text(encoding="utf-8"))
+
     def test_export_via_adapter_writes_library_tree(self):
         adapter = PerplexityAdapter()
         summary = ConversationSummary(id="cccccccc-cccc-cccc-cccc-cccccccccccc", title="Only", folder="Home")
@@ -300,6 +343,41 @@ class UnifiedExportTests(unittest.TestCase):
             self.assertEqual(payload["provider"], "perplexity")
             self.assertTrue((Path(tmp) / "manifest.json").is_file())
             self.assertTrue((Path(tmp) / "README.md").is_file())
+
+    def test_export_via_adapter_latest_only_selects_newest(self):
+        adapter = PerplexityAdapter()
+        old = ConversationSummary(
+            id="old", title="Old", updated_at="2024-01-01T00:00:00Z", folder="Home"
+        )
+        new = ConversationSummary(
+            id="new", title="New", updated_at="2024-02-01T00:00:00Z", folder="Home"
+        )
+
+        def fake_list(cred, *, deep=False):
+            return [old, new]
+
+        def fake_fetch(cred, cid):
+            return UnifiedConversation(
+                provider="perplexity",
+                account=AccountInfo(email="a@b.com"),
+                id=cid,
+                title=cid,
+                folder="Home",
+                messages=[Message(role="assistant", content_md="Answer")],
+            )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(adapter, "list_conversations", side_effect=fake_list), \
+                 patch.object(adapter, "fetch_conversation", side_effect=fake_fetch), \
+                 patch.object(adapter, "validate", return_value=AccountInfo(email="a@b.com")):
+                result = export_via_adapter(
+                    adapter,
+                    credential="tok",
+                    outdir=tmp,
+                    latest_only=True,
+                )
+        self.assertEqual(result["total"], 1)
+        self.assertEqual(result["records"][0]["id"], "new")
 
 
 if __name__ == "__main__":

@@ -25,8 +25,18 @@ import subprocess
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if REPO not in sys.path:
+    sys.path.insert(0, REPO)
+
+from totalrecalls.core.platform import (
+    parse_process_ids,
+    process_list_command,
+    process_terminate_command,
+)
+
 EDITION_FILE = os.path.join(REPO, "totalrecalls", "edition.py")
-EXE_OUT = os.path.join(REPO, "dist", "TotalRecalls.exe")
+EXE_FILENAME = "TotalRecalls.exe" if os.name == "nt" else "TotalRecalls"
+EXE_OUT = os.path.join(REPO, "dist", EXE_FILENAME)
 
 
 def set_edition(edition: str) -> None:
@@ -46,16 +56,31 @@ def restore_edition() -> None:
 
 
 def kill_running() -> None:
-    if os.name == "nt":
-        subprocess.run(["taskkill", "/IM", "TotalRecalls.exe", "/F"],
-                       capture_output=True)
+    process_name = "TotalRecalls.exe" if os.name == "nt" else "TotalRecalls"
+    try:
+        result = subprocess.run(
+            process_list_command(process_name),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        for pid in parse_process_ids(result.stdout or ""):
+            subprocess.run(
+                process_terminate_command(pid),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+    except (OSError, subprocess.SubprocessError):
+        # A running desktop process is not a prerequisite for building.
+        pass
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--edition", choices=["free", "pro"], required=True)
     ap.add_argument("--name", default=None,
-                    help="Optional output exe name (default: TotalRecalls.exe)")
+                    help=f"Optional output name (default: {EXE_FILENAME})")
     args = ap.parse_args()
 
     venv_py = os.path.join(REPO, ".venv", "Scripts", "python.exe")
@@ -67,7 +92,17 @@ def main() -> int:
     kill_running()
     set_edition(args.edition)
     try:
-        cmd = [venv_py, "-m", "PyInstaller", "TotalRecalls.spec", "--noconfirm"]
+        # The edition flag is baked into totalrecalls.edition. Force PyInstaller
+        # to refresh its analysis so consecutive Free/Pro builds cannot reuse
+        # the previous edition's cached module bytecode.
+        cmd = [
+            venv_py,
+            "-m",
+            "PyInstaller",
+            "TotalRecalls.spec",
+            "--noconfirm",
+            "--clean",
+        ]
         print("[build_exe] running:", " ".join(cmd))
         rc = subprocess.call(cmd, cwd=REPO)
     finally:

@@ -115,6 +115,20 @@ npm run dev     # http://localhost:3000
 npm run build   # output to site/dist/
 ```
 
+## 🖥️ Desktop builds
+
+Build the PyInstaller desktop app on the target operating system (no cross
+compiler or extra runtime dependency is bundled):
+
+```text
+Windows: .venv\Scripts\python.exe tools\build_exe.py --edition free
+macOS:   .venv/bin/python tools/build_exe.py --edition free
+Linux:   .venv/bin/python tools/build_exe.py --edition free
+```
+
+See [`docs/PLATFORM_SUPPORT.md`](docs/PLATFORM_SUPPORT.md) for local state
+locations, secure-storage fallbacks, and native folder/process commands.
+
 ---
 
 ## 🎨 Design System

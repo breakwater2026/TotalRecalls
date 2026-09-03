@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch
 
 from totalrecalls import licensing
+from totalrecalls.core.secure_storage import SecureStorageError
 
 
 class ProviderTierTests(unittest.TestCase):
@@ -24,12 +25,19 @@ class ProviderTierTests(unittest.TestCase):
 
 
 class LicenseKeyValidationTests(unittest.TestCase):
-    def test_valid_uuid_key(self):
-        self.assertTrue(licensing.validate_license_key("03e11a51-8c63-4826-8b87-998b626285c3"))
+    def test_valid_uuid_shape_does_not_prove_entitlement(self):
+        key = "03e11a51-8c63-4826-8b87-998b626285c3"
+        self.assertTrue(licensing.validate_license_key_format(key))
+        self.assertFalse(licensing.validate_license_key(key))
+
+    def test_explicit_verifier_is_required_and_used(self):
+        key = "03e11a51-8c63-4826-8b87-998b626285c3"
+        verifier = lambda candidate: candidate == key
+        self.assertTrue(licensing.validate_license_key(key, verifier=verifier))
 
     def test_invalid_keys(self):
         for bad in ("", "nope", "1234", "03e11a51-8c63-4826-8b87"):
-            self.assertFalse(licensing.validate_license_key(bad), bad)
+            self.assertFalse(licensing.validate_license_key_format(bad), bad)
 
 
 class EntitlementPersistenceTests(unittest.TestCase):
@@ -49,19 +57,40 @@ class EntitlementPersistenceTests(unittest.TestCase):
 
     def test_activate_valid_key(self):
         key = "03e11a51-8c63-4826-8b87-998b626285c3"
-        res = licensing.activate_license(key)
+        res = licensing.activate_license(key, verifier=lambda candidate: candidate == key)
         self.assertTrue(res["ok"])
         self.assertTrue(licensing.is_pro())
         self.assertEqual(licensing.tier_name(), "Pro")
         self.assertEqual(licensing.license_key(), key)
+
+    def test_activate_uuid_without_store_verifier_is_rejected(self):
+        res = licensing.activate_license("03e11a51-8c63-4826-8b87-998b626285c3")
+        self.assertFalse(res["ok"])
+        self.assertIn("not configured", res["message"])
+        self.assertFalse(licensing.is_pro())
 
     def test_activate_invalid_key(self):
         res = licensing.activate_license("not-a-key")
         self.assertFalse(res["ok"])
         self.assertFalse(licensing.is_pro())
 
+    def test_activate_reports_secure_storage_failure(self):
+        key = "03e11a51-8c63-4826-8b87-998b626285c3"
+        with patch.object(
+            licensing,
+            "_save_state",
+            side_effect=SecureStorageError("unavailable"),
+        ):
+            res = licensing.activate_license(key, verifier=lambda _: True)
+        self.assertFalse(res["ok"])
+        self.assertIn("securely save", res["message"])
+        self.assertFalse(licensing.is_pro())
+
     def test_deactivate(self):
-        licensing.activate_license("03e11a51-8c63-4826-8b87-998b626285c3")
+        licensing.activate_license(
+            "03e11a51-8c63-4826-8b87-998b626285c3",
+            verifier=lambda _: True,
+        )
         self.assertTrue(licensing.is_pro())
         licensing.deactivate_license()
         self.assertFalse(licensing.is_pro())

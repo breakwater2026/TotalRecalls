@@ -57,6 +57,13 @@
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
   .error { color:var(--bad); font-size:13.5px; padding:10px 14px; background:rgba(248,113,113,.08);
            border:1px solid rgba(248,113,113,.3); border-radius:9px; margin-top:10px; display:none; }
+  .preview { background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+             padding:12px 14px; margin-top:12px; }
+  .preview-title { font-size:15px; font-weight:600; margin-bottom:8px; overflow-wrap:anywhere; }
+  .preview-meta { display:flex; flex-wrap:wrap; gap:6px; }
+  .meta-chip { color:var(--muted); font-size:12px; border:1px solid var(--border);
+               border-radius:99px; padding:4px 9px; }
+  .selection-error { margin-top:10px; }
   .ok-line { color:var(--good); }
   .hidden { display:none !important; }
   .fine { font-size:12.5px; color:var(--muted); margin-top:18px; line-height:1.6; }
@@ -179,6 +186,8 @@
       <div style="margin-top:16px">
         <button class="btn-primary" id="btn-export" style="font-size:15px;padding:13px 26px">
           Download my conversations</button>
+        <button class="btn-ghost" id="btn-export-latest" style="font-size:13px;padding:13px 18px;margin-left:8px">
+          Download latest only</button>
       </div>
       <div class="bar hidden" id="bar-row"><div id="fill"></div></div>
       <div class="status" id="status-line"></div>
@@ -190,9 +199,36 @@
         <div class="status" id="done-line" style="margin:6px 0 12px"></div>
         <div class="row">
           <button class="btn-primary" id="btn-open">Open folder</button>
+          <button class="btn-ghost" id="btn-copy-markdown">Copy latest Markdown</button>
+          <button class="btn-ghost" id="btn-export-pdf">Save latest as PDF</button>
           <button class="btn-ghost" id="btn-again">Download again</button>
         </div>
       </div>
+    </div>
+    <div class="card" id="selection-card" style="margin-top:18px">
+      <h2>Export part of a conversation</h2>
+      <p class="note" style="margin-bottom:12px">Choose an exported conversation, then select individual messages or whole turns. The selection is saved as new Markdown and JSON files; your original export is unchanged.</p>
+      <select id="selection-conversation" style="font:inherit;background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:10px 12px;width:100%">
+        <option value="">No exported conversations found</option>
+      </select>
+      <div id="selection-preview" class="preview hidden" aria-live="polite">
+        <div class="preview-title" id="selection-preview-title"></div>
+        <div class="preview-meta">
+          <span class="meta-chip" id="selection-preview-provider"></span>
+          <span class="meta-chip" id="selection-preview-messages"></span>
+          <span class="meta-chip" id="selection-preview-media"></span>
+          <span class="meta-chip" id="selection-preview-citations"></span>
+          <span class="meta-chip" id="selection-preview-size"></span>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn-ghost" id="btn-select-all">Select all messages</button>
+        <button class="btn-ghost" id="btn-clear-selection">Clear selection</button>
+        <button class="btn-primary" id="btn-export-selection" disabled aria-disabled="true">Export selection (<span id="selection-count">0</span>)</button>
+      </div>
+      <div id="selection-messages" style="margin-top:12px"></div>
+      <div class="status" id="selection-status" style="margin-top:8px"></div>
+      <div class="error selection-error" id="selection-error" role="alert"></div>
     </div>
       <div class="fine" style="color:var(--text)">
       Files are grouped the same way <span id="provider-name-files">Perplexity</span> does for itself.
@@ -214,6 +250,8 @@
   let waitingStartTime = null;
   let waitingTimerInterval = null;
   let isPro = false;
+  let selectionConversationPath = '';
+  let selectionListLoaded = false;
 
   function getApi() {
     try {
@@ -226,6 +264,207 @@
     } catch (e) { return null; }
   }
   function q(id) { return document.getElementById(id); }
+
+  function selectionStatus(text, bad) {
+    const el = q('selection-status');
+    if (el) {
+      el.textContent = text || '';
+      el.style.color = bad ? 'var(--bad)' : 'var(--muted)';
+    }
+  }
+
+  function selectionError(text) {
+    const el = q('selection-error');
+    if (!el) return;
+    el.textContent = text || '';
+    el.style.display = text ? 'block' : 'none';
+  }
+
+  function formatPreviewSize(bytes) {
+    if (bytes === null || bytes === undefined || isNaN(Number(bytes))) return 'Size unavailable';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let value = Math.max(0, Number(bytes));
+    let unit = 0;
+    while (value >= 1024 && unit < units.length - 1) {
+      value /= 1024;
+      unit += 1;
+    }
+    return (unit === 0 ? Math.round(value) : value.toFixed(1)) + ' ' + units[unit];
+  }
+
+  function renderSelectionPreview(data) {
+    const preview = q('selection-preview');
+    const meta = (data && data.metadata) || data || {};
+    if (!preview || !data) return;
+    q('selection-preview-title').textContent = meta.title || 'Untitled conversation';
+    q('selection-preview-provider').textContent = 'Provider: ' + (meta.provider || 'Unknown');
+    q('selection-preview-messages').textContent = 'Messages: ' + (meta.message_count || 0);
+    q('selection-preview-media').textContent = 'Media: ' + (meta.media_count || 0);
+    q('selection-preview-citations').textContent = 'Citations: ' + (meta.citation_count || 0);
+    q('selection-preview-size').textContent = 'Size: ' +
+      (meta.size || meta.size_label || formatPreviewSize(meta.size_bytes));
+    preview.classList.remove('hidden');
+  }
+
+  function clearSelectionPreview() {
+    const preview = q('selection-preview');
+    if (preview) preview.classList.add('hidden');
+  }
+
+  function updateSelectionAffordance() {
+    const count = selectedMessageIndexes().length;
+    const button = q('btn-export-selection');
+    const label = q('selection-count');
+    if (label) label.textContent = String(count);
+    if (button) {
+      button.disabled = !selectionConversationPath || count === 0;
+      button.setAttribute('aria-disabled', button.disabled ? 'true' : 'false');
+    }
+  }
+
+  function selectedMessageIndexes() {
+    return Array.prototype.slice.call(
+      document.querySelectorAll('#selection-messages input[data-message-index]:checked')
+    ).map(function(el) { return Number(el.getAttribute('data-message-index')); });
+  }
+
+  function renderSelectionMessages(data) {
+    const host = q('selection-messages');
+    if (!host) return;
+    host.textContent = '';
+    selectionError('');
+    renderSelectionPreview(data);
+    if (!data || !data.messages || !data.messages.length) {
+      selectionStatus('This conversation has no messages to select.', true);
+      updateSelectionAffordance();
+      return;
+    }
+    const groups = {};
+    data.messages.forEach(function(message) {
+      const turn = message.turn || 1;
+      if (!groups[turn]) groups[turn] = [];
+      groups[turn].push(message);
+    });
+    Object.keys(groups).sort(function(a, b) { return Number(a) - Number(b); }).forEach(function(turn) {
+      const field = document.createElement('fieldset');
+      field.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-top:8px';
+      const legend = document.createElement('legend');
+      legend.style.cssText = 'padding:0 5px;color:var(--accent2);font-size:12px';
+      const turnBox = document.createElement('input');
+      turnBox.type = 'checkbox';
+      turnBox.setAttribute('data-turn', turn);
+      turnBox.style.marginRight = '6px';
+      legend.appendChild(turnBox);
+      legend.appendChild(document.createTextNode('Turn ' + turn + ' (select whole turn)'));
+      field.appendChild(legend);
+      turnBox.onchange = function() {
+        field.querySelectorAll('input[data-message-index]').forEach(function(box) {
+          box.checked = turnBox.checked;
+        });
+        updateSelectionAffordance();
+      };
+      groups[turn].forEach(function(message) {
+        const label = document.createElement('label');
+        label.style.cssText = 'display:block;padding:5px 0;font-size:12px;color:var(--muted);cursor:pointer';
+        const box = document.createElement('input');
+        box.type = 'checkbox';
+        box.setAttribute('data-message-index', message.index);
+        box.style.marginRight = '7px';
+        box.onchange = function() {
+          const boxes = Array.prototype.slice.call(field.querySelectorAll('input[data-message-index]'));
+          turnBox.checked = boxes.length > 0 && boxes.every(function(item) { return item.checked; });
+          turnBox.indeterminate = boxes.some(function(item) { return item.checked; }) && !turnBox.checked;
+          updateSelectionAffordance();
+        };
+        label.appendChild(box);
+        label.appendChild(document.createTextNode(
+          '[' + (message.role || 'message') + '] ' + (message.preview || '(empty)')
+        ));
+        field.appendChild(label);
+      });
+      host.appendChild(field);
+    });
+    selectionStatus('Select messages or whole turns, then export.');
+    updateSelectionAffordance();
+  }
+
+  function loadSelectionConversation(path) {
+    const a = needApi();
+    if (!a || !path || typeof a.getExportedConversation !== 'function') return;
+    selectionConversationPath = path;
+    selectionStatus('Loading conversation…');
+    selectionError('');
+    updateSelectionAffordance();
+    a.getExportedConversation(path).then(function(data) {
+      if (!data || !data.ok) {
+        const message = (data && data.message) || 'Could not load that conversation.';
+        selectionStatus(message, true);
+        selectionError(message);
+        clearSelectionPreview();
+        updateSelectionAffordance();
+        return;
+      }
+      renderSelectionMessages(data);
+    }).catch(function(e) {
+      const message = 'Could not load conversation: ' + (e && e.message ? e.message : e);
+      selectionStatus(message, true);
+      selectionError(message);
+      clearSelectionPreview();
+      updateSelectionAffordance();
+    });
+  }
+
+  function refreshSelectionConversations(force) {
+    const a = getApi();
+    const select = q('selection-conversation');
+    if (!a || !select || typeof a.listExportedConversations !== 'function') return;
+    if (selectionListLoaded && !force) return;
+    selectionListLoaded = true;
+    if (force) {
+      selectionConversationPath = '';
+      q('selection-messages').textContent = '';
+      clearSelectionPreview();
+      updateSelectionAffordance();
+    }
+    selectionError('');
+    a.listExportedConversations().then(function(rows) {
+      select.textContent = '';
+      if (!rows || !rows.length) {
+        selectionConversationPath = '';
+        clearSelectionPreview();
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No exported conversations found';
+        select.appendChild(option);
+        q('selection-messages').textContent = '';
+        selectionStatus('Download a conversation first to enable selection export.');
+        updateSelectionAffordance();
+        return;
+      }
+      rows.forEach(function(row) {
+        const option = document.createElement('option');
+        option.value = row.path;
+        option.textContent = (row.title || 'Untitled conversation') +
+          ' — ' + (row.provider || 'provider') +
+          ' · ' + (row.message_count || 0) + ' messages' +
+          ' · ' + (row.media_count || 0) + ' media' +
+          ' · ' + (row.citation_count || 0) + ' citations' +
+          ' · ' + (row.size || row.size_label || formatPreviewSize(row.size_bytes));
+        select.appendChild(option);
+      });
+      loadSelectionConversation(rows[0].path);
+    }).catch(function(e) {
+      selectionListLoaded = false;
+      const message = 'Could not read exported conversations' +
+        (e && e.message ? ': ' + e.message : '.');
+      selectionStatus(message, true);
+      selectionError(message);
+      selectionConversationPath = '';
+      clearSelectionPreview();
+      q('selection-messages').textContent = '';
+      updateSelectionAffordance();
+    });
+  }
   // Get the current provider ID from the connect-screen dropdown (or fallback to state)
   function getCurrentProviderId() {
     const sel = q('provider-select');
@@ -352,6 +591,12 @@
       resetLoginUi();
     } else if (p.type === 'export_start') {
       q('btn-export').disabled = true;
+      q('btn-export-latest').disabled = true;
+      q('btn-export-pdf').disabled = true;
+      q('btn-select-all').disabled = true;
+      q('btn-clear-selection').disabled = true;
+      q('btn-export-selection').disabled = true;
+      q('selection-conversation').disabled = true;
       q('btn-folder').disabled = true;
       q('folder-input').disabled = true;
       q('chk-refresh').disabled = true;
@@ -387,13 +632,26 @@
       q('done-line').textContent = (p.provider_path || p.folder);
       q('done-box').classList.remove('hidden');
       q('btn-export').disabled = false;
+      q('btn-export-latest').disabled = false;
+      q('btn-export-pdf').disabled = false;
+      q('btn-select-all').disabled = false;
+      q('btn-clear-selection').disabled = false;
+      updateSelectionAffordance();
+      q('selection-conversation').disabled = false;
       q('btn-folder').disabled = false;
       q('folder-input').disabled = false;
       q('chk-refresh').disabled = false;
+      refreshSelectionConversations(true);
     } else if (p.type === 'error') {
       if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
       showErr(p.message);
       q('btn-export').disabled = false;
+      q('btn-export-latest').disabled = false;
+      q('btn-export-pdf').disabled = false;
+      q('btn-select-all').disabled = false;
+      q('btn-clear-selection').disabled = false;
+      updateSelectionAffordance();
+      q('selection-conversation').disabled = false;
       q('btn-folder').disabled = false;
       q('folder-input').disabled = false;
       q('chk-refresh').disabled = false;
@@ -452,6 +710,7 @@
       q('acct-count').textContent = (s.count || 0);
       q('waiting').classList.add('hidden');
       q('btn-connect').disabled = false;
+      refreshSelectionConversations();
     } else if (s.connecting) {
       // Keep spinner visible — do NOT full-reset (that flashed the blue button every poll).
       setPill('Signing in to <span id="provider-name-pill">Perplexity</span>…', false);
@@ -614,16 +873,102 @@
   };
   q('btn-folder').onclick = function() {
     const a = needApi();
-    if (a) { a.chooseFolder(); }
+    if (a) {
+      a.chooseFolder().then(function(path) {
+        if (path) {
+          q('folder-input').value = path;
+          selectionListLoaded = false;
+          refreshSelectionConversations(true);
+        }
+      });
+    }
   };
   q('btn-export').onclick = function() {
     const a = needApi();
     if (a) { a.startExport(q('chk-refresh').checked); }
     else { showErr('Download is unavailable until the app bridge reconnects.'); }
   };
+  q('btn-export-latest').onclick = function() {
+    const a = needApi();
+    if (a && typeof a.startLatestExport === 'function') {
+      a.startLatestExport();
+    } else if (a) {
+      showErr('Quick export is unavailable in this build. Please use Download my conversations.');
+    } else {
+      showErr('Download is unavailable until the app bridge reconnects.');
+    }
+  };
   q('btn-open').onclick = function() {
     const a = needApi();
     if (a) { a.openFolder(); }
+  };
+  q('btn-copy-markdown').onclick = function() {
+    const a = needApi();
+    if (a && typeof a.copyLatestMarkdown === 'function') {
+      a.copyLatestMarkdown().then(function(res) {
+        if (res && res.message) q('status-line').textContent = res.message;
+      });
+    }
+  };
+  q('btn-export-pdf').onclick = function() {
+    const a = needApi();
+    if (a && typeof a.exportLatestPdf === 'function') {
+      a.exportLatestPdf().then(function(res) {
+        if (res && res.message) q('status-line').textContent = res.message;
+      });
+    } else if (a) {
+      showErr('PDF export is unavailable in this build.');
+    }
+  };
+  q('selection-conversation').onchange = function() {
+    loadSelectionConversation(q('selection-conversation').value);
+  };
+  q('btn-select-all').onclick = function() {
+    q('selection-messages').querySelectorAll('input[data-message-index]').forEach(function(box) {
+      box.checked = true;
+    });
+    q('selection-messages').querySelectorAll('input[data-turn]').forEach(function(box) {
+      box.checked = true;
+      box.indeterminate = false;
+    });
+    updateSelectionAffordance();
+  };
+  q('btn-clear-selection').onclick = function() {
+    q('selection-messages').querySelectorAll('input[type=checkbox]').forEach(function(box) {
+      box.checked = false;
+      box.indeterminate = false;
+    });
+    updateSelectionAffordance();
+  };
+  q('btn-export-selection').onclick = function() {
+    const a = needApi();
+    const indexes = selectedMessageIndexes();
+    if (!selectionConversationPath) {
+      selectionStatus('Choose an exported conversation first.', true);
+      selectionError('Choose an exported conversation first.');
+      return;
+    }
+    if (!indexes.length) {
+      selectionStatus('Select at least one message or whole turn.', true);
+      selectionError('Select at least one message or whole turn.');
+      return;
+    }
+    if (!a || typeof a.exportSelectedMessages !== 'function') {
+      selectionStatus('Selection export is unavailable in this build.', true);
+      selectionError('Selection export is unavailable in this build.');
+      return;
+    }
+    selectionStatus('Writing Markdown and JSON…');
+    selectionError('');
+    a.exportSelectedMessages(selectionConversationPath, indexes).then(function(res) {
+      const message = (res && res.message) || 'Selection exported.';
+      selectionStatus(message, !(res && res.ok));
+      selectionError(res && res.ok ? '' : message);
+    }).catch(function(e) {
+      const message = 'Selection export failed: ' + (e && e.message ? e.message : e);
+      selectionStatus(message, true);
+      selectionError(message);
+    });
   };
   q('btn-disconnect').onclick = function() {
     const a = needApi();

@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "TotalRecalls Browser Companion",
+  "version": "1.0.0",
+  "description": "Download the current ChatGPT, Claude, or Gemini conversation for local TotalRecalls import.",
+  "action": {
+    "default_title": "Save conversation to TotalRecalls",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "extractors.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

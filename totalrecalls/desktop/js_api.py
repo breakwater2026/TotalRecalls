@@ -42,8 +42,26 @@ class JsApi:
     def startExport(self, refresh: bool = False):
         return self._b.startExport(refresh)
 
+    def startLatestExport(self):
+        return self._b.startLatestExport()
+
     def openFolder(self):
         return self._b.openFolder()
+
+    def copyLatestMarkdown(self):
+        return self._b.copyLatestMarkdown()
+
+    def exportLatestPdf(self):
+        return self._b.exportLatestPdf()
+
+    def listExportedConversations(self):
+        return self._b.listExportedConversations()
+
+    def getExportedConversation(self, relative_path: str = ""):
+        return self._b.getExportedConversation(relative_path)
+
+    def exportSelectedMessages(self, relative_path: str = "", message_indexes=None):
+        return self._b.exportSelectedMessages(relative_path, message_indexes)
 
     def disconnect(self):
         return self._b.disconnect()
@@ -59,4 +77,3 @@ class JsApi:
 
     def chooseTakeoutPath(self):
         return self._b.chooseTakeoutPath()
-

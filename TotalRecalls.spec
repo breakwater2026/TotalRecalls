@@ -4,8 +4,10 @@ from PyInstaller.utils.hooks import collect_all, collect_submodules
 datas = [('app_ui.html', '.')]
 # React UI build output (preferred by totalrecalls.desktop.main)
 import os
+import sys
 if os.path.isdir('ui'):
     datas.append(('ui', 'ui'))
+icon = 'app.ico' if sys.platform == 'win32' else None
 
 binaries = []
 hiddenimports = collect_submodules('totalrecalls')
@@ -51,5 +53,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['app.ico'],
+    icon=icon,
 )

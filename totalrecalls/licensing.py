@@ -7,18 +7,24 @@ and conversations before paying. A one-time purchase unlocks Pro.
   Pro ($24 one-time): all 8 providers, unlimited downloads.
 
 Pro is unlocked with a license key (issued by Lemon Squeezy on purchase). The
-key is validated and stored locally; :func:`is_pro` reflects the stored
-entitlement. The app stays local-first — there is no cloud check on every run.
+key must be verified by an explicit store integration before it is stored;
+:func:`is_pro` reflects the stored entitlement. The app stays local-first —
+there is no cloud check on every run.
 """
 
 from __future__ import annotations
 
-import json
 import os
 import re
 import time
 
 from totalrecalls.core.paths import appdata_dir
+from totalrecalls.core.secure_storage import (
+    SecureStorageError,
+    delete as delete_secure_state,
+    load_json,
+    save_json,
+)
 
 # Free-tier limits (mirrored in the UI and on the website).
 FREE_PROVIDER_LIMIT = 3
@@ -28,9 +34,8 @@ PRO_PRICE = "$24"
 # The first FREE_PROVIDER_LIMIT provider ids are included free; the rest need Pro.
 FREE_PROVIDER_IDS = ("perplexity", "chatgpt", "claude")
 
-# Lemon Squeezy license keys are UUIDs. This regex only checks the *shape* so
-# the free/pro gating can be exercised before the store is live. Replace
-# validate_license_key() with the real Lemon Squeezy license API before launch.
+# Lemon Squeezy license keys are UUIDs. This regex checks only the shape;
+# entitlement still requires an explicitly wired store verifier.
 _LICENSE_KEY_RE = re.compile(
     r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
 )
@@ -40,21 +45,22 @@ _LICENSE_FILE = os.path.join(appdata_dir(), "license.json")
 
 def _load_state() -> dict:
     try:
-        with open(_LICENSE_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, dict) else {}
-    except Exception:
+        return load_json(_LICENSE_FILE) or {}
+    except SecureStorageError:
         return {}
 
 
 def _save_state(state: dict) -> None:
-    os.makedirs(os.path.dirname(_LICENSE_FILE), exist_ok=True)
-    with open(_LICENSE_FILE, "w", encoding="utf-8") as f:
-        json.dump(state, f, indent=2)
+    save_json(_LICENSE_FILE, state)
 
 
 def is_pro() -> bool:
-    """True when a Pro license has been activated on this machine."""
+    """True when a Pro license has been activated on this machine — or when
+    this build is the unlocked buyer (Pro) edition, baked in at packaging time.
+    """
+    from totalrecalls.edition import is_pro_edition
+    if is_pro_edition():
+        return True
     return bool(_load_state().get("pro"))
 
 
@@ -68,38 +74,57 @@ def tier_name() -> str:
     return "Pro" if is_pro() else "Free"
 
 
-def validate_license_key(key: str) -> bool:
-    """Validate a license key.
-
-    TODO(launch): call Lemon Squeezy's license API instead of the shape check::
-
-        POST https://api.lemonsqueezy.com/v1/licenses/activate
-        {"license_key": key, "instance_name": "TotalRecalls-<machine-id>"}
-
-    The product is still in draft, so no real keys exist yet — this accepts any
-    UUID-shaped key purely so the free/pro gating can be smoke-tested end to end.
-    """
+def validate_license_key_format(key: str) -> bool:
+    """Check only the documented UUID shape; this does not prove entitlement."""
     return bool(_LICENSE_KEY_RE.match((key or "").strip()))
 
 
-def activate_license(key: str) -> dict:
-    """Validate `key` and persist Pro. Returns ``{"ok": bool, "message": str}``."""
+def validate_license_key(key: str, verifier=None) -> bool:
+    """Validate a key with an explicitly supplied store verifier.
+
+    Lemon Squeezy credentials and an API contract are intentionally not
+    embedded here. Without a verifier this returns ``False`` so a UUID-shaped
+    string cannot unlock production builds by itself.
+    """
+    key = (key or "").strip()
+    if not validate_license_key_format(key) or verifier is None:
+        return False
+    try:
+        return bool(verifier(key))
+    except Exception:
+        return False
+
+
+def activate_license(key: str, verifier=None) -> dict:
+    """Validate `key` and persist Pro, or explain why activation is unavailable."""
     key = (key or "").strip()
     if not key:
         return {"ok": False, "message": "Enter a license key."}
-    if not validate_license_key(key):
+    if not validate_license_key_format(key):
         return {"ok": False, "message": "That license key is not valid."}
-    _save_state({"pro": True, "key": key, "activated_at": int(time.time())})
+    if verifier is None:
+        return {
+            "ok": False,
+            "message": "License validation is not configured yet; no license was activated.",
+        }
+    try:
+        if not validate_license_key(key, verifier=verifier):
+            return {"ok": False, "message": "That license key could not be verified."}
+        _save_state({"pro": True, "key": key, "activated_at": int(time.time())})
+    except SecureStorageError:
+        return {
+            "ok": False,
+            "message": "Unable to securely save the license on this device.",
+        }
     return {"ok": True, "message": "Pro unlocked — all 8 providers, unlimited downloads."}
 
 
 def deactivate_license() -> dict:
     """Clear the local entitlement (support / moving machines)."""
     try:
-        if os.path.exists(_LICENSE_FILE):
-            os.remove(_LICENSE_FILE)
-    except Exception:
-        pass
+        delete_secure_state(_LICENSE_FILE)
+    except SecureStorageError:
+        return {"ok": False, "message": "Unable to remove the local license safely."}
     return {"ok": True, "message": "License removed."}
 
 
