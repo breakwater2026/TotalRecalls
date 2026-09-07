@@ -23,6 +23,12 @@ def list_conversations(cookie: str, org_id: str, *, deep: bool = False) -> list[
     try:
         status, data = request(path, cookie)
     except ClaudeApiError as e:
+        # A 401/403 on the primary list means the session cookie is dead —
+        # surface it so the UI can prompt a reconnect. (multi-org callers
+        # still catch per-org; an all-orgs 401 is a dead session too.)
+        if "auth-failed" in str(e):
+            log(f"claude list org={org_id[:8]}… auth-failed: {e}")
+            raise
         log(f"claude list failed: {e}")
         return []
     items: list = []
@@ -148,6 +154,13 @@ def list_conversations_multi(cookie: str, org_ids: list[str], *, deep: bool = Fa
         try:
             items = list_conversations(cookie, org_id, deep=deep)
         except ClaudeApiError as e:
+            # A 401/403 is a SESSION-level signal — the same cookie is used for
+            # every org, so if it's rejected on one it's dead for all. Propagate
+            # it (don't continue past it) so the UI can prompt a reconnect
+            # instead of silently returning [] for a dead session.
+            if "auth-failed" in str(e):
+                log(f"claude list org {org_id[:8]}… auth-failed — session rejected: {e}")
+                raise
             log(f"claude list org {org_id[:8]}… failed: {e}")
             continue
         for it in items:

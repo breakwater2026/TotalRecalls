@@ -92,6 +92,12 @@ class MistralAdapter:
             try:
                 status, data = trpc_query("chat.last", inp, cookie=cookie)
             except MistralApiError as e:
+                # 401/403 on the first request = dead session (validate() is
+                # lenient and accepts any cookie). Mid-pagination means the
+                # session was live → break.
+                if cursor is None and "auth-failed" in str(e):
+                    log(f"mistral list chat.last auth-failed — session rejected: {e}")
+                    raise
                 log(f"mistral list chat.last: {e}")
                 break
             if status != 200 or not isinstance(data, dict):

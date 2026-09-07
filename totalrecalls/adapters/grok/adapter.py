@@ -307,6 +307,14 @@ def _grok_paginate(path: str, token: str | None, cookie: str | None,
             status, data = request(path + suffix, access_token=token,
                                    cookie=cookie, base=base)
         except GrokApiError as e:
+            # A 401/403 on the very first request means the session is dead
+            # (validate() accepts the credential optimistically). Propagate it
+            # so the UI can say "reconnect" instead of silently skipping every
+            # candidate path and reporting "0 conversations". A failure on a
+            # later page means the session was live → stop paging.
+            if page == 0 and "auth-failed" in str(e):
+                log(f"grok list {path} auth-failed — session rejected: {e}")
+                raise
             log(f"grok list {path} page={page} failed: {e}")
             return out
         if not isinstance(data, (dict, list)):

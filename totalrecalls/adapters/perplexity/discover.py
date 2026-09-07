@@ -86,6 +86,15 @@ def _discover_list_ask_threads(token: str, seen: dict, on_progress=None,
         try:
             status, raw = request(path, token, method="POST", body=body)
         except ApiError as e:
+            # list_ask_threads is the PRIMARY library index. A 401/403 on its
+            # first page (offset 0) is the definitive "session expired" signal
+            # (http.py already retries transient Cloudflare challenges up to 8x
+            # before raising auth-failed). Surface it so the UI can prompt a
+            # reconnect instead of showing "0 conversations". A failure after
+            # pages have flowed means the session was live → stop.
+            if offset == 0 and "auth-failed" in str(e):
+                log(f"discovery list_ask_threads auth-failed — session rejected: {e}")
+                raise
             log(f"discovery list_ask_threads offset={offset} failed: {e}")
             break
         items = _normalize_thread_items(raw)

@@ -429,17 +429,27 @@
       updateSelectionAffordance();
     }
     selectionError('');
-    a.listExportedConversations().then(function(rows) {
+    a.listExportedConversations().then(function(allRows) {
+      // Filter to the currently-selected provider so the card never shows
+      // another provider's conversations (the Bug B mismatch).
+      const pid = (q('export-provider-select') || q('provider-select') || {}).value || 'perplexity';
+      const rows = (allRows || []).filter(function(r) {
+        return String(r.provider || '').toLowerCase() === String(pid).toLowerCase();
+      });
       select.textContent = '';
-      if (!rows || !rows.length) {
+      if (!rows.length) {
         selectionConversationPath = '';
         clearSelectionPreview();
         const option = document.createElement('option');
         option.value = '';
-        option.textContent = 'No exported conversations found';
+        // Distinguish "nothing exported at all" from "nothing for THIS provider"
+        const msg = (allRows && allRows.length)
+          ? 'No ' + pid + ' conversations downloaded yet. Download first, or switch providers.'
+          : 'No exported conversations found';
+        option.textContent = msg;
         select.appendChild(option);
         q('selection-messages').textContent = '';
-        selectionStatus('Download a conversation first to enable selection export.');
+        selectionStatus(msg + '. Pick a conversation above to select messages.');
         updateSelectionAffordance();
         return;
       }
@@ -454,6 +464,7 @@
           ' · ' + (row.size || row.size_label || formatPreviewSize(row.size_bytes));
         select.appendChild(option);
       });
+      // Auto-load the first row for THIS provider (rows are already filtered).
       loadSelectionConversation(rows[0].path);
     }).catch(function(e) {
       selectionListLoaded = false;
@@ -568,6 +579,9 @@
       const sel2 = q('export-provider-select');
       if (sel2) sel2.value = (p.provider || q('provider-select').value);
       updateProviderUI(getCurrentProviderId());
+      // Re-filter the partial-download card to the connected provider (Bug B):
+      // a prior session may have left another provider's rows loaded.
+      refreshSelectionConversations(true);
     } else if (p.type === 'waiting_login') {
       hideErr();
       q('btn-connect').disabled = true;
@@ -591,6 +605,14 @@
     updateProviderUI(getCurrentProviderId());
     } else if (p.type === 'login_cancelled') {
       resetLoginUi();
+    } else if (p.type === 'login_expired') {
+      // The stored session was accepted at connect but the provider then
+      // rejected it (401/403) during the real listing. Return to the connect
+      // screen with a clear "log in again" message instead of leaving the user
+      // on an empty "0 conversations" export screen.
+      if (waitingTimerInterval) { clearInterval(waitingTimerInterval); waitingTimerInterval = null; }
+      resetLoginUi();
+      showErr(p.message || 'Your session expired. Please log in again.');
     } else if (p.type === 'export_start') {
       q('btn-export').disabled = true;
       q('btn-export-latest').disabled = true;
@@ -1070,6 +1092,9 @@
         }
       });
     }
+    // Re-filter the partial-download card to the newly selected provider so it
+    // never shows another provider's conversations (Bug B).
+    refreshSelectionConversations(true);
   };
   // Provider selector (export screen)
   q('export-provider-select').onchange = function() {
@@ -1085,6 +1110,8 @@
         }
       });
     }
+    // Re-filter the partial-download card to the newly selected provider (Bug B).
+    refreshSelectionConversations(true);
   };
 </script>
 </body>

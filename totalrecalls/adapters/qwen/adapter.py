@@ -104,6 +104,11 @@ class QwenChatAdapter:
             try:
                 status, data = request(path, cookie=cookie)
             except QwenChatApiError as e:
+                # 401/403 on page 1 = dead session (Qwen raises auth-failed).
+                # Mid-pagination (page>1) means the session was live → break.
+                if page == 1 and "auth-failed" in str(e):
+                    log(f"qwen list page {page} auth-failed — session rejected: {e}")
+                    raise
                 log(f"qwen list page {page}: {e}")
                 break
             if status != 200:

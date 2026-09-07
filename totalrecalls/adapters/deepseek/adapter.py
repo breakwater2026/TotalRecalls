@@ -133,6 +133,12 @@ class DeepSeekAdapter:
                 try:
                     status, data = request(path, access_token=token, cookie=cookie)
                 except DeepSeekApiError as e:
+                    # 401/403 on the very first request = dead session (validate
+                    # optimistically accepts any captured token). Later passes or
+                    # pages mean the session was live → break.
+                    if pinned is True and pages == 1 and "auth-failed" in str(e):
+                        log(f"deepseek list {path} auth-failed — session rejected: {e}")
+                        raise
                     log(f"deepseek list {path}: {e}")
                     break
                 payload = _biz_data(data)

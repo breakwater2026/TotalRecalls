@@ -2195,7 +2195,29 @@ class Bridge:
                 # e.g. Gemini caps one page at 50 while deep pagination
                 # reaches all).
                 n = len(adapter.list_conversations(token, deep=True))
-            except Exception:
+            except Exception as e:
+                # A dead session now raises auth-failed from discovery (the
+                # lenient validate() can accept a stale token the backend then
+                # 401s). Collapsing that into n=0 is exactly the "connected,
+                # 0 downloads" bug — surface it instead and drop the stale
+                # session so the user reconnects. Other errors (network, a
+                # shape change) still degrade to 0 rather than a false
+                # "expired".
+                if "auth-failed" in str(e):
+                    log(f"login: session rejected during deep count ({provider}); "
+                        "clearing so the user reconnects")
+                    try:
+                        clear_session()
+                    except Exception:
+                        pass
+                    self.token = None
+                    self.email = None
+                    self._conversation_count = 0
+                    self._count_pending = False
+                    self._push({"type": "login_expired",
+                                "message": friendly_error(e)})
+                    return
+                log(f"login: deep count failed for {email} via {provider}: {e}")
                 n = 0
             self._conversation_count = n
             self._push({"type": "connected", "email": email, "count": n,

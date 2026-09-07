@@ -27,6 +27,15 @@ def _page_list_conversations(access_token: str, *, offset: int, limit: int,
     try:
         status, data = request(path, access_token=access_token)
     except ChatGptApiError as e:
+        # A 401/403 on the primary list is the definitive "session expired"
+        # signal (the lenient validate() can accept a bare bearer that the
+        # backend then rejects). Swallowing it into an empty list makes a dead
+        # session look like "0 conversations" — surface it so the UI can tell
+        # the user to reconnect. A failure mid-pagination (offset>0) means the
+        # session was live, so still break.
+        if offset == 0 and "auth-failed" in str(e):
+            log(f"chatgpt list order={order} auth-failed — session rejected: {e}")
+            raise
         log(f"chatgpt list order={order} offset={offset} failed: {e}")
         return [], None
     if not isinstance(data, dict):
