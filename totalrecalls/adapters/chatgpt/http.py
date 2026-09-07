@@ -62,7 +62,9 @@ def request(
     body: dict | None = None,
     delay: float = DEFAULT_DELAY,
     base: str = BASE,
+    max_retries: int | None = None,
 ) -> tuple[int, dict | list | None]:
+    retries = MAX_RETRIES if max_retries is None else max(0, int(max_retries))
     url = base + path if path.startswith("/") else path
     headers = _headers(access_token=access_token, cookie=cookie)
     data = None
@@ -93,7 +95,7 @@ def request(
             parsed = json.loads(raw.decode("utf-8", "replace")) if raw else None
             return resp.status, parsed
 
-    for attempt in range(MAX_RETRIES + 1):
+    for attempt in range(retries + 1):
         if delay > 0:
             time.sleep(delay)
         try:
@@ -114,7 +116,7 @@ def request(
         except ChatGptApiError:
             raise
         except Exception as e:
-            if attempt < MAX_RETRIES:
+            if attempt < retries:
                 backoff = min(RETRY_BASE * (2 ** attempt), RETRY_MAX)
                 log(f"chatgpt network error ({type(e).__name__}) — retry in {backoff:.0f}s")
                 time.sleep(backoff)

@@ -241,6 +241,92 @@ class BridgeCountWorkerAuthFailTests(unittest.TestCase):
         ]
         self.assertEqual(settled_zero, [], f"dead session reported as connected/0: {pushes}")
 
+    def test_dead_session_during_fast_count_pushes_login_expired(self):
+        """Same as above, but the adapter exposes count_conversations() (the
+        new fast path). A dead session must STILL surface login_expired — the
+        fast path must not swallow auth-failed into a settled 0."""
+        import totalrecalls.desktop.bridge as bridge_mod
+        from totalrecalls.desktop.bridge import Bridge
+        from totalrecalls.core.schema import AccountInfo
+
+        class FakeAdapter:
+            id = "chatgpt"
+            display_name = "ChatGPT"
+
+            def validate(self, credential):
+                return AccountInfo(email="user@example.com")
+
+            def count_conversations(self, credential):
+                raise Exception("auth-failed")
+
+            def list_conversations(self, credential, *, deep=False):
+                raise AssertionError("fast path must not fall back to deep list")
+
+        b = Bridge(ui_html="<html></html>")
+        b._provider_id = "chatgpt"
+        pushes = []
+        import time as _time
+        with patch.object(bridge_mod, "get_adapter", return_value=FakeAdapter()), \
+             patch.object(bridge_mod, "save_session"), \
+             patch.object(bridge_mod, "clear_session"), \
+             patch.object(b, "_push", side_effect=pushes.append):
+            b._accept_token("stale-token", restore_ui=False)
+            deadline = _time.monotonic() + 5
+            while _time.monotonic() < deadline:
+                if any(p.get("type") == "login_expired" for p in pushes):
+                    break
+                _time.sleep(0.02)
+        t = getattr(b, "_count_thread", None)
+        if t is not None:
+            t.join(timeout=2)
+        types = [p.get("type") for p in pushes]
+        self.assertIn("login_expired", types, f"expected login_expired, got {types}")
+        self.assertIsNone(b.token)
+        settled_zero = [
+            p for p in pushes
+            if p.get("type") == "connected" and p.get("count") == 0
+        ]
+        self.assertEqual(settled_zero, [], f"dead session reported as connected/0: {pushes}")
+
+    def test_fast_count_pushes_connected_with_count(self):
+        """Happy path: an adapter with count_conversations() gets the instant
+        placeholder connected, then a settled connected with the real count."""
+        import totalrecalls.desktop.bridge as bridge_mod
+        from totalrecalls.desktop.bridge import Bridge
+        from totalrecalls.core.schema import AccountInfo
+
+        class FakeAdapter:
+            id = "chatgpt"
+            display_name = "ChatGPT"
+
+            def validate(self, credential):
+                return AccountInfo(email="user@example.com")
+
+            def count_conversations(self, credential):
+                return 105
+
+        b = Bridge(ui_html="<html></html>")
+        b._provider_id = "chatgpt"
+        pushes = []
+        import time as _time
+        with patch.object(bridge_mod, "get_adapter", return_value=FakeAdapter()), \
+             patch.object(bridge_mod, "save_session"), \
+             patch.object(bridge_mod, "clear_session"), \
+             patch.object(b, "_push", side_effect=pushes.append):
+            b._accept_token("tok", restore_ui=False)
+            deadline = _time.monotonic() + 5
+            while _time.monotonic() < deadline:
+                if any(p.get("type") == "connected" and p.get("count") == 105 for p in pushes):
+                    break
+                _time.sleep(0.02)
+        t = getattr(b, "_count_thread", None)
+        if t is not None:
+            t.join(timeout=2)
+        settled = [p for p in pushes if p.get("type") == "connected" and p.get("count") == 105]
+        self.assertEqual(len(settled), 1, f"expected exactly one settled connected/105, got {pushes}")
+        self.assertEqual(b._conversation_count, 105)
+        self.assertIsNotNone(b.token)
+
 
 if __name__ == "__main__":
     unittest.main()

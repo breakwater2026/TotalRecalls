@@ -6,6 +6,7 @@ from totalrecalls.adapters.chatgpt.auth import validate_credential
 from totalrecalls.adapters.chatgpt.conversations import get_conversation, list_conversations
 from totalrecalls.adapters.chatgpt.http import ChatGptApiError
 from totalrecalls.core.export_fs import HOME_SPACE_NAME
+from totalrecalls.core.paths import log
 from totalrecalls.core.schema import (
     AccountInfo,
     Citation,
@@ -156,6 +157,42 @@ class ChatGptAdapter:
     def validate(self, credential: str) -> AccountInfo:
         account, _token = validate_credential(credential)
         return account
+
+    def count_conversations(self, credential: str) -> int:
+        """Fast conversation count for the connect badge — ONE list request.
+
+        The ChatGPT /backend-api/conversations endpoint returns a ``total``
+        field, so an accurate count is a single ~3s request instead of the
+        7-pass deep sweep (updated + created + search + archived + Custom GPTs
+        + projects). That sweep takes minutes on a populated account and trips
+        ChatGPT's limiter (observed live: the connect badge waited 3m39s). The
+        full deep enumeration still runs during export, so no conversation is
+        ever dropped from a download — only the *badge* gets the fast path.
+        """
+        from totalrecalls.adapters.chatgpt.conversations import _page_list_conversations
+        # NOTE: validate_credential + a 401/403 on the list BOTH raise
+        # ChatGptApiError("auth-failed") and must PROPAGATE — the bridge's
+        # count-worker turns that into a "session expired, log in again" push.
+        # Only non-auth failures (a 500-storm, a transient 5xx) degrade to 0
+        # so the badge shows "…/0" quickly instead of eating the full backoff.
+        _account, token = validate_credential(credential)
+        try:
+            # One page, one retry: the badge should degrade fast, never eat
+            # the 6-retry / 107s backoff a 500-storm would otherwise trigger.
+            items, total = _page_list_conversations(
+                token, offset=0, limit=1, order="updated", max_retries=1
+            )
+        except ChatGptApiError as e:
+            if "auth-failed" in str(e):
+                raise  # dead session — let the surface handle it (Bug A)
+            log(f"chatgpt count: list failed (degrading to 0): {e}")
+            return 0
+        except Exception as e:
+            log(f"chatgpt count: unexpected error (degrading to 0): {e}")
+            return 0
+        if isinstance(total, int) and total >= 0:
+            return total
+        return len(items) if isinstance(items, list) else 0
 
     def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
         _account, token = validate_credential(credential)

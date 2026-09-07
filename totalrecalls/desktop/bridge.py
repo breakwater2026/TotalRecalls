@@ -2190,11 +2190,19 @@ class Bridge:
 
         def _count_worker():
             try:
-                # Deep listing so the displayed count matches what the export
-                # will actually download (shallow/single-page undercounts,
-                # e.g. Gemini caps one page at 50 while deep pagination
-                # reaches all).
-                n = len(adapter.list_conversations(token, deep=True))
+                # Fast path: providers that expose count_conversations() use a
+                # single list request (the ChatGPT badge no longer waits on the
+                # 7-pass deep sweep — that was the 3-5 min freeze). The deep
+                # enumeration still runs at export, so the download is complete.
+                # auth-failed still propagates from either path (see below).
+                if hasattr(adapter, "count_conversations"):
+                    n = int(adapter.count_conversations(token) or 0)
+                else:
+                    # Deep listing so the displayed count matches what the export
+                    # will actually download (shallow/single-page undercounts,
+                    # e.g. Gemini caps one page at 50 while deep pagination
+                    # reaches all).
+                    n = len(adapter.list_conversations(token, deep=True))
             except Exception as e:
                 # A dead session now raises auth-failed from discovery (the
                 # lenient validate() can accept a stale token the backend then

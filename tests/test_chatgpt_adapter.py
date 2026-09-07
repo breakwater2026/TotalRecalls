@@ -172,5 +172,73 @@ class ChatGptDeepListTests(unittest.TestCase):
         self.assertIn("c1", ids)
 
 
+class ChatGptCountFastPathTests(unittest.TestCase):
+    """The connect badge uses count_conversations() — a single bounded
+    request reading the API's `total` field, not the 7-pass deep sweep.
+    It must re-raise auth-failed (Bug A) but degrade other errors to 0."""
+
+    def test_count_reads_total_from_single_request(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        with patch.object(
+            conv, "_page_list_conversations",
+            return_value=([{"id": "c1"}], 105),
+        ) as pc, patch(
+            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+            return_value=(AccountInfo(email="a@b.com"), "tok"),
+        ):
+            n = adapter.count_conversations("tok")
+        self.assertEqual(n, 105)
+        self.assertEqual(pc.call_count, 1)
+        kw = pc.call_args.kwargs
+        self.assertEqual(kw["offset"], 0)
+        self.assertEqual(kw["limit"], 1)
+        self.assertEqual(kw["max_retries"], 1)
+
+    def test_count_raises_on_auth_failed(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.adapters.chatgpt.http import ChatGptApiError
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        with patch.object(
+            conv, "_page_list_conversations",
+            side_effect=ChatGptApiError("auth-failed"),
+        ), patch(
+            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+            return_value=(AccountInfo(email="a@b.com"), "tok"),
+        ):
+            with self.assertRaises(ChatGptApiError) as ctx:
+                adapter.count_conversations("tok")
+        self.assertIn("auth-failed", str(ctx.exception))
+
+    def test_count_degrades_to_zero_on_transient_error(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.adapters.chatgpt.http import ChatGptApiError
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        with patch.object(
+            conv, "_page_list_conversations",
+            side_effect=ChatGptApiError("http-500"),
+        ), patch(
+            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+            return_value=(AccountInfo(email="a@b.com"), "tok"),
+        ):
+            self.assertEqual(adapter.count_conversations("tok"), 0)
+
+    def test_count_falls_back_to_items_when_no_total(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        with patch.object(
+            conv, "_page_list_conversations",
+            return_value=([{"id": "a"}, {"id": "b"}], None),
+        ), patch(
+            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+            return_value=(AccountInfo(email="a@b.com"), "tok"),
+        ):
+            self.assertEqual(adapter.count_conversations("tok"), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

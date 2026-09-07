@@ -16,7 +16,8 @@ _DEEP_MAX_OFFSET = 50_000
 
 def _page_list_conversations(access_token: str, *, offset: int, limit: int,
                              order: str, is_archived: bool | None = None,
-                             is_starred: bool | None = None) -> tuple[list[dict], int | None]:
+                             is_starred: bool | None = None,
+                             max_retries: int | None = None) -> tuple[list[dict], int | None]:
     """One page of /backend-api/conversations. Returns (items, total) or ([], _)."""
     q = [f"offset={offset}", f"limit={limit}", f"order={order}"]
     if is_archived is not None:
@@ -25,7 +26,7 @@ def _page_list_conversations(access_token: str, *, offset: int, limit: int,
         q.append(f"is_starred={str(is_starred).lower()}")
     path = "/backend-api/conversations?" + "&".join(q)
     try:
-        status, data = request(path, access_token=access_token)
+        status, data = request(path, access_token=access_token, max_retries=max_retries)
     except ChatGptApiError as e:
         # A 401/403 on the primary list is the definitive "session expired"
         # signal (the lenient validate() can accept a bare bearer that the

@@ -14,7 +14,7 @@ Types of import:
 IMPORTANT: Do NOT post this list to the issue-tracker. Use it as a basis for
             tracking down the missing module yourself. Thanks!
 
-missing module named pyimod02_importers - imported by C:\Users\break\Projects\TotalRecalls\.venv\Lib\site-packages\PyInstaller\hooks\rthooks\pyi_rth_pkgutil.py (delayed), C:\Users\break\Projects\TotalRecalls\.venv\Lib\site-packages\PyInstaller\hooks\rthooks\pyi_rth_pkgres.py (delayed)
+missing module named pyimod02_importers - imported by C:\Users\break\AppData\Local\tr-build-venv\Lib\site-packages\PyInstaller\hooks\rthooks\pyi_rth_pkgutil.py (delayed), C:\Users\break\AppData\Local\tr-build-venv\Lib\site-packages\PyInstaller\hooks\rthooks\pyi_rth_pkgres.py (delayed)
 missing module named pwd - imported by posixpath (delayed, conditional, optional), shutil (delayed, optional), tarfile (optional), pathlib (delayed, optional), subprocess (delayed, conditional, optional), netrc (delayed, conditional), getpass (delayed), webbrowser (delayed), distutils.util (delayed, conditional, optional), setuptools._vendor.backports.tarfile (optional), distutils.archive_util (optional), http.server (delayed, optional), setuptools._distutils.util (delayed, conditional, optional), setuptools._distutils.archive_util (optional)
 missing module named grp - imported by shutil (delayed, optional), tarfile (optional), pathlib (delayed, optional), subprocess (delayed, conditional, optional), setuptools._vendor.backports.tarfile (optional), distutils.archive_util (optional), setuptools._distutils.archive_util (optional)
 missing module named _posixsubprocess - imported by subprocess (conditional), multiprocessing.util (delayed)
@@ -140,9 +140,7 @@ missing module named eventlet - imported by curl_cffi.requests.session (delayed,
 missing module named 'gevent.monkey' - imported by bottle (delayed, conditional)
 missing module named 'android.runnable' - imported by webview.platforms.android (top-level), webview.platforms.android.app (top-level), webview.platforms.android.base (top-level)
 missing module named 'android.activity' - imported by webview.platforms.android (top-level), webview.platforms.android.app (top-level), webview.platforms.android.base (top-level)
-missing module named 'cryptography.x509' - imported by webview (delayed, optional)
-missing module named 'cryptography.hazmat' - imported by webview (delayed, optional)
-missing module named cryptography - imported by totalrecalls.adapters.perplexity.auth (delayed, optional), webview (delayed, optional)
+missing module named bcrypt - imported by cryptography.hazmat.primitives.serialization.ssh (optional)
 missing module named readability - imported by curl_cffi.requests.models (top-level)
 missing module named markdownify - imported by curl_cffi.requests.models (top-level)
 missing module named orjson - imported by curl_cffi.requests.models (optional)
