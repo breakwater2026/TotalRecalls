@@ -1,14 +1,17 @@
-"""Licensing: free/pro entitlement + license key validation."""
+"""Licensing: free/pro entitlement + Lemon Squeezy license key validation."""
 
 from __future__ import annotations
 
 import os
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
 from totalrecalls import licensing
 from totalrecalls.core.secure_storage import SecureStorageError
+
+KEY = "03e11a51-8c63-4826-8b87-998b626285c3"
 
 
 class ProviderTierTests(unittest.TestCase):
@@ -26,14 +29,12 @@ class ProviderTierTests(unittest.TestCase):
 
 class LicenseKeyValidationTests(unittest.TestCase):
     def test_valid_uuid_shape_does_not_prove_entitlement(self):
-        key = "03e11a51-8c63-4826-8b87-998b626285c3"
-        self.assertTrue(licensing.validate_license_key_format(key))
-        self.assertFalse(licensing.validate_license_key(key))
+        self.assertTrue(licensing.validate_license_key_format(KEY))
+        self.assertFalse(licensing.validate_license_key(KEY))
 
     def test_explicit_verifier_is_required_and_used(self):
-        key = "03e11a51-8c63-4826-8b87-998b626285c3"
-        verifier = lambda candidate: candidate == key
-        self.assertTrue(licensing.validate_license_key(key, verifier=verifier))
+        verifier = lambda candidate: candidate == KEY
+        self.assertTrue(licensing.validate_license_key(KEY, verifier=verifier))
 
     def test_invalid_keys(self):
         for bad in ("", "nope", "1234", "03e11a51-8c63-4826-8b87"):
@@ -44,29 +45,38 @@ class EntitlementPersistenceTests(unittest.TestCase):
     def setUp(self):
         self._tmp = tempfile.TemporaryDirectory()
         self._license_path = os.path.join(self._tmp.name, "license.json")
-        self._patcher = patch.object(licensing, "_LICENSE_FILE", self._license_path)
-        self._patcher.start()
+        self._machine_id_path = os.path.join(self._tmp.name, "machine-id.txt")
+        self._patches = [
+            patch.object(licensing, "_LICENSE_FILE", self._license_path),
+            patch.object(licensing, "_MACHINE_ID_FILE", self._machine_id_path),
+        ]
+        for p in self._patches:
+            p.start()
 
     def tearDown(self):
-        self._patcher.stop()
+        for p in self._patches:
+            p.stop()
         self._tmp.cleanup()
 
     def test_free_by_default(self):
         self.assertFalse(licensing.is_pro())
         self.assertEqual(licensing.tier_name(), "Free")
 
-    def test_activate_valid_key(self):
-        key = "03e11a51-8c63-4826-8b87-998b626285c3"
-        res = licensing.activate_license(key, verifier=lambda candidate: candidate == key)
+    def test_activate_with_explicit_verifier(self):
+        res = licensing.activate_license(KEY, verifier=lambda candidate: candidate == KEY)
         self.assertTrue(res["ok"])
         self.assertTrue(licensing.is_pro())
         self.assertEqual(licensing.tier_name(), "Pro")
-        self.assertEqual(licensing.license_key(), key)
+        self.assertEqual(licensing.license_key(), KEY)
 
-    def test_activate_uuid_without_store_verifier_is_rejected(self):
-        res = licensing.activate_license("03e11a51-8c63-4826-8b87-998b626285c3")
+    def test_default_path_reaches_lemonsqueezy_offline(self):
+        # No explicit verifier -> default Lemon Squeezy path; with the
+        # network unavailable the key must NOT activate, with a retry
+        # message (the old "not configured yet" message is gone).
+        with patch.object(licensing, "_ls_post", side_effect=OSError("no network")):
+            res = licensing.activate_license(KEY)
         self.assertFalse(res["ok"])
-        self.assertIn("not configured", res["message"])
+        self.assertIn("license server", res["message"])
         self.assertFalse(licensing.is_pro())
 
     def test_activate_invalid_key(self):
@@ -75,24 +85,143 @@ class EntitlementPersistenceTests(unittest.TestCase):
         self.assertFalse(licensing.is_pro())
 
     def test_activate_reports_secure_storage_failure(self):
-        key = "03e11a51-8c63-4826-8b87-998b626285c3"
         with patch.object(
             licensing,
             "_save_state",
             side_effect=SecureStorageError("unavailable"),
         ):
-            res = licensing.activate_license(key, verifier=lambda _: True)
+            res = licensing.activate_license(KEY, verifier=lambda _: True)
         self.assertFalse(res["ok"])
         self.assertIn("securely save", res["message"])
         self.assertFalse(licensing.is_pro())
 
     def test_deactivate(self):
-        licensing.activate_license(
-            "03e11a51-8c63-4826-8b87-998b626285c3",
-            verifier=lambda _: True,
-        )
+        licensing.activate_license(KEY, verifier=lambda _: True)
         self.assertTrue(licensing.is_pro())
         licensing.deactivate_license()
+        self.assertFalse(licensing.is_pro())
+
+
+class LemonSqueezyVerifierTests(unittest.TestCase):
+    """LS License API integration, with the network mocked out."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self._license_path = os.path.join(self._tmp.name, "license.json")
+        self._machine_id_path = os.path.join(self._tmp.name, "machine-id.txt")
+        self._patches = [
+            patch.object(licensing, "_LICENSE_FILE", self._license_path),
+            patch.object(licensing, "_MACHINE_ID_FILE", self._machine_id_path),
+        ]
+        for p in self._patches:
+            p.start()
+
+    def tearDown(self):
+        for p in self._patches:
+            p.stop()
+        self._tmp.cleanup()
+
+    def _seed_pro(self, last_validated_at=None, instance_id=None):
+        state = {"pro": True, "key": KEY, "activated_at": int(time.time())}
+        if last_validated_at is not None:
+            state["last_validated_at"] = last_validated_at
+        if instance_id is not None:
+            state["instance_id"] = instance_id
+        licensing._save_state(state)
+
+    def test_machine_identity_is_stable_and_pseudonymous(self):
+        a = licensing.machine_identity()
+        b = licensing.machine_identity()
+        self.assertEqual(a, b)
+        self.assertTrue(a.startswith("TR-"))
+        self.assertNotIn(KEY, a)  # never contains the key
+        self.assertLessEqual(len(a), 23)
+
+    def test_activate_via_lemonsqueezy_success(self):
+        # Real LS activate response shape (per docs.lemonsqueezy.com):
+        #   {"activated": true, "instance": {"id": "<uuid>", "name": "..."}, ...}
+        resp = {
+            "activated": True,
+            "error": None,
+            "instance": {"id": "47596ad9-a811-4ebf-ac8a-03fc7b6d2a17", "name": "TR-XXXX"},
+            "license_key": {"id": 1, "status": "active", "activation_limit": 3, "activation_usage": 1},
+        }
+        with patch.object(licensing, "_ls_post", return_value=resp) as mock_post:
+            res = licensing.activate_license(KEY)
+        self.assertTrue(res["ok"])
+        self.assertTrue(licensing.is_pro())
+        # activation registers THIS machine as an instance
+        args, _ = mock_post.call_args
+        self.assertEqual(args[0], "activate")
+        self.assertEqual(args[1]["license_key"], KEY)
+        self.assertIn("instance_name", args[1])
+        # instance id captured for future validate/deactivate
+        self.assertEqual(
+            licensing._load_state().get("instance_id"),
+            "47596ad9-a811-4ebf-ac8a-03fc7b6d2a17",
+        )
+
+    def test_activate_rejected_by_store(self):
+        with patch.object(licensing, "_ls_post", return_value={"activated": False, "error": "key not found"}):
+            res = licensing.activate_license(KEY)
+        self.assertFalse(res["ok"])
+        self.assertIn("could not be verified", res["message"])
+        self.assertFalse(licensing.is_pro())
+
+    def test_activate_network_failure_is_distinct_from_rejection(self):
+        with patch.object(licensing, "_ls_post", side_effect=OSError("timeout")):
+            res = licensing.activate_license(KEY)
+        self.assertFalse(res["ok"])
+        self.assertIn("license server", res["message"])
+        self.assertFalse(licensing.is_pro())
+
+    def test_check_entitlement_offline_grace(self):
+        self._seed_pro(last_validated_at=0)  # stale -> re-check fires
+        with patch.object(licensing, "_ls_post", side_effect=OSError("offline")):
+            self.assertTrue(licensing.check_entitlement())
+        self.assertTrue(licensing.is_pro())  # offline keeps Pro
+
+    def test_check_entitlement_revokes_on_definitive_invalid(self):
+        self._seed_pro(last_validated_at=0)
+        with patch.object(licensing, "_ls_post", return_value={"valid": False}):
+            self.assertFalse(licensing.check_entitlement())
+
+    def test_check_entitlement_rate_limited_within_interval(self):
+        self._seed_pro(last_validated_at=int(time.time()))  # fresh
+        with patch.object(licensing, "_ls_post") as mock_post:
+            self.assertTrue(licensing.check_entitlement())
+            mock_post.assert_not_called()
+
+    def test_check_entitlement_noop_when_free(self):
+        with patch.object(licensing, "_ls_post") as mock_post:
+            self.assertFalse(licensing.check_entitlement())
+            mock_post.assert_not_called()
+
+    def test_check_entitlement_validates_stored_instance(self):
+        self._seed_pro(last_validated_at=0, instance_id="inst-1")
+        with patch.object(licensing, "_ls_post", return_value={"valid": True}) as mock_post:
+            self.assertTrue(licensing.check_entitlement())
+        args, _ = mock_post.call_args
+        self.assertEqual(args[0], "validate")
+        self.assertEqual(args[1].get("instance_id"), "inst-1")
+
+    def test_deactivate_frees_activation_slot(self):
+        self._seed_pro(instance_id="inst-1")
+        with patch.object(licensing, "_ls_post", return_value={}) as mock_post:
+            res = licensing.deactivate_license()
+        self.assertTrue(res["ok"])
+        self.assertIn("freed", res["message"])
+        args, _ = mock_post.call_args
+        self.assertEqual(args[0], "deactivate")
+        self.assertEqual(args[1], {"license_key": KEY, "instance_id": "inst-1"})
+        self.assertFalse(licensing.is_pro())
+
+    def test_deactivate_offline_still_removes_locally(self):
+        self._seed_pro(instance_id="inst-1")
+        with patch.object(licensing, "_ls_post", side_effect=OSError("offline")):
+            res = licensing.deactivate_license()
+        self.assertTrue(res["ok"])
+        self.assertIn("email support", res["message"])
         self.assertFalse(licensing.is_pro())
 
 

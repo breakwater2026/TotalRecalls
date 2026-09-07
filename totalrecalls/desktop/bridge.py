@@ -74,6 +74,26 @@ class Bridge:
         self._connected_at: float | None = None  # monotonic ts of connection established
         self._first_download_at: float | None = None
         self._last_markdown_path: str | None = None
+        # Best-effort Pro entitlement re-check (rate-limited to 1 call/hour;
+        # offline keeps the stored entitlement). Runs on a daemon thread so
+        # startup never blocks; pushes a license event if the outcome changed.
+        threading.Thread(target=self._recheck_entitlement, daemon=True).start()
+
+    def _recheck_entitlement(self):
+        try:
+            was_pro = licensing.is_pro()
+            still_pro = licensing.check_entitlement()
+            if was_pro and not still_pro:
+                log("bridge: entitlement re-check revoked Pro (store reported invalid)")
+                self._push({
+                    "type": "license",
+                    "pro": False,
+                    "tier": licensing.tier_name(),
+                    "message": "Your Pro license is no longer active — contact support if you believe this is a mistake.",
+                    "ok": False,
+                })
+        except Exception as e:
+            log(f"bridge: entitlement re-check failed (ignored): {e}")
 
     # -- helpers ------------------------------------------------------------
 
