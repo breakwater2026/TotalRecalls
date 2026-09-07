@@ -4,10 +4,10 @@ import PageLayout from "../../layouts/PageLayout.astro";
 // Free Tier release. Real build artifacts — recompute after each PyInstaller build:
 //   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
 const VERSION = "v1.0.0";
-const RELEASE_DATE = "September 1, 2026";
+const RELEASE_DATE = "September 3, 2026";
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
-const ZIP_SIZE_MB = 17.1;
-const SHA256 = "de03e3c0abed36c93f21d1fa412f06aa8a049cd87d51345cde457075248bce2f";
+const ZIP_SIZE_MB = 17.2;
+const SHA256 = "7eae51139d7803f3aea46498d0c0a607f98da8e52eeada6caf0c6edd442a3a64";
 ---
 <PageLayout
   title={`Download TotalRecalls ${VERSION}`}
@@ -45,7 +45,7 @@ const SHA256 = "de03e3c0abed36c93f21d1fa412f06aa8a049cd87d51345cde457075248bce2f
     </p>
     <p class="check-updates">
       <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
-      or watch the <a href="https://github.com/breakwater2026/TotalRecalls">GitHub repo</a>.
+      the latest build is always published there first.
       Auto-update is on the roadmap.
     </p>
   </section>
@@ -89,7 +89,7 @@ const SHA256 = "de03e3c0abed36c93f21d1fa412f06aa8a049cd87d51345cde457075248bce2f
     <ol>
       <li><strong>Unzip</strong> the archive to any folder (e.g. <code>Desktop\TotalRecalls</code>).</li>
       <li><strong>Run</strong> <code>TotalRecalls.exe</code>. SmartScreen may show a warning on first launch &mdash; click <em>More info &rarr; Run anyway</em>.</li>
-      <li><strong>Pick a provider</strong> (ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, or Qwen) and sign in locally. For Gemini, point at your Takeout folder instead.</li>
+      <li><strong>Pick a provider</strong> (Perplexity, ChatGPT, or Claude &mdash; the Free Tier includes these three; <em>Pro adds Gemini, Grok, DeepSeek, Mistral, and Qwen</em>) and sign in locally. For Gemini, point at your Takeout folder instead.</li>
       <li><strong>Choose an output folder</strong> and click <em>Download</em>. Your Markdown + JSON files are written straight to disk.</li>
     </ol>
   </section>
