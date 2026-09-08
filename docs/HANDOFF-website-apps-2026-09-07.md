@@ -89,11 +89,11 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
    - Perplexity ✅ 10/10 PASS (43 convs) · Gemini ✅ 10/10 PASS (85 convs)
    - Mistral ✅ 10/10 PASS (Ory Kratos session cookie; the value from DevTools
      is wrapped in literal double quotes — the adapter needs them preserved)
+   - Claude ✅ 10/10 PASS (Bug D fix 49033c1 live-verified; 37 convs, 4 conv
+     files + subset per run, consistent every run).
    - ChatGPT: 9/10 trees complete (4 conv files each, consistent 105-conv
      account) but the process died before writing `chatgpt.json` — RERUNNING
      (full 10, ~60 min at 3.0 s anti-429 pacing, background+notify).
-   - Claude: Bug D fixed (49033c1) — see DONE above; full 10-run RERUNNING
-     in background (37 convs, ~30 s/run).
    - Qwen: not yet pasted — Console → `copy(document.cookie)` (adapter gates
      on `xlly_s`). DeepSeek + Grok: not yet — Bearer token from Network tab.
    - Credential files live in `%LOCALAPPDATA%\Temp\tr_e2e_creds\` (session
