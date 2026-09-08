@@ -91,11 +91,29 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
      is wrapped in literal double quotes — the adapter needs them preserved)
    - Claude ✅ 10/10 PASS (Bug D fix 49033c1 live-verified; 37 convs, 4 conv
      files + subset per run, consistent every run).
-   - ChatGPT: 9/10 trees complete (4 conv files each, consistent 105-conv
-     account) but the process died before writing `chatgpt.json` — RERUNNING
-     (full 10, ~60 min at 3.0 s anti-429 pacing, background+notify).
-   - Qwen: not yet pasted — Console → `copy(document.cookie)` (adapter gates
-     on `xlly_s`). DeepSeek + Grok: not yet — Bearer token from Network tab.
+   - ChatGPT: the 10-run battery keeps dying SILENTLY mid-run01 (no crash
+     event, no sleep event, power plan has sleep disabled on AC — the
+     process is killed externally while in a 429 backoff; happens on
+     OpenAI's 500/429 storm days). Fix: `tr_e2e/run_battery.py <provider>`
+     (one process per run + per-run report files + resume) under
+     `tr_e2e/supervise_battery.py <provider>` (watches, relaunches up to 12x,
+     logs to reports/<provider>_supervisor.log). NOTE: the harness itself
+     was fixed in 247af81 — old version ran the deep sweep TWICE per run
+     (discover+export) and its subset assertion was blind (read top-level
+     `messages` instead of `conversation.messages`; PASS gated on it now).
+     Pre-247af81 PASS verdicts (Perplexity/Gemini/Mistral/Claude) — treat as
+     "export data verified by hand, subset assertion blind"; post-fix runs
+     (Qwen, any ChatGPT rerun) are genuine.
+   - Qwen ✅ 10/10 PASS (genuine — fixed subset assertion; 24 convs, ~16 s/run,
+     one 49 s outlier; consistent every run). Credential format found
+     empirically: the JWT pasted from the web client must be sent as the
+     cookie `token=<JWT>` — raw JWT alone returns `success=false`.
+   - DeepSeek: cookies from the user (`.thumbcache_*`, `aws-waf-token`,
+     `ds_session_id`, `smidV2`) do NOT authenticate — the API returns
+     `api-40002: Missing Token`. The web client's real credential is a
+     Bearer token in the `Authorization` header. STILL NEEDED: Network tab
+     → any `chat.deepseek.com` XHR → Request Headers → `Authorization:
+     Bearer …` value (Notepad-save if masked).
    - Credential files live in `%LOCALAPPDATA%\Temp\tr_e2e_creds\` (session
      cookies/tokens — purge after the E2E completes). Claude `sessionKey`
      pasted via Notepad: my own output masks `sk-ant-sid01-…` tokens
