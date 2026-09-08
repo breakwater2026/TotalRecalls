@@ -35,6 +35,25 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
   for prior 429 storms; verbatim instruction).
 - 6 new regression tests (tests/test_chatgpt_adapter.py) + 2 bridge fast-path tests.
 
+### Bug D — multi-org Claude 403 falsely expired live sessions (49033c1, live-verified 2026-09-08)
+- Live E2E on the user's claude.ai account (adenis258@gmail.com): the chat
+  session cookie gets a 403 `permission_error` ("Invalid authorization for
+  organization") on the API "Individual Org" `chat_conversations` endpoint
+  while the primary chat org returns 200 + data. Bug A's fix (146ad6a)
+  collapsed EVERY 401/403 into `auth-failed`, so `list_conversations_multi`
+  raised and the list died for every multi-org user with a perfectly live
+  session.
+- `claude/http.py`: new `classify_auth_error()` inspects the 403 body —
+  `permission_error` / "Invalid authorization for organization" →
+  `org-forbidden` (org-scoped, skip this org); anything else stays
+  `auth-failed`. cffi path now preserves the 401/403 body as
+  `HTTPError.body_text` so the retry loop can classify.
+- `conversations.py` unchanged by design: only `auth-failed` is fatal;
+  `org-forbidden` falls through the existing per-org skip.
+- 4 regression tests (classifier shapes, multi-org skip-while-keep with the
+  real account shape, true session-death still propagates). 205/205 pass.
+- Verified live: full 5-step pipeline PASS, 37 conversations discovered.
+
 ### Builds + packaging (all verified via PYZ const/name comparison vs source)
 - `dist/TotalRecalls.exe` (free, 19,612,455 B): edition=free, fast-count baked,
   licensing+Bug A/B baked, cryptography bundled. Clean-venv recipe (see totalrecalls
@@ -64,15 +83,26 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
 
 ## LEFT TO DO (in priority order)
 
-1. **Live 8-provider E2E test — BLOCKED on user's session cookies.**
-   Harness ready + committed: `tools/provider_e2e_harness.py` (5-step pipeline:
-   validate → count → export-all → verify files → subset re-export; 10 runs/provider
-   agreed = 80 total). All 8 providers bot-wall scripted login (Cloudflare/CloudFront),
-   and Edge 152 app-bound cookie encryption blocks local extraction. User pastes:
-   `copy(document.cookie)` from DevTools console for Perplexity/ChatGPT/Claude/Gemini/
-   Grok*/Mistral/Qwen; **Bearer token** from DevTools→Network for DeepSeek and Grok.
-   Playbook: totalrecalls skill `references/provider-e2e-harness-2026-09-07.md`.
-   NEVER fire hundreds of live calls without green light (rate-limit/account-flag risk).
+1. **Live 8-provider E2E test — IN PROGRESS (2026-09-08, user pasted credentials;
+   harness `tools/provider_e2e_harness.py`, 10 runs/provider, max 3 convs/run,
+   reports in `%LOCALAPPDATA%\Temp\tr_e2e\reports\<provider>.json`):**
+   - Perplexity ✅ 10/10 PASS (43 convs) · Gemini ✅ 10/10 PASS (85 convs)
+   - Mistral ✅ 10/10 PASS (Ory Kratos session cookie; the value from DevTools
+     is wrapped in literal double quotes — the adapter needs them preserved)
+   - ChatGPT: 9/10 trees complete (4 conv files each, consistent 105-conv
+     account) but the process died before writing `chatgpt.json` — RERUNNING
+     (full 10, ~60 min at 3.0 s anti-429 pacing, background+notify).
+   - Claude: Bug D fixed (49033c1) — see DONE above; full 10-run RERUNNING
+     in background (37 convs, ~30 s/run).
+   - Qwen: not yet pasted — Console → `copy(document.cookie)` (adapter gates
+     on `xlly_s`). DeepSeek + Grok: not yet — Bearer token from Network tab.
+   - Credential files live in `%LOCALAPPDATA%\Temp\tr_e2e_creds\` (session
+     cookies/tokens — purge after the E2E completes). Claude `sessionKey`
+     pasted via Notepad: my own output masks `sk-ant-sid01-…` tokens
+     (routingHint JWTs and bare numbers do NOT — control-tested).
+   - NEVER fire hundreds of live calls without green light (rate-limit/
+     account-flag risk). Playbook: totalrecalls skill
+     `references/provider-e2e-harness-2026-09-07.md`.
 2. **Side-by-side website + app GUI session** (user: starts AFTER testing).
    ⚠️ UPDATE 2026-09-08: the WIP backup dir
    `%LOCALAPPDATA%\Temp\tr_wip_backup_20260907\` was **PURGED by Windows** —
@@ -87,6 +117,12 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
    outstanding on LS side). End-to-end activation with a REAL key is the only untested
    path in licensing.
 4. **User live-test of the new Pro EXE** (all fixes are in it; not yet exercised by user).
+   ⚠️ 2026-09-08: the Bug D fix (49033c1) POSTDATES the current dist EXEs + both
+   ZIPs (built at 974aa72). After the E2E completes: rebuild BOTH EXEs (clean
+   venv recipe, PYZ const+name verification), repackage free + pro ZIPs,
+   update SHAs + `/download` page, rebuild site. The free tier is unaffected
+   by Bug D behavior (Claude is a Pro provider) but the ZIP must match the
+   rebuilt EXE byte-for-byte.
 5. **Open decisions (flag, don't auto-apply):**
    - M2: repo stays private (links removed) or go public (restore links)?
    - M3: 80 MB landing demo video — re-compress?
