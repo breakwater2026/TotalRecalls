@@ -40,7 +40,8 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
   licensing+Bug A/B baked, cryptography bundled. Clean-venv recipe (see totalrecalls
   skill — project `.venv` is polluted, NEVER build with it).
 - `dist/TotalRecalls-Pro.exe` (18,873,462 B): edition=**pro** baked, same fixes.
-  Old stale Pro EXE backed up: `%LOCALAPPDATA%\Temp\pro_exe_backup_1788819224.exe`.
+  (The old Sept-3 Pro EXE backup in Temp was purged 09-08 — no loss: the new
+  Pro EXE carries all fixes and strictly supersedes it.)
   **User has NOT yet live-tested this new Pro build** (their old instance was closed
   while idle for the rebuild — fresh login needed).
 - Free ZIP: `site/public/downloads/TotalRecalls-1.0.0-free-tier.zip` 18.5 MB,
