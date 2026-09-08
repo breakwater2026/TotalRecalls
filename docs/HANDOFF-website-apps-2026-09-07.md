@@ -108,12 +108,12 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
      one 49 s outlier; consistent every run). Credential format found
      empirically: the JWT pasted from the web client must be sent as the
      cookie `token=<JWT>` — raw JWT alone returns `success=false`.
-   - DeepSeek: cookies from the user (`.thumbcache_*`, `aws-waf-token`,
-     `ds_session_id`, `smidV2`) do NOT authenticate — the API returns
-     `api-40002: Missing Token`. The web client's real credential is a
-     Bearer token in the `Authorization` header. STILL NEEDED: Network tab
-     → any `chat.deepseek.com` XHR → Request Headers → `Authorization:
-     Bearer …` value (Notepad-save if masked).
+   - DeepSeek ✅ (battery running, run01 genuine PASS — 44 sessions, ~14 s/run).
+     CREDENTIAL FORMAT FOUND: NOT a cookie (cookies → `api-40002: Missing
+     Token`) and NOT a Network-tab Bearer — it's the `userToken` key in
+     **localStorage** (JSON envelope `{"value":"…","__version":"0"}`; use the
+     inner `value`). Console grab:
+     `copy(JSON.parse(localStorage.getItem('userToken')).value)`
    - Credential files live in `%LOCALAPPDATA%\Temp\tr_e2e_creds\` (session
      cookies/tokens — purge after the E2E completes). Claude `sessionKey`
      pasted via Notepad: my own output masks `sk-ant-sid01-…` tokens
