@@ -149,9 +149,14 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
    POLLUTED `.venv` — its run produced a 34 MB EXE (discarded); the good
    Pro EXE was built by manual edition.py flip + clean-venv PyInstaller
    + restore (edition.py is back to `EDITION = "free"` in the tree).
-5. **Open decisions (flag, don't auto-apply):**
-   - M2: repo stays private (links removed) or go public (restore links)?
-   - M3: 80 MB landing demo video — re-compress?
+5. **Decisions (2026-09-08, user):**
+   - M2 RESOLVED: repo stays **PRIVATE** — commercialization is underway.
+     Verified: anonymous GET github.com/breakwater2026/TotalRecalls → 404;
+     site has zero github.com links (already stripped). No action needed.
+   - M3 RESOLVED: the 80 MB landing demo video will be **redone by the user**
+     once the app works perfectly — do not re-compress the current one.
+     (Pending: user's Pro-EXE live test — Claude multi-org connect + ChatGPT
+     under the 500 storm — before the re-recording.)
 6. **Deployment gate (do NOT "fix"):** site is intentionally NOT deployed;
    `totalrecalls.app` 404s by design (fail-safe: wrangler `production_branch =
    "RedesignV7"` frozen). Going live later = point production branch at release branch
