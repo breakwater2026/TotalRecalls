@@ -131,11 +131,28 @@ def run_once(provider: str, credential: str, outdir: Path,
     if not steps["validate"].get("ok"):
         return report  # no point continuing without a live session
 
-    # 2. discover
+    # 2. discover — mirror the app's connect path: the fast count when the
+    # adapter has one (Bug C), else a shallow list. The deep sweep is
+    # exercised exactly once, in the export step below (the real app's
+    # export flow). The old version ran deep in BOTH discover and export,
+    # which doubled ChatGPT's 7-pass sweep per battery run and hammered the
+    # live endpoint.
     def _discover():
-        sums = adapter.list_conversations(credential, deep=deep)
-        return {"count": len(sums),
-                "sample_titles": [ (s.title or s.id)[:60] for s in sums[:5] ]}
+        fast = getattr(adapter, "count_conversations", None)
+        if callable(fast):
+            c = fast(credential)
+            if c and c > 0:
+                return {"count": c, "via": "fast_count"}
+            # The fast count DEGRADES to 0 on non-auth errors (a 500 storm)
+            # by design — that's right for the badge, but a 0 here could be
+            # either "empty account" or "degraded". Cross-check with one
+            # shallow page before trusting 0.
+            sums = adapter.list_conversations(credential, deep=False)
+            return {"count": len(sums), "via": "fast_count_degraded_crosscheck",
+                    "sample_titles": [(s.title or s.id)[:60] for s in sums[:5]]}
+        sums = adapter.list_conversations(credential, deep=False)
+        return {"count": len(sums), "via": "shallow_list",
+                "sample_titles": [(s.title or s.id)[:60] for s in sums[:5]]}
     _step(report, "discover", _discover)
     if not steps["discover"].get("ok"):
         return report
@@ -174,18 +191,31 @@ def run_once(provider: str, credential: str, outdir: Path,
         idxs = list(range(0, n, max(1, n // (k + 1))))[:k] or [0]
         res = write_selected_unified_conversation(str(outdir), conv, idxs,
                                                   source=target.title or target.id)
-        # Re-read the subset json and confirm it has strictly fewer messages.
+        # Re-read the subset json and confirm it carries the selected
+        # messages. Schema v1 nests them under conversation.messages
+        # (write_selected_unified_conversation stores the whole
+        # UnifiedConversation dict) — the old check read the top level and
+        # always saw 0, so every run PASSed with a blind subset assertion.
         with open(res["json_path"], encoding="utf-8") as fh:
             sub = json.load(fh)
-        sub_msgs = len(sub.get("messages", []))
+        msgs = ((sub.get("conversation") or {}).get("messages")
+                or sub.get("messages") or [])
+        sub_msgs = len(msgs)
         ok = sub_msgs <= n and sub_msgs >= 1
         return {"source_messages": n, "subset_indexes": idxs,
                 "subset_messages": sub_msgs, "subset_ok": ok,
                 "subset_folder": res["folder"]}
     _step(report, "subset", _subset)
 
-    report["passed"] = all(steps[s].get("ok") for s in
-                           ["validate", "discover", "export", "verify", "subset"])
+    # A run passes only if every step succeeded AND the subset assertion
+    # actually held. Before the fix the assertion result was recorded but
+    # never gated the verdict (subset_ok was False on 100% of runs while
+    # every run still read PASS).
+    step_ok = all(steps[s].get("ok") for s in
+                  ["validate", "discover", "export", "verify", "subset"])
+    subset = steps["subset"]
+    subset_ok = bool(subset.get("skipped") or subset.get("subset_ok"))
+    report["passed"] = step_ok and subset_ok
     return report
 
 
