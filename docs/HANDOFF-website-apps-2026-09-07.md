@@ -114,6 +114,13 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
      **localStorage** (JSON envelope `{"value":"…","__version":"0"}`; use the
      inner `value`). Console grab:
      `copy(JSON.parse(localStorage.getItem('userToken')).value)`
+   - Grok ✅ (battery running). Credential = FULL cookie set from the
+     logged-in browser — session lives in `sso` (+`sso-rw`) JWT cookies;
+     `x-userid` alone (a bare UUID) is rejected; Cloudflare `cf_clearance`
+     + `__cf_bm` ride along (grok.com is CF-fronted). `document.cookie`
+     from the logged-in page works as-is (21 conversations verified).
+     NOTE: `cf_clearance` is short-lived — a stale Grok battery fails
+     auth-failed; re-grab `document.cookie` if that happens.
    - Credential files live in `%LOCALAPPDATA%\Temp\tr_e2e_creds\` (session
      cookies/tokens — purge after the E2E completes). Claude `sessionKey`
      pasted via Notepad: my own output masks `sk-ant-sid01-…` tokens
@@ -134,13 +141,14 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
 3. **Lemon Squeezy live-key test** — blocked until LS approves the app (demo video
    outstanding on LS side). End-to-end activation with a REAL key is the only untested
    path in licensing.
-4. **User live-test of the new Pro EXE** (all fixes are in it; not yet exercised by user).
-   ⚠️ 2026-09-08: the Bug D fix (49033c1) POSTDATES the current dist EXEs + both
-   ZIPs (built at 974aa72). After the E2E completes: rebuild BOTH EXEs (clean
-   venv recipe, PYZ const+name verification), repackage free + pro ZIPs,
-   update SHAs + `/download` page, rebuild site. The free tier is unaffected
-   by Bug D behavior (Claude is a Pro provider) but the ZIP must match the
-   rebuilt EXE byte-for-byte.
+4. **User live-test of the rebuilt Pro EXE** (Bug D + all fixes baked;
+   verified via PYZ const/name comparison — edition ['pro'], all modules
+   match source). Commit c9a72fa (2026-09-08) rebuilt BOTH EXEs in the
+   clean venv + repackaged both ZIPs + updated /download SHA (441ea535…,
+   18.7 MB, rebuilt site). GOTCHA: `tools/build_exe.py` hardcodes the
+   POLLUTED `.venv` — its run produced a 34 MB EXE (discarded); the good
+   Pro EXE was built by manual edition.py flip + clean-venv PyInstaller
+   + restore (edition.py is back to `EDITION = "free"` in the tree).
 5. **Open decisions (flag, don't auto-apply):**
    - M2: repo stays private (links removed) or go public (restore links)?
    - M3: 80 MB landing demo video — re-compress?
