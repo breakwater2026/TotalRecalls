@@ -35,6 +35,38 @@ class ClaudeApiError(Exception):
     pass
 
 
+def classify_auth_error(status: int, body_text: str) -> str:
+    """Classify a 401/403 response from claude.ai.
+
+    Returns "auth-failed" (session dead — caller should prompt re-login) or
+    "org-forbidden" (session is fine; THIS organization rejects it).
+
+    Accounts with both a chat organization and an "Individual Org" (API
+    console, capabilities ['api', 'api_individual']) are common. The chat
+    session cookie gets a 403 permission_error body on the API org's
+    chat_conversations endpoint:
+        {"type":"error","error":{"type":"permission_error",
+         "message":"Invalid authorization for organization",...}}
+    That is org-scoped, NOT session-scoped — collapsing it to auth-failed
+    (Bug A fix, 146ad6a) falsely expired live sessions for every multi-org
+    user, and the conversation list died even though the primary org
+    returned 200 with data.
+    """
+    if status == 403 and body_text:
+        try:
+            body = json.loads(body_text)
+        except ValueError:
+            body = None
+        if isinstance(body, dict):
+            err = body.get("error")
+            if isinstance(err, dict):
+                etype = str(err.get("type") or "")
+                emsg = str(err.get("message") or "")
+                if etype == "permission_error" or "Invalid authorization for organization" in emsg:
+                    return "org-forbidden"
+    return "auth-failed"
+
+
 def cookie_header_from_credential(credential: str) -> str:
     raw = (credential or "").strip()
     if not raw:
@@ -83,7 +115,14 @@ def request(
                 if resp.status_code in (429, 500, 502, 503, 504):
                     raise urllib.error.HTTPError(url, resp.status_code, "retryable", {}, None)
                 if resp.status_code in (401, 403):
-                    raise urllib.error.HTTPError(url, resp.status_code, "auth", {}, None)
+                    err = urllib.error.HTTPError(url, resp.status_code, "auth", {}, None)
+                    # Preserve the body so the retry loop can classify
+                    # session-dead vs org-forbidden (multi-org accounts).
+                    try:
+                        err.body_text = resp.content.decode("utf-8", "replace")
+                    except Exception:
+                        err.body_text = ""
+                    raise err
                 raw = resp.content
                 parsed = json.loads(raw.decode("utf-8", "replace")) if raw else None
                 return resp.status_code, parsed
@@ -110,7 +149,8 @@ def request(
                 time.sleep(backoff)
                 continue
             if e.code in (401, 403):
-                raise ClaudeApiError("auth-failed")
+                kind = classify_auth_error(e.code, getattr(e, "body_text", "") or "")
+                raise ClaudeApiError(kind)
             raise ClaudeApiError(f"http-{e.code}")
         except ClaudeApiError:
             raise

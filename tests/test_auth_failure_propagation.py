@@ -76,6 +76,49 @@ class ClaudeAuthFailTests(unittest.TestCase):
             out = cc.list_conversations("cookie", "org1234567", deep=False)
         self.assertEqual(out, [])
 
+    def test_classify_org_permission_error_is_not_auth_failed(self):
+        # A 403 permission_error body ("Invalid authorization for organization")
+        # is ORG-scoped, not session-scoped — must NOT collapse to auth-failed.
+        from totalrecalls.adapters.claude.http import classify_auth_error
+        body = ('{"type":"error","error":{"type":"permission_error",'
+                '"message":"Invalid authorization for organization"}}')
+        self.assertEqual(classify_auth_error(403, body), "org-forbidden")
+
+    def test_classify_plain_403_is_auth_failed(self):
+        # A 403 with no permission_error body is still treated as session-dead.
+        from totalrecalls.adapters.claude.http import classify_auth_error
+        self.assertEqual(classify_auth_error(403, ""), "auth-failed")
+        self.assertEqual(classify_auth_error(401, "anything"), "auth-failed")
+        self.assertEqual(classify_auth_error(403, "not-json"), "auth-failed")
+
+    def test_multi_org_skips_org_forbidden_but_keeps_good_org(self):
+        # Real account shape: primary chat org returns 200 + data, the API
+        # "Individual Org" returns 403 permission_error. The list must return
+        # the primary org's conversations, NOT raise auth-failed and NOT drop
+        # everything to [].
+        from totalrecalls.adapters.claude import conversations as cc
+        from totalrecalls.adapters.claude.http import ClaudeApiError
+
+        def fake_request(path, cookie, **kw):
+            if "GOODORG" in path:
+                return 200, [{"uuid": "c1", "name": "kept"}]
+            if "BADORG" in path:
+                raise ClaudeApiError("org-forbidden")
+            return 200, []
+
+        with patch.object(cc, "request", side_effect=fake_request):
+            out = cc.list_conversations_multi("cookie", ["GOODORG", "BADORG"], deep=False)
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0]["uuid"], "c1")
+
+    def test_multi_org_still_raises_on_true_session_death(self):
+        # Contrast: a genuine auth-failed (session dead) must still propagate
+        # so the UI prompts a reconnect — the Bug A behavior is preserved.
+        from totalrecalls.adapters.claude import conversations as cc
+        from totalrecalls.adapters.claude.http import ClaudeApiError
+        with patch.object(cc, "request", side_effect=ClaudeApiError("auth-failed")):
+            _raises_auth_fail(cc.list_conversations_multi, "cookie", ["org1", "org2"], deep=False)
+
 
 class GeminiAuthFailTests(unittest.TestCase):
     def test_live_list_raises_on_auth_failed(self):
