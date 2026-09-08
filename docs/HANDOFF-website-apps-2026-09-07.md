@@ -73,11 +73,14 @@ Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links
    Playbook: totalrecalls skill `references/provider-e2e-harness-2026-09-07.md`.
    NEVER fire hundreds of live calls without green light (rate-limit/account-flag risk).
 2. **Side-by-side website + app GUI session** (user: starts AFTER testing).
-   User's WIP was deleted from the tree with authorization; **restore it first** from
-   `%LOCALAPPDATA%\Temp\tr_wip_backup_20260907\` (7 items: `app_ui.html` incl. the
-   idle-disconnect provider-sync hunk at ~line 747 marked `if (s.provider) {`,
-   `build_exe.py` EDITION regex, `.gitignore` release/ line, `.vscode/settings.json`
-   env-file line, docs-audit-prompt.md, docs-website-comments.md, docs-Lemon-Squeezy/).
+   ⚠️ UPDATE 2026-09-08: the WIP backup dir
+   `%LOCALAPPDATA%\Temp\tr_wip_backup_20260907\` was **PURGED by Windows** —
+   do NOT look for it. Everything salvageable was recovered into
+   `docs/WIP-RECOVERY-2026-09-08.md` (commit `e14ee91`): the verbatim
+   `app_ui.html` provider-sync hunk (5 lines, inserted before
+   `setPill('Not connected', false);` in the idle-disconnected else-branch)
+   + the disposition of the other 6 WIP items (all trivial/recreatable/
+   superseded). Re-apply the hunk from that doc at session start.
    User quote: "My WIP will resurface at that point."
 3. **Lemon Squeezy live-key test** — blocked until LS approves the app (demo video
    outstanding on LS side). End-to-end activation with a REAL key is the only untested
