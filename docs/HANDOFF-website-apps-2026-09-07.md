@@ -1,5 +1,12 @@
 # HANDOFF — TotalRecalls website + apps (2026-09-07, ~23:40 EDT)
 
+> **SUPERSEDED 2026-09-13:** the 09-12 session's uncommitted work was committed
+> + pushed on branch `fix/robust-auth-20260913` (commit `9a5c89f`), the
+> robust-auth fix was live-tested OK by the user, and the demo video + LS
+> screenshot pack are done. Current state:
+> `docs/STATUS-2026-09-13-robust-auth-fix.md` (also the ACTIVE HANDOFF pointer
+> in `AGENTS.md`). This file is kept for history only.
+
 Purpose: context for the NEXT conversation. Repo: `C:/Users/break/Projects/TotalRecalls`,
 branch **RedesignV9**, tip **974aa72**, working tree **clean**, pushed to origin.
 Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links.
