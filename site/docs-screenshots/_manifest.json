@@ -1,0 +1,366 @@
+[
+  {
+    "n": 1,
+    "label": "home",
+    "url": "http://127.0.0.1:4321/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\01-home.png"
+  },
+  {
+    "n": 2,
+    "label": "about",
+    "url": "http://127.0.0.1:4321/about/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\02-about.png"
+  },
+  {
+    "n": 3,
+    "label": "buy",
+    "url": "http://127.0.0.1:4321/buy/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\03-buy.png"
+  },
+  {
+    "n": 4,
+    "label": "compare-index",
+    "url": "http://127.0.0.1:4321/compare/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\04-compare-index.png"
+  },
+  {
+    "n": 5,
+    "label": "compare-chatgpt",
+    "url": "http://127.0.0.1:4321/compare/chatgpt/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\05-compare-chatgpt.png"
+  },
+  {
+    "n": 6,
+    "label": "compare-claude",
+    "url": "http://127.0.0.1:4321/compare/claude/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\06-compare-claude.png"
+  },
+  {
+    "n": 7,
+    "label": "compare-deepseek",
+    "url": "http://127.0.0.1:4321/compare/deepseek/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\07-compare-deepseek.png"
+  },
+  {
+    "n": 8,
+    "label": "compare-gemini",
+    "url": "http://127.0.0.1:4321/compare/gemini/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\08-compare-gemini.png"
+  },
+  {
+    "n": 9,
+    "label": "compare-grok",
+    "url": "http://127.0.0.1:4321/compare/grok/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\09-compare-grok.png"
+  },
+  {
+    "n": 10,
+    "label": "compare-mistral",
+    "url": "http://127.0.0.1:4321/compare/mistral/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\10-compare-mistral.png"
+  },
+  {
+    "n": 11,
+    "label": "compare-perplexity",
+    "url": "http://127.0.0.1:4321/compare/perplexity/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\11-compare-perplexity.png"
+  },
+  {
+    "n": 12,
+    "label": "compare-pricing",
+    "url": "http://127.0.0.1:4321/compare/pricing/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\12-compare-pricing.png"
+  },
+  {
+    "n": 13,
+    "label": "compare-qwen",
+    "url": "http://127.0.0.1:4321/compare/qwen/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\13-compare-qwen.png"
+  },
+  {
+    "n": 14,
+    "label": "compare-why-local",
+    "url": "http://127.0.0.1:4321/compare/why-local/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\14-compare-why-local.png"
+  },
+  {
+    "n": 15,
+    "label": "compare-why-multi-assistant",
+    "url": "http://127.0.0.1:4321/compare/why-multi-assistant/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\15-compare-why-multi-assistant.png"
+  },
+  {
+    "n": 16,
+    "label": "download",
+    "url": "http://127.0.0.1:4321/download/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\16-download.png"
+  },
+  {
+    "n": 17,
+    "label": "faq",
+    "url": "http://127.0.0.1:4321/faq/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\17-faq.png"
+  },
+  {
+    "n": 18,
+    "label": "feature-requests",
+    "url": "http://127.0.0.1:4321/feature-requests/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\18-feature-requests.png"
+  },
+  {
+    "n": 19,
+    "label": "guides-index",
+    "url": "http://127.0.0.1:4321/guides/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\19-guides-index.png"
+  },
+  {
+    "n": 20,
+    "label": "guide-backup-perplexity-threads",
+    "url": "http://127.0.0.1:4321/guides/backup-perplexity-threads/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\20-guide-backup-perplexity-threads.png"
+  },
+  {
+    "n": 21,
+    "label": "guide-deepseek",
+    "url": "http://127.0.0.1:4321/guides/deepseek/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\21-guide-deepseek.png"
+  },
+  {
+    "n": 22,
+    "label": "guide-export-chatgpt",
+    "url": "http://127.0.0.1:4321/guides/export-chatgpt-conversations/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\22-guide-export-chatgpt.png"
+  },
+  {
+    "n": 23,
+    "label": "guide-export-claude",
+    "url": "http://127.0.0.1:4321/guides/export-claude-chat-history/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\23-guide-export-claude.png"
+  },
+  {
+    "n": 24,
+    "label": "guide-gemini-takeout",
+    "url": "http://127.0.0.1:4321/guides/gemini-takeout-archive/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\24-guide-gemini-takeout.png"
+  },
+  {
+    "n": 25,
+    "label": "guide-grok",
+    "url": "http://127.0.0.1:4321/guides/grok/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\25-guide-grok.png"
+  },
+  {
+    "n": 26,
+    "label": "guide-library-format",
+    "url": "http://127.0.0.1:4321/guides/library-format/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\26-guide-library-format.png"
+  },
+  {
+    "n": 27,
+    "label": "guide-mistral",
+    "url": "http://127.0.0.1:4321/guides/mistral/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\27-guide-mistral.png"
+  },
+  {
+    "n": 28,
+    "label": "guide-own-your-ai-chat-data",
+    "url": "http://127.0.0.1:4321/guides/own-your-ai-chat-data/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\28-guide-own-your-ai-chat-data.png"
+  },
+  {
+    "n": 29,
+    "label": "guide-qwen",
+    "url": "http://127.0.0.1:4321/guides/qwen/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\29-guide-qwen.png"
+  },
+  {
+    "n": 30,
+    "label": "guide-smartscreen",
+    "url": "http://127.0.0.1:4321/guides/smartscreen/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\30-guide-smartscreen.png"
+  },
+  {
+    "n": 31,
+    "label": "guide-troubleshooting",
+    "url": "http://127.0.0.1:4321/guides/troubleshooting/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\31-guide-troubleshooting.png"
+  },
+  {
+    "n": 32,
+    "label": "help",
+    "url": "http://127.0.0.1:4321/help/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\32-help.png"
+  },
+  {
+    "n": 33,
+    "label": "how-it-works",
+    "url": "http://127.0.0.1:4321/how-it-works/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\33-how-it-works.png"
+  },
+  {
+    "n": 34,
+    "label": "legals",
+    "url": "http://127.0.0.1:4321/legals/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\34-legals.png"
+  },
+  {
+    "n": 35,
+    "label": "microsoft-warning",
+    "url": "http://127.0.0.1:4321/microsoft-warning/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\35-microsoft-warning.png"
+  },
+  {
+    "n": 36,
+    "label": "press",
+    "url": "http://127.0.0.1:4321/press/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\36-press.png"
+  },
+  {
+    "n": 37,
+    "label": "previews-index",
+    "url": "http://127.0.0.1:4321/previews/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\37-previews-index.png"
+  },
+  {
+    "n": 38,
+    "label": "preview-multi-device-memory",
+    "url": "http://127.0.0.1:4321/previews/multi-device-memory/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\38-preview-multi-device-memory.png"
+  },
+  {
+    "n": 39,
+    "label": "preview-notion",
+    "url": "http://127.0.0.1:4321/previews/notion/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\39-preview-notion.png"
+  },
+  {
+    "n": 40,
+    "label": "preview-obsidian",
+    "url": "http://127.0.0.1:4321/previews/obsidian/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\40-preview-obsidian.png"
+  },
+  {
+    "n": 41,
+    "label": "preview-rag-containers",
+    "url": "http://127.0.0.1:4321/previews/rag-containers/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\41-preview-rag-containers.png"
+  },
+  {
+    "n": 42,
+    "label": "preview-semantic-search",
+    "url": "http://127.0.0.1:4321/previews/semantic-search/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\42-preview-semantic-search.png"
+  },
+  {
+    "n": 43,
+    "label": "pricing",
+    "url": "http://127.0.0.1:4321/pricing/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\43-pricing.png"
+  },
+  {
+    "n": 44,
+    "label": "privacy",
+    "url": "http://127.0.0.1:4321/privacy/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\44-privacy.png"
+  },
+  {
+    "n": 45,
+    "label": "release-notes",
+    "url": "http://127.0.0.1:4321/release-notes/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\45-release-notes.png"
+  },
+  {
+    "n": 46,
+    "label": "roadmap",
+    "url": "http://127.0.0.1:4321/roadmap/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\46-roadmap.png"
+  },
+  {
+    "n": 47,
+    "label": "support",
+    "url": "http://127.0.0.1:4321/support/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\47-support.png"
+  },
+  {
+    "n": 48,
+    "label": "terms",
+    "url": "http://127.0.0.1:4321/terms/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\48-terms.png"
+  },
+  {
+    "n": 49,
+    "label": "thanks",
+    "url": "http://127.0.0.1:4321/thanks/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\49-thanks.png"
+  },
+  {
+    "n": 50,
+    "label": "why-this-matters",
+    "url": "http://127.0.0.1:4321/why-this-matters/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\50-why-this-matters.png"
+  },
+  {
+    "n": 51,
+    "label": "windows-firewall",
+    "url": "http://127.0.0.1:4321/windows-firewall/",
+    "status": 200,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\51-windows-firewall.png"
+  },
+  {
+    "n": 52,
+    "label": "not-found-404",
+    "url": "http://127.0.0.1:4321/definitely-not-a-real-page-xyz123",
+    "status": 404,
+    "file": "C:\\Users\\break\\Projects\\TotalRecalls\\site\\docs-screenshots\\52-not-found-404.png"
+  }
+]

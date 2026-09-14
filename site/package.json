@@ -21,5 +21,8 @@
     "build": "astro build && node scripts/gen-sitemap.mjs",
     "preview": "astro preview",
     "astro": "astro"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
   }
 }
