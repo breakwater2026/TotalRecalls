@@ -1,29 +1,122 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Privacy Policy — TotalRecalls" description="TotalRecalls is local-only. We never host your chats." breadcrumbs={[{ label: "Privacy" }]}>
+<PageLayout title="Privacy Policy — TotalRecalls" description="TotalRecalls is local-only. We never host your chats, tokens, or downloads. Here is exactly what the app does and does not collect." breadcrumbs={[{ label: "Legal", href: "/legals/" }, { label: "Privacy" }]}>
+  <div class="mb-6">
+    <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
+    <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version 1.0 · Last updated September 13, 2026</p>
+  </div>
+
   <h1>Privacy Policy</h1>
-  <p><strong>Your conversations belong to you.</strong></p>
-  <p>TotalRecalls does not collect, store, or transmit your AI chats, session tokens, or download data. Everything stays on your PC.</p>
+  <p>
+    The short version: <strong>TotalRecalls never sees your chats.</strong> It runs entirely on your
+    Windows PC, talks directly to the AI providers you already use, and sends us nothing.
+    This page explains exactly what the app does — and doesn't — do with your data.
+  </p>
 
-  <h2>What TotalRecalls does not store</h2>
+  <h2>1. What we never collect</h2>
+  <p>TotalRecalls does not collect, store, host, or transmit any of the following:</p>
   <ul>
-    <li>Your chats</li>
-    <li>Your session tokens</li>
-    <li>Your passwords</li>
-    <li>Your downloaded conversations</li>
-    <li>Analytics or telemetry</li>
+    <li>Your AI conversations or downloaded chat content</li>
+    <li>Your login credentials or passwords</li>
+    <li>Your session tokens or provider cookies (they are stored only on your PC, encrypted)</li>
+    <li>Your downloaded Markdown and JSON files</li>
+    <li>Telemetry, usage analytics, crash reports, or tracking pixels of any kind</li>
+  </ul>
+  <p>
+    We have no server, no account system, and no database that holds your data.
+    There is no version of TotalRecalls that phones home with your content.
+  </p>
+
+  <h2>2. How downloads work (and why your data stays yours)</h2>
+  <p>
+    When you download from a provider, the app signs in using a small embedded browser window
+    on your machine — the same way you would in a normal browser. It then reads the conversations
+    visible in <strong>your</strong> account, using <strong>your</strong> session, directly from the
+    provider's servers.
+  </p>
+  <ul>
+    <li>All traffic goes between your PC and the provider (ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, or Qwen). TotalRecalls is never a relay.</li>
+    <li>We cannot intercept what you download — the data never touches our infrastructure.</li>
+    <li>The downloaded files are written straight to a folder you choose. They are yours, in open formats you can grep, version, or move anywhere.</li>
   </ul>
 
-  <h2>Local-only design</h2>
-  <p>TotalRecalls runs locally. Sign-in happens inside a small embedded browser window on your machine. We never see your credentials.</p>
-
-  <h2>Third-party services</h2>
+  <h2>3. What the app stores locally (on your PC only)</h2>
+  <p>
+    The app keeps a small amount of local state in a per-user folder on your machine —
+    on Windows, <code>%APPDATA%\PerplexityExporter</code> (a historical folder name we kept
+    so existing sessions keep working). Nothing in that folder ever leaves your PC:
+  </p>
   <ul>
-    <li><strong>Lemon Squeezy</strong> — handles payments. Operates independently.</li>
-    <li><strong>Microsoft WebView2</strong> — powers embedded sign-in windows. Operates independently.</li>
+    <li><strong>Session files</strong> — the provider session data the app uses to download, encrypted with Windows DPAPI. DPAPI ties the encryption to your Windows user account: the files are unreadable on any other machine or by any other user of your PC.</li>
+    <li><strong>License file</strong> — your Pro entitlement and its local record, also DPAPI-encrypted.</li>
+    <li><strong>Diagnostic log</strong> — technical entries such as connection status, HTTP status codes, error messages, and timing, used to troubleshoot failed downloads. It does not contain your downloaded conversations; the one exception is that a failed request may log a short excerpt (up to 200 characters) of the <em>error response</em> the provider's server returned. You can open or delete the log at any time; deleting it has no effect on the app.</li>
+  </ul>
+  <p>
+    <strong>To delete everything:</strong> close the app and delete the folder above.
+    Your downloaded chat archives are separate — they live in the folders <em>you</em> chose, and deleting them is up to you.
+  </p>
+
+  <h2>4. The only external service the app talks to: license verification</h2>
+  <p>
+    TotalRecalls is a one-time purchase verified through <strong>Lemon Squeezy</strong>, a merchant of
+    record for independent developers. This is the only outbound connection the app makes that has
+    anything to do with us:
+  </p>
+  <ul>
+    <li>When you enter your license key, and periodically afterwards (at most once per hour, best-effort), the app sends your <strong>license key</strong> and a <strong>pseudonymous machine identifier</strong> (an opaque hash like <code>TR-…</code>) to Lemon Squeezy's public license API.</li>
+    <li>The identifier is derived from hardware plus a per-install random salt. It is not your name, email, IP, or hardware serial — Lemon Squeezy can only use it to enforce the 3-activation limit.</li>
+    <li>If your PC is offline, the app does not check and your Pro entitlement is not revoked. Verification is best-effort and never blocks downloads.</li>
+    <li>No conversation content, no file names, no account details, and no usage data are ever part of these requests.</li>
   </ul>
 
-  <h2>Contact</h2>
-  <p>privacy@totalrecalls.app</p>
+  <h2>5. Third-party services</h2>
+  <ul>
+    <li><strong>Lemon Squeezy</strong> — processes your payment and verifies your license key. Your card and billing details go to Lemon Squeezy's payment provider, never to us. See Lemon Squeezy's own privacy policy for their data practices.</li>
+    <li><strong>Microsoft Edge WebView2</strong> — the browser engine that powers the embedded sign-in windows. When you sign in to a provider, that provider's own privacy policy governs the sign-in. See Microsoft's WebView2 documentation for the engine's data practices.</li>
+    <li><strong>The AI providers</strong> — when you download from ChatGPT, Claude, or any other provider, that provider's servers receive requests authenticated with your session. Your use of your provider account remains governed by that provider's terms and privacy policy.</li>
+    <li><strong>Cloudflare</strong> — hosts this website. Like any website, it keeps standard server logs (IP address, requested page, timestamp). It does not receive any data from the app.</li>
+  </ul>
+
+  <h2>6. This website</h2>
+  <ul>
+    <li>No cookies are set by totalrecalls.app.</li>
+    <li>No analytics, tracking pixels, or advertising scripts run on it.</li>
+    <li>Downloads are served directly from the site; the ZIP contains only the app and its README.</li>
+  </ul>
+
+  <h2>7. Data retention</h2>
+  <p>Because we hold no data, we retain none. Retention is entirely under your control:</p>
+  <ul>
+    <li>Local state (sessions, license, log) — kept until you delete the folder, which you can do at any time.</li>
+    <li>Your downloaded archives — kept for as long as you want; we have no copy.</li>
+    <li>Payment and license records — held by Lemon Squeezy as the merchant of record, per their policy and as required for tax and chargeback purposes. To request access to or deletion of your purchase data, contact Lemon Squeezy (or email us and we will relay the request). To free one of your 3 activation slots (for example, after replacing a PC), deactivate the license from the Licenses tab of your <a href="https://totalrecalls.lemonsqueezy.com/billing">Lemon Squeezy billing area</a>.</li>
+  </ul>
+
+  <h2>8. Your rights</h2>
+  <p>
+    Depending on where you live (including under Quebec Law 25, Canada's PIPEDA, and the GDPR if you
+    are in the EU), you have rights to access, correct, or delete personal information held about you.
+    Since TotalRecalls holds no personal information about you, most of these rights are already
+    satisfied by design. For the small amount of purchase data held by Lemon Squeezy, email us and
+    we will help you exercise your rights with them. You can also remove your local entitlement record
+    at any time by deleting the app's state folder (Section 3).
+  </p>
+
+  <h2>9. Children</h2>
+  <p>TotalRecalls is not intended for children under 13, and we do not knowingly collect anyone's data through it.</p>
+
+  <h2>10. Changes to this policy</h2>
+  <p>
+    If we change how the app handles data, we will update this page and the version date above, and
+    note the change in the Release Notes. The architecture is deliberately minimal, so we do not
+    expect frequent changes — and any change that would increase data collection would be called out prominently.
+  </p>
+
+  <h2>11. Contact</h2>
+  <p>
+    Questions about privacy or data requests:
+    <a href="mailto:privacy@totalrecalls.app">privacy@totalrecalls.app</a>.
+    For legal matters, see our <a href="/terms/">Terms of Service</a>.
+  </p>
 </PageLayout>

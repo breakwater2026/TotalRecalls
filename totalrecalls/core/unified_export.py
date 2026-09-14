@@ -408,8 +408,15 @@ def export_via_adapter(
     on_first_download: Callable[[], None] | None = None,
     max_conversations: int | None = None,
     latest_only: bool = False,
+    stop_event=None,
 ) -> dict:
-    """Run a full export through a ProviderAdapter into Library/<provider>/."""
+    """Run a full export through a ProviderAdapter into Library/<provider>/.
+
+    ``stop_event``: optional threading.Event for caller-side cancellation
+    (the desktop bridge sets it on disconnect). Forwarded to adapters that
+    accept it so an export aborts its in-flight retry chain promptly instead
+    of orphaning network activity after the user has disconnected.
+    """
 
     def _log(msg: str):
         log(msg)
@@ -421,9 +428,11 @@ def export_via_adapter(
             on_progress(payload)
 
     os.makedirs(outdir, exist_ok=True)
-    account = adapter.validate(credential)
+    from totalrecalls.adapters.base import call_with_stop
+    account = call_with_stop(adapter.validate, credential, stop_event=stop_event)
     _log(f"Connected as {account.email or account.external_id or 'account'} via {adapter.id}")
-    summaries = adapter.list_conversations(credential, deep=deep)
+    summaries = call_with_stop(adapter.list_conversations, credential, deep=deep,
+                               stop_event=stop_event)
     if latest_only:
         summaries.sort(
             key=lambda s: (s.updated_at or s.created_at or ""),
@@ -489,7 +498,8 @@ def export_via_adapter(
             first_download_noted = True
             on_first_download()
         try:
-            conv = adapter.fetch_conversation(credential, summary.id)
+            conv = call_with_stop(adapter.fetch_conversation, credential, summary.id,
+                                  stop_event=stop_event)
             # ensure folder/title from summary when detail is sparse or generic.
             # Gemini/Grok fetch paths fall back to "<Provider> conversation" as the
             # title even when the listing knew the real name — the summary title is

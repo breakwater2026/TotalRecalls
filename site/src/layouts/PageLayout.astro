@@ -78,10 +78,10 @@ const { title, description, breadcrumbs = [] } = Astro.props;
     @apply text-foreground font-semibold;
   }
   .prose code {
-    @apply font-mono text-[13.5px] bg-slate-100 px-1.5 py-0.5 border border-neutral-200/40 text-foreground rounded-sm;
+    @apply font-mono text-[13.5px] bg-muted px-1.5 py-0.5 border border-border text-foreground rounded-sm;
   }
   .prose pre {
-    @apply bg-slate-50 border border-neutral-200/60 p-4 overflow-x-auto mb-6 font-mono text-[13px] text-foreground leading-relaxed;
+    @apply bg-muted border border-border p-4 overflow-x-auto mb-6 font-mono text-[13px] text-foreground leading-relaxed;
   }
   .prose pre code {
     @apply bg-transparent p-0 border-none rounded-none text-current;
@@ -100,17 +100,5 @@ const { title, description, breadcrumbs = [] } = Astro.props;
   }
   .prose blockquote {
     @apply border-l-2 border-neutral-200 pl-5 italic text-muted-foreground my-6;
-  }
-
-  /* Override .prose p specificity for footer-cta box content */
-  .prose .footer-cta p {
-    color: #000000 !important;
-    font-weight: 600 !important;
-  }
-  .prose .footer-cta a {
-    color: #000000 !important;
-  }
-  .prose .footer-cta a[data-tr-buy="true"] {
-    color: #2F7BFF !important;
   }
 </style>

@@ -84,18 +84,21 @@ class LoginTokenExtractionTests(unittest.TestCase):
         self.assertEqual(bridge._conversation_count, 1)
 
     def test_connect_does_not_kill_the_running_app(self):
-        bridge = Bridge(ui_html="<html></html>")
+        with patch("totalrecalls.desktop.bridge.load_session", return_value={}):
+            bridge = Bridge(ui_html="<html></html>")
         with patch.object(bridge, "_start_embedded_login") as start, \
              patch("subprocess.run") as mock_run, \
-             patch.object(bridge, "_push"):
+             patch("totalrecalls.desktop.bridge.load_session", return_value={}):
             bridge.connect()
         mock_run.assert_not_called()
         start.assert_called_once()
 
     def test_connect_starts_embedded_login_flow(self):
-        bridge = Bridge(ui_html="<html></html>")
+        with patch("totalrecalls.desktop.bridge.load_session", return_value={}):
+            bridge = Bridge(ui_html="<html></html>")
         with patch.object(bridge, "_push") as mock_push, \
-             patch.object(bridge, "_start_embedded_login") as start:
+             patch.object(bridge, "_start_embedded_login") as start, \
+             patch("totalrecalls.desktop.bridge.load_session", return_value={}):
             bridge.connect()
 
         start.assert_called_once()
@@ -106,9 +109,18 @@ class LoginTokenExtractionTests(unittest.TestCase):
             self.assertGreater(types.index("reset_login_ui"), types.index("waiting_login"))
 
     def test_connect_shows_waiting_state(self):
-        bridge = Bridge(ui_html="<html></html>")
+        # load_session MUST be patched: an unpatched Bridge() restores the
+        # REAL provider from session.json (chatgpt on the dev machine), and
+        # connect() would then spawn a REAL embedded login window that steals
+        # the login-webview-chatgpt profile lock from the user's running app
+        # (observed 2026-09-13: test froze the user's live login window).
+        with patch("totalrecalls.desktop.bridge.load_session", return_value={}):
+            bridge = Bridge(ui_html="<html></html>")
         with patch.object(bridge, "_push") as mock_push, \
-             patch.object(bridge, "_start_embedded_login"):
+             patch.object(bridge, "_start_embedded_login"), \
+             patch.object(bridge, "_start_chatgpt_embedded_login"), \
+             patch.object(bridge, "_start_claude_embedded_login"), \
+             patch.object(bridge, "_start_generic_cookie_login"):
             bridge.connect()
         calls = [call.args[0]["type"] for call in mock_push.call_args_list]
         self.assertIn("waiting_login", calls)

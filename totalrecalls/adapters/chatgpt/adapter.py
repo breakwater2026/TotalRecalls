@@ -154,49 +154,69 @@ class ChatGptAdapter:
     id = "chatgpt"
     display_name = "ChatGPT"
 
-    def validate(self, credential: str) -> AccountInfo:
-        account, _token = validate_credential(credential)
+    def validate(self, credential: str, *, stop_event=None) -> AccountInfo:
+        # Connect-path session exchange. Short retry budget so a 5xx storm
+        # degrades fast (~6s worst case) instead of eating the full 6-retry /
+        # 107s backoff before the badge even appears (observed 2026-09-08:
+        # validate on /api/auth/session sat in the 2s→4s→8s→16s→32s ladder
+        # during OpenAI's list-endpoint storm and the UI looked frozen).
+        account, _token = validate_credential(credential, max_retries=2, stop_event=stop_event)
         return account
 
-    def count_conversations(self, credential: str) -> int:
-        """Fast conversation count for the connect badge — ONE list request.
+    def count_conversations(self, credential: str, *, stop_event=None) -> int:
+        """Fast conversation count for the connect badge.
 
-        The ChatGPT /backend-api/conversations endpoint returns a ``total``
-        field, so an accurate count is a single ~3s request instead of the
-        7-pass deep sweep (updated + created + search + archived + Custom GPTs
-        + projects). That sweep takes minutes on a populated account and trips
-        ChatGPT's limiter (observed live: the connect badge waited 3m39s). The
-        full deep enumeration still runs during export, so no conversation is
-        ever dropped from a download — only the *badge* gets the fast path.
+        Paginates a SINGLE pass of ``order=updated`` at ``limit=100`` until a
+        short page arrives and COUNTS the real items.
+
+        Why NOT the API's ``total`` field (the old approach): ``total`` is a
+        pagination artifact, not the account total. It equals
+        ``min(offset + limit + 1, true_count)`` and echoes ``offset`` on an
+        empty page — so a single ``limit=1`` request returns ``total=2`` for
+        a 105-conversation account (verified live 2026-09-13: limit=1→total 2,
+        limit=28→29, offset=84/limit=28→105). The badge therefore undercounted
+        every account with >2 conversations. Counting real items is both
+        accurate and still fast: 105 convs = 2 pages ≈ 7s (each page carries
+        the 3s pacing inside request()), versus the 7-pass deep sweep's
+        3–5 min. The full deep enumeration still runs at export, so a
+        download is never incomplete — only the badge uses this fast path.
+
+        A mid-pagination 500-storm degrades to the partial count (a page's
+        failure returns ([], None) → break) rather than 0; auth-failed on the
+        FIRST page propagates so the bridge shows "session expired".
         """
         from totalrecalls.adapters.chatgpt.conversations import _page_list_conversations
-        # NOTE: validate_credential + a 401/403 on the list BOTH raise
-        # ChatGptApiError("auth-failed") and must PROPAGATE — the bridge's
-        # count-worker turns that into a "session expired, log in again" push.
-        # Only non-auth failures (a 500-storm, a transient 5xx) degrade to 0
-        # so the badge shows "…/0" quickly instead of eating the full backoff.
-        _account, token = validate_credential(credential)
+        _account, token = validate_credential(credential, max_retries=2, stop_event=stop_event)
+        count = 0
+        offset = 0
+        _PAGE = 100
+        _MAX_PAGES = 50  # safety ceiling: 5,000 items — far beyond any real account
         try:
-            # One page, one retry: the badge should degrade fast, never eat
-            # the 6-retry / 107s backoff a 500-storm would otherwise trigger.
-            items, total = _page_list_conversations(
-                token, offset=0, limit=1, order="updated", max_retries=1
-            )
+            for _ in range(_MAX_PAGES):
+                items, _total = _page_list_conversations(
+                    token, offset=offset, limit=_PAGE, order="updated",
+                    max_retries=1, stop_event=stop_event,
+                )
+                if not isinstance(items, list) or not items:
+                    break
+                count += len(items)
+                if len(items) < _PAGE:
+                    break
+                offset += len(items)
         except ChatGptApiError as e:
             if "auth-failed" in str(e):
                 raise  # dead session — let the surface handle it (Bug A)
-            log(f"chatgpt count: list failed (degrading to 0): {e}")
-            return 0
+            log(f"chatgpt count: list failed mid-count at offset={offset} "
+                f"(returning partial count {count}): {e}")
+            return count
         except Exception as e:
             log(f"chatgpt count: unexpected error (degrading to 0): {e}")
             return 0
-        if isinstance(total, int) and total >= 0:
-            return total
-        return len(items) if isinstance(items, list) else 0
+        return count
 
-    def list_conversations(self, credential: str, *, deep: bool = False) -> list[ConversationSummary]:
-        _account, token = validate_credential(credential)
-        items = list_conversations(token, deep=deep)
+    def list_conversations(self, credential: str, *, deep: bool = False, stop_event=None) -> list[ConversationSummary]:
+        _account, token = validate_credential(credential, stop_event=stop_event)
+        items = list_conversations(token, deep=deep, stop_event=stop_event)
         out: list[ConversationSummary] = []
         for it in items:
             cid = str(it.get("id") or it.get("conversation_id") or "")
@@ -215,9 +235,9 @@ class ChatGptAdapter:
             )
         return out
 
-    def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
-        account, token = validate_credential(credential)
-        detail = get_conversation(token, conv_id)
+    def fetch_conversation(self, credential: str, conv_id: str, *, stop_event=None) -> UnifiedConversation:
+        account, token = validate_credential(credential, stop_event=stop_event)
+        detail = get_conversation(token, conv_id, stop_event=stop_event)
         return self.to_unified(detail, account=account)
 
     def to_unified(

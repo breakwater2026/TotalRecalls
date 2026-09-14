@@ -183,12 +183,13 @@ def build_space_readme(space_name: str, threads: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def build_root_readme(account: str, exported_at: str, by_space: dict, warnings: list[str]) -> str:
+def build_root_readme(account: str, exported_at: str, by_space: dict, warnings: list[str],
+                      provider: str = "TotalRecalls") -> str:
     total = sum(len(v) for v in by_space.values())
     lines = [
-        "# Your Perplexity export",
+        f"# Your {provider} export",
         "",
-        "Conversations are grouped the same way as in Perplexity: **Spaces** are folders.",
+        f"Conversations are grouped the same way as in {provider}: **Spaces** are folders.",
         "Threads with no Space live under **Home**.",
         "",
         f"- **Account:** {account or '—'}",
@@ -240,7 +241,7 @@ def build_root_readme(account: str, exported_at: str, by_space: dict, warnings: 
 
 
 def write_export_indexes(outdir: str, account: str, thread_records: list[dict],
-                         exported_at: str | None = None) -> dict:
+                         exported_at: str | None = None, provider: str = "TotalRecalls") -> dict:
     """Write README.md, per-Space READMEs, manifest.json, uuid_index.json."""
     exported_at = exported_at or datetime.now(timezone.utc).isoformat()
     by_space: dict[str, list] = {}
@@ -265,7 +266,7 @@ def write_export_indexes(outdir: str, account: str, thread_records: list[dict],
 
     # Root README
     with open(os.path.join(outdir, "README.md"), "w", encoding="utf-8") as f:
-        f.write(build_root_readme(account, exported_at, by_space, warnings))
+        f.write(build_root_readme(account, exported_at, by_space, warnings, provider))
 
     # Per-space README + ensure dirs
     for sp, threads in by_space.items():
@@ -293,7 +294,7 @@ def write_export_indexes(outdir: str, account: str, thread_records: list[dict],
         })
 
     manifest = {
-        "tool": "Perplexity Exporter",
+        "tool": "TotalRecalls",
         "layout": "spaces-v1",
         "version": APP_VERSION if "APP_VERSION" in globals() else "1.0.0",
         "exported_at": exported_at,

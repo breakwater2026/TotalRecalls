@@ -4,6 +4,144 @@ Purpose: context for the NEXT conversation. Repo: `C:/Users/break/Projects/Total
 branch **RedesignV9**, tip **974aa72**, working tree **clean**, pushed to origin.
 Tests: **201/201** + `app.py --selftest` OK. Site builds: 52 pages, 0 dead links.
 
+---
+## ⚠️ SESSION 2026-09-12 (ChatGPT stall + login freeze + Pro entitlement) — UNCOMMITTED, AWAITING USER REVIEW
+
+User was away ~6 h; work done autonomously per their directive. **Nothing committed or
+pushed** — user must review the working tree first. Working tree carries ALL fixes below
+plus the in-flight WIP (Bug C fast-count, `_stop_worker` cancellation) that was already
+uncommitted when this session started.
+
+### Fixed (all verified live, not asserted)
+1. **ChatGPT "connected but doesn't download" stall.** Root cause proved with the user's
+   own click in app.log (`11:22:24 startExport() called` → `11:22:42 chatgpt HTTP 500 …
+   retry in 2s/4s/8s…`): OpenAI's `/backend-api/conversations` is storming 500s and the
+   deep-list rode the unbounded backoff (2→4→8→16→32→45→45 s × 7 passes = up to 15+ min)
+   while the UI sat frozen on "Preparing…" (retries only went to app.log). Extraction code
+   itself works (headless run of the exact bridge path: validate 0.2 s / count 3.6 s /
+   deep list 218 s → 105 convs / fetch 3.6 s, exit 0).
+   - `adapters/chatgpt/http.py`: `request()` now takes `on_retry=(attempt, code, backoff)`
+     callback + a contextvar sink (`set_retry_sink`/`reset_retry_sink`) so the bridge can
+     surface every retry without threading a param through ~10 signatures.
+   - `bridge.py _export_worker`: installs the sink inside the worker thread (contextvars
+     do NOT cross threads — verified) and pushes `{"type":"status", text:"⏳ ChatGPT's
+     servers are busy (HTTP 500) — retry N, next in Xs…"}` to the UI on every retry.
+     `on_log` also mirrors to the status line until the first download starts.
+   - `app_ui.html`: new `p.type === 'status'` handler → `#status-line`.
+   - Live-verified: `tools/_test_retry_sink.py` reproduced the storm (7 retry notifications,
+     218 s) and proved `sink → request() → on_retry` fires.
+2. **Page-1 label desync (selector ChatGPT / button "Log in to Perplexity").** Bridge now
+   restores the last-used provider from `session.json` at startup
+   (`bridge.py __init__` reads `load_session()["provider"]`, validates via
+   `get_adapter`, else keeps default). Re-applied the user's WIP UI hunk from
+   `docs/WIP-RECOVERY-2026-09-08.md` (provider re-sync in the idle-disconnected branch) —
+   it had never been re-applied after the Temp purge.
+3. **Latent build-breaker:** `bridge.py` called `call_with_stop` (3×) without importing it
+   → any rebuild of the WIP would NameError on every connect. Import added.
+4. **ChatGPT login window "opens but freezes, never renders" (2026-09-12 12:44).**
+   Root cause proved: 6 orphaned `msedgewebview2.exe` (parents dead) from repeatedly
+   killing the app held `%APPDATA%\PerplexityExporter\login-webview-chatgpt` locked
+   (mv test: Permission denied); `EnsureCoreWebView2Async` then hangs on a blank window.
+   - `bridge.py _kill_orphan_webviews()`: startup sweep — wmic enumerates
+     msedgewebview2.exe command lines, kills ONLY those referencing our
+     `appdata_dir()` profile (other apps' WebView2 untouched). Called in
+     `main.py` BEFORE the main window's WebView2 is created (sweeping at login time
+     would kill the live main window — main window IS a WebView2).
+   - `bridge.py _chatgpt_login_window_flow`: locked-profile fallback (rename probe →
+     unique `login-webview-chatgpt-<pid>` folder) mirroring the generic flow.
+   - Live-verified: `tools/_test_orphan_sweep.py` — fake orphan (our profile) killed,
+     fake foreign (other profile) survived. Orphans were also manually cleared on this
+     machine at 12:47; user's retry after that works.
+5. **Pro build downgraded to Free at startup.** `check_entitlement()` returns False for a
+   baked-in Pro build (no stored LS key) and `bridge._recheck_entitlement` then pushed a
+   spurious "revoked Pro" license event → UI tier badge flipped to "Free" every launch
+   (in app.log: "entitlement re-check revoked Pro" on the Pro EXE; user's session showed
+   "Free tier: downloading the first 1 of 2"). Guard added: baked-in Pro edition skips
+   the re-check (its entitlement IS the edition flag).
+6. **License-key model confirmed as the user wants** (one app, key lifts limits): free
+   build = 3 providers (perplexity/chatgpt/claude) + 5 convs (verified
+   `tools/_verify_gating.py`); key slot exists in the UI (`#license-box` revealed via the
+   "Upgrade to Pro" link `#btn-upgrade`, `activateLicense` → LS public API,
+   `openBuyPage` → /buy). Keys are UUID-shaped (LS standard) — `TR-1234-ABCD`-style
+   strings correctly rejected. **Known gaps to review:** no in-app "Deactivate / move to
+   another device" (lib fn `deactivate_license()` exists but no UI + no bridge method),
+   no "remaining activations" display, LS live-key path still untested (blocked on LS
+   approval, unchanged).
+
+### Rebuilt + verified (clean venv, PYZ const/name comparison — see totalrecalls skill)
+- `dist/TotalRecalls.exe` (free, 18,881,143 B) SHA-256
+  `f93ef897d6b48330ca0c3d6dd97c964af9d1814e450cb428e61e1f7d28f64774`
+- `dist/TotalRecalls-Pro.exe` (pro, 18,881,095 B) SHA-256
+  `49c18114bc988cdc72904ffcc06ee7e01115bd48d0a3c27c6c8fb8d7c584ea86`
+- Both: edition const correct, all 5 fixes present (retry sink, `call_with_stop` import,
+  provider restore, entitlement guard, orphan sweep at startup + locked-profile fallback),
+  bundled `app_ui.html` byte-identical to repo (incl. status handler + WIP hunk).
+- Tests: **203 passed, 2 deselected** (live/battery excluded). New/changed test:
+  `tests/test_login_token_extraction.py` (2 tests made hermetic — Bridge() now reads the
+  real session.json at construction). Pre-existing flake: pythonnet
+  `NullReferenceException` at interpreter teardown (~1 in 2 runs, tests still pass) —
+  NOT introduced by this session (reproduces with changes stashed).
+- `edition.py` is back to `EDITION = "free"` in the tree (flipped only during builds).
+
+### User-facing test checklist (for when they're back)
+1. Double-click `dist/TotalRecalls-Pro.exe` (fresh login) → pick ChatGPT → Connect →
+   "Download my conversations". Under the current OpenAI 500 storm it should show
+   "⏳ ChatGPT's servers are busy (HTTP 500) — retry N, next in Xs…" in the status line
+   (NOT a frozen "Preparing…") and eventually complete (worst case ~3–5 min per pass).
+2. Login window must render ChatGPT (orphan sweep + fallback). If it ever blanks again:
+   the app now self-heals on next launch.
+3. Page 1: dropdown + "Log in to …" button + export dropdown all show the LAST provider
+   used (ChatGPT in the user's case) — no more Perplexity desync.
+4. Pro build: tier badge stays "Pro" on startup (no "Free" flash); free build: "Upgrade to
+   Pro" link reveals the key slot.
+5. ZIPs NOT yet repackaged (await review/commit). Free ZIP on site is the old 09-08 build.
+
+### Files changed this session (working tree, uncommitted)
+`totalrecalls/desktop/bridge.py` (call_with_stop import; provider restore in __init__;
+entitlement guard; _kill_orphan_webviews + sweep call in main; retry sink install +
+status/on_log mirroring in _export_worker; ChatGPT locked-profile fallback),
+`totalrecalls/desktop/main.py` (sweep at startup + import),
+`totalrecalls/adapters/chatgpt/http.py` (on_retry + contextvar sink),
+`app_ui.html` (status handler; WIP provider-sync hunk re-applied),
+`tests/test_login_token_extraction.py` (hermeticity), plus pre-existing WIP in
+`adapters/base.py`, `adapters/chatgpt/{adapter,auth,conversations}.py`,
+`core/unified_export.py`. New dev tools (keep or delete at review): `tools/_verify_exe.py`,
+`tools/_test_retry_sink.py`, `tools/_test_orphan_sweep.py`, `tools/_verify_gating.py`,
+`tools/_test_chatgpt_download_path.py`, `tools/_check_bundled_ui.py`.
+
+### Website FULL AUDIT (2026-09-12) — findings + fixes (working tree, uncommitted)
+Build: 52 pages, 0 dead internal links, sitemap 51 URLs, deploy gate INTACT
+(wrangler `production_branch = RedesignV7`, `[assets] site/dist` — do NOT "fix").
+- SEO: every page has `<title>`, meta description, `og:title`. 0 imgs missing alt,
+  0 empty `<a></a>`. robots.txt + favicon.svg present.
+- Copy (convention checks, all PASS): no "beta"; no stale "money-back/guarantee/14-day"
+  (all "refund" mentions are the intentional Free-Tier-replaces-refunds policy);
+  "download" not "export" in user-facing copy (only internal `export-*` URL slugs remain);
+  version 1.0.0 everywhere; price $24 one-time, 8 providers / 3 free / 5 convs all
+  consistent; `serve.py` GCP bot copy current (no drift).
+- **FIX 1 — stale free ZIP.** `public/downloads/TotalRecalls-1.0.0-free-tier.zip` held
+  the OLD Sept-8 EXE (SHA `5e0f98a6…`). Repackaged (zipfile level-9) with the NEW
+  `dist/TotalRecalls.exe` + updated README. New SHA-256
+  `2460eb02ef7c29a2a26768a5e22aef6674061312510c0b581c804067c5bdd685`, 17.8 MB
+  (18,699,763 B). Old ZIP backed up to `…-free-tier.zip.bak-2026-09-08` (discard at
+  review). `/download` page updated: SHA + date (September 12, 2026) + size (17.8 MB).
+  Verified: dist ZIP SHA == page SHA; 0 dead links post-rebuild.
+- **FIX 2 — README.txt factual error.** Said login "opens your browser" + "top-right Pro
+  badge → Enter key". Reality: embedded sign-in window; key entered via the "Upgrade to
+  Pro" link. Corrected.
+- **FIX 3 — troubleshooting guide was wrong for the embedded-login model.** Old advice
+  ("log in via your default browser", "disable ad blockers", "clear your browser cache")
+  doesn't apply. Rewrote the "Download Fails or Returns Empty" section: embedded sign-in
+  window; "servers are busy — retrying" (wait, it self-heals); blank window → relaunch
+  (app now clears orphaned browser processes on startup); disconnect/reconnect.
+- **NOT touched (per user):** the 80 MB landing demo video (user will redo it when the
+  app works perfectly); deploy gate.
+- Site `dist/` rebuilt after all fixes (52 pages). `site/dist` is gitignored — only
+  `src/`, `public/downloads/` ZIP + README are the committable site artifacts.
+
+
+---
+
 ## DONE (all committed + pushed)
 
 ### Delivery redesign (0bd8ebe)

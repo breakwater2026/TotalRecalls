@@ -2,9 +2,15 @@ import { Folder } from "lucide-react";
 import { LOGOS } from "./RiskMatrix";
 
 const PROVIDERS = [
-  { name: "ChatGPT", code: "OAI-001", logo: "ChatGPT", color: "#10A37F", bg: "bg-[#10A37F]" },
-  { name: "Claude", code: "ANT-002", logo: "Claude", color: "#D97757", bg: "bg-[#D97757]" },
-  { name: "Perplexity", code: "PPL-003", logo: "Perplexity", color: "#20B8CD", bg: "bg-[#20B8CD]" },
+  // NOTE: glyph (`color`) must contrast with the tile (`bg`). The first three
+  // were drawing the logo path in the SAME color as its own tile (fill == bg),
+  // so the mark rendered invisible — only the solid brand square showed
+  // (reported 2026-09-13: "first three have no icon, just colors"). Fixed by
+  // white glyph on the brand-color tile; the other five already had a
+  // contrasting fill/bg and are unchanged.
+  { name: "ChatGPT", code: "OAI-001", logo: "ChatGPT", color: "#FFFFFF", bg: "bg-[#10A37F]" },
+  { name: "Claude", code: "ANT-002", logo: "Claude", color: "#FFFFFF", bg: "bg-[#D97757]" },
+  { name: "Perplexity", code: "PPL-003", logo: "Perplexity", color: "#FFFFFF", bg: "bg-[#20B8CD]" },
   { name: "Gemini", code: "GEM-004", logo: "Gemini", color: "#4285F4", bg: "bg-[#000000]" },
   { name: "Grok", code: "GRK-005", logo: "Grok", color: "#FFFFFF", bg: "bg-[#0F172A]" },
   { name: "DeepSeek", code: "DSK-006", logo: "DeepSeek", color: "#4F8CFF", bg: "bg-[#1E40AF]" },

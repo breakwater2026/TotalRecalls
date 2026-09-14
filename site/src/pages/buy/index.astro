@@ -7,17 +7,17 @@ const STORE_URL = "https://totalrecalls.lemonsqueezy.com";
 <PageLayout title="Buy TotalRecalls — $24 one-time" description="Buy TotalRecalls for Windows. A one-time $24 USD purchase, no subscription. Secure checkout via Lemon Squeezy." breadcrumbs={[{ label: "Buy" }]}>
 
   <h1>Buy TotalRecalls</h1>
-  <p>One-time <strong>$24 USD</strong> &mdash; discounted launch price. No subscription, no account required. Every update included.</p>
+  <p>One-time <strong>$24<span class="tr-usd">USD</span></strong> &mdash; discounted launch price. No subscription, no account required. Free updates to the core app included.</p>
 
   <section class="price-card">
     <h2>Launch Price</h2>
     <div class="price-block">
-      <span class="price-current" data-tr-price>$24</span>
+      <span class="price-current" data-tr-price>$24<span class="tr-usd">USD</span></span>
       <span class="price-badge">launch price</span>
     </div>
     <p class="price-note">One-time purchase &middot; Windows app &middot; Local files only</p>
     <p>Pay once with Lemon Squeezy. Your license key and receipt arrive by email immediately after purchase. Enter the key in the app (top-right &ldquo;Pro&rdquo; badge &rarr; &ldquo;Enter key&rdquo;) to unlock all 8 providers and unlimited downloads. The app ships as a single free build — the key is what unlocks Pro, on up to 3 of your devices.</p>
-    <a href={CHECKOUT_URL} data-tr-buy class="buy-button buy-lg">Buy TotalRecalls — <span data-tr-price>$24</span></a>
+    <a href={CHECKOUT_URL} data-tr-buy class="buy-button buy-lg">Buy TotalRecalls — <span data-tr-price>$24<span class="tr-usd">USD</span></span></a>
     <p class="guarantee-note">Not ready to buy? A Free Tier is available now — download the app and test it on your own chats before paying.</p>
   </section>
 
@@ -28,7 +28,8 @@ const STORE_URL = "https://totalrecalls.lemonsqueezy.com";
       <li>All 8 providers: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen</li>
       <li>Unlimited downloads when unlocked</li>
       <li>100% local &mdash; your data never leaves your machine</li>
-      <li>Free updates for the life of the product</li>
+      <li>Free updates to the core app for the life of the product</li>
+      <li>New features (add-ons) are separate purchases — add-ons you own keep getting updates</li>
     </ul>
   </section>
 
@@ -39,7 +40,7 @@ const STORE_URL = "https://totalrecalls.lemonsqueezy.com";
 
   <section>
     <h2>Still Deciding?</h2>
-    <p>Give the Free Tier a try first — it lets you download from a limited set of providers so you can get comfortable with the app. Then unlock everything with a single $24 purchase. See the <a href="/legals/#pricing">Pricing &amp; Free Tier</a> for details.</p>
+    <p>Give the Free Tier a try first — it lets you download from a limited set of providers so you can get comfortable with the app. Then unlock everything with a single $24<span class="tr-usd">USD</span> purchase. See the <a href="/legals/#pricing">Pricing &amp; Free Tier</a> for details.</p>
   </section>
 
 </PageLayout>

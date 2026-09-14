@@ -650,6 +650,12 @@
       el.textContent += p.line + '\n';
       el.scrollTop = el.scrollHeight;
       if (el.textContent.split('\n').length > 250) el.textContent = el.textContent.split('\n').slice(-200).join('\n');
+    } else if (p.type === 'status') {
+      // Prominent status line for the enumeration/retry phase (before
+      // per-item progress owns it). Keeps the app looking alive during a
+      // provider 5xx storm instead of a frozen "Preparing…".
+      const sl = q('status-line');
+      if (sl) sl.textContent = p.text || '';
     } else if (p.type === 'export_done') {
       q('fill').style.width = '100%';
       q('status-line').textContent = p.done + ' conversation' + (p.done === 1 ? '' : 's') + ' downloaded.';
@@ -747,6 +753,11 @@
       q('cookie-box').classList.add('hidden');
     } else {
       // Idle disconnected: only restore connect screen if export is showing, or waiting stuck.
+      if (s.provider) {
+        const sel = q('provider-select');
+        if (sel) sel.value = s.provider;
+        updateProviderUI(s.provider);
+      }
       setPill('Not connected', false);
       if (!q('scr-export').classList.contains('hidden') && !s.connected) {
         q('scr-export').classList.add('hidden');

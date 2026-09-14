@@ -173,28 +173,63 @@ class ChatGptDeepListTests(unittest.TestCase):
 
 
 class ChatGptCountFastPathTests(unittest.TestCase):
-    """The connect badge uses count_conversations() — a single bounded
-    request reading the API's `total` field, not the 7-pass deep sweep.
-    It must re-raise auth-failed (Bug A) but degrade other errors to 0."""
+    """The connect badge uses count_conversations() — it COUNTS REAL ITEMS by
+    paginating a single order=updated pass (limit=100) to a short page, NOT
+    the API's `total` field (a pagination artifact: min(offset+limit+1,
+    true_count) — limit=1 returns total=2 for a 105-conversation account) and
+    NOT the 7-pass deep sweep. It must re-raise auth-failed (Bug A) but degrade
+    a transient mid-count error to the partial count collected so far."""
 
-    def test_count_reads_total_from_single_request(self):
+    def test_count_counts_real_items_across_pages(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        # 105 real items: page 0 = 100, page 1 = 5 (short page → stop). The
+        # `total` field is garbage (2, 29...) and must be IGNORED.
+        def fake_page(token, **kw):
+            off = kw["offset"]
+            if off == 0:
+                return ([{"id": f"c{i}"} for i in range(100)], 2)
+            if off == 100:
+                return ([{"id": f"c{i}"} for i in range(100, 105)], 29)
+            return ([], 0)
+        with patch.object(conv, "_page_list_conversations", side_effect=fake_page) as pc, \
+             patch(
+                 "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+                 return_value=(AccountInfo(email="a@b.com"), "tok"),
+             ):
+            n = adapter.count_conversations("tok")
+        self.assertEqual(n, 105)
+        self.assertEqual(pc.call_count, 2)
+        self.assertEqual(pc.call_args_list[0].kwargs["limit"], 100)
+        self.assertEqual(pc.call_args_list[1].kwargs["offset"], 100)
+
+    def test_count_single_short_page(self):
+        # One short page (fewer than limit items) → count = page size, stop.
         from totalrecalls.adapters.chatgpt import conversations as conv
         from totalrecalls.core.schema import AccountInfo
         adapter = ChatGptAdapter()
         with patch.object(
             conv, "_page_list_conversations",
-            return_value=([{"id": "c1"}], 105),
-        ) as pc, patch(
+            return_value=([{"id": "a"}, {"id": "b"}], 2),
+        ), patch(
             "totalrecalls.adapters.chatgpt.adapter.validate_credential",
             return_value=(AccountInfo(email="a@b.com"), "tok"),
         ):
-            n = adapter.count_conversations("tok")
-        self.assertEqual(n, 105)
-        self.assertEqual(pc.call_count, 1)
-        kw = pc.call_args.kwargs
-        self.assertEqual(kw["offset"], 0)
-        self.assertEqual(kw["limit"], 1)
-        self.assertEqual(kw["max_retries"], 1)
+            self.assertEqual(adapter.count_conversations("tok"), 2)
+
+    def test_count_empty_account_is_zero(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        with patch.object(
+            conv, "_page_list_conversations",
+            return_value=([], 0),
+        ), patch(
+            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+            return_value=(AccountInfo(email="a@b.com"), "tok"),
+        ):
+            self.assertEqual(adapter.count_conversations("tok"), 0)
 
     def test_count_raises_on_auth_failed(self):
         from totalrecalls.adapters.chatgpt import conversations as conv
@@ -212,7 +247,24 @@ class ChatGptCountFastPathTests(unittest.TestCase):
                 adapter.count_conversations("tok")
         self.assertIn("auth-failed", str(ctx.exception))
 
-    def test_count_degrades_to_zero_on_transient_error(self):
+    def test_count_degrades_to_partial_on_transient_error(self):
+        from totalrecalls.adapters.chatgpt import conversations as conv
+        from totalrecalls.adapters.chatgpt.http import ChatGptApiError
+        from totalrecalls.core.schema import AccountInfo
+        adapter = ChatGptAdapter()
+        # First page returns 100, second page 500s → partial count 100 (not 0).
+        def fake_page(token, **kw):
+            if kw["offset"] == 0:
+                return ([{"id": f"c{i}"} for i in range(100)], 101)
+            raise ChatGptApiError("http-500")
+        with patch.object(conv, "_page_list_conversations", side_effect=fake_page), \
+             patch(
+                 "totalrecalls.adapters.chatgpt.adapter.validate_credential",
+                 return_value=(AccountInfo(email="a@b.com"), "tok"),
+             ):
+            self.assertEqual(adapter.count_conversations("tok"), 100)
+
+    def test_count_degrades_to_zero_on_first_page_error(self):
         from totalrecalls.adapters.chatgpt import conversations as conv
         from totalrecalls.adapters.chatgpt.http import ChatGptApiError
         from totalrecalls.core.schema import AccountInfo
@@ -225,19 +277,6 @@ class ChatGptCountFastPathTests(unittest.TestCase):
             return_value=(AccountInfo(email="a@b.com"), "tok"),
         ):
             self.assertEqual(adapter.count_conversations("tok"), 0)
-
-    def test_count_falls_back_to_items_when_no_total(self):
-        from totalrecalls.adapters.chatgpt import conversations as conv
-        from totalrecalls.core.schema import AccountInfo
-        adapter = ChatGptAdapter()
-        with patch.object(
-            conv, "_page_list_conversations",
-            return_value=([{"id": "a"}, {"id": "b"}], None),
-        ), patch(
-            "totalrecalls.adapters.chatgpt.adapter.validate_credential",
-            return_value=(AccountInfo(email="a@b.com"), "tok"),
-        ):
-            self.assertEqual(adapter.count_conversations("tok"), 2)
 
 
 if __name__ == "__main__":

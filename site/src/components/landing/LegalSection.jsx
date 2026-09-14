@@ -4,18 +4,18 @@ import { ArrowRight } from "lucide-react";
 const POLICIES = [
   {
     label: "Privacy Policy",
-    href: "/legals/#privacy",
+    href: "/privacy/",
     blurb: "Local-first, privacy-by-design. We never collect, host, or transmit your AI conversations.",
   },
   {
     label: "Terms of Service",
-    href: "/legals/#terms",
+    href: "/terms/",
     blurb: "One-time purchase, single-user license, and your responsibility to follow each provider's terms.",
   },
   {
     label: "Pricing & Free Tier",
     href: "/legals/#pricing",
-    blurb: "One-time $24 USD, lifetime license and updates. A Free Tier is available now — our answer to refunds.",
+    blurb: <>One-time $24<span className="tr-usd">USD</span>, lifetime license with free updates to the core app. A Free Tier is available now — try before you buy.</>,
   },
 ];
 

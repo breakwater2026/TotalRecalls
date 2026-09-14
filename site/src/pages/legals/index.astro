@@ -4,8 +4,8 @@ import PageLayout from "../../layouts/PageLayout.astro";
 const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen";
 ---
 
-<PageLayout 
-  title="Legal & Policies — TotalRecalls" 
+<PageLayout
+  title="Legal & Policies — TotalRecalls"
   description="Privacy Policy and Terms of Service for TotalRecalls."
   breadcrumbs={[{ label: "Legal" }]}
 >
@@ -13,39 +13,53 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
 <div class="mb-6">
   <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
   <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Legal & Policies</h1>
-  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version v1.0 · Last updated August 2026</p>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version 1.0.0 · Last updated September 13, 2026</p>
 </div>
 
 <div class="space-y-10 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
-  {/* Section 1: Privacy Policy */}
+
+  {/* Section 1: Privacy Policy — summary */}
   <section id="privacy" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
     <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
       <span class="font-mono text-[11px] uppercase tracking-wider text-primary">01</span> Privacy Policy
     </h2>
     <p class="mb-3">
-      TotalRecalls is built with a local-first, privacy-by-design architecture. We never collect, host, store, or transmit your AI chat conversations, session tokens, login credentials, or downloaded files.
+      TotalRecalls is built with a local-first, privacy-by-design architecture: it runs entirely on
+      your Windows PC, talks directly to the AI providers you already use, and never sees, hosts,
+      stores, or transmits your conversations, session tokens, credentials, or downloads.
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
-      <li><strong>Local Processing:</strong> All downloads are executed locally on your Windows PC.</li>
-      <li><strong>No Telemetry:</strong> We do not run background analytics, tracking pixels, or telemetry scripts.</li>
-      <li><strong>No Server Locker:</strong> Your downloaded Markdown and JSON files remain exclusively on your local storage drive.</li>
+      <li><strong>No telemetry.</strong> No analytics, tracking pixels, crash reports, or usage data of any kind. No cookies on this website.</li>
+      <li><strong>Local state only.</strong> Sessions are stored on your PC, encrypted with Windows DPAPI (tied to your Windows user account). You can delete everything at any time.</li>
+      <li><strong>One external service: license verification.</strong> When you enter your license key, the app sends the key plus a pseudonymous machine identifier to Lemon Squeezy's public license API — never your content, name, email, or hardware serial. It is best-effort (at most once per hour) and a stored Pro entitlement is never revoked because you are offline.</li>
+      <li><strong>Your rights.</strong> Access, correction, and deletion rights under Quebec Law 25, PIPEDA, and the GDPR are addressed in the full policy — most are satisfied by design, since we hold no data.</li>
     </ul>
+    <p class="mt-3">
+      <a href="/privacy/" class="text-primary hover:underline font-medium">Read the full Privacy Policy →</a>
+    </p>
   </section>
 
-  {/* Section 2: Terms of Service */}
+  {/* Section 2: Terms of Service — summary */}
   <section id="terms" class="scroll-mt-24 bg-card/40 border border-border/80 p-6 rounded-sm">
     <h2 class="font-heading text-xl font-bold text-foreground mb-3 flex items-center gap-2">
       <span class="font-mono text-[11px] uppercase tracking-wider text-primary">02</span> Terms of Service
     </h2>
     <p class="mb-3">
-      By downloading or using TotalRecalls, you agree to these terms:
+      By downloading or using TotalRecalls (including the Free Tier), you agree to the full Terms.
+      The essentials:
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
-      <li><strong>License:</strong> Your purchase provides a non-exclusive, single-user license to run the TotalRecalls Windows executable on your personal machines.</li>
-      <li><strong>Account Responsibility:</strong> You are responsible for ensuring your data downloads comply with the terms of service of each underlying AI provider ({PROVIDERS}).</li>
-      <li><strong>As-Is Warranty:</strong> TotalRecalls is provided "as is" without warranty of any kind. We are not liable for third-party web interface changes or service disruptions.</li>
-      <li><strong>Governing Law and Dispute Resolution:</strong> These terms and conditions will be governed by the laws of Canada. Any purchases made through TotalRecalls' online stores will be governed by the End User License Agreement and Terms of Sale applicable to that purchase.</li>
+      <li><strong>License:</strong> a personal, single-user, non-transferable license to run the Software on up to 3 of your own devices. No redistribution, resale, or reverse engineering.</li>
+      <li><strong>Your data is yours:</strong> we claim no ownership of anything you download.</li>
+      <li><strong>Provider responsibility:</strong> you are responsible for using your own accounts in line with each provider's terms ({PROVIDERS}). We are not affiliated with any provider.</li>
+      <li><strong>Updates:</strong> the core app receives free updates for the life of the product; new add-ons are separate purchases and updated only if you buy them.</li>
+      <li><strong>No warranty / limited liability:</strong> the Software is provided "as is"; our aggregate liability is capped at the amount you paid.</li>
+      <li><strong>Quebec consumer rights</strong> apply where the law provides, and cannot be waived.</li>
+      <li><strong>Governing law:</strong> the Province of Quebec, Canada; exclusive jurisdiction of the courts of Montreal.</li>
     </ul>
+    <p class="mt-3">
+      <a href="/terms/" class="text-primary hover:underline font-medium">Read the full Terms of Service →</a>
+    </p>
   </section>
 
   {/* Section 3: Pricing & Free Tier */}
@@ -57,15 +71,16 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
       TotalRecalls is a one-time purchase. There is no subscription and no recurring charge.
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
-      <li><strong>One-Time Price:</strong> $24 USD — discounted launch price. Your purchase is a single-user, lifetime license covering future updates.</li>
-      <li><strong>Free Tier:</strong> Available now — you can download the app and test it on your own chats before paying anything. Downloads are limited to 3 AI providers and 5 conversations per download. It replaces a traditional money-back refund as our try-before-you-buy guarantee.</li>
+      <li><strong>One-Time Price:</strong> $24<span class="tr-usd">USD</span> — discounted launch price. Your purchase is a single-user, lifetime license for the core app, including its updates for the life of the product. New features (add-ons) are separate purchases; add-ons you own continue to receive updates.</li>
+      <li><strong>Free Tier:</strong> Available now — you can download the app and test it on your own chats before paying anything. Downloads are limited to 3 providers and 5 conversations per download. It's our try-before-you-buy mechanism.</li>
+      <li><strong>Refunds:</strong> We don't run a standard refund policy — that's what the Free Tier is for (try before you buy). If you have a refund request, we'll handle it on a case-by-case basis. Purchases are processed by Lemon Squeezy, our merchant of record. Your statutory consumer rights, including Quebec's right of cancellation for online purchases, are always preserved and never excluded.</li>
       <li><strong>Questions?</strong> If something genuinely doesn't work, email us at <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline font-medium">support@totalrecalls.app</a> and we'll sort it out.</li>
     </ul>
   </section>
 </div>
 
 <div class="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-muted-foreground">
-  <span>Questions? Email <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline">support@totalrecalls.app</a></span>
+  <span>Questions? Email <a href="mailto:support@totalrecalls.app" class="text-primary hover:underline">support@totalrecalls.app</a> · Legal: <a href="mailto:legal@totalrecalls.app" class="text-primary hover:underline">legal@totalrecalls.app</a></span>
   <a href="/" class="hover:text-primary transition-colors">← Back to TotalRecalls Home</a>
 </div>
 

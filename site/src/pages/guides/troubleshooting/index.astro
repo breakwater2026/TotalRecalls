@@ -5,9 +5,16 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   <h1>Troubleshooting</h1>
   <h2>Download Fails or Returns Empty</h2>
   <ul>
-    <li>Ensure you are logged into the provider's website in your default browser.</li>
-    <li>Disable ad blockers for the provider's domain.</li>
-    <li>Retry the scan after clearing your browser cache.</li>
+    <li>Make sure the provider's sign-in window completed a real login — the
+      app reads the live session from that embedded window, not from your
+      default browser.</li>
+    <li>Some providers' servers are occasionally slow or return errors. If
+      the app shows "servers are busy — retrying", wait for the retry to
+      finish (it will keep going; large accounts take longer).</li>
+    <li>If the sign-in window opens blank and never loads, close the app and
+      launch it again — the app clears leftover browser processes on startup.</li>
+    <li>Disconnect and reconnect (the provider's "Disconnect", then "Connect"
+      again) to force a fresh login window.</li>
   </ul>
   <h2>SmartScreen Blocks the App</h2>
   <ul>

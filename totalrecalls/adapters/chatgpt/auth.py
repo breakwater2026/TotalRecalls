@@ -35,19 +35,23 @@ def cookie_header_from_session_token(session_token: str) -> str:
     return f"__Secure-next-auth.session-token={tok}"
 
 
-def fetch_session(*, access_token: str | None = None, cookie: str | None = None) -> dict:
+def fetch_session(*, access_token: str | None = None, cookie: str | None = None,
+                 max_retries: int | None = None, stop_event=None) -> dict:
     status, data = request(
         "/api/auth/session",
         access_token=access_token,
         cookie=cookie,
         delay=0,
+        max_retries=max_retries,
+        stop_event=stop_event,
     )
     if not isinstance(data, dict):
         return {}
     return data
 
 
-def resolve_access_token(credential: str) -> tuple[str, dict]:
+def resolve_access_token(credential: str, *, max_retries: int | None = None,
+                         stop_event=None) -> tuple[str, dict]:
     """Return (access_token, session_dict) from bearer or session-cookie credential."""
     cred = (credential or "").strip()
     if not cred:
@@ -55,7 +59,8 @@ def resolve_access_token(credential: str) -> tuple[str, dict]:
 
     if looks_like_bearer_token(cred):
         token = normalize_bearer(cred)
-        session = fetch_session(access_token=token)
+        session = fetch_session(access_token=token, max_retries=max_retries,
+                                stop_event=stop_event)
         # Session may be empty when only bearer works for backend-api; still OK
         if session.get("error"):
             raise ChatGptApiError("auth-failed")
@@ -65,7 +70,7 @@ def resolve_access_token(credential: str) -> tuple[str, dict]:
 
     # Treat as session cookie / cookie header
     cookie = cookie_header_from_session_token(cred)
-    session = fetch_session(cookie=cookie)
+    session = fetch_session(cookie=cookie, max_retries=max_retries, stop_event=stop_event)
     at = session.get("accessToken")
     if not at:
         raise ChatGptApiError("auth-failed")
@@ -83,9 +88,11 @@ def account_from_session(session: dict) -> AccountInfo:
     )
 
 
-def validate_credential(credential: str) -> tuple[AccountInfo, str]:
+def validate_credential(credential: str, *, max_retries: int | None = None,
+                        stop_event=None) -> tuple[AccountInfo, str]:
     """Validate and return (account, access_token)."""
-    access_token, session = resolve_access_token(credential)
+    access_token, session = resolve_access_token(credential, max_retries=max_retries,
+                                                 stop_event=stop_event)
     account = account_from_session(session)
     # backend-api often works with bearer even if session user missing —
     # require *some* identity signal OR a non-empty token

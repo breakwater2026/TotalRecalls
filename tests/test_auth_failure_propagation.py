@@ -178,6 +178,87 @@ class DeepSeekAuthFailTests(unittest.TestCase):
             out = d.DeepSeekAdapter().list_conversations("tok", deep=False)
         self.assertEqual(out, [])
 
+    # --- the 2026-09-13 live bug: a dead token surfaces as the envelope
+    # business code api-40002 (Missing Token), NOT the string "auth-failed".
+    # validate() previously optimistically accepted it (-> "Connected") and the
+    # deep count silently returned []. Both must now fail closed / propagate. ---
+
+    def test_validate_raises_on_api_40002_missing_token(self):
+        from totalrecalls.adapters.deepseek import adapter as d
+        a = d.DeepSeekAdapter()
+        # request() returns a 200 with a non-zero envelope code -> _biz_data
+        # raises DeepSeekApiError("api-40002: Missing Token").
+        with patch.object(d, "request",
+                          return_value=(200, {"code": 40002, "msg": "Missing Token"})):
+            with self.assertRaises(Exception) as ctx:
+                a.validate("some-captured-token")
+        self.assertIn("40002", str(ctx.exception))
+
+    def test_validate_raises_on_api_40003_invalid_token(self):
+        from totalrecalls.adapters.deepseek import adapter as d
+        a = d.DeepSeekAdapter()
+        with patch.object(d, "request",
+                          return_value=(200, {"code": 40003, "msg": "Invalid Token"})):
+            with self.assertRaises(Exception) as ctx:
+                a.validate("some-captured-token")
+        self.assertIn("40003", str(ctx.exception))
+
+    def test_validate_raises_on_http_401(self):
+        from totalrecalls.adapters.deepseek import adapter as d
+        from totalrecalls.adapters.deepseek.http import DeepSeekApiError
+        a = d.DeepSeekAdapter()
+        with patch.object(d, "request", side_effect=DeepSeekApiError("http-401")):
+            with self.assertRaises(Exception) as ctx:
+                a.validate("some-captured-token")
+        self.assertIn("401", str(ctx.exception))
+
+    def test_validate_soft_accepts_on_transient_network(self):
+        from totalrecalls.adapters.deepseek import adapter as d
+        from totalrecalls.adapters.deepseek.http import DeepSeekApiError
+        a = d.DeepSeekAdapter()
+        # A network blip / 5xx is NOT a dead session — validate must accept so a
+        # momentary hiccup does not read as "expired".
+        with patch.object(d, "request", side_effect=DeepSeekApiError("network: timeout")):
+            info = a.validate("some-captured-token")
+        # Soft-accepted: a real credential was captured, just not verifiable
+        # right now — so it is accepted (external_id is the token prefix).
+        self.assertTrue(info.external_id.startswith("some-captured-"))
+        self.assertEqual(info.external_id, "some-captured-token"[:16])
+
+    def test_list_raises_on_api_40002_envelope(self):
+        from totalrecalls.adapters.deepseek import adapter as d
+        a = d.DeepSeekAdapter()
+        # Envelope rejection on the first (pinned) request must raise so the
+        # bridge's count worker fires login_expired, not return [].
+        with patch.object(d, "request",
+                          return_value=(200, {"code": 40002, "msg": "Missing Token"})):
+            with self.assertRaises(Exception) as ctx:
+                a.list_conversations("tok", deep=False)
+        self.assertIn("40002", str(ctx.exception))
+
+
+class IsAuthRejectedTests(unittest.TestCase):
+    """The shared classifier is the single source of truth for 'dead session'.
+    It must recognize every provider's definitive rejection and reject the
+    transient/other errors that must degrade to 0, not a false 'expired'."""
+    def test_recognizes_all_dead_session_markers(self):
+        from totalrecalls.core.errors import is_auth_rejected, AuthRejected
+        self.assertTrue(is_auth_rejected(Exception("auth-failed")))
+        self.assertTrue(is_auth_rejected(AuthRejected("api-40002: Missing Token")))
+        self.assertTrue(is_auth_rejected("api-40002: Missing Token"))
+        self.assertTrue(is_auth_rejected("api-40003: Invalid Token"))
+        self.assertTrue(is_auth_rejected(Exception("http-401")))
+        self.assertTrue(is_auth_rejected("http-403"))
+        self.assertTrue(is_auth_rejected("network: ... auth-failed ..."))
+
+    def test_does_not_flag_transient_or_other_errors(self):
+        from totalrecalls.core.errors import is_auth_rejected
+        self.assertFalse(is_auth_rejected(Exception("network: timeout")))
+        self.assertFalse(is_auth_rejected("http-500"))
+        self.assertFalse(is_auth_rejected("http-400"))
+        self.assertFalse(is_auth_rejected("biz-40002"))  # substring, not a real marker
+        self.assertFalse(is_auth_rejected(""))
+
 
 class MistralAuthFailTests(unittest.TestCase):
     def test_list_raises_on_auth_failed(self):
@@ -286,8 +367,8 @@ class BridgeCountWorkerAuthFailTests(unittest.TestCase):
 
     def test_dead_session_during_fast_count_pushes_login_expired(self):
         """Same as above, but the adapter exposes count_conversations() (the
-        new fast path). A dead session must STILL surface login_expired — the
-        fast path must not swallow auth-failed into a settled 0."""
+        fast path). A dead session must STILL surface login_expired — the fast
+        path must not swallow the rejection into a settled 0."""
         import totalrecalls.desktop.bridge as bridge_mod
         from totalrecalls.desktop.bridge import Bridge
         from totalrecalls.core.schema import AccountInfo
@@ -331,6 +412,52 @@ class BridgeCountWorkerAuthFailTests(unittest.TestCase):
         ]
         self.assertEqual(settled_zero, [], f"dead session reported as connected/0: {pushes}")
 
+    def test_deepseek_shaped_rejection_during_count_pushes_login_expired(self):
+        """The 2026-09-13 live bug, end-to-end at the bridge: a DeepSeek dead
+        token surfaces as 'api-40002: Missing Token' (NOT the string
+        'auth-failed'). The uniform is_auth_rejected() gate in _count_worker
+        must still fire login_expired + clear the token — the old
+        '"auth-failed" in str(e)' gate let this through as a settled 0."""
+        import totalrecalls.desktop.bridge as bridge_mod
+        from totalrecalls.desktop.bridge import Bridge
+        from totalrecalls.core.schema import AccountInfo
+
+        class FakeAdapter:
+            id = "deepseek"
+            display_name = "DeepSeek"
+
+            def validate(self, credential):
+                return AccountInfo(email="deepseek-session@local")
+
+            def list_conversations(self, credential, *, deep=False):
+                raise Exception("api-40002: Missing Token")
+
+        b = Bridge(ui_html="<html></html>")
+        b._provider_id = "deepseek"
+        pushes = []
+        import time as _time
+        with patch.object(bridge_mod, "get_adapter", return_value=FakeAdapter()), \
+             patch.object(bridge_mod, "save_session"), \
+             patch.object(bridge_mod, "clear_session"), \
+             patch.object(b, "_push", side_effect=pushes.append):
+            b._accept_token("dead-token", restore_ui=False)
+            deadline = _time.monotonic() + 5
+            while _time.monotonic() < deadline:
+                if any(p.get("type") == "login_expired" for p in pushes):
+                    break
+                _time.sleep(0.02)
+        t = getattr(b, "_count_thread", None)
+        if t is not None:
+            t.join(timeout=2)
+        types = [p.get("type") for p in pushes]
+        self.assertIn("login_expired", types, f"expected login_expired, got {types}")
+        self.assertIsNone(b.token)
+        settled_zero = [
+            p for p in pushes
+            if p.get("type") == "connected" and p.get("count") == 0
+        ]
+        self.assertEqual(settled_zero, [], f"dead deepseek session reported as connected/0: {pushes}")
+
     def test_fast_count_pushes_connected_with_count(self):
         """Happy path: an adapter with count_conversations() gets the instant
         placeholder connected, then a settled connected with the real count."""
@@ -369,6 +496,69 @@ class BridgeCountWorkerAuthFailTests(unittest.TestCase):
         self.assertEqual(len(settled), 1, f"expected exactly one settled connected/105, got {pushes}")
         self.assertEqual(b._conversation_count, 105)
         self.assertIsNotNone(b.token)
+
+
+class LocalStorageBearingTests(unittest.TestCase):
+    """The CDP Runtime.evaluate result parser: DeepSeek's localStorage['userToken']
+    is the JSON envelope {"value": "<bearer>", "__version": "0"}; the parser must
+    return the inner value, and degrade gracefully on any other shape."""
+    def _cdp(self, inner):
+        import json as _json
+        return _json.dumps({"result": {"type": "string", "value": inner}})
+
+    def test_unwraps_deepseek_envelope(self):
+        from totalrecalls.desktop.bridge import _extract_local_storage_bearer
+        inner = '{"value": "2LQ97tX1hqbcGIxSkRbBpEUejVPM3le/DV8BWUdHFfigVukUYtCz4e", "__version": "0"}'
+        self.assertEqual(_extract_local_storage_bearer(self._cdp(inner), "userToken"),
+                         "2LQ97tX1hqbcGIxSkRbBpEUejVPM3le/DV8BWUdHFfigVukUYtCz4e")
+
+    def test_returns_bare_token_when_no_envelope(self):
+        from totalrecalls.desktop.bridge import _extract_local_storage_bearer
+        self.assertEqual(_extract_local_storage_bearer(self._cdp("plain-opaque-token"), "userToken"),
+                         "plain-opaque-token")
+
+    def test_returns_none_when_item_null_or_absent(self):
+        from totalrecalls.desktop.bridge import _extract_local_storage_bearer
+        # Not signed in: localStorage.getItem -> null (no "value" in result).
+        self.assertIsNone(_extract_local_storage_bearer('{"result": {"type": "object"}}', "userToken"))
+        self.assertIsNone(_extract_local_storage_bearer("", "userToken"))
+        self.assertIsNone(_extract_local_storage_bearer(None, "userToken"))
+        self.assertIsNone(_extract_local_storage_bearer("not-json", "userToken"))
+
+
+class LocalStorageProbeGateTests(unittest.TestCase):
+    """The live 2026-09-13 bug: the DeepSeek auth page writes a short opaque
+    NONCE under the same localStorage key ('userToken'); the app's home page
+    holds the real long bearer. The capture must only close the login window
+    after the provider's own validate() accepts the candidate — a nonce that
+    fails validate() keeps the window open. _local_storage_probe_ok is the gate.
+    """
+
+    def test_probe_ok_true_when_validate_accepts(self):
+        from totalrecalls.desktop.bridge import _local_storage_probe_ok
+        class _A:
+            def validate(self, cred):
+                return object()  # accepted
+        with patch("totalrecalls.adapters.base.get_adapter", return_value=_A()):
+            self.assertTrue(_local_storage_probe_ok("deepseek", "whatever"))
+
+    def test_probe_ok_false_when_validate_raises_api_rejection(self):
+        """The exact live symptom: 30-char nonce -> api-40003 -> window stays open."""
+        from totalrecalls.desktop.bridge import _local_storage_probe_ok
+        class _A:
+            def validate(self, cred):
+                raise Exception("api-40003: Authorization Failed (invalid token)")
+        with patch("totalrecalls.adapters.base.get_adapter", return_value=_A()):
+            self.assertFalse(_local_storage_probe_ok("deepseek", "30-char-junk-nonce-value-123"))
+
+    def test_probe_ok_false_on_network_error(self):
+        """Cannot confirm -> treat as not-yet-validated (window stays open), never accept."""
+        from totalrecalls.desktop.bridge import _local_storage_probe_ok
+        class _A:
+            def validate(self, cred):
+                raise Exception("network: timeout")
+        with patch("totalrecalls.adapters.base.get_adapter", return_value=_A()):
+            self.assertFalse(_local_storage_probe_ok("deepseek", "some-candidate"))
 
 
 if __name__ == "__main__":

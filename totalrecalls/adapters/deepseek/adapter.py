@@ -21,6 +21,7 @@ from totalrecalls.adapters.deepseek.http import (
     normalize_bearer,
     request,
 )
+from totalrecalls.core.errors import is_auth_rejected
 from totalrecalls.core.export_fs import HOME_SPACE_NAME
 from totalrecalls.core.paths import log
 from totalrecalls.core.schema import (
@@ -94,6 +95,13 @@ class DeepSeekAdapter:
             user = _biz_data(data)
         except DeepSeekApiError as e:
             log(f"deepseek validate users/current: {e}")
+            # A definitive rejection (api-40002 Missing Token / api-40003 Invalid
+            # Token / http-401 / http-403 / auth-failed) means the captured
+            # credential is DEAD. Fail closed: raise so the UI shows "re-auth"
+            # instead of the old optimistic-accept, which marked a dead token
+            # "Connected" and then the deep count silently returned 0.
+            if is_auth_rejected(e):
+                raise
         if isinstance(user, dict):
             email = str(user.get("email") or "")
             uid = str(user.get("id") or "")
@@ -103,7 +111,10 @@ class DeepSeekAdapter:
                     external_id=uid or "deepseek",
                     display_name=email or "DeepSeek user",
                 )
-        # Optimistic accept: login captured a real Bearer token.
+        # Soft accept (NOT optimistic): a credential that produced no error but
+        # no account either — e.g. a 200 with an empty body, or a transient
+        # network/5xx failure. We can't prove it's dead, so accept it and let the
+        # deep count surface a definitive rejection. Only a hard rejection raises.
         if token or cookie:
             return AccountInfo(
                 email="deepseek-session@local",
@@ -133,11 +144,14 @@ class DeepSeekAdapter:
                 try:
                     status, data = request(path, access_token=token, cookie=cookie)
                 except DeepSeekApiError as e:
-                    # 401/403 on the very first request = dead session (validate
-                    # optimistically accepts any captured token). Later passes or
-                    # pages mean the session was live → break.
-                    if pinned is True and pages == 1 and "auth-failed" in str(e):
-                        log(f"deepseek list {path} auth-failed — session rejected: {e}")
+                    # 401/403 or a definitive business rejection (api-40002
+                    # Missing Token / api-40003 Invalid Token) on the very first
+                    # request = dead session. The shared is_auth_rejected() gate
+                    # covers every dead-session signal uniformly (the old
+                    # '"auth-failed" in str(e)' missed DeepSeek's api-40002).
+                    # Later passes or pages mean the session was live → break.
+                    if pinned is True and pages == 1 and is_auth_rejected(e):
+                        log(f"deepseek list {path} session rejected: {e}")
                         raise
                     log(f"deepseek list {path}: {e}")
                     break

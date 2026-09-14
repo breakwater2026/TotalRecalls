@@ -39,8 +39,8 @@ export default function PricingSection() {
 
             <div className="mt-8 flex flex-col items-start gap-1">
               <div className="flex items-baseline gap-2">
-                <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">$24</span>
-                <span className="font-body text-sm text-muted-foreground">USD · one-time · lifetime license</span>
+                <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">$24<span className="tr-usd">USD</span></span>
+                <span className="font-body text-sm text-muted-foreground">· one-time · lifetime license</span>
               </div>
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary mt-1 font-semibold">discounted launch price</span>
             </div>
@@ -53,7 +53,7 @@ export default function PricingSection() {
                 className="inline-flex flex-col items-center justify-center gap-0.5 bg-primary text-white px-7 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity shadow-sm w-full sm:w-auto"
                 style={{ maxWidth: 300 }}
               >
-                <span className="whitespace-nowrap">Buy TotalRecalls — $24 USD</span>
+                <span className="whitespace-nowrap">Buy TotalRecalls — $24<span className="tr-usd">USD</span></span>
                 <span className="text-[10px] font-normal opacity-85 tracking-[0.12em] whitespace-nowrap">discounted launch price</span>
               </a>
               <a

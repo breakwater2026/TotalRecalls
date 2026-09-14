@@ -4,10 +4,10 @@ import PageLayout from "../../layouts/PageLayout.astro";
 // Free Tier release. Real build artifacts — recompute after each PyInstaller build:
 //   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
 const VERSION = "v1.0.0";
-const RELEASE_DATE = "September 8, 2026";
+const RELEASE_DATE = "September 13, 2026";
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
-const ZIP_SIZE_MB = 18.7;
-const SHA256 = "441ea535ccff615015c3d0e795a126228bcf97de94af9a4c06f68c30e905463f";
+const ZIP_SIZE_MB = 17.8;
+const SHA256 = "dc2b76b3297870eb8ffde2ca659f13f454dd96855e1083d08c19bfe231881785";
 ---
 <PageLayout
   title={`Download TotalRecalls ${VERSION}`}
@@ -34,7 +34,7 @@ const SHA256 = "441ea535ccff615015c3d0e795a126228bcf97de94af9a4c06f68c30e905463f
     </p>
     <p>
       <a href="/buy/" class="buy-pro-link">
-        Need all 8 providers &amp; unlimited conversations? <strong>Upgrade to Pro — one-time $24</strong>
+        Need all 8 providers &amp; unlimited conversations? <strong>Upgrade to Pro — one-time $24<span class="tr-usd">USD</span></strong>
       </a>
     </p>
     <p class="hash-line">
@@ -60,8 +60,9 @@ const SHA256 = "441ea535ccff615015c3d0e795a126228bcf97de94af9a4c06f68c30e905463f
     <p>
       <strong>The Free Tier is available now</strong> — download the app and test it
       on your own chats before paying a cent. Downloads are limited to 3 AI providers and
-      5 conversations per download. That's our replacement for money-back refunds. Purchases
-      are one-time and include every future update.
+      5 conversations per download — our try-before-you-buy mechanism. Purchases
+      are one-time; the core app keeps receiving free updates for the life of
+      the product. New features (add-ons) are separate purchases.
     </p>
   </section>
 
@@ -103,7 +104,7 @@ const SHA256 = "441ea535ccff615015c3d0e795a126228bcf97de94af9a4c06f68c30e905463f
       <li>No TotalRecalls account required</li>
       <li>No background processes</li>
       <li>No telemetry, no analytics, no tracking pixels</li>
-      <li>You can read the full <a href="/legals/#privacy">Privacy Policy</a> or the <a href="/privacy/">standalone privacy page</a></li>
+      <li>You can read the full <a href="/privacy/">Privacy Policy</a> or the <a href="/privacy/">standalone privacy page</a></li>
     </ul>
   </section>
 
@@ -127,7 +128,7 @@ const SHA256 = "441ea535ccff615015c3d0e795a126228bcf97de94af9a4c06f68c30e905463f
   <section class="footer-cta" style="background: var(--color-midnight); color: var(--color-surface); text-align: center;">
     <h2 style="color: var(--color-surface);">Ready to own your AI conversations?</h2>
     <div class="price-block" style="justify-content: center;">
-      <span class="price-current" data-tr-price>$24</span>
+      <span class="price-current" data-tr-price>$24<span class="tr-usd">USD</span></span>
       <span class="price-badge">launch price</span>
     </div>
   </section>

@@ -52,10 +52,52 @@ import PageLayout from "../../layouts/PageLayout.astro";
     <td>Cost</td>
     <td>Free (data locked in)</td>
     <td>Free (your time)</td>
-    <td>$24 one-time (data fully yours)</td>
+    <td>$24<span class="tr-usd">USD</span> one-time (data fully yours)</td>
   </tr>
   </tbody>
   </table>
 
-  <p><a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Get TotalRecalls — <span data-tr-price>$24</span></a></p>
+  <p><a href="/pricing/" class="buy-button buy-lg" data-tr-buy>Get TotalRecalls — <span data-tr-price>$24<span class="tr-usd">USD</span></span></a></p>
+
+  <h2>Head-to-head, by provider</h2>
+  <p>See exactly what each provider's official export gives you — and what TotalRecalls adds on top.</p>
+  <div class="compare-cards">
+    <a class="compare-card" href="/compare/chatgpt/">ChatGPT <span>vs. OpenAI's JSON dump</span></a>
+    <a class="compare-card" href="/compare/claude/">Claude <span>vs. Anthropic's export</span></a>
+    <a class="compare-card" href="/compare/perplexity/">Perplexity <span>vs. the official backup</span></a>
+    <a class="compare-card" href="/compare/gemini/">Gemini <span>vs. Google Takeout</span></a>
+    <a class="compare-card" href="/compare/grok/">Grok <span>vs. manual saving</span></a>
+    <a class="compare-card" href="/compare/deepseek/">DeepSeek <span>vs. manual saving</span></a>
+    <a class="compare-card" href="/compare/mistral/">Mistral <span>vs. manual saving</span></a>
+    <a class="compare-card" href="/compare/qwen/">Qwen <span>vs. manual saving</span></a>
+    <a class="compare-card" href="/compare/pricing/">Pricing <span>what the alternatives cost</span></a>
+    <a class="compare-card" href="/compare/why-local/">Why Local <span>your data, your machine</span></a>
+    <a class="compare-card" href="/compare/why-multi-assistant/">Why Multi-Assistant <span>one library, eight providers</span></a>
+  </div>
 </PageLayout>
+
+<style>
+  .compare-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 2rem;
+  }
+  .compare-card {
+    display: block;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    text-decoration: none;
+    color: var(--color-foreground, #0b0f19);
+    font-weight: 600;
+  }
+  .compare-card span {
+    display: block;
+    font-weight: 400;
+    font-size: 12.5px;
+    color: var(--color-muted, #64748b);
+    margin-top: 0.2rem;
+  }
+  .compare-card:hover { border-color: var(--color-primary, #2f7bff); }
+</style>

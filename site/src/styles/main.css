@@ -39,16 +39,7 @@
   }
 }
 
-/* Base44 Custom Animations & Utility Classes */
-.tr-grid-bg {
-  background-image: linear-gradient(to right, #F8FAFC 1px, transparent 1px),
-                    linear-gradient(to bottom, #F8FAFC 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-html[data-theme="dark"] .tr-grid-bg {
-  background-image: linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
-}
+/* (background grid removed per user request 2026-09-13 — pages use a flat surface) */
 
 .tr-scanline {
   animation: tr-scan 3s linear infinite;
@@ -75,4 +66,15 @@ html[data-theme="dark"] .tr-grid-bg {
 
 @keyframes tr-flow-dash {
   to { stroke-dashoffset: -20; }
+}
+
+/* USD suffix: rendered at half size, nested to the price (user directive 2026-09-13).
+   Usage: <span class="tr-usd">USD</span> immediately after the $24 figure. */
+.tr-usd {
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  vertical-align: super;
+  margin-left: 0.15em;
+  white-space: nowrap;
 }

@@ -61,7 +61,7 @@ export default function Nav() {
           <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">Download</a>
           <div className="flex flex-col items-center">
             <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-primary text-white px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
-              Buy — $24USD <ArrowRight className="w-3.5 h-3.5" />
+              Buy — $24<span class="tr-usd">USD</span> <ArrowRight className="w-3.5 h-3.5" />
             </a>
             <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-primary mt-1 font-semibold whitespace-nowrap">
               discounted launch price
@@ -89,7 +89,7 @@ export default function Nav() {
               </a>
             ))}
             <a href="/#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-primary text-white px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
-              <span>Buy — $24USD</span>
+              <span>Buy — $24<span class="tr-usd">USD</span></span>
               <span className="text-[9px] opacity-85 font-normal">discounted launch price</span>
             </a>
           </nav>

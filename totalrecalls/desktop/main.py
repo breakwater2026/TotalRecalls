@@ -15,7 +15,7 @@ from totalrecalls.adapters.perplexity.http import ApiError, _HAS_CFFI
 from totalrecalls.adapters.perplexity.auth import validate_session
 from totalrecalls.adapters.perplexity.discover import list_threads
 from totalrecalls.core.export_fs import safe_name
-from totalrecalls.desktop.bridge import Bridge
+from totalrecalls.desktop.bridge import Bridge, _kill_orphan_webviews
 from totalrecalls.desktop.js_api import JsApi
 
 def main():
@@ -187,6 +187,13 @@ def main():
         except Exception:
             ui_html = ""
     log(f"main: UI mode={ui_mode} path={ui_label}")
+
+    # Reap WebView2 child processes left behind by a previously killed/crashed
+    # session. They hold the login-webview-* profile folders locked, and a
+    # locked profile makes the ChatGPT login window hang blank (observed
+    # 2026-09-12). Must run BEFORE the main window's own WebView2 is created,
+    # and it only touches processes referencing our profile folders.
+    _kill_orphan_webviews()
 
     bridge = Bridge(ui_html=ui_html or "<html></html>")
 

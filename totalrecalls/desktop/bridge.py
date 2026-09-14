@@ -18,7 +18,7 @@ from totalrecalls.core.paths import (
     appdata_dir, log, save_session, load_session, clear_session,
     kill_other_exporter_processes,
 )
-from totalrecalls.core.errors import friendly_error
+from totalrecalls.core.errors import friendly_error, is_auth_rejected
 from totalrecalls.core.export_fs import (
     HOME_SPACE_NAME, load_uuid_index, save_uuid_index,
     find_existing_thread_folder, entry_stats, thread_abs_folder,
@@ -33,7 +33,7 @@ from totalrecalls.adapters.perplexity.auth import (
 )
 from totalrecalls.adapters.perplexity.discover import list_threads
 from totalrecalls.adapters.perplexity.thread import get_thread, extract_entry, render_markdown
-from totalrecalls.adapters.base import get_adapter
+from totalrecalls.adapters.base import get_adapter, call_with_stop
 from totalrecalls.core.schema import UnifiedConversation
 from totalrecalls.core.unified_export import (
     conversation_turn_ranges,
@@ -42,6 +42,114 @@ from totalrecalls.core.unified_export import (
 )
 from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
 from totalrecalls import licensing
+
+
+def _kill_orphan_webviews():
+    """Kill msedgewebview2.exe processes left behind by a killed/crashed app.
+
+    When the app is closed with the login window open (or crashes), the
+    WebView2 child processes are NOT terminated with it. They keep the
+    ``login-webview-*`` profile folders locked, and a locked profile makes
+    ``EnsureCoreWebView2Async`` hang with a blank, frozen window — the exact
+    "login window opens but never renders" symptom (observed live 2026-09-12:
+    6 orphans holding login-webview-chatgpt).
+
+    SAFETY: msedgewebview2.exe is shared by every WebView2 app on the machine,
+    so we only kill processes whose command line references OUR profile
+    folders (``--user-data-dir`` under %APPDATA%/PerplexityExporter). Other
+    apps' WebView2 instances are untouched. Called at app startup, before the
+    main window's own WebView2 is created.
+    """
+    try:
+        # wmic shows single-backslash paths; compare lowercased verbatim.
+        marker = appdata_dir().lower()
+        out = ""
+        try:
+            r = subprocess.run(
+                ["wmic", "process", "where", "name='msedgewebview2.exe'",
+                 "get", "CommandLine,ProcessId"],
+                capture_output=True, text=True, timeout=12,
+                creationflags=0x08000000)
+            if r.returncode == 0:
+                out = r.stdout or ""
+        except Exception:
+            pass
+        killed = 0
+        for line in out.splitlines():
+            line = line.strip()
+            if not line or line.lower().startswith("commandline"):
+                continue
+            # wmic: <quoted command line>  <pid>  — pid is the last token.
+            parts = line.rsplit(None, 1)
+            if len(parts) != 2 or not parts[1].isdigit():
+                continue
+            cmd, pid_s = parts
+            if marker not in cmd.lower():
+                continue  # not our profile folder — leave it alone
+            subprocess.run(["taskkill", "/PID", pid_s, "/F"],
+                           capture_output=True, text=True, timeout=10,
+                           creationflags=0x08000000)
+            killed += 1
+        if killed:
+            log(f"login: killed {killed} orphaned WebView2 process(es) from a previous session")
+            time.sleep(1.0)  # let the profile locks release
+    except Exception as e:
+        log(f"login: orphan-webview sweep failed (ignored): {e}")
+
+
+def _local_storage_probe_ok(provider_suffix: str, candidate: str) -> bool:
+    """True iff ``candidate`` authenticates against the provider's own
+    ``validate()`` — the same authoritative check ``_accept_token`` runs.
+
+    This is the gate that keeps a login window OPEN until the captured
+    credential is proven real. A junk value (e.g. a 30-char nonce under the
+    same localStorage key on a provider's auth-page origin) fails validate()
+    and the flow keeps polling; only a token that returns a live account
+    closes the window. Network errors also return False (we simply cannot
+    confirm yet) — the window stays open rather than accepting on a guess.
+    """
+    try:
+        from totalrecalls.adapters.base import get_adapter
+        get_adapter(provider_suffix).validate(candidate)
+        return True
+    except Exception:
+        return False
+
+
+def _extract_local_storage_bearer(raw_cdp_result, key: str) -> str | None:
+    """Extract a bearer token from a CDP ``Runtime.evaluate`` result string.
+
+    ``raw_cdp_result`` is the JSON returned by ``Runtime.evaluate`` with
+    ``returnByValue: true``, i.e. ``{"result": {"type": "string",
+    "value": <the localStorage item>}}``. The localStorage item for DeepSeek is
+    itself a JSON envelope ``{"value": "<bearer>", "__version": "0"}``, so the
+    inner ``value`` is the token. Defensive: if the item is already a bare
+    token (no envelope), it is returned as-is. Returns None on any shape we
+    don't recognize (the header-paste fallback still covers the user).
+    """
+    if not raw_cdp_result:
+        return None
+    try:
+        cdp = json.loads(raw_cdp_result)
+    except Exception:
+        return None
+    result = cdp.get("result") if isinstance(cdp, dict) else None
+    item = result.get("value") if isinstance(result, dict) else None
+    if not item or not isinstance(item, str):
+        return None
+    # Unwrap the {"value": "...", "__version": ...} envelope (DeepSeek).
+    try:
+        obj = json.loads(item)
+        if isinstance(obj, dict):
+            inner = obj.get("value")
+            if isinstance(inner, str) and inner.strip():
+                return inner.strip()
+    except Exception:
+        pass
+    # Not an envelope — treat the raw localStorage string as the token.
+    token = item.strip()
+    return token or None
+
 
 class Bridge:
     """Called from the web UI via pywebview's js_api bridge.
@@ -58,6 +166,11 @@ class Bridge:
         self._window = None
         self._ui_html = ui_html
         self._stop_login = threading.Event()
+        # Set on disconnect() so in-flight count/export worker threads (and
+        # their adapter retry chains) stop instead of orphaning — observed
+        # 2026-09-08: ChatGPT 500-retries kept firing 30+s after the user
+        # disconnected. Re-armed (cleared) at the start of every connect.
+        self._stop_worker = threading.Event()
         self._login_thread: threading.Thread | None = None
         self._login_form = None
         self._export_thread: threading.Thread | None = None
@@ -71,6 +184,22 @@ class Bridge:
         self._login_completion_pending = False
         self._conversation_count = 0
         self._provider_id = "perplexity"
+        # Restore the last-used provider so the connect-screen dropdown, the
+        # "Log in to …" label and the export dropdown all start in agreement
+        # (the session file records it on every successful connect). Without
+        # this the dropdown could show the saved provider while the labels
+        # still read "Perplexity" — the page-1 desync.
+        try:
+            _sess = load_session()
+            _saved_pid = str((_sess or {}).get("provider") or "").strip().lower()
+            if _saved_pid:
+                try:
+                    get_adapter(_saved_pid)
+                    self._provider_id = _saved_pid
+                except Exception:
+                    pass  # unknown provider — keep the default
+        except Exception:
+            pass
         self._connected_at: float | None = None  # monotonic ts of connection established
         self._first_download_at: float | None = None
         self._last_markdown_path: str | None = None
@@ -81,6 +210,15 @@ class Bridge:
 
     def _recheck_entitlement(self):
         try:
+            from totalrecalls.edition import is_pro_edition
+            if is_pro_edition():
+                # Baked-in Pro build: entitlement is the edition flag itself —
+                # there is no stored Lemon Squeezy key to re-validate, and
+                # check_entitlement() would return False (no stored key) and
+                # push a spurious "revoked Pro" license event that flips the
+                # UI tier badge to "Free" on every startup (observed 2026-09-12
+                # in app.log: 'entitlement re-check revoked Pro' on the Pro EXE).
+                return
             was_pro = licensing.is_pro()
             still_pro = licensing.check_entitlement()
             if was_pro and not still_pro:
@@ -193,10 +331,16 @@ class Bridge:
         }
 
     def openBuyPage(self):
-        """Open the purchase page in the user's default browser."""
+        """Open the purchase page in the user's default browser.
+
+        Points at the Lemon Squeezy store directly (always live), not
+        totalrecalls.app/buy — the production site was intentionally
+        frozen (404 gate) while the V9 redesign ships, so the site URL
+        404'd (reported 2026-09-13: in-app Buy button → 404 page).
+        """
         import webbrowser
         log("bridge: openBuyPage() called from UI")
-        webbrowser.open("https://totalrecalls.app/buy")
+        webbrowser.open("https://totalrecalls.lemonsqueezy.com")
         return {"ok": True}
 
     def listProviders(self):
@@ -350,9 +494,14 @@ class Bridge:
             )
         elif provider == "deepseek":
             log("login: starting embedded WebView2 login for DeepSeek")
-            # DeepSeek's web app authenticates with a Bearer token (sent on
-            # /api/v0/* requests) plus a ds_session_id cookie. Capture the
-            # Bearer token first, fall back to the cookie.
+            # DeepSeek's web client keeps its live credential in
+            # localStorage['userToken'] = {"value": "<bearer>", "__version": "0"}
+            # — NOT in any cookie or Authorization header the request hook can
+            # see. So the primary capture is a CDP Runtime.evaluate reading that
+            # key (see _generic_cookie_login_flow); the Bearer/cookie header
+            # paths are kept only as a fallback for any client that does send
+            # them. Without the localStorage read, in-app login captured nothing
+            # usable and every export failed with api-40002 "Missing Token".
             self._start_generic_cookie_login(
                 title="Sign in to DeepSeek",
                 start_url="https://chat.deepseek.com/",
@@ -360,6 +509,7 @@ class Bridge:
                 profile_suffix="deepseek",
                 prefer_bearer=True,
                 cookie_names=("ds_session_id",),
+                local_storage_key="userToken",
             )
         elif provider == "mistral":
             log("login: starting embedded WebView2 login for Mistral")
@@ -929,6 +1079,9 @@ class Bridge:
 
     def disconnect(self):
         log("bridge: disconnect() called from UI")
+        # Stop any in-flight count/export worker + its adapter retry chain
+        # so the UI never sees orphaned network activity after disconnect.
+        self._stop_worker.set()
         clear_session()
         self.token = None
         self.email = None
@@ -953,7 +1106,8 @@ class Bridge:
                                     profile_suffix: str, prefer_bearer: bool = False,
                                     cookie_filter: str | None = None,
                                     cookie_names: tuple | None = None,
-                                    probe_url: str | None = None):
+                                    probe_url: str | None = None,
+                                    local_storage_key: str | None = None):
         """STA WebView2 login that captures Cookie header and optional Bearer tokens.
 
         cookie_filter: optional cookie name to require (e.g. '__Secure-1PSID' for
@@ -963,6 +1117,11 @@ class Bridge:
         probe_url: when set, capture by probing this URL with the intercepted
         Cookie header until it returns an authenticated (success:true) response —
         for providers whose session cookie name is opaque (e.g. Qwen Chat).
+        local_storage_key: when set, ALSO capture the credential by reading
+        ``localStorage[local_storage_key]`` in the page via CDP Runtime.evaluate
+        (e.g. DeepSeek's 'userToken'). For these providers the real credential
+        is not in any cookie or request header, so the localStorage read is the
+        primary path and the header paths are a fallback.
         """
         # Clear cached WebView2 data to force a fresh sign-in (supports
         # multi-account users who need to pick a different account)
@@ -986,7 +1145,7 @@ class Bridge:
             from System.Threading import Thread, ThreadStart, ApartmentState
             def runner():
                 try:
-                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf, cookie_names, probe_url)
+                    self._generic_cookie_login_flow(title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter, udf, cookie_names, probe_url, local_storage_key)
                 except Exception as e:
                     # Without this wrapper an exception on the CLR thread is
                     # unobserved and kills the whole process silently.
@@ -1006,7 +1165,7 @@ class Bridge:
             self._push({"type": "error", "message": f"{title} embedded login unavailable. Paste a session token/cookie instead."})
             self._push({"type": "login_cancelled"})
 
-    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None, cookie_names=None, probe_url=None):
+    def _generic_cookie_login_flow(self, title, start_url, host_substr, profile_suffix, prefer_bearer, cookie_filter=None, udf=None, cookie_names=None, probe_url=None, local_storage_key=None):
         if udf is None:
             udf = os.path.join(appdata_dir(), f"login-webview-{profile_suffix}")
         log(f"{profile_suffix} login: flow starting (profile={os.path.basename(udf)})")
@@ -1153,6 +1312,15 @@ class Bridge:
         def on_req(sender, args):
             try:
                 if closed.is_set() or finished["done"]: return
+                # localStorage-primary provider (e.g. DeepSeek): the CDP
+                # localStorage poll (on_tick) is the SOLE capture path. The
+                # header/cookie paths below would race it and could capture the
+                # dead ds_session_id cookie — or a transient Bearer — before the
+                # real localStorage userToken is read, re-introducing the
+                # api-40002 "Missing Token" bug. So skip header capture entirely
+                # for these providers; the paste button remains the fallback.
+                if local_storage_key:
+                    return
                 req = getattr(args, "Request", None)
                 if req is None: return
                 uri = str(getattr(req, "Uri", "") or "").lower()
@@ -1238,16 +1406,105 @@ class Bridge:
 
         wv.CoreWebView2InitializationCompleted += on_init
         timer = WinTimer(); timer.Interval = 2500
+        # localStorage capture (providers like DeepSeek keep their credential in
+        # localStorage, not in any cookie/header). CDP Runtime.evaluate is async:
+        # start it on one tick, read Result on a later tick once IsCompleted —
+        # never Wait() here (WebView2 completions marshal back onto this UI
+        # thread, so Wait() deadlocks — same reason the Perplexity CDP poll polls).
+        #
+        # CRITICAL — the captured value must be VALIDATED before the window
+        # closes (observed live 2026-09-13): the web client writes a short
+        # opaque nonce under the same localStorage key on the auth-page origin
+        # (30 chars), and the app's home-page token is the long one (~400+).
+        # Without a gate the first poll captured the junk nonce and closed the
+        # window ~3s after open, before the user could sign in — and validate()
+        # then rejected it (api-40003). So: a candidate only finishes the login
+        # after the provider's own validate() accepts it (background thread;
+        # a stale probe result is dropped if a newer candidate superseded it).
+        # The paste button remains the always-available fallback.
+        ls_state = {"task": None, "candidate": None, "probe": None}
+        ls_lock = threading.Lock()
+
+        def _ls_probe_done(cand):
+            probe_self = threading.current_thread()
+            try:
+                ok = _local_storage_probe_ok(profile_suffix, cand)
+            except Exception as e:
+                log(f"{profile_suffix} login: localStorage validate probe error: {e}")
+                ok = False
+            with ls_lock:
+                # Release the probe slot only if we still own it (a newer
+                # candidate may have started its own probe).
+                if ls_state["probe"] is probe_self:
+                    ls_state["probe"] = None
+                current = ls_state["candidate"]
+            if ok and current == cand:
+                log(f"{profile_suffix} login: localStorage candidate validated by provider — connecting")
+                if form.IsHandleCreated:
+                    form.BeginInvoke(Action(lambda: finish(cand, f"localStorage[{local_storage_key}] (validated)")))
+                else:
+                    finish(cand, f"localStorage[{local_storage_key}] (validated)")
+            elif not ok and current == cand:
+                # Junk/stale candidate (e.g. the pre-login auth-page nonce).
+                # Window stays OPEN; the next capture tick re-probes if the
+                # value changes or the slot is free.
+                log(f"{profile_suffix} login: localStorage candidate failed provider validation — keeping window open")
+
         def on_tick(sender, e):
             if closed.is_set() or finished["done"] or self.token: return
             if self._stop_login.is_set():
                 safe_close(); return
-            # CookieManager poll disabled: CoreWebView2CookieManager is WinRT —
-            # its API is GetCookiesAsync (IAsyncOperation), not the synchronous
-            # GetCookies() the old code called, so every tick raised
-            # AttributeError. The WebResourceRequested Cookie-header gate above
-            # is the primary capture path and now requires a real session cookie
-            # by name (cookie_names), which makes this poll redundant.
+            if not local_storage_key:
+                return
+            try:
+                cv = wv.CoreWebView2
+                if cv is None:
+                    return
+                # Collect a finished Runtime.evaluate task.
+                task = ls_state["task"]
+                if task is not None:
+                    if task.IsCompleted:
+                        ls_state["task"] = None
+                        if getattr(task, "IsFaulted", False):
+                            log(f"{profile_suffix} login: localStorage CDP task faulted")
+                        else:
+                            tok = _extract_local_storage_bearer(str(task.Result), local_storage_key)
+                            if tok:
+                                log(f"{profile_suffix} login: localStorage[{local_storage_key}] candidate captured ({len(tok)} chars) — validating via provider")
+                                with ls_lock:
+                                    changed = (ls_state["candidate"] != tok)
+                                    if changed:
+                                        ls_state["candidate"] = tok
+                                    # Probe only when the slot is free. While a
+                                    # probe is in flight for a DIFFERENT value
+                                    # we do nothing: the new value will be
+                                    # probed once the slot frees (next tick).
+                                    if changed and ls_state["probe"] is None:
+                                        ls_state["probe"] = threading.Thread(
+                                            target=_ls_probe_done, args=(tok,), daemon=True)
+                                        ls_state["probe"].start()
+                                    elif not changed and ls_state["probe"] is None:
+                                        # Same value, but the previous probe
+                                        # already finished and rejected it (or
+                                        # the slot was cleared) — re-probe once
+                                        # so a transient validate hiccup can
+                                        # still succeed. (A persistent nonce
+                                        # costs one extra validate() per 2.5s —
+                                        # trivial, and never closes the window.)
+                                        ls_state["probe"] = threading.Thread(
+                                            target=_ls_probe_done, args=(tok,), daemon=True)
+                                        ls_state["probe"].start()
+                        return
+                    # else still in flight — leave it; try again next tick
+                # Start a new read if none is outstanding.
+                if ls_state["task"] is None:
+                    expr = (f"(function(){{var v=localStorage.getItem({json.dumps(local_storage_key)});"
+                             f"return v===null?null:v;}})()")
+                    args = json.dumps({"expression": expr, "returnByValue": True,
+                                       "awaitPromise": False, "allowUnsafeEvalBlockedByCSP": True})
+                    ls_state["task"] = cv.CallDevToolsProtocolMethodAsync("Runtime.evaluate", args)
+            except Exception as e:
+                log(f"{profile_suffix} login: localStorage CDP poll error: {e}")
         timer.Tick += on_tick
         try:
             wv.EnsureCoreWebView2Async(None)
@@ -1562,9 +1819,22 @@ class Bridge:
         status.Height = 28
         wv = WebView2()
         wv.Dock = DockStyle.Fill
+        # Locked-profile fallback: if an orphaned WebView2 process still holds
+        # the profile folder (sweep above is best-effort), a fixed path makes
+        # EnsureCoreWebView2Async hang on a blank window. Use a unique folder
+        # for this attempt instead.
+        c_udf = os.path.join(appdata_dir(), "login-webview-chatgpt")
+        if os.path.exists(c_udf):
+            try:
+                _probe = os.path.join(c_udf, ".lockprobe")
+                os.rename(c_udf, c_udf + ".locktest")
+                os.rename(c_udf + ".locktest", c_udf)
+            except OSError:
+                c_udf = f"{c_udf}-{os.getpid()}"
+                log(f"chatgpt login: profile folder locked; using temporary folder {os.path.basename(c_udf)}")
         try:
             props = CoreWebView2CreationProperties()
-            props.UserDataFolder = os.path.join(appdata_dir(), "login-webview-chatgpt")
+            props.UserDataFolder = c_udf
             wv.CreationProperties = props
         except Exception as e:
             log(f"chatgpt login: creation-props error: {e}")
@@ -1630,12 +1900,19 @@ class Bridge:
                         else:
                             finish(tok, "Authorization Bearer")
                         return
-                # Cookie session token
+                # Cookie session token. OpenAI chunks long cookies into
+                # __Secure-next-auth.session-token.0 / .1 / .2 — the old exact
+                # "__Secure-next-auth.session-token=" match missed every chunked
+                # session (the "chunked-cookie gap"), forcing a manual paste.
+                # Matching the base name (regardless of the =/chunk suffix)
+                # catches both the plain and the chunked forms; the full header
+                # (all chunks) is passed to the exchange, which the server
+                # reassembles.
                 try:
                     cookie_header = headers.GetHeader("Cookie")
                 except Exception:
                     cookie_header = None
-                if cookie_header and "__Secure-next-auth.session-token=" in cookie_header:
+                if cookie_header and "__Secure-next-auth.session-token" in cookie_header:
                     # Pass full cookie header for exchange
                     if form.IsHandleCreated:
                         form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie header")))
@@ -1696,7 +1973,12 @@ class Bridge:
                             value = getattr(c, "Value", None) or getattr(c, "value", None)
                             if name and value is not None:
                                 parts.append(f"{name}={value}")
-                                if name == "__Secure-next-auth.session-token" and value:
+                                # Chunked cookies: OpenAI splits long session
+                                # tokens into __Secure-next-auth.session-token.0
+                                # / .1 / .2 — match the base name or any chunk,
+                                # not just the exact (usually absent) base.
+                                if name == "__Secure-next-auth.session-token" \
+                                        or name.startswith("__Secure-next-auth.session-token."):
                                     token_val = str(value)
                         except Exception:
                             continue
@@ -2157,10 +2439,12 @@ class Bridge:
         log("login: accepting token (background)")
         self._login_completion_pending = False
         self._stop_login.set()
+        # Re-arm the disconnect event for this new session.
+        self._stop_worker.clear()
         provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
         try:
             adapter = get_adapter(provider)
-            account = adapter.validate(token)
+            account = call_with_stop(adapter.validate, token, stop_event=self._stop_worker)
         except Exception as e:
             self._connecting = False
             self._push({"type": "error", "message": friendly_error(e)})
@@ -2196,22 +2480,27 @@ class Bridge:
                 # enumeration still runs at export, so the download is complete.
                 # auth-failed still propagates from either path (see below).
                 if hasattr(adapter, "count_conversations"):
-                    n = int(adapter.count_conversations(token) or 0)
+                    n = int(call_with_stop(adapter.count_conversations, token,
+                                           stop_event=self._stop_worker) or 0)
                 else:
                     # Deep listing so the displayed count matches what the export
                     # will actually download (shallow/single-page undercounts,
                     # e.g. Gemini caps one page at 50 while deep pagination
                     # reaches all).
-                    n = len(adapter.list_conversations(token, deep=True))
+                    n = len(call_with_stop(adapter.list_conversations, token, deep=True,
+                                           stop_event=self._stop_worker))
             except Exception as e:
-                # A dead session now raises auth-failed from discovery (the
-                # lenient validate() can accept a stale token the backend then
-                # 401s). Collapsing that into n=0 is exactly the "connected,
-                # 0 downloads" bug — surface it instead and drop the stale
-                # session so the user reconnects. Other errors (network, a
-                # shape change) still degrade to 0 rather than a false
-                # "expired".
-                if "auth-failed" in str(e):
+                # A dead session raises a definitive auth rejection from
+                # discovery. The lenient validate() can accept a stale token the
+                # backend then 401s. Collapsing that into n=0 is exactly the
+                # "connected, 0 downloads" bug — surface it instead and drop the
+                # stale session so the user reconnects. is_auth_rejected() covers
+                # every provider's dead-session signal uniformly (auth-failed,
+                # DeepSeek's api-40002/40003, http-401/403) — the old
+                # '"auth-failed" in str(e)' gate missed DeepSeek's api-40002.
+                # Other errors (network, a shape change) still degrade to 0
+                # rather than a false "expired".
+                if is_auth_rejected(e):
                     log(f"login: session rejected during deep count ({provider}); "
                         "clearing so the user reconnects")
                     try:
@@ -2257,6 +2546,29 @@ class Bridge:
         log(f"connected: {email} ({provider}); deep conversation count pending")
 
 
+    def _handle_auth_rejection(self, e, *, phase: str):
+        """A provider definitively rejected the credential (dead/expired).
+
+        Shared by the count and export paths so every provider's dead-session
+        signal is handled identically (is_auth_rejected() is the single source
+        of truth). Clears the stored session so the app is not left in a
+        half-connected state, and pushes ``login_expired`` so the UI returns to
+        the sign-in screen with a "re-authenticate" prompt — detect-and-prompt,
+        with no credentials ever stored for an automatic re-login.
+        """
+        provider = getattr(self, "_provider_id", "perplexity") or "perplexity"
+        log(f"auth rejected during {phase} ({provider}): {e}")
+        try:
+            clear_session()
+        except Exception:
+            pass
+        self.token = None
+        self.email = None
+        self._conversation_count = 0
+        self._connecting = False
+        self._push({"type": "login_expired",
+                    "message": friendly_error(e)})
+
     def _export_worker(self, refresh: bool, latest_only: bool = False):
         token = self.token
         if not token:
@@ -2279,8 +2591,22 @@ class Bridge:
             if not classic:
                 adapter = get_adapter(getattr(self, "_provider_id", "perplexity") or "perplexity")
 
+                # Flip once the first conversation download starts, so the
+                # enumeration-phase status line stops clobbering the per-item
+                # progress text.
+                first_started = [False]
+                def _on_first_download():
+                    first_started[0] = True
+                    self._note_first_download()
+
                 def on_log(line: str):
                     self._push({"type": "log", "line": line})
+                    # Keep the prominent status line alive during the
+                    # enumeration/retry phase (before per-item progress begins).
+                    # Once the first download starts, progress pushes own the
+                    # status line and these stop overwriting it.
+                    if not first_started[0]:
+                        self._push({"type": "status", "text": line})
 
                 def on_progress(p: dict):
                     self._push({
@@ -2290,19 +2616,44 @@ class Bridge:
                         "title": p.get("title", ""),
                     })
 
+                # Surface provider-side retry storms to the UI. Without this a
+                # 5xx storm on the list endpoint (observed live on ChatGPT
+                # /backend-api/conversations 2026-09-12: 2→4→8→16→32→45s backoff
+                # across 7 listing passes = 15+ min) looked like a frozen app —
+                # the retries only went to app.log, never to the screen. The
+                # sink is a contextvar set HERE so the synchronous export chain
+                # on this worker thread inherits it (contextvars do NOT cross
+                # thread boundaries, so it must be set inside the worker).
+                _retry_token = None
+                def _on_retry(attempt, code, backoff):
+                    self._push({"type": "log",
+                                "line": f"⏳ {adapter.display_name}'s servers are busy"
+                                        + (f" (HTTP {code})" if code else "")
+                                        + f" — retry {attempt}, next in {int(backoff)}s…"})
+                if adapter.id == "chatgpt":
+                    from totalrecalls.adapters.chatgpt.http import set_retry_sink
+                    _retry_token = set_retry_sink(_on_retry)
+
                 self._push({"type": "log", "line": f"Downloading via {adapter.display_name} adapter → Library/{adapter.id}/ …"})
-                result = export_via_adapter(
-                    adapter,
-                    credential=token,
-                    outdir=outdir,
-                    deep=True,
-                    refresh=refresh,
-                    on_log=on_log,
-                    on_progress=on_progress,
-                    on_first_download=self._note_first_download,
-                    max_conversations=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
-                    latest_only=latest_only,
-                )
+                self._push({"type": "log", "line": "Step 1: enumerating your conversations (can take a minute on a large account)…"})
+                try:
+                    result = export_via_adapter(
+                        adapter,
+                        credential=token,
+                        outdir=outdir,
+                        deep=True,
+                        refresh=refresh,
+                        on_log=on_log,
+                        on_progress=on_progress,
+                        on_first_download=_on_first_download,
+                        max_conversations=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
+                        latest_only=latest_only,
+                        stop_event=self._stop_worker,
+                    )
+                finally:
+                    if _retry_token is not None:
+                        from totalrecalls.adapters.chatgpt.http import reset_retry_sink
+                        reset_retry_sink(_retry_token)
                 empty_n = len(
                     ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []
                 )
@@ -2469,7 +2820,8 @@ class Bridge:
                 flag = " ⚠️ empty answers" if rec["empty_answers"] else ""
                 self._push({"type": "log", "line": f"  ✓ {stats['entries']} turns, {stats['answer_chars']} chars{flag}"})
 
-            manifest = write_export_indexes(outdir, self.email or "", records)
+            manifest = write_export_indexes(outdir, self.email or "", records,
+                                            provider=provider_display)
             save_uuid_index(outdir, uuid_index)
 
             empty_n = len((manifest.get("warnings") or {}).get("empty_answer_threads") or [])
@@ -2484,7 +2836,16 @@ class Bridge:
                 self._last_markdown_path = os.path.join(outdir, rel, "conversation.md")
             log(f"export finished: {len(records)}/{total} -> {outdir} (spaces-v1 classic)")
         except ApiError as e:
-            self._push({"type": "error", "message": friendly_error(e)})
+            if is_auth_rejected(e):
+                self._handle_auth_rejection(e, phase="export")
+            else:
+                self._push({"type": "error", "message": friendly_error(e)})
         except Exception as e:
-            log("export crash: " + traceback.format_exc())
-            self._push({"type": "error", "message": friendly_error(e)})
+            if is_auth_rejected(e):
+                # Dead/expired session surfaced from the enumeration phase
+                # (validate/list). Prompt a re-auth instead of a generic error —
+                # uniform across every provider via is_auth_rejected().
+                self._handle_auth_rejection(e, phase="export")
+            else:
+                log("export crash: " + traceback.format_exc())
+                self._push({"type": "error", "message": friendly_error(e)})

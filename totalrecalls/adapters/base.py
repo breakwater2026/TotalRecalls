@@ -2,9 +2,32 @@
 
 from __future__ import annotations
 
+import inspect
+
 from typing import Callable, Protocol, runtime_checkable
 
 from totalrecalls.core.schema import AccountInfo, ConversationSummary, UnifiedConversation
+
+
+def call_with_stop(fn, *args, stop_event=None, **kwargs):
+    """Invoke ``fn``, injecting ``stop_event`` only when its signature accepts it.
+
+    The desktop bridge owns a disconnect Event and wants every adapter call
+    to abort mid-retry when the user disconnects. Only the ChatGPT adapter
+    (so far) accepts ``stop_event``; every other adapter keeps its plain
+    ``(credential, ...)`` signature. This wrapper keeps the bridge's
+    provider-agnostic code path while letting cancellation-capable adapters
+    receive the event.
+    """
+    if stop_event is None:
+        return fn(*args, **kwargs)
+    try:
+        sig = inspect.signature(fn)
+    except (TypeError, ValueError):
+        return fn(*args, **kwargs)
+    if "stop_event" in sig.parameters:
+        kwargs["stop_event"] = stop_event
+    return fn(*args, **kwargs)
 
 
 @runtime_checkable

@@ -60,7 +60,7 @@ export default function SentinelHero() {
 
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <a href="/buy/" data-tr-buy="true" aria-label="Buy TotalRecalls — $24 USD — discounted launch price" className="inline-flex flex-col items-center justify-center gap-0.5 bg-primary text-white px-6 py-3 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity w-full sm:w-auto" style={{ maxWidth: 300 }}>
-                <span className="whitespace-nowrap">Buy TotalRecalls — $24 USD</span>
+                <span className="whitespace-nowrap">Buy TotalRecalls — $24<span className="tr-usd">USD</span></span>
                 <span className="text-[10px] font-normal opacity-85 tracking-[0.12em] whitespace-nowrap">discounted launch price</span>
               </a>
               <a href="#resolution" className="inline-flex items-center justify-center gap-2 border border-border bg-card text-foreground px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-muted/50 transition-colors">
@@ -68,7 +68,7 @@ export default function SentinelHero() {
               </a>
             </div>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mt-3">
-              Try the Free Tier today · One-time $24 · No subscription
+              Try the Free Tier today · One-time $24<span className="tr-usd">USD</span> · No subscription
             </p>
 
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">

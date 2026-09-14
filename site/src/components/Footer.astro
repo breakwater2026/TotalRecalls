@@ -10,6 +10,8 @@ const cols = [
       { l: "Pricing", href: "/pricing/" },
       { l: "Download", href: "/download/" },
       { l: "About", href: "/about/" },
+      { l: "Why This Matters", href: "/why-this-matters/" },
+      { l: "Compare", href: "/compare/" },
       { l: "Release Notes", href: "/release-notes/" }
     ]
   },
@@ -20,16 +22,28 @@ const cols = [
       { l: "Download Claude", href: "/guides/export-claude-chat-history/" },
       { l: "Backup Perplexity", href: "/guides/backup-perplexity-threads/" },
       { l: "Gemini Takeout", href: "/guides/gemini-takeout-archive/" },
-      { l: "Download Grok", href: "/guides/grok/" }
+      { l: "Download Grok", href: "/guides/grok/" },
+      { l: "Troubleshooting", href: "/guides/troubleshooting/" },
+      { l: "Library Format", href: "/guides/library-format/" }
     ]
   },
   {
     h: "Legal",
     links: [
-      { l: "Privacy Policy", href: "/legals/#privacy" },
-      { l: "Terms of Service", href: "/legals/#terms" },
+      { l: "Privacy Policy", href: "/privacy/" },
+      { l: "Terms of Service", href: "/terms/" },
       { l: "Pricing & Free Tier", href: "/legals/#pricing" },
       { l: "Microsoft Warning", href: "/microsoft-warning/" }
+    ]
+  },
+  {
+    h: "Support",
+    links: [
+      { l: "Help & FAQ", href: "/help/" },
+      { l: "Windows Firewall", href: "/windows-firewall/" },
+      { l: "Feature Requests", href: "/feature-requests/" },
+      { l: "Press", href: "/press/" },
+      { l: "Buy TotalRecalls", href: "/buy/" }
     ]
   }
 ];
@@ -83,7 +97,7 @@ const currentYear = new Date().getFullYear();
   }
   .site-footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
+    grid-template-columns: 1.2fr repeat(4, 1fr);
     gap: 2.5rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--color-border, #e5e7eb);

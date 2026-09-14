@@ -12,6 +12,8 @@ import json
 import time
 import urllib.error
 import urllib.request
+from contextvars import ContextVar
+from typing import Callable, Optional
 
 from totalrecalls.core.paths import log
 
@@ -38,6 +40,31 @@ class ChatGptApiError(Exception):
     pass
 
 
+# Contextvar sink for retry notifications. The desktop bridge sets this at the
+# start of an export so every retry in the (deep) listing can surface
+# "provider servers busy — retrying" to the UI without threading a callback
+# through ~10 function signatures. An explicit ``on_retry=`` argument on
+# request() always wins over the sink.
+_RETRY_SINK: ContextVar[Optional[Callable[[int, int, float], None]]] = ContextVar(
+    "chatgpt_retry_sink", default=None
+)
+
+
+def set_retry_sink(callback: Optional[Callable[[int, int, float], None]]):
+    """Install (or clear, with None) the process-wide retry notification sink.
+    Returns a token usable with :func:`reset_retry_sink`. The sink is a
+    contextvar, so it is inherited by threads spawned from the setter and
+    stays isolated per export worker."""
+    return _RETRY_SINK.set(callback)
+
+
+def reset_retry_sink(token) -> None:
+    try:
+        _RETRY_SINK.reset(token)
+    except Exception:
+        pass
+
+
 def _headers(access_token: str | None = None, cookie: str | None = None) -> dict[str, str]:
     h = {
         "User-Agent": USER_AGENT,
@@ -59,18 +86,39 @@ def request(
     access_token: str | None = None,
     cookie: str | None = None,
     method: str = "GET",
-    body: dict | None = None,
+    body: dict | list | None = None,
     delay: float = DEFAULT_DELAY,
     base: str = BASE,
     max_retries: int | None = None,
+    stop_event=None,
+    on_retry: Optional[Callable[[int, int, float], None]] = None,
 ) -> tuple[int, dict | list | None]:
+    """Perform a request with retry/backoff.
+
+    ``stop_event``: optional threading.Event for caller-side cancellation
+    (the desktop bridge sets it on disconnect). Checked before every attempt
+    AND before every backoff sleep, so a disconnected UI stops the worker's
+    in-flight retry chain within one check — no more orphaned retries
+    (observed 2026-09-08: user disconnected, ChatGPT 500-retries kept firing
+    for 30+ s against a session the user had dropped).
+
+    ``on_retry``: optional callback ``(attempt, status_code, backoff_seconds)``
+    invoked before each backoff sleep, so the caller can surface "the provider's
+    servers are busy — retrying" to the UI. Without it a 5xx storm on
+    /backend-api/conversations looks like a dead, frozen app for minutes.
+    """
     retries = MAX_RETRIES if max_retries is None else max(0, int(max_retries))
+    if on_retry is None:
+        on_retry = _RETRY_SINK.get()
     url = base + path if path.startswith("/") else path
     headers = _headers(access_token=access_token, cookie=cookie)
     data = None
     if body is not None:
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
+
+    def _cancelled():
+        return stop_event is not None and stop_event.is_set()
 
     def _one():
         if _HAS_CFFI and _cffi_requests is not None:
@@ -96,6 +144,8 @@ def request(
             return resp.status, parsed
 
     for attempt in range(retries + 1):
+        if _cancelled():
+            raise ChatGptApiError("cancelled")
         if delay > 0:
             time.sleep(delay)
         try:
@@ -108,6 +158,13 @@ def request(
                     # re-tripping 429 for minutes (observed live 2026-08-24).
                     backoff = max(backoff, 30.0) + attempt * 10
                 log(f"chatgpt HTTP {e.code} on {path.split('?')[0]} — retry in {backoff:.0f}s")
+                if on_retry:
+                    try:
+                        on_retry(attempt + 1, e.code, backoff)
+                    except Exception:
+                        pass
+                if _cancelled():
+                    raise ChatGptApiError("cancelled")
                 time.sleep(backoff)
                 continue
             if e.code in (401, 403):
@@ -119,6 +176,13 @@ def request(
             if attempt < retries:
                 backoff = min(RETRY_BASE * (2 ** attempt), RETRY_MAX)
                 log(f"chatgpt network error ({type(e).__name__}) — retry in {backoff:.0f}s")
+                if on_retry:
+                    try:
+                        on_retry(attempt + 1, 0, backoff)
+                    except Exception:
+                        pass
+                if _cancelled():
+                    raise ChatGptApiError("cancelled")
                 time.sleep(backoff)
                 continue
             raise ChatGptApiError("network") from e

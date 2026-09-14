@@ -17,7 +17,8 @@ _DEEP_MAX_OFFSET = 50_000
 def _page_list_conversations(access_token: str, *, offset: int, limit: int,
                              order: str, is_archived: bool | None = None,
                              is_starred: bool | None = None,
-                             max_retries: int | None = None) -> tuple[list[dict], int | None]:
+                             max_retries: int | None = None,
+                             stop_event=None) -> tuple[list[dict], int | None]:
     """One page of /backend-api/conversations. Returns (items, total) or ([], _)."""
     q = [f"offset={offset}", f"limit={limit}", f"order={order}"]
     if is_archived is not None:
@@ -26,7 +27,8 @@ def _page_list_conversations(access_token: str, *, offset: int, limit: int,
         q.append(f"is_starred={str(is_starred).lower()}")
     path = "/backend-api/conversations?" + "&".join(q)
     try:
-        status, data = request(path, access_token=access_token, max_retries=max_retries)
+        status, data = request(path, access_token=access_token, max_retries=max_retries,
+                               stop_event=stop_event)
     except ChatGptApiError as e:
         # A 401/403 on the primary list is the definitive "session expired"
         # signal (the lenient validate() can accept a bare bearer that the
@@ -70,14 +72,14 @@ def _merge_unique(into: dict[str, dict], items: list[dict]) -> int:
 
 def _paginate(access_token: str, seen: dict[str, dict], *, limit: int = 28,
               order: str = "updated", is_archived: bool | None = None,
-              is_starred: bool | None = None) -> int:
+              is_starred: bool | None = None, stop_event=None) -> int:
     """Paginate one /backend-api/conversations shape into `seen`. Returns new count."""
     offset = 0
     added = 0
     while offset <= _DEEP_MAX_OFFSET:
         items, total = _page_list_conversations(
             access_token, offset=offset, limit=limit, order=order,
-            is_archived=is_archived, is_starred=is_starred,
+            is_archived=is_archived, is_starred=is_starred, stop_event=stop_event,
         )
         if not items:
             break
@@ -90,7 +92,8 @@ def _paginate(access_token: str, seen: dict[str, dict], *, limit: int = 28,
     return added
 
 
-def _paginate_search(access_token: str, seen: dict[str, dict], *, limit: int = 28) -> None:
+def _paginate_search(access_token: str, seen: dict[str, dict], *, limit: int = 28,
+                     stop_event=None) -> None:
     """Search pass with an empty term — the provider often returns the full set
     including archived/shared/custom-gpt threads the plain list omits."""
     offset = 0
@@ -98,7 +101,7 @@ def _paginate_search(access_token: str, seen: dict[str, dict], *, limit: int = 2
         path = (f"/backend-api/conversations?offset={offset}&limit={limit}"
                 f"&order=updated&search_term=")
         try:
-            status, data = request(path, access_token=access_token)
+            status, data = request(path, access_token=access_token, stop_event=stop_event)
         except ChatGptApiError as e:
             log(f"chatgpt search pass offset={offset} failed: {e}")
             break
@@ -113,42 +116,50 @@ def _paginate_search(access_token: str, seen: dict[str, dict], *, limit: int = 2
             break
 
 
-def list_conversations(access_token: str, *, deep: bool = False) -> list[dict]:
+def list_conversations(access_token: str, *, deep: bool = False, stop_event=None) -> list[dict]:
     """Page through backend-api/conversations.
 
     Deep mode runs several passes to maximize coverage:
-      1) order=updated                 — recent activity (covers most users)
-      2) order=created                 — never-updated old threads
-      3) empty search_term             — archived/shared/custom-gpt threads
-      4) is_archived=true (unstarred)  — archived chats excluded by default
-      5) is_archived=true (starred)    — archived + starred chats
-      6) Custom GPTs (gizmos)          — per-gizmo conversation lists
-      7) Projects (snorlax)            — per-project conversation lists
+      1) order=updated                 — recent activity (covers ALL users)
+      2) empty search_term             — archived/shared/custom-gpt threads
+      3) is_archived=true (unstarred)  — archived chats excluded by default
+      4) is_archived=true (starred)    — archived + starred chats
+      5) Custom GPTs (gizmos)          — per-gizmo conversation lists
+      6) Projects (snorlax)            — per-project conversation lists
 
     Results are de-duplicated by conversation id.
+
+    NOTE (2026-09-13): a former pass 2, ``order=created``, was REMOVED. OpenAI's
+    backend 500s on it 100% deterministically ({"detail":"Something went
+    wrong."}, ~0.25s — an immediate backend exception, not transient load) and
+    it returned ZERO conversations that order=updated didn't already return
+    (verified: deep list = 105 convs with it vs 105 without, 0 lost). It is a
+    sort param OpenAI's own web UI never sends, so it was dead + broken and
+    cost ~174s of wasted retries per export. order=updated already covers
+    never-updated old threads (they simply sort last), so no coverage is lost.
     """
     seen: dict[str, dict] = {}
 
     if not deep:
         # Shallow pass: a few pages is enough for the connect-count badge
-        items, _ = _page_list_conversations(access_token, offset=0, limit=28, order="updated")
+        items, _ = _page_list_conversations(access_token, offset=0, limit=28, order="updated",
+                                            stop_event=stop_event)
         _merge_unique(seen, items)
         log(f"chatgpt list: {len(seen)} conversation(s) deep={deep}")
         return list(seen.values())
 
-    _paginate(access_token, seen, order="updated")
-    _paginate(access_token, seen, order="created")
-    _paginate_search(access_token, seen)
-    _paginate(access_token, seen, is_archived=True, is_starred=False)
-    _paginate(access_token, seen, is_archived=True, is_starred=True)
-    _walk_gizmos(access_token, seen)
-    _walk_projects(access_token, seen)
+    _paginate(access_token, seen, order="updated", stop_event=stop_event)
+    _paginate_search(access_token, seen, stop_event=stop_event)
+    _paginate(access_token, seen, is_archived=True, is_starred=False, stop_event=stop_event)
+    _paginate(access_token, seen, is_archived=True, is_starred=True, stop_event=stop_event)
+    _walk_gizmos(access_token, seen, stop_event=stop_event)
+    _walk_projects(access_token, seen, stop_event=stop_event)
 
     log(f"chatgpt list: {len(seen)} unique conversation(s) deep={deep}")
     return list(seen.values())
 
 
-def _walk_gizmos(access_token: str, seen: dict[str, dict]) -> None:
+def _walk_gizmos(access_token: str, seen: dict[str, dict], stop_event=None) -> None:
     """Enumerate Custom GPTs and pull each one's conversation list.
 
     Mutates `seen` in place; merges by conversation id (a gizmo conversation
@@ -156,7 +167,8 @@ def _walk_gizmos(access_token: str, seen: dict[str, dict]) -> None:
     Best-effort: any gizmo endpoint that 4xx/5xx is silently skipped.
     """
     try:
-        status, data = request("/backend-api/gizmos?limit=100", access_token=access_token)
+        status, data = request("/backend-api/gizmos?limit=100", access_token=access_token,
+                               stop_event=stop_event)
     except ChatGptApiError as e:
         log(f"chatgpt gizmos list failed: {e}")
         return
@@ -185,7 +197,7 @@ def _walk_gizmos(access_token: str, seen: dict[str, dict]) -> None:
             path = (f"/backend-api/gizmos/{gid}/conversations"
                     f"?offset={offset}&limit=28&order=updated")
             try:
-                _s, gdata = request(path, access_token=access_token)
+                _s, gdata = request(path, access_token=access_token, stop_event=stop_event)
             except ChatGptApiError as e:
                 log(f"chatgpt gizmo {gid[:8]}… offset={offset} failed: {e}")
                 break
@@ -202,7 +214,7 @@ def _walk_gizmos(access_token: str, seen: dict[str, dict]) -> None:
     log(f"chatgpt gizmos: walked {len(gizmos)} gizmo(s), +{added} new conversation(s)")
 
 
-def _walk_projects(access_token: str, seen: dict[str, dict]) -> None:
+def _walk_projects(access_token: str, seen: dict[str, dict], stop_event=None) -> None:
     """Enumerate ChatGPT Projects (snorlax) and pull each one's conversations.
 
     Projects are kept in a separate index from the global list and from Custom
@@ -214,6 +226,7 @@ def _walk_projects(access_token: str, seen: dict[str, dict]) -> None:
         status, data = request(
             "/backend-api/gizmos/snorlax/sidebar?conversations_per_gizmo=5&owned_only=true",
             access_token=access_token,
+            stop_event=stop_event,
         )
     except ChatGptApiError as e:
         log(f"chatgpt projects sidebar failed: {e}")
@@ -241,7 +254,7 @@ def _walk_projects(access_token: str, seen: dict[str, dict]) -> None:
             path = (f"/backend-api/gizmos/{pid}/conversations"
                     f"?offset={offset}&limit=28&order=updated")
             try:
-                _s, gdata = request(path, access_token=access_token)
+                _s, gdata = request(path, access_token=access_token, stop_event=stop_event)
             except ChatGptApiError as e:
                 log(f"chatgpt project {pid[:8]}… offset={offset} failed: {e}")
                 break
@@ -257,16 +270,17 @@ def _walk_projects(access_token: str, seen: dict[str, dict]) -> None:
     log(f"chatgpt projects: walked {len(projects)} project(s), +{added} new conversation(s)")
 
 
-def get_conversation(access_token: str, conv_id: str) -> dict:
+def get_conversation(access_token: str, conv_id: str, stop_event=None) -> dict:
     path = f"/backend-api/conversation/{conv_id}"
     try:
-        status, data = request(path, access_token=access_token)
+        status, data = request(path, access_token=access_token, stop_event=stop_event)
     except ChatGptApiError:
         # Newer cohorts serve conversation detail at the plural path with
         # include_has_versions. Fall back if the singular endpoint is gone.
         status, data = request(
             f"/backend-api/conversations/{conv_id}?include_has_versions=true",
             access_token=access_token,
+            stop_event=stop_event,
         )
     if not isinstance(data, dict):
         raise ChatGptApiError("http-empty")

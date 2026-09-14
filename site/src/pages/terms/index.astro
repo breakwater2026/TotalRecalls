@@ -1,31 +1,145 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Terms — TotalRecalls" description="TotalRecalls terms of service. One-time purchase, local-only download." breadcrumbs={[{ label: "Terms" }]}>
-  <h1>Terms of Use</h1>
-  <p>By using TotalRecalls, you agree to the following terms.</p>
+<PageLayout title="Terms of Service — TotalRecalls" description="The terms that govern your use of TotalRecalls: license, pricing, updates, liability, and governing law (Province of Quebec, Canada)." breadcrumbs={[{ label: "Legal", href: "/legals/" }, { label: "Terms" }]}>
+  <div class="mb-6">
+    <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
+    <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version 1.0 · Last updated September 13, 2026</p>
+  </div>
 
-  <h2>1. Local-only software</h2>
-  <p>TotalRecalls is a Windows application that runs locally. We do not host your chats or session tokens.</p>
+  <h1>Terms of Service</h1>
+  <p>
+    These Terms of Service ("Terms") govern your access to and use of TotalRecalls, the Windows
+    application and related software that downloads your AI chat history into local files
+    (the "Software"). By downloading, installing, or using the Software — including the Free Tier —
+    you agree to be bound by these Terms. If you do not agree, do not use the Software.
+    Our <a href="/privacy/">Privacy Policy</a> is incorporated here by reference.
+  </p>
 
-  <h2>2. Your responsibility</h2>
-  <p>You must follow each AI provider's terms for your own account use. TotalRecalls simply downloads conversations visible in your account.</p>
+  <h2>1. The Software and your data</h2>
+  <ul>
+    <li><strong>Local-only.</strong> The Software runs entirely on your PC. We do not host, store, or process your chats, tokens, or downloads — see the Privacy Policy.</li>
+    <li><strong>You keep your data.</strong> Everything the Software writes (Markdown, JSON, and your chat archives) belongs to you. We claim no ownership of your downloaded content.</li>
+  </ul>
 
-  <h2>3. No cloud storage</h2>
-  <p>TotalRecalls does not provide cloud storage or cloud sync. Your downloads remain on your PC.</p>
+  <h2>2. License</h2>
+  <ul>
+    <li>Your purchase grants you a personal, non-exclusive, non-transferable, non-sublicensable license to run the Software on your own machines, for personal use.</li>
+    <li>Your license key may be activated on up to <strong>3 of your own devices</strong> (for example, a desktop, a laptop, and a work PC). It is a single-user license: it is not shared with other people.</li>
+    <li>You may not reverse-engineer, resell, redistribute, or offer the Software (or copies of it) to third parties, or use it to build a competing service. The Free Tier ZIP is provided for you to evaluate the product; redistributing it is not permitted.</li>
+    <li>You may deactivate the Software on a device at any time from the Licenses tab of your <a href="https://totalrecalls.lemonsqueezy.com/billing">Lemon Squeezy billing area</a>, which frees that activation slot for another of your devices.</li>
+  </ul>
 
-  <h2>4. One-time purchase</h2>
-  <p>Your purchase grants you a license to use the current version of TotalRecalls. Future upgrades may be optional paid add-ons.</p>
+  <h2>3. Free Tier</h2>
+  <ul>
+    <li>The Free Tier is a fully working download of the Software with limits: 3 providers and 5 conversations per download. It exists so you can test the product on your own chats before paying — it is our answer to a refund policy.</li>
+    <li>Entering a valid license key removes the Free Tier limits and unlocks all 8 providers with unlimited conversations.</li>
+  </ul>
 
-  <h2>5. No warranty</h2>
-  <p>TotalRecalls is provided "as is." We do not guarantee compatibility with every provider change.</p>
+  <h2>4. Pricing, payment, and refunds</h2>
+  <ul>
+    <li>TotalRecalls is a <strong>one-time purchase</strong> at a launch price of $24<span class="tr-usd">USD</span>. There is no subscription and no recurring charge.</li>
+    <li>Payments are processed by <strong>Lemon Squeezy</strong>, our merchant of record. Your card details go to Lemon Squeezy's payment provider, never to us. Purchases are also governed by Lemon Squeezy's Terms of Sale, which apply to the transaction itself (delivery, chargebacks, taxes).</li>
+    <li><strong>Refunds.</strong> We don't run a standard refund policy — the Free Tier is our try-before-you-buy mechanism, so you can verify the product on your own chats before paying. If you have a refund request, contact us and we will handle it on a case-by-case basis. Nothing in these Terms excludes or limits any statutory right of cancellation, withdrawal, or refund that applies to your purchase — including the rights of Quebec consumers under the Act respecting consumer protection (see Section 12). Once you purchase, the license is yours for the life of the product (see Section 5).</li>
+    <li>If the Software is fundamentally not as described on this website, contact us at <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a> before contacting your bank; we will make it right.</li>
+  </ul>
 
-  <h2>6. Pricing & Free Tier</h2>
-  <p>TotalRecalls is a one-time $24 USD purchase. We don't offer a refund policy — instead, a Free Tier is available now so you can test a full download before paying anything. See the <a href="/legals/#pricing">Pricing & Free Tier</a>.</p>
+  <h2>5. Updates and add-ons</h2>
+  <ul>
+    <li>The Software you purchase receives <strong>free updates for the life of the product</strong> — bug fixes, provider-compatibility fixes, and improvements to the core download tool.</li>
+    <li>New features developed as separate <strong>add-ons</strong> are sold as separate purchases. Each add-on ships as its own version; add-ons you have purchased continue to receive updates to that add-on. Add-ons you have not purchased are not updated.</li>
+    <li>We do not guarantee that the Software will keep working if a provider changes its platform in ways we cannot support; we do our best to keep up, and we will tell you in the Release Notes when something is temporarily broken.</li>
+  </ul>
 
-  <h2>7. Updates</h2>
-  <p>Minor updates during the launch period are included. Major upgrades may require a new purchase.</p>
+  <h2>6. Your responsibilities</h2>
+  <ul>
+    <li><strong>Provider terms.</strong> You are solely responsible for your own accounts and for using the Software in a way that complies with the terms of service of each AI provider you download from. We are not affiliated with, endorsed by, or acting on behalf of ChatGPT/OpenAI, Anthropic, Perplexity, Google, xAI, DeepSeek, Mistral, or Alibaba.</li>
+    <li><strong>Your content.</strong> You are responsible for what you download and what you do with it afterwards, including any personal information it contains. If your chats contain other people's personal data, your handling of that data is your responsibility under applicable privacy laws.</li>
+    <li><strong>Legitimate use.</strong> Do not use the Software to download data you are not entitled to access (for example, someone else's account), to circumvent access controls, or in violation of applicable law.</li>
+    <li><strong>Security.</strong> Session tokens stored by the Software are protected with Windows DPAPI on your machine. Keep your PC secure; we cannot protect data on a compromised machine.</li>
+  </ul>
 
-  <h2>8. Contact</h2>
-  <p>legal@totalrecalls.app</p>
+  <h2>7. Intellectual property</h2>
+  <p>
+    The Software, its code, design, and documentation are owned by TotalRecalls and are protected
+    by copyright. All provider names, logos, and trademarks are the property of their respective
+    owners and are used here only to identify compatible services. Nothing in these Terms gives you
+    any right to a provider's trademarks or to represent that we are affiliated with them.
+  </p>
+
+  <h2>8. No warranty ("as is")</h2>
+  <p>
+    TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE,"
+    WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED
+    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, COMPLETENESS,
+    NON-INFRINGEMENT, AND THAT OPERATION WILL BE UNINTERRUPTED OR ERROR-FREE.
+  </p>
+  <ul>
+    <li>We do not warrant that downloads will be complete, that every provider change will be supported, or that the Software is compatible with your specific configuration.</li>
+    <li>AI providers control their own platforms; interface changes can temporarily break a provider's download until we ship a fix.</li>
+    <li>The Free Tier exists precisely so you can verify behavior on your own chats before purchase.</li>
+  </ul>
+
+  <h2>9. Limitation of liability</h2>
+  <p>
+    TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT WILL TOTALRECALLS OR ITS DEVELOPERS BE
+    LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES — INCLUDING
+    LOSS OF DATA, LOSS OF PROFITS, OR BUSINESS INTERRUPTION — ARISING OUT OF OR RELATED TO YOUR USE
+    OF, OR INABILITY TO USE, THE SOFTWARE, HOWEVER CAUSED AND UNDER ANY THEORY OF LIABILITY, EVEN IF
+    ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  </p>
+  <p>
+    OUR TOTAL AGGREGATE LIABILITY FOR ANY AND ALL CLAIMS ARISING OUT OF OR RELATING TO THE SOFTWARE
+    OR THESE TERMS WILL NOT EXCEED THE AMOUNT YOU PAID FOR THE SOFTWARE (AT MOST $24<span class="tr-usd">USD</span>).
+  </p>
+  <p>
+    Nothing in these Terms limits liability that cannot be limited under applicable law, including
+    liability for death or personal injury caused by negligence, or liability arising from fraud or
+    from a contractual term that is null and void under the Civil Code of Quebec.
+  </p>
+
+  <h2>10. Indemnity</h2>
+  <p>
+    You agree to indemnify and hold harmless TotalRecalls and its developers from any claim,
+    demand, or damage (including reasonable legal fees) arising out of (a) your use of the Software
+    in violation of these Terms, (b) your violation of a provider's terms of service, or
+    (c) content you download that infringes the rights of others.
+  </p>
+
+  <h2>11. Termination</h2>
+  <ul>
+    <li>Your license continues for as long as you comply with these Terms. We may suspend or revoke your license if you breach Section 2 or Section 6, in which case the Software reverts to (or remains in) the Free Tier.</li>
+    <li>You may stop using the Software at any time. Upon termination, your obligation is to cease use; your downloaded archives remain yours and are unaffected.</li>
+    <li>Sections 7, 8, 9, 10, 13, 14, and 15 survive termination.</li>
+  </ul>
+
+  <h2>12. Consumer rights (Quebec)</h2>
+  <p>
+    If you are a Quebec consumer, you benefit from the protections of the Civil Code of Quebec and
+    the Act respecting consumer protection, which cannot be waived by these Terms. In particular:
+  </p>
+  <ul>
+    <li>Your statutory right of cancellation (right of withdrawal) for distance and online contracts is preserved in full and is not excluded or limited by these Terms. If you cancel within the period prescribed by law, all sums paid are refunded (through Lemon Squeezy, our merchant of record) as required by law.</li>
+    <li>Any warranty provided by a manufacturer or vendor (for example, of the hardware on which the Software runs) is unaffected by these Terms.</li>
+    <li>Nothing in these Terms excludes or limits the recourse you may have against us for a defect in the Software that makes it unfit for its purpose, to the extent provided by law.</li>
+  </ul>
+
+  <h2>13. Governing law and jurisdiction</h2>
+  <p>
+    These Terms are governed by the laws of the <strong>Province of Quebec, Canada</strong> and by
+    the federal laws of Canada applicable in Quebec. Any dispute arising out of or in connection
+    with these Terms or the Software will be brought before the competent courts sitting in
+    <strong>Montreal, Quebec</strong>, and each party consents to their exclusive jurisdiction.
+    Nothing prevents a consumer from bringing a claim in the court of their own residence where
+    the law so provides.
+  </p>
+
+  <h2>14. General</h2>
+  <ul>
+    <li><strong>Entire agreement.</strong> These Terms, the Privacy Policy, and the transaction terms of Lemon Squeezy (for the payment itself) are the entire agreement about the Software. They supersede prior statements or marketing materials to the extent of any conflict.</li>
+    <li><strong>Severability.</strong> If any provision is held unenforceable, the rest of the Terms continue in full force.</li>
+    <li><strong>Waiver.</strong> If we do not enforce a provision, that is not a waiver of it.</li>
+    <li><strong>Changes.</strong> We may update these Terms for future versions; material changes will be posted on this page with a new version date and, where practicable, announced in the Release Notes. Continued use of the Software after a change takes effect means you accept the updated Terms.</li>
+    <li><strong>Contact.</strong> Questions about these Terms: <a href="mailto:legal@totalrecalls.app">legal@totalrecalls.app</a>. Support: <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>.</li>
+  </ul>
 </PageLayout>
