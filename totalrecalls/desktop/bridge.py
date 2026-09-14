@@ -175,11 +175,26 @@ class Bridge:
         self._login_form = None
         self._export_thread: threading.Thread | None = None
         self._connecting = False
-        self._default_folder = os.path.join(os.path.expanduser("~"), "TotalRecalls-download")
-        # Keep pre-existing users on their old folder so nothing is orphaned.
-        _legacy = os.path.join(os.path.expanduser("~"), "TotalRecalls-export")
-        if os.path.isdir(_legacy) and not os.path.isdir(self._default_folder):
-            self._default_folder = _legacy
+        # Demo/shoot override for the default save folder. Priority:
+        #   1. TR_DEMO_FOLDER env var (explicit override)
+        #   2. The C:\Users\Profile alias if it exists as a SYMLINK (mklink /d ->
+        #      the real profile) — makes "Open folder" + the Explorer address bar
+        #      show the neutral "Profile" path instead of the account's display
+        #      name. Gated on islink() so a coincidental real folder can never
+        #      hijack the default. Inert for any user without the alias.
+        #   3. The usual %USERPROFILE%\TotalRecalls-download.
+        _demo_folder = os.environ.get("TR_DEMO_FOLDER")
+        if not _demo_folder:
+            _alias_root = os.path.join(os.path.dirname(os.path.expanduser("~")), "Profile")
+            if os.path.islink(_alias_root):
+                _demo_folder = os.path.join(_alias_root, "TotalRecalls-download")
+        self._default_folder = _demo_folder or os.path.join(os.path.expanduser("~"), "TotalRecalls-download")
+        # Keep pre-existing users on their old folder so nothing is orphaned
+        # (only when no demo override is active).
+        if not _demo_folder:
+            _legacy = os.path.join(os.path.expanduser("~"), "TotalRecalls-export")
+            if os.path.isdir(_legacy) and not os.path.isdir(self._default_folder):
+                self._default_folder = _legacy
         self._LOGIN_TIMEOUT = 8 * 60  # seconds
         self._login_completion_pending = False
         self._conversation_count = 0

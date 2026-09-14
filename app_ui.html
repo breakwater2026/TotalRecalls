@@ -46,6 +46,12 @@
       border:1px solid var(--border); border-radius:9px; padding:10px 12px; width:100%; }
   .kv { display:grid; grid-template-columns:auto 1fr; gap:6px 16px; font-size:14px; margin-bottom:16px; }
   .kv b { color:var(--muted); font-weight:500; }
+  .acct-line { display:inline-flex; align-items:center; gap:8px; min-width:0; }
+  .eye-btn { background:none; border:1px solid var(--border); border-radius:7px; padding:2px 5px;
+             cursor:pointer; display:inline-flex; align-items:center; color:var(--muted);
+             line-height:0; flex:0 0 auto; }
+  .eye-btn:hover { color:var(--accent2); border-color:var(--accent); }
+  .eye-btn svg { width:15px; height:15px; display:block; }
   .bar { height:10px; background:var(--panel2); border-radius:99px; overflow:hidden; margin:14px 0 8px; }
   #fill { height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2));
           transition:width .35s; border-radius:99px; }
@@ -173,7 +179,7 @@
         </div>
       </div>
       <div class="kv">
-        <b>Account</b><span id="acct-email">—</span>
+        <b>Account</b><span class="acct-line"><span id="acct-email">—</span><button type="button" class="eye-btn" id="btn-eye" title="Show / hide account" aria-label="Show or hide account email"><svg id="eye-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></span>
         <b>Conversations</b><span id="acct-count">—</span>
       </div>
       <h2 style="margin-top:16px">Step 2 &mdash; Where to save</h2>
@@ -252,6 +258,8 @@
   let waitingStartTime = null;
   let waitingTimerInterval = null;
   let isPro = false;
+  let accountEmailRaw = '';
+  let accountEmailRevealed = false;
   let selectionConversationPath = '';
   let selectionListLoaded = false;
 
@@ -266,6 +274,37 @@
     } catch (e) { return null; }
   }
   function q(id) { return document.getElementById(id); }
+
+  // Account name privacy: masked by default (••••••), eye button toggles the real
+  // value — like a password field. Masked-by-default so a screen recording of the
+  // "Connected" page never shows the email unless the user deliberately reveals it.
+  function maskAccountEmail(v) {
+    if (!v) return '—';
+    const at = v.indexOf('@');
+    if (at > 0 && v.length - at <= 3) return v.charAt(0) + '•••';
+    return '••••••';
+  }
+  function renderAccountEmail() {
+    const el = q('acct-email');
+    if (!el) return;
+    el.textContent = accountEmailRevealed ? (accountEmailRaw || '—') : maskAccountEmail(accountEmailRaw);
+    el.title = accountEmailRevealed ? 'Click eye to hide' : 'Click eye to show';
+    const svg = q('eye-svg');
+    if (svg) {
+      svg.innerHTML = accountEmailRevealed
+        ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'
+        : '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle>';
+    }
+  }
+  function setAccountEmail(raw) {
+    accountEmailRaw = raw || '';
+    renderAccountEmail();
+  }
+  function toggleAccountEmail() {
+    if (!accountEmailRaw) return;
+    accountEmailRevealed = !accountEmailRevealed;
+    renderAccountEmail();
+  }
 
   function selectionStatus(text, bad) {
     const el = q('selection-status');
@@ -511,6 +550,11 @@
     q('scr-connect').classList.remove('hidden');
     q('scr-export').classList.add('hidden');
     setPill('Not connected', false);
+    // Clear the account name + reveal state so a prior email can't linger on the
+    // next connect screen.
+    accountEmailRaw = '';
+    accountEmailRevealed = false;
+    renderAccountEmail();
   }
 
   function renderTier() {
@@ -570,7 +614,7 @@
       resetLoginUi();
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
-      q('acct-email').textContent = p.email || '—';
+      setAccountEmail(p.email || '');
       // Count may stream in later (deep listing runs after Connected) — show
       // "…" placeholder instead of a misleading 0, update when it arrives.
       q('acct-count').textContent = (p.count === null || p.count === undefined) ? '…' : p.count;
@@ -736,7 +780,7 @@
       if (sel2) updateProviderUI(sel2.value || 'perplexity');
       q('scr-connect').classList.add('hidden');
       q('scr-export').classList.remove('hidden');
-      if (s.email) q('acct-email').textContent = s.email;
+      if (s.email) setAccountEmail(s.email);
       q('acct-count').textContent = (s.count || 0);
       q('waiting').classList.add('hidden');
       q('btn-connect').disabled = false;
@@ -854,6 +898,8 @@
     }
     pendingConnectTimer = setTimeout(flushPendingConnect, 250);
   }
+
+  q('btn-eye').onclick = function() { toggleAccountEmail(); };
 
   q('btn-connect').onclick = function() {
     hideErr();
