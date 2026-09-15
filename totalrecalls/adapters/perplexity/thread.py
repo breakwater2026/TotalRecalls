@@ -4,11 +4,11 @@ from __future__ import annotations
 
 from totalrecalls.adapters.perplexity.http import API_VERSION, request
 
-def get_thread(token: str, uuid: str) -> dict:
+def get_thread(token: str, uuid: str, stop_event=None) -> dict:
     path = (f"/rest/thread/{uuid}?with_schematized_response=true&version={API_VERSION}"
             f"&source=default&limit=50&offset=0&from_first=true"
             f"&supported_block_use_cases=answer_modes&supported_block_use_cases=preserve_latex")
-    status, data = request(path, token)
+    status, data = request(path, token, stop_event=stop_event)
     detail = data if isinstance(data, dict) else {"entries": []}
     entries = detail.get("entries", []) or []
     seen, uniq = set(), []

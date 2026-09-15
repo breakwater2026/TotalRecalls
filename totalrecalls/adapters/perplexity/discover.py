@@ -10,6 +10,10 @@ from totalrecalls.adapters.perplexity.http import API_VERSION, ApiError, request
 # 50k is well above any single user's real account size.
 _DEEP_MAX_OFFSET = 50_000
 
+
+def _cancelled(stop_event) -> bool:
+    return stop_event is not None and stop_event.is_set()
+
 def _normalize_thread_items(raw) -> list[dict]:
     """Accept list or {data|threads|results: [...]} shapes from various endpoints."""
     if raw is None:
@@ -51,12 +55,14 @@ def _merge_thread(into: dict, src: dict):
                     cur[ck] = cv
 
 
-def list_spaces(token: str) -> list[dict]:
+def list_spaces(token: str, stop_event=None) -> list[dict]:
     """GET /rest/spaces — Space metadata (not full thread bodies)."""
     path = f"/rest/spaces?version={API_VERSION}&source=default"
     try:
-        status, raw = request(path, token, method="GET")
+        status, raw = request(path, token, method="GET", stop_event=stop_event)
     except ApiError as e:
+        if "cancelled" in str(e):
+            raise
         log(f"list_spaces failed: {e}")
         return []
     if not isinstance(raw, dict):
@@ -74,18 +80,23 @@ def list_spaces(token: str) -> list[dict]:
 
 
 def _discover_list_ask_threads(token: str, seen: dict, on_progress=None,
-                               page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET) -> int:
+                               page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET,
+                               stop_event=None) -> int:
     """Source A: POST list_ask_threads (primary library index). Returns new count."""
     path = f"/rest/thread/list_ask_threads?version={API_VERSION}&source=default"
     offset = 0
     added = 0
     reported_total = None
     while offset <= max_offset:
+        if _cancelled(stop_event):
+            raise ApiError("cancelled")
         body = {"limit": page_size, "ascending": False, "offset": offset,
                 "search_term": "", "exclude_asi": False, "include_assets": True}
         try:
-            status, raw = request(path, token, method="POST", body=body)
+            status, raw = request(path, token, method="POST", body=body, stop_event=stop_event)
         except ApiError as e:
+            if "cancelled" in str(e):
+                raise
             # list_ask_threads is the PRIMARY library index. A 401/403 on its
             # first page (offset 0) is the definitive "session expired" signal
             # (http.py already retries transient Cloudflare challenges up to 8x
@@ -137,16 +148,21 @@ def _discover_list_ask_threads(token: str, seen: dict, on_progress=None,
 
 
 def _discover_thread_list(token: str, seen: dict, on_progress=None,
-                          page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET) -> int:
+                          page_size: int = 50, max_offset: int = _DEEP_MAX_OFFSET,
+                          stop_event=None) -> int:
     """Source B: GET /rest/thread/list — alternate library index."""
     offset = 0
     added = 0
     while offset <= max_offset:
+        if _cancelled(stop_event):
+            raise ApiError("cancelled")
         path = (f"/rest/thread/list?version={API_VERSION}&source=default"
                 f"&limit={page_size}&offset={offset}&ascending=false")
         try:
-            status, raw = request(path, token, method="GET")
+            status, raw = request(path, token, method="GET", stop_event=stop_event)
         except ApiError as e:
+            if "cancelled" in str(e):
+                raise
             log(f"discovery thread/list offset={offset} failed: {e}")
             break
         items = _normalize_thread_items(raw)
@@ -177,7 +193,8 @@ def _discover_thread_list(token: str, seen: dict, on_progress=None,
 
 
 def _discover_thread_search(token: str, seen: dict, on_progress=None,
-                            page_size: int = 50, max_offset_per_query: int = 500) -> int:
+                            page_size: int = 50, max_offset_per_query: int = 500,
+                            stop_event=None) -> int:
     """Source C: POST /rest/thread/search — catches threads missing from list endpoints.
 
     Uses a small query set to avoid hammering the API (session-kill risk).
@@ -187,19 +204,28 @@ def _discover_thread_search(token: str, seen: dict, on_progress=None,
     queries = ["", "a", "the", "how", "what"]
     added = 0
     for q in queries:
+        if _cancelled(stop_event):
+            raise ApiError("cancelled")
         offset = 0
         while offset <= max_offset_per_query:
+            if _cancelled(stop_event):
+                raise ApiError("cancelled")
             body = {"query": q, "limit": page_size, "offset": offset}
             # Some builds accept search_term instead of query
             try:
-                status, raw = request(path, token, method="POST", body=body)
+                status, raw = request(path, token, method="POST", body=body, stop_event=stop_event)
             except ApiError as e:
+                if "cancelled" in str(e):
+                    raise
                 # try alternate body once
                 if offset == 0:
                     try:
                         body2 = {"search_term": q, "limit": page_size, "offset": offset}
-                        status, raw = request(path, token, method="POST", body=body2)
+                        status, raw = request(path, token, method="POST", body=body2,
+                                              stop_event=stop_event)
                     except ApiError as e2:
+                        if "cancelled" in str(e2):
+                            raise
                         log(f"discovery search q={q!r} failed: {e2}")
                         break
                 else:
@@ -235,10 +261,12 @@ def _discover_thread_search(token: str, seen: dict, on_progress=None,
 
 
 def _discover_space_threads(token: str, spaces: list[dict], seen: dict,
-                            on_progress=None) -> int:
+                            on_progress=None, stop_event=None) -> int:
     """Source D: try per-Space listing endpoints (best-effort; shapes vary)."""
     added = 0
     for sp in spaces:
+        if _cancelled(stop_event):
+            raise ApiError("cancelled")
         suuid = sp.get("uuid") or ""
         stitle = sp.get("title") or ""
         if not suuid:
@@ -256,9 +284,14 @@ def _discover_space_threads(token: str, spaces: list[dict], seen: dict,
             ("GET", f"/rest/spaces/{suuid}?version={API_VERSION}&source=default", None),
         ]
         for method, path, body in candidates:
+            if _cancelled(stop_event):
+                raise ApiError("cancelled")
             try:
-                status, raw = request(path, token, method=method, body=body)
-            except ApiError:
+                status, raw = request(path, token, method=method, body=body,
+                                      stop_event=stop_event)
+            except ApiError as e:
+                if "cancelled" in str(e):
+                    raise
                 continue
             items = _normalize_thread_items(raw)
             # Nested shapes: {threads: [...]}, {space: {threads: ...}}
@@ -298,7 +331,8 @@ def _discover_space_threads(token: str, spaces: list[dict], seen: dict,
     return added
 
 
-def list_threads(token: str, on_progress=None, deep: bool = False) -> list[dict]:
+def list_threads(token: str, on_progress=None, deep: bool = False,
+                 stop_event=None) -> list[dict]:
     """Discover conversations across multiple Perplexity endpoints.
 
     Single-endpoint list_ask_threads is incomplete for many accounts (often
@@ -309,17 +343,21 @@ def list_threads(token: str, on_progress=None, deep: bool = False) -> list[dict]
       C) POST /rest/thread/search  (light query set)
       D) GET  /rest/spaces + best-effort per-space thread probes
 
+    ``stop_event``: optional threading.Event for caller-side cancellation; a
+    set event aborts the (deep) sweep promptly instead of orphaning requests.
+
     Returns a de-duplicated list of thread summary dicts (uuid required).
     """
     seen: dict[str, dict] = {}
     log("discovery: starting multi-source thread index")
-    _discover_list_ask_threads(token, seen, on_progress=on_progress)
+    _discover_list_ask_threads(token, seen, on_progress=on_progress, stop_event=stop_event)
     if deep:
-        _discover_thread_list(token, seen, on_progress=on_progress)
-        _discover_thread_search(token, seen, on_progress=on_progress)
-        spaces = list_spaces(token)
+        _discover_thread_list(token, seen, on_progress=on_progress, stop_event=stop_event)
+        _discover_thread_search(token, seen, on_progress=on_progress, stop_event=stop_event)
+        spaces = list_spaces(token, stop_event=stop_event)
         if spaces:
-            _discover_space_threads(token, spaces, seen, on_progress=on_progress)
+            _discover_space_threads(token, spaces, seen, on_progress=on_progress,
+                                    stop_event=stop_event)
     threads = list(seen.values())
     # Newest first when timestamp present
     def _ts(t):

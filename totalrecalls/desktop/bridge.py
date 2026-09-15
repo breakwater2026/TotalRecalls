@@ -29,6 +29,7 @@ from totalrecalls.adapters.perplexity.auth import (
     extract_session_token_from_cookie_header,
     extract_session_token_from_cookie_records,
     extract_session_token_from_cdp_json,
+    save_cf_cookies_from_header,
     validate_session,
 )
 from totalrecalls.adapters.perplexity.discover import list_threads
@@ -2207,6 +2208,11 @@ class Bridge:
                 token = extract_session_token_from_cookie_header(cookie_header)
                 if not token:
                     return
+                # Refresh the Cloudflare cookies from the SAME request — the
+                # fast hook path never runs the CDP cookie dump, so without
+                # this the CF file stays days old and the export gets a 403
+                # challenge storm (observed live 2026-09-15).
+                save_cf_cookies_from_header(cookie_header)
                 log("login: intercepted Perplexity request with session token")
                 if form.IsHandleCreated:
                     form.BeginInvoke(Action(lambda: finish_login(token, "WebResourceRequested")))
@@ -2648,6 +2654,13 @@ class Bridge:
                 if adapter.id == "chatgpt":
                     from totalrecalls.adapters.chatgpt.http import set_retry_sink
                     _retry_token = set_retry_sink(_on_retry)
+                elif adapter.id == "perplexity":
+                    # Same "servers busy — retrying" surfacing for Perplexity's
+                    # Cloudflare 403 storms (observed live 2026-09-15: without
+                    # it the export looked frozen while 403 retries ran 32s
+                    # backoffs silently in app.log).
+                    from totalrecalls.adapters.perplexity.http import set_retry_sink
+                    _retry_token = set_retry_sink(_on_retry)
 
                 self._push({"type": "log", "line": f"Downloading via {adapter.display_name} adapter → Library/{adapter.id}/ …"})
                 self._push({"type": "log", "line": "Step 1: enumerating your conversations (can take a minute on a large account)…"})
@@ -2667,7 +2680,10 @@ class Bridge:
                     )
                 finally:
                     if _retry_token is not None:
-                        from totalrecalls.adapters.chatgpt.http import reset_retry_sink
+                        if adapter.id == "perplexity":
+                            from totalrecalls.adapters.perplexity.http import reset_retry_sink
+                        else:
+                            from totalrecalls.adapters.chatgpt.http import reset_retry_sink
                         reset_retry_sink(_retry_token)
                 empty_n = len(
                     ((result.get("manifest") or {}).get("warnings") or {}).get("empty_answer_threads") or []
@@ -2700,7 +2716,7 @@ class Bridge:
             except Exception:
                 provider_display = provider_name.capitalize()
             self._push({"type": "log", "line": f"Discovering conversations ({provider_display})…"})
-            threads = list_threads(token, deep=True)
+            threads = list_threads(token, deep=True, stop_event=self._stop_worker)
             if latest_only:
                 threads.sort(
                     key=lambda t: str(
@@ -2790,7 +2806,7 @@ class Bridge:
                 self._push({"type": "progress", "done": done, "total": total, "title": f"{space}: {title_disp}"})
                 self._note_first_download()
                 try:
-                    detail = get_thread(token, uuid)
+                    detail = get_thread(token, uuid, stop_event=self._stop_worker)
                 except ApiError as e:
                     failed += 1
                     self._push({"type": "log", "line": f"  ! failed: {friendly_error(e)}"})

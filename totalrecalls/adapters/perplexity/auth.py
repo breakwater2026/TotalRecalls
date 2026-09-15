@@ -97,6 +97,39 @@ def save_cf_cookies(header: str):
         pass
 
 
+def save_cf_cookies_from_header(cookie_header: str | None) -> bool:
+    """Extract cf_clearance/__cf_bm from a raw ``Cookie:`` header and persist them.
+
+    The fast login path (WebResourceRequested hook) only ever sees the request's
+    Cookie header — not the CDP cookie records — so the old CDP-only save
+    (extract_session_token_from_cdp_json) silently skipped refresh whenever an
+    already-signed-in user opened the window: the token was captured instantly,
+    the window closed, and the CF cookies stayed days old. Stale cf_clearance
+    → Cloudflare challenges nearly every export request (HTTP 403 storm with
+    escalating backoff; observed live 2026-09-15: 83 challenges in 10 min,
+    connect→first download 68–87s).
+
+    Returns True if at least one CF cookie was found and saved.
+    """
+    if not cookie_header:
+        return False
+    try:
+        parts = []
+        for part in cookie_header.split(";"):
+            part = part.strip()
+            if "=" not in part:
+                continue
+            name, _, val = part.partition("=")
+            if name in ("cf_clearance", "__cf_bm") and val:
+                parts.append(f"{name}={val}")
+        if parts:
+            save_cf_cookies("; ".join(parts))
+            return True
+    except Exception:
+        pass
+    return False
+
+
 def load_cf_cookies() -> str:
     try:
         with open(_cf_cookie_path(), encoding="utf-8") as f:
@@ -105,8 +138,9 @@ def load_cf_cookies() -> str:
         return ""
 
 
-def validate_session(token: str) -> dict:
-    status, data = request(f"/api/auth/session?version={API_VERSION}&source=default", token, delay=0)
+def validate_session(token: str, stop_event=None) -> dict:
+    status, data = request(f"/api/auth/session?version={API_VERSION}&source=default",
+                           token, delay=0, stop_event=stop_event)
     return data if isinstance(data, dict) else {}
 
 

@@ -299,7 +299,7 @@ class PerplexityAuthFailTests(unittest.TestCase):
 
     def test_discover_returns_items_when_endpoint_works(self):
         from totalrecalls.adapters.perplexity import discover
-        def fake_req(path, token, method="GET", body=None, delay=0):
+        def fake_req(path, token, method="GET", body=None, delay=0, **kw):
             if "list_ask_threads" in path:
                 return 200, [{"uuid": "t1", "title": "Q", "total_threads": 1}]
             return 200, []
