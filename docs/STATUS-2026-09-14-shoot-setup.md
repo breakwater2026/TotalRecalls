@@ -72,10 +72,9 @@ moves login popups there, off-camera). Smaller-canvas preset prepared in
   DeepSeek manual-paste).
 
 ## GIT
-- Local commit on `fix/robust-auth-20260913`: bridge.py + app_ui.html + this
-  doc. Working tree otherwise clean. **NOT pushed** (user's no-push-without-
-  review rule; user returns in ~2h). `dist/`+`build/` modified in tree per
-  project convention.
+- Committed + PUSHED to `origin/fix/robust-auth-20260913` (tip `0623c8c`,
+  per user instruction): bridge.py + app_ui.html + this doc. Working tree
+  otherwise clean. `dist/`+`build/` modified in tree per project convention.
 
 ## REMAINS (for when the user is back)
 1. User reviews the eye toggle + alias behavior in the running Pro app
