@@ -88,8 +88,9 @@ Everything below is decided — don't re-litigate, just execute.
   (kept as reference; can be deleted once the new masters are locked — ~18 GB).
 - App EXE = 09-14 Pro build (sha `3fd8fd10…`), launched via the Shoot
   shortcut; eye toggle + clean breadcrumb verified.
-- Git: `fix/robust-auth-20260913` pushed (tip `a942659` = 09-14 EXE/build
-  rebuild commit, 09-15 morning). Working tree CLEAN — nothing uncommitted.
+- Git: `fix/robust-auth-20260913` pushed to origin (09-15 am snapshot
+  `f0a8f73` + the doc-fix commit on top). Working tree CLEAN — nothing
+  uncommitted.
 - `demo-shoot/`: shoot.sh (native-path fixed), shoot_config.json,
   render_final_top.sh, blur_mask.py v3, PRE-SHOOT-CHECKLIST-2026-09-14.md
   (checklist §"name hiding" now matches the C:\TotalRecalls fix),

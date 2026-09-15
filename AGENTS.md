@@ -4,7 +4,7 @@
 TotalRecalls demo RE-SHOOT — resume note for the morning session:
 `C:\Users\break\Projects\TotalRecalls\docs\HANDOFF-2026-09-15-shoot-resume.md`
 (supersedes `docs/STATUS-2026-09-14-shoot-setup.md`; branch
-`fix/robust-auth-20260913` pushed to origin, tip `a942659`).
+`fix/robust-auth-20260913` pushed to origin — tip = HEAD, tree clean 09-15 am).
 
 State as of 2026-09-14 ~22:45 EDT (shoot night, user ending early — tired):
 - **Decisions locked (do not revisit):** (1) NO 25 MB cap exists — it was an
