@@ -80,11 +80,13 @@ def resolve_access_token(credential: str, *, max_retries: int | None = None,
 def account_from_session(session: dict) -> AccountInfo:
     user = session.get("user") if isinstance(session.get("user"), dict) else {}
     user = user or {}
-    email = str(user.get("email") or session.get("email") or "")
+    # Placeholder identity like the other providers so the real account
+    # email / name never reaches the "Connected as …" log line, the
+    # manifest, or the UI.
     return AccountInfo(
-        email=email,
-        external_id=str(user.get("id") or user.get("email") or ""),
-        display_name=str(user.get("name") or user.get("email") or ""),
+        email="chatgpt-session@local",
+        external_id=str(user.get("id") or "chatgpt-session"),
+        display_name="ChatGPT user",
     )
 
 

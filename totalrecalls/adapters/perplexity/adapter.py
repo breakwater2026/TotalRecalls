@@ -11,8 +11,12 @@ from totalrecalls.core.schema import (
     UnifiedConversation,
 )
 from totalrecalls.adapters.perplexity.auth import validate_session
-from totalrecalls.adapters.perplexity.discover import list_threads, _thread_key
-from totalrecalls.adapters.perplexity.http import ApiError
+from totalrecalls.adapters.perplexity.discover import (
+    list_threads,
+    _discover_list_ask_threads,
+    _thread_key,
+)
+from totalrecalls.adapters.perplexity.http import API_VERSION, ApiError, request
 from totalrecalls.adapters.perplexity.thread import extract_entry, get_thread
 
 
@@ -20,24 +24,47 @@ class PerplexityAdapter:
     id = "perplexity"
     display_name = "Perplexity"
 
-    def validate(self, credential: str) -> AccountInfo:
-        session = validate_session(credential)
+    def validate(self, credential: str, *, stop_event=None) -> AccountInfo:
+        session = validate_session(credential, stop_event=stop_event)
         user = session.get("user") if isinstance(session, dict) else {}
         user = user or {}
         email = str(user.get("email") or "")
         if not email:
             # Match prior behavior: empty session / no email → auth failure
             raise ApiError("auth-failed")
+        # Return a placeholder identity like the other providers (gemini /
+        # grok / mistral / qwen) so the real account email never reaches the
+        # "Connected as …" log line, the manifest, or the UI. The real email
+        # read above is still used to confirm the session is live.
         return AccountInfo(
-            email=email,
-            external_id=str(user.get("id") or user.get("user_id") or ""),
-            display_name=str(user.get("name") or user.get("username") or ""),
+            email="perplexity-session@local",
+            external_id=str(user.get("id") or user.get("user_id") or "perplexity-session"),
+            display_name="Perplexity user",
         )
 
+    def count_conversations(self, credential: str, *, stop_event=None) -> int:
+        """Fast conversation count for the connect badge.
+
+        Single pass of the PRIMARY library index (source A: list_ask_threads),
+        paginating until a short page — the same fast-path shape ChatGPT's
+        count_conversations uses. The old fallback (deep 5-source sweep) made
+        the badge wait a full multi-minute enumeration after connect, which
+        under Cloudflare 403 backoff looked like login "taking minutes"
+        (observed live 2026-09-15: connect→first download 68–87s). The full
+        deep enumeration (sources A+B+C+D) still runs at export, so a
+        download is never incomplete — only the badge uses the fast path.
+
+        A mid-pagination failure degrades to the partial count; auth-failed on
+        the FIRST page propagates so the bridge shows "session expired".
+        """
+        seen: dict[str, dict] = {}
+        _discover_list_ask_threads(credential, seen, stop_event=stop_event)
+        return len(seen)
+
     def list_conversations(
-        self, credential: str, *, deep: bool = False
+        self, credential: str, *, deep: bool = False, stop_event=None
     ) -> list[ConversationSummary]:
-        threads = list_threads(credential, deep=deep)
+        threads = list_threads(credential, deep=deep, stop_event=stop_event)
         out: list[ConversationSummary] = []
         for t in threads:
             if not isinstance(t, dict):
@@ -71,8 +98,8 @@ class PerplexityAdapter:
             )
         return out
 
-    def fetch_conversation(self, credential: str, conv_id: str) -> UnifiedConversation:
-        detail = get_thread(credential, conv_id)
+    def fetch_conversation(self, credential: str, conv_id: str, *, stop_event=None) -> UnifiedConversation:
+        detail = get_thread(credential, conv_id, stop_event=stop_event)
         summary = ConversationSummary(id=conv_id, title="", folder=HOME_SPACE_NAME)
         return self.to_unified(detail, summary=summary)
 

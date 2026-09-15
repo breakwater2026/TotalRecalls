@@ -36,7 +36,10 @@ def validate_credential(credential: str) -> tuple[AccountInfo, str, str]:
     if not email and not uid:
         # session worked enough to list orgs
         email = name or "Claude user"
-    return AccountInfo(email=email, external_id=uid, display_name=name), cookie, org_id
+    # Placeholder identity like the other providers so the real account
+    # email / name never reaches the "Connected as …" log line, the
+    # manifest, or the UI.
+    return AccountInfo(email="claude-session@local", external_id=uid, display_name="Claude user"), cookie, org_id
 
 
 def list_org_ids(cookie: str) -> list[str]:

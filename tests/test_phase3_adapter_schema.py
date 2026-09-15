@@ -161,7 +161,10 @@ class PerplexityAdapterTests(unittest.TestCase):
             return_value={"user": {"email": "e@x.com", "id": "99"}},
         ):
             acct = adapter.validate("tok")
-        self.assertEqual(acct.email, "e@x.com")
+        # PII guard: the real account email must NOT reach the AccountInfo
+        # (it feeds the "Connected as …" log line, the manifest, and the UI).
+        # Perplexity returns a placeholder like gemini/grok/mistral/qwen.
+        self.assertEqual(acct.email, "perplexity-session@local")
         self.assertEqual(acct.external_id, "99")
 
 
