@@ -1,127 +1,153 @@
-# HANDOFF — shoot night 2026-09-14 → resume 2026-09-15 (morning)
+# HANDOFF — demo shoot 2026-09-15 (resume after Perplexity fix)
 
-User ended the shoot night tired, with execution slips in the last two takes
-(confidential conversation opened in Word; app left on "Not connected").
-Decision: **start over tomorrow morning** with a fresh, well-rested run.
-Everything below is decided — don't re-litigate, just execute.
+The Claude hero is DONE and delivered. The 6-provider mini take is SHOT and
+cut-ready. The Perplexity PII leak + performance regression are FIXED in code
+and EXEs (rebuild + PYZ-verify + push complete, tree clean). Next: Perplexity
+re-shoot, then post. Everything below is decided — don't re-litigate.
 
-## DISCOVERIES / DECISIONS LOCKED TODAY (do not revisit)
+## DECISIONS LOCKED (do not revisit)
 
-1. **No 25 MB constraint exists.** It was our own email-attachment assumption.
-   LS's review letter asks only for "a video demonstrating the functionality
-   and features" (plus: pricing breakdown, social URLs for KYB/KYC, product
-   description — see "LS reply" below). → **Top-quality render, delivered as
-   a OneDrive "anyone with link" URL.** No more bitrate budgeting.
-2. **Per-provider recording (user's idea, adopted):** Claude = one full hero
-   take (~4 min, 1× speed, includes opening the save-conversation folders in
-   Explorer). The other 7 providers = individual 1–2 min minis (login →
-   download → done, **no conversation displays**), 1.5× in post. Stitch with
-   `concat` + **stream copy** (zero quality loss; stitching itself never adds
-   or costs quality — the win is per-clip speed + not showing conversations).
-3. **Render spec (final):** native 2292×1440 (canvas res — no downscale =
-   sharpest text), 2-pass libx264, preset slow, ~10 Mbps, light unsharp,
-   per-clip `setpts` speed, 30 fps. Script: `demo-shoot/render_final_top.sh`
-   (fill CUTS after watching takes). Expect ~7–9 GB final file — fine for a
-   link.
-4. **Name hiding — FINAL (supersedes the symlink idea):** the
-   `C:\Users\Profile` alias was a DEAD END — Explorer always renders the
-   profile folder (and everything under it) as the account display name
-   ("Andre Denis") regardless of reparse points. Working fix = export folder
-   + library at **`C:\TotalRecalls`** (C: root) via `TR_DEMO_FOLDER` env var
-   (bridge.py priority 1), launched through the desktop shortcut
-   **"TotalRecalls (Shoot)"** (→ `launch-hidden.vbs` →
-   `Start-TotalRecalls-SHOOT.bat`). Verified on-camera: breadcrumb reads
-   `This PC > Local Disk (C:) > TotalRecalls`. The old library was MOVED from
-   `C:\Users\break\TotalRecalls-export` to `C:\TotalRecalls` (Library/,
-   manifest.json, uuid_index.json, Selected exports/, README.md).
-   The `C:\Users\Profile` symlink still exists — optional cleanup:
-   `rmdir C:\Users\Profile` from an admin cmd (removes the link only).
-5. **Eye toggle (page-2 account email mask) — shipped, user-confirmed
-   working.** Keep it masked during takes.
-6. **App window placement:** user keeps the app window open between takes in
-   its center position (Word left / app center / Explorer right). Don't
-   reposition it between takes.
-7. **Hero-take ending state (the recurring defect):** the take MUST end
-   **Connected + download done + export folder open in Explorer** (Word may
-   show ONE general conversation thread as the payoff). Takes 3–5 all ended
-   on "Not connected" — user habit: disconnecting Claude at the end, or the
-   session lapsing. Tomorrow: **stop the take BEFORE disconnecting**, or
-   reconnect/hold connected until the last frame.
-8. **Word content rule:** pick a GENERAL conversation (nothing trading/breach
-   /work-specific). Take 5 showed a "hard breach notice" trading thread —
-   that's the class of slip to avoid.
-
-## SHOOT PROTOCOL (proven tonight)
-
-- Arm: `terminal(background=true)`:
-  `cd /c/Users/break/demo-shoot && rm -f masters/<segname>.mkv && bash shoot.sh two_thirds <segname>`
-  (shoot.sh re-probes layout; ABORTS if primary ≠ 3440@(0,0). Preset
-  `two_thirds` = 2292×1440 canvas, 1148px login zone — the user-approved one.)
-- Verify rolling: wait ~8s, stat the master twice 3s apart — must be GROWING
-  (~7 MB/s). If NO FILE: the launch failed, tell the user immediately.
-- **STOP (two steps, never one):**
-  1. `process_manage(action="kill", session_id=<shoot proc>)` — read the last
-     `frame=` line for the take length (do NOT ffprobe the GB master).
-  2. `powershell -NoProfile -Command "Stop-Process -Name ffmpeg -Force"` —
-     **the ffmpeg child ORPHANS when the session is killed and keeps the
-     master file locked** ("Device or resource busy" on rm). Both steps,
-     every time.
-- Frame QC before locking a take: extract 4–5 frames
-  (`ffmpeg -ss T -i C:/…/master.mkv -frames:v 1 out.png` — NATIVE paths) and
-  vision-check: PII (names/emails), login popups in canvas, Quick-Access
-  personal folders (acceptable per user so far), and **the ending state**
-  (item 7).
-- **Segment naming: ask/confirm — never infer from the screen.** Tonight I
-  filed a Claude redo as `seg_perplexity` from a pre-arm frame (app happened
-  to show Perplexity); the user corrected it. Pre-arm frame = context only.
-- Master files: `masters/<segname>.mkv` FFV1. Old takes are deleted between
-  retakes (user says "redo" → kill, Stop-Process ffmpeg, rm the master,
-  re-probe layout, then wait for "start").
+1. **No 25 MB constraint.** Top-quality render → OneDrive "anyone with link"
+   URL in the LS reply.
+2. **Encode spec — LOCKED, "once and for all" (supersedes the 2-pass 10 Mbps
+   draft).** Single-pass libx264 High, **CRF 10**, `aq-mode=0`, NO unsharp
+   (A/B proved it hurts), 2292×1440 native, 30 fps, yuv420p, `+faststart`,
+   `preset slow`, `-an`. Measured on the full hero: **SSIM 0.999842 / PSNR
+   67.1 dB** vs the FFV1 master — visually lossless, 57 MB / 4:18.
+   ```
+   ffmpeg -y -i masters/<seg>.mkv \
+     -vf "scale=2292:1440:flags=lanczos, fps=30" \
+     -c:v libx264 -preset slow -crf 10 -x264-params "aq-mode=0" \
+     -pix_fmt yuv420p -movflags +faststart -an out.mp4
+   ```
+   Minis: same spec + `setpts=PTS/1.5` in the filter. Final stitch =
+   `-f concat -c copy`. **SSIM/PSNR harness:** force BOTH inputs to
+   `fps=30,settb=1/30000` first — naive cross-container compare misaligns on
+   1/1000 vs 1/15360 timebases and lies.
+3. **Lull-cut policy (all 7 minis + hero):** cut the entire login sequence.
+   Keep = `[provider-selected beat ~2.5s] → jump-cut → [download 1/N → N/N
+   "Download complete!"]`. The popup / blow-up / grab-and-move / Windows
+   Security all fall in the jump. DeepSeek's credential lull = human error,
+   cut it too.
+4. **End every take Connected.** Stop the take BEFORE disconnecting; a
+   voluntary user disconnect at the very end is an acceptable trim point.
+5. **Name hiding FINAL:** app folder + library at `C:\TotalRecalls` via
+   `TR_DEMO_FOLDER`, launched through the "TotalRecalls (Shoot)" desktop
+   shortcut. Breadcrumb = `This PC > Local Disk (C:) > TotalRecalls`.
+   Logins parked off-camera RIGHT of the Explorer panel.
+6. **PII fix (09-15, shipped):** Perplexity/ChatGPT/Claude `validate()`
+   returned the real account email → leaked into the raw log console
+   (`unified_export.py:433` prints `account.email` verbatim; `app_ui.html:692`
+   has no masking). All three now report `X-session@local` (real email still
+   read to confirm the session is live). DeepSeek is API-side masked;
+   gemini/grok/mistral/qwen already used placeholders.
+7. **Perplexity robustness (09-15, shipped — "alpha provider caught up"):**
+   (a) stale CF cookies — the fast login hook (already-signed-in users) never
+   saved `cf_clearance`/`__cf_bm` (only the CDP dump did) → 83 CF 403s in 10
+   min, connect→first download 68–87s; the hook now saves CF cookies from the
+   same request's Cookie header. (b) no cancellation — `stop_event` now
+   threaded through Perplexity's http/discover/thread/adapter like ChatGPT's
+   (interruptible sleeps; disconnect stops the worker in ~1s instead of
+   riding out 60s backoffs). (c) no fast `count_conversations()` — every
+   connect ran the full 5-source deep sweep; now a single-index count
+   (ChatGPT shape), deep sweep still at export. Also: Perplexity 403 retry
+   storms now surface to the UI via the retry sink (same as ChatGPT).
+8. **Word content rule (hero):** ONE GENERAL conversation (done — hero is
+   locked).
 
 ## STATE ON DISK (verify on resume)
 
-- `masters/seg1_claude.mkv` = **take 5, 4:31, 2.4 GB — NOT LOCKED** (defects:
-  ends "Not connected"; Word shows the breach/trading thread). Redo in the
-  morning; delete it when the good take replaces it.
-- `masters/seg1_claude_full.mkv`, `seg2b_perplexity_qwen.mkv`,
-  `seg2c_chatgpt.mkv`, `seg3_deepseek_redo.mkv` = **09-13 superseded takes**
-  (kept as reference; can be deleted once the new masters are locked — ~18 GB).
-- App EXE = 09-14 Pro build (sha `3fd8fd10…`), launched via the Shoot
-  shortcut; eye toggle + clean breadcrumb verified.
-- Git: `fix/robust-auth-20260913` pushed to origin (09-15 am snapshot
-  `f0a8f73` + the doc-fix commit on top). Working tree CLEAN — nothing
-  uncommitted.
-- `demo-shoot/`: shoot.sh (native-path fixed), shoot_config.json,
-  render_final_top.sh, blur_mask.py v3, PRE-SHOOT-CHECKLIST-2026-09-14.md
-  (checklist §"name hiding" now matches the C:\TotalRecalls fix),
-  compression-tests/webtest/ = tonight's QC frames (take3/, take5/,
-  cmp_*.mp4 bitrate comparisons — no longer relevant to the deliverable,
-  keep for reference).
+- `C:\Users\break\demo-shoot\masters\seg1_claude_hero.mkv` = **LOCKED hero
+  master**: 257.9 s, 2.11 GB, FFV1, 2292×1440@30. First frame = 5 s white
+  logo intro; last frame = Connected + "Download complete!"; user's
+  disconnect at t≈258 is outside the cut.
+- `C:\Users\break\OneDrive\TotalRecalls-LS-demo\totalrecalls_demo_claude_hero.mp4`
+  = **DELIVERED hero web file**: 57 MB, 4:17.9, 1.88 Mbps, CRF 10,
+  SSIM 0.999842 / PSNR 67.1 dB. (The 96.7 MB 30 Mbps variant is superseded.)
+- `masters\seg2_minis.mkv` = **6-provider mini take, SHOT**: 1288.8 s
+  (21:28.8), 10.9 GB, FFV1. Order: Perplexity (~245–344) → Gemini
+  (~356–420) → Grok (~492–585) → Mistral (~658–750) → Qwen (~766–903) →
+  DeepSeek (~926–1145); dead head 0:00–~240 (app idle on Claude); tail
+  disconnect ~1285–1288 (voluntary).
+- **Perplexity's segment in that take is REJECTED** — log console shows
+  `Connected as <real email> via perplexity` (t≈260–276). Only the
+  Perplexity portion gets re-shot; the other 5 segments are verified clean.
+- `compression-tests/webtest/takeA/EDL.txt` = 6 keep bands + 7 cut gaps
+  (dead head, 5 login lulls, tail) — **Perplexity's keep band will be
+  replaced by the re-shoot segment; re-derive it after the re-shoot.**
+- `compression-tests/webtest/takeA/` = QC frames, montages,
+  `detect_mess.py` (login-mess motion detector), `bar/timeline.txt`.
+- **EXEs = 09-15 rebuild (PII fix + Perplexity robustness), PYZ-verified:**
+  `dist\TotalRecalls-Pro.exe` (pro) + `dist\TotalRecalls.exe` (free),
+  18.9 MB each. The Shoot shortcut launches the Pro build — **the user's
+  app was closed for the rebuild; relaunch via the shortcut.** Perplexity
+  session persists (session file), so re-connect is one click.
+- Git: `fix/robust-auth-20260913` @ `a7073ac` = origin tip, **tree clean.**
+  Commits since morning: `118e3c8` (PII placeholders) → `4deb792`
+  (Perplexity robustness) → `a7073ac` (EXE rebuilds).
+- `tools/_verify_robustness.py` = PYZ verifier (edition consts + PII
+  placeholders + robustness symbols) — run after every future rebuild.
+- `masters\seg2b_pplx.mkv` = aborted re-shoot attempt (5 failed tries on the
+  OLD build) — delete before re-arming.
 
-## TOMORROW'S PLAN (in order)
+## NEXT (in order)
 
-1. Re-probe layout (3440@(0,0), 2560 OFF, 100% scaling — user's physical
-   steps).
-2. **Claude hero redo**: general conversation in Word; end Connected +
-   export folder open; stop before disconnecting. QC frames → lock.
-3. The 7 minis (per-provider, ~1–2 min each, logins in the right zone, no
-   conversation displays): Perplexity, Gemini, Grok, Mistral, Qwen, ChatGPT,
-   DeepSeek (manual-token-paste scenario).
-4. Post: fill CUTS in `render_final_top.sh` → top-quality render →
-   `C:\Users\break\OneDrive\TotalRecalls-LS-demo\final_totalrecalls_demo.mp4`
-   → user shares "anyone with link".
-5. LS reply (user sends; I can draft): (1) pricing breakdown, (2) the video
-   link, (3) business & personal social URLs (KYB/KYC), (4) product
-   description.
+1. **Perplexity re-shoot** with the NEW build: relaunch via the Shoot
+   shortcut → confirm Perplexity selected → pre-flight (layout 3440, no
+   orphan ffmpeg) → arm `seg2b_pplx` (two_thirds) → user: log in (park popup
+   off-camera right) → download to 44/44 → "stop". **Watch the log line: it
+   must read `Connected as perplexity-session@local via perplexity`.**
+   Expected: connect badge count in seconds (fast count), downloads without
+   403 storms (fresh CF cookies), disconnect stops immediately.
+2. QC the re-shoot (frames: PII, ending state) → trim to
+   `[beat → jump → download → complete]` → **splice into the minis master in
+   place of the old Perplexity band** (re-derive that EDL band from the new
+   take).
+3. Apply the full EDL (6 keeps, login lulls cut) at 1.5× → CRF 10 render →
+   `OneDrive\TotalRecalls-LS-demo\` (name it `totalrecalls_demo_minis.mp4`).
+4. **ChatGPT take** (`seg3_chatgpt`, separate video, longer) — same protocol;
+   widen Explorer so its right edge meets the canvas edge (x=2292) so the
+   parked popup zone is right of it.
+5. **Logo outro** — user "has an idea"; discuss before building (intro =
+   5 s dark wordmark on white, already in the hero).
+6. LS reply (user sends; I draft): pricing, video link(s), social URLs,
+   product description.
 
-## LESSONS (tonight, beyond the skill)
+## SHOOT PROTOCOL (proven)
 
-- Tired execution: 4 Claude retakes in one evening; the defects were human
-  (wrong conversation, ending state), not tooling. Rest > more retakes.
-- `bash ... &` in the terminal tool is rejected — use background=true.
-- `cmd //c` with escaped backslashes in bash spawns a bare interactive cmd
-  (silent no-op) — run .bat/.vbs chains via `powershell -Command "& '…'"` or
-  `wscript`.
-- ffmpeg 7 (this build): `-f null -` not `NUL` for throwaway outputs;
-  single-pass for quick test clips, 2-pass for finals; input-seek
-  `-ss T -i in` is fine on FFV1 masters.
+- Arm: `terminal(background=true)`:
+  `cd /c/Users/break/demo-shoot && rm -f masters/<segname>.mkv && bash shoot.sh two_thirds <segname>`
+  (re-probes layout; ABORTS if primary ≠ 3440@(0,0). `two_thirds` =
+  2292×1440 canvas, 1148 px login zone.)
+- Verify rolling: ~8 s, stat the master twice 3 s apart — must be GROWING
+  (~6–7 MB/s). No file = launch failed, tell the user immediately.
+- **STOP (two steps, never one):**
+  1. `process_manage(action="kill", session_id=<shoot proc>)` — read the last
+     `frame=` line for take length (do NOT ffprobe the GB master).
+  2. `powershell -NoProfile -Command "Stop-Process -Name ffmpeg -Force"` —
+     the ffmpeg child ORPHANS and keeps the master locked.
+- Frame QC before locking: 4–5 frames at NATIVE resolution
+  (`ffmpeg -ss T -i C:/…/master.mkv -frames:v 1 out.png`) — downscaling
+  caused vision hallucinations once. Check PII (names/emails in the log
+  console!), popups in canvas, ending state.
+- Segment naming: ask/confirm — never infer from the screen.
+
+## LESSONS (beyond the skill)
+
+- **Trust app.log over memory when a regression is reported.** The Perplexity
+  "it was fine before the email fix" claim turned out to be a stale-CF-cookie
+  + missing-cancellation pair, fully exonerating the (string-only) PII
+  change — the log timestamps + 403 counts + CF file mtime told the whole
+  story.
+- Perplexity = alpha provider: when hardening other adapters, port the
+  pattern back to it (stop_event / retry sink / fast count / CF refresh).
+  Verified parity: 221 tests + functional cancellation checks.
+- ABR undershoots on screen content (30 Mbps → 3 Mbps actual); CRF is the
+  answer. `unsharp` measurably HURTS screen fidelity (A/B'd).
+- Downscaled montages make the vision model hallucinate provider states —
+  use native-resolution app-window crops.
+- The SSIM harness timebase bug (1/1000 vs 1/15360) reports 0.9949 for a
+  near-perfect encode — fix the harness before blaming the encode.
+- Stale binary copies are the footgun: after any rebuild, `dist\` must hold
+  the new files (they do) and the user must relaunch (app was closed for
+  this rebuild).
