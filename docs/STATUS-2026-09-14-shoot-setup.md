@@ -7,23 +7,23 @@ name everywhere; Explorer OneDrive tree + address-bar name visible). New plan:
 moves login popups there, off-camera). Smaller-canvas preset prepared in
 `demo-shoot/shoot_config.json` if the login zone is too tight.
 
-## DONE + verified this session (branch `fix/robust-auth-20260913`, LOCAL commit — NOT pushed)
+## DONE + verified this session (branch `fix/robust-auth-20260913`, pushed to origin — tip `a2158b9`)
 
-### 1. Alias path (name out of the Explorer breadcrumb)
-- User ran (admin): `mklink /d C:\Users\Profile C:\Users\break` — VERIFIED
-  resolving (Python `os.path.isdir` + `realpath` through the link).
-- Account display name is **"Andre Denis"** — that's what Explorer showed for
-  the real path; the symlink only helps if the app navigates THROUGH it.
-- `totalrecalls/desktop/bridge.py` `__init__`: default save folder now resolves
-  to `C:\Users\Profile\TotalRecalls-download` when `C:\Users\Profile` exists as
-  a SYMLINK (`os.path.islink` gate — a coincidental real folder can never
-  hijack; inert for users without the alias). `TR_DEMO_FOLDER` env var
-  overrides. Functional check: resolved path = alias path, `realpath` = the
-  real dir. "Open folder" + address bar will now show `This PC > Users >
-  Profile` — no name.
-- **REVERT (if ever needed):** delete the symlink (`rmdir C:\Users\Profile`
-  from an admin cmd — it's a dir link) or set `TR_DEMO_FOLDER` to the real
-  path. The app code change is production-inert without the symlink.
+### 1. Address bar / breadcrumb name (FIXED — see correction below)
+- **Correction (user-verified 19:5x):** the `C:\Users\Profile` alias does NOT
+  hide the name — **Explorer always renders the profile folder (and any path
+  under `C:\Users\<profile>`) as the account DISPLAY NAME** ("Andre Denis").
+  A symlink inside `C:\Users` cannot escape that substitution. The alias
+  stays (harmless) but is NOT the fix.
+- **Working fix:** app's default save folder → **`C:\TotalRecalls`** (fixed
+  drive root, writable without admin — verified by actual file write;
+  breadcrumb = `This PC > TotalRecalls`, zero name). No rebuild needed:
+  the 09-14 build already reads `TR_DEMO_FOLDER` (bridge.py priority 1).
+- Launcher: `demo-shoot/Start-TotalRecalls-SHOOT.bat` — sets
+  `TR_DEMO_FOLDER=C:\TotalRecalls` and starts Pro from `dist/`. **Use this
+  bat for the shoot only**; normal double-click keeps the profile default.
+- Verify in-app: page-2 folder input should read `C:\TotalRecalls`.
+- REVERT: launch the EXE normally (no env var) or `rmdir C:\TotalRecalls`.
 
 ### 2. Account-name eye toggle (app page 2, under "Connected")
 - `app_ui.html`: `#acct-email` now renders `••••••` by default; `#btn-eye`
@@ -77,14 +77,23 @@ moves login popups there, off-camera). Smaller-canvas preset prepared in
   otherwise clean. `dist/`+`build/` modified in tree per project convention.
 
 ## REMAINS (for when the user is back)
-1. User reviews the eye toggle + alias behavior in the running Pro app
-   (launch it, connect any provider, check page-2 mask + "Open folder"
-   breadcrumb).
+1. User reviews the eye toggle + address-bar fix in the running Pro app
+   (launch via "TotalRecalls (Shoot)" shortcut, connect a provider, check
+   page-2 mask + "Open folder" breadcrumb = This PC > TotalRecalls).
 2. Pre-shoot physical steps (checklist) — only the user can do these.
-3. Shoot (user drives; assistant arms/stops per the locked protocol).
-4. Post-shoot: cuts + assembly + 1.5x + H.264 (recipe in
-   `references/demo-video-capture.md`), then LS email (zip + web cut under
-   25 MB) — the old v3 video is now superseded, NOT the deliverable.
+3. Shoot: seg1 Claude first (full process incl. open save folders), then the
+   7 providers individually; no conversation displays; user drives, assistant
+   arms/stops (locked protocol, FFV1 masters).
+4. Post-shoot: fill CUTS in `demo-shoot/render_final_top.sh` → TOP-QUALITY
+   render (native 2292×1440, 2-pass ~10 Mbps, per-clip speed, stream-copy
+   stitch) → copy to OneDrive → "anyone with link" share.
+- **Delivery (UPDATED 2026-09-14):** NO 25 MB cap exists — that was our own
+  email-attachment assumption; LS's review letter asks only for "a video
+  demonstrating the functionality and features." Delivery = OneDrive link in
+  the LS reply, alongside answers to their 4 questions: (1) pricing
+  breakdown; (2) the demo video; (3) business & personal social-media URLs
+  for KYB/KYC; (4) product description (what/how licensed/audience/purchase
+  model). Lossless masters stay on disk for any re-encode.
 5. Free-ZIP repackage is a SEPARATE delivery decision (site frozen at the 404
    gate; decide with the user when the eye toggle ships to buyers).
 6. LS live-key test + X230 cron — unchanged, still open.
@@ -98,3 +107,8 @@ moves login popups there, off-camera). Smaller-canvas preset prepared in
   invisible. For solid masks, don't use per-pixel alpha at all.
 - PYZ verifiers: unwrap tuple/frozenset consts and walk NESTED code objects
   for `co_names` — both missed real content on first run.
+- **Windows display-name substitution beats symlinks:** Explorer renders the
+  profile folder (and everything under `C:\Users\<profile>`) as the account
+  display name regardless of reparse points. To hide the name from an
+  address bar, the path must leave the profile entirely (e.g. `C:\TotalRecalls`)
+  — an in-`C:\Users` alias like `C:\Users\Profile` does not work.

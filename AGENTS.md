@@ -1,31 +1,31 @@
 # Home workspace notes
 
 ## ACTIVE HANDOFF (read this first in any new session)
-TotalRecalls website + apps — latest status note:
-`C:\Users\break\Projects\TotalRecalls\docs\STATUS-2026-09-14-shoot-setup.md`
-(branch `fix/robust-auth-20260913`, pushed to origin, tip `0623c8c`;
-supersedes `docs/STATUS-2026-09-13-robust-auth-fix.md`).
+TotalRecalls demo RE-SHOOT — resume note for the morning session:
+`C:\Users\break\Projects\TotalRecalls\docs\HANDOFF-2026-09-15-shoot-resume.md`
+(supersedes `docs/STATUS-2026-09-14-shoot-setup.md`; branch
+`fix/robust-auth-20260913` pushed to origin, tip `a2158b9`).
 
-State as of 2026-09-14 ~19:50 EDT (2h autonomous session, user away):
-- **Demo RE-SHOOT setup** (the 09-13 video didn't reach a favorable
-  conclusion — name everywhere in logins + Explorer). New plan: 2/3 of the
-  3440 monitor = canvas, right 1/3 = login zone. Tooling in
-  `C:\Users\break\demo-shoot\`: `shoot_config.json` (3 canvas presets incl.
-  the requested smaller one), `shoot.sh` (layout-gated armer),
-  `blur_mask.py` v3 (OPAQUE — the earlier invisibility was a layered-alpha
-  bug), `PRE-SHOOT-CHECKLIST-2026-09-14.md`.
-- **Name hiding SHIPPED in the EXEs:** `C:\Users\Profile` → `C:\Users\break`
-  alias symlink (user-created) + `bridge.py` auto-routes the default save
-  folder through it (islink-gated, inert without the alias) → "Open folder"
-  shows `Profile`, not "Andre Denis". Account email now masked `••••••` on
-  page 2 with an eye toggle (user's idea). Both EXEs rebuilt + PYZ-verified
-  13/13 (free sha `140c9a9d…`, pro sha `3fd8fd10…`); 219 tests pass; new Pro
-  EXE running (clean "Not connected" slate).
-- **Still open:** (1) user reviews eye toggle + alias in the running app;
-  (2) pre-shoot physical steps (checklist); (3) shoot + post (cuts/assembly/
-  H.264; old v3 video SUPERSEDED — not the deliverable); (4) free-ZIP
-  repackage = separate delivery decision; (5) LS live-key test + X230 cron
-  unchanged.
+State as of 2026-09-14 ~22:45 EDT (shoot night, user ending early — tired):
+- **Decisions locked (do not revisit):** (1) NO 25 MB cap exists — it was an
+  email-attachment assumption; LS letter asks only for a demo video →
+  top-quality render (native 2292×1440, 2-pass ~10 Mbps) delivered as an
+  OneDrive "anyone with link" URL; (2) per-provider recording — Claude full
+  hero take + 7 individual minis, 1.5× in post, no conversation displays,
+  concat stream-copy stitch; (3) name hiding FINAL = export folder + library
+  at `C:\TotalRecalls` via `TR_DEMO_FOLDER` + desktop shortcut "TotalRecalls
+  (Shoot)" (the `C:\Users\Profile` symlink was a dead end — Explorer shows
+  the account display name for anything under the profile); (4) eye toggle
+  shipped + user-confirmed.
+- **Shoot state:** tooling proven (shoot.sh native-path fixed; STOP = kill
+  session + Stop-Process ffmpeg, two steps). `masters/seg1_claude.mkv` =
+  take 5, 4:31, NOT locked (ends "Not connected" + Word shows a
+  confidential trading thread). Claude hero redo is the morning's first
+  task, then the 7 minis, then post (`render_final_top.sh`) + OneDrive + LS
+  reply (4 questions: pricing / video link / social URLs KYB-KYC / product
+  description).
+- **Recurring defect:** hero takes end "Not connected" (user disconnects at
+  the end) — stop the take BEFORE disconnecting.
 Repo: `C:\Users\break\Projects\TotalRecalls`.
 
 ## Skills
