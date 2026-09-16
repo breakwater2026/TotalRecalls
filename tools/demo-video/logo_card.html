@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TotalRecalls — logo card</title>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("inter-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("inter-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 700; src: url("inter-latin-700-normal.woff2") format("woff2"); }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url("ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
+  :root {
+    --bg: #101113;
+    --card: #16181B;
+    --fg: #e8eaed;
+    --muted: #9AA3AF;
+    --primary: #2F7BFF;
+    --border: #26292E;
+  }
+  html, body { margin: 0; padding: 0; background: var(--bg); overflow: hidden; }
+  body {
+    width: 2292px; height: 1440px;
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--fg);
+  }
+  .stage {
+    width: 2292px; height: 1440px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 64px;
+  }
+  .logo { width: 1240px; height: 236px; }
+  .logo svg { width: 100%; height: 100%; }
+
+  /* --- ConvergenceDiagram replica (site/src/components/landing/ConvergenceDiagram.jsx) --- */
+  .box {
+    position: relative;
+    width: 1120px; height: 840px;      /* 4/3, like aspect-[4/3] */
+    border: 1px solid var(--border);
+    background: var(--card);
+    overflow: hidden;
+  }
+  .scanline {
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--primary); z-index: 20;
+    animation: tr-scan 3s linear infinite;
+  }
+  @keyframes tr-scan {
+    0%   { transform: translateY(0);    opacity: 0.8; }
+    50%  { opacity: 0.2; }
+    100% { transform: translateY(840px); opacity: 0.8; }
+  }
+  .tag-l {
+    position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
+    font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: 0.1em;
+    color: var(--muted); background: var(--card); padding: 6px 18px;
+    z-index: 20; white-space: nowrap;
+  }
+  .tag-r {
+    position: absolute; top: 24px; right: 24px;
+    font-family: "IBM Plex Mono", monospace; font-size: 15px;
+    color: var(--primary); background: var(--card); padding: 6px 14px;
+    z-index: 20;
+  }
+  .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .tr-flow { animation: tr-flow-dash 2s linear infinite; }
+  @keyframes tr-flow-dash { to { stroke-dashoffset: -20; } }
+
+  .provider {
+    position: absolute; left: 2.5%; width: 35%;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 10; background: var(--card); padding: 6px;
+    border-radius: 3px; border: 1px solid rgba(38, 41, 46, 0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+  .tile {
+    display: grid; place-items: center;
+    width: 38px; height: 38px; flex-shrink: 0; border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+  .tile svg { width: 22px; height: 22px; }
+  .p-name {
+    font-weight: 600; font-size: 18px; line-height: 1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  }
+  .p-code {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    color: var(--muted); margin-top: 3px;
+  }
+
+  .folder {
+    position: absolute; z-index: 10;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 0 20px;
+    border: 1px solid rgba(47, 123, 255, 0.4); background: var(--bg);
+    left: 58%; top: 33%; width: 34%; height: 34%;
+  }
+  .folder svg.ficon { width: 46px; height: 46px; stroke: var(--primary); fill: none; stroke-width: 1.75; }
+  .folder .fpath {
+    font-family: "IBM Plex Mono", monospace; font-size: 16px; margin-top: 12px; line-height: 1.3;
+  }
+  .folder .fpath .muted { color: var(--muted); }
+  .folder .fmeta {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--primary); margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="logo"><img src="logo_dark.png" alt="TotalRecalls"/></div>
+
+  <div class="box" id="box">
+    <div class="scanline"></div>
+    <div class="tag-l">CONVERGENCE · LIVE</div>
+    <div class="tag-r">8 SOURCES → 1 FOLDER</div>
+
+    <svg class="flow-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+      <!-- curves injected by script -->
+    </svg>
+
+    <!-- provider rows + folder card injected by script -->
+  </div>
+</div>
+
+<script>
+const LOGOS = {
+  ChatGPT: "M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z",
+  Claude: "M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z",
+  Perplexity: "M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z",
+  Gemini: "M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81",
+  Grok: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z",
+  DeepSeek: 'M23.748 4.651c-.254-.124-.364.113-.512.233-.051.04-.094.09-.137.137-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.155-.708-.311-.955-.65-.172-.24-.219-.509-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.094.172.187.129.323-.082.28-.18.553-.266.833-.055.179-.137.218-.328.14a5.5 5.5 0 0 1-1.737-1.179c-.857-.828-1.631-1.743-2.597-2.46a12 12 0 0 0-.689-.47c-.985-.957.13-1.743.387-1.836.27-.098.094-.433-.778-.428-.872.003-1.67.295-2.687.685a3 3 0 0 1-.465.136 9.6 9.6 0 0 0-2.883-.101c-1.885.21-3.39 1.1-4.497 2.622C.082 8.776-.231 10.854.152 13.02c.403 2.284 1.568 4.175 3.36 5.653 1.857 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.132-.284 4.994-1.86.47.234.962.328 1.78.398.629.058 1.235-.031 1.705-.129.735-.155.684-.836.418-.961-2.155-1.004-1.682-.595-2.112-.926 1.095-1.295 2.768-3.598 3.284-6.733.05-.346.115-.834.108-1.114-.004-.171.035-.238.23-.257a4.2 4.2 0 0 0 1.545-.475c1.397-.763 1.96-2.016 2.093-3.517.02-.23-.004-.467-.247-.588M11.58 18.168c-2.088-1.642-3.101-2.183-3.52-2.16-.39.024-.32.472-.234.763.09.288.207.487.371.74.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.168-1.361-.801-2.5-1.86-3.301-3.306-.775-1.393-1.225-2.888-1.299-4.482-.02-.385.094-.522.477-.592a4.7 4.7 0 0 1 1.53-.038c2.131.311 3.946 1.264 5.467 2.774.868.86 1.525 1.887 2.202 2.89.72 1.066 1.494 2.082 2.48 2.915.348.291.626.513.892.677-.802.09-2.14.109-3.055-.615zm1.001-6.44a.306.306 0 0 1 .415-.287.3.3 0 0 1 .113.074.3.3 0 0 1 .086.214c0 .17-.136.307-.308.307a.303.303 0 0 1-.306-.307m3.11 1.596c-.2.081-.4.151-.591.16a1.25 1.25 0 0 1-.798-.254c-.274-.23-.47-.358-.551-.758a1.7 1.7 0 0 1 .015-.588c.07-.327-.007-.537-.238-.727-.188-.156-.426-.199-.689-.199a.6.6 0 0 1-.254-.078.253.253 0 0 1-.114-.358 1 1 0 0 1 .192-.21c.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.392.451.462.576.685.915.176.264.336.536.446.848.066.194-.02.353-.25.45',
+  Mistral: "M17.143 3.429v3.428h-3.429v3.429h-3.428V6.857H6.857V3.43H3.43v13.714H0v3.428h10.286v-3.428H6.857v-3.429h3.429v3.429h3.429v-3.429h3.428v3.429h-3.428v3.428H24v-3.428h-3.43V3.429z",
+  Qwen: "M23.919 14.545 20.817 9.17l1.47-2.544a.56.56 0 0 0 0-.566l-1.633-2.83a.57.57 0 0 0-.49-.283h-6.207L12.487.402a.57.57 0 0 0-.49-.284H8.732a.56.56 0 0 0-.49.284L5.139 5.775h-2.94a.56.56 0 0 0-.49.284L.077 8.887a.56.56 0 0 0 0 .567L3.18 14.83l-1.47 2.545a.56.56 0 0 0 0 .566l1.634 2.83a.57.57 0 0 0 .49.283h6.205l1.47 2.545a.57.57 0 0 0 .49.284h3.266a.57.57 0 0 0 .49-.284l3.104-5.375h2.94a.57.57 0 0 0 .49-.283l1.634-2.828a.55.55 0 0 0-.004-.568M8.733.686l1.634 2.828-1.634 2.828H21.8L20.164 9.17H7.425L5.63 6.06Zm1.306 19.801-6.205-.002 1.634-2.83h3.265L2.201 6.344h3.267q3.182 5.517 6.367 11.032zm10.124-5.66L18.53 12l-6.532 11.315-1.634-2.83c2.129-3.673 4.25-7.351 6.373-11.028h3.592l3.102 5.374z"
+};
+
+const PROVIDERS = [
+  { name: "ChatGPT",     code: "OAI-001", logo: "ChatGPT",    color: "#FFFFFF", bg: "#10A37F" },
+  { name: "Claude",      code: "ANT-002", logo: "Claude",     color: "#FFFFFF", bg: "#D97757" },
+  { name: "Perplexity",  code: "PPL-003", logo: "Perplexity", color: "#FFFFFF", bg: "#20B8CD" },
+  { name: "Gemini",      code: "GEM-004", logo: "Gemini",     color: "#4285F4", bg: "#000000" },
+  { name: "Grok",        code: "GRK-005", logo: "Grok",       color: "#FFFFFF", bg: "#0F172A" },
+  { name: "DeepSeek",    code: "DSK-006", logo: "DeepSeek",   color: "#4F8CFF", bg: "#1E40AF" },
+  { name: "Mistral",     code: "MST-007", logo: "Mistral",    color: "#FF7000", bg: "#FFF3E8" },
+  { name: "Qwen Chat",   code: "QWN-008", logo: "Qwen",       color: "#615CED", bg: "#F0EFFF" },
+];
+
+const YS = [20, 58, 96, 134, 172, 210, 248, 286];
+const BOX_W = 1120, BOX_H = 840;
+const VB_W = 400, VB_BH = 300;
+
+const svg = document.querySelector(".flow-svg");
+const NS = "http://www.w3.org/2000/svg";
+YS.forEach((y, i) => {
+  const d = `M90,${y} C170,${y} 185,150 232,150`;
+  const base = document.createElementNS(NS, "path");
+  base.setAttribute("d", d);
+  base.setAttribute("fill", "none");
+  base.setAttribute("stroke", "var(--border)");
+  base.setAttribute("stroke-width", "1");
+  svg.appendChild(base);
+  const flow = document.createElementNS(NS, "path");
+  flow.setAttribute("d", d);
+  flow.setAttribute("fill", "none");
+  flow.setAttribute("stroke", "var(--primary)");
+  flow.setAttribute("stroke-width", "1.5");
+  flow.setAttribute("stroke-dasharray", "4 6");
+  flow.setAttribute("class", "tr-flow");
+  svg.appendChild(flow);
+  const pkt = document.createElementNS(NS, "rect");
+  pkt.setAttribute("x", "-3.5"); pkt.setAttribute("y", "-2.5");
+  pkt.setAttribute("width", "7"); pkt.setAttribute("height", "5");
+  pkt.setAttribute("rx", "1");
+  pkt.setAttribute("fill", "var(--primary)");
+  const am = document.createElementNS(NS, "animateMotion");
+  am.setAttribute("dur", "2.4s");
+  am.setAttribute("repeatCount", "indefinite");
+  am.setAttribute("begin", `${i * 0.4}s`);
+  am.setAttribute("path", d);
+  pkt.appendChild(am);
+  svg.appendChild(pkt);
+});
+
+const box = document.getElementById("box");
+PROVIDERS.forEach((p, i) => {
+  const el = document.createElement("div");
+  el.className = "provider";
+  el.style.top = `${(YS[i] / 300) * 100}%`;
+  el.style.transform = "translateY(-50%)";
+  el.innerHTML = `
+    <span class="tile" style="background:${p.bg}">
+      <svg viewBox="0 0 24 24" fill="${p.color}" aria-hidden="true"><path d="${LOGOS[p.logo]}"/></svg>
+    </span>
+    <div style="min-width:0">
+      <p class="p-name">${p.name}</p>
+      <p class="p-code">${p.code}</p>
+    </div>`;
+  box.appendChild(el);
+});
+
+const folder = document.createElement("div");
+folder.className = "folder";
+folder.innerHTML = `
+  <svg class="ficon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+  </svg>
+  <p class="fpath">C:\\TotalRecalls<br><span class="muted">Library\\</span></p>
+  <p class="fmeta">797 files · secured</p>`;
+box.appendChild(folder);
+</script>
+</body>
+</html>

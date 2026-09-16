@@ -1,153 +1,169 @@
-# HANDOFF — demo shoot 2026-09-15 (resume after Perplexity fix)
+# HANDOFF — TotalRecalls demo 2026-09-15 (ALL POST DONE — R2 upload + LS reply remain)
 
-The Claude hero is DONE and delivered. The 6-provider mini take is SHOT and
-cut-ready. The Perplexity PII leak + performance regression are FIXED in code
-and EXEs (rebuild + PYZ-verify + push complete, tree clean). Next: Perplexity
-re-shoot, then post. Everything below is decided — don't re-litigate.
+EVERYTHING SHOT AND CUT. ALL 3 FINAL VIDEOS RENDERED + VERIFIED (09-15 evening).
+Remaining: (1) user uploads the 3 MP4s + 52 site screenshots to the
+Cloudflare R2 bucket (`tmt-storage-drive`) with read-view access for the
+user and Lemon Squeezy; (2) fill the R2 URLs + socials into
+`C:\Users\break\demo-shoot\ls_reply_draft.md` and send.
+Next session (~09-16 morning, +8h): **marketing plan** (user's words).
+Everything below is decided — don't re-litigate.
 
-## DECISIONS LOCKED (do not revisit)
+## DELIVERED FILES (locked spec: H.264 High, CRF10, aq-mode=0, 2292×1440,
+30fps, yuv420p, +faststart, -an)
 
-1. **No 25 MB constraint.** Top-quality render → OneDrive "anyone with link"
-   URL in the LS reply.
-2. **Encode spec — LOCKED, "once and for all" (supersedes the 2-pass 10 Mbps
-   draft).** Single-pass libx264 High, **CRF 10**, `aq-mode=0`, NO unsharp
-   (A/B proved it hurts), 2292×1440 native, 30 fps, yuv420p, `+faststart`,
-   `preset slow`, `-an`. Measured on the full hero: **SSIM 0.999842 / PSNR
-   67.1 dB** vs the FFV1 master — visually lossless, 57 MB / 4:18.
-   ```
-   ffmpeg -y -i masters/<seg>.mkv \
-     -vf "scale=2292:1440:flags=lanczos, fps=30" \
-     -c:v libx264 -preset slow -crf 10 -x264-params "aq-mode=0" \
-     -pix_fmt yuv420p -movflags +faststart -an out.mp4
-   ```
-   Minis: same spec + `setpts=PTS/1.5` in the filter. Final stitch =
-   `-f concat -c copy`. **SSIM/PSNR harness:** force BOTH inputs to
-   `fps=30,settb=1/30000` first — naive cross-container compare misaligns on
-   1/1000 vs 1/15360 timebases and lies.
-3. **Lull-cut policy (all 7 minis + hero):** cut the entire login sequence.
-   Keep = `[provider-selected beat ~2.5s] → jump-cut → [download 1/N → N/N
-   "Download complete!"]`. The popup / blow-up / grab-and-move / Windows
-   Security all fall in the jump. DeepSeek's credential lull = human error,
-   cut it too.
-4. **End every take Connected.** Stop the take BEFORE disconnecting; a
-   voluntary user disconnect at the very end is an acceptable trim point.
-5. **Name hiding FINAL:** app folder + library at `C:\TotalRecalls` via
-   `TR_DEMO_FOLDER`, launched through the "TotalRecalls (Shoot)" desktop
-   shortcut. Breadcrumb = `This PC > Local Disk (C:) > TotalRecalls`.
-   Logins parked off-camera RIGHT of the Explorer panel.
-6. **PII fix (09-15, shipped):** Perplexity/ChatGPT/Claude `validate()`
-   returned the real account email → leaked into the raw log console
-   (`unified_export.py:433` prints `account.email` verbatim; `app_ui.html:692`
-   has no masking). All three now report `X-session@local` (real email still
-   read to confirm the session is live). DeepSeek is API-side masked;
-   gemini/grok/mistral/qwen already used placeholders.
-7. **Perplexity robustness (09-15, shipped — "alpha provider caught up"):**
-   (a) stale CF cookies — the fast login hook (already-signed-in users) never
-   saved `cf_clearance`/`__cf_bm` (only the CDP dump did) → 83 CF 403s in 10
-   min, connect→first download 68–87s; the hook now saves CF cookies from the
-   same request's Cookie header. (b) no cancellation — `stop_event` now
-   threaded through Perplexity's http/discover/thread/adapter like ChatGPT's
-   (interruptible sleeps; disconnect stops the worker in ~1s instead of
-   riding out 60s backoffs). (c) no fast `count_conversations()` — every
-   connect ran the full 5-source deep sweep; now a single-index count
-   (ChatGPT shape), deep sweep still at export. Also: Perplexity 403 retry
-   storms now surface to the UI via the retry sink (same as ChatGPT).
-8. **Word content rule (hero):** ONE GENERAL conversation (done — hero is
-   locked).
+In `C:\Users\break\OneDrive\TotalRecalls-LS-demo\` (→ re-upload to R2):
 
-## STATE ON DISK (verify on resume)
+| File | Dur | Size | Contents |
+|---|---|---|---|
+| `totalrecalls_demo_claude_hero.mp4` | 4:18.9 | 60.8 MB | 6 s animated logo intro → full Claude journey (37 convs) 1× → ends Connected + "Download complete!" |
+| `totalrecalls_demo_minis_6providers.mp4` | 4:39.5 | 36.8 MB | Pplx→Gemini→Grok→Mistral→Qwen→DeepSeek, 1.5× (on-screen "1.5x speed" badge top-left) |
+| `totalrecalls_demo_chatgpt.mp4` | 8:15.6 | 48.6 MB | ChatGPT 105-conversation export 1× → 6 s logo outro |
 
-- `C:\Users\break\demo-shoot\masters\seg1_claude_hero.mkv` = **LOCKED hero
-  master**: 257.9 s, 2.11 GB, FFV1, 2292×1440@30. First frame = 5 s white
-  logo intro; last frame = Connected + "Download complete!"; user's
-  disconnect at t≈258 is outside the cut.
-- `C:\Users\break\OneDrive\TotalRecalls-LS-demo\totalrecalls_demo_claude_hero.mp4`
-  = **DELIVERED hero web file**: 57 MB, 4:17.9, 1.88 Mbps, CRF 10,
-  SSIM 0.999842 / PSNR 67.1 dB. (The 96.7 MB 30 Mbps variant is superseded.)
-- `masters\seg2_minis.mkv` = **6-provider mini take, SHOT**: 1288.8 s
-  (21:28.8), 10.9 GB, FFV1. Order: Perplexity (~245–344) → Gemini
-  (~356–420) → Grok (~492–585) → Mistral (~658–750) → Qwen (~766–903) →
-  DeepSeek (~926–1145); dead head 0:00–~240 (app idle on Claude); tail
-  disconnect ~1285–1288 (voluntary).
-- **Perplexity's segment in that take is REJECTED** — log console shows
-  `Connected as <real email> via perplexity` (t≈260–276). Only the
-  Perplexity portion gets re-shot; the other 5 segments are verified clean.
-- `compression-tests/webtest/takeA/EDL.txt` = 6 keep bands + 7 cut gaps
-  (dead head, 5 login lulls, tail) — **Perplexity's keep band will be
-  replaced by the re-shoot segment; re-derive it after the re-shoot.**
-- `compression-tests/webtest/takeA/` = QC frames, montages,
-  `detect_mess.py` (login-mess motion detector), `bar/timeline.txt`.
-- **EXEs = 09-15 rebuild (PII fix + Perplexity robustness), PYZ-verified:**
-  `dist\TotalRecalls-Pro.exe` (pro) + `dist\TotalRecalls.exe` (free),
-  18.9 MB each. The Shoot shortcut launches the Pro build — **the user's
-  app was closed for the rebuild; relaunch via the shortcut.** Perplexity
-  session persists (session file), so re-connect is one click.
-- Git: `fix/robust-auth-20260913` @ `a7073ac` = origin tip, **tree clean.**
-  Commits since morning: `118e3c8` (PII placeholders) → `4deb792`
-  (Perplexity robustness) → `a7073ac` (EXE rebuilds).
-- `tools/_verify_robustness.py` = PYZ verifier (edition consts + PII
-  placeholders + robustness symbols) — run after every future rebuild.
-- `masters\seg2b_pplx.mkv` = aborted re-shoot attempt (5 failed tries on the
-  OLD build) — delete before re-arming.
+Quality (vs FFV1 masters, harness below): logo card **SSIM 0.999961 /
+PSNR 69.4 dB**; chatgpt body **SSIM 0.999802 / PSNR 61.0 dB**; hero body
+previously measured 0.999842 / 67.1 dB. All visually lossless.
+(`totalrecalls_demo_claude_hero_30mbps.mp4` in the same folder =
+superseded 30 Mbps variant — do not deliver.)
 
-## NEXT (in order)
+## LOGO (settled after user correction 09-15)
 
-1. **Perplexity re-shoot** with the NEW build: relaunch via the Shoot
-   shortcut → confirm Perplexity selected → pre-flight (layout 3440, no
-   orphan ffmpeg) → arm `seg2b_pplx` (two_thirds) → user: log in (park popup
-   off-camera right) → download to 44/44 → "stop". **Watch the log line: it
-   must read `Connected as perplexity-session@local via perplexity`.**
-   Expected: connect badge count in seconds (fast count), downloads without
-   403 storms (fresh CF cookies), disconnect stops immediately.
-2. QC the re-shoot (frames: PII, ending state) → trim to
-   `[beat → jump → download → complete]` → **splice into the minis master in
-   place of the old Perplexity band** (re-derive that EDL band from the new
-   take).
-3. Apply the full EDL (6 keeps, login lulls cut) at 1.5× → CRF 10 render →
-   `OneDrive\TotalRecalls-LS-demo\` (name it `totalrecalls_demo_minis.mp4`).
-4. **ChatGPT take** (`seg3_chatgpt`, separate video, longer) — same protocol;
-   widen Explorer so its right edge meets the canvas edge (x=2292) so the
-   parked popup zone is right of it.
-5. **Logo outro** — user "has an idea"; discuss before building (intro =
-   5 s dark wordmark on white, already in the hero).
-6. LS reply (user sends; I draft): pricing, video link(s), social URLs,
-   product description.
+- **Canonical brand logo = `docs/brand/logo_Final.png`** (user-supplied;
+  byte-identical to `site/public/logo.png`, sha ff1e887f…): brain-squircle
+  icon (dark navy tile, blue brain outline, cyan node squares, mint
+  chevron) + wordmark "Total" black / "Recalls" blue + "AI CHAT
+  RETRIEVER" tagline. For dark video: white→transparent, "Total"
+  black→white (processed copy at `demo-shoot/logo/logo_dark.png`).
+- **`site/public/logo-full.svg` (speech-bubble mark) is NOT the brand
+  icon** — it was used by mistake in the first card version; user
+  rejected it ("it not our logo icon"). Never use it for branding.
+- **Animated card** = `demo-shoot/logo/logo_card.html` (faithful replica
+  of the landing `ConvergenceDiagram.jsx`: 8 provider tiles → dashed
+  curves with moving packets → `C:\TotalRecalls\Library\` folder card;
+  `tr-scanline` 3s + `tr-flow` 2s loops → 6 s capture = LCM loop).
+- **Capture method (proven, deterministic):** headless Edge
+  (`--headless=new --remote-debugging-port=9333`) + Python
+  `websockets` → CDP: `document.getAnimations().forEach(a=>{a.pause();
+  a.currentTime=i/30})` + `svg.setCurrentTime(i/30)` per frame,
+  `Page.captureScreenshot` PNG (2292×1440 via
+  `Emulation.setDeviceMetricsOverride`), 180 frames → `ffmpeg
+  -framerate 30` → FFV1 master → CRF10. ~0.75 s/frame, perfectly smooth.
+  Script: `demo-shoot/logo/capture_logo.py` (repo copy:
+  `tools/demo-video/capture_logo_cdp.py`). Do NOT use gdigrab+kiosk for
+  browser content: kiosk windows don't enumerate by title and can land on
+  a non-primary monitor; the CDP path needs no window placement at all.
 
-## SHOOT PROTOCOL (proven)
+## POST PIPELINE FACTS (this session)
 
-- Arm: `terminal(background=true)`:
-  `cd /c/Users/break/demo-shoot && rm -f masters/<segname>.mkv && bash shoot.sh two_thirds <segname>`
-  (re-probes layout; ABORTS if primary ≠ 3440@(0,0). `two_thirds` =
-  2292×1440 canvas, 1148 px login zone.)
-- Verify rolling: ~8 s, stat the master twice 3 s apart — must be GROWING
-  (~6–7 MB/s). No file = launch failed, tell the user immediately.
-- **STOP (two steps, never one):**
-  1. `process_manage(action="kill", session_id=<shoot proc>)` — read the last
-     `frame=` line for take length (do NOT ffprobe the GB master).
-  2. `powershell -NoProfile -Command "Stop-Process -Name ffmpeg -Force"` —
-     the ffmpeg child ORPHANS and keeps the master locked.
-- Frame QC before locking: 4–5 frames at NATIVE resolution
-  (`ffmpeg -ss T -i C:/…/master.mkv -frames:v 1 out.png`) — downscaling
-  caused vision hallucinations once. Check PII (names/emails in the log
-  console!), popups in canvas, ending state.
-- Segment naming: ask/confirm — never infer from the screen.
+- **Claude video trims the hero master's first 5 s** — the FFV1 hero
+  opens with a STATIC WHITE logo card (t=0…5.0 s, the shoot's
+  placeholder). Frame-exact boundary found by pixel measurement (center
+  white-fraction flips at frame 150 = 5.0 s). Re-encode body with
+  `-ss 5.0` so the animated card is the only intro.
+- **Minis cut:** `masters/seg2_minis_cut.mkv` = 419.198 s, 6 stream-copy
+  bands (Perplexity band = accepted `seg2b_pplx` re-shoot: beat t=70 →
+  complete t=109; others per EDL). Final render =
+  `scale=2292:1440:flags=lanczos,setpts=PTS/1.5,fps=30` + badge
+  `overlay=40:40`. **Badge spot proof:** left black region x=0–740,
+  y=0–260 has ZERO bright pixels in all 6 bands (pixel-measured, not
+  eyeballed). Badge = PIL-rendered 223×64 PNG (Segoe UI Bold 34 "1.5x"
+  white + regular 34 "speed" gray, dark translucent fill, blue border) —
+  `demo-shoot/logo/badge_1.5x_speed.png` (maker:
+  `tools/demo-video/make_badge.py`).
+- **ChatGPT cut:** `masters/seg3_chatgpt_cut.mkv` = 489.566 s (beat
+  t=112–115 → jump → t=200–686 "Download complete!" + Connected).
+- **Assemble = stream-copy concat** (`-f concat -c copy`) of same-spec
+  segments (logo_h264 + body). PITFALL HIT: paths in the .txt list are
+  **relative to the list file's directory**, not the cwd —
+  `renders/renders/...` error.
+- **SSIM/PSNR harness (WORKING syntax for this ffmpeg; the naive
+  `[a][b]ssim;[a][b]psnr` form FAILS — labels are consumed once):**
+  ```
+  ffmpeg -i render.mp4 -i master.mkv -filter_complex \
+   "[0:v]fps=30,settb=1/30000,split=2[va][vb];[1:v]fps=30,settb=1/30000,split=2[wa][wb];[va][wa]ssim;[vb][wb]psnr" -f null -
+  ```
+  (fps+settb on BOTH inputs first — 1/1000 vs 1/15360 timebase
+  misalignment lies; ~58–60 fps harness speed on this CPU.)
+- **Master cuts:** stream-copy trims (`-ss X -t Y -c copy -avoid_negative_ts
+  make_zero`), then `-f concat -c copy`. FFV1 masters decode ~30 fps for
+  pixel measurements (numpy on rawvideo gray).
+- Full render script: `demo-shoot/render_final.sh` (repo copy:
+  `tools/demo-video/render_final.sh`) — 6 steps: logo h264 → minis body
+  (1.5×+badge) → claude body (trimmed) → chatgpt body → concats → verify.
+  Encode rates measured on this CPU (CRF10/slow, 2292×1440): minis body
+  (8385 f) ~4 min, claude body (7737 f) ~3.5 min, chatgpt body (14685 f)
+  ~6 min.
 
-## LESSONS (beyond the skill)
+## STATE ON DISK
 
-- **Trust app.log over memory when a regression is reported.** The Perplexity
-  "it was fine before the email fix" claim turned out to be a stale-CF-cookie
-  + missing-cancellation pair, fully exonerating the (string-only) PII
-  change — the log timestamps + 403 counts + CF file mtime told the whole
-  story.
-- Perplexity = alpha provider: when hardening other adapters, port the
-  pattern back to it (stop_event / retry sink / fast count / CF refresh).
-  Verified parity: 221 tests + functional cancellation checks.
-- ABR undershoots on screen content (30 Mbps → 3 Mbps actual); CRF is the
-  answer. `unsharp` measurably HURTS screen fidelity (A/B'd).
-- Downscaled montages make the vision model hallucinate provider states —
-  use native-resolution app-window crops.
-- The SSIM harness timebase bug (1/1000 vs 1/15360) reports 0.9949 for a
-  near-perfect encode — fix the harness before blaming the encode.
-- Stale binary copies are the footgun: after any rebuild, `dist\` must hold
-  the new files (they do) and the user must relaunch (app was closed for
-  this rebuild).
+- `demo-shoot/masters/`: `seg1_claude_hero.mkv` (257.9 s),
+  `seg2_minis.mkv` (21:28.8), `seg2_minis_cut.mkv` (419.198 s),
+  `seg2b_pplx.mkv` (accepted re-shoot), `seg3_chatgpt.mkv` (11:40.9),
+  `seg3_chatgpt_cut.mkv` (489.566 s). All FFV1.
+- `demo-shoot/logo/`: logo_card.html, logo_final.png (user's file, =
+  repo docs/brand/logo_Final.png), logo_dark.png, frames_intro/ (180
+  PNGs), logo_master.mkv (6.000 s FFV1), badge_1.5x_speed.png,
+  capture_logo.py, cdp_grab2.py (attach variant), bench/still images.
+- `demo-shoot/renders/`: logo_h264.mp4 (292 KB), minis_body.mp4 (36 MB),
+  claude_body_trimmed.mp4, chatgpt_body.mp4 (47 MB), concat lists.
+- `demo-shoot/final_qc/`: seam/badge/end frames (verified via vision).
+- `demo-shoot/ls_reply_draft.md`: LS reply (pricing $24 launch / $49
+  normal, free tier 3 providers/5 convs, 3 activations; product desc;
+  video links [R2 URLs TBD]; screenshots [TBD]; contact
+  press@/support@totalrecalls.app; socials TBD — repo has NO social
+  handles, only those emails).
+- 52 site screenshots (user will upload): `site/docs-screenshots/`
+  (`01-home.png` … `52-not-found-404.png`).
+- EXEs = 09-15 rebuild (PII fix + Perplexity robustness), PYZ-verified,
+  222 tests. `dist\TotalRecalls.exe` (free, the customer deliverable) +
+  `dist\TotalRecalls-Pro.exe` (internal-only).
+- **Delivery model changed 09-15 evening:** OneDrive "anyone link" plan
+  SUPERSEDED — user set up a **Cloudflare R2 bucket**
+  (`tmt-storage-drive`, dash id 348a35e7f66ce14d4033030a7f16d1f2);
+  user + LS get read-view access to videos + screenshots. User uploads;
+  agent fills URLs in the draft.
+- Git: branch `fix/robust-auth-20260913`; this handoff + logo_Final.png +
+  `tools/demo-video/` committed + pushed (see git log).
+
+## OPEN (non-blocking)
+
+1. R2 upload (user) → read-view URLs → fill `ls_reply_draft.md` → user
+   sends the LS reply.
+2. **Marketing plan** — user's next task (~09-16 morning).
+3. Code follow-ups (deferred, documented earlier): ChatGPT export
+   fail-fast on definitive auth-failed (+ status/endpoint logging);
+   WebView2 orphan sweep mid-session (currently startup-only).
+
+## SHOOT PROTOCOL (proven — unchanged)
+
+- Arm: `cd demo-shoot && rm -f masters/<seg>.mkv && bash shoot.sh
+  two_thirds <seg>` (ABORTS if primary ≠ 3440@(0,0); canvas 2292×1440,
+  login zone right 1148 px).
+- Verify rolling: stat master twice 3 s apart, must GROW (~6–7 MB/s).
+- STOP = two steps: kill the session, THEN
+  `Stop-Process -Name ffmpeg -Force` (orphaned child locks the master).
+- QC frames at NATIVE resolution (downscaled reads hallucinate).
+- Monitor layout (09-15): single 3440×1440 ultrawide @ (0,0), primary.
+
+## LESSONS (this session, beyond the skills)
+
+- **A master may open with a placeholder the post pipeline must remove.**
+  The hero FFV1 carried a 5 s static white logo card; prepending the new
+  animated card without trimming = double logo. Measure the boundary in
+  pixels (center white-fraction per frame), don't eyeball.
+- **Vision on downscaled frames invents.** "VLC in the left panel" was
+  actually a black desktop region + app at x≈787. Native-resolution
+  crops (or numpy pixel metrics) before any geometry decision.
+- **Deterministic > real-time for animation capture.** Pausing CSS
+  animations + SMIL (`getAnimations().forEach(a=>a.currentTime=t)` +
+  `svg.setCurrentTime(t)`) and stepping i/30 gives a stutter-free 30 fps
+  clip with no window placement, no cursor, no monitor assumptions.
+  (CDP gotchas: initial target may be a sync dialog — open the URL, find
+  the page target via `:9333/json`; `awaitPromise` on rAF hangs in
+  headless — don't await rAF; kill by profile match, never
+  `Stop-Process -Name msedge` — it takes the user's Edge too.)
+- **Concat list paths are relative to the list file**, not the cwd.
+- **PIL badge over the black region** beats drawing text in ffmpeg for a
+  styled chip (rounded rect + two weights + border + translucency).
+- **Stream-copy concat is safe only when every segment is the same
+  codec params** (same CRF10 spec) — re-encode bodies from the FFV1
+  masters rather than mixing in differently-encoded intermediates.
