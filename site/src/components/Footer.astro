@@ -32,7 +32,7 @@ const cols = [
     links: [
       { l: "Privacy Policy", href: "/privacy/" },
       { l: "Terms of Service", href: "/terms/" },
-      { l: "Pricing & Free Tier", href: "/legals/#pricing" },
+      { l: "Refund Policy", href: "/legals/#refund" },
       { l: "Microsoft Warning", href: "/microsoft-warning/" }
     ]
   },
@@ -73,11 +73,19 @@ const currentYear = new Date().getFullYear();
       ))}
     </div>
     <div class="site-footer-bottom">
-      <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v{releases.currentVersion}</span></span>
-      <span class="site-footer-disclaimer">
-        Not affiliated with OpenAI, Anthropic, Perplexity, Google, xAI, DeepSeek, Mistral, or Qwen.
-      </span>
-    </div>
+          <div class="site-footer-minimal">
+            <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v{releases.currentVersion}</span></span>
+            <span class="site-footer-sep">|</span>
+            <a href="/privacy/" class="site-footer-minimal-link">Privacy Policy</a>
+            <span class="site-footer-sep">|</span>
+            <a href="/terms/" class="site-footer-minimal-link">Terms of Service</a>
+            <span class="site-footer-sep">|</span>
+            <a href="/legals/#refund" class="site-footer-minimal-link">Refund Policy</a>
+          </div>
+          <span class="site-footer-disclaimer">
+            Not affiliated with OpenAI, Anthropic, Perplexity, Google, xAI, DeepSeek, Mistral, or Qwen.
+          </span>
+        </div>
   </div>
 </footer>
 
@@ -159,4 +167,30 @@ const currentYear = new Date().getFullYear();
     font-weight: 600;
     margin-left: 0.25rem;
   }
-</style>
+  .site-footer-disclaimer {
+    flex-basis: 100%;
+    text-align: center;
+    opacity: 0.7;
+  }
+  .site-footer-minimal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+  }
+  .site-footer-sep {
+    opacity: 0.4;
+  }
+  .site-footer-minimal-link {
+    color: var(--color-foreground, #0b0f19);
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .site-footer-minimal-link:hover {
+      opacity: 1;
+      color: var(--color-primary, #2f7bff);
+    }
+  </style>
