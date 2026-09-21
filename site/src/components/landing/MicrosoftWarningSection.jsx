@@ -19,14 +19,21 @@ export default function MicrosoftWarningSection() {
         </header>
         <div className="bg-card border border-border/80 p-6 md:p-8 space-y-4">
           <p className="font-body text-muted-foreground text-[15px] leading-relaxed">
-            This website may occasionally trigger a Microsoft Defender SmartScreen warning (“Windows protected your PC” or similar) when accessed or when files are downloaded from it. This is a standard, automated caution — not an indication of malware or malicious content.
+            When you launch a newly released application or visit a new website, Microsoft Defender SmartScreen may display a warning stating "Windows protected your PC." This is an automated security measure designed to protect you from unfamiliar apps and sites but does not indicate the presence of malware or other threats.
           </p>
           <p className="font-body text-muted-foreground text-[15px] leading-relaxed">
-            SmartScreen builds trust in new domains gradually, based on cumulative traffic volume, download history, and user feedback over time. Since this site is newly launched, it simply hasn’t yet accumulated the reputation signals SmartScreen uses to classify it as “known safe,” which is why the warning appears.
+            Because TotalRecalls is a newly launched app, you might see this warning until our site gains more reputation with Microsoft. You can safely bypass this prompt to continue installing or running the app by following the steps below.
           </p>
-          <p className="font-body text-muted-foreground text-[15px] leading-relaxed">
-            This is common and expected for new websites, and the warning typically resolves on its own as visitor traffic grows and no unsafe activity is reported.
-          </p>
+          <div className="space-y-3 pt-2">
+            <p className="font-bold text-foreground">How to proceed safely:</p>
+            <ol className="list-decimal list-inside space-y-2 ml-4">
+              <li>Click <strong>More info</strong> on the warning dialog to reveal additional options.</li>
+              <li>Then click <strong>Run anyway</strong> to launch the application.</li>
+            </ol>
+            <p>
+              Please ensure you are downloading TotalRecalls only from our official website: <a href="https://totalrecalls.app" className="text-primary underline hover:no-underline">totalrecalls.app</a>. If you have any doubts or concerns, contact our support team at <a href="mailto:support@totalrecalls.app" className="text-primary underline hover:no-underline">support@totalrecalls.app</a>.
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
             <img
               src="/smartscreen/smartscreen-alert-annotated.png"

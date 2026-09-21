@@ -4,25 +4,33 @@ import PageLayout from "../../layouts/PageLayout.astro";
 
 <PageLayout
   title="Microsoft Warning — TotalRecalls"
-  description="Why Microsoft Defender SmartScreen may show a warning on this newly launched website, and what it means."
+  description="Why Microsoft Defender SmartScreen may show a warning when running TotalRecalls, and how to proceed safely."
   breadcrumbs={[{ label: "Microsoft Warning" }]}
 >
 
 <div class="mb-6">
   <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Microsoft Warning · 05</span>
   <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Microsoft Warning</h1>
-  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Microsoft Defender SmartScreen · Newly launched website</p>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Microsoft Defender SmartScreen · Newly launched application</p>
 </div>
 
 <div class="space-y-5 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
   <p>
-    This website may occasionally trigger a Microsoft Defender SmartScreen warning (“Windows protected your PC” or similar) when accessed or when files are downloaded from it. This is a standard, automated caution — not an indication of malware or malicious content.
+    When you launch a newly released application or visit a new website, Microsoft Defender SmartScreen may display a warning stating “Windows protected your PC." This is an automated security measure designed to protect you from unfamiliar apps and sites but does not indicate the presence of malware or other threats.
   </p>
   <p>
-    SmartScreen builds trust in new domains gradually, based on cumulative traffic volume, download history, and user feedback over time. Since this site is newly launched, it simply hasn’t yet accumulated the reputation signals SmartScreen uses to classify it as “known safe,” which is why the warning appears.
+    Because TotalRecalls is a newly launched app, you might see this warning until our site gains more reputation with Microsoft. You can safely bypass this prompt to continue installing or running the app by following the steps below.
   </p>
+</div>
+
+<div class="space-y-4 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
+  <p class="font-bold text-foreground">How to proceed safely:</p>
+  <ol class="list-decimal list-inside space-y-3 ml-4">
+    <li>Click <strong>More info</strong> on the warning dialog to reveal additional options.</li>
+    <li>Then click <strong>Run anyway</strong> to launch the application.</li>
+  </ol>
   <p>
-    This is common and expected for new websites, and the warning typically resolves on its own as visitor traffic grows and no unsafe activity is reported.
+    Please ensure you are downloading TotalRecalls only from our official website: <a href="https://totalrecalls.app" class="text-primary underline hover:no-underline">totalrecalls.app</a>. If you have any doubts or concerns, contact our support team at <a href="mailto:support@totalrecalls.app" class="text-primary underline hover:no-underline">support@totalrecalls.app</a>.
   </p>
 </div>
 
