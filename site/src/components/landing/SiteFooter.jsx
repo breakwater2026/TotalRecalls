@@ -12,11 +12,15 @@ const COLS = [
   { 
     h: "Guides", 
     links: [
-      { l: "Download ChatGPT", href: "/guides/export-chatgpt-conversations/" },
-      { l: "Download Claude", href: "/guides/export-claude-chat-history/" },
-      { l: "Backup Perplexity", href: "/guides/backup-perplexity-threads/" },
-      { l: "Gemini Takeout", href: "/guides/gemini-takeout-archive/" },
-      { l: "Download Grok", href: "/guides/grok/" }
+      { l: "Download ChatGPT conversations", href: "/guides/export-chatgpt-conversations/" },
+      { l: "Download your Claude history", href: "/guides/export-claude-chat-history/" },
+      { l: "Backup Perplexity threads", href: "/guides/backup-perplexity-threads/" },
+      { l: "Gemini Takeout → Markdown", href: "/guides/gemini-takeout-archive/" },
+      { l: "Download DeepSeek chats", href: "/guides/deepseek/" },
+      { l: "Download Mistral (Le Chat) conversations", href: "/guides/mistral/" },
+      { l: "Download Qwen Chat conversations", href: "/guides/qwen/" },
+      { l: "Downloading Grok conversations", href: "/guides/grok/" },
+      { l: "Own your AI chat data", href: "/guides/own-your-ai-chat-data/" }
     ] 
   },
   { 
@@ -24,7 +28,7 @@ const COLS = [
     links: [
       { l: "Privacy Policy", href: "/privacy/" },
       { l: "Terms of Service", href: "/terms/" },
-      { l: "Pricing & Free Tier", href: "/legals/#pricing" }
+      { l: "Refund Policy", href: "/legals/#refund" }
     ] 
   },
 ];
@@ -62,7 +66,17 @@ export default function SiteFooter() {
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8 font-mono text-[11px] text-muted-foreground text-center">
           <span>© 2026 TotalRecalls v1.0.0</span>
           <span>·</span>
-          <span>Local files storage · No subscription</span>
+          <span>
+            <a href="/privacy/" className="hover:text-primary transition-colors">Privacy Policy</a>
+          </span>
+          <span>·</span>
+          <span>
+            <a href="/terms/" className="hover:text-primary transition-colors">Terms of Service</a>
+          </span>
+          <span>·</span>
+          <span>
+            <a href="/legals/#refund" className="hover:text-primary transition-colors">Refund Policy</a>
+          </span>
         </div>
       </div>
     </footer>
