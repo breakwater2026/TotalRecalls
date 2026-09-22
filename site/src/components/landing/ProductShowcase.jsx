@@ -16,7 +16,7 @@ export default function ProductShowcase() {
         <div className="mt-10 rounded-lg border border-border bg-card/40 p-2 md:p-3">
           <video
             className="w-full rounded-md border border-border/70 bg-black"
-            src="/demo/totalrecalls-demo.mp4"
+            src="/videos/TR_website_claude_hero.mp4"
             controls
             autoPlay
             muted
