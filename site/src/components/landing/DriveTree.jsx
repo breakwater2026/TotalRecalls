@@ -6,6 +6,7 @@
  */
 
 import { Folder, FileText, HardDrive } from "lucide-react";
+import React from "react";
 
 const PROVIDERS = [
   { name: "ChatGPT", count: "284 files" },

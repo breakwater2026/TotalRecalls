@@ -1,5 +1,6 @@
 /* Legal · 07 — anchors the legal page (/legals/) into the landing page scroll flow. */
 import { ArrowRight } from "lucide-react";
+import React from "react";
 
 const POLICIES = [
   {

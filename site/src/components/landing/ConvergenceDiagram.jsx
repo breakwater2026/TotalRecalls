@@ -1,5 +1,6 @@
 import { Folder } from "lucide-react";
 import { LOGOS } from "./RiskMatrix";
+import React from "react";
 
 const PROVIDERS = [
   // NOTE: glyph (`color`) must contrast with the tile (`bg`). The first three

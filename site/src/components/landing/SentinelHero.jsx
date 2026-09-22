@@ -1,6 +1,7 @@
 import ConvergenceDiagram from "./ConvergenceDiagram";
 import { LOGOS, PROVIDER_COLORS } from "./RiskMatrix";
 import { ArrowRight, ShieldCheck, Lock, Database } from "lucide-react";
+import React from "react";
 
 const TRUST = [
   { Icon: Lock, l: "Private by design", s: "Local sign-in · no cloud" },

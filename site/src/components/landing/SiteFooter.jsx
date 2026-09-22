@@ -1,4 +1,5 @@
 import { currentVersion } from '../../data/releases.json';
+import React from "react";
 const COLS = [
   { 
     h: "Product", 

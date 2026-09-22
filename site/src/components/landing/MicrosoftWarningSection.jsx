@@ -1,5 +1,6 @@
 /* Microsoft Warning · 05 — SmartScreen explanation section on the landing page. */
 import { ArrowRight } from "lucide-react";
+import React from "react";
 
 export default function MicrosoftWarningSection() {
   return (

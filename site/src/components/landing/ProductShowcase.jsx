@@ -1,3 +1,4 @@
+import React from "react";
 export default function ProductShowcase() {
   return (
     <section className="border-t border-border bg-background text-foreground">

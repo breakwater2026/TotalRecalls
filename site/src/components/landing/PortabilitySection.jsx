@@ -1,4 +1,5 @@
 import { FolderOpen, HardDrive, ShieldCheck, Truck } from "lucide-react";
+import React from "react";
 
 const ITEMS = [
   {

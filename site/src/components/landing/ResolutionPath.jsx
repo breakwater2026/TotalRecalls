@@ -9,6 +9,7 @@
 
 import DriveTree from "./DriveTree";
 import { ArrowRight } from "lucide-react";
+import React from "react";
 
 const STEPS = [
   { letter: "A", t: "Buy once", d: <>Checkout via order processor. One-time $24<span className="tr-usd">USD</span>, no subscription.</> },

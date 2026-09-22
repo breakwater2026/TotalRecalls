@@ -1,4 +1,5 @@
 import { Folder, FileText } from "lucide-react";
+import React from "react";
 
 const PROVIDERS = ["Library", "ChatGPT", "Claude", "Perplexity", "Gemini", "Grok", "DeepSeek", "Mistral", "Qwen Chat"];
 const FILES = [

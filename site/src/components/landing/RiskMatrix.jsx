@@ -1,4 +1,5 @@
 import { ShieldCheck, ArrowUpRight } from "lucide-react";
+import React from "react";
 
 /* Monochrome brand marks (simple-icons + xAI). Every provider gets its real logo. */
 export const LOGOS = {

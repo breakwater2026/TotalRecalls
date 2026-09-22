@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { currentVersion } from "../../data/releases.json";
+import React from "react";
 
 const PROVIDERS = [
   "ChatGPT",
