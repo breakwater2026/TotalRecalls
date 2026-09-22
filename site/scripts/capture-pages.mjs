@@ -60,8 +60,7 @@ const PAGES = [
   ["/terms/", "terms"],
   ["/thanks/", "thanks"],
   ["/why-this-matters/", "why-this-matters"],
-  ["/windows-firewall/", "windows-firewall"],
-  ["/__404__", "not-found-404"], // special: hit a bogus route
+  ["/__404__", "not-found-404"] // special: hit a bogus route
 ];
 
 const results = [];
