@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-
+import releases from "../../data/releases.json";
+const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen";
 ---
 
@@ -13,7 +14,7 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
 <div class="mb-6">
   <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
   <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Legal & Policies</h1>
-  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version 1.0.0 · Last updated September 13, 2026</p>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version {releases.currentVersion} · Last updated {date}</p>
 </div>
 
 <div class="space-y-10 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
