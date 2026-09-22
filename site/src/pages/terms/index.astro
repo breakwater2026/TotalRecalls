@@ -1,10 +1,11 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+import config from "../../data/config.json";
 ---
 <PageLayout title="Terms of Service — TotalRecalls" description="The terms that govern your use of TotalRecalls: license, pricing, updates, liability, and governing law (Province of Quebec, Canada)." breadcrumbs={[{ label: "Legal", href: "/legals/" }, { label: "Terms" }]}>
   <div class="mb-6">
     <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-primary block mb-2">Legal</span>
-    <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version 1.0 · Last updated September 13, 2026</p>
+    <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version {config.version} · Last updated {config.lastUpdated}</p>
   </div>
 
   <h1>Terms of Service</h1>
