@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 
+import React from "react";
 const GUIDES = [
   { 
     t: "Download ChatGPT conversations", 
