@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 
+import React from "react";
 const LINKS = [
   { label: "How It Works", href: "/#resolution" },
   { label: "Providers", href: "/#matrix" },
