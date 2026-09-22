@@ -1,3 +1,4 @@
+import { currentVersion } from '../../data/releases.json';
 const COLS = [
   { 
     h: "Product", 
@@ -64,7 +65,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8 font-mono text-[11px] text-muted-foreground text-center">
-          <span>© 2026 TotalRecalls v1.0.0</span>
+          <span>© {new Date().getFullYear()} TotalRecalls v{currentVersion}</span>
           <span>·</span>
           <span>
             <a href="/privacy/" className="hover:text-primary transition-colors">Privacy Policy</a>

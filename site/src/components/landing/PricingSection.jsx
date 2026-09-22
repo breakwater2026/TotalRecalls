@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { currentVersion } from "../../data/releases.json";
 
 const PROVIDERS = [
   "ChatGPT",
@@ -73,7 +74,7 @@ export default function PricingSection() {
                   <li key={p} className="text-foreground/90 font-medium">{p}</li>
                 ))}
               </ul>
-              <span className="block mt-3 text-[10.5px] opacity-70">Version v1.0.0</span>
+              <span className="block mt-3 text-[10.5px] opacity-70">Version v{currentVersion}</span>
             </div>
           </div>
 

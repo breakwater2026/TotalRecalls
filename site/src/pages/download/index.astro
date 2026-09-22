@@ -3,21 +3,21 @@ import PageLayout from "../../layouts/PageLayout.astro";
 
 // Free Tier release. Real build artifacts — recompute after each PyInstaller build:
 //   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
-const VERSION = "v1.0.0";
-const RELEASE_DATE = "September 13, 2026";
+import { currentVersion } from "../../data/releases.json";
+const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
 const ZIP_SIZE_MB = 17.8;
 const SHA256 = "dc2b76b3297870eb8ffde2ca659f13f454dd96855e1083d08c19bfe231881785";
 ---
 <PageLayout
-  title={`Download TotalRecalls ${VERSION}`}
-  description={`Download TotalRecalls ${VERSION} for Windows 10/11. Local-only AI conversation archive as Markdown + JSON. Released ${RELEASE_DATE}.`}
+  title={`Download TotalRecalls ${currentVersion}`}
+  description={`Download TotalRecalls ${currentVersion} for Windows 10/11. Local-only AI conversation archive as Markdown + JSON. Released ${date}.`}
   breadcrumbs={[{ label: "Download" }]}
 >
   <h1>Download TotalRecalls for Windows</h1>
 
   <p class="version-banner">
-    <strong>Latest release:</strong> TotalRecalls {VERSION} &middot; {RELEASE_DATE}
+    <strong>Latest release:</strong> TotalRecalls {currentVersion} &middot; {date}
   </p>
 
   <section>
@@ -29,7 +29,7 @@ const SHA256 = "dc2b76b3297870eb8ffde2ca659f13f454dd96855e1083d08c19bfe231881785
     </p>
     <p>
       <a class="download-btn" href={ZIP_URL}>
-        &#8681; Download TotalRecalls {VERSION} — Free Tier (ZIP, ~{ZIP_SIZE_MB} MB)
+        &#8681; Download TotalRecalls {currentVersion} — Free Tier (ZIP, ~{ZIP_SIZE_MB} MB)
       </a>
     </p>
     <p>
@@ -41,7 +41,7 @@ const SHA256 = "dc2b76b3297870eb8ffde2ca659f13f454dd96855e1083d08c19bfe231881785
       <strong>SHA-256:</strong> <code>{SHA256}</code>
     </p>
     <p class="hash-note">
-      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{VERSION}-free-tier.zip -Algorithm SHA256</code>
+      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{currentVersion}-free-tier.zip -Algorithm SHA256</code>
     </p>
     <p class="check-updates">
       <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
