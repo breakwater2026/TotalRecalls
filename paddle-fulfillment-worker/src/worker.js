@@ -29,6 +29,15 @@ const RESEND_SEND_URL = 'https://api.resend.com/emails';
 const PADDLE_API = 'https://api.paddle.com';
 const MAX_INSTANCES = 3;
 const DEFAULT_FROM = 'TotalRecalls <onboarding@resend.dev>';
+
+/**
+ * Where sale notifications go. Fulfillment used to be completely silent: a sale
+ * completed, a key was minted, and the only evidence lived in D1 — which the
+ * owner cannot see without API access. The owner's mailbox is also the stated
+ * control point over issued keys (Cloudflare Email Routing forwards every
+ * @totalrecalls.app prefix there). Override with the NOTIFY_TO secret.
+ */
+const DEFAULT_NOTIFY_TO = 'totalrecalls.app@gmail.com';
 const DOWNLOAD_URL = 'https://totalrecalls.app/download';
 
 // Resend `last_event` values that decide whether the buyer actually got mail.
@@ -145,6 +154,10 @@ function extractOrderData(payload) {
       || data.product_name || 'TotalRecalls',
     ),
     price_ids: items.map((i) => String(i.price_id || '')).filter(Boolean),
+    // What the buyer actually paid, for the seller notification. Stored as
+    // minor units (e.g. "2400" = USD 24.00); formatting happens at send time.
+    total: String((((data.details || {}).totals) || {}).grand_total || ''),
+    currency_code: String(data.currency_code || ''),
   };
 }
 
@@ -241,6 +254,61 @@ async function sendLicenseEmail({ email, licenseKey, productName }, env) {
     emailId = (JSON.parse(raw) || {}).id || '';
   } catch { /* non-JSON error body */ }
   return { ok: resp.ok, status: resp.status, body: raw.slice(0, 400), emailId };
+}
+
+/**
+ * Tell the seller that a sale completed and a key was issued.
+ *
+ * Deliberately fired only for `transaction.completed`: all five event types for
+ * a purchase run through fulfillment, so notifying on each would send five
+ * notices per sale. The Idempotency-Key makes Paddle's redeliveries safe too.
+ */
+async function sendSellerNotice(env, order, result) {
+  const to = env.NOTIFY_TO || DEFAULT_NOTIFY_TO;
+  if (!env.RESEND_API_KEY || !to) return null;
+
+  const amount = order.total
+    ? `${(Number(order.total) / 100).toFixed(2)} ${order.currency_code || ''}`.trim()
+    : 'unknown';
+  const rows = [
+    ['Order', order.order_id],
+    ['Buyer', order.customer_email || '(none)'],
+    ['Amount', amount],
+    ['Product', order.product_name],
+    ['License key', result.license_key || '(already issued)'],
+    ['Buyer email', result.mail_status === 200
+      ? 'sent' : `FAILED (${result.mail_error || result.mail_status})`],
+    ['When', new Date().toISOString()],
+  ];
+
+  const html = '<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.6">'
+    + '<h2 style="margin:0 0 12px">TotalRecalls &mdash; sale completed</h2>'
+    + '<p style="margin:0 0 16px">A license key was issued for this order.</p>'
+    + '<table cellpadding="0" cellspacing="0" style="border-collapse:collapse">'
+    + rows.map(([k, v]) => `<tr><td style="padding:4px 16px 4px 0;color:#666">${escapeHtml(String(k))}</td>`
+      + `<td style="padding:4px 0"><strong>${escapeHtml(String(v))}</strong></td></tr>`).join('')
+    + '</table></div>';
+  const text = 'TotalRecalls — sale completed\n\n'
+    + rows.map(([k, v]) => `${k}: ${v}`).join('\n');
+
+  const resp = await fetch(RESEND_SEND_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+      'Idempotency-Key': `totalrecalls-sale-${order.order_id}`,
+    },
+    body: JSON.stringify({
+      from: env.MAIL_FROM || DEFAULT_FROM,
+      to: [to],
+      subject: `Sale: ${order.product_name} — ${amount} — ${order.customer_email || 'no email'}`,
+      html,
+      text,
+    }),
+  });
+  const body = await resp.text();
+  console.log('seller notice:', order.order_id, resp.status, body.slice(0, 200));
+  return resp.status;
 }
 
 /**
@@ -528,6 +596,13 @@ export default {
               .prepare('UPDATE webhook_events SET processed = 1 WHERE id = ?')
               .bind(eventUuid)
               .run();
+            // Tell the seller, once per sale, without delaying Paddle's response.
+            if (eventType === 'transaction.completed') {
+              const notice = sendSellerNotice(env, order, result).catch((err) => {
+                console.error('seller notice failed:', err.message);
+              });
+              if (ctx) ctx.waitUntil(notice); else await notice;
+            }
             // Answer Paddle immediately; confirm real delivery in the
             // background so a failed send can't masquerade as success.
             if (result.mail_id && ctx) {

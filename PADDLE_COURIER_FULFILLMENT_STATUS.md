@@ -70,6 +70,33 @@ moving from the sandbox sender to the verified domain is a secret update, not a 
 | Activation contract | activate → `valid:true`+`instance_id`; re-activate → **same slot**; re-validate → valid; deactivate → valid then **invalid**; unknown key → invalid |
 | 3-install limit | 4th machine → `activation_limit_reached`; seat freed on deactivate |
 
+### Sale notification to the seller (added 2026-09-26)
+
+Fulfillment was silent from the owner's side: a sale completed, a key was minted,
+and the only evidence lived in D1 — which is invisible without API access. It got
+reported as "no webhook confirmation that a sale was done". The webhook had in
+fact arrived and been processed (Paddle's log: 5 events `delivered`; ours:
+`processed=1` for all 5); what was missing was being *told*.
+
+The worker now emails the seller on every sale:
+
+```
+to       NOTIFY_TO secret (default totalrecalls.app@gmail.com)
+from     MAIL_FROM  (licenses@totalrecalls.app)
+subject  Sale: TotalRecalls — 24.00 USD — <buyer email>
+body     order id, buyer, amount, product, license key, buyer-mail status, time
+```
+
+Fired **only** for `transaction.completed` — all five event types for a purchase
+run through fulfillment, so notifying on each would send five notices per sale —
+and sent with `Idempotency-Key: totalrecalls-sale-<order_id>` so Paddle's
+redeliveries cannot duplicate it. Sent via `ctx.waitUntil` so it never delays the
+response to Paddle.
+
+Verified 2026-09-26: a signed test sale delivered both the buyer email and the
+notice (`Sale: TotalRecalls — 24.00 USD`), and replaying the identical event
+returned `already_fulfilled` with **0** additional sends.
+
 ### Support lookups are ADMIN-ONLY (hole closed 2026-09-26)
 
 `GET /api/licenses/<email>` and `GET /api/licenses/order/<order_id>` both return the
