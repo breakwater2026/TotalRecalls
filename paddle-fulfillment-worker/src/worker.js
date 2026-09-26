@@ -360,6 +360,25 @@ async function logAttempt(env, fields) {
   }
 }
 
+/**
+ * Support lookups return license keys AND buyer email addresses, so they are
+ * admin-only. They shipped reachable by anyone (found 2026-09-26): an open
+ * `/api/licenses/<email>` let a stranger harvest paid keys for any address and
+ * enumerate customers. Guarded by the ADMIN_KEY secret, sent as `X-Admin-Key`.
+ * Fails CLOSED: with no secret bound, lookups are refused rather than exposed.
+ */
+async function adminOk(request, env) {
+  const expected = env.ADMIN_KEY;
+  if (!expected) return false;
+  const given = request.headers.get('X-Admin-Key') || '';
+  if (given.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < given.length; i++) {
+    diff |= given.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 async function handleVerify(request, env) {
   const userAgent = request.headers.get('User-Agent') || '';
   let body;
@@ -536,8 +555,9 @@ export default {
       return json({ status: 'acknowledged', event_type: eventType });
     }
 
-    /* Lookup by order id */
+    /* Lookup by order id — ADMIN ONLY (returns the key + buyer email) */
     if (url.pathname.startsWith('/api/licenses/order/') && request.method === 'GET') {
+      if (!(await adminOk(request, env))) return json({ error: 'unauthorized' }, 401);
       const orderId = decodeURIComponent(url.pathname.split('/api/licenses/order/')[1]);
       const row = await env.DB
         .prepare('SELECT id, order_id, customer_email, customer_name, product_name, license_key, status, email_status, created_at, updated_at FROM license_keys WHERE order_id = ?')
@@ -545,8 +565,9 @@ export default {
       return json({ license: row || null });
     }
 
-    /* Lookup by email */
+    /* Lookup by email — ADMIN ONLY (returns every key for an address) */
     if (url.pathname.startsWith('/api/licenses/') && request.method === 'GET') {
+      if (!(await adminOk(request, env))) return json({ error: 'unauthorized' }, 401);
       const email = decodeURIComponent(url.pathname.split('/api/licenses/')[1]);
       const rows = await env.DB
         .prepare('SELECT id, order_id, customer_email, customer_name, product_name, license_key, status, email_status, created_at, updated_at FROM license_keys WHERE customer_email = ? ORDER BY created_at DESC')

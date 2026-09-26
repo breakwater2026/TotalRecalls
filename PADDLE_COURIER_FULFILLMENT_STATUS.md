@@ -70,6 +70,24 @@ moving from the sandbox sender to the verified domain is a secret update, not a 
 | Activation contract | activate → `valid:true`+`instance_id`; re-activate → **same slot**; re-validate → valid; deactivate → valid then **invalid**; unknown key → invalid |
 | 3-install limit | 4th machine → `activation_limit_reached`; seat freed on deactivate |
 
+### Support lookups are ADMIN-ONLY (hole closed 2026-09-26)
+
+`GET /api/licenses/<email>` and `GET /api/licenses/order/<order_id>` both return the
+**license key and the buyer's email**, and both shipped reachable by anyone:
+`curl https://totalrecalls.app/api/licenses/<any email>` returned paid keys and
+enumerated customers. Both now require the `ADMIN_KEY` worker secret via an
+`X-Admin-Key` header and **fail closed** (no secret bound ⇒ 401, never open).
+Use them for support / recovering a key a buyer lost:
+
+```
+curl -H "X-Admin-Key: $TR_ADMIN_KEY" https://totalrecalls.app/api/licenses/order/<txn_id>
+curl -H "X-Admin-Key: $TR_ADMIN_KEY" https://totalrecalls.app/api/licenses/<buyer email>
+```
+
+`TR_ADMIN_KEY` (prefix `tra_`) lives in `$HERMES_HOME/.env` on the Mini-PC and as the
+worker secret `ADMIN_KEY`. The app's `POST /api/licenses/verify` and the HMAC webhook are
+deliberately unaffected (verified: 200 and 401-on-bad-signature respectively).
+
 ### D1 schema
 - `license_keys`: id, order_id, customer_email, customer_name, product_name, license_key, status,
   raw_event, created_at, updated_at, **courier_request_id** *(historical name — now holds the mail
