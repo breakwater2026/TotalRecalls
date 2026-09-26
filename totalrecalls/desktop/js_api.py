@@ -77,3 +77,16 @@ class JsApi:
 
     def chooseTakeoutPath(self):
         return self._b.chooseTakeoutPath()
+
+    # --- licensing -------------------------------------------------------
+    # These two live on Bridge but were missing from this facade, so the UI's
+    # `a.activateLicense(key)` / `a.openBuyPage()` threw "not a function" in the
+    # webview: the Activate button sat on "Activating…" forever without ever
+    # calling Python, and the Buy button did nothing (reported 2026-09-26).
+    # Every method the UI calls must be delegated here — see
+    # tools/_check_ui_bridge_contract.py, which fails the build otherwise.
+    def activateLicense(self, key: str = ""):
+        return self._b.activateLicense(key)
+
+    def openBuyPage(self):
+        return self._b.openBuyPage()

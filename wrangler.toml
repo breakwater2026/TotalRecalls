@@ -1,14 +1,18 @@
 # Cloudflare — totalrecalls.app
 # Static marketing site: Astro 5 build in /site -> site/dist
-# Solution A per Cloudflare diagnostic: [assets] directory must exist at deploy time.
-# For git-connected deploys, ALSO set in the dashboard:
-#   Production branch: RedesignV7
+# For git-connected deploys, set in the dashboard:
+#   Production branch: main
 #   Root directory:    (empty — repo root)
 #   Build command:     cd site && npm ci --legacy-peer-deps && npm run build
 #   Output directory:  site/dist
+#
+# NOTE: do NOT add an [assets] block here. That is a Workers-only key and the
+# Pages validator rejects the whole file with:
+#     Configuration file for Pages projects does not support "assets"
+# which fails the Cloudflare build ~2s in (and `wrangler pages deploy` too),
+# leaving production on the previous deployment. pages_build_output_dir below
+# is the Pages-native equivalent; it is all that is needed.
 
 name = "totalrecalls"
 compatibility_date = "2026-08-16"
-
-[assets]
-directory = "site/dist"
+pages_build_output_dir = "site/dist"

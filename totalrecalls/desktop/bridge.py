@@ -229,7 +229,7 @@ class Bridge:
             from totalrecalls.edition import is_pro_edition
             if is_pro_edition():
                 # Baked-in Pro build: entitlement is the edition flag itself —
-                # there is no stored Lemon Squeezy key to re-validate, and
+                # there is no stored Paddle key to re-validate, and
                 # check_entitlement() would return False (no stored key) and
                 # push a spurious "revoked Pro" license event that flips the
                 # UI tier badge to "Free" on every startup (observed 2026-09-12
@@ -349,14 +349,18 @@ class Bridge:
     def openBuyPage(self):
         """Open the purchase page in the user's default browser.
 
-        Points at the Lemon Squeezy store directly (always live), not
-        totalrecalls.app/buy — the production site was intentionally
-        frozen (404 gate) while the V9 redesign ships, so the site URL
-        404'd (reported 2026-09-13: in-app Buy button → 404 page).
+        No static checkout URL exists to link to: Paddle Billing has no
+        "checkout link" entity, so a checkout is opened client-side by
+        Paddle.js on the site's /buy page (or from a server-created
+        transaction's checkout.url). The old pay.paddle.io/checkout/hsc_…
+        URL was never real and dead-ended every buyer (reported 2026-09-26).
+        The site therefore has to be reachable for this to work — the
+        404 gate must be lifted before launch.
         """
         import webbrowser
         log("bridge: openBuyPage() called from UI")
-        webbrowser.open("https://totalrecalls.lemonsqueezy.com")
+        url = os.environ.get("TR_BUY_URL", "https://totalrecalls.app/buy")
+        webbrowser.open(url)
         return {"ok": True}
 
     def listProviders(self):

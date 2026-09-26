@@ -60,20 +60,20 @@ import config from "../../data/config.json";
 
   <h2>4. The only external service the app talks to: license verification</h2>
   <p>
-    TotalRecalls is a one-time purchase verified through <strong>order processor</strong>, a merchant of
-    record for independent developers. This is the only outbound connection the app makes that has
-    anything to do with us:
+    TotalRecalls is a one-time purchase sold through <strong>Paddle</strong>, our merchant of
+    record, and verified by our own license server. The license check below is the only outbound
+    connection the app makes that has anything to do with us:
   </p>
   <ul>
-    <li>When you enter your license key, and periodically afterwards (at most once per hour, best-effort), the app sends your <strong>license key</strong> and a <strong>pseudonymous machine identifier</strong> (an opaque hash like <code>TR-…</code>) to order processor's public license API.</li>
-    <li>The identifier is derived from hardware plus a per-install random salt. It is not your name, email, IP, or hardware serial — order processor can only use it to enforce the 3-activation limit.</li>
+    <li>When you enter your license key, and periodically afterwards (at most once per hour, best-effort), the app sends your <strong>license key</strong> and a <strong>pseudonymous machine identifier</strong> (an opaque hash like <code>TR-…</code>) to our license server at totalrecalls.app.</li>
+    <li>The identifier is derived from hardware plus a per-install random salt. It is not your name, email, IP, or hardware serial — our server can only use it to enforce the 3-activation limit.</li>
     <li>If your PC is offline, the app does not check and your Pro entitlement is not revoked. Verification is best-effort and never blocks downloads.</li>
     <li>No conversation content, no file names, no account details, and no usage data are ever part of these requests.</li>
   </ul>
 
   <h2>5. Third-party services</h2>
   <ul>
-    <li><strong>order processor</strong> — processes your payment and verifies your license key. Your card and billing details go to order processor's payment provider, never to us. See order processor's own privacy policy for their data practices.</li>
+    <li><strong>Paddle</strong> — our merchant of record. Paddle processes your payment and issues your receipt and invoice; your card and billing details go to Paddle, never to us. See Paddle's own privacy policy for their data practices.</li>
     <li><strong>Microsoft Edge WebView2</strong> — the browser engine that powers the embedded sign-in windows. When you sign in to a provider, that provider's own privacy policy governs the sign-in. See Microsoft's WebView2 documentation for the engine's data practices.</li>
     <li><strong>The AI providers</strong> — when you download from ChatGPT, Claude, or any other provider, that provider's servers receive requests authenticated with your session. Your use of your provider account remains governed by that provider's terms and privacy policy.</li>
     <li><strong>Cloudflare</strong> — hosts this website. Like any website, it keeps standard server logs (IP address, requested page, timestamp). It does not receive any data from the app.</li>
@@ -91,7 +91,7 @@ import config from "../../data/config.json";
   <ul>
     <li>Local state (sessions, license, log) — kept until you delete the folder, which you can do at any time.</li>
     <li>Your downloaded archives — kept for as long as you want; we have no copy.</li>
-    <li>Payment and license records — held by order processor as the merchant of record, per their policy and as required for tax and chargeback purposes. To request access to or deletion of your purchase data, contact order processor (or email us and we will relay the request). To free one of your 3 activation slots (for example, after replacing a PC), deactivate the license from the Licenses tab of your <a href="https://totalrecalls.orderprocessor.com/billing">order processor billing area</a>.</li>
+    <li>Payment and license records — held by Paddle as the merchant of record, per their policy and as required for tax and chargeback purposes. To request access to or deletion of your purchase data, contact Paddle (or email us and we will relay the request). To free one of your 3 activation slots (for example, after replacing a PC), email us and we will release it for you.</li>
   </ul>
 
   <h2>8. Your rights</h2>
@@ -99,7 +99,7 @@ import config from "../../data/config.json";
     Depending on where you live (including under Quebec Law 25, Canada's PIPEDA, and the GDPR if you
     are in the EU), you have rights to access, correct, or delete personal information held about you.
     Since TotalRecalls holds no personal information about you, most of these rights are already
-    satisfied by design. For the small amount of purchase data held by order processor, email us and
+    satisfied by design. For the small amount of purchase data held by Paddle, email us and
     we will help you exercise your rights with them. You can also remove your local entitlement record
     at any time by deleting the app's state folder (Section 3).
   </p>

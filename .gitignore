@@ -15,3 +15,39 @@ Thumbs.db
 
 # Hermes desktop attachments (local only)
 .hermes/
+
+# ---------------------------------------------------------------------------
+# Cloudflare / Paddle CDP capture debris. NOT source. These hold LIVE session
+# cookies (OTZ etc.), account tokens ("atok") and full API dumps — committing
+# them leaks account access (caught by a pre-commit scan 2026-09-26).
+# Default-deny the directory, then re-allow only real source. ORDER MATTERS:
+# in gitignore the LAST matching pattern wins, so the blanket rule must come
+# FIRST and the negations after it.
+# ---------------------------------------------------------------------------
+paddle-fulfillment-worker/*
+!paddle-fulfillment-worker/src/
+!paddle-fulfillment-worker/src/**
+!paddle-fulfillment-worker/wrangler.toml
+!paddle-fulfillment-worker/package.json
+!paddle-fulfillment-worker/build-metadata.txt
+!paddle-fulfillment-worker/*.md
+paddle-fulfillment-worker/.wrangler/
+output*.log
+dashboard*.html
+cloudflare_*.json
+cloudflare_*.py
+cloudflare_*.log
+cf_cookies*.json
+paddle-webhook-license-key-*.json
+*_cookies*.json
+
+# Large media masters: keep locally, never in git. Cloudflare Pages rejects any
+# file over 25 MiB ("Pages only supports files up to 25 MiB in size"), so a
+# big file in site/public/ silently fails the whole deploy. Large assets are
+# served from R2 instead (video.totalrecalls.app).
+media/
+site/public/videos/
+
+# Windows reserved-name junk left behind by shell redirects (`> NUL`)
+NUL
+nul

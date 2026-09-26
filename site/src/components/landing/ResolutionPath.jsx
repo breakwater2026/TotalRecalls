@@ -12,7 +12,7 @@ import { ArrowRight } from "lucide-react";
 import React from "react";
 
 const STEPS = [
-  { letter: "A", t: "Buy once", d: <>Checkout via order processor. One-time $24<span className="tr-usd">USD</span>, no subscription.</> },
+  { letter: "A", t: "Buy once", d: <>Checkout via Paddle. One-time $24<span className="tr-usd">USD</span>, no subscription.</> },
   { letter: "B", t: "Install", d: "Unzip and run the Windows app. Local sign-in only." },
   { letter: "C", t: "Pick your providers", d: "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, or Qwen." },
   { letter: "D", t: "Download", d: "Chats land as Markdown + JSON under your Library folder." },

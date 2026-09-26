@@ -20,7 +20,7 @@ UNLOCK EVERYTHING (Pro — one-time $24)
 --------------------------------------
 - All 8 providers: + Gemini, Grok, DeepSeek, Mistral, Qwen
 - Unlimited conversations
-Buy at: https://totalrecalls.lemonsqueezy.com — after purchase you receive a
+Buy at: https://totalrecalls.app/buy — after purchase you receive a
 license key by email. Enter it in the app ("Upgrade to Pro" link at the top
 → paste the key → Activate) to unlock all 8 providers and unlimited
 downloads. Activation needs an internet connection once; after that the app

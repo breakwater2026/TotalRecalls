@@ -1,10 +1,11 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-
-const CHECKOUT_URL = "https://totalrecalls.order processor.com/checkout/buy/03e11a51-8c63-4826-8b87-998b626285c3";
-const STORE_URL = "https://totalrecalls.order processor.com";
 ---
-<PageLayout title="Buy TotalRecalls — $24 one-time" description="Buy TotalRecalls for Windows. A one-time $24 USD purchase, no subscription. Secure checkout via order processor." breadcrumbs={[{ label: "Buy" }]}>
+<PageLayout
+  title={`Buy TotalRecalls — $24 one-time`}
+  description={`Buy TotalRecalls for Windows. A one-time $24 USD purchase, no subscription. Secure checkout by card via Paddle.`}
+  breadcrumbs={[{ label: "Buy" }]}
+>
 
   <h1>Buy TotalRecalls</h1>
   <p>One-time <strong>$24<span class="tr-usd">USD</span></strong> &mdash; discounted launch price. No subscription, no account required. Free updates to the core app included.</p>
@@ -16,9 +17,9 @@ const STORE_URL = "https://totalrecalls.order processor.com";
       <span class="price-badge">launch price</span>
     </div>
     <p class="price-note">One-time purchase &middot; Windows app &middot; Local files only</p>
-    <p>Pay once with order processor. Your license key and receipt arrive by email immediately after purchase. Enter the key in the app (top-right &ldquo;Pro&rdquo; badge &rarr; &ldquo;Enter key&rdquo;) to unlock all 8 providers and unlimited downloads. The app ships as a single free build — the key is what unlocks Pro, on up to 3 of your devices.</p>
-    <a href={CHECKOUT_URL} data-tr-buy class="buy-button buy-lg">Buy TotalRecalls — <span data-tr-price>$24<span class="tr-usd">USD</span></span></a>
-    <p class="guarantee-note">Not ready to buy? A Free Tier is available now — download the app and test it on your own chats before paying.</p>
+    <p>Pay once by card via <strong>Paddle</strong> &mdash; our merchant of record, which handles payment, tax and your receipt. Your license key arrives by email immediately after purchase. Enter the key in the app (top-right &ldquo;Pro&rdquo; badge &rarr; paste the key &rarr; Activate) to unlock all 8 providers and unlimited downloads. The app ships as a single free build &mdash; the key is what unlocks Pro, on up to 3 of your devices.</p>
+    <a href="#" data-tr-buy class="buy-button buy-lg">Buy TotalRecalls &mdash; <span data-tr-price>$24<span class="tr-usd">USD</span></span></a>
+    <p class="guarantee-note">Not ready to buy? A Free Tier is available now &mdash; download the app and test it on your own chats before paying.</p>
   </section>
 
   <section>
@@ -29,18 +30,18 @@ const STORE_URL = "https://totalrecalls.order processor.com";
       <li>Unlimited downloads when unlocked</li>
       <li>100% local &mdash; your data never leaves your machine</li>
       <li>Free updates to the core app for the life of the product</li>
-      <li>New features (add-ons) are separate purchases — add-ons you own keep getting updates</li>
+      <li>New features (add-ons) are separate purchases &mdash; add-ons you own keep getting updates</li>
     </ul>
   </section>
 
   <section>
     <h2>Secure Checkout</h2>
-    <p>Payments are handled securely by <a href={STORE_URL}>order processor</a>. We never see or store your payment details. If you need a receipt or want to re-download, use the <a href="https://totalrecalls.orderprocessor.com/billing">order processor Customer Portal</a>.</p>
+    <p>Payment is processed by <strong>Paddle</strong>, our merchant of record. Your card details go to Paddle and are never seen or stored by us, and Paddle emails your receipt and invoice immediately after purchase. Need a copy later, or a hand with activation? Contact <a href="/support/">support</a>.</p>
   </section>
 
   <section>
     <h2>Still Deciding?</h2>
-    <p>Give the Free Tier a try first — it lets you download from a limited set of providers so you can get comfortable with the app. Then unlock everything with a single $24<span class="tr-usd">USD</span> purchase. See the <a href="/legals/#pricing">Pricing &amp; Free Tier</a> for details.</p>
+    <p>Give the Free Tier a try first &mdash; it lets you download from a limited set of providers so you can get comfortable with the app. Then unlock everything with a single $24<span class="tr-usd">USD</span> purchase. See the <a href="/legals/#pricing">Pricing &amp; Free Tier</a> for details.</p>
   </section>
 
 </PageLayout>

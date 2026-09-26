@@ -1,0 +1,1 @@
+{"branch":"master","isReleaseCandidate":"true","commit":"d193c9eb7e4f4d016abc1f45c1e4cb1c7c9e5da6","dashVersion":"640c6ea2f26bdbc22cdf3a1620adee10832f2eee","env":"production","builtAt":1790245304327,"worktree":null,"versions":{"@cloudflare/app-dash":"25.162.2","@cloudflare/kumo":"2.14.0","node":"24.14.0","pnpm":"11.13.0"}}
