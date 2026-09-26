@@ -1,6 +1,7 @@
 # Paddle + mail fulfillment — VERIFIED STATUS
 
-Last verified live: **2026-09-26** — Paddle API, Cloudflare Workers/D1 API, Resend API, and a full
+Last verified live: **2026-09-26** — Paddle API, Cloudflare Workers/D1 API, Resend API (domain VERIFIED,
+sending as licenses@totalrecalls.app), and a full
 signed-webhook end-to-end test (key minted → email **delivered** → D1 recorded → key activates).
 Every claim below was executed, not assumed. Supersedes all earlier versions of this file.
 
@@ -89,28 +90,44 @@ bindings in the `metadata` part** or the worker loses D1/KV. Cloudflare edge-cac
 cache-bust query strings when reading back; account-scoped `cfat_` tokens return
 `1000 Invalid API Token` from `/user/tokens/verify` yet work fine on account endpoints.
 
-## 3. Resend — WORKING (sandbox sender)
+## 3. Resend — VERIFIED, SENDING AS licenses@totalrecalls.app
 
 - Account `totalrecalls.app@gmail.com`; key `re_…` in `$HERMES_HOME/.env` as `RESEND_API_KEY`
   and as the worker secret of the same name.
-- **SMTP credentials verified by real authentication**: `smtp.resend.com`, username literal
-  `resend`, password = the `re_…` key — AUTH OK on 465 (implicit TLS) *and* 587 (STARTTLS), and a
-  message was sent and reported **delivered**.
-- **Domain `totalrecalls.app` registered with Resend** (`ceeb0707-9049-4b6a-9a25-9846a767532f`,
-  region us-east-1) but **DNS records are not yet added**, so it is `not_started`.
-- Until verification, Resend delivers **only** to `totalrecalls.app@gmail.com`, and only from
-  `onboarding@resend.dev` — which is what the `MAIL_FROM` secret currently holds.
+- Domain `totalrecalls.app` — **status `verified`** (id `17ddfee6-8be0-4140-b25d-e082393cf841`,
+  region us-east-1): DKIM verified, `send` SPF verified, `rsend` SPF verified.
+- Worker `MAIL_FROM` secret is now `TotalRecalls <licenses@totalrecalls.app>` (confirmed by
+  `/health`). It is a **secret**, so no redeploy was needed.
+- **End-to-end proven 2026-09-26**: signed `transaction.completed` → worker → key minted in D1 →
+  email from `licenses@totalrecalls.app` → Resend `last_event: **delivered**` → the minted key
+  activates (`{"valid":true,…}`). Test order `txn_e2e_1790446683`, key `TR-23X468ZD-JXCW-Y8DD`.
 
-### Records to add in Cloudflare for `totalrecalls.app` (names are relative to the zone)
+### DNS records now published
 | Type | Name | Value | Priority | Proxy |
 |---|---|---|---|---|
-| TXT | `resend._domainkey` | `p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCkcSTsbrti/06sTfTHphotoNYRm9Fg2qwJKhuEEUhq4bXXLhbYTGZGkdehyPZQRqTolFZW8mcLkXkZoDF2wXwH4YNq4MMzqCIz9lal2Oqrocb5+vJeT2Hd/z6Ddme9NyCjhX8NOtxmyjpNT4Hv/o6Q3CBE6iBjNAP4FFeQaYkuVQIDAQAB` | — | DNS only |
+| TXT | `resend._domainkey` | `p=MIGfMA0…` — 218 chars, single character-string, byte-exact vs Resend's expected value | — | DNS only |
 | MX | `send` | `feedback-smtp.us-east-1.amazonses.com` | 10 | — |
 | TXT | `send` | `v=spf1 include:amazonses.com ~all` | — | DNS only |
 | CNAME | `rsend` | `send.forge.rmta.net` | — | **DNS only (grey cloud)** |
+| TXT | `_dmarc` | `v=DMARC1; p=none;` | — | DNS only (added 2026-09-26; Resend lists it as optional) |
 
-Then: Resend → Domains → **Restart verification** → once verified, update the worker secret
-`MAIL_FROM` to `TotalRecalls <licenses@totalrecalls.app>`. **No redeploy needed.**
+**Root SPF was MERGED**, because SPF allows only one record per name and the root already had
+Cloudflare Email Routing's:
+
+```
+v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all
+```
+
+That keeps Email Routing working while authorising Amazon SES for Resend. Never add a second
+root SPF record.
+
+### Gotcha: Resend's badge can lie — verify the DNS yourself
+The dashboard showed `pending` / "Missing SPF records: These records weren't found" for ~3h
+**while the DNS was already byte-exact** — proved with `tools/_probe_dns.py` against both
+authoritative Cloudflare nameservers (all anycast IPs), 1.1.1.1 and 8.8.8.8 (16/16 answers exact).
+Sending from `licenses@totalrecalls.app` also already worked during that window. What cleared the
+state: delete + re-add the domain, merge the root SPF, add `_dmarc`, restart verification.
+Run `tools/_probe_dns.py` BEFORE chasing Resend's UI.
 
 ## 4. Application side — ENDPOINT FIXED, REBUILT, VERIFIED
 
