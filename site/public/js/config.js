@@ -11,16 +11,12 @@
  * SECRET API key (pdl_live_apikey_…) must never appear here.
  */
 window.TR_CONFIG = {
-  // TEMPORARY LIVE-TEST VALUES (2026-09-26). The Paddle list price is set to
-  // 0.99 and the 50% launch discount is paused at checkout, because Paddle
-  // refuses to charge below 70 minor units (USD 0.70), so 0.99 - 50% = 0.49
-  // could not be charged at all. Revert all four lines with the price.
-  priceLabel: "$0.99 USD",
-  priceNote: "test price",
-  normalPriceLabel: "",
+  priceLabel: "$24USD",
+  priceNote: "discounted launch price",
+  normalPriceLabel: "$48 USD",
   paddleClientToken: "live_bcdb7746fc6d13a152b0431abf5",
   paddlePriceId: "pri_01m37qpx77bst2w1gnf3zkf4zd",
-  paddleDiscountId: "",
+  paddleDiscountId: "dsc_01m39879ga7pv9zg0gsvzqsmjw",
   successPath: "/thanks/",
   thanksPath: "/thanks/",
   versionLabel: "v1.0.0",
