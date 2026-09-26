@@ -7,6 +7,11 @@ Every claim below was executed, not assumed. Supersedes all earlier versions of 
 
 ---
 
+> **Architecture reference:** `paddle-fulfillment-worker/Fulfillment Workflow.md` — the
+> end-to-end path (Paddle → Worker → D1 → Resend → app activation), rewritten
+> 2026-09-26 to match the deployed system. This file tracks *status and evidence*;
+> that one explains *how it works* and the traps.
+
 ## 1. Paddle (live) — WORKING
 
 | Item | ID | Value |
