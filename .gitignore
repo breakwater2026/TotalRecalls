@@ -48,6 +48,9 @@ paddle-webhook-license-key-*.json
 media/
 site/public/videos/
 
+# Wrangler local cache/state (never commit)
+.wrangler/
+
 # Windows reserved-name junk left behind by shell redirects (`> NUL`)
 NUL
 nul
