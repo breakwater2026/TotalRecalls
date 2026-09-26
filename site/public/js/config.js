@@ -85,6 +85,18 @@ window.TR_CONFIG = {
     });
   });
 
+  // Paddle builds a checkout payment link as: <default payment link>?_ptxn=<txn_id>
+  // Paddle.js is expected to open that transaction automatically, provided it is
+  // present and initialised. The normal flow loads it lazily on the first Buy
+  // click, so a buyer arriving on a Paddle-issued link (payment-method updates,
+  // invoice links) would otherwise land on a page that never opens their
+  // checkout. Load eagerly when _ptxn is present.
+  if (new URLSearchParams(window.location.search).has("_ptxn")) {
+    loadPaddle().catch(function () {
+      /* the page still renders and the Buy button still works */
+    });
+  }
+
   if (checkoutPending) {
     checkoutPending.style.display = buyButtons.length ? "none" : "block";
   }
