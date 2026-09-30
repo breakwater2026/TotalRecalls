@@ -1,38 +1,27 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ThreatFeed from "../components/landing/ThreatFeed.jsx";
 import Nav from "../components/landing/Nav.jsx";
-import SentinelHero from "../components/landing/SentinelHero.jsx";
-import ResolutionPath from "../components/landing/ResolutionPath.jsx";
-import RiskMatrix from "../components/landing/RiskMatrix.jsx";
-import LibraryPreview from "../components/landing/LibraryPreview.jsx";
-import ProductShowcase from "../components/landing/ProductShowcase.jsx";
-import Guides from "../components/landing/Guides.jsx";
-import MicrosoftWarningSection from "../components/landing/MicrosoftWarningSection.jsx";
-import PortabilitySection from "../components/landing/PortabilitySection.jsx";
-import PricingSection from "../components/landing/PricingSection.jsx";
-import FaqSection from "../components/landing/FaqSection.jsx";
-import LegalSection from "../components/landing/LegalSection.jsx";
-import SiteFooter from "../components/landing/SiteFooter.jsx";
-const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TotalRecalls", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows 10, Windows 11", "offers": {"@type": "Offer", "price": "24", "priceCurrency": "USD"}, "description": "A Windows app that downloads your AI chat history from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen into local Markdown + JSON files you own forever.", "url": "https://totalrecalls.app/", "downloadUrl": "https://totalrecalls.app/download/", "softwareVersion": "1.0.0", "author": {"@type": "Organization", "name": "TotalRecalls", "url": "https://totalrecalls.app/"}}';
+import Hero from "../components/landing/tr/Hero.jsx";
+import Why from "../components/landing/tr/Why.jsx";
+import HowItWorks from "../components/landing/tr/HowItWorks.jsx";
+import Ownership from "../components/landing/tr/Ownership.jsx";
+import Pricing from "../components/landing/tr/Pricing.jsx";
+import Trust from "../components/landing/tr/Trust.jsx";
+import Faq from "../components/landing/tr/Faq.jsx";
+import Footer from "../components/landing/tr/Footer.jsx";
 ---
 
 <BaseLayout title="TotalRecalls — Recall every AI conversation." description="A Windows app that saves your AI conversations as Markdown + JSON you keep forever.">
-  <div class="min-h-screen bg-background">
-    <ThreatFeed client:load />
+  <div class="min-h-screen bg-tr-obsidian">
     <Nav client:load />
-    <SentinelHero client:load />
-    <ResolutionPath client:load />
-    <RiskMatrix client:load />
-    <LibraryPreview client:load />
-    <ProductShowcase client:load />
-    <Guides client:load />
-    <MicrosoftWarningSection client:load />
-    <PortabilitySection client:load />
-    <PricingSection client:load />
-    <FaqSection client:load />
-    <LegalSection client:load />
-    <SiteFooter client:load />
+    <Hero client:load />
+    <Why client:load />
+    <HowItWorks client:load />
+    <Ownership client:load />
+    <Pricing client:load />
+    <Trust client:load />
+    <Faq client:load />
+    <Footer client:load />
   </div>
 
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -56,6 +45,4 @@ const jsonLd = '{"@context": "https://schema.org", "@type": "SoftwareApplication
       "url": "https://totalrecalls.app/"
     }
   })} />
-
-  <script type="application/ld+json" set:html={jsonLd} />
 </BaseLayout>

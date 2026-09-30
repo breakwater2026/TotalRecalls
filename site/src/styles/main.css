@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+ * Brand Style Guide v1.0 — "Private Archive + Calm Utility"
+ * Jasper rewrite (branch: Jasper). Tokens per guide §2.7 + type scale §3.3.
+ * Sans (Inter) for meaning, mono (IBM Plex Mono) for evidence.
+ * Radii: 6px chips / 8px buttons / 12px cards.
+ * ========================================================================== */
+:root {
+  /* Backgrounds */
+  --tr-obsidian: #111315;
+  --tr-graphite: #1A1D21;
+  --tr-slate:    #2A2F36;
+
+  /* Light neutrals */
+  --tr-paper: #F3EFE7;
+  --tr-mist:  #D9D4CB;
+  --tr-dust:  #B5AEA3;
+
+  /* Accents */
+  --tr-amber:       #C88A2B;
+  --tr-amber-hover: #D69A3D;
+  --tr-amber-press: #AE7722;
+  --tr-green:       #5E8A68;
+  --tr-steel:       #7A8FA6;
+
+  /* Functional */
+  --tr-error: #C8664A;
+}
+
+/* One-time 200ms fade-in reveal, 8px upward slide. Off under
+   prefers-reduced-motion (useReveal adds .tr-revealed immediately). */
+.tr-reveal {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tr-reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+  .tr-reveal.tr-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

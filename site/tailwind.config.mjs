@@ -14,6 +14,21 @@ export default {
           DEFAULT: '#2F7BFF',
           foreground: '#FFFFFF',
         },
+        /* Brand Style Guide v1.0 (Jasper rewrite) */
+        'tr-obsidian': 'var(--tr-obsidian)',
+        'tr-graphite': 'var(--tr-graphite)',
+        'tr-slate': 'var(--tr-slate)',
+        'tr-paper': 'var(--tr-paper)',
+        'tr-mist': 'var(--tr-mist)',
+        'tr-dust': 'var(--tr-dust)',
+        'tr-amber': {
+          DEFAULT: 'var(--tr-amber)',
+          hover: 'var(--tr-amber-hover)',
+          press: 'var(--tr-amber-press)',
+        },
+        'tr-green': 'var(--tr-green)',
+        'tr-steel': 'var(--tr-steel)',
+        'tr-error': 'var(--tr-error)',
         muted: {
           DEFAULT: 'hsl(var(--muted, 210 40% 96.1%))',
           foreground: 'hsl(var(--muted-foreground, 215.4 16.3% 46.9%))',
@@ -23,6 +38,11 @@ export default {
           foreground: '#FFFFFF',
         },
         border: 'hsl(var(--border, 214.3 31.8% 91.4%))',
+      },
+      borderRadius: {
+        chip: '6px',
+        btn: '8px',
+        card: '12px',
       },
       fontFamily: {
         mono: ['"IBM Plex Mono"', 'monospace'],
