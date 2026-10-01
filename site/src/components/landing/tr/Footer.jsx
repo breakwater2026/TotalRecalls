@@ -7,6 +7,7 @@ const COLS = [
     h: "Product",
     links: [
       { l: "How It Works", href: "/#resolution" },
+      { l: "See It Work", href: "/see-it-work/" },
       { l: "AI Providers", href: "/providers/" },
       { l: "The Library", href: "/library/" },
       { l: "Ownership Path", href: "/ownership/" },

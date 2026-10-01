@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import SeeItWorkPage from "../../components/landing/tr/SeeItWorkPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+---
+
+<BaseLayout
+  title="See It Work · TotalRecalls"
+  description="Watch a chat become files on your PC. A real screen recording shows one conversation downloaded from the app to two files in a local folder — start to finish."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <SeeItWorkPage client:load />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>

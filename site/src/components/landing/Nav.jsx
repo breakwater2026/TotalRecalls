@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import React from "react";
 const LINKS = [
   { label: "How It Works", href: "/#resolution" },
+  { label: "See It Work", href: "/see-it-work/" },
   { label: "Providers", href: "/providers/" },
   { label: "Library", href: "/library/" },
   { label: "Guides", href: "/guides/" },
@@ -47,7 +48,7 @@ export default function Nav() {
         <a href="/#top" className="flex items-center gap-2.5">
           <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
         </a>
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {LINKS.map((l) => (
             <a key={l.label} href={l.href} className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">
               {l.label}
