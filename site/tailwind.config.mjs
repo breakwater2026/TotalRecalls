@@ -26,6 +26,7 @@ export default {
           hover: 'var(--tr-amber-hover)',
           press: 'var(--tr-amber-press)',
         },
+        'tr-on-amber': 'var(--tr-on-amber)',
         'tr-green': 'var(--tr-green)',
         'tr-steel': 'var(--tr-steel)',
         'tr-error': 'var(--tr-error)',

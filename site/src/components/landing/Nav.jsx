@@ -11,9 +11,9 @@ import { Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 import React from "react";
 const LINKS = [
   { label: "How It Works", href: "/#resolution" },
-  { label: "Providers", href: "/#matrix" },
-  { label: "Library", href: "/#library" },
-  { label: "Guides", href: "/#guides" },
+  { label: "Providers", href: "/providers/" },
+  { label: "Library", href: "/library/" },
+  { label: "Guides", href: "/guides/" },
   { label: "Pricing", href: "/#pricing" },
   { label: "Support", href: "/support/" },
   { label: "Legals", href: "/legals/" },
@@ -42,7 +42,7 @@ function toggleTheme(event) {
 export default function Nav() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border py-2.5">
+    <header className="sticky top-0 z-40 bg-tr-obsidian/95 backdrop-blur border-b border-tr-slate py-2.5">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 flex items-center justify-between">
         <a href="/#top" className="flex items-center gap-2.5">
           <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
@@ -55,16 +55,16 @@ export default function Nav() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-5">
-          <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors" aria-label="Toggle theme">
+          <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-tr-slate text-tr-dust hover:text-tr-paper hover:bg-tr-slate/40 transition-colors" aria-label="Toggle theme">
             <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
             <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
           </button>
-          <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">Download</a>
+          <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-tr-dust hover:text-tr-paper transition-colors">Download</a>
           <div className="flex flex-col items-center">
-            <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-primary text-white px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:opacity-90 transition-opacity">
+            <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-tr-amber-hover transition-colors">
               Buy — $24<span className="tr-usd">USD</span> <ArrowRight className="w-3.5 h-3.5" />
             </a>
-            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-primary mt-1 font-semibold whitespace-nowrap">
+            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-tr-steel mt-1 font-semibold whitespace-nowrap">
               discounted launch price
             </span>
           </div>
@@ -74,22 +74,22 @@ export default function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-border bg-background relative overflow-hidden mt-2.5">
-          <span className="absolute left-0 top-0 h-full w-px bg-primary tr-scanline" />
+        <div className="md:hidden border-t border-tr-slate bg-tr-obsidian relative overflow-hidden mt-2.5">
+          <span className="absolute left-0 top-0 h-full w-px bg-tr-steel tr-scanline" />
           <nav className="px-5 py-4 flex flex-col gap-3.5">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Appearance</span>
-              <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle theme">
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-tr-dust">Appearance</span>
+              <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-tr-slate text-tr-dust hover:text-tr-paper transition-colors" aria-label="Toggle theme">
                 <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
                 <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
               </button>
             </div>
             {LINKS.concat([{ label: "Download", href: "/download/" }]).map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted-foreground">
+              <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-tr-dust">
                 {l.label}
               </a>
             ))}
-            <a href="/#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-primary text-white px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
+            <a href="/#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-tr-amber text-tr-on-amber px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
               <span>Buy — $24<span className="tr-usd">USD</span></span>
               <span className="text-[9px] opacity-85 font-normal">discounted launch price</span>
             </a>

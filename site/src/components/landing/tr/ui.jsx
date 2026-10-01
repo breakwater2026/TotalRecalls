@@ -50,7 +50,7 @@ export function Btn({ href, variant = "primary", large = false, className = "", 
     );
   }
   return (
-    <a href={href} className={`${base} bg-tr-amber text-tr-obsidian hover:bg-tr-amber-hover active:bg-tr-amber-press ${className}`}>
+    <a href={href} className={`${base} bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover active:bg-tr-amber-press ${className}`}>
       {children}
     </a>
   );

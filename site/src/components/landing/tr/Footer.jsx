@@ -7,7 +7,9 @@ const COLS = [
     h: "Product",
     links: [
       { l: "How It Works", href: "/#resolution" },
-      { l: "Why Own Your Chats", href: "/#ownership" },
+      { l: "AI Providers", href: "/providers/" },
+      { l: "The Library", href: "/library/" },
+      { l: "Ownership Path", href: "/ownership/" },
       { l: "Pricing", href: "/#pricing" },
       { l: "Download", href: "/download/" },
       { l: "Release Notes", href: "/release-notes/" },

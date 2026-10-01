@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import OwnershipPage from "../../components/landing/tr/OwnershipPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+---
+
+<BaseLayout
+  title="The Ownership Path · TotalRecalls"
+  description="Your AI chats should live on your drive, not in a provider's cloud. TotalRecalls saves them as plain Markdown + JSON files you can read, search, and back up."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <OwnershipPage client:load />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>

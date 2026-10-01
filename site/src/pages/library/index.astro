@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import LibraryPage from "../../components/landing/tr/LibraryPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+---
+
+<BaseLayout
+  title="The Library · TotalRecalls"
+  description="Every AI conversation TotalRecalls saves becomes a Markdown file and a JSON file in C:\TotalRecalls\Library — openable, searchable, and yours."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <LibraryPage client:load />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>

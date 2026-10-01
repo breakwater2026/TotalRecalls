@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import ProvidersPage from "../../components/landing/tr/ProvidersPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+---
+
+<BaseLayout
+  title="Supported AI Providers · TotalRecalls"
+  description="TotalRecalls saves your conversations from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen as Markdown + JSON files in one local Library."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <ProvidersPage client:load />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>
