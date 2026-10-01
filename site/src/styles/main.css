@@ -33,20 +33,21 @@
   --tr-on-amber: #111315;
 }
 
-/* Light theme (Jasper) — the tr/ brand palette inverted onto warm paper.
-   Dark values above remain the default; this block is scoped to
+/* Light theme (Jasper) — the tr/ brand palette inverted onto a NEUTRAL WHITE
+   surface (matches the Base44/PageLayout pages, which are pure white in light
+   mode). Dark values above remain the default; this block is scoped to
    html[data-theme="light"] and is flipped by the Nav toggle (tr-theme in
    localStorage, pre-paint script in BaseLayout.astro). */
 html[data-theme="light"] {
   /* Backgrounds — page + raised panels */
-  --tr-obsidian: #F5F1E8; /* page bg: warm paper */
-  --tr-graphite: #FDFBF6; /* raised panels: near-white warm */
-  --tr-slate:    #E2DCD0; /* hairlines + chip fills */
+  --tr-obsidian: #FFFFFF; /* page bg: white */
+  --tr-graphite: #F7F7F8; /* raised panels: near-white neutral */
+  --tr-slate:    #E4E4E7; /* hairlines + chip fills */
 
   /* Text ramp — dark on light */
-  --tr-paper: #23262B;    /* headings: near-black */
-  --tr-mist:  #4C525B;    /* body */
-  --tr-dust:  #837C6F;    /* faint / captions */
+  --tr-paper: #18181B;    /* headings: near-black */
+  --tr-mist:  #3F3F46;    /* body */
+  --tr-dust:  #71717A;    /* faint / captions */
 
   /* Accents — deepened for contrast on light */
   --tr-amber:       #B57E22;
