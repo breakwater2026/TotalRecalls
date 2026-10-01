@@ -20,7 +20,7 @@ export default function Hero() {
             <Eyebrow mono>Windows app · Local-first</Eyebrow>
 
             <h1 className="mt-3 font-heading text-[40px] md:text-[64px] font-bold leading-[1.05] tracking-[-0.02em] text-tr-paper">
-              Every AI conversation, kept on your own PC.
+              Recall every AI conversation, kept on your own PC.
             </h1>
 
             <p className="mt-6 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
