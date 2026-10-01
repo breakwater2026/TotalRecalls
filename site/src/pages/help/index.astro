@@ -1,7 +1,94 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Help — TotalRecalls" description="Installation, download setup, and troubleshooting." breadcrumbs={[{ label: "Help" }]}>
-  <h1>Help &amp; Troubleshooting</h1>
-  <p>How to install, configure, and use TotalRecalls, including SmartScreen guidance.</p>
+<PageLayout title="Help — TotalRecalls" description="Installation, first run, per-provider guides, license activation, and troubleshooting for TotalRecalls." breadcrumbs={[{ label: "Help" }]}>
+  <h1>Help</h1>
+  <p>
+    Everything you need to install TotalRecalls, run your first download, and
+    get unstuck when something goes wrong. If you don't find your answer here,
+    email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>
+    &mdash; a person answers.
+  </p>
+
+  <h2>Getting Started (5 minutes)</h2>
+  <ol>
+    <li><strong>Download</strong> the Free Tier ZIP from the <a href="/download/">Download page</a> and unzip it to any folder (e.g. <code>Desktop\TotalRecalls</code>). No installer &mdash; the archive contains <code>TotalRecalls.exe</code> and <code>README.txt</code>.</li>
+    <li><strong>Run</strong> <code>TotalRecalls.exe</code>. On first launch, Windows SmartScreen may show a warning &mdash; that's normal for a small, unsigned app. Click <em>More info &rarr; Run anyway</em>. Step-by-step: <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
+    <li><strong>Pick a provider</strong> and sign in in the window the app opens. Your session token is read from that window and stays on your machine. (Gemini is different &mdash; point the app at your Google Takeout folder instead.)</li>
+    <li><strong>Choose an output folder</strong> &mdash; anywhere on your PC &mdash; and click <em>Download</em>.</li>
+    <li><strong>Open the folder</strong> when it finishes. Every conversation is a Markdown file plus a JSON file. Grep it, version it, move it &mdash; it's yours.</li>
+  </ol>
+  <p>
+    The <a href="/see-it-work/">See It Work</a> page walks through a real
+    download on screen, start to finish.
+  </p>
+
+  <h2>Free Tier vs. Pro</h2>
+  <p>
+    The app you download is the full app. The <strong>Free Tier</strong> limits
+    you to <strong>3 providers</strong> (Perplexity, ChatGPT, Claude) and
+    <strong>5 conversations per download</strong> &mdash; enough to verify it
+    works on your own chats before paying. <strong>Pro</strong> unlocks all 8
+    providers and unlimited conversations for a one-time
+    <span data-tr-price>$24<span class="tr-usd">USD</span></span>
+    (launch price). See <a href="/pricing/">Pricing</a>.
+  </p>
+  <h3>Activating Pro</h3>
+  <ul>
+    <li>Buy through the <a href="/buy/">buy page</a> &mdash; payment is handled by Paddle, and the license key arrives in your Paddle purchase email.</li>
+    <li>In the app, enter the license key to unlock Pro. The key covers up to 3 activations (desktop, laptop, mobile) so you can use it on more than one machine.</li>
+    <li>Lost your key? It's in your purchase email &mdash; if you can't find it, email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a> and we'll re-send it.</li>
+  </ul>
+
+  <h2>Per-Provider Guides</h2>
+  <p>Each provider has its own walkthrough &mdash; sign-in quirks, what the export contains, and provider-specific fixes. Find them all on the <a href="/guides/">Guides</a> page:</p>
+  <ul>
+    <li><a href="/guides/backup-perplexity-threads/">Perplexity</a> &mdash; backup threads and searches</li>
+    <li><a href="/guides/export-chatgpt-conversations/">ChatGPT</a> &mdash; export conversations</li>
+    <li><a href="/guides/export-claude-chat-history/">Claude</a> &mdash; export chat history and Projects</li>
+    <li><a href="/guides/gemini-takeout-archive/">Gemini</a> &mdash; Google Takeout setup and import</li>
+    <li><a href="/guides/grok/">Grok</a> &mdash; export conversations</li>
+    <li><a href="/guides/deepseek/">DeepSeek</a> &mdash; export conversations</li>
+    <li><a href="/guides/mistral/">Mistral</a> &mdash; export conversations</li>
+    <li><a href="/guides/qwen/">Qwen Chat</a> &mdash; export chats</li>
+  </ul>
+
+  <h2>Troubleshooting</h2>
+  <h3>Download fails or returns empty</h3>
+  <ul>
+    <li>The app reads the live session from its <em>own</em> sign-in window &mdash; not from your default browser. Make sure the sign-in window completed a real login.</li>
+    <li>Provider servers are occasionally slow. If you see <em>"servers are busy &mdash; retrying"</em>, let it finish: it keeps going, and large accounts take longer.</li>
+    <li>If the sign-in window opens blank and never loads, close the app and launch it again &mdash; the app clears leftover browser processes on startup.</li>
+    <li>Use the provider's <em>Disconnect</em>, then <em>Connect</em> again, to force a fresh login window.</li>
+  </ul>
+  <h3>SmartScreen blocks the app</h3>
+  <ul>
+    <li>Click <em>More info &rarr; Run anyway</em> on the warning. Full instructions: <a href="/guides/smartscreen/">SmartScreen Help</a>.</li>
+    <li>Windows 11 <em>Smart App Control</em> is stricter and has no per-app override. If you have it on, see the same guide for your options (code-signing is on the roadmap).</li>
+  </ul>
+  <h3>Gemini (Takeout) import fails</h3>
+  <ul>
+    <li>Download the full ZIP from <a href="https://takeout.google.com">takeout.google.com</a> &mdash; a partial export has no conversations.</li>
+    <li><strong>Extract the ZIP first.</strong> TotalRecalls reads the extracted folder, not the ZIP itself. Step-by-step: <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
+  </ul>
+  <h3>Files look wrong or are missing</h3>
+  <ul>
+    <li>Downloads land in the folder <em>you chose</em> at download time &mdash; check that folder before assuming anything failed. New downloads don't overwrite old ones; each run writes its own set of files.</li>
+    <li>Chat text and code blocks come as Markdown; attachment references are preserved alongside (e.g. <code>sources.json</code>). The binary attachments themselves stay in your provider account.</li>
+  </ul>
+  <p>More symptoms and fixes on the <a href="/guides/troubleshooting/">Troubleshooting guide</a>.</p>
+
+  <h2>Where Your Data Lives</h2>
+  <ul>
+    <li>All files land in the folder you pick &mdash; there is no cloud locker and no TotalRecalls account to sync to.</li>
+    <li>Your AI session tokens are read from the app's sign-in window and stay on your machine; we never host your chats, downloads, or credentials.</li>
+    <li>No telemetry, no analytics, no background services. Full details in the <a href="/privacy/">Privacy Policy</a>.</li>
+  </ul>
+
+  <h2>Still Stuck?</h2>
+  <ul>
+    <li><a href="/faq/">FAQ</a> &mdash; pricing, providers, privacy, refunds, how downloads work.</li>
+    <li><a href="/support/">Support page</a> &mdash; contact details and pricing/free-tier answers.</li>
+    <li>Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>. Include the provider you were downloading, what you saw on screen, and your Windows version &mdash; it speeds things up a lot.</li>
+  </ul>
 </PageLayout>

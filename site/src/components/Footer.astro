@@ -73,6 +73,70 @@ const currentYear = new Date().getFullYear();
         </div>
       ))}
     </div>
+
+    <!-- ===================== EMAIL SIGNUP ===================== -->
+    <section class="footer-signup" aria-labelledby="footer-signup-heading">
+      <div class="footer-signup__inner">
+
+        <div class="footer-signup__copy">
+          <p class="footer-signup__eyebrow">PRODUCT UPDATES</p>
+          <h2 id="footer-signup-heading" class="footer-signup__heading">Follow what we build next</h2>
+          <p id="footer-signup-description" class="footer-signup__description">
+            Get product updates and development news from TotalRecalls, including new providers,
+            new features, and progress on macOS and Linux.
+          </p>
+        </div>
+
+        <div class="footer-signup__form-wrap">
+          <form class="footer-signup__form" action="/api/subscribe" method="post" data-footer-signup novalidate>
+            <label for="footer-signup-email" class="footer-signup__label">Email address</label>
+            <div class="footer-signup__row">
+              <input
+                id="footer-signup-email"
+                class="footer-signup__input"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                inputmode="email"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="footer-signup-error footer-signup-privacy"
+              />
+              <button type="submit" class="footer-signup__button">Get updates</button>
+            </div>
+            <div class="footer-signup__hp" aria-hidden="true">
+              <label for="footer-signup-website">Leave this field empty</label>
+              <input id="footer-signup-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+            <p
+              id="footer-signup-error"
+              class="footer-signup__message footer-signup__message--error"
+              aria-live="assertive"
+              aria-atomic="true"
+              data-footer-signup-error
+            ></p>
+          </form>
+
+          <div class="footer-signup__status" role="status" aria-atomic="true">
+            <p class="footer-signup__message footer-signup__message--success" tabindex="-1" hidden data-footer-signup-success>
+              You're on the list. We'll only email when there's real news, your address stays
+              private, and you can unsubscribe anytime.
+            </p>
+          </div>
+
+          <p id="footer-signup-privacy" class="footer-signup__privacy">
+            We use your email only to send these updates. It's never shared with or used by any
+            third party. Unsubscribe anytime.
+          </p>
+        </div>
+
+      </div>
+    </section>
+    <!-- =================== END EMAIL SIGNUP =================== -->
+
     <div class="site-footer-bottom">
           <div class="site-footer-minimal">
             <span>&copy; {currentYear} TotalRecalls <span class="version-badge">v{releases.currentVersion}</span></span>
@@ -194,4 +258,177 @@ const currentYear = new Date().getFullYear();
       opacity: 1;
       color: var(--color-primary, #2f7bff);
     }
+
+  /* ===================== FOOTER EMAIL SIGNUP (spec: Footer Email Signup HTML Placement V2) ===================== */
+  .footer-signup {
+    margin-top: 2.5rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+  }
+  @media (min-width: 768px) {
+    .footer-signup { padding: 2.5rem 0; }
+  }
+  .footer-signup__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .footer-signup__inner {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 3rem;
+    }
+  }
+  .footer-signup__eyebrow {
+    margin: 0;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted, #64748b);
+  }
+  .footer-signup__heading {
+    margin: 0.75rem 0 0;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--color-foreground, #0b0f19);
+  }
+  @media (min-width: 768px) {
+    .footer-signup__heading { font-size: 24px; }
+  }
+  .footer-signup__description {
+    margin: 0.75rem 0 0;
+    max-width: 560px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-muted, #64748b);
+  }
+  .footer-signup__form { margin: 0; }
+  .footer-signup__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-muted, #64748b);
+  }
+  .footer-signup__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .footer-signup__row { flex-direction: row; }
+  }
+  .footer-signup__input {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 40px;
+    padding: 0 0.875rem;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #0b0f19);
+    font-family: inherit;
+    font-size: 16px; /* 16px prevents iOS zoom */
+    outline: none;
+  }
+  .footer-signup__input::placeholder { color: var(--color-muted, #94a3b8); opacity: 0.8; }
+  .footer-signup__input:focus {
+    border-color: var(--color-primary, #2f7bff);
+    outline: 2px solid var(--color-primary, #2f7bff);
+    outline-offset: 2px;
+  }
+  .footer-signup__button {
+    height: 40px;
+    padding: 0 1.25rem;
+    border: 1px solid var(--color-border, #d1d5db);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-foreground, #0b0f19);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+  .footer-signup__button:hover {
+    background: var(--color-muted, #64748b);
+    color: var(--color-background, #fff);
+    border-color: var(--color-muted, #64748b);
+  }
+  .footer-signup__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .footer-signup__message {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .footer-signup__message--error {
+    margin-top: 0.5rem;
+    color: #b45309;
+  }
+  .footer-signup__message--success {
+    margin-top: 0.5rem;
+    color: var(--color-foreground, #0b0f19);
+  }
+  .footer-signup__privacy {
+    margin: 0.75rem 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-muted, #64748b);
+    opacity: 0.9;
+  }
   </style>
+
+<script is:inline>
+  // Footer email signup: AJAX submit to /api/subscribe (Cloudflare Pages Function).
+  document.querySelectorAll("form[data-footer-signup]").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = form.querySelector('input[name="email"]');
+      const hp = form.querySelector('input[name="website"]');
+      const errEl = form.querySelector("[data-footer-signup-error]");
+      const okEl = form.parentElement.querySelector("[data-footer-signup-success]");
+      if (!email || !errEl || !okEl) return;
+      errEl.textContent = "";
+      email.setAttribute("aria-invalid", "false");
+      const value = email.value.trim();
+      if (hp && hp.value) return; // honeypot: bot, accept silently
+      const btn = form.querySelector("button[type=submit]");
+      if (btn) btn.disabled = true;
+      try {
+        const res = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: value }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          okEl.hidden = false;
+          email.value = "";
+          email.disabled = true;
+          if (btn) btn.disabled = true;
+          okEl.focus({ preventScroll: true });
+        } else {
+          errEl.textContent = data.error || "Something went wrong. Please try again.";
+          email.setAttribute("aria-invalid", "true");
+          email.focus();
+        }
+      } catch {
+        errEl.textContent = "Something went wrong. Please try again.";
+        if (btn) btn.disabled = false;
+        email.focus();
+      }
+    });
+  });
+</script>

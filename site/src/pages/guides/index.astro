@@ -1,15 +1,19 @@
 ---
-import PageLayout from "../../layouts/PageLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/landing/Nav.jsx";
 import GuidesComponent from "../../components/landing/Guides.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
 ---
 
-<PageLayout 
-  title="Guides — TotalRecalls" 
+<BaseLayout
+  title="Guides · TotalRecalls"
   description="How to download and backup AI chats from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat. Free guides from TotalRecalls."
- breadcrumbs={[{ label: "Guides" }]}>
-  <Nav client:load />
-  <div class="tr-grid-bg min-h-screen">
-    <GuidesComponent client:load />
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="guides">
+      <GuidesComponent client:load />
+    </main>
+    <Footer client:load />
   </div>
-</PageLayout>
+</BaseLayout>

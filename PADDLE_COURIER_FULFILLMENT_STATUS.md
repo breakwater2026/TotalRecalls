@@ -227,15 +227,31 @@ Paddle must have approved `totalrecalls.app` as a checkout domain.
 
 ## Remaining to launch
 
-1. **Resend DNS records → domain verified → update `MAIL_FROM`** (mail currently reaches only
+1. **Paddle vendor-level checkout block (found 2026-10-01).** The Paddle.js **client-side**
+   `Checkout.open` (the `/buy` + `/pricing` path) fails with the overlay
+   *"Something went wrong … Contact support"* and the console error
+   `[PADDLE BILLING] Checkout error: Something went wrong | API Error:
+   Transaction checkout creation is blocked for this vendor.` That is
+   Paddle's `transaction_checkout_not_enabled` error — *"Checkouts aren't
+   enabled for this account. This typically means you haven't fully completed
+   the Paddle onboarding process."* Everything account-side reads `active`
+   (product, price, discount `enabled_for_checkout:true`, client token
+   `live_bcdb7746fc6d13a152b0431abf5`), and the **API** transaction path works
+   (creates a draft, applies the $24 discount, builds a `checkout.url`) — so
+   the block is specific to the **checkout service / business-entity
+   onboarding**, not the site. **Action: complete Paddle onboarding in the
+   vendor dashboard (vendors.paddle.com) / confirm the business entity is
+   "live" and checkouts enabled, or contact Paddle support.** This is the
+   still-unexercised client-side path this doc listed as remaining.
+2. **Resend DNS records → domain verified → update `MAIL_FROM`** (mail currently reaches only
    `totalrecalls.app@gmail.com`).
-2. **Lift the 404 gate** so `/buy` and `/download` resolve, and confirm **Paddle domain approval**
+3. **Lift the 404 gate** so `/buy` and `/download` resolve, and confirm **Paddle domain approval**
    for `totalrecalls.app` — checkout cannot open on an unapproved domain.
-3. **Rebuild + repackage already done** (EXE `350961d4…`, ZIP `d6ca7b01…`, page SHA matches) —
+4. **Rebuild + repackage already done** (EXE `350961d4…`, ZIP `d6ca7b01…`, page SHA matches) —
    re-run `tools/_verify_paddle_build.py` after any future build.
-4. **Test the real purchase end to end**: Paddle checkout ($24 with the discount applied) →
-   webhook → key emailed → activate in the app. This is the last unexercised path; a simulation
+5. **Test the real purchase end to end**: Paddle checkout ($24 with the discount applied) →
+   webhook → key emailed → activate in the app. A simulation
    event or a 100%-off test purchase also confirms whether the live payload carries
    `customer.email` or only `customer_id` (the worker's Paddle-API fallback handles the latter and
    is implemented but untested).
-5. Roll the credentials that passed through chat (Paddle API key, Courier key).
+6. Roll the credentials that passed through chat (Paddle API key, Courier key).
