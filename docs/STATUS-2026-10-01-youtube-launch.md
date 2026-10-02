@@ -249,3 +249,13 @@ Channel trailer = 45–60 s cut of the See It Work demo (later task).
   $0.17422/hr) serving qwen3.8-27b via llama-server; budget ~$3.29 at session start.
 - Session history (if this note goes stale):
   `session_search(query='youtube', session_id='20260930_175016_f253cf')`
+
+---
+
+## 6. App delivery "bug" — RECUR (2026-10-02), same root cause, fixed again
+User re-downloaded via free-trial button → saw Pro again. Evidence:
+- Wiring diff `0206265..HEAD` over edition/licensing/spec/build = **empty** (no regression from today's thread-removal or marketing commits).
+- Live button chain: `/` → `/download/` → `/downloads/TotalRecalls-1.0.0-free-tier.zip`; page SHA `e6481628…` = live ZIP SHA; EXE inside = `a6367623` (Sep 26 build, PYZ `EDITION=='free'`).
+- Machine entitlement: `%APPDATA%\PerplexityExporter\license.json` decrypted (DPAPI) = `pro:true, key TR-Q5ZBKY6T-YJDH-RTHE` (real Paddle purchase, activated Sep 30, validated Oct 1). Any app copy on this PC inherits it — this is the 3rd occurrence of the same incident (Sep 26, Oct 1, Oct 2).
+- Fix: moved to `license.json.bak-2026-10-02-proTest`. Machine now Free; re-activate with TR-Q5ZBKY6T-YJDH-RTHE when Pro is wanted again.
+- **Permanent fix candidate:** a "Reset test machine to Free" helper or `--force-free` dev flag, so launch testing doesn't require file surgery each time.
