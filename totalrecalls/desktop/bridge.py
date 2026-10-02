@@ -346,6 +346,28 @@ class Bridge:
             "tier": licensing.tier_name(),
         }
 
+    def resetLicense(self):
+        """Local-only reset to the Free tier (dev / launch-testing).
+
+        Unlike ``deactivate_license`` (support flow) this does NOT hit the
+        license server, so the activation slot stays free for re-activation.
+        """
+        result = licensing.reset_local_license()
+        log(f"bridge: resetLicense ok={result['ok']} — {result['message']}")
+        self._push({
+            "type": "license",
+            "pro": licensing.is_pro(),
+            "tier": licensing.tier_name(),
+            "message": result["message"],
+            "ok": result["ok"],
+        })
+        return {
+            "ok": result["ok"],
+            "message": result["message"],
+            "pro": licensing.is_pro(),
+            "tier": licensing.tier_name(),
+        }
+
     def openBuyPage(self):
         """Open the purchase page in the user's default browser.
 

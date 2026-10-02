@@ -361,6 +361,27 @@ def deactivate_license() -> dict:
     return {"ok": True, "message": "License removed."}
 
 
+def reset_local_license() -> dict:
+    """Clear the local entitlement WITHOUT contacting the license server.
+
+    This is the dev / launch-testing reset: the machine returns to the Free
+    tier immediately, and because the server-side activation slot is NOT
+    freed, the same key can be re-activated without burning another slot.
+    Use :func:`deactivate_license` for a real "remove / free the slot" flow.
+    """
+    state = _load_state()
+    if not state:
+        return {"ok": True, "message": "Already on the Free tier."}
+    try:
+        delete_secure_state(_LICENSE_FILE)
+    except SecureStorageError:
+        return {"ok": False, "message": "Unable to clear the local license safely."}
+    return {
+        "ok": True,
+        "message": "Reset to Free. Re-activate with your key to switch back to Pro.",
+    }
+
+
 def provider_is_free(provider_id: str) -> bool:
     """True when `provider_id` is part of the free tier."""
     return provider_id in FREE_PROVIDER_IDS

@@ -101,6 +101,31 @@ class EntitlementPersistenceTests(unittest.TestCase):
         licensing.deactivate_license()
         self.assertFalse(licensing.is_pro())
 
+    def test_reset_local_clears_pro_without_server(self):
+        licensing.activate_license(KEY, verifier=lambda _: True)
+        self.assertTrue(licensing.is_pro())
+        # reset_local_license must NOT touch the network (dev flow).
+        with patch.object(licensing, "_verify_post", side_effect=AssertionError("server touched")):
+            res = licensing.reset_local_license()
+        self.assertTrue(res["ok"])
+        self.assertFalse(licensing.is_pro())
+        self.assertEqual(licensing.tier_name(), "Free")
+
+    def test_reset_local_idempotent_when_free(self):
+        self.assertFalse(licensing.is_pro())
+        res = licensing.reset_local_license()
+        self.assertTrue(res["ok"])
+        self.assertIn("Free", res["message"])
+
+    def test_reset_local_reports_secure_storage_failure(self):
+        licensing.activate_license(KEY, verifier=lambda _: True)
+        with patch.object(
+            licensing, "delete_secure_state", side_effect=SecureStorageError("unavailable")
+        ):
+            res = licensing.reset_local_license()
+        self.assertFalse(res["ok"])
+        self.assertTrue(licensing.is_pro())
+
 
 class PaddleVerifierTests(unittest.TestCase):
     """Paddle license verification integration, with the network mocked out."""

@@ -88,5 +88,8 @@ class JsApi:
     def activateLicense(self, key: str = ""):
         return self._b.activateLicense(key)
 
+    def resetLicense(self):
+        return self._b.resetLicense()
+
     def openBuyPage(self):
         return self._b.openBuyPage()

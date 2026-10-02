@@ -105,6 +105,9 @@
       <button class="btn-primary" id="btn-activate">Activate</button>
       <button class="btn-ghost" id="btn-buy">Buy Pro &mdash; $24</button>
     </div>
+    <div style="margin-top:8px">
+      <button class="btn-ghost" id="btn-reset" title="Dev helper: clear the Pro entitlement on this machine (no server call — the same key re-activates).">Reset this machine to Free</button>
+    </div>
     <div class="status" id="license-status" style="margin-top:8px"></div>
   </div>
 
@@ -1086,6 +1089,24 @@
   q('btn-buy').onclick = function() {
     const a = needApi();
     if (a && typeof a.openBuyPage === 'function') a.openBuyPage();
+  };
+  q('btn-reset').onclick = function() {
+    const st = q('license-status');
+    if (!st) return;
+    st.textContent = 'Resetting to Free\u2026';
+    const a = needApi();
+    if (!a || typeof a.resetLicense !== 'function') {
+      st.textContent = 'App bridge not ready \u2014 try again in a moment.';
+      return;
+    }
+    a.resetLicense().then(function(res) {
+      if (st) st.textContent = (res && res.message) ? res.message : '';
+      isPro = !!(res && res.pro);
+      renderTier();
+      refreshProviders();
+    }).catch(function(e) {
+      if (st) st.textContent = 'Reset failed: ' + (e && e.message ? e.message : e);
+    });
   };
   // Helper: update all provider name references in UI
   function updateProviderUI(pid) {
