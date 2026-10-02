@@ -2841,8 +2841,6 @@ class Bridge:
                 md_meta = {**meta, "uuid": uuid, "space": "" if space == HOME_SPACE_NAME else space, "title": title}
                 with open(os.path.join(folder, "conversation.md"), "w", encoding="utf-8") as f:
                     f.write(render_markdown(md_meta, entry_list))
-                with open(os.path.join(folder, "thread.md"), "w", encoding="utf-8") as f:
-                    f.write(render_markdown(md_meta, entry_list))
 
                 rec = {
                     "uuid": uuid, "title": title, "space": space,

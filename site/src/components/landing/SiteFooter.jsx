@@ -16,7 +16,7 @@ const COLS = [
     links: [
       { l: "Download ChatGPT conversations", href: "/guides/export-chatgpt-conversations/" },
       { l: "Download your Claude history", href: "/guides/export-claude-chat-history/" },
-      { l: "Backup Perplexity threads", href: "/guides/backup-perplexity-threads/" },
+      { l: "Export Perplexity conversations", href: "/guides/export-perplexity-conversations/" },
       { l: "Gemini Takeout → Markdown", href: "/guides/gemini-takeout-archive/" },
       { l: "Download DeepSeek chats", href: "/guides/deepseek/" },
       { l: "Download Mistral (Le Chat) conversations", href: "/guides/mistral/" },

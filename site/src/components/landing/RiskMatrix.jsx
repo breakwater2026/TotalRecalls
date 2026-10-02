@@ -26,13 +26,13 @@ export const PROVIDER_COLORS = {
 
 const PROVIDERS = [
   { name: "ChatGPT", code: "OAI-001", status: "Direct Download", grade: "SECURED", count: "284 files", paths: ["chatgpt/2026-08-01-pricing-research.md", "chatgpt/2026-07-19-architecture-review.md", "chatgpt/2026-06-30-refactor-debug.md"] },
-  { name: "Claude", code: "ANT-002", status: "Direct Download", grade: "SECURED", count: "312 files", paths: ["claude/2026-07-28-refactor-plan.md", "claude/2026-07-02-legal-draft.md", "claude/2026-05-11-research-thread.md"] },
+  { name: "Claude", code: "ANT-002", status: "Direct Download", grade: "SECURED", count: "312 files", paths: ["claude/2026-07-28-refactor-plan.md", "claude/2026-07-02-legal-draft.md", "claude/2026-05-11-research-conversation.md"] },
   { name: "Perplexity", code: "PPL-003", status: "Direct Download", grade: "SECURED", count: "96 files", paths: ["perplexity/2026-07-21-market-scan.md", "perplexity/2026-06-04-source-trail.md"] },
-  { name: "Gemini", code: "GEM-004", status: "Takeout → Markdown", grade: "CONVERTED", count: "47 files", paths: ["gemini/2026-07-14-takeout-thread.md", "gemini/2026-03-22-takeout-dump.md"] },
+  { name: "Gemini", code: "GEM-004", status: "Takeout → Markdown", grade: "CONVERTED", count: "47 files", paths: ["gemini/2026-07-14 18-52 -- travel-planning -- a1b2c3d4", "gemini/2026-03-22-takeout-dump.md"] },
   { name: "Grok", code: "GRK-005", status: "Direct Download", grade: "SECURED", count: "58 files", paths: ["grok/2026-07-02-debug-session.md", "grok/2026-06-18-quick-prompts.md"] },
   { name: "DeepSeek", code: "DSK-006", status: "Direct Download", grade: "SECURED", count: "126 files", paths: ["deepseek/2026-08-15-r1-thinking-trace.md", "deepseek/2026-08-09-code-review-session.md"] },
-  { name: "Mistral", code: "MST-007", status: "Direct Download", grade: "SECURED", count: "84 files", paths: ["mistral/2026-08-12-le-chat-translation.md", "mistral/2026-08-04-french-research-thread.md"] },
-  { name: "Qwen", code: "QWN-008", status: "Direct Download", grade: "SECURED", count: "47 files", paths: ["qwen/2026-08-14-qwen-multilingual-thread.md", "qwen/2026-08-06-translation-batch.md"] },
+  { name: "Mistral", code: "MST-007", status: "Direct Download", grade: "SECURED", count: "84 files", paths: ["mistral/2026-08-12-le-chat-translation.md", "mistral/2026-08-04-french-research-conversation.md"] },
+  { name: "Qwen", code: "QWN-008", status: "Direct Download", grade: "SECURED", count: "47 files", paths: ["qwen/2026-08-14 09-02 -- traduction-francaise -- f4e5d6c7", "qwen/2026-08-06-translation-batch.md"] },
 ];
 
 export default function RiskMatrix() {

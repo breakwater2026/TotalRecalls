@@ -235,7 +235,7 @@ def build_root_readme(account: str, exported_at: str, by_space: dict, warnings: 
         lines.append("")
     lines.append("")
     lines.append("---")
-    lines.append("Each conversation folder contains `conversation.md` (readable) and `thread.json` (full data).")
+    lines.append("Each conversation folder contains `conversation.md` (readable) and `conversation.json` (full data).")
     lines.append("")
     return "\n".join(lines)
 

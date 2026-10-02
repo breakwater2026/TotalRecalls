@@ -6,7 +6,7 @@ const CARDS = [
   {
     icon: Search,
     lead: "Find it again.",
-    body: "A saved file is one quick search away, not 400 threads down a sidebar.",
+    body: "A saved file is one quick search away, not 400 conversations down a sidebar.",
     chip: "Searchable · Local files",
   },
   {

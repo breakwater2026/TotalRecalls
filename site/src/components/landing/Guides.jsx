@@ -11,17 +11,17 @@ const GUIDES = [
   },
   { 
     t: "Download your Claude history", 
-    d: "Keep Projects and long threads as files", 
+    d: "Keep Projects and long conversations as files", 
     tag: "guide · 02",
     href: "/guides/export-claude-chat-history/",
-    bullets: ["Projects vs conversations", "Markdown + JSON output", "Handling long threads", "Folder structure"]
+    bullets: ["Projects vs conversations", "Markdown + JSON output", "Handling long conversations", "Folder structure"]
   },
   { 
-    t: "Backup Perplexity threads", 
-    d: "Save research threads before you lose the tab trail", 
+    t: "Export Perplexity conversations", 
+    d: "Save research conversations before you lose the tab trail", 
     tag: "guide · 03",
-    href: "/guides/backup-perplexity-threads/",
-    bullets: ["Why Perplexity history expires", "How TotalRecalls extracts threads", "Research workflows", "Troubleshooting"]
+    href: "/guides/export-perplexity-conversations/",
+    bullets: ["Why Perplexity history expires", "How TotalRecalls extracts conversations", "Research workflows", "Troubleshooting"]
   },
   { 
     t: "Gemini Takeout → Markdown", 

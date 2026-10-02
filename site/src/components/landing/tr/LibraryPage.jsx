@@ -143,7 +143,7 @@ const FEATURES = [
   },
   {
     t: "Dates in the filename",
-    b: "Files are named with the conversation date and time, so sorting by name puts your history in chronological order. No metadata search required to find that thread from last Tuesday.",
+    b: "Files are named with the conversation date and time, so sorting by name puts your history in chronological order. No metadata search required to find that conversation from last Tuesday.",
   },
   {
     t: "Search like a local file",

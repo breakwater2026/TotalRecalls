@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Section, Eyebrow, EvidenceStrip, LocalChip } from "./ui";
 
 const PROBLEMS = [
-  { lead: "Tabs close.", body: "Threads sink under hundreds of newer ones." },
+  { lead: "Tabs close.", body: "Conversations sink under hundreds of newer ones." },
   { lead: "Interfaces change.", body: "Old chats get harder to reach." },
   { lead: "Nobody keeps a backup.", body: "Until they need one." },
 ];

@@ -43,9 +43,9 @@ const STEPS = [
 ];
 
 const COMPARE = [
-  { cap: "ChatGPT", tr: "Full thread as dated, readable files", o: "One zip of raw JSON" },
-  { cap: "Claude", tr: "Projects and threads as .md/.json", o: "Project export (limited)" },
-  { cap: "Perplexity", tr: "Threads saved before the tab trail vanishes", o: "None" },
+  { cap: "ChatGPT", tr: "Full conversation as dated, readable files", o: "One zip of raw JSON" },
+  { cap: "Claude", tr: "Projects and conversations as .md/.json", o: "Project export (limited)" },
+  { cap: "Perplexity", tr: "Conversations saved before the tab trail vanishes", o: "None" },
   { cap: "Gemini", tr: "Takeout archive converted to Markdown", o: "Raw Takeout zip" },
   { cap: "Grok", tr: "Chats + X-post references, local", o: "None" },
   { cap: "DeepSeek", tr: "Conversations with R1 thinking traces", o: "None" },
@@ -58,7 +58,7 @@ const CHECKS = [
   "Search your history with Windows Search or Everything",
   "Back up your conversations with any file backup",
   "Move to a new PC and keep everything",
-  "Hand a thread to a colleague as a file",
+  "Hand a conversation to a colleague as a file",
   "Know exactly where every conversation lives",
 ];
 
@@ -210,7 +210,7 @@ export default function OwnershipPage() {
             </h2>
             <div className="mt-6 space-y-5 font-body text-[16px] leading-[1.65] text-tr-mist">
               <p>
-                The prompts you wrote, the drafts you iterated on, the research threads you built
+                The prompts you wrote, the drafts you iterated on, the research conversations you built
                 &mdash; that&apos;s a record of your work. Right now it only exists in whatever
                 interface each provider ships today. If they redesign, merge, or retire a product,
                 your history goes with it.

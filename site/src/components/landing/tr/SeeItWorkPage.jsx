@@ -22,7 +22,7 @@ const STEPS = [
   { t: "0:00", title: "Open the app", body: "TotalRecalls runs from its own folder on your PC. There's no installer and no TotalRecalls account." },
   { t: "0:08", title: "Choose your provider", body: "The provider list shows what your tier includes. ChatGPT is part of the Free Tier." },
   { t: "0:15", title: "Sign in", body: "You sign in inside the app, on your own PC. Your conversations aren't sent to our servers." },
-  { t: "0:27", title: "Pick a conversation", body: "Your history loads as a list. Select the thread you want to keep." },
+  { t: "0:27", title: "Pick a conversation", body: "Your history loads as a list. Select the conversation you want to keep." },
   { t: "0:36", title: "Download", body: "TotalRecalls saves the conversation. A confirmation shows exactly where the files went." },
   { t: "0:45", title: "Open the Library folder", body: "The chat sits in the provider subfolder as one Markdown file and one JSON file. The video ends with the file open." },
 ];

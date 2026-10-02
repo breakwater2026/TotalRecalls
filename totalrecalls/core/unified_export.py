@@ -275,12 +275,8 @@ def write_unified_conversation(outdir: str, conv: UnifiedConversation) -> dict:
     folder = os.path.join(outdir, *rel.split("/"))
     os.makedirs(folder, exist_ok=True)
 
-    md = render_unified_markdown(conv)
     with open(os.path.join(folder, "conversation.md"), "w", encoding="utf-8") as f:
-        f.write(md)
-    # compatibility alias used by older Perplexity layout readers
-    with open(os.path.join(folder, "thread.md"), "w", encoding="utf-8") as f:
-        f.write(md)
+        f.write(render_unified_markdown(conv))
 
     payload = conv.to_dict()
     with open(os.path.join(folder, "conversation.json"), "w", encoding="utf-8") as f:

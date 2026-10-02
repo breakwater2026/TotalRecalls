@@ -39,7 +39,7 @@ outdir/
   Library/<provider>/Home|Spaces/.../<Title -- shortid>/
     conversation.md
     conversation.json   # unified schema
-    thread.md           # alias of conversation.md
+    # (legacy exports may contain thread.md — an alias of conversation.md)
   README.md
   manifest.json         # layout: library-v1
   uuid_index.json

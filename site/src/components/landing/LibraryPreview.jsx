@@ -6,11 +6,11 @@ const FILES = [
   { path: "chatgpt/2026-08-01-pricing-research.md", occurred: "2026-08-01 09:14" },
   { path: "claude/2026-07-28-refactor-plan.md", occurred: "2026-07-28 22:41" },
   { path: "perplexity/2026-07-21-market-scan.md", occurred: "2026-07-21 14:07" },
-  { path: "gemini/2026-07-14-takeout-thread.md", occurred: "2026-07-14 18:52" },
+  { path: "gemini/2026-07-14 18-52 -- travel-planning -- a1b2c3d4", occurred: "2026-07-14 18:52" },
   { path: "grok/2026-07-02-debug-session.md", occurred: "2026-07-02 11:30" },
   { path: "deepseek/2026-08-15-r1-thinking-trace.md", occurred: "2026-08-15 16:23" },
   { path: "mistral/2026-08-12-le-chat-translation.md", occurred: "2026-08-12 11:48" },
-  { path: "qwen/2026-08-14-qwen-multilingual-thread.md", occurred: "2026-08-14 09:02" },
+  { path: "qwen/2026-08-14 09-02 -- traduction-francaise -- f4e5d6c7", occurred: "2026-08-14 09:02" },
 ];
 
 export default function LibraryPreview() {
