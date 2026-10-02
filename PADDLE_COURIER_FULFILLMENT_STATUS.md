@@ -227,7 +227,8 @@ Paddle must have approved `totalrecalls.app` as a checkout domain.
 
 ## Remaining to launch
 
-1. **Paddle vendor-level checkout block (found 2026-10-01).** The Paddle.js **client-side**
+1. **Paddle vendor-level checkout block (found 2026-10-01) — RESOLVED same day.**
+   The Paddle.js **client-side**
    `Checkout.open` (the `/buy` + `/pricing` path) fails with the overlay
    *"Something went wrong … Contact support"* and the console error
    `[PADDLE BILLING] Checkout error: Something went wrong | API Error:
@@ -249,9 +250,14 @@ Paddle must have approved `totalrecalls.app` as a checkout domain.
    for `totalrecalls.app` — checkout cannot open on an unapproved domain.
 4. **Rebuild + repackage already done** (EXE `350961d4…`, ZIP `d6ca7b01…`, page SHA matches) —
    re-run `tools/_verify_paddle_build.py` after any future build.
-5. **Test the real purchase end to end**: Paddle checkout ($24 with the discount applied) →
-   webhook → key emailed → activate in the app. A simulation
-   event or a 100%-off test purchase also confirms whether the live payload carries
-   `customer.email` or only `customer_id` (the worker's Paddle-API fallback handles the latter and
-   is implemented but untested).
+5. **Test the real purchase end to end — RESOLVED 2026-10-01.** Real completed
+   transaction `txn_01m3w6j619qjdqqz0q6ecgqdty` ($1.01 test, Visa) → webhook →
+   key `TR-Q5ZBKY6T-YJDH-RTHE` minted, `fulfilled`, email `accepted` to
+   `adenis258@gmail.com` (live `customer.email` present in payload). Buyer
+   activated in the free EXE → badge flipped Free→Pro. The "downloaded the Pro
+   version" report was a **stored Sept-26 test license** (`license.json`,
+   `pro:true`) making the free build open as Pro — the shipped free ZIP's EXE
+   (sha256 `9c907b5e…`) is the free build (`EDITION='free'` in the PYZ), not Pro
+   (`f8aef6a2…`). Renamed to `license.json.bak-2026-10-01-freeTest`; clean Free
+   start confirmed.
 6. Roll the credentials that passed through chat (Paddle API key, Courier key).

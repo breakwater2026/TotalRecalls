@@ -1,0 +1,14 @@
+total text files: 207, unique hashes: 204, dup groups: 3
+
+SHA 4100a12a7b083d10  x2  (1112 bytes)
+   Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_023c3cc4.md
+   Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_5d9c45c2.md
+
+SHA 5dc2599b62d4e0e2  x2  (608 bytes)
+   Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt
+   Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt
+
+SHA abf79791f98d1360  x2  (121962 bytes)
+   Jasper\jasper_docs\Conversation Jasper ai-Day2.md
+   Jasper\jasper_docs\Conversation Jasper ai-Day2.txt
+

@@ -1,0 +1,344 @@
+MOVED   Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_5d9c45c2.md  ->  email\sequences\Sequence 1 Core Welcome Onboarding.md
+MOVED   Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt  ->  email\TotalRecalls Welcome Email Sequence (fragment).md
+MOVED   Jasper\canvas_docs\Trust_Built_Differently_370c6c58.md  ->  website\Landing Page (Trust, Built Differently).md
+MOVED   Jasper\jasper_docs\Content Calendar.md  ->  strategy\TotalRecalls 60-Day Launch Content Calendar.md
+MOVED   Jasper\jasper_docs\Conversation Jasper ai-Day2.txt  ->  raw_dumps\Conversation Jasper ai — Day2.md
+MOVED   Jasper\jasper_docs\Email_2_48_hours_left_at_24.txt  ->  email\slot-2\Email 2 48 hours left at $24.md
+MOVED   Jasper\jasper_docs\FAQ (Frequently Asked Questions).md  ->  messaging\FAQ — Is TotalRecalls safe, Windows warning.md
+MOVED   Jasper\jasper_docs\Landing_Page_Homepage_Hero_Section.txt  ->  website\Landing Page — Homepage Hero Section.md
+MOVED   Jasper\jasper_docs\Launch_Pricing_Ends_Soon.txt  ->  messaging\Launch Pricing Ends Soon.md
+MOVED   Jasper\jasper_docs\LinkedIn_Ad.txt  ->  ads\linkedin\LinkedIn Ad.md
+MOVED   Jasper\jasper_docs\LinkedIn_Ads.txt  ->  ads\linkedin\LinkedIn Ads.md
+MOVED   Jasper\jasper_docs\Meta_Ads.txt  ->  ads\meta\Meta Ads.md
+MOVED   Jasper\jasper_docs\Part_2_Homepage_Rewrite.txt  ->  website\Part 2 Homepage Rewrite.md
+MOVED   Jasper\jasper_docs\Recall_every_AI_conversation.txt  ->  messaging\Recall every AI conversation.md
+MOVED   Jasper\jasper_docs\Recall_every_AI_conversation_before_it_s_gone_for_good.txt  ->  messaging\Recall every AI conversation, before it's gone for good.md
+MOVED   Jasper\jasper_docs\Recall_every_AI_conversation_you_ve_ever_had.txt  ->  messaging\Recall every AI conversation you've ever had.md
+MOVED   Jasper\jasper_docs\Search_Ads.txt  ->  ads\generic\Search Ads.md
+MOVED   Jasper\jasper_docs\Sequence_3_Launch_Urgency.txt  ->  email\sequences\Sequence 3 Launch Urgency.md
+MOVED   Jasper\jasper_docs\The_TotalRecalls_YouTube_Upload_Checklist_and_Template.txt  ->  youtube\YouTube Upload Checklist & Template.md
+MOVED   Jasper\jasper_docs\TotalRecalls YT Video 7 Script V3.md  ->  youtube\scripts\YT Video 7 Script V3.md
+MOVED   Jasper\jasper_docs\TotalRecalls YT Video 8 Script V2.md  ->  youtube\scripts\YT Video 8 Script V2.md
+MOVED   Jasper\jasper_docs\TotalRecalls YT Video 9 Script.md  ->  youtube\scripts\YT Video 9 Script.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Launch_Gap_Checklist.txt  ->  strategy\TotalRecalls Launch Gap Checklist.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Launch_Marketing_Organization.txt  ->  strategy\TotalRecalls Launch Marketing Organization.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Launch_Readiness_Plan.txt  ->  strategy\TotalRecalls Launch Readiness Plan.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Main_Product_Explainer_Video_Outline.txt  ->  youtube\Main Product Explainer Video Outline.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Missing_Items_Checklist.txt  ->  strategy\TotalRecalls Missing Items Checklist.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Thumbnail_Concepts.txt  ->  youtube\Thumbnail Concepts.md
+MOVED   Jasper\jasper_docs\TotalRecalls_Video_Shot_List.txt  ->  youtube\Video Shot List.md
+MOVED   Jasper\jasper_docs\TotalRecalls_YouTube_Channel_Description.txt  ->  youtube\YouTube Channel Description.md
+MOVED   Jasper\jasper_docs\TotalRecalls_YouTube_Content_Plan_Your_First_10_Videos.txt  ->  youtube\YouTube Content Plan — First 10 Videos.md
+MOVED   Jasper\jasper_docs\TotalRecalls_YouTube_Video_2_Why_I_Built_TotalRecalls.txt  ->  youtube\scripts\YT Video 2 Script.md
+MOVED   Jasper\jasper_docs\X_Ad.txt  ->  ads\x\X Ad.md
+MOVED   Jasper\jasper_docs\X_Ads.txt  ->  ads\x\X Ads.md
+MOVED   Jasper\jasper_docs\Free-Tier to Pro Upgrade Email.md  ->  email\sequences\Sequence 2 Free-Tier to Pro Upgrade.md
+MOVED   Jasper\jasper_docs\Free-to-Pro Upgrade Email Sequence.md  ->  email\sequences\Sequence 2 Free-Tier to Pro Upgrade (variant 2)
+MOVED   Jasper\jasper_docs\Email_3_Last_call_launch_pricing_ends_tonight.txt  ->  email\slot-3\Email 3 Last call — pricing ends tonight.md
+MOVED   Jasper\jasper_docs\Email_3_Last_call_pricing_ends_tonight.txt  ->  email\slot-3\Email 3 Last call — pricing ends tonight (variant 2)
+MOVED   Jasper\canvas_docs\Email_3_Still_on_the_fence_6fc443ab.md  ->  email\slot-3\Email 3 Still on the fence–.md
+MOVED   Jasper\canvas_docs\Email_3_Still_on_the_fence_a30c22fa.md  ->  email\slot-3\Email 3 Still on the fence– (variant 2)
+MOVED   Jasper\jasper_docs\Campaign Brief.md  ->  messaging\TotalRecalls Launch Campaign.md
+MOVED   Jasper\canvas_docs\TotalRecalls_Launch_Campaign_fd6f04ea.md  ->  messaging\TotalRecalls Launch Campaign (variant 2)
+MOVED   Jasper\canvas_docs\Why_I_Built_TotalRecalls_e6cd1378.md  ->  messaging\founder\Why I Built TotalRecalls.md
+MOVED   Jasper\canvas_docs\Why_I_Built_TotalRecalls_d7ea1339.md  ->  messaging\founder\Why I Built TotalRecalls (variant 2)
+MOVED   Jasper\canvas_docs\Facebook_post_d6a9605d.md  ->  social\facebook\Facebook post.md
+MOVED   Jasper\canvas_docs\Facebook_Post_d76b4f6d.md  ->  social\facebook\Facebook post (variant 2)
+MOVED   Jasper\canvas_docs\Facebook_post_8d74725b.md  ->  social\facebook\Facebook post (variant 3)
+MOVED   Jasper\canvas_docs\Facebook_post_9c18f552.md  ->  social\facebook\Facebook post (variant 4)
+MOVED   Jasper\canvas_docs\Facebook_Post_0f3f3149.md  ->  social\facebook\Facebook post (variant 5)
+MOVED   Jasper\canvas_docs\Instagram_Caption_516b62a8.md  ->  social\instagram\Instagram caption.md
+MOVED   Jasper\canvas_docs\Instagram_caption_0e7f6309.md  ->  social\instagram\Instagram caption (variant 2)
+MOVED   Jasper\canvas_docs\Instagram_caption_6b5de520.md  ->  social\instagram\Instagram caption (variant 3)
+MOVED   Jasper\canvas_docs\Instagram_caption_b2f8777f.md  ->  social\instagram\Instagram caption (variant 4)
+MOVED   Jasper\canvas_docs\LinkedIn_post_2ac20baa.md  ->  social\linkedin\LinkedIn post.md
+MOVED   Jasper\canvas_docs\LinkedIn_post_ff02ca65.md  ->  social\linkedin\LinkedIn post (variant 2)
+MOVED   Jasper\canvas_docs\LinkedIn_post_49183ba5.md  ->  social\linkedin\LinkedIn post (variant 3)
+MOVED   Jasper\canvas_docs\LinkedIn_Post_b9117667.md  ->  social\linkedin\LinkedIn post (variant 4)
+MOVED   Jasper\canvas_docs\Tweet_119587b6.md  ->  social\x\Tweet.md
+MOVED   Jasper\canvas_docs\Tweet_58751f7a.md  ->  social\x\Tweet (variant 2)
+MOVED   Jasper\canvas_docs\X_Post_17023cfd.md  ->  social\x\X post.md
+MOVED   Jasper\canvas_docs\X_Twitter_eca3e9ca.md  ->  social\x\X post (variant 2)
+MOVED   Jasper\canvas_docs\X_Post_9eaa67dc.md  ->  social\x\X post (variant 3)
+MOVED   Jasper\canvas_docs\TotalRecalls_Launch_Marketing_Plan_Revised_72b37216.md  ->  strategy\TotalRecalls Launch Marketing Plan (Revised).md
+MOVED   Jasper\canvas_docs\TotalRecalls_Launch_Marketing_Plan_Revised_6f06cdb1.md  ->  strategy\TotalRecalls Launch Marketing Plan (Revised) (variant 2)
+MOVED   Jasper\canvas_docs\TotalRecalls_Master_Implementation_Plan_904ecc99.md  ->  strategy\TotalRecalls Master Implementation Plan.md
+MOVED   Jasper\canvas_docs\TotalRecalls_Master_Implementation_Plan_26de1acc.md  ->  strategy\TotalRecalls Master Implementation Plan (variant 2)
+MOVED   Jasper\canvas_docs\YouTube_Playlist_Structure_System_for_TotalRecalls_f56207c7.md  ->  youtube\YouTube Playlist Structure & Naming.md
+MOVED   Jasper\canvas_docs\TotalRecalls_YouTube_Playlist_Structure_and_Naming_System_e1aaa6d7.md  ->  youtube\YouTube Playlist Structure & Naming (variant 2)
+MOVED   Jasper\canvas_docs\TotalRecalls YT Video 5 Script V2.md  ->  youtube\scripts\YT Video 5 Script V2.md
+MOVED   Jasper\jasper_docs\TotalRecalls YT Video 5 Script V2.md  ->  youtube\scripts\YT Video 5 Script V2 (variant 2)
+DELETED Jasper\TR Videos.md  (byte-identical duplicate of Video Storyboard (canvas 702707c6))
+DELETED Jasper\canvas_docs\TotalRecalls_Video_Storyboard_702707c6.md  (byte-identical duplicate of Video Storyboard (canvas 702707c6))
+DELETED Jasper\jasper_docs\TotalRecalls_Video_Storyboard.txt  (byte-identical duplicate of Video Storyboard (canvas 702707c6))
+DELETED Jasper\jasper_docs\Email_3_Still_on_the_fence.txt  (content-duplicate of Email_3_Still_on_the_fence_6fc443ab.md)
+DELETED Jasper\jasper_docs\Facebook_Post.txt  (content-duplicate of Facebook_Post_d76b4f6d.md)
+DELETED Jasper\jasper_docs\Instagram_caption.txt  (content-duplicate of Instagram_caption_b2f8777f.md)
+DELETED Jasper\jasper_docs\LinkedIn_post.txt  (content-duplicate of LinkedIn_post_ff02ca65.md)
+DELETED Jasper\canvas_docs\Missing_Items_Checklist_9bb2daab.md  (no-prefix re-capture of 9bb2daab — clean copy kept (has duplicated title line))
+DELETED Jasper\jasper_docs\Sequence_1_Core_Welcome_Onboarding.txt  (content-duplicate of Sequence_1_Core_Welcome_Onboarding_5d9c45c2.md)
+DELETED Jasper\jasper_docs\Email_Sequence.txt  (content-duplicate of TotalRecalls Welcome Email Sequence.txt)
+DELETED Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt  (content-duplicate of TotalRecalls Welcome Email Sequence.txt)
+DELETED Jasper\canvas_docs\TotalRecalls YT Video 8 Script.dropped.md  (superseded by V2 (V1 was truncated mid-generation))
+DELETED Jasper\jasper_docs\TotalRecalls YT Video 8 Script.md  (superseded by V2 (V1 was truncated mid-generation))
+DELETED Jasper\jasper_docs\TotalRecalls_Launch_Campaign.txt  (content-duplicate of TotalRecalls_Launch_Campaign_fd6f04ea.md)
+DELETED Jasper\jasper_docs\TotalRecalls_Launch_Marketing_Plan_Revised.txt  (content-duplicate of TotalRecalls_Launch_Marketing_Plan_Revised_72b37216.md)
+DELETED Jasper\jasper_docs\TotalRecalls_Master_Implementation_Plan.txt  (content-duplicate of TotalRecalls_Master_Implementation_Plan_26de1acc.md)
+DELETED Jasper\jasper_docs\TotalRecalls_YouTube_Playlist_Structure_and_Naming_System.txt  (content-duplicate of TotalRecalls_YouTube_Playlist_Structure_and_Naming_System_e1aaa6d7.md)
+DELETED Jasper\jasper_docs\Trust_Built_Differently.txt  (content-duplicate of Trust_Built_Differently_370c6c58.md)
+DELETED Jasper\jasper_docs\Tweet.txt  (content-duplicate of Tweet_58751f7a.md)
+DELETED Jasper\jasper_docs\Why_I_Built_TotalRecalls.txt  (content-duplicate of Why_I_Built_TotalRecalls_e6cd1378.md)
+DELETED Jasper\jasper_docs\X_Post.txt  (content-duplicate of X_Post_17023cfd.md)
+DELETED Jasper\jasper_docs\X_Twitter.txt  (content-duplicate of X_Twitter_eca3e9ca.md)
+DELETED Jasper\jasper_docs\YouTube_Playlist_Structure_System_for_TotalRecalls.txt  (content-duplicate of YouTube_Playlist_Structure_System_for_TotalRecalls_f56207c7.md)
+DELETED Jasper\jasper_docs\TotalRecalls_60_Day_Launch_Content_Calendar_Blog_Guides.txt  (content-duplicate of Content Calendar.md)
+DELETED Jasper\jasper_docs\Is_TotalRecalls_safe_to_use_and_why_does_Windows_show_a_warn.txt  (content-duplicate of FAQ (Frequently Asked Questions).md)
+DELETED Jasper\jasper_docs\Sequence_2_Free_Tier_to_Pro_Upgrade.txt  (content-duplicate of Free-to-Pro Upgrade Email Sequence.md)
+DELETED Jasper\canvas_docs\TotalRecalls_Video_Storyboard_702707c6.docx  (byte-identical duplicate of Video Storyboard (canvas 702707c6) (paired docx))
+DELETED Jasper\canvas_docs\Missing_Items_Checklist_9bb2daab.docx  (no-prefix re-capture of 9bb2daab — clean copy kept (has duplicated title line) (paired docx))
+DELETED Jasper\YouTube\TotalRecalls Video Storyboard.md.docx  (old YouTube/ raw exports — superseded by canvas version)
+DELETED Jasper\YouTube\TotalRecalls YouTube Channel Description.docx  (old YouTube/ raw exports — superseded by canvas version)
+DELETED Jasper\YouTube\TotalRecalls YouTube Video 1.docx  (old YouTube/ raw exports — superseded by canvas version)
+DELETED Jasper\YouTube\TotalRecalls YouTube Video 2.docx  (old YouTube/ raw exports — superseded by canvas version)
+DELETED Jasper\YouTube\YouTube Playlist Structure System for TotalRecalls - Copy.docx  (old YouTube/ raw exports — superseded by canvas version)
+DELETED Jasper\YouTube\YouTube Playlist Structure System for TotalRecalls.docx  (old YouTube/ raw exports — superseded by canvas version)
+MOVED   Jasper\consolidate.py  ->  Jasper\tools\scripts\consolidate.py
+MOVED   Jasper\convert.py  ->  Jasper\tools\scripts\convert.py
+MOVED   Jasper\batch_convert.py  ->  Jasper\tools\scripts\batch_convert.py
+MOVED   Jasper\sha_audit.py  ->  Jasper\tools\scripts\sha_audit.py
+MOVED   Jasper\near_dup.py  ->  Jasper\tools\scripts\near_dup.py
+MOVED   canvas_docs\_index.json  ->  tools/reports/
+MOVED   Jasper\audit_report.txt  ->  tools/reports/audit_report.txt
+MOVED   Jasper\near_dup_report.txt  ->  tools/reports/near_dup_report.txt
+DELETED jasper_docs/Google_Ads_Display_PMax.txt  (content-identical to kept: ads/google/Google Ads - Display PMax (variant 2).md)
+DELETED jasper_docs/Google_Ads_Search.txt  (content-identical to kept: ads/google/Google Ads - Search (variant 2).md)
+DELETED jasper_docs/Google_Ads_Video.txt  (content-identical to kept: ads/google/Google Ads - Video (variant 2).md)
+DELETED jasper_docs/Launch_Day_Social_Posting_Checklist_TotalRecalls.txt  (content-identical to kept: ops/Launch-Day Social Posting Checklist.md)
+DELETED jasper_docs/Part_1_Page_by_Page_Website_Optimization_Brief.txt  (content-identical to kept: website/Part 1 Page-by-Page Website Optimization Brief.md)
+DELETED jasper_docs/Short_Form_Video_Strategy.txt  (content-identical to kept: youtube/Short-Form Video Strategy.md)
+DELETED jasper_docs/TotalRecalls YT Video 3 Script V2.md  (content-identical to kept: youtube/scripts/YT Video 3 Script V2.md)
+DELETED jasper_docs/TotalRecalls_YouTube_Video_1_Save_AI_Chats_from_8_Providers_.txt  (content-identical to kept: youtube/scripts/YT Video 1 Script.md)
+DELETED jasper_docs/TotalRecalls YT Video 6 Script.md  (content-identical to kept: youtube/scripts/YT Video 6 Script (WIP truncated — needs re-download).md)
+DELETED canvas_docs/TotalRecalls YT Video 8 Script.docx  (V1 superseded by youtube/scripts/YT Video 8 Script V2.md)
+MERGED  ads/generic/Ad variation 1.md  ->  ads/generic/Paid Ad Copy — Ad Variations & Search.md
+MERGED  ads/generic\Ad variation 1.docx  ->  ads/generic\Paid Ad Copy — Ad Variations & Search.docx  (paired docx)
+MERGED  ads/generic/Ad variation 2.md  ->  ads/generic/Paid Ad Copy — Ad Variations & Search.md
+MERGED  ads/generic\Ad variation 2.docx  ->  ads/generic\Paid Ad Copy — Ad Variations & Search.docx  (paired docx)
+MERGED  ads/generic/Ad variation 3.md  ->  ads/generic/Paid Ad Copy — Ad Variations & Search.md
+MERGED  ads/generic\Ad variation 3.docx  ->  ads/generic\Paid Ad Copy — Ad Variations & Search.docx  (paired docx)
+MERGED  ads/generic/Search Ads.md  ->  ads/generic/Paid Ad Copy — Ad Variations & Search.md
+MERGED  ads/generic\Search Ads.docx  ->  ads/generic\Paid Ad Copy — Ad Variations & Search.docx  (paired docx)
+MERGED  ads/google/Google Ads - Search.md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Search.docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/google/Google Ads - Search (variant 2).md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Search (variant 2).docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/google/Google Ads - Display PMax.md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Display PMax.docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/google/Google Ads - Display PMax (variant 2).md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Display PMax (variant 2).docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/google/Google Ads - Video.md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Video.docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/google/Google Ads - Video (variant 2).md  ->  ads/google/Google Ads Copy — Search, Display & Video.md
+MERGED  ads/google\Google Ads - Video (variant 2).docx  ->  ads/google\Google Ads Copy — Search, Display & Video.docx  (paired docx)
+MERGED  ads/linkedin/LinkedIn Ad.md  ->  ads/linkedin/LinkedIn Ad Copy.md
+MERGED  ads/linkedin\LinkedIn Ad.docx  ->  ads/linkedin\LinkedIn Ad Copy.docx  (paired docx)
+MERGED  ads/linkedin/LinkedIn Ads.md  ->  ads/linkedin/LinkedIn Ad Copy.md
+MERGED  ads/linkedin\LinkedIn Ads.docx  ->  ads/linkedin\LinkedIn Ad Copy.docx  (paired docx)
+MERGED  ads/linkedin/LinkedIn Ads (variant 2).md  ->  ads/linkedin/LinkedIn Ad Copy.md
+MERGED  ads/linkedin\LinkedIn Ads (variant 2).docx  ->  ads/linkedin\LinkedIn Ad Copy.docx  (paired docx)
+MERGED  ads/meta/Meta Ads.md  ->  ads/meta/Meta Ad Copy.md
+MERGED  ads/meta\Meta Ads.docx  ->  ads/meta\Meta Ad Copy.docx  (paired docx)
+MERGED  ads/meta/Meta Ads (variant 2).md  ->  ads/meta/Meta Ad Copy.md
+MERGED  ads/meta\Meta Ads (variant 2).docx  ->  ads/meta\Meta Ad Copy.docx  (paired docx)
+MERGED  ads/x/X Ad.md  ->  ads/x/X Ad Copy.md
+MERGED  ads/x\X Ad.docx  ->  ads/x\X Ad Copy.docx  (paired docx)
+MERGED  ads/x/X Ads.md  ->  ads/x/X Ad Copy.md
+MERGED  ads/x\X Ads.docx  ->  ads/x\X Ad Copy.docx  (paired docx)
+MERGED  ads/x/X Ads (variant 2).md  ->  ads/x/X Ad Copy.md
+MERGED  ads/x\X Ads (variant 2).docx  ->  ads/x\X Ad Copy.docx  (paired docx)
+MERGED  email/sequences/Sequence 1 Core Welcome Onboarding.md  ->  email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md
+MERGED  email/sequences\Sequence 1 Core Welcome Onboarding.docx  ->  email/sequences\Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx  (paired docx)
+MERGED  email/sequences/Sequence 2 Free-Tier to Pro Upgrade.md  ->  email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md
+MERGED  email/sequences\Sequence 2 Free-Tier to Pro Upgrade.docx  ->  email/sequences\Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx  (paired docx)
+MERGED  email/sequences/Sequence 2 Free-Tier to Pro Upgrade (variant 2).md  ->  email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md
+MERGED  email/sequences\Sequence 2 Free-Tier to Pro Upgrade (variant 2).docx  ->  email/sequences\Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx  (paired docx)
+MERGED  email/sequences/Sequence 3 Launch Urgency.md  ->  email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md
+MERGED  email/sequences\Sequence 3 Launch Urgency.docx  ->  email/sequences\Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx  (paired docx)
+MERGED  email/sequences/Sequence 3 Launch Urgency (variant 2).md  ->  email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md
+MERGED  email/sequences\Sequence 3 Launch Urgency (variant 2).docx  ->  email/sequences\Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx  (paired docx)
+MERGED  email/slot-2/Email 2 One app, eight providers, one library.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 One app, eight providers, one library.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 One app, eight providers, zero chaos.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 One app, eight providers, zero chaos.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 Why $24 once beats $10 a month, forever.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 Why $24 once beats $10 a month, forever.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 Why $24 once beats $10 a month.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 Why $24 once beats $10 a month.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 48 hours left at $24.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 48 hours left at $24.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 48 hours left at $24 (variant 2).md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 48 hours left at $24 (variant 2).docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-2/Email 2 Feature Spotlight.md  ->  email/slot-2/Email 2 — all variants.md
+MERGED  email/slot-2\Email 2 Feature Spotlight.docx  ->  email/slot-2\Email 2 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Still on the fence–.md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Still on the fence–.docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Still on the fence– (variant 2).md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Still on the fence– (variant 2).docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Your chats. Your machine. Nobody else's.md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Your chats. Your machine. Nobody else's.docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 No cloud. No account. Just your files.md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 No cloud. No account. Just your files.docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Ownership.md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Ownership.docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Last call — pricing ends tonight.md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Last call — pricing ends tonight.docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-3/Email 3 Last call — pricing ends tonight (variant 2).md  ->  email/slot-3/Email 3 — all variants.md
+MERGED  email/slot-3\Email 3 Last call — pricing ends tonight (variant 2).docx  ->  email/slot-3\Email 3 — all variants.docx  (paired docx)
+MERGED  email/slot-4/Email 4 Unlock all 8 providers for one $24 payment.md  ->  email/slot-4/Email 4 — all variants.md
+MERGED  email/slot-4\Email 4 Unlock all 8 providers for one $24 payment.docx  ->  email/slot-4\Email 4 — all variants.docx  (paired docx)
+MERGED  email/slot-4/Email 4 Unlock every provider — one time, $24.md  ->  email/slot-4/Email 4 — all variants.md
+MERGED  email/slot-4\Email 4 Unlock every provider — one time, $24.docx  ->  email/slot-4\Email 4 — all variants.docx  (paired docx)
+MERGED  email/slot-4/Email 4 Upgrade Offer.md  ->  email/slot-4/Email 4 — all variants.md
+MERGED  email/slot-4\Email 4 Upgrade Offer.docx  ->  email/slot-4\Email 4 — all variants.docx  (paired docx)
+MERGED  messaging/Campaign Abstract.md  ->  messaging/TotalRecalls Launch Campaign.md
+MERGED  messaging\Campaign Abstract.docx  ->  messaging\TotalRecalls Launch Campaign.docx  (paired docx)
+MERGED  messaging/TotalRecalls Launch Campaign (variant 2).md  ->  messaging/TotalRecalls Launch Campaign.md
+MERGED  messaging\TotalRecalls Launch Campaign (variant 2).docx  ->  messaging\TotalRecalls Launch Campaign.docx  (paired docx)
+MERGED  messaging/Recall every AI conversation you've ever had.md  ->  messaging/Landing Page Copy — 3 variants.md
+MERGED  messaging\Recall every AI conversation you've ever had.docx  ->  messaging\Landing Page Copy — 3 variants.docx  (paired docx)
+MERGED  messaging/Recall every AI conversation, before it's gone for good.md  ->  messaging/Landing Page Copy — 3 variants.md
+MERGED  messaging\Recall every AI conversation, before it's gone for good.docx  ->  messaging\Landing Page Copy — 3 variants.docx  (paired docx)
+MERGED  messaging/Recall every AI conversation.md  ->  messaging/Landing Page Copy — 3 variants.md
+MERGED  messaging\Recall every AI conversation.docx  ->  messaging\Landing Page Copy — 3 variants.docx  (paired docx)
+MERGED  messaging/Introducing TotalRecalls.md  ->  messaging/Press & Announcement Copy.md
+MERGED  messaging\Introducing TotalRecalls.docx  ->  messaging\Press & Announcement Copy.docx  (paired docx)
+MERGED  messaging/Launch Pricing Ends Soon.md  ->  messaging/Press & Announcement Copy.md
+MERGED  messaging\Launch Pricing Ends Soon.docx  ->  messaging\Press & Announcement Copy.docx  (paired docx)
+MERGED  messaging/blog/Blog Post — Why Your AI Conversations Deserve a Permanent Home.md  ->  messaging/Press & Announcement Copy.md
+MERGED  messaging/blog\Blog Post — Why Your AI Conversations Deserve a Permanent Home.docx  ->  messaging\Press & Announcement Copy.docx  (paired docx)
+MERGED  messaging/Headlines.md  ->  messaging/Press & Announcement Copy.md
+MERGED  messaging\Headlines.docx  ->  messaging\Press & Announcement Copy.docx  (paired docx)
+MERGED  messaging/founder/Why I Built TotalRecalls.md  ->  messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).md
+MERGED  messaging/founder\Why I Built TotalRecalls.docx  ->  messaging/founder\Founder Story — Why I Built TotalRecalls (2 variants + profile).docx  (paired docx)
+MERGED  messaging/founder/Why I Built TotalRecalls (variant 2).md  ->  messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).md
+MERGED  messaging/founder\Why I Built TotalRecalls (variant 2).docx  ->  messaging/founder\Founder Story — Why I Built TotalRecalls (2 variants + profile).docx  (paired docx)
+MERGED  messaging/founder/Andre Denis — founder profile.md  ->  messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).md
+MERGED  messaging/founder\Andre Denis — founder profile.docx  ->  messaging/founder\Founder Story — Why I Built TotalRecalls (2 variants + profile).docx  (paired docx)
+MERGED  social/facebook/Facebook post.md  ->  social/facebook/Facebook Posts — all variants.md
+MERGED  social/facebook\Facebook post.docx  ->  social/facebook\Facebook Posts — all variants.docx  (paired docx)
+MERGED  social/facebook/Facebook post (variant 2).md  ->  social/facebook/Facebook Posts — all variants.md
+MERGED  social/facebook\Facebook post (variant 2).docx  ->  social/facebook\Facebook Posts — all variants.docx  (paired docx)
+MERGED  social/facebook/Facebook post (variant 3).md  ->  social/facebook/Facebook Posts — all variants.md
+MERGED  social/facebook\Facebook post (variant 3).docx  ->  social/facebook\Facebook Posts — all variants.docx  (paired docx)
+MERGED  social/facebook/Facebook post (variant 4).md  ->  social/facebook/Facebook Posts — all variants.md
+MERGED  social/facebook\Facebook post (variant 4).docx  ->  social/facebook\Facebook Posts — all variants.docx  (paired docx)
+MERGED  social/facebook/Facebook post (variant 5).md  ->  social/facebook/Facebook Posts — all variants.md
+MERGED  social/facebook\Facebook post (variant 5).docx  ->  social/facebook\Facebook Posts — all variants.docx  (paired docx)
+MERGED  social/instagram/Instagram caption.md  ->  social/instagram/Instagram Captions — all variants.md
+MERGED  social/instagram\Instagram caption.docx  ->  social/instagram\Instagram Captions — all variants.docx  (paired docx)
+MERGED  social/instagram/Instagram caption (variant 2).md  ->  social/instagram/Instagram Captions — all variants.md
+MERGED  social/instagram\Instagram caption (variant 2).docx  ->  social/instagram\Instagram Captions — all variants.docx  (paired docx)
+MERGED  social/instagram/Instagram caption (variant 3).md  ->  social/instagram/Instagram Captions — all variants.md
+MERGED  social/instagram\Instagram caption (variant 3).docx  ->  social/instagram\Instagram Captions — all variants.docx  (paired docx)
+MERGED  social/instagram/Instagram caption (variant 4).md  ->  social/instagram/Instagram Captions — all variants.md
+MERGED  social/instagram\Instagram caption (variant 4).docx  ->  social/instagram\Instagram Captions — all variants.docx  (paired docx)
+MERGED  social/linkedin/LinkedIn post.md  ->  social/linkedin/LinkedIn Posts — all variants.md
+MERGED  social/linkedin\LinkedIn post.docx  ->  social/linkedin\LinkedIn Posts — all variants.docx  (paired docx)
+MERGED  social/linkedin/LinkedIn post (variant 2).md  ->  social/linkedin/LinkedIn Posts — all variants.md
+MERGED  social/linkedin\LinkedIn post (variant 2).docx  ->  social/linkedin\LinkedIn Posts — all variants.docx  (paired docx)
+MERGED  social/linkedin/LinkedIn post (variant 3).md  ->  social/linkedin/LinkedIn Posts — all variants.md
+MERGED  social/linkedin\LinkedIn post (variant 3).docx  ->  social/linkedin\LinkedIn Posts — all variants.docx  (paired docx)
+MERGED  social/linkedin/LinkedIn post (variant 4).md  ->  social/linkedin/LinkedIn Posts — all variants.md
+MERGED  social/linkedin\LinkedIn post (variant 4).docx  ->  social/linkedin\LinkedIn Posts — all variants.docx  (paired docx)
+MERGED  social/x/X post.md  ->  social/x/X (Twitter) Posts — all variants.md
+MERGED  social/x\X post.docx  ->  social/x\X (Twitter) Posts — all variants.docx  (paired docx)
+MERGED  social/x/X post (variant 2).md  ->  social/x/X (Twitter) Posts — all variants.md
+MERGED  social/x\X post (variant 2).docx  ->  social/x\X (Twitter) Posts — all variants.docx  (paired docx)
+MERGED  social/x/X post (variant 3).md  ->  social/x/X (Twitter) Posts — all variants.md
+MERGED  social/x\X post (variant 3).docx  ->  social/x\X (Twitter) Posts — all variants.docx  (paired docx)
+MERGED  social/x/Tweet.md  ->  social/x/X (Twitter) Posts — all variants.md
+MERGED  social/x\Tweet.docx  ->  social/x\X (Twitter) Posts — all variants.docx  (paired docx)
+MERGED  social/x/Tweet (variant 2).md  ->  social/x/X (Twitter) Posts — all variants.md
+MERGED  social/x\Tweet (variant 2).docx  ->  social/x\X (Twitter) Posts — all variants.docx  (paired docx)
+MERGED  strategy/TotalRecalls Launch Marketing Plan (Revised).md  ->  strategy/TotalRecalls Launch Marketing Plan (Revised) — 2 variants.md
+MERGED  strategy\TotalRecalls Launch Marketing Plan (Revised).docx  ->  strategy\TotalRecalls Launch Marketing Plan (Revised) — 2 variants.docx  (paired docx)
+MERGED  strategy/TotalRecalls Launch Marketing Plan (Revised) (variant 2).md  ->  strategy/TotalRecalls Launch Marketing Plan (Revised) — 2 variants.md
+MERGED  strategy\TotalRecalls Launch Marketing Plan (Revised) (variant 2).docx  ->  strategy\TotalRecalls Launch Marketing Plan (Revised) — 2 variants.docx  (paired docx)
+MERGED  youtube/YouTube Playlist Structure & Naming.md  ->  youtube/YouTube Playlist Structure — 2 frameworks.md
+MERGED  youtube\YouTube Playlist Structure & Naming.docx  ->  youtube\YouTube Playlist Structure — 2 frameworks.docx  (paired docx)
+MERGED  youtube/YouTube Playlist Structure & Naming (variant 2).md  ->  youtube/YouTube Playlist Structure — 2 frameworks.md
+MERGED  youtube\YouTube Playlist Structure & Naming (variant 2).docx  ->  youtube\YouTube Playlist Structure — 2 frameworks.docx  (paired docx)
+MERGED  youtube/Main Product Explainer Video Outline.md  ->  youtube/Main Explainer Video — Outline & Shot List.md
+MERGED  youtube\Main Product Explainer Video Outline.docx  ->  youtube\Main Explainer Video — Outline & Shot List.docx  (paired docx)
+MERGED  youtube/Video Shot List.md  ->  youtube/Main Explainer Video — Outline & Shot List.md
+MERGED  youtube\Video Shot List.docx  ->  youtube\Main Explainer Video — Outline & Shot List.docx  (paired docx)
+MERGED  website/Landing Page — Homepage Hero Section.md  ->  website/Landing Page Copy — Hero & Trust.md
+MERGED  website\Landing Page — Homepage Hero Section.docx  ->  website\Landing Page Copy — Hero & Trust.docx  (paired docx)
+MERGED  website/Landing Page (Trust, Built Differently).md  ->  website/Landing Page Copy — Hero & Trust.md
+MERGED  website\Landing Page (Trust, Built Differently).docx  ->  website\Landing Page Copy — Hero & Trust.docx  (paired docx)
+DELETED email/TotalRecalls Welcome Email Sequence (fragment).md  (byte-identical duplicate of Email Sequence (fragment).md (renamed to Email 1 Welcome — early draft.md))
+DELETED email\TotalRecalls Welcome Email Sequence (fragment).docx  (paired docx)
+DELETED strategy/TotalRecalls Master Implementation Plan (draft capture).md  (42-char capture of the clean Master Implementation Plan with UI-artifact header (Select a Brand Voice))
+DELETED strategy/TotalRecalls Master Implementation Plan (variant 2).md  (partial capture — 100% of its content contained in the full Master Implementation Plan)
+DELETED strategy\TotalRecalls Master Implementation Plan (variant 2).docx  (paired docx)
+DELETED youtube/scripts/YT Video 5 Script V2 (variant 2).md  (fully contained in YT Video 5 Script V2 (V2 kept))
+REHEADED in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Search' -> 'Google Ads - Search (alt)'
+REHEADED in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Display/PMax' -> 'Google Ads - Display/PMax (alt)'
+REHEADED in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Video' -> 'Google Ads - Video (alt)'
+DROPPED section in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Search (variant 2)'
+DROPPED section in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Display PMax (variant 2)'
+DROPPED section in ads/google/Google Ads Copy — Search, Display & Video.md: 'Google Ads - Video (variant 2)'
+DOCX regenerated ads/google/Google Ads Copy — Search, Display & Video.docx
+DROPPED section in ads/linkedin/LinkedIn Ad Copy.md: 'LinkedIn Ads (variant 2)'
+DROPPED section in ads/linkedin/LinkedIn Ad Copy.md: 'LinkedIn Ads  [body dup of LinkedIn Ads]'
+DOCX regenerated ads/linkedin/LinkedIn Ad Copy.docx
+REHEADED in ads/meta/Meta Ad Copy.md: 'Meta Ads' -> 'Meta Ads (alt)'
+DROPPED section in ads/meta/Meta Ad Copy.md: 'Meta Ads (variant 2)'
+DOCX regenerated ads/meta/Meta Ad Copy.docx
+DROPPED section in ads/x/X Ad Copy.md: 'X Ads (variant 2)'
+DROPPED section in ads/x/X Ad Copy.md: 'X Ads  [body dup of X Ads]'
+DOCX regenerated ads/x/X Ad Copy.docx
+DROPPED section in email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md: 'Sequence 3 Launch Urgency (variant 2)'
+DROPPED section in email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.md: 'Sequence 3: Launch Urgency  [body dup of Sequence 3: Launch Urgency]'
+DOCX regenerated email/sequences/Email Sequences 1-3 — Welcome, Upgrade, Urgency.docx
+DROPPED section in email/slot-2/Email 2 — all variants.md: 'Email 2 48 hours left at $24 (variant 2)'
+DROPPED section in email/slot-2/Email 2 — all variants.md: 'Email 2: 48 hours left at $24  [body dup of Email 2: 48 hours left at $24]'
+DOCX regenerated email/slot-2/Email 2 — all variants.docx
+REHEADED in email/slot-3/Email 3 — all variants.md: 'Email 3: Still on the fence?' -> 'Email 3: Still on the fence? (alt)'
+DROPPED section in email/slot-3/Email 3 — all variants.md: 'Email 3 Still on the fence– (variant 2)'
+DOCX regenerated email/slot-3/Email 3 — all variants.docx
+REHEADED in messaging/TotalRecalls Launch Campaign.md: 'TotalRecalls Launch Campaign' -> 'TotalRecalls Launch Campaign (alt)'
+DROPPED section in messaging/TotalRecalls Launch Campaign.md: 'TotalRecalls Launch Campaign (variant 2)'
+DOCX regenerated messaging/TotalRecalls Launch Campaign.docx
+REHEADED in messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).md: 'Why I Built TotalRecalls' -> 'Why I Built TotalRecalls (alt)'
+DROPPED section in messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).md: 'Why I Built TotalRecalls (variant 2)'
+DOCX regenerated messaging/founder/Founder Story — Why I Built TotalRecalls (2 variants + profile).docx
+REHEADED in social/facebook/Facebook Posts — all variants.md: 'Facebook post' -> 'Facebook post (alt)'
+REHEADED in social/facebook/Facebook Posts — all variants.md: 'Facebook post' -> 'Facebook post (alt2)'
+REHEADED in social/facebook/Facebook Posts — all variants.md: 'Facebook Post' -> 'Facebook Post (alt)'
+DROPPED section in social/facebook/Facebook Posts — all variants.md: 'Facebook post (variant 3)'
+DROPPED section in social/facebook/Facebook Posts — all variants.md: 'Facebook post (variant 4)'
+DROPPED section in social/facebook/Facebook Posts — all variants.md: 'Facebook post (variant 5)'
+DOCX regenerated social/facebook/Facebook Posts — all variants.docx
+REHEADED in social/instagram/Instagram Captions — all variants.md: 'Instagram caption' -> 'Instagram caption (alt)'
+REHEADED in social/instagram/Instagram Captions — all variants.md: 'Instagram caption' -> 'Instagram caption (alt2)'
+DROPPED section in social/instagram/Instagram Captions — all variants.md: 'Instagram caption (variant 3)'
+DROPPED section in social/instagram/Instagram Captions — all variants.md: 'Instagram caption (variant 4)'
+DOCX regenerated social/instagram/Instagram Captions — all variants.docx
+REHEADED in social/linkedin/LinkedIn Posts — all variants.md: 'LinkedIn post' -> 'LinkedIn post (alt)'
+REHEADED in social/linkedin/LinkedIn Posts — all variants.md: 'LinkedIn post' -> 'LinkedIn post (alt2)'
+DROPPED section in social/linkedin/LinkedIn Posts — all variants.md: 'LinkedIn post (variant 2)'
+DROPPED section in social/linkedin/LinkedIn Posts — all variants.md: 'LinkedIn post (variant 3)'
+DOCX regenerated social/linkedin/LinkedIn Posts — all variants.docx
+REHEADED in social/x/X (Twitter) Posts — all variants.md: 'X Post' -> 'X Post (alt)'
+REHEADED in social/x/X (Twitter) Posts — all variants.md: 'Tweet' -> 'Tweet (alt)'
+DROPPED section in social/x/X (Twitter) Posts — all variants.md: 'X post (variant 3)'
+DROPPED section in social/x/X (Twitter) Posts — all variants.md: 'Tweet (variant 2)'
+DOCX regenerated social/x/X (Twitter) Posts — all variants.docx
+REHEADED in strategy/TotalRecalls Launch Marketing Plan (Revised) — 2 variants.md: 'TotalRecalls Launch Marketing Plan (Revised)' -> 'TotalRecalls Launch Marketing Plan (Revised) (alt)'
+DROPPED section in strategy/TotalRecalls Launch Marketing Plan (Revised) — 2 variants.md: 'TotalRecalls Launch Marketing Plan (Revised) (variant 2)'
+DOCX regenerated strategy/TotalRecalls Launch Marketing Plan (Revised) — 2 variants.docx
+RESTORED Video Storyboard (canvas 702707c6) Visuals and Audio Summary Table -> youtube/Main Explainer Video — Outline & Shot List.md (3rd section, from raw_dumps/Jasper Plan 1 dump)
+DELETED youtube/scripts/YT Video 6 Script (v2).md (superseded by Final, 2026-09-29)
+DELETED youtube/scripts/YT Video 6 Script (v2).docx (superseded)
+DELETED youtube/scripts/YT Video 6 Script (WIP truncated — needs re-download).docx (superseded)

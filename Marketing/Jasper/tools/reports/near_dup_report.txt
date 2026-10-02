@@ -1,0 +1,112 @@
+comparing 201 files pairwise (n^2 = 40401)
+
+1.000      760 vs     760  Jasper\jasper_docs\Free-to-Pro Upgrade Email Sequence.md  <->  Jasper\jasper_docs\Sequence_2_Free_Tier_to_Pro_Upgrade.txt
+1.000     1578 vs    1578  Jasper\jasper_docs\FAQ (Frequently Asked Questions).md  <->  Jasper\jasper_docs\Is_TotalRecalls_safe_to_use_and_why_does_Windows_show_a_warn.txt
+1.000      578 vs     578  Jasper\jasper_docs\Email_Sequence.txt  <->  Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt
+1.000   113221 vs  113221  Jasper\jasper_docs\Conversation Jasper ai-Day2.md  <->  Jasper\jasper_docs\Conversation Jasper ai-Day2.txt
+1.000     3559 vs    3559  Jasper\jasper_docs\Content Calendar.md  <->  Jasper\jasper_docs\TotalRecalls_60_Day_Launch_Content_Calendar_Blog_Guides.txt
+1.000    10063 vs   10063  Jasper\canvas_docs\YouTube_Playlist_Structure_System_for_TotalRecalls_f56207c7.md  <->  Jasper\jasper_docs\YouTube_Playlist_Structure_System_for_TotalRecalls.txt
+1.000     2846 vs    2846  Jasper\canvas_docs\YT_Video_6_SCRIPT_WIP_TRUNCATED.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 6 Script.md
+1.000     7871 vs    7871  Jasper\canvas_docs\YT_Video_3_Script_V2.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 3 Script V2.md
+1.000      244 vs     244  Jasper\canvas_docs\X_Twitter_eca3e9ca.md  <->  Jasper\jasper_docs\X_Twitter.txt
+1.000      293 vs     293  Jasper\canvas_docs\X_Post_17023cfd.md  <->  Jasper\jasper_docs\X_Post.txt
+1.000      187 vs     187  Jasper\canvas_docs\X_Ads_82accbe5.md  <->  Jasper\jasper_docs\X_Ads.txt
+1.000      325 vs     325  Jasper\canvas_docs\X_Ad_b3c13fe1.md  <->  Jasper\jasper_docs\X_Ad.txt
+1.000     5009 vs    5009  Jasper\canvas_docs\Why_I_Built_TotalRecalls_e6cd1378.md  <->  Jasper\jasper_docs\Why_I_Built_TotalRecalls.txt
+1.000     2699 vs    2699  Jasper\canvas_docs\Trust_Built_Differently_370c6c58.md  <->  Jasper\jasper_docs\Trust_Built_Differently.txt
+1.000     5139 vs    5139  Jasper\canvas_docs\TotalRecalls_YouTube_Video_2_Why_I_Built_TotalRecalls_df0b43e0.md  <->  Jasper\jasper_docs\TotalRecalls_YouTube_Video_2_Why_I_Built_TotalRecalls.txt
+1.000     5071 vs    5071  Jasper\canvas_docs\TotalRecalls_YouTube_Video_1_Save_AI_Chats_from_8_Providers_18d7057b.md  <->  Jasper\jasper_docs\TotalRecalls_YouTube_Video_1_Save_AI_Chats_from_8_Providers_.txt
+1.000     9611 vs    9611  Jasper\canvas_docs\TotalRecalls_YouTube_Playlist_Structure_and_Naming_System_e1aaa6d7.md  <->  Jasper\jasper_docs\TotalRecalls_YouTube_Playlist_Structure_and_Naming_System.txt
+1.000     6266 vs    6266  Jasper\canvas_docs\TotalRecalls_YouTube_Content_Plan_Your_First_10_Videos_baee6adf.md  <->  Jasper\jasper_docs\TotalRecalls_YouTube_Content_Plan_Your_First_10_Videos.txt
+1.000     9014 vs    9014  Jasper\canvas_docs\TotalRecalls_YouTube_Channel_Description_99102005.md  <->  Jasper\jasper_docs\TotalRecalls_YouTube_Channel_Description.txt
+1.000     9187 vs    9187  Jasper\canvas_docs\TotalRecalls_Video_Storyboard_702707c6.md  <->  Jasper\jasper_docs\TotalRecalls_Video_Storyboard.txt
+1.000     6415 vs    6415  Jasper\canvas_docs\TotalRecalls_Video_Shot_List_3006c005.md  <->  Jasper\jasper_docs\TotalRecalls_Video_Shot_List.txt
+1.000     6359 vs    6359  Jasper\canvas_docs\TotalRecalls_Thumbnail_Concepts_24ac5bf4.md  <->  Jasper\jasper_docs\TotalRecalls_Thumbnail_Concepts.txt
+1.000     7708 vs    7708  Jasper\canvas_docs\TotalRecalls_Missing_Items_Checklist_9bb2daab.md  <->  Jasper\jasper_docs\TotalRecalls_Missing_Items_Checklist.txt
+1.000     4785 vs    4785  Jasper\canvas_docs\TotalRecalls_Master_Implementation_Plan_26de1acc.md  <->  Jasper\jasper_docs\TotalRecalls_Master_Implementation_Plan.txt
+1.000     4385 vs    4385  Jasper\canvas_docs\TotalRecalls_Main_Product_Explainer_Video_Outline_d7fccd92.md  <->  Jasper\jasper_docs\TotalRecalls_Main_Product_Explainer_Video_Outline.txt
+1.000    12603 vs   12603  Jasper\canvas_docs\TotalRecalls_Launch_Readiness_Plan_b5862862.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Readiness_Plan.txt
+1.000     9048 vs    9048  Jasper\canvas_docs\TotalRecalls_Launch_Marketing_Plan_Revised_72b37216.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Marketing_Plan_Revised.txt
+1.000     7887 vs    7887  Jasper\canvas_docs\TotalRecalls_Launch_Marketing_Organization_794587e3.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Marketing_Organization.txt
+1.000     5117 vs    5117  Jasper\canvas_docs\TotalRecalls_Launch_Gap_Checklist_e35b3e71.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Gap_Checklist.txt
+1.000     5888 vs    5888  Jasper\canvas_docs\TotalRecalls_Launch_Campaign_fd6f04ea.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Campaign.txt
+1.000     3559 vs    3559  Jasper\canvas_docs\TotalRecalls_60-Day_Launch_Content_Calendar_Blog_Guides_f985590b.md  <->  Jasper\jasper_docs\TotalRecalls_60_Day_Launch_Content_Calendar_Blog_Guides.txt
+1.000     3559 vs    3559  Jasper\canvas_docs\TotalRecalls_60-Day_Launch_Content_Calendar_Blog_Guides_f985590b.md  <->  Jasper\jasper_docs\Content Calendar.md
+1.000    14709 vs   14709  Jasper\canvas_docs\TotalRecalls YT Video 9 Script.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 9 Script.md
+1.000     8785 vs    8785  Jasper\canvas_docs\TotalRecalls YT Video 8 Script.dropped.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 8 Script.md
+1.000    13012 vs   13012  Jasper\canvas_docs\TotalRecalls YT Video 8 Script V2.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 8 Script V2.md
+1.000    14285 vs   14285  Jasper\canvas_docs\TotalRecalls YT Video 7 Script V3.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 7 Script V3.md
+1.000      578 vs     578  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt  <->  Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt  <->  Jasper\jasper_docs\Email_Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.md  <->  Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.md  <->  Jasper\jasper_docs\Email_Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.md  <->  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt
+1.000     7264 vs    7264  Jasper\canvas_docs\The_TotalRecalls_YouTube_Upload_Checklist_and_Template_ae24a5cf.md  <->  Jasper\jasper_docs\The_TotalRecalls_YouTube_Upload_Checklist_and_Template.txt
+1.000     6473 vs    6473  Jasper\canvas_docs\Short-Form_Video_Strategy_ccb00150.md  <->  Jasper\jasper_docs\Short_Form_Video_Strategy.txt
+1.000      556 vs     556  Jasper\canvas_docs\Sequence_3_Launch_Urgency_1c96a5a3.md  <->  Jasper\jasper_docs\Sequence_3_Launch_Urgency.txt
+1.000      760 vs     760  Jasper\canvas_docs\Sequence_2_Free-Tier_to_Pro_Upgrade_8a1c53b5.md  <->  Jasper\jasper_docs\Sequence_2_Free_Tier_to_Pro_Upgrade.txt
+1.000      760 vs     760  Jasper\canvas_docs\Sequence_2_Free-Tier_to_Pro_Upgrade_8a1c53b5.md  <->  Jasper\jasper_docs\Free-to-Pro Upgrade Email Sequence.md
+1.000      856 vs     856  Jasper\canvas_docs\Sequence_2_Free-Tier_to_Pro_Upgrade_8342957e.md  <->  Jasper\jasper_docs\Free-Tier to Pro Upgrade Email.md
+1.000     1037 vs    1037  Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_5d9c45c2.md  <->  Jasper\jasper_docs\Sequence_1_Core_Welcome_Onboarding.txt
+1.000     1037 vs    1037  Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_023c3cc4.md  <->  Jasper\jasper_docs\Sequence_1_Core_Welcome_Onboarding.txt
+1.000     1037 vs    1037  Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_023c3cc4.md  <->  Jasper\canvas_docs\Sequence_1_Core_Welcome_Onboarding_5d9c45c2.md
+1.000      524 vs     524  Jasper\canvas_docs\Search_Ads_fc3b4b4e.md  <->  Jasper\jasper_docs\Search_Ads.txt
+1.000     6855 vs    6855  Jasper\canvas_docs\Recall_every_AI_conversation_you_ve_ever_had_6a4a5718.md  <->  Jasper\jasper_docs\Recall_every_AI_conversation_you_ve_ever_had.txt
+1.000     5002 vs    5002  Jasper\canvas_docs\Recall_every_AI_conversation_before_it_s_gone_for_good_9d097fc4.md  <->  Jasper\jasper_docs\Recall_every_AI_conversation_before_it_s_gone_for_good.txt
+1.000     4801 vs    4801  Jasper\canvas_docs\Recall_every_AI_conversation_049b1438.md  <->  Jasper\jasper_docs\Recall_every_AI_conversation.txt
+1.000     5689 vs    5689  Jasper\canvas_docs\Part_2_Homepage_Rewrite_fb87184c.md  <->  Jasper\jasper_docs\Part_2_Homepage_Rewrite.txt
+1.000     6765 vs    6765  Jasper\canvas_docs\Part_1_Page-by-Page_Website_Optimization_Brief_9aede557.md  <->  Jasper\jasper_docs\Part_1_Page_by_Page_Website_Optimization_Brief.txt
+1.000      835 vs     835  Jasper\canvas_docs\Meta_Ads_ed8d11c8.md  <->  Jasper\jasper_docs\Meta_Ads.txt
+1.000      393 vs     393  Jasper\canvas_docs\LinkedIn_post_ff02ca65.md  <->  Jasper\jasper_docs\LinkedIn_post.txt
+1.000      604 vs     604  Jasper\canvas_docs\LinkedIn_Ads_5513606f.md  <->  Jasper\jasper_docs\LinkedIn_Ads.txt
+1.000      557 vs     557  Jasper\canvas_docs\LinkedIn_Ad_38f01b83.md  <->  Jasper\jasper_docs\LinkedIn_Ad.txt
+1.000     3143 vs    3143  Jasper\canvas_docs\Launch_Pricing_Ends_Soon_674f56b2.md  <->  Jasper\jasper_docs\Launch_Pricing_Ends_Soon.txt
+1.000     2887 vs    2887  Jasper\canvas_docs\Launch-Day_Social_Posting_Checklist_TotalRecalls_e23f8400.md  <->  Jasper\jasper_docs\Launch_Day_Social_Posting_Checklist_TotalRecalls.txt
+1.000      752 vs     752  Jasper\canvas_docs\Landing_Page_Homepage_Hero_Section_921b7ea6.md  <->  Jasper\jasper_docs\Landing_Page_Homepage_Hero_Section.txt
+1.000     2699 vs    2699  Jasper\canvas_docs\Landing Page.md  <->  Jasper\jasper_docs\Trust_Built_Differently.txt
+1.000     2699 vs    2699  Jasper\canvas_docs\Landing Page.md  <->  Jasper\canvas_docs\Trust_Built_Differently_370c6c58.md
+1.000     1578 vs    1578  Jasper\canvas_docs\Is_TotalRecalls_safe_to_use_and_why_does_Windows_show_a_warn_a9a089be.md  <->  Jasper\jasper_docs\Is_TotalRecalls_safe_to_use_and_why_does_Windows_show_a_warn.txt
+1.000     1578 vs    1578  Jasper\canvas_docs\Is_TotalRecalls_safe_to_use_and_why_does_Windows_show_a_warn_a9a089be.md  <->  Jasper\jasper_docs\FAQ (Frequently Asked Questions).md
+1.000     6328 vs    6328  Jasper\canvas_docs\Introducing_TotalRecalls_Never_Lose_an_AI_Conversation_Again_0ac7c3d6.md  <->  Jasper\jasper_docs\Introducing_TotalRecalls_Never_Lose_an_AI_Conversation_Again.txt
+1.000      220 vs     220  Jasper\canvas_docs\Instagram_caption_b2f8777f.md  <->  Jasper\jasper_docs\Instagram_caption.txt
+1.000      360 vs     360  Jasper\canvas_docs\Google_Ads_-_Video_03f9b920.md  <->  Jasper\jasper_docs\Google_Ads_Video.txt
+1.000      472 vs     472  Jasper\canvas_docs\Google_Ads_-_Search_06fece03.md  <->  Jasper\jasper_docs\Google_Ads_Search.txt
+1.000      880 vs     880  Jasper\canvas_docs\Google_Ads_-_Display_PMax_6ab74215.md  <->  Jasper\jasper_docs\Google_Ads_Display_PMax.txt
+1.000      721 vs     721  Jasper\canvas_docs\Facebook_Post_d76b4f6d.md  <->  Jasper\jasper_docs\Facebook_Post.txt
+1.000      578 vs     578  Jasper\canvas_docs\Email_Sequence_25d3ab2c.md  <->  Jasper\jasper_docs\TotalRecalls Welcome Email Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\Email_Sequence_25d3ab2c.md  <->  Jasper\jasper_docs\Email_Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\Email_Sequence_25d3ab2c.md  <->  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.txt
+1.000      578 vs     578  Jasper\canvas_docs\Email_Sequence_25d3ab2c.md  <->  Jasper\canvas_docs\TotalRecalls Welcome Email Sequence.md
+1.000      425 vs     425  Jasper\canvas_docs\Email_4_Upgrade_Offer_925de7f3.md  <->  Jasper\jasper_docs\Email_4_Upgrade_Offer.txt
+1.000      720 vs     720  Jasper\canvas_docs\Email_4_Unlock_every_provider_one_time_24_590d69b6.md  <->  Jasper\jasper_docs\Email_4_Unlock_every_provider_one_time_24.txt
+1.000      844 vs     844  Jasper\canvas_docs\Email_4_Unlock_all_8_providers_for_one_24_payment_102f09aa.md  <->  Jasper\jasper_docs\Email_4_Unlock_all_8_providers_for_one_24_payment.txt
+1.000      912 vs     912  Jasper\canvas_docs\Email_3_Your_chats_Your_machine_Nobody_else_s_bc2a4f3e.md  <->  Jasper\jasper_docs\Email_3_Your_chats_Your_machine_Nobody_else_s.txt
+1.000      867 vs     867  Jasper\canvas_docs\Email_3_Still_on_the_fence_6fc443ab.md  <->  Jasper\jasper_docs\Email_3_Still_on_the_fence.txt
+1.000      547 vs     547  Jasper\canvas_docs\Email_3_Ownership_c177fdbb.md  <->  Jasper\jasper_docs\Email_3_Ownership.txt
+1.000      693 vs     693  Jasper\canvas_docs\Email_3_No_cloud_No_account_Just_your_files_eac1ed4a.md  <->  Jasper\jasper_docs\Email_3_No_cloud_No_account_Just_your_files.txt
+1.000      525 vs     525  Jasper\canvas_docs\Email_3_Last_call_pricing_ends_tonight_2e8ea7f6.md  <->  Jasper\jasper_docs\Email_3_Last_call_pricing_ends_tonight.txt
+1.000      611 vs     611  Jasper\canvas_docs\Email_3_Last_call_launch_pricing_ends_tonight_25aa22a3.md  <->  Jasper\jasper_docs\Email_3_Last_call_launch_pricing_ends_tonight.txt
+1.000      699 vs     699  Jasper\canvas_docs\Email_2_Why_24_once_beats_10_a_month_forever_fe4542fc.md  <->  Jasper\jasper_docs\Email_2_Why_24_once_beats_10_a_month_forever.txt
+1.000      749 vs     749  Jasper\canvas_docs\Email_2_Why_24_once_beats_10_a_month_ec4f3ea0.md  <->  Jasper\jasper_docs\Email_2_Why_24_once_beats_10_a_month.txt
+1.000      846 vs     846  Jasper\canvas_docs\Email_2_One_app_eight_providers_zero_chaos_6aad84c3.md  <->  Jasper\jasper_docs\Email_2_One_app_eight_providers_zero_chaos.txt
+1.000      941 vs     941  Jasper\canvas_docs\Email_2_One_app_Eight_providers_One_library_9d81c47d.md  <->  Jasper\jasper_docs\Email_2_One_app_Eight_providers_One_library.txt
+1.000      616 vs     616  Jasper\canvas_docs\Email_2_Feature_Spotlight_0b84e020.md  <->  Jasper\jasper_docs\Email_2_Feature_Spotlight.txt
+1.000      562 vs     562  Jasper\canvas_docs\Email_2_48_hours_left_at_24_78a8904e.md  <->  Jasper\jasper_docs\Email_2_48_hours_left_at_24.txt
+1.000     1093 vs    1093  Jasper\canvas_docs\Campaign_Abstract_57ff57e4.md  <->  Jasper\jasper_docs\Campaign_Abstract.txt
+1.000     4816 vs    4816  Jasper\canvas_docs\Blog_Post_cdd2ee9d.md  <->  Jasper\jasper_docs\Blog_Post.txt
+1.000      568 vs     568  Jasper\canvas_docs\Ad_variation_3_4be2f2b7.md  <->  Jasper\jasper_docs\Ad_variation_3.txt
+1.000      419 vs     419  Jasper\canvas_docs\Ad_variation_2_b37135bb.md  <->  Jasper\jasper_docs\Ad_variation_2.txt
+1.000      571 vs     571  Jasper\canvas_docs\Ad_variation_1_87392ccb.md  <->  Jasper\jasper_docs\Ad_variation_1.txt
+1.000      716 vs     716  Jasper\canvas_docs\ANDRE_DENIS_e3d925c5.md  <->  Jasper\jasper_docs\ANDRE_DENIS.txt
+1.000     9187 vs    9187  Jasper\TR Videos.md  <->  Jasper\jasper_docs\TotalRecalls_Video_Storyboard.txt
+1.000     9187 vs    9187  Jasper\TR Videos.md  <->  Jasper\canvas_docs\TotalRecalls_Video_Storyboard_702707c6.md
+0.992    10193 vs   10159  Jasper\canvas_docs\TotalRecalls YT Video 5 Script V2.md  <->  Jasper\jasper_docs\TotalRecalls YT Video 5 Script V2.md
+0.991     7745 vs    7708  Jasper\canvas_docs\Missing_Items_Checklist_9bb2daab.md  <->  Jasper\jasper_docs\TotalRecalls_Missing_Items_Checklist.txt
+0.991     7745 vs    7708  Jasper\canvas_docs\Missing_Items_Checklist_9bb2daab.md  <->  Jasper\canvas_docs\TotalRecalls_Missing_Items_Checklist_9bb2daab.md
+0.989    15001 vs   15047  Jasper\canvas_docs\TotalRecalls_Master_Implementation_Plan_904ecc99.md  <->  Jasper\jasper_docs\Select_a_Brand_Voice.txt
+0.981      705 vs     716  Jasper\canvas_docs\Meta_Ads_5092f5d8.md  <->  Jasper\jasper_docs\ANDRE_DENIS.txt
+0.981      716 vs     705  Jasper\canvas_docs\ANDRE_DENIS_e3d925c5.md  <->  Jasper\canvas_docs\Meta_Ads_5092f5d8.md
+0.956     5910 vs    5888  Jasper\jasper_docs\Campaign Brief.md  <->  Jasper\jasper_docs\TotalRecalls_Launch_Campaign.txt
+0.956     5888 vs    5910  Jasper\canvas_docs\TotalRecalls_Launch_Campaign_fd6f04ea.md  <->  Jasper\jasper_docs\Campaign Brief.md
+
+108 near-dup pairs

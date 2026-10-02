@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "C:\Users\break\Projects\TotalRecalls\.venv\Lib\site-packages\google_auth_oauthlib\flow.py", line 472, in run_local_server
+    authorization_response = wsgi_app.last_request_uri.replace(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\break\Projects\TotalRecalls\Marketing\Jasper\YouTube\yt-api\test_oauth_final.py", line 25, in <module>
+    auth_url, _redirect_uri = flow.run_local_server(port=0, open_browser=False, timeout_seconds=3600)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\break\Projects\TotalRecalls\.venv\Lib\site-packages\google_auth_oauthlib\flow.py", line 476, in run_local_server
+    raise WSGITimeoutError(
+google_auth_oauthlib.flow.WSGITimeoutError: Timed out waiting for response from authorization server

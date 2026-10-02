@@ -54,3 +54,8 @@ site/public/videos/
 # Windows reserved-name junk left behind by shell redirects (`> NUL`)
 NUL
 nul
+
+# YouTube launch credentials (Marketing/Jasper) — regeneratable; keep out of public repo (added 2026-10-02)
+Marketing/Jasper/YouTube/yt-api/api_key.txt
+Marketing/Jasper/YouTube/yt-api/credentials.json
+Marketing/Jasper/YouTube/yt-api/token.json
