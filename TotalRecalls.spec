@@ -28,7 +28,9 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['numpy', 'PIL', 'pillow', 'pyautogui', 'qtpy',
+              'cefpython3', 'objc', 'PyObjCTools', 'AppKit', 'Foundation',
+              'WebKit', 'jnius', 'android'],
     noarchive=False,
     optimize=0,
 )

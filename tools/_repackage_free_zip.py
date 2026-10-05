@@ -2,8 +2,8 @@
 then report SHA-256 + size MB for the /download page update."""
 import zipfile, hashlib, os
 
-SITE = r"C:\Users\break\Projects\TotalRecalls\site"
-exesrc = r"C:\Users\break\Projects\TotalRecalls\dist\TotalRecalls.exe"
+SITE = r"C:\Users\break\Projects\TotalRecalls-Source Code\site"
+exesrc = r"C:\Users\break\Projects\TotalRecalls-Source Code\dist\TotalRecalls.exe"
 readme = os.path.join(SITE, "public", "downloads", "README.txt")
 outzip = os.path.join(SITE, "public", "downloads", "TotalRecalls-1.0.0-free-tier.zip")
 
