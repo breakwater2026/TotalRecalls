@@ -6,25 +6,32 @@ import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from
  * /see-it-work/ — "See It Work" (Jasper rewrite, tr/ design system).
  * Copy + spec from: Marketing/Jasper/Website Rewrite/See It Work Page.md
  *
- * DEMO VIDEO NOTE (placeholder state):
- *   The two See-It-Work videos (the 60s ChatGPT demo + the Pro upgrade
- *   walkthrough) are still in production ("heavier load"). Until they land,
- *   the demo slot keeps the currently-embedded walkthrough:
- *     https://video.totalrecalls.app/TR_website_claude_hero.mp4
- *   Swap the <video src> below (and the poster) when the ChatGPT cut ships.
+ * DEMO VIDEO — ChatGPT walkthrough (shipped 2026-10-06):
+ *   https://video.totalrecalls.app/TR_website_chatgpt.mp4  (7:58, 3440x1440)
+ *   Per-provider videos are the plan: one complete A-to-Z walkthrough each,
+ *   in picker order (this file is the ChatGPT entry; Claude/Perplexity/...
+ *   land here as they are shot). Source masters + the build harness live in
+ *   the local demo-shoot workspace; the file in git is only an archive copy.
+ *   The STEP times below are measured from this cut, not estimated — if the
+ *   video is re-cut, re-time them (per-slot brightness on the master, see the
+ *   demo-final-render skill).
  * ========================================================================== */
 
-const DEMO_SRC = "https://video.totalrecalls.app/TR_website_claude_hero.mp4";
-const POSTER = "/demo/poster.png";
+const DEMO_SRC = "https://video.totalrecalls.app/TR_website_chatgpt.mp4";
+const POSTER = "/demo/poster_chatgpt.png";
 const RESULT_IMG = "/demo/result.png";
 
 const STEPS = [
-  { t: "0:00", title: "Open the app", body: "TotalRecalls runs from its own folder on your PC. There's no installer and no TotalRecalls account." },
-  { t: "0:08", title: "Choose your provider", body: "The provider list shows what your tier includes. ChatGPT is part of the Free Tier." },
-  { t: "0:15", title: "Sign in", body: "You sign in inside the app, on your own PC. Your conversations aren't sent to our servers." },
-  { t: "0:27", title: "Pick a conversation", body: "Your history loads as a list. Select the conversation you want to keep." },
-  { t: "0:36", title: "Download", body: "TotalRecalls saves the conversation. A confirmation shows exactly where the files went." },
-  { t: "0:45", title: "Open the Library folder", body: "The chat sits in the provider subfolder as one Markdown file and one JSON file. The video ends with the file open." },
+  { t: "0:03", title: "Get the app", body: "The demo starts on the website. TotalRecalls is a ZIP you run from its own folder — there's no installer and no TotalRecalls account." },
+  { t: "0:51", title: "Download the Free Tier", body: "The Free Tier ZIP covers ChatGPT, Claude, and Perplexity, with up to 5 conversations each. No card, no signup." },
+  { t: "1:18", title: "Unzip it, then run it", body: "Windows extracts the ZIP first, then you double-click TotalRecalls.exe. It runs from wherever you put the folder." },
+  { t: "1:27", title: "Windows may warn you", body: "The first launch of a new, unsigned app shows the SmartScreen card. More info → Run anyway. The app is safe to run; the prompt is normal." },
+  { t: "1:41", title: "Choose your provider", body: "Step 1 in the app. The provider list shows what your tier includes — ChatGPT is part of the Free Tier." },
+  { t: "1:45", title: "Sign in", body: "Step 2. You sign in inside the app, on your own PC. The app opens the sign-in window itself, or you can paste a session cookie instead." },
+  { t: "2:25", title: "Your history loads", body: "Once connected, the app enumerates your conversations and shows the count — 106 here — before it downloads anything." },
+  { t: "2:45", title: "Download", body: "The app walks the history and writes each conversation to disk. The long stretch runs at 3× — the on-screen label says so." },
+  { t: "6:27", title: "Complete — open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder for you." },
+  { t: "7:18", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with the chat open in Word." },
 ];
 
 function Step({ t, title, body }) {
@@ -65,12 +72,12 @@ export default function SeeItWorkPage() {
               Watch a chat become files on your PC.
             </h1>
             <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist md:text-[20px]">
-              This page shows one complete download, recorded on a Windows PC. A conversation
-              starts in the app and ends as two files in a folder on the drive.
+              This page shows one complete download, recorded on a Windows PC — from the website
+              to two files in a folder on the drive.
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
               <Chip>Recorded on Windows</Chip>
-              <Chip>Captioned</Chip>
+              <Chip>7:58</Chip>
               <Chip>Free Tier</Chip>
             </div>
             <a href="#download" className="mt-5 inline-block text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
@@ -86,10 +93,12 @@ export default function SeeItWorkPage() {
           <div className="max-w-[680px]">
             <Eyebrow mono>The Demo</Eyebrow>
             <h2 className="mt-3 font-heading text-[28px] font-semibold leading-[1.15] text-tr-paper md:text-[36px]">
-              One conversation, start to finish
+              One account, start to finish
             </h2>
             <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist">
-              Recorded on the Free Tier. Captions explain each step, so the video works with the sound off.
+              Recorded on the Free Tier, beginning at the website and ending with the conversation open.
+              The recording has no audio track — everything you need is on screen, and the step
+              list below follows the same timeline.
             </p>
           </div>
 
@@ -103,15 +112,15 @@ export default function SeeItWorkPage() {
                 controls
                 preload="metadata"
                 playsInline
-                title="TotalRecalls downloading a conversation to local Markdown and JSON files"
+                title="TotalRecalls downloading ChatGPT conversations to local Markdown and JSON files"
               />
             </div>
             <p className="mt-3 font-body text-[14px] text-tr-dust">
-              Real screen recording, trimmed for length. Account details are blurred.
+              Real screen recording, trimmed for length. Account details are masked in the app.
             </p>
-            <p className="mt-1.5 font-body text-[13px] text-tr-dust">
-              Showing the current full walkthrough. The dedicated 60-second ChatGPT demo and the
-              Pro upgrade walkthrough are in production — they drop into this slot when cut.
+            <p className="mt-1.5 font-body text-[14px] text-tr-dust">
+              Two stretches are altered and labelled on screen: the dead air at each end is cut, and the
+              long download runs at 3× with a banner saying so. Everything else is at normal speed.
             </p>
             <div className="mt-2">
               <a href="#transcript" className="text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
@@ -223,8 +232,8 @@ export default function SeeItWorkPage() {
             </summary>
             <div className="border-t border-tr-slate pb-6 pt-4 font-body text-[15px] leading-[1.7] text-tr-mist">
               <p className="mb-3 text-tr-dust">
-                Final caption text lands here once the dedicated 60-second cut is locked. The caption
-                track below follows the step-by-step above.
+                The recording has no audio, so there's nothing to transcribe — this is the sequence
+                of the walkthrough, with the timecode where each beat happens in the video.
               </p>
               <ol className="list-decimal space-y-2.5 pl-6">
                 {STEPS.map((s) => (

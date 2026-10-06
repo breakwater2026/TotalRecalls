@@ -3,8 +3,12 @@
 // Excludes 404 pages. Writes lastmod = build date.
 import { readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const dist = new URL("../dist/", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
+// fileURLToPath (NOT URL.pathname) — pathname keeps percent-encoding, so a checkout
+// in a folder with a space (e.g. "TotalRecalls-Source Code") made readdirSync throw
+// ENOENT on "...Source%20Code/site/dist". Works either way on Cloudflare's builder.
+const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 const site = "https://totalrecalls.app";
 
 function walk(dir) {
