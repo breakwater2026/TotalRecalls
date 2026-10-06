@@ -7,7 +7,9 @@ import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from
  * Copy + spec from: Marketing/Jasper/Website Rewrite/See It Work Page.md
  *
  * DEMO VIDEO — ChatGPT walkthrough (shipped 2026-10-06):
- *   https://video.totalrecalls.app/TR_website_chatgpt.mp4  (7:58, 3440x1440)
+ *   https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4  (7:58, 3440x1440)
+ *   Demo hostname = demo-video.totalrecalls.app (R2 bucket tr-website-drive). The
+ *   landing hero stays on video.totalrecalls.app; both hostnames front the same bucket.
  *   Per-provider videos are the plan: one complete A-to-Z walkthrough each,
  *   in picker order (this file is the ChatGPT entry; Claude/Perplexity/...
  *   land here as they are shot). Source masters + the build harness live in
@@ -17,7 +19,7 @@ import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from
  *   demo-final-render skill).
  * ========================================================================== */
 
-const DEMO_SRC = "https://video.totalrecalls.app/TR_website_chatgpt.mp4";
+const DEMO_SRC = "https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4";
 const POSTER = "/demo/poster_chatgpt.png";
 const RESULT_IMG = "/demo/result.png";
 
