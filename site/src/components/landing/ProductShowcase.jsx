@@ -9,7 +9,7 @@ export default function ProductShowcase() {
             Watch a real download in action.
           </h2>
           <p className="font-body text-muted-foreground text-[15.5px] leading-relaxed mt-4">
-            A short walkthrough of pulling a conversation out of a provider and saving it as
+            A complete walkthrough of pulling a conversation out of a provider and saving it as
             Markdown + JSON on your own machine.
           </p>
         </div>
@@ -17,7 +17,7 @@ export default function ProductShowcase() {
         <div className="mt-10 rounded-lg border border-border bg-card/40 p-2 md:p-3">
           <video
             className="w-full rounded-md border border-border/70 bg-black"
-            src="https://video.totalrecalls.app/TR_website_claude_hero.mp4"
+            src="https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4"
             controls
             autoPlay
             muted
