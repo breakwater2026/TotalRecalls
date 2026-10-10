@@ -156,12 +156,12 @@ const currentYear = new Date().getFullYear();
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--color-border, #e5e7eb);
-    background: var(--color-background, #fff);
+    border-top: 1px solid var(--tr-slate);
+    background: var(--tr-graphite);
     padding: 2.5rem 0 1.5rem;
     margin-top: 4rem;
     font-size: 14px;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
   }
   .site-footer-inner {
     max-width: 1400px;
@@ -173,7 +173,7 @@ const currentYear = new Date().getFullYear();
     grid-template-columns: 1.2fr repeat(4, 1fr);
     gap: 2.5rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid var(--color-border, #e5e7eb);
+    border-bottom: 1px solid var(--tr-slate);
   }
   @media (max-width: 768px) {
     .site-footer-grid { grid-template-columns: 1fr 1fr; }
@@ -193,7 +193,7 @@ const currentYear = new Date().getFullYear();
   .site-footer-name {
     font-weight: 700;
     font-size: 17px;
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
   }
   .site-footer-tagline { margin-top: 0.75rem; line-height: 1.5; }
   .site-footer-h {
@@ -202,17 +202,17 @@ const currentYear = new Date().getFullYear();
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
     margin-bottom: 1rem;
   }
   .site-footer-list { list-style: none; padding: 0; margin: 0; }
   .site-footer-list li { margin-bottom: 0.5rem; }
   .site-footer-list a {
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
     text-decoration: none;
     opacity: 0.85;
   }
-  .site-footer-list a:hover { color: var(--color-primary, #2f7bff); }
+  .site-footer-list a:hover { color: var(--tr-amber); }
   .site-footer-bottom {
     display: flex;
     flex-wrap: wrap;
@@ -225,8 +225,8 @@ const currentYear = new Date().getFullYear();
   }
   .version-badge {
     display: inline-block;
-    background: #d1fae5;
-    color: #065f46;
+    background: var(--tr-slate);
+    color: var(--tr-paper);
     padding: 0.15rem 0.5rem;
     border-radius: 4px;
     font-weight: 600;
@@ -249,22 +249,22 @@ const currentYear = new Date().getFullYear();
     opacity: 0.4;
   }
   .site-footer-minimal-link {
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
     text-decoration: none;
     opacity: 0.85;
     transition: opacity 0.2s, color 0.2s;
   }
   .site-footer-minimal-link:hover {
       opacity: 1;
-      color: var(--color-primary, #2f7bff);
+      color: var(--tr-amber);
     }
 
   /* ===================== FOOTER EMAIL SIGNUP (spec: Footer Email Signup HTML Placement V2) ===================== */
   .footer-signup {
     margin-top: 2.5rem;
     padding: 2.5rem 0;
-    border-top: 1px solid var(--color-border, #e5e7eb);
-    border-bottom: 1px solid var(--color-border, #e5e7eb);
+    border-top: 1px solid var(--tr-slate);
+    border-bottom: 1px solid var(--tr-slate);
   }
   @media (min-width: 768px) {
     .footer-signup { padding: 2.5rem 0; }
@@ -288,14 +288,14 @@ const currentYear = new Date().getFullYear();
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
   }
   .footer-signup__heading {
     margin: 0.75rem 0 0;
     font-size: 20px;
     line-height: 1.2;
     font-weight: 600;
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
   }
   @media (min-width: 768px) {
     .footer-signup__heading { font-size: 24px; }
@@ -305,7 +305,7 @@ const currentYear = new Date().getFullYear();
     max-width: 560px;
     font-size: 16px;
     line-height: 1.65;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
   }
   .footer-signup__form { margin: 0; }
   .footer-signup__label {
@@ -313,7 +313,7 @@ const currentYear = new Date().getFullYear();
     margin-bottom: 0.5rem;
     font-size: 14px;
     font-weight: 500;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
   }
   .footer-signup__row {
     display: flex;
@@ -328,27 +328,27 @@ const currentYear = new Date().getFullYear();
     width: 100%;
     height: 40px;
     padding: 0 0.875rem;
-    border: 1px solid var(--color-border, #d1d5db);
+    border: 1px solid var(--tr-slate);
     border-radius: 8px;
-    background: var(--color-background, #fff);
-    color: var(--color-foreground, #0b0f19);
+    background: var(--tr-obsidian);
+    color: var(--tr-paper);
     font-family: inherit;
     font-size: 16px; /* 16px prevents iOS zoom */
     outline: none;
   }
-  .footer-signup__input::placeholder { color: var(--color-muted, #94a3b8); opacity: 0.8; }
+  .footer-signup__input::placeholder { color: var(--tr-dust); opacity: 0.8; }
   .footer-signup__input:focus {
-    border-color: var(--color-primary, #2f7bff);
-    outline: 2px solid var(--color-primary, #2f7bff);
+    border-color: var(--tr-amber);
+    outline: 2px solid var(--tr-amber);
     outline-offset: 2px;
   }
   .footer-signup__button {
     height: 40px;
     padding: 0 1.25rem;
-    border: 1px solid var(--color-border, #d1d5db);
+    border: 1px solid var(--tr-slate);
     border-radius: 8px;
     background: transparent;
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
@@ -357,9 +357,9 @@ const currentYear = new Date().getFullYear();
     transition: background-color 0.15s, border-color 0.15s;
   }
   .footer-signup__button:hover {
-    background: var(--color-muted, #64748b);
-    color: var(--color-background, #fff);
-    border-color: var(--color-muted, #64748b);
+    background: var(--tr-dust);
+    color: var(--tr-graphite);
+    border-color: var(--tr-dust);
   }
   .footer-signup__hp {
     position: absolute;
@@ -375,17 +375,17 @@ const currentYear = new Date().getFullYear();
   }
   .footer-signup__message--error {
     margin-top: 0.5rem;
-    color: #b45309;
+    color: var(--tr-error);
   }
   .footer-signup__message--success {
     margin-top: 0.5rem;
-    color: var(--color-foreground, #0b0f19);
+    color: var(--tr-paper);
   }
   .footer-signup__privacy {
     margin: 0.75rem 0 0;
     font-size: 14px;
     line-height: 1.5;
-    color: var(--color-muted, #64748b);
+    color: var(--tr-dust);
     opacity: 0.9;
   }
   </style>
