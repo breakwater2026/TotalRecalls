@@ -9,9 +9,11 @@ import "@fontsource/ibm-plex-mono/400.css";
 export interface Props {
   title?: string;
   description?: string;
+  /** Optional robots directive, e.g. "noindex, follow". Leave unset for indexable pages. */
+  robots?: string;
 }
 
-const { title = "TotalRecalls — Recall every AI conversation.", description = "A Windows app that saves your AI conversations as Markdown + JSON you keep forever." } = Astro.props;
+const { title = "TotalRecalls — Recall every AI conversation.", description = "A Windows app that saves your AI conversations as Markdown + JSON you keep forever.", robots } = Astro.props;
 const site = "https://totalrecalls.app";
 const canonicalPath = Astro.url.pathname;
 ---
@@ -62,6 +64,7 @@ const canonicalPath = Astro.url.pathname;
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
         <link rel="canonical" href={`${site}${canonicalPath}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TotalRecalls" />

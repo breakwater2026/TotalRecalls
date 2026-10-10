@@ -21,7 +21,12 @@ function walk(dir) {
   return out;
 }
 
-const files = walk(dist).filter((f) => !/404\.html$/.test(f));
+// 404 has nothing to index. /thanks/ is a post-purchase conversion page that is
+// meta-noindex'd (pages/thanks/index.astro) — listing it in the sitemap advertises a
+// URL we deliberately keep out of the index and spends crawl budget on it.
+const files = walk(dist).filter(
+  (f) => !/404\.html$/.test(f) && !/[/\\]thanks[/\\]index\.html$/.test(f),
+);
 const urls = files
   .map((f) => {
     let rel = relative(dist, f).split(sep).join("/");

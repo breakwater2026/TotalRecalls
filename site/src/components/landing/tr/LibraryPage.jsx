@@ -245,6 +245,13 @@ export default function LibraryPage() {
           <p className="mt-4 max-w-[680px] font-body text-[16px] leading-[1.6] text-tr-mist">
             No proprietary format, no lock-in. Here&apos;s what makes it easy to live with.
           </p>
+          <p className="mt-3 max-w-[680px] font-body text-[16px] leading-[1.6] text-tr-mist">
+            The exact directory layout, the metadata manifest and both file formats are documented in the{" "}
+            <a href="/guides/library-format/" className="font-semibold text-tr-paper underline decoration-tr-slate underline-offset-4 transition-colors hover:decoration-tr-paper">
+              Library Format reference
+            </a>
+            .
+          </p>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {FEATURES.map((f) => (
               <div key={f.t} className="rounded-card border border-tr-slate bg-tr-obsidian p-6">

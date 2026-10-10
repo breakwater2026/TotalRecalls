@@ -344,6 +344,9 @@ export default function ProvidersPage() {
                 <p className="mt-4 flex-1 font-body text-[16px] leading-[1.6] text-tr-mist">{d.body}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-tr-slate pt-4">
                   <code className="font-mono text-[13px] text-tr-steel select-all">{d.folder}</code>
+                  <a href={"/compare/" + d.name.toLowerCase() + "/"} className="inline-flex items-center gap-1.5 font-body text-[14px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
+                    Compare <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
                   <a href={d.guide} className="ml-auto inline-flex items-center gap-1.5 font-body text-[14px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
                     {d.guideLabel} <ArrowRight className="w-3.5 h-3.5" />
                   </a>
@@ -366,6 +369,14 @@ export default function ProvidersPage() {
               We&apos;re building support for more AI providers and new capabilities. We&apos;ll list
               them here when they&apos;re ready, not before. New providers arrive through app updates.
               Pro includes free updates to the core app for the life of the product.
+            </p>
+            <p className="mt-3 max-w-[560px] font-body text-[16px] leading-[1.6] text-tr-mist">
+              Planned integrations — Obsidian and Notion sync, semantic search, RAG containers and
+              multi-device memory — are described on the{" "}
+              <a href="/previews/" className="font-semibold text-tr-paper underline decoration-tr-slate underline-offset-4 transition-colors hover:decoration-tr-paper">
+                previews page
+              </a>
+              .
             </p>
             <div className="flex items-center justify-center rounded-card border border-dashed border-tr-slate bg-tr-graphite px-6 py-12">
               <span className="inline-flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.12em] text-tr-dust">
