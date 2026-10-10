@@ -35,10 +35,12 @@ const urls = files
   })
   .sort();
 
-const today = new Date().toISOString().slice(0, 10);
+// No <lastmod>: the previous code stamped the BUILD date on every URL, so every deploy told
+// Google that all 53 pages had changed — a claim that is false, and which Google's own guidance
+// says it will ignore when lastmod is unreliable. An absent lastmod is honest; a wrong one is noise.
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`).join("\n")}
+${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
 </urlset>
 `;
 
