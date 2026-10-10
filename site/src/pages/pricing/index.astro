@@ -1,7 +1,26 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+
+// Product rich results (marketing plan §7.4). `price` mirrors the live displayed price in
+// public/js/config.js (priceLabel = "$24USD") — change both together with any catalog change.
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "TotalRecalls",
+  description: "Windows app that downloads your AI chat history from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral and Qwen Chat into local Markdown + JSON files you own.",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Windows 10, Windows 11",
+  offers: {
+    "@type": "Offer",
+    price: "24.00",
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    url: "https://totalrecalls.app/buy/",
+  },
+};
 ---
 <PageLayout title="Pricing — TotalRecalls" description="One-time $24 launch price. No subscription. A Free Tier is available now." breadcrumbs={[{ label: "Pricing" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(productLd)} />
 
   <h1>Pricing</h1>
   <p>TotalRecalls is a small Windows app that downloads and saves your ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen conversations into a private folder on your computer — readable Markdown + JSON you keep forever.</p>

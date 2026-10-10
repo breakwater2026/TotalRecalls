@@ -3,8 +3,11 @@ import PageLayout from "../../layouts/PageLayout.astro";
 
 // Free Tier release. Real build artifacts — recompute after each PyInstaller build:
 //   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
-import { currentVersion } from "../../data/releases.json";
-const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+import { currentVersion, releases } from "../../data/releases.json";
+// The release DATE must come from the release record, never from the build clock.
+// `new Date()` rendered today's build date as "Latest release: … <today>" — a false claim
+// (the app shipped 2026-09-12) that also rolled forward on every single deploy.
+const date = releases[0].date;
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
 const ZIP_SIZE_MB = 17.8;
 const SHA256 = "391fb4d83aa4544d7798e437804573fade8498f735184ee47a881ed3bba5425c";
