@@ -1,11 +1,66 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Does Qwen provide a data download?", a: "No. Qwen Chat does not provide a built-in data download — the manual alternative is copying each conversation out by hand." },
+  { q: "Do I need a DashScope or Alibaba API key?", a: "No, and TotalRecalls never asks for one. It reads your browser session for the consumer chat product, which is a different product from the developer API." },
+  { q: "Will Chinese and other non-Latin text survive?", a: "Yes — UTF-8 throughout, so Chinese, English, Japanese and Korean all stay readable." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Qwen vs. TotalRecalls" description="Qwen Chat (chat.qwen.ai) does not provide a built-in data download. TotalRecalls reads your active browser session and converts it to portable Markdown and JSON." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Qwen" }]}>
+<PageLayout title="Qwen vs. TotalRecalls" description="Qwen Chat has no built-in export. TotalRecalls saves chat.qwen.ai history as local UTF-8 Markdown + JSON — the consumer chat app only, never the DashScope developer API." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Qwen" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Qwen vs. TotalRecalls</h1>
-  <p>Qwen Chat (chat.qwen.ai) does not provide a built-in data download. TotalRecalls reads your active browser session and converts it to portable Markdown and JSON.</p>
+  <p>Qwen Chat (<code>chat.qwen.ai</code>) is Alibaba&rsquo;s consumer chat product. If that&rsquo;s where your work is, your history currently exists only in the browser tab.</p>
+
+  <h2>What &ldquo;download&rdquo; usually means</h2>
+  <p>Qwen Chat does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file &mdash; which loses formatting, doesn&rsquo;t scale, and makes long conversations easy to scramble.</p>
+
+  <h2>Why two Qwen products matter</h2>
+  <p>This trips people up, so it&rsquo;s worth being precise:</p>
   <ul>
-    <li><strong>Official download:</strong> Not available on the consumer chat product.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON with full transcripts, downloaded from your own browser session.</li>
+    <li><strong>Qwen Chat (<code>chat.qwen.ai</code>)</strong> &mdash; the consumer chat product. This is what users want to back up.</li>
+    <li><strong>DashScope / Bailian / Model Studio (<code>dashscope.aliyuncs.com</code>)</strong> &mdash; Alibaba&rsquo;s developer API for the Qwen model family. It has its own separate terms.</li>
   </ul>
+  <p>TotalRecalls only touches the <strong>consumer chat product</strong>. It never calls DashScope endpoints, never uses Alibaba API keys, and never touches developer-account credentials.</p>
+
+  <h2>What TotalRecalls does</h2>
+  <p>TotalRecalls runs on your PC, connects to your Qwen Chat session locally, and writes conversations into folders as Markdown + JSON, with multilingual text preserved in UTF-8 &mdash; Chinese, English, Japanese and Korean all stay readable in any editor.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Manual copy/paste</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Official export available</td><td>No</td><td>&mdash;</td></tr>
+        <tr><td>Consumer chat vs developer API</td><td>&mdash;</td><td>Consumer chat only, never DashScope</td></tr>
+        <tr><td>Multilingual text</td><td>Often mangled</td><td>UTF-8 preserved</td></tr>
+        <tr><td>Scales past a handful of chats</td><td>No</td><td>Full history</td></tr>
+        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Regional note:</strong> Qwen Chat is served from <code>chat.qwen.ai</code> (international) and from <code>qianwen.com</code> / <code>tongyi.aliyun.com</code> (domestic). TotalRecalls targets the international web app. Run the download while your session is still active &mdash; Qwen Chat sessions expire on inactivity.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/qwen/">step-by-step Qwen guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

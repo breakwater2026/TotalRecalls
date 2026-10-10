@@ -1,11 +1,60 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Does TotalRecalls replace ChatGPT's official download?", a: "No, it complements it. The official export is complete but bulky; TotalRecalls produces the readable, per-conversation library you'll actually reopen." },
+  { q: "Do I need to give TotalRecalls my ChatGPT password?", a: "No. You sign in through a local login window on your own machine. TotalRecalls does not run a hosted service that receives your session." },
+  { q: "Can I back up more than one AI provider with it?", a: "Yes — ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral and Qwen Chat all land in the same Library folder structure." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="ChatGPT vs TotalRecalls" description="ChatGPT official download vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "ChatGPT" }]}>
+<PageLayout title="ChatGPT vs. TotalRecalls" description="ChatGPT can export your whole account as a bulk data download. TotalRecalls keeps your conversations as a readable Markdown + JSON library on your PC. Here's the difference." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "ChatGPT" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>ChatGPT vs. TotalRecalls</h1>
-  <p>OpenAI's built-in download gives you a JSON dump of your conversations. TotalRecalls gives you a <strong>searchable, tagged, Markdown library</strong> with full metadata.</p>
-  <ul>
-    <li><strong>Official download:</strong> ZIP file with conversations.json — no search, no structure.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON, organized folders, timestamps, model names, and full-text search.</li>
-  </ul>
+  <p>If you&rsquo;ve spent months thinking out loud in ChatGPT, that history is an asset. There are two ways to get it out, and they&rsquo;re built for different jobs.</p>
+
+  <h2>What ChatGPT&rsquo;s official download gives you</h2>
+  <p>OpenAI provides a full account data export under <strong>Settings &rarr; Data controls</strong>. It&rsquo;s the right choice for a complete, legal or compliance-grade archive. It arrives as one bulk bundle after a processing delay, and it&rsquo;s shaped like an export, not like something you&rsquo;ll browse on a Tuesday.</p>
+
+  <h2>What TotalRecalls gives you instead</h2>
+  <p>TotalRecalls runs on your PC, connects to your ChatGPT session locally, and writes each conversation into folders as Markdown + JSON. Long conversations stay together in a single file, dated, ready for any text editor. Your session stays on your machine &mdash; TotalRecalls never holds your credentials.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>ChatGPT official export</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Scope</td><td>Entire account</td><td>The conversations you choose</td></tr>
+        <tr><td>Format</td><td>Bulk bundle</td><td>Markdown + JSON, one pair per chat</td></tr>
+        <tr><td>Turnaround</td><td>Processing delay</td><td>Immediate</td></tr>
+        <tr><td>Readable as-is</td><td>Awkward to browse</td><td>Any text editor</td></tr>
+        <tr><td>Works with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+        <tr><td>Price</td><td>Free</td><td>Free Tier available; $24 one-time for all 8</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Which should you use?</h2>
+  <p>Use the <strong>official download</strong> when you need a full account archive for compliance or a complete record. Use <strong>TotalRecalls</strong> when you want a usable personal library sooner &mdash; especially if you also use Claude, Perplexity, Gemini or Grok and want one archive location instead of five.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/export-chatgpt-conversations/">step-by-step ChatGPT guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

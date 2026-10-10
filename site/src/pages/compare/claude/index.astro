@@ -1,11 +1,66 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Can TotalRecalls back up Claude Projects, or only single chats?", a: "Long Project conversations and single chats both save as files — the same path, sorted by date." },
+  { q: "Does my Claude session leave my computer?", a: "No. You complete a local sign-in on your own machine; TotalRecalls doesn't host your credentials or your conversations." },
+  { q: "What format are the files in?", a: "Markdown for reading and JSON for structure — one pair per conversation." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Claude vs TotalRecalls" description="Claude official download vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Claude" }]}>
+<PageLayout title="Claude vs. TotalRecalls" description="Claude is where long-form work happens — drafts, code reviews, research. TotalRecalls keeps those conversations as Markdown + JSON files on your PC, with your login staying local." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Claude" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Claude vs. TotalRecalls</h1>
-  <p>Anthropic does not provide a native data download tool for chats. TotalRecalls reads your local Claude.ai session and converts it to a durable library.</p>
+  <p>Claude is where a lot of long-form thinking happens &mdash; drafts, code reviews, research that spans days. Those conversations deserve a home outside the browser tab.</p>
+
+  <h2>Why Claude history is easy to lose</h2>
+  <p>Long Projects and conversations are hard to re-find months later. UI changes and workspace switches break muscle memory. And copy-paste doesn&rsquo;t scale past a few conversations &mdash; you lose the order, the formatting, and the context that made the thread worth keeping.</p>
+
+  <h2>What TotalRecalls does for Claude</h2>
+  <p>On Windows, TotalRecalls connects using your local Claude session and downloads conversations into a provider folder as Markdown + JSON, one pair per chat. Long conversations and Project conversations save as files you can reread without scrolling, so your drafts, plans and code reviews sit in one folder sorted by date.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Browser-only Claude</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Re-finding a conversation months later</td><td>Scroll and hope</td><td>Search your own folder</td></tr>
+        <tr><td>Long threads</td><td>Endless scrolling</td><td>A single readable file</td></tr>
+        <tr><td>Formatting and structure</td><td>Gone when copied by hand</td><td>Preserved in Markdown + JSON</td></tr>
+        <tr><td>Works across your AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+        <tr><td>Where the login happens</td><td>&mdash;</td><td>Locally, on your machine</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Privacy note</h2>
+  <p>TotalRecalls is built so login stays on your machine. There is deliberately <strong>no hosted &ldquo;send us your Claude cookies&rdquo; service</strong> &mdash; that&rsquo;s the design, not a limitation.</p>
+
+  <h2>Good practices</h2>
   <ul>
-    <li><strong>Official download:</strong> Not available.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON download with model metadata (3.5 Sonnet, Haiku).</li>
+    <li>Download after major writing projects, not only when you feel panic</li>
+    <li>Name your disk folder clearly, e.g. <code>AI-Archive/Claude</code></li>
+    <li>If you use multiple AI tools, keep sibling folders per provider</li>
   </ul>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/export-claude-chat-history/">step-by-step Claude guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

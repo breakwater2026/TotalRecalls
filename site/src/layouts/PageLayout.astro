@@ -102,4 +102,27 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
   .prose blockquote {
     @apply border-l-2 border-neutral-200 pl-5 italic text-muted-foreground my-6;
   }
+  /* Comparison tables on /compare/* — the .prose scope styled nothing for tables,
+     so they rendered as unstyled markup. */
+  .table-wrap {
+    @apply my-8 overflow-x-auto;
+  }
+  .prose table {
+    @apply w-full border-collapse font-body text-[14.5px];
+  }
+  .prose thead th {
+    @apply border-b border-border pb-3 pr-5 text-left font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground align-bottom;
+  }
+  .prose tbody td {
+    @apply border-b border-border py-3.5 pr-5 align-top text-muted-foreground;
+  }
+  .prose tbody td:first-child {
+    @apply font-medium text-foreground;
+  }
+  .prose tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .prose dl.faq dt {
+    @apply mt-6 first:mt-0;
+  }
 </style>

@@ -1,11 +1,65 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Does DeepSeek let me export my chats?", a: "No. DeepSeek does not provide a built-in data download — the only manual path is pasting each conversation into a file yourself." },
+  { q: "Will I lose the R1 thinking blocks?", a: "With copy/paste, yes — they disappear after a few refreshes. TotalRecalls keeps the reasoning alongside the final answer." },
+  { q: "Does it use the DeepSeek API or an API key?", a: "Neither. TotalRecalls reads your browser session, so it works on the free tier without any developer credentials." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="DeepSeek vs. TotalRecalls" description="DeepSeek does not provide a one-click data download for chat history. TotalRecalls reads your active browser session and converts it to portable Markdown and JSON." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Deepseek" }]}>
+<PageLayout title="DeepSeek vs. TotalRecalls" description="DeepSeek has no built-in export, and copy-paste throws away the R1 reasoning. TotalRecalls keeps the chain-of-thought with the final answer as local Markdown + JSON." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "DeepSeek" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>DeepSeek vs. TotalRecalls</h1>
-  <p>DeepSeek does not provide a one-click data download for chat history. TotalRecalls reads your active browser session and converts it to portable Markdown and JSON.</p>
-  <ul>
-    <li><strong>Official download:</strong> Not available.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON with full transcripts and DeepSeek's chain-of-thought blocks preserved.</li>
-  </ul>
+  <p>DeepSeek is unusually valuable to back up, because <strong>the reasoning is the artifact</strong>. A lot of what you&rsquo;d want later isn&rsquo;t the answer &mdash; it&rsquo;s how the model got there.</p>
+
+  <h2>What &ldquo;download&rdquo; usually means</h2>
+  <p>DeepSeek does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file. That costs you the formatting, and &mdash; more importantly &mdash; the thinking block, which is gone within a few page refreshes.</p>
+
+  <h2>Why the chain-of-thought matters</h2>
+  <p>DeepSeek-R1 streams a <code>thinking_content</code> block before its final answer. That reasoning is often more useful than the answer itself: the worked solution, the self-correction, the trade-off analysis. If you back up by hand, it&rsquo;s gone. If you back up with TotalRecalls, it&rsquo;s stored next to the final answer, with the timestamp and model name.</p>
+
+  <h2>What TotalRecalls does</h2>
+  <p>TotalRecalls runs on your PC, connects to your DeepSeek session locally, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays readable but doesn&rsquo;t drown the answer.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Manual copy/paste</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Official export available</td><td>No</td><td>&mdash;</td></tr>
+        <tr><td>Reasoning / thinking blocks</td><td><strong>Lost</strong></td><td><strong>Preserved</strong></td></tr>
+        <tr><td>Formatting</td><td>Flattened</td><td>Markdown + JSON</td></tr>
+        <tr><td>Scales past a handful of chats</td><td>No</td><td>Full history</td></tr>
+        <tr><td>Works on the free tier</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Which should you use?</h2>
+  <p>Use manual copy/paste for one or two conversations you need right now. Use TotalRecalls when you want a complete, searchable archive with the reasoning intact &mdash; especially if you also use ChatGPT, Claude, Mistral or Qwen and want one archive location.</p>
+
+  <p><strong>Good to know:</strong> TotalRecalls reads your browser session &mdash; it does not call the DeepSeek API. It works on the free tier, the pro tier, and any plan that uses the <code>chat.deepseek.com</code> web app. Run the download while your session is still active; DeepSeek sessions expire on inactivity. DeepSeek-V3 and DeepSeek-R1 share the same download path and both download cleanly.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/deepseek/">step-by-step DeepSeek guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

@@ -1,11 +1,71 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Why is Gemini different from the other providers?", a: "Because Gemini isn't a direct download. Your history comes from a Google Takeout archive, which TotalRecalls converts into Markdown conversations — after which your Gemini chats sit in the same Library as every other provider." },
+  { q: "Do I have to re-download Takeout every time?", a: "No. Once converted, your files are local. Re-run when you want the newer conversations you've had since." },
+  { q: "Does this need my Google password?", a: "No. You request Takeout through Google yourself; TotalRecalls reads the folder or JSON you downloaded." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Gemini vs TotalRecalls" description="Gemini official download vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Gemini" }]}>
+<PageLayout title="Gemini vs. TotalRecalls" description="Gemini history comes out through Google Takeout — a complete archive that's hard to read. TotalRecalls converts your Takeout folder into Markdown conversations you can browse." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Gemini" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Gemini vs. TotalRecalls</h1>
-  <p>Google Takeout for Gemini gives you a raw JSON archive. TotalRecalls parses it into a structured, searchable library.</p>
+  <p>Gemini&rsquo;s data comes out through Google Takeout. The dump is complete &mdash; but it is not friendly, and that gap is the whole point of this page.</p>
+
+  <h2>Why Takeout (and not a fragile scrape)</h2>
+  <p>Gemini&rsquo;s web surface changes often. For v1, TotalRecalls deliberately prioritizes a filesystem Takeout folder or JSON you already downloaded from Google. That stays honest and stable: your data comes from Google, and TotalRecalls only handles the converting.</p>
+
+  <h2>How it works, in four steps</h2>
+  <ol>
+    <li>Create a Google Takeout that includes your <strong>Gemini / Gemini Apps</strong> data (as offered in your account region).</li>
+    <li>Download and unzip the Takeout package on your PC.</li>
+    <li>In TotalRecalls, choose <strong>Gemini</strong> and paste the folder path &mdash; or use <em>Browse&hellip;</em>.</li>
+    <li>Download into your TotalRecalls library layout.</li>
+  </ol>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Raw Google Takeout</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Complete</td><td>Yes</td><td>Yes &mdash; Takeout is the source</td></tr>
+        <tr><td>Readable as-is</td><td>No</td><td>Markdown conversations, dated</td></tr>
+        <tr><td>Browsable per conversation</td><td>No</td><td>One file per conversation</td></tr>
+        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+        <tr><td>Needs a live Google session</td><td>To re-request</td><td>No &mdash; works from the folder</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Multi-provider reality</h2>
+  <p>Many people use Gemini for some tasks and ChatGPT or Claude for others. A Takeout-only workflow is fine for Google; TotalRecalls exists so the rest of your assistants can live in the same archive philosophy instead of five separate silos.</p>
+
+  <h2>Tips</h2>
   <ul>
-    <li><strong>Official download:</strong> Google Takeout ZIP with conversations.json — no search, no Markdown.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON with model names, timestamps, and metadata.</li>
+    <li>Keep the original Takeout zip as cold backup</li>
+    <li>Use TotalRecalls output as your day-to-day readable layer</li>
+    <li>Re-run when you generate a fresh Takeout</li>
   </ul>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/gemini-takeout-archive/">step-by-step Gemini Takeout guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

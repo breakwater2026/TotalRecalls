@@ -1,11 +1,59 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Does Grok let me export my data officially?", a: "No — Grok does not provide an official data download. TotalRecalls uses local session reading instead." },
+  { q: "Are the X posts in my conversations kept?", a: "Yes. X posts referenced in chats are preserved as quoted links in the Markdown download." },
+  { q: "Does this work on the free tier?", a: "Yes. TotalRecalls reads your browser session, so it works with the plan you already have." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Grok vs TotalRecalls" description="Grok official download vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Grok" }]}>
+<PageLayout title="Grok vs. TotalRecalls" description="Grok has no official data download. TotalRecalls reads your local grok.com session and saves every chat to Markdown + JSON, keeping the X posts you referenced." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Grok" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Grok vs. TotalRecalls</h1>
-  <p>xAI does not provide a data download for Grok conversations. TotalRecalls reads your local session and converts it.</p>
-  <ul>
-    <li><strong>Official download:</strong> Not available.</li>
-    <li><strong>TotalRecalls:</strong> Markdown + JSON with full transcripts and referenced X posts.</li>
-  </ul>
+  <p>Grok is where a lot of quick prompts and long debug sessions happen &mdash; and, unusually, where the conversation itself references live X posts. Both are worth keeping.</p>
+
+  <h2>Grok does not have an official data download</h2>
+  <p>There&rsquo;s no built-in export to request, which means if you want your Grok history, the browser tab is currently the only place it lives. That&rsquo;s the whole problem this page solves.</p>
+
+  <h2>What TotalRecalls does for Grok</h2>
+  <p>TotalRecalls reads your local <code>grok.com</code> session and downloads every conversation to local Markdown and JSON. <strong>X posts referenced inside a conversation are preserved as quoted links</strong> in the Markdown, so the context that made the thread useful survives with it. Quick prompts and long debug sessions both get kept.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Browser-only Grok</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Official export available</td><td>No</td><td>&mdash;</td></tr>
+        <tr><td>Re-finding a chat later</td><td>Scroll the sidebar</td><td>Search your folder</td></tr>
+        <tr><td>X posts referenced in chats</td><td>Links rot in the tab</td><td>Preserved as quoted links</td></tr>
+        <tr><td>Format</td><td>On-screen only</td><td>Markdown + JSON</td></tr>
+        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Which should you use?</h2>
+  <p>If you&rsquo;ve had one conversation you don&rsquo;t want to lose, copy it out by hand right now. If you want your Grok history to exist as an archive at all &mdash; especially alongside ChatGPT, Claude and the rest &mdash; this is the path.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/grok/">step-by-step Grok guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

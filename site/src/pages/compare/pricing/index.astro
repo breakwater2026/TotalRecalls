@@ -1,32 +1,61 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Is there a subscription?", a: "No. $24 USD once, at the launch price. No monthly or annual renewal." },
+  { q: "What does the Free Tier include?", a: "3 AI providers and up to 5 conversations per download — enough to confirm it works on your actual chats." },
+  { q: "How many computers can I activate?", a: "Up to 3 activations, so a desktop, a laptop and a mobile device are covered." },
+  { q: "Do I keep getting updates?", a: "Free updates to the core app for the life of the product. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) are separate add-ons." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Pricing Comparison — TotalRecalls" description="Free official downloads vs. one-time utility." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Pricing" }]}>
-  <h1>Pricing Comparison</h1>
-  <p>Official AI downloads are free. TotalRecalls is a paid utility with one key difference: your data stays local.</p>
-  <table border="1" cellpadding="8" style="width:100%; border-collapse: collapse;">
-  <tr style="background:#f0f4ff;">
-    <th>Aspect</th><th>Official Downloads</th><th>TotalRecalls</th>
-  </tr>
-  <tr>
-    <td>Cost</td>
-    <td>Free</td>
-    <td>$24<span class="tr-usd">USD</span> one-time (<span data-tr-normal-price></span>)</td>
-  </tr>
-  <tr>
-    <td>Output</td>
-    <td>JSON only</td>
-    <td>Markdown + JSON</td>
-  </tr>
-  <tr>
-    <td>Unified Library</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>Search</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  </table>
+<PageLayout title="Pricing Comparison — TotalRecalls" description="TotalRecalls is $24 once. No subscription, no per-seat fee. See how a one-time local archive compares to recurring AI subscription costs — and what the Free Tier covers." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Pricing" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
+  <h1>How TotalRecalls compares on price</h1>
+  <p>Most tools in this space bill monthly. TotalRecalls is a one-time purchase for a utility that keeps working, and there&rsquo;s a Free Tier you can test before paying anything.</p>
+
+  <h2>What you pay</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Free Tier</th><th>TotalRecalls ($24 once)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Price</td><td>$0</td><td><strong>$24 USD</strong> launch price (list $48)</td></tr>
+        <tr><td>Billing</td><td>&mdash;</td><td>One-time. No subscription, no renewal</td></tr>
+        <tr><td>AI providers</td><td>3</td><td>All 8</td></tr>
+        <tr><td>Conversations per download</td><td>5</td><td>Unlimited</td></tr>
+        <tr><td>Device activations</td><td>&mdash;</td><td>Up to 3 (desktop, laptop, mobile)</td></tr>
+        <tr><td>Updates to the core app</td><td>&mdash;</td><td>Included for the life of the product</td></tr>
+        <tr><td>Where your files live</td><td>Your PC</td><td>Your PC</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why one-time matters here</h2>
+  <p>This is a local utility, not a service. Nothing is hosted for you, so there&rsquo;s no per-conversation cost, no storage bill and no reason for a recurring charge. You pay once, the files are on your disk, and the app doesn&rsquo;t stop working if you stop paying.</p>
+
+  <h2>Try before you buy</h2>
+  <p>The Free Tier is a real build, not a demo: download it, run it on your own conversations, and decide afterwards. It&rsquo;s limited to 3 AI providers and 5 conversations per download.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/pricing/">See the full pricing page</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/compare/">All comparisons</a></p>
 </PageLayout>

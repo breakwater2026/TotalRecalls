@@ -1,11 +1,66 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Why back up Perplexity when the history is still in my account?", a: "Because research history is only as durable as your access to it. Backing up means the trail survives a plan change, an account switch, or a thread you can no longer find." },
+  { q: "What exactly gets saved?", a: "Each conversation is stored as files you can open offline — Markdown for reading and JSON for structure." },
+  { q: "Does it slow Perplexity down or hammer the service?", a: "No. TotalRecalls uses conservative pacing deliberately, so it stays a polite client of the service you already pay for." },
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are plain text on purpose: JSON-LD must match what the reader sees.
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Perplexity vs TotalRecalls" description="Perplexity official download vs. TotalRecalls." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Perplexity" }]}>
+<PageLayout title="Perplexity vs. TotalRecalls" description="Perplexity threads mix answers, sources and follow-ups. TotalRecalls saves that research history as local Markdown + JSON, before the tab trail disappears." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Perplexity" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Perplexity vs. TotalRecalls</h1>
-  <p>Perplexity allows history downloads but they arrive as a single ZIP with unstructured data. TotalRecalls gives you organized, tagged, searchable Markdown.</p>
+  <p>Perplexity conversations aren&rsquo;t just chat &mdash; they mix answers, cited sources and follow-up questions. That&rsquo;s valuable research history, and it&rsquo;s fragile if it only lives in the web app.</p>
+
+  <h2>What you&rsquo;re actually losing</h2>
+  <p>A Perplexity thread is a research trail: the question you asked, the sources it pulled, the follow-ups those sources triggered. Rebuilding that later from memory doesn&rsquo;t work. And the longer the research sprint, the more there is to lose.</p>
+
+  <h2>What TotalRecalls does for Perplexity</h2>
+  <p>TotalRecalls treats Perplexity as a first-class provider on Windows. It reads your local session and saves each conversation as files you can open offline &mdash; typically Markdown for reading and JSON for structure. That&rsquo;s the difference between <em>&ldquo;I have a zip somewhere&rdquo;</em> and <em>&ldquo;I can find that answer.&rdquo;</em></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Browser-only Perplexity</th><th>TotalRecalls</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Research trail (questions + sources + follow-ups)</td><td>Lives in the tab</td><td>Saved per conversation</td></tr>
+        <tr><td>Re-finding an old answer</td><td>Scroll and re-search</td><td>Search your folder</td></tr>
+        <tr><td>Format</td><td>On-screen only</td><td>Markdown + JSON</td></tr>
+        <tr><td>Works offline</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>When to back up</h2>
   <ul>
-    <li><strong>Official download:</strong> ZIP with threads.json — no tags, no organization.</li>
-    <li><strong>TotalRecalls:</strong> Per-provider folders, Markdown + JSON, full-text search across your library.</li>
+    <li>Before switching plans or accounts</li>
+    <li>After a deep-research sprint you may cite later</li>
+    <li>If you use Perplexity alongside ChatGPT or Claude and want one archive location</li>
   </ul>
+
+  <h2>Be a good citizen</h2>
+  <p>Use your own account, respect Perplexity&rsquo;s terms, and don&rsquo;t hammer the servers. TotalRecalls keeps conservative pacing for exactly that reason.</p>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/guides/export-perplexity-conversations/">step-by-step Perplexity guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>
