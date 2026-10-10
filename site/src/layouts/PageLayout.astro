@@ -24,12 +24,12 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
         <!-- Breadcrumbs -->
         {breadcrumbs.length > 0 && (
           <nav class="flex items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wider mb-8">
-            <a href="/" class="hover:text-primary transition-colors">Home</a>
+            <a href="/" class="hover:text-tr-amber transition-colors">Home</a>
             {breadcrumbs.map((crumb) => (
               <>
                 <span class="text-border-foreground/30">›</span>
                 {crumb.href ? (
-                  <a href={crumb.href} class="hover:text-primary transition-colors">{crumb.label}</a>
+                  <a href={crumb.href} class="hover:text-tr-amber transition-colors">{crumb.label}</a>
                 ) : (
                   <span class="text-foreground font-medium">{crumb.label}</span>
                 )}
@@ -88,7 +88,7 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
     @apply bg-transparent p-0 border-none rounded-none text-current;
   }
   .prose a {
-    @apply text-primary hover:underline font-medium transition-colors;
+    @apply text-tr-amber hover:underline font-medium transition-colors;
   }
   .prose dl {
     @apply my-6 text-[15px];
