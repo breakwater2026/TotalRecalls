@@ -3,6 +3,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
   { q: "Why back up Perplexity when the history is still in my account?", a: "Because research history is only as durable as your access to it. Backing up means the trail survives a plan change, an account switch, or a thread you can no longer find." },
+  { q: "Perplexity has an 'Export my data' option. Why use TotalRecalls?", a: "That export is account-level and arrives by email once it has been processed — useful as a formal copy of everything. TotalRecalls writes a readable Markdown + JSON file per conversation into a folder you can search, immediately and as often as you like." },
   { q: "What exactly gets saved?", a: "Each conversation is stored as files you can open offline — Markdown for reading and JSON for structure." },
   { q: "Does it slow Perplexity down or hammer the service?", a: "No. TotalRecalls uses conservative pacing deliberately, so it stays a polite client of the service you already pay for." },
 ];
@@ -22,11 +23,15 @@ const faqLd = {
   })),
 };
 ---
-<PageLayout title="Perplexity vs. TotalRecalls" description="Perplexity threads mix answers, sources and follow-ups. TotalRecalls saves that research history as local Markdown + JSON, before the tab trail disappears." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Perplexity" }]}>
+<PageLayout title="Perplexity vs. TotalRecalls" description="Perplexity's own export is an account-level archive delivered by email, or PDF per thread. TotalRecalls saves your research history as local Markdown + JSON before the tab trail disappears." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Perplexity" }]}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 
   <h1>Perplexity vs. TotalRecalls</h1>
   <p>Perplexity conversations aren&rsquo;t just chat &mdash; they mix answers, cited sources and follow-up questions. That&rsquo;s valuable research history, and it&rsquo;s fragile if it only lives in the web app.</p>
+
+  <h2>What Perplexity&rsquo;s own export gives you</h2>
+  <p>Perplexity&rsquo;s account settings include an <strong>Export my data</strong> option. It compiles your account data and emails you a download link as a ZIP &mdash; the route the GDPR and CCPA request processes run through, which can take up to 30 days when filed formally. Individual threads can be shared, or exported to PDF, from the thread menu.</p>
+  <p>So an account-level copy does exist. What it isn&rsquo;t is a browsable archive of your research: the archive is machine-shaped JSON, and saving threads one PDF at a time doesn&rsquo;t scale past a handful.</p>
 
   <h2>What you&rsquo;re actually losing</h2>
   <p>A Perplexity thread is a research trail: the question you asked, the sources it pulled, the follow-ups those sources triggered. Rebuilding that later from memory doesn&rsquo;t work. And the longer the research sprint, the more there is to lose.</p>
@@ -37,17 +42,22 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Browser-only Perplexity</th><th>TotalRecalls</th></tr>
+        <tr><th></th><th>Perplexity data export</th><th>TotalRecalls</th></tr>
       </thead>
       <tbody>
-        <tr><td>Research trail (questions + sources + follow-ups)</td><td>Lives in the tab</td><td>Saved per conversation</td></tr>
-        <tr><td>Re-finding an old answer</td><td>Scroll and re-search</td><td>Search your folder</td></tr>
-        <tr><td>Format</td><td>On-screen only</td><td>Markdown + JSON</td></tr>
-        <tr><td>Works offline</td><td>No</td><td>Yes</td></tr>
-        <tr><td>Sits with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
+        <tr><td>Scope</td><td>Whole account, requested per export</td><td>The conversations you choose</td></tr>
+        <tr><td>Delivery</td><td>Emailed link after processing</td><td>Written to disk immediately</td></tr>
+        <tr><td>Format</td><td>JSON archive, machine-shaped</td><td>Markdown + JSON</td></tr>
+        <tr><td>Individual threads</td><td>Share or PDF, one at a time</td><td>Every thread, in one pass</td></tr>
+        <tr><td>Readable as-is</td><td>Needs parsing first</td><td>Any text editor</td></tr>
+        <tr><td>Repeat it cheaply</td><td>Request and wait, each time</td><td>Rerun whenever you like</td></tr>
+        <tr><td>Works with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
       </tbody>
     </table>
   </div>
+
+  <h2>Which should you use?</h2>
+  <p>Use <strong>Perplexity&rsquo;s own export</strong> when you want a formal copy of everything attached to your account, or you need to exercise a privacy request. Use <strong>TotalRecalls</strong> when you want the research trail to stay searchable on your own machine &mdash; especially if you also use ChatGPT, Claude, Gemini or Grok and want one archive location instead of five.</p>
 
   <h2>When to back up</h2>
   <ul>

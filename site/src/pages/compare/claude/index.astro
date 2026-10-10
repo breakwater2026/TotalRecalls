@@ -3,6 +3,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
   { q: "Can TotalRecalls back up Claude Projects, or only single chats?", a: "Long Project conversations and single chats both save as files — the same path, sorted by date." },
+  { q: "Claude already lets me export my data. Why use TotalRecalls?", a: "Claude's export is a whole-account archive delivered by email, and the download link expires after 24 hours. TotalRecalls writes one readable Markdown + JSON file per conversation into a folder you browse, immediately and as often as you like." },
   { q: "Does my Claude session leave my computer?", a: "No. You complete a local sign-in on your own machine; TotalRecalls doesn't host your credentials or your conversations." },
   { q: "What format are the files in?", a: "Markdown for reading and JSON for structure — one pair per conversation." },
 ];
@@ -22,11 +23,15 @@ const faqLd = {
   })),
 };
 ---
-<PageLayout title="Claude vs. TotalRecalls" description="Claude is where long-form work happens — drafts, code reviews, research. TotalRecalls keeps those conversations as Markdown + JSON files on your PC, with your login staying local." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Claude" }]}>
+<PageLayout title="Claude vs. TotalRecalls" description="Claude exports your whole account from Settings, Privacy, Export data — delivered by email. TotalRecalls keeps each conversation as a readable Markdown + JSON file on your PC, with your login staying local." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Claude" }]}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 
   <h1>Claude vs. TotalRecalls</h1>
-  <p>Claude is where a lot of long-form thinking happens &mdash; drafts, code reviews, research that spans days. Those conversations deserve a home outside the browser tab.</p>
+  <p>Claude is where a lot of long-form thinking happens &mdash; drafts, code reviews, research that spans days. There are two ways to get that work out of the browser, and they&rsquo;re built for different jobs.</p>
+
+  <h2>What Claude&rsquo;s official export gives you</h2>
+  <p>Anthropic provides a full account export to individual users on the Free, Pro and Max plans. In the web app or Claude Desktop, open <strong>Settings &rarr; Privacy</strong> and click <strong>Export data</strong>. When the export is ready, a download link arrives by email; it expires 24 hours after delivery and you must be signed in to use it. On Team and Enterprise plans only the organisation&rsquo;s Primary Owner can run an export, and it is not available from the iOS or Android apps.</p>
+  <p>The result is one JSON archive covering your account and your conversation history, Projects included. It is the right choice for a complete, compliance-grade record. It is not shaped like something you&rsquo;ll browse on a Tuesday.</p>
 
   <h2>Why Claude history is easy to lose</h2>
   <p>Long Projects and conversations are hard to re-find months later. UI changes and workspace switches break muscle memory. And copy-paste doesn&rsquo;t scale past a few conversations &mdash; you lose the order, the formatting, and the context that made the thread worth keeping.</p>
@@ -37,17 +42,22 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Browser-only Claude</th><th>TotalRecalls</th></tr>
+        <tr><th></th><th>Claude official export</th><th>TotalRecalls</th></tr>
       </thead>
       <tbody>
-        <tr><td>Re-finding a conversation months later</td><td>Scroll and hope</td><td>Search your own folder</td></tr>
-        <tr><td>Long threads</td><td>Endless scrolling</td><td>A single readable file</td></tr>
-        <tr><td>Formatting and structure</td><td>Gone when copied by hand</td><td>Preserved in Markdown + JSON</td></tr>
-        <tr><td>Works across your AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
-        <tr><td>Where the login happens</td><td>&mdash;</td><td>Locally, on your machine</td></tr>
+        <tr><td>Scope</td><td>Entire account</td><td>The conversations you choose</td></tr>
+        <tr><td>Delivery</td><td>Emailed link, expires in 24 hours</td><td>Written to disk immediately</td></tr>
+        <tr><td>Format</td><td>One JSON archive</td><td>Markdown + JSON, one pair per chat</td></tr>
+        <tr><td>Readable as-is</td><td>Needs parsing first</td><td>Any text editor</td></tr>
+        <tr><td>Repeat it cheaply</td><td>Request and wait, each time</td><td>Rerun whenever you like</td></tr>
+        <tr><td>Available on mobile</td><td>No &mdash; web or desktop only</td><td>App runs on Windows</td></tr>
+        <tr><td>Works with your other AI tools</td><td>No</td><td>Same library, all 8 providers</td></tr>
       </tbody>
     </table>
   </div>
+
+  <h2>Which should you use?</h2>
+  <p>Use <strong>Claude&rsquo;s official export</strong> when you need a complete account archive for compliance or a full record. Use <strong>TotalRecalls</strong> when you want a library you&rsquo;ll actually reopen &mdash; especially if you also use ChatGPT, Perplexity, Gemini or Grok and want one archive location instead of five. They aren&rsquo;t mutually exclusive: a periodic official export plus a browsable local library covers both needs.</p>
 
   <h2>Privacy note</h2>
   <p>TotalRecalls is built so login stays on your machine. There is deliberately <strong>no hosted &ldquo;send us your Claude cookies&rdquo; service</strong> &mdash; that&rsquo;s the design, not a limitation.</p>
@@ -57,10 +67,13 @@ const faqLd = {
     <li>Download after major writing projects, not only when you feel panic</li>
     <li>Name your disk folder clearly, e.g. <code>AI-Archive/Claude</code></li>
     <li>If you use multiple AI tools, keep sibling folders per provider</li>
+    <li>Keep the official export too if you need a compliance-grade record &mdash; the two serve different purposes</li>
   </ul>
 
   <h2>FAQ</h2>
   <dl class="faq" set:html={faqHtml} />
 
   <p><em>Next:</em> <a href="/guides/export-claude-chat-history/">step-by-step Claude guide</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
+
+  <p><small>Claude&rsquo;s export steps are documented in <a href="https://support.claude.com/en/articles/9450526-export-your-claude-data">Anthropic&rsquo;s help centre</a>.</small></p>
 </PageLayout>
