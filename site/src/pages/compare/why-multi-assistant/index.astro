@@ -1,12 +1,70 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Does TotalRecalls keep the providers separate, or merge them together?", a: "Both. Each provider gets its own folder in the library, so nothing is mixed up, but the whole library sits in one place, so one search covers all of it." },
+  { q: "What if I stop using one of the assistants?", a: "The conversations you already downloaded stay exactly where they are. Dropping a provider does not take its history with it." },
+  { q: "Do I need a separate TotalRecalls account per provider?", a: "No. There is no TotalRecalls account. You sign in to each AI provider you already use, and the app reads that local session on your machine." },
+];
+
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Why Multi-Assistant — TotalRecalls" description="Switching providers and cross-assistant workflows." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Multi Assistant" }]}>
+<PageLayout title="Why Multi-Assistant — TotalRecalls" description="You switch between ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral and Qwen. Eight separate histories is not an archive. Here is what one local library changes." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Multi Assistant" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Why Multi-Assistant</h1>
-  <p>You don't use just one AI. You switch between ChatGPT, Claude, Perplexity, Gemini, and Grok. TotalRecalls unifies them all into one library.</p>
+  <p>Nobody uses one AI. You research in Perplexity, draft in Claude, debug in ChatGPT, ask Grok for a quick take, and read something long in Gemini. Eight tools, eight histories, eight separate places your own context is quietly accumulating.</p>
+
+  <h2>The problem is not any one provider &mdash; it is the spread</h2>
+  <p>Each assistant is individually reasonable. Together they are a filing problem. The answer you want later may be in any of eight accounts, each with its own export story: a bulk account download here, a Takeout archive there, manual copy/paste somewhere else, and nothing at all in a couple of cases.</p>
+  <p>So the useful unit is not &ldquo;my ChatGPT history&rdquo;. It is <strong>everything I have asked an AI</strong>, in one place you can search.</p>
+
+  <h2>What one library changes</h2>
   <ul>
-    <li><strong>Unified search.</strong> Find any conversation, from any provider, in one place.</li>
-    <li><strong>Cross-assistant workflows.</strong> Use Claude for research, ChatGPT for coding, Grok for quick takes—all backed up.</li>
-    <li><strong>Future-proof.</strong> If you switch providers, your history moves with you.</li>
+    <li><strong>One search.</strong> Find a conversation by remembering roughly what it was about, not which tool you had open that day.</li>
+    <li><strong>Cross-assistant work stays together.</strong> The Perplexity research, the Claude draft and the ChatGPT debug session about one project sit side by side instead of in three silos.</li>
+    <li><strong>Switching costs drop to zero.</strong> If you move from one assistant to another, the history you already own comes with you.</li>
+    <li><strong>One format.</strong> Every provider lands as Markdown for reading and JSON for structure &mdash; not eight incompatible export shapes.</li>
   </ul>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Per-provider archives</th><th>One local library</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Where your history lives</td><td>Eight accounts, eight export flows</td><td>One folder on your disk</td></tr>
+        <tr><td>Finding an old answer</td><td>Guess the provider, then search</td><td>Search once</td></tr>
+        <tr><td>Format</td><td>Whatever each provider gives</td><td>Markdown + JSON, consistent</td></tr>
+        <tr><td>Providers covered</td><td>Varies; some have no practical export</td><td>All eight in the same app</td></tr>
+        <tr><td>If you drop a provider</td><td>That history goes with it</td><td>Already on your disk</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The eight providers, one download each</h2>
+  <p>ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), Grok, DeepSeek, Mistral and Qwen Chat all write into the same library layout &mdash; a folder per provider, one Markdown and one JSON file per conversation. The free tier covers three providers and five conversations per download; the $24 one-time licence unlocks all eight with unlimited downloads.</p>
+
+  <h2>Where to start</h2>
+  <ol>
+    <li>Download the app and run your most-used provider first &mdash; usually the one with the longest history.</li>
+    <li>Add the rest as you go. Each download appends to the same library; nothing is overwritten.</li>
+    <li>Keep the folder somewhere your existing backup already reaches, so the archive looks after itself.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/compare/why-local/">why local files matter</a> &middot; <a href="/providers/">all eight providers</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>

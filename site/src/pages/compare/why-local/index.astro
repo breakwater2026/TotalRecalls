@@ -1,14 +1,72 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+
+const faqs = [
+  { q: "Is a local library the same thing as a backup?", a: "No, but it is what makes one possible. A cloud archive is only as good as your continued access to it. Once the files are on your machine, any backup tool you already use can pick them up." },
+  { q: "Can I still sync my library to the cloud?", a: "Yes. The library is a plain folder, so you can put it on OneDrive, Dropbox, a NAS, or an external drive. That is your choice and your provider, not a service TotalRecalls runs." },
+  { q: "Does TotalRecalls store my chats on its own servers?", a: "No. The app runs locally on Windows, does not connect to a TotalRecalls server, and does not host your chats. You sign in only to the AI providers you already use." },
+];
+
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const faqHtml = faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
-<PageLayout title="Why Local — TotalRecalls" description="Durability, portability, independence, backups, privacy." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Local" }]}>
+<PageLayout title="Why Local — TotalRecalls" description="A cloud archive lasts as long as your account does. Local files last as long as your disk does. What keeping AI conversations on your own machine actually changes." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Why Local" }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
   <h1>Why Local Wins</h1>
-  <p>Your conversations are your most valuable context. Here's why keeping them local matters:</p>
+  <p>Your AI conversations are the most valuable context you have. Keeping them in someone else&rsquo;s account means keeping them on a shelf you don&rsquo;t own &mdash; and can be asked to leave.</p>
+
+  <h2>A cloud archive is only as durable as your access to it</h2>
+  <p>A conversation you can only read by signing in is not really an archive. It is a bookmark. The history lives behind a login, subject to a plan change, an account suspension, a provider shutting a product down, or simply a policy shift about what you&rsquo;re allowed to retrieve.</p>
+  <p>This is not a hypothetical: it is exactly why this app exists. Provider-side downloads are inconsistent across the eight assistants people actually use, and some offer no practical export at all.</p>
+
+  <h2>What local files actually give you</h2>
   <ul>
-    <li><strong>Durability.</strong> If a provider shuts down or suspends your account, your data vanishes—unless it's local.</li>
-    <li><strong>Portability.</strongstrong> Move your library to any drive, cloud, or new computer at any time.</li>
-    <li><strong>Independence.</strongstrong> No vendor lock-in. No account recovery hell.</li>
-    <li><strong>Backups.</strongstrong> Your library syncs to any backup tool you choose.</li>
-    <li><strong>Privacy.</strongstrong> We never host your tokens, your chats, or your session data.</li>
+    <li><strong>Durability.</strong> If a provider shuts down or suspends your account, your conversations are already on your disk, in a format a text editor can open.</li>
+    <li><strong>Portability.</strong> Move the folder to another drive, a NAS, or a new PC whenever you want. Nothing to export, nothing to re-authorise.</li>
+    <li><strong>Independence.</strong> No vendor lock-in and no account-recovery problem. The files do not need a service to be readable.</li>
+    <li><strong>Backups.</strong> Your library is a plain folder, so any backup tool you already use can look after it.</li>
+    <li><strong>Privacy.</strong> TotalRecalls never hosts your tokens, your chats, or your session data &mdash; nothing to breach on our side.</li>
   </ul>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>A cloud archive</th><th>A local library</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Where the files live</td><td>Behind a provider login</td><td>A folder on your own disk</td></tr>
+        <tr><td>Readable with a text editor</td><td>Usually not</td><td>Yes &mdash; Markdown and JSON</td></tr>
+        <tr><td>Survives a plan change or suspension</td><td>Only if access continues</td><td>Yes</td></tr>
+        <tr><td>Survives a provider shutting down</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Search across all your AI tools</td><td>Per-provider, if at all</td><td>One folder, one search</td></tr>
+        <tr><td>Who controls the copy</td><td>The provider</td><td>You</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What &ldquo;local&rdquo; means for TotalRecalls specifically</h2>
+  <p>TotalRecalls runs on your Windows PC and writes each conversation into a folder you choose, as Markdown for reading and JSON for structure. It reads your own browser session to do it; there is deliberately <strong>no hosted &ldquo;send us your cookies&rdquo; service</strong>, and no TotalRecalls server holds your chats. The free tier covers three providers and five conversations per download; the $24 one-time licence covers all eight with unlimited downloads.</p>
+
+  <h2>Common objections</h2>
+  <ul>
+    <li><em>&ldquo;I&rsquo;ll do it later.&rdquo;</em> Sessions expire and history rotates. The cost of a local archive is one download while your session is live.</li>
+    <li><em>&ldquo;I already have a subscription, so my history is safe.&rdquo;</em> A subscription keeps a provider accountable to a plan, not to your archive.</li>
+    <li><em>&ldquo;Isn&rsquo;t a local copy just clutter?&rdquo;</em> It is one folder, named by provider, sorted by date, that any search tool can read.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <dl class="faq" set:html={faqHtml} />
+
+  <p><em>Next:</em> <a href="/compare/why-multi-assistant/">why one library across eight providers</a> &middot; <a href="/guides/library-format/">library format reference</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/pricing/">Pricing</a></p>
 </PageLayout>
