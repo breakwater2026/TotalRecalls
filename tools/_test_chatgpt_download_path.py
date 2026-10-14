@@ -8,7 +8,10 @@ import os
 import sys
 import time
 
-sys.path.insert(0, r"C:\Users\break\Projects\TotalRecalls")
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+sys.path.insert(0, str(REPO))
 
 from totalrecalls.core.paths import load_session  # noqa: E402
 from totalrecalls.adapters.base import get_adapter  # noqa: E402

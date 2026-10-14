@@ -1,7 +1,10 @@
 """Verify free/Pro gating logic (no network): edition flag drives is_pro,
 provider gating, and conversation limit."""
 import sys
-sys.path.insert(0, r"C:\Users\break\Projects\TotalRecalls")
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+sys.path.insert(0, str(REPO))
 import totalrecalls.licensing as L
 from totalrecalls import edition
 

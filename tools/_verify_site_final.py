@@ -2,7 +2,10 @@
 troubleshooting copy updated."""
 import os, re, glob, hashlib, urllib.parse
 
-dist = r"C:\Users\break\Projects\TotalRecalls\site\dist"
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file so a
+  # folder/repo rename cannot silently break it (was an absolute hardcoded path)
+dist = str(REPO / "site" / "dist")
 
 zpath = os.path.join(dist, "downloads", "TotalRecalls-1.0.0-free-tier.zip")
 zsha = hashlib.sha256(open(zpath, "rb").read()).hexdigest()

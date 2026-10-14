@@ -8,7 +8,10 @@ import json
 import sys
 import time
 
-sys.path.insert(0, r"C:\Users\break\Projects\TotalRecalls")
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+sys.path.insert(0, str(REPO))
 
 faulthandler.dump_traceback_later(20, exit=True)   # hang -> stack dump, then exit
 

@@ -16,9 +16,12 @@ import io
 import re
 import sys
 
-UI = r"C:\Users\break\Projects\TotalRecalls\app_ui.html"
-FACADE = r"C:\Users\break\Projects\TotalRecalls\totalrecalls\desktop\js_api.py"
-BRIDGE = r"C:\Users\break\Projects\TotalRecalls\totalrecalls\desktop\bridge.py"
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file so a
+  # folder/repo rename cannot silently break it (was an absolute hardcoded path)
+UI = str(REPO / "app_ui.html")
+FACADE = str(REPO / "totalrecalls" / "desktop" / "js_api.py")
+BRIDGE = str(REPO / "totalrecalls" / "desktop" / "bridge.py")
 
 # JS members that are not bridge calls (property access on the same expressions).
 JS_MEMBERS = {

@@ -3,8 +3,11 @@
 import sys, types, tempfile, os
 from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
 
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 EXE = sys.argv[1]
-REPO = r"C:\Users\break\Projects\TotalRecalls"
+REPO = str(REPO)
 
 def walk(co, acc_consts, acc_names):
     for c in co.co_consts:

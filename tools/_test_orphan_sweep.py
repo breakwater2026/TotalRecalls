@@ -7,6 +7,9 @@ Proves the sweep targets our profile and leaves other apps alone.
 """
 import os, subprocess, sys, time, shutil
 
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 TMP = r"C:\Users\break\AppData\Local\Temp\tr_sweep_test"
 os.makedirs(TMP, exist_ok=True)
 FAKE = os.path.join(TMP, "msedgewebview2.exe")
@@ -33,7 +36,7 @@ orphan_pid, foreign_pid = procs[0].pid, procs[1].pid
 print("fake orphan pid:", orphan_pid, " foreign pid:", foreign_pid)
 print("  alive pre-sweep  -> orphan:", alive(orphan_pid), " foreign:", alive(foreign_pid))
 
-sys.path.insert(0, r"C:\Users\break\Projects\TotalRecalls")
+sys.path.insert(0, str(REPO))
 from totalrecalls.desktop.bridge import _kill_orphan_webviews
 _kill_orphan_webviews()
 time.sleep(1.5)
