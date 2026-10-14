@@ -1,1 +1,13 @@
+# Legacy / orphaned URLs -> live equivalents (single-hop 301s).
+# Added 2026-10-14: GSC "Blocked due to other 4xx issue" row traced to these
+# orphan 404s (page deleted in 7f21471, themes never shipped, guide renamed
+# without a no-slash redirect). Googlebot hits them via old index entries;
+# each now 301s once to a live, indexed page.
+/windows-firewall /microsoft-warning/ 301
+/windows-firewall/ /microsoft-warning/ 301
+/previews/theme-cyan /previews/ 301
+/previews/theme-cyan/ /previews/ 301
+/previews/theme-midnight /previews/ 301
+/previews/theme-midnight/ /previews/ 301
+/guides/backup-perplexity-threads /guides/export-perplexity-conversations/ 301
 /guides/backup-perplexity-threads/ /guides/export-perplexity-conversations/ 301
