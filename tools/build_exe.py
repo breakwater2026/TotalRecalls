@@ -41,10 +41,15 @@ EXE_OUT = os.path.join(REPO, "dist", EXE_FILENAME)
 
 def set_edition(edition: str) -> None:
     src = open(EDITION_FILE, encoding="utf-8").read()
-    new = re.sub(r'^EDITION = "(free|pro)"', f'EDITION = "{edition}"', src, count=1, flags=re.M)
-    if new == src:
+    # Only a MISSING/unknown EDITION line is an error. Asking for the edition the
+    # tree already carries is a legitimate no-op (e.g. `--edition free` on the
+    # normal free tree, and restore_edition() after a free build) — the previous
+    # version raised on that, which made a clean tree unbuildable.
+    if not re.search(r'^EDITION = "(?:free|pro)"', src, flags=re.M):
         raise SystemExit(f"ERROR: could not set EDITION in {EDITION_FILE}")
-    open(EDITION_FILE, "w", encoding="utf-8").write(new)
+    new = re.sub(r'^EDITION = "(free|pro)"', f'EDITION = "{edition}"', src, count=1, flags=re.M)
+    if new != src:
+        open(EDITION_FILE, "w", encoding="utf-8").write(new)
     print(f"[build_exe] edition.py -> EDITION = \"{edition}\"")
 
 

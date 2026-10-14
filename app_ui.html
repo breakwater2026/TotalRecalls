@@ -566,8 +566,15 @@
       badge.textContent = isPro ? 'Pro' : 'Free';
       badge.className = 'tier-badge' + (isPro ? ' pro' : '');
     }
+    // The licence box must stay reachable in BOTH tiers. With Pro active this
+    // button becomes "Manage licence" so the key can be reviewed, re-entered or
+    // removed (returning the app to Free). It was previously hidden whenever
+    // isPro, which left a Pro user with no way back to the licence entry.
     const up = q('btn-upgrade');
-    if (up) up.classList.toggle('hidden', isPro);
+    if (up) {
+      up.textContent = isPro ? 'Manage licence' : 'Upgrade to Pro \u2014 $24';
+      up.classList.remove('hidden');
+    }
     const note = q('tier-note');
     if (note) {
       if (isPro) {
@@ -578,10 +585,8 @@
         note.classList.remove('hidden');
       }
     }
-    if (isPro) {
-      const lb = q('license-box');
-      if (lb) lb.classList.add('hidden');
-    }
+    // Do NOT force-hide the licence box when Pro. Its visibility belongs to the
+    // user (toggled by the button above) so a Pro user can deactivate or re-key.
   }
 
   function providerOptionHtml(p) {
