@@ -342,3 +342,6 @@ RESTORED Video Storyboard (canvas 702707c6) Visuals and Audio Summary Table -> y
 DELETED youtube/scripts/YT Video 6 Script (v2).md (superseded by Final, 2026-09-29)
 DELETED youtube/scripts/YT Video 6 Script (v2).docx (superseded)
 DELETED youtube/scripts/YT Video 6 Script (WIP truncated — needs re-download).docx (superseded)
+DELETED Jasper/YouTube/Privacy Explainer Blog 4.md (2026-10-13 dedupe: exact SHA256 dup of Jasper/YouTube/Blog/Privacy Explainer Blog 4.md, same 2026-10-02 18:41 mtime; Blog/ copy kept)
+DELETED Jasper/YouTube/TotalRecalls Blog Post 10.md (2026-10-13 dedupe: dup of Jasper/YouTube/Blog/TotalRecalls Blog Post 10.md, 2026-10-03 05:30 vs 05:35, 20222B both; newer Blog/ copy kept)
+DELETED email/Email Sequence (fragment).docx (2026-10-13: strict subset of email/sequences/Email 1 Welcome — early draft.md; initially file-locked, deleted same day after lock released)

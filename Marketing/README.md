@@ -79,6 +79,23 @@ marketing/
 merged review files; the 4 extra `.md` without a `.docx` are meta/tracking docs
 and the README itself).
 
+**Dedupe pass 2026-10-13** (SHA256 + normalized-content scan of all 160 files):
+deleted 2 exact dups (`Jasper/YouTube/Privacy Explainer Blog 4.md`,
+`Jasper/YouTube/TotalRecalls Blog Post 10.md` — both duplicated
+`Jasper/YouTube/Blog/` copies; newest kept) and 1 subset
+(`email/Email Sequence (fragment).docx` — strict subset of
+`email/sequences/Email 1 Welcome — early draft.md`). All three deleted
+2026-10-13. No near-dups found. Trail: `Jasper/tools/reports/deleted-manifest.txt`.
+
+**Post-09-29 growth (still topical, not merged):** `Jasper/YouTube/` now holds
+the operating plans (Master Plan V2 + V3, YouTube Implementation Plan,
+Content Audit Plan V2, Strategy, Description Templates, Hook Rankings Guide,
+Channel Style, Night Worklist, `Blog/` 9+1 drafts, yt-api/) and
+`Jasper/Social media/` holds the Day 0–29 social content calendar + 3 post-body
+fragments. The master compendium (root) embeds V3, V2, Strategy, and the
+Implementation Plan verbatim; the compendium is NOT updated for the Day 0–29
+calendar. Canonical launch implementation plan: `docs/LAUNCH-IMPLEMENTATION-PLAN-2026-10-13.md`.
+
 ## YT 10-Video Plan status (as of 2026-09-29)
 | # | Script | Status |
 |---|---|---|
