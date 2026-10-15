@@ -1,15 +1,15 @@
 """Phase 2: Ingest V2 Content Pack bundle into the Website-type data store.
 Pattern: bundle all markdown into one JSON file in GCS, then create a single
 Document with BOTH struct_data (satisfies schema) AND content.uri (carries payload)."""
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os, glob, json
 from google.auth import default
 from google.cloud import storage as gcs
 from google.cloud import discoveryengine_v1 as de
 from google.protobuf.struct_pb2 import Struct
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename
 PROJECT_NUMBER = "96283906207"
 LOCATION = "us"
 DATA_STORE_ID = "totalrecalls-content-ds_1786555440982"

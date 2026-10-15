@@ -1,10 +1,10 @@
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import difflib
 import inspect
 from PyInstaller.archive import readers
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file so a
-  # folder/repo rename cannot silently break it (was an absolute hardcoded path)
 r = readers.CArchiveReader(str(REPO / "dist" / "TotalRecalls.exe"))
 print([m for m in dir(r) if not m.startswith("__")])
 names = [n for n in r.toc if "app_ui" in n.lower()]

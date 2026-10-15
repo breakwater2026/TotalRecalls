@@ -4,13 +4,13 @@ Runs the exact same calls the bridge makes:
   validate -> count_conversations -> list_conversations(deep) -> fetch_conversation
 Prints timing per step. Never prints the credential.
 """
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os
 import sys
 import time
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename
 sys.path.insert(0, str(REPO))
 
 from totalrecalls.core.paths import load_session  # noqa: E402

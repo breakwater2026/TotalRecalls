@@ -7,10 +7,10 @@ Checks:
   4. chatgpt conversations -> NO 'order=created' (deep pass removed)
   5. chatgpt adapter -> count_conversations limit=100 (int const present)
 """
-import os, sys, tempfile
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import os, sys, tempfile
 sys.path.insert(0, os.path.expandvars(r"%LOCALAPPDATA%\tr-build-venv\Scripts"))
 from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
 

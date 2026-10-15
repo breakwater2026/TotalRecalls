@@ -11,14 +11,14 @@ existed and worked, but JsApi did not delegate it, so the button sat on
 Run this before packaging. Exit 0 = the UI and the facade agree.
 """
 from __future__ import annotations
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 
 import io
 import re
 import sys
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file so a
-  # folder/repo rename cannot silently break it (was an absolute hardcoded path)
 UI = str(REPO / "app_ui.html")
 FACADE = str(REPO / "totalrecalls" / "desktop" / "js_api.py")
 BRIDGE = str(REPO / "totalrecalls" / "desktop" / "bridge.py")

@@ -1,11 +1,11 @@
 """Verify the freshly built EXE (v2): edition consts, fix markers via co_names
 + co_consts, and bundled-UI diff."""
-import sys, types, tempfile, os
-from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
-
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import sys, types, tempfile, os
+from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
+
 EXE = sys.argv[1]
 REPO = str(REPO)
 

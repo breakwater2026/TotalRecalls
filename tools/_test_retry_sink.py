@@ -4,10 +4,10 @@ Mirrors bridge._export_worker: set_retry_sink INSIDE a worker thread, then make
 the synchronous export chain call request() on that same thread. Counts the
 retry notifications fired (proves the UI would stop looking frozen).
 """
-import sys, threading, time
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import sys, threading, time
 sys.path.insert(0, str(REPO))
 
 from totalrecalls.core.paths import load_session

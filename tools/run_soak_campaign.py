@@ -9,15 +9,15 @@ Results append to %APPDATA%/PerplexityExporter/soak_results.json
 Progress log: C:/Users/break/Videos/TR-demo-shoot/soak_log.txt
 """
 
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import json
 import os
 import subprocess
 import sys
 import time
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename
 APPD = os.path.expandvars(r"%APPDATA%\PerplexityExporter")
 SOAK = str(REPO / "tools" / "soak_test.py")
 LOG = r"C:\Users\break\Videos\TR-demo-shoot\soak_log.txt"

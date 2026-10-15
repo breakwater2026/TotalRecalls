@@ -5,11 +5,11 @@ VBS loop): one whose command line references OUR profile folder, one
 referencing a foreign one. Run the sweep; assert ONLY the ours was killed.
 Proves the sweep targets our profile and leaves other apps alone.
 """
-import os, subprocess, sys, time, shutil
-
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import os, subprocess, sys, time, shutil
+
 TMP = r"C:\Users\break\AppData\Local\Temp\tr_sweep_test"
 os.makedirs(TMP, exist_ok=True)
 FAKE = os.path.join(TMP, "msedgewebview2.exe")

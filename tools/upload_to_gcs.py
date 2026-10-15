@@ -1,4 +1,7 @@
 """Upload the refactor background bundle to Cloud Storage for ingestion into the website-type data store."""
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os, json
 from google.auth import default
 from google.cloud import storage
@@ -47,7 +50,3 @@ gcs_uri = f"gs://{BUCKET_NAME}/tr_refactor_background.json"
 blob = bucket.blob("tr_refactor_background.json")
 blob.upload_from_string(bundle_json, content_type="application/json")
 print(f"OK: uploaded bundle ({len(bundle_json)} bytes) to {gcs_uri}")
-
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename

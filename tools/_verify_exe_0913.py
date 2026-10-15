@@ -1,11 +1,11 @@
 """Verify the freshly built EXE contains BOTH 2026-09-13 fixes + edition.
 Reuses the proven CArchiveReader('PYZ.pyz') + temp-file ZlibArchiveReader pattern."""
-import sys, os, types, tempfile
-from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
-
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import sys, os, types, tempfile
+from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
+
 EXE = sys.argv[1] if len(sys.argv) > 1 else str(REPO / "dist" / "TotalRecalls.exe")
 print("EXE:", EXE, os.path.getsize(EXE), "bytes")
 

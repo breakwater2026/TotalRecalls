@@ -1,4 +1,7 @@
 """Website audit: SEO meta (title/description/og), a11y basics, pricing consistency."""
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os, re, glob
 
 dist = str(REPO / "site" / "dist")
@@ -65,7 +68,3 @@ for bad in ["$19", "$29", "$49", "$99", "subscription", "per month", "monthly", 
         print(f"  WARNING '{bad}': {len(hits)} hits")
         for h in hits[:3]:
             print("     ...", h.replace("\n", " "))
-
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename

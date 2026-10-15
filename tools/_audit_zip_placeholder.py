@@ -1,4 +1,7 @@
 """Audit item: ZIP EXE staleness + placeholder/TODO sweep."""
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import zipfile, hashlib, os, re
 
 z = zipfile.ZipFile(str(REPO / "site" / "public" / "downloads" / "TotalRecalls-1.0.0-free-tier.zip"))
@@ -26,7 +29,3 @@ for root in roots:
 print(f"\nplaceholder/TODO hits: {len(hits)}")
 for h in hits[:20]:
     print("  ", h)
-
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename

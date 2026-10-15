@@ -3,14 +3,14 @@
 If the call hangs, faulthandler dumps the Python stack after 20s and exits --
 that shows precisely where it blocks, which the app's own log cannot.
 """
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import faulthandler
 import json
 import sys
 import time
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename
 sys.path.insert(0, str(REPO))
 
 faulthandler.dump_traceback_later(20, exit=True)   # hang -> stack dump, then exit

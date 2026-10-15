@@ -12,11 +12,11 @@ Flags stale strings per the project conventions:
   - price drift: anything other than $24 for Pro
 Also checks sitemap.xml covers all 52 pages.
 """
-import os, re, glob
-
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
   # a hardcoded absolute checkout path broke on the folder rename
+import os, re, glob
+
 SRC = str(REPO / "site" / "src")
 DIST = str(REPO / "site" / "dist")
 

@@ -23,6 +23,9 @@ lives in a shell history line.
 Exit code 0 = all 5 steps green for every run; 1 = at least one failure.
 """
 from __future__ import annotations
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 
 import argparse
 import json

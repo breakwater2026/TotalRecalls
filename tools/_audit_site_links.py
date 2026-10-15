@@ -6,13 +6,13 @@ Walks every built .html, extracts href/src, checks:
   - external URLs -> probed with GET (HEAD rejected by some servers)
 Also lists sitemap/robots presence. Prints a structured report.
 """
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os, re, sys, ssl, json
 import urllib.request
 import concurrent.futures
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
-  # a hardcoded absolute checkout path broke on the folder rename
 DIST = str(REPO / "site" / "dist")
 DEV = "http://localhost:4321"
 

@@ -1,10 +1,10 @@
 """Final website verification: dist ZIP SHA == page SHA, no dead internal links,
 troubleshooting copy updated."""
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 import os, re, glob, hashlib, urllib.parse
 
-from pathlib import Path
-REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file so a
-  # folder/repo rename cannot silently break it (was an absolute hardcoded path)
 dist = str(REPO / "site" / "dist")
 
 zpath = os.path.join(dist, "downloads", "TotalRecalls-1.0.0-free-tier.zip")
