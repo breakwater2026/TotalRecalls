@@ -1,7 +1,7 @@
 """Website audit: SEO meta (title/description/og), a11y basics, pricing consistency."""
 import os, re, glob
 
-dist = r"C:\Users\break\Projects\TotalRecalls\site\dist"
+dist = str(REPO / "site" / "dist")
 pages = sorted(glob.glob(os.path.join(dist, "**", "index.html"), recursive=True))
 if not os.path.join(dist, "404.html") in pages:
     pages.append(os.path.join(dist, "404.html"))
@@ -37,13 +37,13 @@ print("empty <a></a>:", len(empty_links), set(empty_links) if empty_links else "
 
 # Pricing consistency across all pages: $24, 8 providers, 3 free, 5 convs
 print("\n=== pricing/limit consistency (source) ===")
-src = r"C:\Users\break\Projects\TotalRecalls\site\src"
+src = str(REPO / "site" / "src")
 allsrc = ""
 for root, _, files in os.walk(src):
     for fn in files:
         if fn.endswith((".astro", ".jsx", ".json", ".md")):
             allsrc += open(os.path.join(root, fn), encoding="utf-8", errors="ignore").read()
-pub = r"C:\Users\break\Projects\TotalRecalls\site\public"
+pub = str(REPO / "site" / "public")
 for root, _, files in os.walk(pub):
     if "downloads" in root or "demo" in root:
         continue
@@ -65,3 +65,7 @@ for bad in ["$19", "$29", "$49", "$99", "subscription", "per month", "monthly", 
         print(f"  WARNING '{bad}': {len(hits)} hits")
         for h in hits[:3]:
             print("     ...", h.replace("\n", " "))
+
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename

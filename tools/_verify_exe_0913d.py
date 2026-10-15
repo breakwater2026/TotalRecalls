@@ -8,6 +8,9 @@ Checks:
   5. chatgpt adapter -> count_conversations limit=100 (int const present)
 """
 import os, sys, tempfile
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 sys.path.insert(0, os.path.expandvars(r"%LOCALAPPDATA%\tr-build-venv\Scripts"))
 from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
 
@@ -68,7 +71,7 @@ def check(exe, edition_expected, label):
         all_ok = all_ok and ok
     return all_ok
 
-ok1 = check(r"C:\Users\break\Projects\TotalRecalls\dist\TotalRecalls.exe", "free", "FREE build")
-ok2 = check(r"C:\Users\break\Projects\TotalRecalls\dist\TotalRecalls-Pro.exe", "pro", "PRO build")
+ok1 = check(str(REPO / "dist" / "TotalRecalls.exe"), "free", "FREE build")
+ok2 = check(str(REPO / "dist" / "TotalRecalls-Pro.exe"), "pro", "PRO build")
 print(f"\nOVERALL: {'ALL PASS' if ok1 and ok2 else 'FAILURES PRESENT'}")
 sys.exit(0 if ok1 and ok2 else 1)

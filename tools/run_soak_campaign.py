@@ -15,8 +15,11 @@ import subprocess
 import sys
 import time
 
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
 APPD = os.path.expandvars(r"%APPDATA%\PerplexityExporter")
-SOAK = r"C:\Users\break\Projects\TotalRecalls\tools\soak_test.py"
+SOAK = str(REPO / "tools" / "soak_test.py")
 LOG = r"C:\Users\break\Videos\TR-demo-shoot\soak_log.txt"
 ENVF = os.path.expandvars(r"%TEMP%\soak_env.json")
 

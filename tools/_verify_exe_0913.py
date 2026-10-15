@@ -3,7 +3,10 @@ Reuses the proven CArchiveReader('PYZ.pyz') + temp-file ZlibArchiveReader patter
 import sys, os, types, tempfile
 from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
 
-EXE = sys.argv[1] if len(sys.argv) > 1 else r"C:\Users\break\Projects\TotalRecalls\dist\TotalRecalls.exe"
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+EXE = sys.argv[1] if len(sys.argv) > 1 else str(REPO / "dist" / "TotalRecalls.exe")
 print("EXE:", EXE, os.path.getsize(EXE), "bytes")
 
 def walk(co, acc_consts, acc_names, acc_nums):

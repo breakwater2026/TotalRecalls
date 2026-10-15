@@ -14,8 +14,11 @@ Also checks sitemap.xml covers all 52 pages.
 """
 import os, re, glob
 
-SRC = r"C:\Users\break\Projects\TotalRecalls\site\src"
-DIST = r"C:\Users\break\Projects\TotalRecalls\site\dist"
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+SRC = str(REPO / "site" / "src")
+DIST = str(REPO / "site" / "dist")
 
 CHECKS = [
     ("old product name", re.compile(r"Perplexity Exporter", re.I)),

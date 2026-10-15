@@ -27,11 +27,11 @@ bucket = storage_client.bucket(BUCKET_NAME)
 
 # 2. Build the JSON bundle
 bundle = {}
-plan_path = r"C:\Users\break\Projects\TotalRecalls\Website Design\TR V2 Implementation Plan.md"
+plan_path = str(REPO / "Website Design" / "TR V2 Implementation Plan.md")
 with open(plan_path, 'r', encoding='utf-8') as f:
     bundle["tr_v2_plan"] = f.read()
 
-pack_dir = r"C:\Users\break\Projects\TotalRecalls\Website Design\V2 Content Pack"
+pack_dir = str(REPO / "Website Design" / "V2 Content Pack")
 for filename in os.listdir(pack_dir):
     if filename.endswith(".md"):
         doc_id = filename.replace(".md", "")
@@ -47,3 +47,7 @@ gcs_uri = f"gs://{BUCKET_NAME}/tr_refactor_background.json"
 blob = bucket.blob("tr_refactor_background.json")
 blob.upload_from_string(bundle_json, content_type="application/json")
 print(f"OK: uploaded bundle ({len(bundle_json)} bytes) to {gcs_uri}")
+
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename

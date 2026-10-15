@@ -10,7 +10,10 @@ import os, re, sys, ssl, json
 import urllib.request
 import concurrent.futures
 
-DIST = r"C:\Users\break\Projects\TotalRecalls\site\dist"
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
+DIST = str(REPO / "site" / "dist")
 DEV = "http://localhost:4321"
 
 pages = []

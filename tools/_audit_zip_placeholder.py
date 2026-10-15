@@ -1,7 +1,7 @@
 """Audit item: ZIP EXE staleness + placeholder/TODO sweep."""
 import zipfile, hashlib, os, re
 
-z = zipfile.ZipFile(r"C:\Users\break\Projects\TotalRecalls\site\public\downloads\TotalRecalls-1.0.0-free-tier.zip")
+z = zipfile.ZipFile(str(REPO / "site" / "public" / "downloads" / "TotalRecalls-1.0.0-free-tier.zip"))
 data = z.read("TotalRecalls.exe")
 sha = hashlib.sha256(data).hexdigest()
 print("ZIP TotalRecalls.exe SHA-256:", sha)
@@ -9,7 +9,7 @@ print("  new dist free EXE          = f93ef897d6b48330ca0c3d6dd97c964af9d1814e45
 print("  verdict:", "STALE (old build)" if sha != "f93ef897d6b48330ca0c3d6dd97c964af9d1814e450cb428e61e1f7d28f64774" else "matches new build")
 
 # placeholder sweep
-SITE = r"C:\Users\break\Projects\TotalRecalls\site"
+SITE = str(REPO / "site")
 roots = [os.path.join(SITE, "src"), os.path.join(SITE, "public")]
 hits = []
 for root in roots:
@@ -26,3 +26,7 @@ for root in roots:
 print(f"\nplaceholder/TODO hits: {len(hits)}")
 for h in hits[:20]:
     print("  ", h)
+
+from pathlib import Path
+REPO = Path(__file__).resolve().parents[1]  # repo root derived from this file;
+  # a hardcoded absolute checkout path broke on the folder rename
