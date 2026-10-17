@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import SeeItWorkPage from "../../components/landing/tr/SeeItWorkPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+import { DEMOS } from "../../components/landing/tr/SeeItWorkDemos";
+
+export function getStaticPaths() {
+  return Object.keys(DEMOS)
+    .filter((k) => k !== "chatgpt")
+    .map((key) => ({ params: { provider: key } }));
+}
+
+const { provider } = Astro.params;
+const demo = DEMOS[provider];
+const title = `See it work: ${demo.label} · TotalRecalls`;
+const description = `${demo.intro} A real screen recording of ${demo.label} conversations exported to Markdown and JSON files in a folder you own.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <SeeItWorkPage client:load providerKey={provider} />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>

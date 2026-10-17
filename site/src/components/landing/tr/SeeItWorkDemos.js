@@ -1,0 +1,111 @@
+// One entry per provider demo. `src` is the R2 object (bucket tr-website-drive,
+// served from both video.totalrecalls.app and demo-video.totalrecalls.app).
+// Durations and byte counts are the verified objects. `intro` states exactly what
+// each cut does - never claim 1x for a ramped cut.
+
+export const DEMOS = {
+  chatgpt: {
+    key: "chatgpt", label: "ChatGPT", provider: "chatgpt",
+    title: "Watch a ChatGPT chat become files on your PC.",
+    duration: "4:37", bytes: "49.5 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4",
+    poster: "/demo/poster_chatgpt.png",
+    intro: "Recorded on the Free Tier, beginning at the website and ending with the conversation open. 4x speed due to the provider's connection and download latency. Everything else is at original speed.",
+    steps: [
+      { t: "0:03", title: "Get the app", body: "The demo starts on the website. TotalRecalls is a ZIP you run from its own folder - there's no installer and no TotalRecalls account." },
+      { t: "0:06", title: "Download the Free Tier", body: "Click Download free on the landing page, then take the Free Tier ZIP from the download page. It covers ChatGPT, Claude and Perplexity, 5 conversations each." },
+      { t: "0:16", title: "Unzip it, then run it", body: "Windows extracts the ZIP first, then you double-click TotalRecalls.exe. It runs from wherever you put the folder." },
+      { t: "0:27", title: "Windows may warn you", body: "The first launch of a new, unsigned app shows the SmartScreen card. More info, then Run anyway. The prompt is normal." },
+      { t: "0:44", title: "Choose your provider", body: "Step 1 in the app. The provider list shows what your tier includes - ChatGPT is in the Free Tier." },
+      { t: "1:01", title: "Sign in", body: "Step 2. You sign in inside the app, on your own PC." },
+      { t: "1:05", title: "Your history loads", body: "Once connected the app enumerates your conversations and shows the count - 106 here - before downloading anything." },
+      { t: "1:22", title: "Download", body: "The app walks the history and writes each conversation to disk: the Free Tier sample first, then the full 106-conversation run, which plays at 4x speed." },
+      { t: "3:37", title: "Complete - open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder." },
+      { t: "4:04", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with both open in Word." },
+    ],
+  },
+  gemini: {
+    key: "gemini", label: "Gemini", provider: "gemini",
+    title: "Watch a Gemini chat become files on your PC.",
+    duration: "2:59", bytes: "30.7 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_gemini.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier with an on-camera Pro activation so Gemini is selectable. No speed changes - every second of this cut is real time, with the dead waits removed.",
+    steps: [
+      { t: "0:03", title: "Start on the website", body: "The landing page, the Download free click, then the Free Tier ZIP from the download page." },
+      { t: "0:28", title: "Clear the SmartScreen prompt", body: "Windows extracts the ZIP, you double-click TotalRecalls.exe, and the unsigned-app card appears once." },
+      { t: "0:46", title: "The app opens on Free", body: "The provider list shows what the Free Tier includes; Gemini sits above it." },
+      { t: "1:03", title: "Activate Pro", body: "Gemini is outside the Free Tier's three providers, so the demo unlocks Pro with a key in the app." },
+      { t: "1:06", title: "Select Gemini and connect", body: "Step 1 Gemini, Step 2 sign in - the sign-in window opens on your own PC. The wait is cut: you land on the connected state." },
+      { t: "1:22", title: "Download", body: "86 conversations, written one at a time to the folder you chose. The log names each one as it lands." },
+      { t: "2:41", title: "The files", body: "The conversation opens as Markdown, then as JSON. Both are ordinary files on your drive." },
+    ],
+  },
+  mistral: {
+    key: "mistral", label: "Mistral", provider: "mistral",
+    title: "Watch a Mistral chat become files on your PC.",
+    duration: "2:59", bytes: "29.1 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_mistral.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier with an on-camera Pro activation so Mistral is selectable. No speed changes - real time throughout, dead waits removed.",
+    steps: [
+      { t: "0:03", title: "Start on the website", body: "The landing page, the Download free click, then the Free Tier ZIP." },
+      { t: "0:28", title: "Clear the SmartScreen prompt", body: "Extract the ZIP, run TotalRecalls.exe, and clear the one-time SmartScreen card." },
+      { t: "0:47", title: "The app opens on Free", body: "The provider list shows what the Free Tier covers; Mistral needs Pro." },
+      { t: "1:12", title: "Activate Pro", body: "Mistral is outside the Free Tier's three providers, so the demo unlocks Pro first." },
+      { t: "1:25", title: "Select Mistral and connect", body: "Choose Mistral, sign in inside the app, and land on the connected state - the sign-in wait is cut." },
+      { t: "1:47", title: "Download", body: "This account has 3 conversations; the app writes each one and reports the count as it goes." },
+      { t: "2:31", title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder in Word." },
+    ],
+  },
+  claude: {
+    key: "claude", label: "Claude", provider: "claude",
+    title: "Watch a Claude chat become files on your PC.",
+    duration: "3:09", bytes: "50.2 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_claude.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier with an on-camera Pro activation. The export stretch plays at 2x with a 2x speed badge burned into the frame; everything else is real time.",
+    steps: [
+      { title: "Start on the website", body: "The download page, the Free Tier ZIP, then the extract-and-run beats." },
+      { title: "Clear the SmartScreen prompt", body: "The one-time unsigned-app warning on first launch." },
+      { title: "Activate Pro", body: "The demo unlocks Pro in the app so all providers are available." },
+      { title: "Select Claude and connect", body: "Step 1 Claude, Step 2 sign in inside the app, on your own PC." },
+      { title: "Download at 2x", body: "The export runs at 2x, labelled on screen, because the provider's conversation fetch is slow." },
+      { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
+    ],
+  },
+  perplexity: {
+    key: "perplexity", label: "Perplexity", provider: "perplexity",
+    title: "Watch a Perplexity chat become files on your PC.",
+    duration: "3:05", bytes: "46.4 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_perplexity.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier. Real time throughout - no speed changes - with the conversation titles masked on screen.",
+    steps: [
+      { title: "Start on the website", body: "The download page, the Free Tier ZIP, then the extract-and-run beats." },
+      { title: "Clear the SmartScreen prompt", body: "The one-time unsigned-app warning on first launch." },
+      { title: "Select Perplexity and connect", body: "Step 1 Perplexity, Step 2 sign in inside the app, on your own PC." },
+      { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log." },
+      { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
+    ],
+  },
+  deepseek: {
+    key: "deepseek", label: "DeepSeek", provider: "deepseek",
+    title: "Watch a DeepSeek chat become files on your PC.",
+    duration: "2:40", bytes: "29.2 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_deepseek.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier. Real time throughout - no speed changes - with the conversation titles masked on screen.",
+    steps: [
+      { title: "Select DeepSeek", body: "The provider picker, then the connect click - the sign-in happens inside the app on your own PC." },
+      { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log as it goes." },
+      { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
+    ],
+  },
+};
+
+export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mistral", "deepseek"];
+
+export function demoPath(key) {
+  return key === "chatgpt" ? "/see-it-work/" : "/see-it-work/" + key + "/";
+}

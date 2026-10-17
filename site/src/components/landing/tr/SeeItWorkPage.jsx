@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Play, ChevronDown } from "lucide-react";
 import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from "./ui";
+import { DEMOS, PROVIDER_ORDER, demoPath } from "./SeeItWorkDemos";
 
 /* ============================================================================
  * /see-it-work/ — "See It Work" (Jasper rewrite, tr/ design system).
@@ -20,27 +21,14 @@ import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from
  *   demo-final-render skill).
  * ========================================================================== */
 
-const DEMO_SRC = "https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4";
-const POSTER = "/demo/poster_chatgpt.png";
 const RESULT_IMG = "/demo/result.png";
-
-const STEPS = [
-  { t: "0:03", title: "Get the app", body: "The demo starts on the website. TotalRecalls is a ZIP you run from its own folder — there's no installer and no TotalRecalls account." },
-  { t: "0:06", title: "Download the Free Tier", body: "The Free Tier ZIP covers ChatGPT, Claude, and Perplexity, with up to 5 conversations each. No card, no signup." },
-  { t: "0:16", title: "Unzip it, then run it", body: "Windows extracts the ZIP first, then you double-click TotalRecalls.exe. It runs from wherever you put the folder." },
-  { t: "0:27", title: "Windows may warn you", body: "The first launch of a new, unsigned app shows the SmartScreen card. More info → Run anyway. The app is safe to run; the prompt is normal." },
-  { t: "0:44", title: "Choose your provider", body: "Step 1 in the app. The provider list shows what your tier includes — ChatGPT is part of the Free Tier." },
-  { t: "1:01", title: "Sign in", body: "Step 2. You sign in inside the app, on your own PC. The app opens the sign-in window itself, or you can paste a session cookie instead." },
-  { t: "1:05", title: "Your history loads", body: "Once connected, the app enumerates your conversations and shows the count — 106 here — before it downloads anything." },
-  { t: "1:17", title: "Download", body: "The app walks the history and writes each conversation to disk: the Free Tier sample first, then the full 106-conversation run. That download is the one stretch at 4x speed, labelled on screen." },
-  { t: "3:37", title: "Complete — open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder for you." },
-  { t: "4:04", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with both open in Word." },
-];
 
 function Step({ t, title, body }) {
   return (
     <div className="flex flex-col gap-2 py-5 md:flex-row md:gap-6">
-      <code className="shrink-0 font-mono text-[14px] font-medium text-tr-steel md:pt-0.5 md:text-right md:w-[72px]">{t}</code>
+      {t ? (
+        <code className="shrink-0 font-mono text-[14px] font-medium text-tr-steel md:pt-0.5 md:text-right md:w-[72px]">{t}</code>
+      ) : null}
       <div className="min-w-0 flex-1">
         <h3 className="font-heading text-[18px] font-semibold text-tr-paper">{title}</h3>
         <p className="mt-1.5 font-body text-[16px] leading-[1.6] text-tr-mist">{body}</p>
@@ -61,8 +49,27 @@ function MarkerNote({ n, title, body }) {
   );
 }
 
-export default function SeeItWorkPage() {
+export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
+  const demo = DEMOS[providerKey] || DEMOS.chatgpt;
   const videoRef = useRef(null);
+  const switcher = (
+    <div className="mt-5 flex flex-wrap gap-2">
+      {PROVIDER_ORDER.map((k) => (
+        <a
+          key={k}
+          href={demoPath(k)}
+          className={
+            "rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors " +
+            (k === demo.key
+              ? "border-tr-steel bg-tr-steel/10 text-tr-paper"
+              : "border-tr-slate text-tr-mist hover:text-tr-paper")
+          }
+        >
+          {DEMOS[k].label}
+        </a>
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -72,7 +79,7 @@ export default function SeeItWorkPage() {
           <div className="max-w-[680px]">
             <Eyebrow mono>See It Work</Eyebrow>
             <h1 className="mt-3 font-heading text-[34px] font-bold leading-[1.1] tracking-[-0.02em] text-tr-paper md:text-[48px]">
-              Watch a chat become files on your PC.
+              {demo.title}
             </h1>
             <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist md:text-[20px]">
               This page shows one complete download, recorded on a Windows PC — from the website
@@ -80,9 +87,11 @@ export default function SeeItWorkPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
               <Chip>Recorded on Windows</Chip>
-              <Chip>4:37</Chip>
+              <Chip>{demo.duration}</Chip>
+              <Chip>{demo.label}</Chip>
               <Chip>Free Tier</Chip>
             </div>
+            {switcher}
             <a href="#download" className="mt-5 inline-block text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
               Skip to the download ↓
             </a>
@@ -99,9 +108,7 @@ export default function SeeItWorkPage() {
               One account, start to finish
             </h2>
             <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist">
-              Recorded on the Free Tier, beginning at the website and ending with the conversation open.
-              4x speed due to the provider's connection and download latency. Everything else is at
-              original speed. The recording has no audio track, and the step list below follows this timeline.
+              {demo.intro} The recording has no audio track.
             </p>
           </div>
 
@@ -110,8 +117,8 @@ export default function SeeItWorkPage() {
               <video
                 ref={videoRef}
                 className="aspect-video w-full rounded-lg border border-tr-slate/60 bg-black"
-                src={DEMO_SRC}
-                poster={POSTER}
+                src={demo.src}
+                poster={demo.poster || undefined}
                 controls
                 preload="metadata"
                 playsInline
@@ -132,8 +139,8 @@ export default function SeeItWorkPage() {
             </h2>
           </div>
           <div className="mt-8 max-w-[720px] divide-y divide-tr-slate border-t border-tr-slate">
-            {STEPS.map((s) => (
-              <Step key={s.t} {...s} />
+            {demo.steps.map((s) => (
+              <Step key={s.title} {...s} />
             ))}
           </div>
         </Container>
@@ -227,8 +234,8 @@ export default function SeeItWorkPage() {
                 of the walkthrough, with the timecode where each beat happens in the video.
               </p>
               <ol className="list-decimal space-y-2.5 pl-6">
-                {STEPS.map((s) => (
-                  <li key={s.t}><span className="font-mono text-[13px] text-tr-steel">{s.t}</span> — {s.title}. {s.body}</li>
+                {demo.steps.map((s) => (
+                  <li key={s.title}>{s.t ? <span className="font-mono text-[13px] text-tr-steel">{s.t} — </span> : null}{s.title}. {s.body}</li>
                 ))}
               </ol>
             </div>
