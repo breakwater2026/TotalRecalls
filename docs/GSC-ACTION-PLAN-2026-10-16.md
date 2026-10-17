@@ -252,3 +252,34 @@ Two weeks (≈2026-10-30):
 - TotalRecalls: the 13 `www` alternates should be at or near zero; the 3 pending pages indexed.
 
 Everything technical is finished and verified on both sites. What remains is Google's crawl queue.
+
+---
+
+# 7. The bigger picture — what indexing will not fix
+
+Measured 2026-10-16, so this is current, not a week-old snapshot:
+
+| Site | Last 28 days | Average position |
+|---|---|---|
+| **TopMoneyTools** | **0 clicks · 368 impressions** | 60.9 |
+| **TotalRecalls** | **2 clicks · 59 impressions** | 11.6 |
+
+Both sites are close to invisible, but for **opposite reasons**, and neither is an indexing problem:
+
+- **TopMoneyTools surfaces but ranks too deep.** 368 impressions with zero clicks at average position
+  61 means Google shows the pages for real queries and users scroll past them. Fixing the last
+  `www` canonical will not change this by one position. The fix is **content depth and authority** on
+  competitive calculator/YMYL terms — the editorial track.
+- **TotalRecalls ranks well but barely appears.** Average position 11.6 is respectable — its problem
+  is that only 59 impressions exist at all. There is almost no demand being captured, because the
+  site has very few pages targeting terms anyone searches and almost no authority yet. The fix is
+  **more content aimed at real queries, plus distribution** (the launch/marketing plan), not more
+  index work.
+
+One detail that reinforces §2.2: TotalRecalls' single best-performing page in 28 days is the **`www`
+copy** of `/guides/qwen/` (position 6.2, 1 click). The duplicate host is still capturing a click that
+belongs to the apex — small in absolute terms, but direct evidence the `www` work is worth finishing.
+
+**So the honest sequence from here is: finish the recrawls in §1.2 and §2.2, then stop treating this
+as an indexing project.** Both sites are now technically correct. What stands between them and
+traffic is content and links, which is the marketing plan's territory — not another GSC pass.
