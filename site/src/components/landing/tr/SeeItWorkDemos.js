@@ -37,7 +37,7 @@ export const DEMOS = {
       { t: "0:46", title: "The app opens on Free", body: "The provider list shows what the Free Tier includes; Gemini sits above it." },
       { t: "1:03", title: "Activate Pro", body: "Gemini is outside the Free Tier's three providers, so the demo unlocks Pro with a key in the app." },
       { t: "1:06", title: "Select Gemini and connect", body: "Step 1 Gemini, Step 2 sign in - the sign-in window opens on your own PC. The wait is cut: you land on the connected state." },
-      { t: "1:17", title: "Download", body: "86 conversations, written one at a time to the folder you chose. The log names each one as it lands." },
+      { t: "1:22", title: "Download", body: "86 conversations, written one at a time to the folder you chose. The log names each one as it lands." },
       { t: "2:41", title: "The files", body: "The conversation opens as Markdown, then as JSON. Both are ordinary files on your drive." },
     ],
   },
