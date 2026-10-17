@@ -118,11 +118,6 @@ export default function SeeItWorkPage() {
                 title="TotalRecalls downloading ChatGPT conversations to local Markdown and JSON files"
               />
             </div>
-            <div className="mt-2">
-              <a href="#transcript" className="text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
-                Read the transcript →
-              </a>
-            </div>
           </div>
         </Container>
       </Section>
