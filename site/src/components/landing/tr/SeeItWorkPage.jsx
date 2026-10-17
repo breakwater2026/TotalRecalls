@@ -7,7 +7,8 @@ import { Container, Section, Eyebrow, Btn, Chip, EvidenceStrip, LocalChip } from
  * Copy + spec from: Marketing/Jasper/Website Rewrite/See It Work Page.md
  *
  * DEMO VIDEO — ChatGPT walkthrough (shipped 2026-10-06):
- *   https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4  (5:13, 3440x1440, 2x cut)
+ *   https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4  (4:37, 3440x1440,
+ *   1x except the Pro conversation download at 4x — see the 2026-10-17 re-cut)
  *   Demo hostname = demo-video.totalrecalls.app (R2 bucket tr-website-drive). The
  *   landing hero stays on video.totalrecalls.app; both hostnames front the same bucket.
  *   Per-provider videos are the plan: one complete A-to-Z walkthrough each,
@@ -25,15 +26,15 @@ const RESULT_IMG = "/demo/result.png";
 
 const STEPS = [
   { t: "0:03", title: "Get the app", body: "The demo starts on the website. TotalRecalls is a ZIP you run from its own folder — there's no installer and no TotalRecalls account." },
-  { t: "0:27", title: "Download the Free Tier", body: "The Free Tier ZIP covers ChatGPT, Claude, and Perplexity, with up to 5 conversations each. No card, no signup." },
-  { t: "0:40", title: "Unzip it, then run it", body: "Windows extracts the ZIP first, then you double-click TotalRecalls.exe. It runs from wherever you put the folder." },
-  { t: "0:45", title: "Windows may warn you", body: "The first launch of a new, unsigned app shows the SmartScreen card. More info → Run anyway. The app is safe to run; the prompt is normal." },
-  { t: "0:52", title: "Choose your provider", body: "Step 1 in the app. The provider list shows what your tier includes — ChatGPT is part of the Free Tier." },
-  { t: "0:54", title: "Sign in", body: "Step 2. You sign in inside the app, on your own PC. The app opens the sign-in window itself, or you can paste a session cookie instead." },
-  { t: "1:14", title: "Your history loads", body: "Once connected, the app enumerates your conversations and shows the count — 106 here — before it downloads anything." },
-  { t: "1:24", title: "Download", body: "The app walks the history and writes each conversation to disk. The long stretch is the fastest part of the video — it runs at 3×." },
-  { t: "4:26", title: "Complete — open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder for you." },
-  { t: "4:52", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with the chat open in Word." },
+  { t: "0:06", title: "Download the Free Tier", body: "The Free Tier ZIP covers ChatGPT, Claude, and Perplexity, with up to 5 conversations each. No card, no signup." },
+  { t: "0:16", title: "Unzip it, then run it", body: "Windows extracts the ZIP first, then you double-click TotalRecalls.exe. It runs from wherever you put the folder." },
+  { t: "0:27", title: "Windows may warn you", body: "The first launch of a new, unsigned app shows the SmartScreen card. More info → Run anyway. The app is safe to run; the prompt is normal." },
+  { t: "0:44", title: "Choose your provider", body: "Step 1 in the app. The provider list shows what your tier includes — ChatGPT is part of the Free Tier." },
+  { t: "1:01", title: "Sign in", body: "Step 2. You sign in inside the app, on your own PC. The app opens the sign-in window itself, or you can paste a session cookie instead." },
+  { t: "1:05", title: "Your history loads", body: "Once connected, the app enumerates your conversations and shows the count — 106 here — before it downloads anything." },
+  { t: "1:17", title: "Download", body: "The app walks the history and writes each conversation to disk: the Free Tier sample first, then the full 106-conversation run. That download is the one stretch at 4x speed, labelled on screen." },
+  { t: "3:37", title: "Complete — open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder for you." },
+  { t: "4:04", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with both open in Word." },
 ];
 
 function Step({ t, title, body }) {
@@ -79,7 +80,7 @@ export default function SeeItWorkPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
               <Chip>Recorded on Windows</Chip>
-              <Chip>5:13</Chip>
+              <Chip>4:37</Chip>
               <Chip>Free Tier</Chip>
             </div>
             <a href="#download" className="mt-5 inline-block text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
@@ -99,8 +100,8 @@ export default function SeeItWorkPage() {
             </h2>
             <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist">
               Recorded on the Free Tier, beginning at the website and ending with the conversation open.
-              It runs at 2× with the long download stretch at 3× — both speeds are labelled on screen.
-              The recording has no audio track, and the step list below follows this timeline.
+              4x speed due to the provider's connection and download latency. Everything else is at
+              original speed. The recording has no audio track, and the step list below follows this timeline.
             </p>
           </div>
 
@@ -117,14 +118,6 @@ export default function SeeItWorkPage() {
                 title="TotalRecalls downloading ChatGPT conversations to local Markdown and JSON files"
               />
             </div>
-            <p className="mt-3 font-body text-[14px] text-tr-dust">
-              Real screen recording, trimmed for length. Account details are masked in the app.
-            </p>
-            <p className="mt-1.5 font-body text-[14px] text-tr-dust">
-              Three things are altered, each labelled on screen: the dead air at each end is cut, the
-              walkthrough runs at 2× (a "2x speed" badge sits top-left), and the long download runs at
-              3× (banner, bottom). Every step is the real app — nothing is re-staged.
-            </p>
             <div className="mt-2">
               <a href="#transcript" className="text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
                 Read the transcript →
