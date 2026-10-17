@@ -283,3 +283,17 @@ belongs to the apex — small in absolute terms, but direct evidence the `www` w
 **So the honest sequence from here is: finish the recrawls in §1.2 and §2.2, then stop treating this
 as an indexing project.** Both sites are now technically correct. What stands between them and
 traffic is content and links, which is the marketing plan's territory — not another GSC pass.
+
+
+
+
+
+
+
+Page 2 of 2
+
+
+
+
+
+
