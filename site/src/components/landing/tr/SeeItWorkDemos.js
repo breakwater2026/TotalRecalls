@@ -102,9 +102,25 @@ export const DEMOS = {
       { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
     ],
   },
+  grok: {
+    key: "grok", label: "Grok", provider: "grok",
+    title: "Watch a Grok chat become files on your PC.",
+    duration: "3:54", bytes: "36.7 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_grok.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier with an on-camera Pro activation so Grok is selectable. Real time throughout - the sign-in wait is cut - with the conversation titles masked on screen.",
+    steps: [
+      { title: "Start on the website", body: "The landing page, the Download free click, then the Free Tier ZIP." },
+      { title: "Clear the SmartScreen prompt", body: "Extract the ZIP, run TotalRecalls.exe, and clear the one-time SmartScreen card." },
+      { title: "Activate Pro", body: "Grok is outside the Free Tier's three providers, so the demo unlocks Pro first." },
+      { title: "Select Grok and connect", body: "Choose Grok and sign in inside the app; the wait is cut, landing straight on the connected state." },
+      { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log as it goes." },
+      { title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder." },
+    ],
+  },
 };
 
-export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mistral", "deepseek"];
+export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mistral", "deepseek", "grok"];
 
 export function demoPath(key) {
   return key === "chatgpt" ? "/see-it-work/" : "/see-it-work/" + key + "/";
