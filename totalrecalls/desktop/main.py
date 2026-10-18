@@ -38,6 +38,40 @@ def main():
             pass
         return
 
+    # Capability self-check. A runtime that cannot dispatch .NET events looks
+    # healthy right up to the moment a login flow silently never ticks (the
+    # 2026-10-17 failure cost hours). Say it out loud, then refuse to run.
+    try:
+        from totalrecalls.core import preflight
+        problems = preflight.run()
+        for prob in problems:
+            log(f"preflight: PROBLEM: {prob}")
+        if problems:
+            log("preflight: FAILED - " + " | ".join(problems))
+            if os.name == "nt":
+                try:
+                    import ctypes
+                    ctypes.windll.user32.MessageBoxW(
+                        0,
+                        "TotalRecalls cannot start on this machine.\n\n"
+                        + "\n".join(f"- {x}" for x in problems),
+                        f"TotalRecalls {APP_VERSION} ({APP_BUILD_TAG})",
+                        0x10,
+                    )
+                except Exception:
+                    pass
+            return
+        log(
+            "preflight: all checks passed (python=%s, pythonnet=%s, webview2=%s)"
+            % (
+                sys.version.split()[0],
+                preflight._pythonnet_version() or "n/a",
+                preflight._webview2_version() or "n/a",
+            )
+        )
+    except Exception as e:
+        log(f"preflight: check itself failed: {type(e).__name__}: {e}")
+
     # self-test mode (no GUI) — used for automated verification
     if "--selftest" in sys.argv:
         from pathlib import Path

@@ -1203,7 +1203,7 @@ class Bridge:
                     # unobserved and kills the whole process silently.
                     log(f"generic login flow crashed: {e}\n{traceback.format_exc()}")
                     self._connecting = False
-                    self._push({"type": "error", "message": f"{title} embedded login failed to start. Try again, or paste a session token/cookie instead."})
+                    self._push({"type": "error", "message": f"{title} embedded login failed to start ({type(e).__name__}: {e}). Try again, or paste a session token/cookie instead."})
                     self._push({"type": "login_cancelled"})
             th = Thread(ThreadStart(runner))
             th.SetApartmentState(ApartmentState.STA)
@@ -1452,7 +1452,7 @@ class Bridge:
             try:
                 if not args.IsSuccess:
                     self._connecting = False
-                    self._push({"type": "error", "message": "Could not start embedded login browser."})
+                    self._push({"type": "error", "message": f"Could not start the embedded login browser ({type(e).__name__}: {e})."})
                     self._push({"type": "login_cancelled"}); safe_close(); return
                 cv = wv.CoreWebView2
                 cv.AddWebResourceRequestedFilter("https://*/*", CoreWebView2WebResourceContext.All)
@@ -1611,7 +1611,7 @@ class Bridge:
         except Exception as e:
             log(f"generic ensure error: {e}")
             self._connecting = False
-            self._push({"type": "error", "message": "Could not start embedded login browser."})
+            self._push({"type": "error", "message": f"Could not start the embedded login browser ({type(e).__name__}: {e})."})
             self._push({"type": "login_cancelled"})
             return
         log(f"{profile_suffix} login: EnsureCoreWebView2Async returned")
@@ -1639,6 +1639,24 @@ class Bridge:
         self._bg_probe_thread = threading.Thread(target=_bg_probe, daemon=True)
         self._bg_probe_thread.start()
         log(f"{profile_suffix} login: background probe thread started")
+
+        def _liveness_watchdog():
+            """If the flow is open with zero capture ticks, the host event layer
+            is dead (wrong interpreter, missing pythonnet, blocked UI thread).
+            Say so instead of hanging silently for the user."""
+            try:
+                time.sleep(45)
+                if _tick_n[0] == 0 and not finished["done"] and not closed.is_set():
+                    log(f"{profile_suffix} login: WARN zero capture ticks after 45 s")
+                    self._push({
+                        "type": "error",
+                        "message": "The embedded login isn't responding. Close the window, "
+                                   "then use the paste path - or restart the app and try again.",
+                    })
+            except Exception:
+                pass
+
+        threading.Thread(target=_liveness_watchdog, daemon=True).start()
         try:
             form.Show()
             form.BringToFront()
