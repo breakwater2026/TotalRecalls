@@ -1,0 +1,6 @@
+# Cloudflare Pages response headers.
+# Belt-and-braces for the retired LS-era demo asset: its stale edge copy ignored
+# purges, so this pins a no-store on the exact path. Do not widen to /demo/* —
+# result.png and poster_chatgpt.png are live and should stay cacheable.
+/demo/totalrecalls-lemon-squeezy-demo.mp4
+  Cache-Control: no-store, max-age=0
