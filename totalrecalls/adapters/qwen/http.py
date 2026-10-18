@@ -56,7 +56,12 @@ def cookie_header_from_credential(credential: str) -> str:
     if not raw:
         raise QwenChatApiError("auth-failed")
     if raw.lower().startswith("cookie:"):
-        return raw.split(":", 1)[1].strip()
+        raw = raw.split(":", 1)[1].strip()
+    # A bare JWT (the value of the `token` cookie / the `token` localStorage key)
+    # must be sent as token=<JWT>: Qwen answers success=false for a nameless
+    # token even when the token itself is valid.
+    if "=" not in raw:
+        return "token=" + raw
     return raw
 
 

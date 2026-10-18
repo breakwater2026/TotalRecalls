@@ -134,8 +134,14 @@ def _extract_local_storage_bearer(raw_cdp_result, key: str) -> str | None:
         cdp = json.loads(raw_cdp_result)
     except Exception:
         return None
-    result = cdp.get("result") if isinstance(cdp, dict) else None
-    item = result.get("value") if isinstance(result, dict) else None
+    # ExecuteScriptAsync returns the value JSON-encoded but NOT wrapped in the
+    # CDP {"result": {...}} envelope: a bare string is the localStorage value.
+    if isinstance(cdp, str):
+        item = cdp
+        result = None
+    else:
+        result = cdp.get("result") if isinstance(cdp, dict) else None
+        item = result.get("value") if isinstance(result, dict) else None
     if not item or not isinstance(item, str):
         return None
     # Unwrap the {"value": "...", "__version": ...} envelope (DeepSeek).
@@ -580,6 +586,10 @@ class Bridge:
                 profile_suffix="qwen",
                 prefer_bearer=False,
                 probe_url="https://chat.qwen.ai/api/v2/chats/?page=1&exclude_project=true",
+                # Qwen keeps its access token in localStorage, not in a session
+                # cookie: without this the login only sees WAF/analytics cookies
+                # and the API probe can never pass.
+                local_storage_key="token",
             )
         else:
             self._connecting = False
@@ -1258,7 +1268,7 @@ class Bridge:
         def _show_paste_dialog(suffix, dlg_title, finished_dict, closed_evt, timer_obj):
             """Show a simple dialog allowing the user to paste a session token/cookie."""
             try:
-                from System.Windows.Forms import Form as DForm, Label as DLabel, Button as DBtn, TextBox as DText, DockStyle as DDock, FormStartPosition as DStart, Size as DSize
+                from System.Windows.Forms import Form as DForm, Label as DLabel, Button as DBtn, TextBox as DText, DockStyle as DDock, FormStartPosition as DStart
                 from System.Drawing import Size as DSize2
                 dlg = DForm()
                 dlg.Text = "Paste session token — " + dlg_title
@@ -1320,12 +1330,22 @@ class Bridge:
         # ~2.5s to avoid hammering the API while the user is still signing in.
         _probe_lock = threading.Lock()
         _probe_ts = [0.0]
+        _probe_diag = {}
 
         def _probe_once(cookie: str):
             try:
                 from totalrecalls.adapters.qwen.http import request as _qreq
                 status, data = _qreq(probe_url, cookie=cookie, delay=0)
                 ok = status == 200 and isinstance(data, dict) and data.get("success") is True
+                if not ok:
+                    _names = sorted({p.split("=", 1)[0].strip() for p in cookie.split(";") if "=" in p})
+                    _code = ""
+                    if isinstance(data, dict) and isinstance(data.get("data"), dict):
+                        _code = str(data["data"].get("code") or "")[:40]
+                    _k = (status, _code, len(_names))
+                    if _probe_diag.get("last") != _k:
+                        _probe_diag["last"] = _k
+                        log(f"{profile_suffix} login: auth probe status={status} code={_code!r} cookies={len(_names)} names={_names[:8]} len={len(cookie)}")
             except Exception as e:
                 log(f"{profile_suffix} login: auth probe error: {e}")
                 return
@@ -1428,6 +1448,7 @@ class Bridge:
                 log(f"generic login hook error: {e}")
 
         def on_init(sender, args):
+            log(f"{profile_suffix} login: on_init fired (CoreWebView2 ready)")
             try:
                 if not args.IsSuccess:
                     self._connecting = False
@@ -1492,7 +1513,16 @@ class Bridge:
                 # value changes or the slot is free.
                 log(f"{profile_suffix} login: localStorage candidate failed provider validation — keeping window open")
 
+        _tick_n = [0]
+
         def on_tick(sender, e):
+            # Heartbeat: proves the capture timer is alive at all. Without this a
+            # silently-dead timer logs nothing and looks identical to "no token".
+            _tick_n[0] += 1
+            if _tick_n[0] % 4 == 1:
+                log(f"{profile_suffix} login: tick #{_tick_n[0]} ls_key={bool(local_storage_key)} "
+                    f"task={'in-flight' if ls_state['task'] is not None else 'none'} "
+                    f"candidate={'yes' if ls_state['candidate'] else 'no'} done={finished['done']}")
             if closed.is_set() or finished["done"] or self.token: return
             if self._stop_login.is_set():
                 safe_close(); return
@@ -1511,6 +1541,13 @@ class Bridge:
                             log(f"{profile_suffix} login: localStorage CDP task faulted")
                         else:
                             tok = _extract_local_storage_bearer(str(task.Result), local_storage_key)
+                            if not tok:
+                                # Diagnostic: shape only, never the value.
+                                _raw = str(task.Result)
+                                _shape = ("exceptionDetails" in _raw, '"value"' in _raw, len(_raw))
+                                if ls_state.get("diag") != _shape:
+                                    ls_state["diag"] = _shape
+                                    log(f"{profile_suffix} login: localStorage read yielded no token (exception={_shape[0]} valueKey={_shape[1]} raw_len={_shape[2]})")
                             if tok:
                                 log(f"{profile_suffix} login: localStorage[{local_storage_key}] candidate captured ({len(tok)} chars) — validating via provider")
                                 with ls_lock:
@@ -1540,14 +1577,35 @@ class Bridge:
                     # else still in flight — leave it; try again next tick
                 # Start a new read if none is outstanding.
                 if ls_state["task"] is None:
-                    expr = (f"(function(){{var v=localStorage.getItem({json.dumps(local_storage_key)});"
-                             f"return v===null?null:v;}})()")
-                    args = json.dumps({"expression": expr, "returnByValue": True,
-                                       "awaitPromise": False, "allowUnsafeEvalBlockedByCSP": True})
-                    ls_state["task"] = cv.CallDevToolsProtocolMethodAsync("Runtime.evaluate", args)
+                    if "qwen.ai" in (probe_url or ""):
+                        # Qwen binds the JWT to the device + session markers that live
+                        # beside it in localStorage, so a bare token is rejected. Build
+                        # the whole cookie string in-page; cookie_header_from_credential
+                        # passes a string containing '=' through verbatim.
+                        expr = ('(function(){try{'
+                                'var t=localStorage.getItem("token");if(!t)return null;'
+                                'var d=localStorage.getItem("qwen_chat_device_id")||"";'
+                                'var m=localStorage.getItem("qwen_token_session_marker")||"";'
+                                'var s="token="+t;'
+                                'if(d)s+="; qwen_chat_device_id="+d;'
+                                'if(m)s+="; qwen_token_session_marker="+m;'
+                                'return s;}catch(e){return null;}})()')
+                    else:
+                        expr = (f"(function(){{try{{var v=localStorage.getItem({json.dumps(local_storage_key)});"
+                                f"return v===null?null:v;}}catch(e){{return null;}}}})()")
+                    # ExecuteScriptAsync is WebView2's purpose-built API for this and
+                    # completes reliably; the CDP Runtime.evaluate path hung silently
+                    # on chat.qwen.ai (observed 2026-10-17: task never completed, so
+                    # the capture tick logged nothing at all).
+                    ls_state["task"] = cv.ExecuteScriptAsync(expr)
             except Exception as e:
                 log(f"{profile_suffix} login: localStorage CDP poll error: {e}")
+        # pythonnet keeps the .NET delegate alive but NOT the Python callable behind it:
+        # a local closure can be collected and the timer then fires into nothing,
+        # silently. Hold a strong reference on self for the life of the flow.
+        self._keep_alive_tick = on_tick
         timer.Tick += on_tick
+        log(f"{profile_suffix} login: calling EnsureCoreWebView2Async")
         try:
             wv.EnsureCoreWebView2Async(None)
         except Exception as e:
@@ -1556,14 +1614,40 @@ class Bridge:
             self._push({"type": "error", "message": "Could not start embedded login browser."})
             self._push({"type": "login_cancelled"})
             return
+        log(f"{profile_suffix} login: EnsureCoreWebView2Async returned")
         timer.Start()
+        log(f"{profile_suffix} login: capture timer started "
+            f"(enabled={timer.Enabled} interval={timer.Interval} ls_key={bool(local_storage_key)})")
+        # Independent of the WinForms timer: a background thread marshals the same
+        # capture tick onto the UI thread. If the timer is the broken half, this
+        # keeps polling; if this also stays silent, the UI thread is blocked.
+        _n = [0]
+
+        def _bg_probe():
+            import time as _t
+            while not closed.is_set() and not finished["done"] and not self.token:
+                _t.sleep(2.5)
+                try:
+                    from System.Threading import ThreadStart as _TS
+                    _n[0] += 1
+                    form.BeginInvoke(_TS(lambda: on_tick(None, None)))
+                    if _n[0] % 4 == 1:
+                        log(f"{profile_suffix} login: bg probe #{_n[0]} marshalled to UI thread")
+                except Exception as e:
+                    log(f"{profile_suffix} login: bg probe stopped: {e}")
+                    return
+        self._bg_probe_thread = threading.Thread(target=_bg_probe, daemon=True)
+        self._bg_probe_thread.start()
+        log(f"{profile_suffix} login: background probe thread started")
         try:
             form.Show()
             form.BringToFront()
             form.Activate()
         except Exception:
             pass
+        log(f"{profile_suffix} login: BEFORE Application.Run (pump starting)")
         Application.Run(form)
+        log(f"{profile_suffix} login: Application.Run RETURNED (pump exited)")
         try: timer.Stop()
         except Exception: pass
         self._login_form = None
