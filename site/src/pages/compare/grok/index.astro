@@ -2,7 +2,7 @@
 import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
-  { q: "Does Grok let me export my data officially?", a: "No — Grok does not provide an official data download. TotalRecalls uses local session reading instead." },
+  { q: "Does Grok let me export my data officially?", a: "Yes — Grok provides a JSON export under Settings > Data Controls. However, TotalRecalls converts this into a readable Markdown library so you can actually browse your history and preserve X post context visually without manual parsing." },
   { q: "Are the X posts in my conversations kept?", a: "Yes. X posts referenced in chats are preserved as quoted links in the Markdown download." },
   { q: "Does this work on the free tier?", a: "Yes. TotalRecalls reads your browser session, so it works with the plan you already have." },
 ];
@@ -22,14 +22,14 @@ const faqLd = {
   })),
 };
 ---
-<PageLayout title="Grok vs. TotalRecalls" description="Grok has no official data download. TotalRecalls reads your local grok.com session and saves every chat to Markdown + JSON, keeping the X posts you referenced." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Grok" }]}>
+<PageLayout title="Grok vs. TotalRecalls" description="Grok provides a JSON export via Settings > Data Controls. TotalRecalls converts this into a readable Markdown library that preserves X post context and lets you browse your history." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Grok" }]}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 
   <h1>Grok vs. TotalRecalls</h1>
   <p>Grok is where a lot of quick prompts and long debug sessions happen &mdash; and, unusually, where the conversation itself references live X posts. Both are worth keeping.</p>
 
-  <h2>Grok does not have an official data download</h2>
-  <p>There&rsquo;s no built-in export to request, which means if you want your Grok history, the browser tab is currently the only place it lives. That&rsquo;s the whole problem this page solves.</p>
+  <h2>Grok Official Export</h2>
+  <p>Grok provides an official data export under Settings > Data Controls that generates a ZIP archive with a JSON file of your chat history. TotalRecalls converts this raw JSON into a readable Markdown library that preserves X post context and lets you actually browse your history.</p>
 
   <h2>What TotalRecalls does for Grok</h2>
   <p>TotalRecalls reads your local <code>grok.com</code> session and downloads every conversation to local Markdown and JSON. <strong>X posts referenced inside a conversation are preserved as quoted links</strong> in the Markdown, so the context that made the thread useful survives with it. Quick prompts and long debug sessions both get kept.</p>
@@ -37,10 +37,10 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Browser-only Grok</th><th>TotalRecalls</th></tr>
+        <tr><th></th><th>Grok Official Export</th><th>TotalRecalls</th></tr>
       </thead>
       <tbody>
-        <tr><td>Official export available</td><td>No</td><td>&mdash;</td></tr>
+        <tr><td>Official export available</td><td>Yes (JSON dump)</td><td>&mdash;</td></tr>
         <tr><td>Re-finding a chat later</td><td>Scroll the sidebar</td><td>Search your folder</td></tr>
         <tr><td>X posts referenced in chats</td><td>Links rot in the tab</td><td>Preserved as quoted links</td></tr>
         <tr><td>Format</td><td>On-screen only</td><td>Markdown + JSON</td></tr>

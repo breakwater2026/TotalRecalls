@@ -2,7 +2,7 @@
 import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
-  { q: "Does Mistral let me export my Le Chat history?", a: "No. Mistral does not provide a built-in data download — the only manual path is pasting conversations into files yourself." },
+  { q: "Does Mistral let me export my Le Chat history?", a: "Yes, Mistral offers a data export tool at admin.mistral.ai/account/export. TotalRecalls converts this raw JSON into a perfectly formatted, UTF-8 preserved Markdown library that you can actually browse." },
   { q: "Will accented and non-English text survive?", a: "Yes. TotalRecalls preserves UTF-8 throughout, so multilingual conversations stay readable." },
   { q: "Does it work on the free tier as well as Le Chat Pro?", a: "Yes. Both share the same web UI, so both download through the same path." },
 ];
@@ -29,7 +29,7 @@ const faqLd = {
   <p>Mistral is the dominant non-US chat product in the EU. If your work happens in Le Chat, that history is worth keeping in a place you control.</p>
 
   <h2>What &ldquo;download&rdquo; usually means</h2>
-  <p>Mistral does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file &mdash; which loses formatting, doesn&rsquo;t scale past a few conversations, and makes it easy to lose the order of long ones.</p>
+  <p>Mistral provides a data export tool at admin.mistral.ai/account/export that generates a JSON archive of your Le Chat history. TotalRecalls converts this raw JSON into a perfectly formatted, UTF-8 preserved Markdown library that you can actually browse.</p>
 
   <h2>Why Mistral specifically</h2>
   <p>Most consumer chat products are US-based. Mistral is the most common alternative for people who want their work in European jurisdictions &mdash; and backing up locally complements that. Even if your provider is European, your archive living on your own disk is a different guarantee than a vendor holding it.</p>
@@ -41,10 +41,10 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Manual copy/paste</th><th>TotalRecalls</th></tr>
+        <tr><th></th><th>Mistral Official Export</th><th>TotalRecalls</th></tr>
       </thead>
       <tbody>
-        <tr><td>Official export available</td><td>No</td><td>&mdash;</td></tr>
+        <tr><td>Official export available</td><td>Yes (JSON dump)</td><td>&mdash;</td></tr>
         <tr><td>Multilingual text</td><td>Often mangled</td><td>UTF-8 preserved</td></tr>
         <tr><td>Formatting</td><td>Flattened</td><td>Markdown + JSON</td></tr>
         <tr><td>Scales past a handful of chats</td><td>No</td><td>Full history</td></tr>
