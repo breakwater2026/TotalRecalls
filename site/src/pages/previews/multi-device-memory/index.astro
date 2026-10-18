@@ -1,7 +1,18 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Multi-Device Memory Preview — TotalRecalls" description="Future preview: sync archives across devices." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Multi Device Memory" }]}>
+<PageLayout title="Multi-Device Memory Preview — TotalRecalls" description="Planned multi-device merge: one archive across your machines, de-duplicated, still offline." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Multi-Device Memory" }]}>
   <h1>Multi-Device Memory (Preview)</h1>
-  <p>Planned — not shipped. Optional paid upgrade to sync your archive across devices.</p>
+  <p><strong>Planned — not available in version 1.0.0.</strong> Multi-device memory would let the archives on several machines merge into one consistent library — without a server, an account, or your chats leaving the computers you already own.</p>
+  <h2>What it will do</h2>
+  <ul>
+    <li>Merge two or more TotalRecalls folders, identical conversations collapsing into one entry.</li>
+    <li>A per-conversation identity so the same chat coming from two machines is recognised, not duplicated.</li>
+    <li>Newer versions win by default, with the choice to keep both when a conversation has genuinely diverged.</li>
+    <li>A dry-run report before anything is written: what would merge, what would conflict, what would be added.</li>
+    <li>Runs over a shared folder, an external drive, or a manual transfer — no cloud and no account required.</li>
+  </ul>
+  <h2>Why it is shaped this way</h2>
+  <p>This one is deliberately last and deliberately offline. A merge tool that silently overwrites is worse than no merge tool at all, so the design centres on a dry run and a visible conflict list. Doing it without a server means the identity scheme has to survive a folder being copied, renamed, or moved between drives — which is exactly the kind of problem better solved once, properly.</p>
+  <p>Want it sooner, or would your setup need something different? Tell us at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Planned features are ordered by the requests that actually arrive, not by the order they appear on this page.</p>
 </PageLayout>

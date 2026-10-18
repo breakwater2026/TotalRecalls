@@ -1,7 +1,18 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="RAG Containers Preview — TotalRecalls" description="Future preview: personal vector store." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "RAG Containers" }]}>
+<PageLayout title="RAG Containers Preview — TotalRecalls" description="Planned portable RAG containers: a knowledge base built from your own archive that local tools can read." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "RAG Containers" }]}>
   <h1>RAG Containers (Preview)</h1>
-  <p>Planned — not shipped. A local vector store for your downloads.</p>
+  <p><strong>Planned — not available in version 1.0.0.</strong> A RAG container would package your exported conversations into a portable, self-contained knowledge base that other local tools can load without re-exporting anything.</p>
+  <h2>What it will do</h2>
+  <ul>
+    <li>A single file or folder holding your archive plus the embedding index, so it can be copied to another machine or another tool.</li>
+    <li>Built from the Markdown you already have — no re-download, no provider access at build time.</li>
+    <li>A documented, stable layout so an existing local LLM tool can point at it directly.</li>
+    <li>Incremental rebuilds as new conversations land, rather than reconstructing from scratch.</li>
+    <li>Everything stays local: no hosted vector database, no upload, no API key.</li>
+  </ul>
+  <h2>Why it is shaped this way</h2>
+  <p>The point of a container is portability, and portability is mostly a contract: a fixed layout, a version number, and a manifest describing what is inside. That is why this feature waits on semantic search — the container is only useful once there is an index worth carrying around, and the index format has to be settled first.</p>
+  <p>Want it sooner, or would your setup need something different? Tell us at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Planned features are ordered by the requests that actually arrive, not by the order they appear on this page.</p>
 </PageLayout>

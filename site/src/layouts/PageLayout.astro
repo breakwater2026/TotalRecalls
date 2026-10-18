@@ -14,7 +14,7 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} robots={robots}>
-  <div class="min-h-screen flex flex-col bg-background text-foreground">
+  <div class="flex-1 flex flex-col bg-background text-foreground">
     <!-- Navigation Header -->
     <Nav client:load />
 

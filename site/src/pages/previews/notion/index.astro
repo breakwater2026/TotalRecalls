@@ -1,7 +1,18 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Notion Integration Preview — TotalRecalls" description="Future preview: download to Notion." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Notion" }]}>
+<PageLayout title="Notion Integration Preview — TotalRecalls" description="Planned Notion integration for your TotalRecalls library: one database, one page per conversation." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Notion" }]}>
   <h1>Notion Integration (Preview)</h1>
-  <p>Planned: sync your TotalRecalls library directly into your Notion workspace.</p>
+  <p><strong>Planned — not available in version 1.0.0.</strong> A Notion sync would turn your exported archive into a browsable database inside your own Notion workspace, without your conversations ever passing through our servers.</p>
+  <h2>What it will do</h2>
+  <ul>
+    <li>One Notion database per AI provider, created inside your workspace.</li>
+    <li>One page per conversation: the exported Markdown becomes the page body.</li>
+    <li>Properties filled from the JSON metadata you already get — provider, date, message count, and the folder the conversation came from.</li>
+    <li>Re-running an export updates existing pages instead of creating duplicates, so the database tracks your archive as it grows.</li>
+    <li>Sync runs from your machine using your own Notion integration token; nothing is proxied.</li>
+  </ul>
+  <h2>Why it is shaped this way</h2>
+  <p>Your export is already the hard part, and it is already structured: a folder per provider, one Markdown file and one JSON file per conversation. A Notion page maps cleanly onto that pair, which is why this is the preview we are most confident about. The open question is de-duplication — matching a conversation across re-exports needs a stable identity, and Notion is unforgiving about duplicates once they exist.</p>
+  <p>Want it sooner, or would your setup need something different? Tell us at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Planned features are ordered by the requests that actually arrive, not by the order they appear on this page.</p>
 </PageLayout>

@@ -1,11 +1,20 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Feature Requests — TotalRecalls" description="Suggest improvements to TotalRecalls." breadcrumbs={[{ label: "Feature Requests" }]}>
+<PageLayout title="Feature Requests — TotalRecalls" description="How feature requests are handled at TotalRecalls, and how to send one." breadcrumbs={[{ label: "Feature Requests" }]}>
   <h1>Feature Requests</h1>
-  <p>We are constantly improving TotalRecalls. Here is how to request a feature:</p>
+  <p>TotalRecalls is a one-person project, so there is no voting board and no queue to game. Requests are read as letters, and the ones that change the roadmap are the ones that explain a real workflow.</p>
+
+  <h2>How to send one</h2>
+  <p>Email <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a> with your suggestion. A human reads every message.</p>
+
+  <h2>What makes a request useful</h2>
   <ul>
-    <li>Email <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a> with your suggestion. A human reads every message.</li>
+    <li><strong>Describe the workflow, not just the feature.</strong> "I keep my notes in Obsidian and want my chats next to them" tells more than "add Obsidian support".</li>
+    <li><strong>Say what you do today instead.</strong> The current workaround usually reveals the actual problem.</li>
+    <li><strong>Mention which provider and how many conversations.</strong> Scale changes the design.</li>
   </ul>
-  <p>We review all requests and track the most popular ones on our <a href="/roadmap/">roadmap</a>.</p>
+
+  <h2>What happens next</h2>
+  <p>Requests are read, grouped by the underlying need, and either folded into an existing plan, added to the <a href="/roadmap/">roadmap</a> as a design note, or set aside with a reason. There are no dates, because promising dates is how small projects break their word. If a request is already covered by a <a href="/previews/">preview</a>, adding your use case to it still helps — it shifts the order.</p>
 </PageLayout>

@@ -1,7 +1,18 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Obsidian Integration Preview — TotalRecalls" description="Future preview: download to Obsidian." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Obsidian" }]}>
-  <h1>Obsidian Integration (Preview)</h1>
-  <p>Planned: sync your TotalRecalls library directly into an Obsidian vault.</p>
+<PageLayout title="Obsidian Sync Preview — TotalRecalls" description="Planned Obsidian sync: drop your exported Markdown into your own vault as linkable notes." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Obsidian" }]}>
+  <h1>Obsidian Sync (Preview)</h1>
+  <p><strong>Planned — not available in version 1.0.0.</strong> An Obsidian sync would write your exported conversations into a vault you already own, as ordinary Markdown notes that link to each other.</p>
+  <h2>What it will do</h2>
+  <ul>
+    <li>A folder inside your vault — not a separate vault — so your existing notes and plugins keep working.</li>
+    <li>Obsidian front-matter added to each note: provider, date, message count, and a stable conversation id.</li>
+    <li>Per-conversation notes plus one index note per provider, so a vault opens on something navigable.</li>
+    <li>Wiki-links between a provider index and its conversations, and the option to link conversations to notes of your own.</li>
+    <li>Nothing is written outside the folder you choose, and re-syncing updates notes rather than duplicating them.</li>
+  </ul>
+  <h2>Why it is shaped this way</h2>
+  <p>This is the least invasive of the planned integrations, because your export is already Markdown. The work is in the shape: Obsidian rewards links and front-matter, while a raw export is a flat list of files. Getting the index notes and the ids right is what turns a folder of documents into something you can actually navigate.</p>
+  <p>Want it sooner, or would your setup need something different? Tell us at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Planned features are ordered by the requests that actually arrive, not by the order they appear on this page.</p>
 </PageLayout>

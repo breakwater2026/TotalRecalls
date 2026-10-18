@@ -1,7 +1,18 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Semantic Search Preview — TotalRecalls" description="Future preview: search your chat archive." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Semantic Search" }]}>
+<PageLayout title="Semantic Search Preview — TotalRecalls" description="Planned local semantic search across your whole archive, running on your own machine." breadcrumbs={[{ label: "Previews", href: "/previews/" }, { label: "Semantic Search" }]}>
   <h1>Semantic Search (Preview)</h1>
-  <p>Planned: search your local library of downloads with natural-language queries.</p>
+  <p><strong>Planned — not available in version 1.0.0.</strong> Local semantic search would let you ask a question across every conversation you have ever exported — answered by an index that lives on your machine, with no upload and no cloud service.</p>
+  <h2>What it will do</h2>
+  <ul>
+    <li>A local index built from your exported Markdown, stored beside your archive.</li>
+    <li>Questions answered with citations back to the exact conversation and the lines that matched.</li>
+    <li>Keyword search that works immediately, with semantic ranking layered on once the index is built.</li>
+    <li>Re-indexing increments as new exports land, rather than rebuilding from scratch.</li>
+    <li>Everything runs on your machine; no query and no document ever leaves it.</li>
+  </ul>
+  <h2>Why it is shaped this way</h2>
+  <p>This is the feature with the largest gap between promise and delivery, which is why it is furthest out. An index that is genuinely useful needs an embedding model on your machine, and that has real costs in download size, disk and time — decisions worth making carefully rather than shipping as a checkbox. Keyword search over the same archive is the honest first step.</p>
+  <p>Want it sooner, or would your setup need something different? Tell us at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Planned features are ordered by the requests that actually arrive, not by the order they appear on this page.</p>
 </PageLayout>

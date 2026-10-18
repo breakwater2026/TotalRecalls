@@ -1,7 +1,42 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Roadmap — TotalRecalls" description="Available, coming soon, and planned upgrades." breadcrumbs={[{ label: "Roadmap" }]}>
+<PageLayout title="Roadmap — TotalRecalls" description="What TotalRecalls does today, what is planned, and what is deliberately not planned." breadcrumbs={[{ label: "Roadmap" }]}>
   <h1>Roadmap</h1>
-  <p>Available today, coming soon, and long-term plans for TotalRecalls.</p>
+  <p>Available today, in progress, and deliberately not planned. This page is a design statement, not a schedule — nothing here carries a date, because a one-person project that misses invented dates is worse than one that does not publish them.</p>
+
+  <h2>Available today — version 1.0.0</h2>
+  <ul>
+    <li><strong>Eight providers</strong>: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral and Qwen Chat.</li>
+    <li><strong>Markdown and JSON</strong> for every conversation, with provider-specific metadata and web-search results preserved.</li>
+    <li><strong>Per-conversation and bulk downloads</strong> into a folder structure you own.</li>
+    <li><strong>A Free Tier</strong> — three providers and up to five conversations per download — so the app can be tested on real chats before paying.</li>
+    <li><strong>Windows 10 and 11, 64-bit.</strong> No installation, no account, no telemetry.</li>
+  </ul>
+
+  <h2>Planned — with design notes</h2>
+  <p>Each of these has a page explaining what it would do and what the open question is:</p>
+  <ul>
+    <li><a href="/previews/notion/">Notion integration</a> — one database, one page per conversation.</li>
+    <li><a href="/previews/obsidian/">Obsidian sync</a> — your Markdown inside your own vault, linked and tagged.</li>
+    <li><a href="/previews/semantic-search/">Semantic search</a> — questions answered across your archive, locally.</li>
+    <li><a href="/previews/rag-containers/">RAG containers</a> — a portable knowledge base for other local tools.</li>
+    <li><a href="/previews/multi-device-memory/">Multi-device memory</a> — merge archives across your machines.</li>
+  </ul>
+
+  <h2>Considering</h2>
+  <ul>
+    <li><strong>Code signing.</strong> The app is currently unsigned, which is why Windows SmartScreen warns on first launch. This is the highest-value item on this page and the one most likely to happen next.</li>
+    <li><strong>macOS and Linux.</strong> The download logic is not Windows-specific, but the embedded sign-in windows and the packaging are.</li>
+    <li><strong>Keyword search</strong> over your own archive — the honest first step before semantic ranking.</li>
+  </ul>
+
+  <h2>Deliberately not planned</h2>
+  <ul>
+    <li>A subscription. The app is a one-time purchase.</li>
+    <li>Hosting your conversations. Nothing is uploaded, so there is nothing to host.</li>
+    <li>An account system. You sign in to your providers, not to us.</li>
+  </ul>
+
+  <p>If something on this page matters to your workflow, say so at <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a>. Explaining how you would use a feature carries more weight than a vote.</p>
 </PageLayout>

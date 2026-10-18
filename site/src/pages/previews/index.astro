@@ -1,13 +1,16 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 ---
-<PageLayout title="Previews" description="Planned integrations for TotalRecalls." breadcrumbs={[{ label: "Previews" }]}>
+<PageLayout title="Previews — TotalRecalls" description="Features planned for TotalRecalls: integrations that turn your local archive into something other tools can use." breadcrumbs={[{ label: "Previews" }]}>
   <h1>Planned Integrations</h1>
+  <p>Everything on this page is a <strong>preview of planned work, not a shipped feature</strong>. TotalRecalls 1.0.0 downloads your conversations to Markdown and JSON on your own machine. The integrations below are the directions we intend to take that archive next, once the format and the identity scheme are settled.</p>
+  <p>Each preview explains what the feature would do, how it would work on your machine rather than in a cloud, and what the open design question is. They are written as design notes, not as promises or dates.</p>
   <ul>
-    <li><a href="/previews/obsidian/">Obsidian Sync</a></li>
-    <li><a href="/previews/notion/">Notion Sync</a></li>
-    <li><a href="/previews/semantic-search/">Semantic Search</a></li>
-    <li><a href="/previews/rag-containers/">RAG Containers</a></li>
-    <li><a href="/previews/multi-device-memory/">Multi-Device Memory</a></li>
+    <li><a href="/previews/notion/">Notion integration</a> — one database, one page per conversation.</li>
+    <li><a href="/previews/obsidian/">Obsidian sync</a> — your exported Markdown inside your own vault, linked and tagged.</li>
+    <li><a href="/previews/semantic-search/">Semantic search</a> — ask questions across your archive, answered locally.</li>
+    <li><a href="/previews/rag-containers/">RAG containers</a> — a portable knowledge base other local tools can read.</li>
+    <li><a href="/previews/multi-device-memory/">Multi-device memory</a> — merge the archives on several machines into one.</li>
   </ul>
+  <p>If one of these matters to you, <a href="mailto:contact@totalrecalls.app">contact@totalrecalls.app</a> — the order is set by real requests, and a note saying how you would use it carries more weight than a vote.</p>
 </PageLayout>
