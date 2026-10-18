@@ -170,38 +170,47 @@ class LoginWiringTests(unittest.TestCase):
         b._provider_id = provider
         with patch.object(b, "_push"), patch.object(
             b, "_start_generic_cookie_login"
-        ) as login, patch.object(b, "_start_embedded_login") as emb, \
-             patch.object(b, "_start_chatgpt_embedded_login") as cg, \
-             patch.object(b, "_start_claude_embedded_login") as cl:
+        ) as login, patch.object(b, "_start_embedded_login") as emb,              patch.object(b, "_start_chatgpt_embedded_login") as cg:
             b.connect()
-            return login, emb, cg, cl
+        return login, emb, cg
+
+    def test_claude_routes_to_generic_cookie_login(self):
+        """Claude moved off its own 227-line copy onto the generic flow."""
+        login, emb, cg = self._run_connect("claude")
+        login.assert_called_once()
+        kwargs = login.call_args.kwargs
+        self.assertEqual(kwargs["start_url"], "https://claude.ai/")
+        self.assertEqual(kwargs["host_substr"], "claude.ai")
+        self.assertEqual(kwargs["cookie_filter"], "sessionKey=")
+        self.assertFalse(kwargs["prefer_bearer"])
+        emb.assert_not_called(); cg.assert_not_called()
 
     def test_deepseek_routes_to_generic_cookie_login(self):
-        login, emb, cg, cl = self._run_connect("deepseek")
+        login, emb, cg = self._run_connect("deepseek")
         login.assert_called_once()
         kwargs = login.call_args.kwargs
         self.assertEqual(kwargs["start_url"], "https://chat.deepseek.com/")
         self.assertEqual(kwargs["host_substr"], "deepseek.com")
         self.assertTrue(kwargs["prefer_bearer"])
         self.assertEqual(kwargs["cookie_names"], ("ds_session_id",))
-        emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
+        emb.assert_not_called(); cg.assert_not_called()
 
     def test_mistral_routes_to_generic_cookie_login(self):
-        login, emb, cg, cl = self._run_connect("mistral")
+        login, emb, cg = self._run_connect("mistral")
         login.assert_called_once()
         kwargs = login.call_args.kwargs
         self.assertEqual(kwargs["start_url"], "https://chat.mistral.ai/")
         self.assertEqual(kwargs["cookie_filter"], "ory_session_")
         self.assertFalse(kwargs["prefer_bearer"])
-        emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
+        emb.assert_not_called(); cg.assert_not_called()
 
     def test_qwen_routes_to_generic_cookie_login(self):
-        login, emb, cg, cl = self._run_connect("qwen")
+        login, emb, cg = self._run_connect("qwen")
         login.assert_called_once()
         kwargs = login.call_args.kwargs
         self.assertEqual(kwargs["start_url"], "https://chat.qwen.ai/")
         self.assertEqual(kwargs["probe_url"], "https://chat.qwen.ai/api/v2/chats/?page=1&exclude_project=true")
-        emb.assert_not_called(); cg.assert_not_called(); cl.assert_not_called()
+        emb.assert_not_called(); cg.assert_not_called()
 
 
 def _env(biz_data):

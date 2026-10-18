@@ -119,7 +119,6 @@ class LoginTokenExtractionTests(unittest.TestCase):
         with patch.object(bridge, "_push") as mock_push, \
              patch.object(bridge, "_start_embedded_login"), \
              patch.object(bridge, "_start_chatgpt_embedded_login"), \
-             patch.object(bridge, "_start_claude_embedded_login"), \
              patch.object(bridge, "_start_generic_cookie_login"):
             bridge.connect()
         calls = [call.args[0]["type"] for call in mock_push.call_args_list]

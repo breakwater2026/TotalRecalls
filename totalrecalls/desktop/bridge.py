@@ -519,7 +519,19 @@ class Bridge:
             self._start_chatgpt_embedded_login()
         elif provider == "claude":
             log("login: starting embedded WebView2 login for Claude")
-            self._start_claude_embedded_login()
+            # Migrated off _claude_login_window_flow (deleted): that copy required
+            # `sessionKey=` on an outgoing request, which is exactly what the
+            # generic flow's cookie_filter does. The Claude adapter's validate()
+            # is still the gate before a credential is accepted, so a bogus
+            # hCaptcha token cannot connect.
+            self._start_generic_cookie_login(
+                title="Sign in to Claude",
+                start_url="https://claude.ai/",
+                host_substr="claude.ai",
+                profile_suffix="claude",
+                prefer_bearer=False,
+                cookie_filter="sessionKey=",
+            )
         elif provider == "grok":
             log("login: starting embedded WebView2 login for Grok")
             self._start_generic_cookie_login(
@@ -1670,233 +1682,6 @@ class Bridge:
         except Exception: pass
         self._login_form = None
         log(f"{profile_suffix} login: window closed")
-
-    def _start_claude_embedded_login(self):
-        """Open claude.ai; capture sessionKey cookie for ClaudeAdapter."""
-        try:
-            import clr
-            from System.Threading import Thread, ThreadStart, ApartmentState
-            def runner():
-                self._claude_login_window_flow()
-            t = Thread(ThreadStart(runner))
-            t.SetApartmentState(ApartmentState.STA)
-            t.IsBackground = True
-            self._login_clr_thread = t
-            log("login: STA CLR thread started (claude)")
-            t.Start()
-        except Exception as e:
-            log(f"claude login STA failed: {e}")
-            self._connecting = False
-            self._push({"type": "error",
-                        "message": "Embedded Claude login unavailable. Paste your sessionKey cookie value instead."})
-            self._push({"type": "login_cancelled"})
-
-    def _claude_login_window_flow(self):
-        try:
-            import clr
-        except Exception:
-            import os as _os
-            _os.environ["PYTHONNET_RUNTIME"] = "coreclr"
-            import clr
-        try:
-            from webview.util import interop_dll_path
-            clr.AddReference("System.Windows.Forms")
-            clr.AddReference("System.Drawing")
-            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.Core.dll"))
-            clr.AddReference(interop_dll_path("Microsoft.Web.WebView2.WinForms.dll"))
-            from System.Windows.Forms import Application, DockStyle, Form, FormStartPosition, Label
-            from System import Action
-            from System.Drawing import Color, Size
-            from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
-            from Microsoft.Web.WebView2.WinForms import CoreWebView2CreationProperties, WebView2
-            from System.Windows.Forms import Timer as WinTimer
-        except Exception as e:
-            log(f"claude login: WebView2 load failed: {e}")
-            self._connecting = False
-            self._push({"type": "error", "message": "Embedded Claude login unavailable. Paste sessionKey instead."})
-            self._push({"type": "login_cancelled"})
-            return
-
-        form = Form()
-        form.Text = "Sign in to Claude"
-        form.Size = Size(980, 760); form.TopMost = True
-        form.StartPosition = FormStartPosition.CenterScreen
-        status = Label(); status.Text = "  Loading Claude…"; status.Dock = DockStyle.Top; status.Height = 28
-        wv = WebView2(); wv.Dock = DockStyle.Fill
-        try:
-            props = CoreWebView2CreationProperties()
-            props.UserDataFolder = os.path.join(appdata_dir(), "login-webview-claude")
-            wv.CreationProperties = props
-        except Exception:
-            pass
-        form.Controls.Add(wv); form.Controls.Add(status)
-        closed = threading.Event(); finished = {"done": False}
-        self._login_form = form
-
-        def safe_close():
-            try:
-                if form.IsHandleCreated: form.BeginInvoke(Action(form.Close))
-                else: form.Close()
-            except Exception: pass
-
-        def finish(token: str, source: str):
-            if finished["done"] or not token: return
-            finished["done"] = True
-            try: timer.Stop()
-            except Exception: pass
-            closed.set()
-            log(f"claude login: captured via {source}")
-            safe_close()
-            threading.Thread(target=self._accept_token, args=(token, False), daemon=True).start()
-
-        def on_closing(sender, e):
-            closed.set()
-            if not self.token and not finished["done"]:
-                self._connecting = False
-                self._push({"type": "login_cancelled"})
-        form.FormClosing += on_closing
-
-        def on_req(sender, args):
-            try:
-                if closed.is_set() or finished["done"]: return
-                req = getattr(args, "Request", None)
-                if req is None: return
-                uri = str(getattr(req, "Uri", "") or "").lower()
-                if "claude.ai" not in uri: return
-                headers = getattr(req, "Headers", None)
-                if headers is None: return
-                try: cookie_header = headers.GetHeader("Cookie")
-                except Exception: cookie_header = None
-                if cookie_header and "sessionKey=" in cookie_header:
-                    if form.IsHandleCreated:
-                        form.BeginInvoke(Action(lambda: finish(cookie_header, "Cookie header")))
-                    else:
-                        finish(cookie_header, "Cookie header")
-            except Exception as e:
-                log(f"claude login hook error: {e}")
-
-        def on_init(sender, args):
-            try:
-                if not args.IsSuccess:
-                    self._connecting = False
-                    self._push({"type": "error", "message": "Could not start Claude login browser."})
-                    self._push({"type": "login_cancelled"}); safe_close(); return
-                cv = wv.CoreWebView2
-                # Present as regular desktop Chrome: the WebView2 default UA carries
-                # an Edg/<version> token that claude.ai's hCaptcha risk scoring
-                # treats as automation, producing the endless captcha/login loop.
-                cv.AddWebResourceRequestedFilter("https://*.claude.ai/*", CoreWebView2WebResourceContext.All)
-                cv.AddWebResourceRequestedFilter("https://claude.ai/*", CoreWebView2WebResourceContext.All)
-                cv.WebResourceRequested += on_req
-                # NOTE: no NewWindowRequested handler. Google's GIS sign-in opens
-                # its account chooser via window.open('', ...) then scripts the
-                # content — args.Uri is empty there and a hand-rolled popup breaks
-                # the opener chain. Leaving the event unhandled lets WebView2 open
-                # its own native popup sharing this profile's cookies, and the
-                # OAuth callback posts back correctly. The main-window cookie poll
-                # below picks up sessionKey once claude.ai sets it.
-                cv.Navigate("https://claude.ai/")
-                status.Text = "  Sign in to Claude in this window…"
-            except Exception as e:
-                log(f"claude login init error: {e}")
-
-        # Async cookie polling: GetCookiesAsync returns an IAsyncOperation that is
-        # NOT complete on the tick it was created — the old code created a new task
-        # every 2s and checked IsCompleted immediately (always False), so the poll
-        # never actually read any cookies. Keep ONE pending task per tick cycle.
-        poll_state2 = {"pending": None}
-        wv.CoreWebView2InitializationCompleted += on_init
-        timer = WinTimer(); timer.Interval = 2000
-
-        def _read_cookie_task(task):
-            parts = []
-            sk = None
-            try:
-                for c in task.Result:
-                    name = getattr(c, "Name", None) or getattr(c, "name", None)
-                    value = getattr(c, "Value", None) or getattr(c, "value", None)
-                    if name and value is not None:
-                        parts.append(f"{name}={value}")
-                        if name == "sessionKey" and value:
-                            sk = str(value)
-            except Exception as e:
-                log(f"claude login: cookie task read error: {e}")
-                return False
-            if sk:
-                finish("; ".join(parts), "CookieManager")
-                return True
-            return False
-
-        # Bring the native OAuth popup (opened by WebView2) to the FRONT — it
-        # otherwise opens behind the sign-in window and users think login died.
-        def raise_google_popup():
-            try:
-                import ctypes
-                u32 = ctypes.windll.user32
-                wins = []
-                EnumProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
-                def _cb(h, lp):
-                    buf = ctypes.create_unicode_buffer(160)
-                    u32.GetWindowTextW(h, buf, 160)
-                    t = buf.value or ""
-                    if t and u32.IsWindowVisible(h) and ("Google" in t or "accounts.google" in t):
-                        wins.append(h)
-                    return True
-                CMPFUNC = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
-                u32.EnumWindows(CMPFUNC(_cb), 0)
-                for h in wins[:1]:
-                    u32.SetForegroundWindow(h)
-            except Exception:
-                pass
-
-        def on_tick(sender, e):
-            if closed.is_set() or finished["done"] or self.token: return
-            if self._stop_login.is_set():
-                safe_close(); return
-            try:
-                cv = wv.CoreWebView2
-                if cv is None: return
-                task = poll_state2["pending"]
-                if task is not None:
-                    try:
-                        if task.IsCompleted:
-                            poll_state2["pending"] = None
-                            if not getattr(task, "IsFaulted", False):
-                                if _read_cookie_task(task):
-                                    return
-                    except Exception as e:
-                        poll_state2["pending"] = None
-                        log(f"claude login: cookie poll error: {e}")
-                # start a new poll if none outstanding
-                if poll_state2["pending"] is None and not closed.is_set() and not finished["done"]:
-                    try:
-                        poll_state2["pending"] = cv.CookieManager.GetCookiesAsync("https://claude.ai")
-                    except Exception:
-                        pass
-            except Exception:
-                pass
-        timer.Tick += on_tick
-        threading.Timer(6.0, lambda: (form.IsHandleCreated and form.BeginInvoke(Action(raise_google_popup)))).start()
-        try:
-            wv.EnsureCoreWebView2Async(None)
-        except Exception as e:
-            log(f"claude ensure error: {e}")
-            self._connecting = False
-            self._push({"type": "error", "message": "Could not start Claude login browser."})
-            self._push({"type": "login_cancelled"})
-            return
-        timer.Start()
-        try:
-            form.Show()
-            form.BringToFront()
-            form.Activate()
-        except Exception:
-            pass
-        Application.Run(form)
-        try: timer.Stop()
-        except Exception: pass
-        self._login_form = None
-        log("claude login: window closed")
 
     def _start_chatgpt_embedded_login(self):
         """Open ChatGPT in embedded WebView2; capture access token via session cookie / Bearer."""
