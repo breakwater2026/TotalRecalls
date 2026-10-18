@@ -10,7 +10,7 @@ export const DEMOS = {
     duration: "4:37", bytes: "49.5 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_chatgpt.mp4",
     poster: "/demo/poster_chatgpt.png",
-    intro: "Recorded on the Free Tier, beginning at the website and ending with the conversation open. 4x speed due to the provider's connection and download latency. Everything else is at original speed.",
+    intro: "Recorded on the Free Tier followed by the Pro Tier, from the website app log on to the display of the .MD and .JSON conversation outputs. 4x speed due to the provider's connection and download latency. Everything else is at original speed.",
     steps: [
       { t: "0:03", title: "Get the app", body: "The demo starts on the website. TotalRecalls is a ZIP you run from its own folder - there's no installer and no TotalRecalls account." },
       { t: "0:06", title: "Download the Free Tier", body: "Click Download free on the landing page, then take the Free Tier ZIP from the download page. It covers ChatGPT, Claude and Perplexity, 5 conversations each." },
@@ -118,9 +118,26 @@ export const DEMOS = {
       { title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder." },
     ],
   },
+  qwen: {
+    key: "qwen", label: "Qwen Chat", provider: "qwen",
+    title: "Watch a Qwen Chat become files on your PC.",
+    duration: "3:59", bytes: "36.2 MB",
+    src: "https://demo-video.totalrecalls.app/TR_website_qwen.mp4",
+    poster: null,
+    intro: "Recorded on the Free Tier followed by the Pro Tier, from the website app log on to the display of the .MD and .JSON conversation outputs. Real time throughout - the sign-in wait is cut - with the conversation titles masked on screen.",
+    steps: [
+      { title: "Start on the website", body: "The landing page, the Download free click, then the Free Tier ZIP." },
+      { title: "Clear the SmartScreen prompt", body: "Extract the ZIP, run TotalRecalls.exe, and clear the one-time SmartScreen card." },
+      { t: "1:26", title: "Activate Pro", body: "Qwen Chat is outside the Free Tier's three providers, so the demo unlocks Pro first." },
+      { t: "1:57", title: "Connected", body: "The sign-in happens inside the app; the wait is cut, landing on Connected with 25 conversations found." },
+      { t: "2:02", title: "Download", body: "All 25 conversations, written one at a time with the log naming each as it lands." },
+      { t: "2:54", title: "Complete", body: "The log reports 25 written, 0 skipped, 0 failed, and the export finishes." },
+      { t: "3:23", title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder in Word." },
+    ],
+  },
 };
 
-export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mistral", "deepseek", "grok"];
+export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mistral", "deepseek", "grok", "qwen"];
 
 export function demoPath(key) {
   return key === "chatgpt" ? "/see-it-work/" : "/see-it-work/" + key + "/";
