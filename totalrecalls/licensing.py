@@ -42,10 +42,33 @@ from totalrecalls.core.secure_storage import (
 # License verification endpoint (Cloudflare Worker `paddle-webhook` on
 # totalrecalls.app). The worker stores keys in D1 and activates instances here:
 # POST {"license_key", "instance_name"} → {"valid", "instance_id"}.
-LICENSE_VERIFY_ENDPOINT = os.environ.get(
-    "TR_LICENSE_VERIFY_ENDPOINT",
-    "https://totalrecalls.app/api/licenses/verify",
-)
+_PUBLIC_VERIFY_ENDPOINT = "https://totalrecalls.app/api/licenses/verify"
+
+
+def _is_demo_build() -> bool:
+    """True only for a build explicitly tagged as a demo build."""
+    try:
+        from totalrecalls import APP_BUILD_TAG
+        return "demo" in str(APP_BUILD_TAG).lower()
+    except Exception:
+        return False
+
+
+def _resolve_verify_endpoint() -> str:
+    """Endpoint used for every licence call.
+
+    ``TR_LICENSE_VERIFY_ENDPOINT`` is honoured ONLY by a demo-tagged build.
+    Without that gate any user could run a local server, set the variable and
+    unlock Pro (found 2026-10-18). Shipping builds always talk to the real
+    endpoint, whatever the environment says.
+    """
+    override = (os.environ.get("TR_LICENSE_VERIFY_ENDPOINT") or "").strip()
+    if override and _is_demo_build():
+        return override
+    return _PUBLIC_VERIFY_ENDPOINT
+
+
+LICENSE_VERIFY_ENDPOINT = _resolve_verify_endpoint()
 
 # Identify ourselves explicitly on every verification call. Cloudflare in front
 # of totalrecalls.app answers the default urllib User-Agent ("Python-urllib/3.x")
