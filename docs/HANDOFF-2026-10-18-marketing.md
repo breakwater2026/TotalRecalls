@@ -46,3 +46,32 @@ lift with one phone verification. Do not start an 8-video batch before it.
   per-video `intro` strings in `SeeItWorkDemos.js` are the source of truth.
 - Do not run `app.py --loginprobe` while testing: it opens a real login flow against
   a singleton profile.
+
+
+## Update before the marketing session (2026-10-18, later same day)
+
+**Open question 4 is closed: Lemon Squeezy is out.** Paddle is the only store.
+The site's copy, the ZIP README's "Buy at" line and the in-app Buy button all point
+at Paddle; the last LS-era asset was removed and now 410s.
+
+**Site state you can rely on (all verified live today):**
+- Two email entry points only: `support@totalrecalls.app` (technical) and
+  `contact@totalrecalls.app` (general). `legal@`, `privacy@` and `press@` no longer exist.
+- `/roadmap/`, `/press/`, `/feature-requests/` and the six `/previews/*` pages now
+  carry real copy; the six previews are linked from `/roadmap/` and each other.
+- `/roadmap/` lists **code signing** as the highest-value next item — keep that framing
+  in marketing material, it is the honest answer to "why does Windows warn me?".
+- 60/60 sitemap URLs return 200, 0 broken internal links.
+- Fresh screenshots of all 60 pages: `site/_shots/` (+ `INDEX.md`, + a ZIP, committed).
+
+**The one buyer-facing risk worth carrying into the marketing plan:** the app is
+unsigned and Defender has flagged this ZIP family as `Trojan:Win32/Bearfoos.A!ml`
+(a container-level `!ml` false positive on the bundled EXE). The current build scans
+clean, but any given customer may see "Download Failed: File not found" in Edge.
+That is a support-load risk for launch, and code signing is the fix. Do not promise
+"no antivirus warnings" anywhere in marketing copy.
+
+**Videos:** 8/8 per-provider demo cuts are final, gate-verified and live on
+`video.totalrecalls.app` — see the YouTube skill for the upload prep (they are silent;
+an audio pass is required) and for the phone-verification step that must happen before
+any batch upload.
