@@ -1,0 +1,212 @@
+[
+ {
+  "n": 1,
+  "url": "https://totalrecalls.app/",
+  "file": "01_home.png",
+  "w": 1440,
+  "h": 6685
+ },
+ {
+  "n": 2,
+  "url": "https://totalrecalls.app/about/",
+  "file": "02_about.png",
+  "w": 1440,
+  "h": 2881
+ },
+ {
+  "n": 3,
+  "url": "https://totalrecalls.app/buy/",
+  "file": "03_buy.png",
+  "w": 1440,
+  "h": 2244
+ },
+ {
+  "n": 4,
+  "url": "https://totalrecalls.app/compare/",
+  "file": "04_compare.png",
+  "w": 1440,
+  "h": 2320
+ },
+ {
+  "n": 5,
+  "url": "https://totalrecalls.app/compare/chatgpt/",
+  "file": "05_compare_chatgpt.png",
+  "w": 1440,
+  "h": 2608
+ },
+ {
+  "n": 6,
+  "url": "https://totalrecalls.app/compare/claude/",
+  "file": "06_compare_claude.png",
+  "w": 1440,
+  "h": 3527
+ },
+ {
+  "n": 7,
+  "url": "https://totalrecalls.app/compare/deepseek/",
+  "file": "07_compare_deepseek.png",
+  "w": 1440,
+  "h": 2896
+ },
+ {
+  "n": 8,
+  "url": "https://totalrecalls.app/compare/gemini/",
+  "file": "08_compare_gemini.png",
+  "w": 1440,
+  "h": 2769
+ },
+ {
+  "n": 9,
+  "url": "https://totalrecalls.app/compare/grok/",
+  "file": "09_compare_grok.png",
+  "w": 1440,
+  "h": 2434
+ },
+ {
+  "n": 10,
+  "url": "https://totalrecalls.app/compare/mistral/",
+  "file": "10_compare_mistral.png",
+  "w": 1440,
+  "h": 2662
+ },
+ {
+  "n": 11,
+  "url": "https://totalrecalls.app/compare/perplexity/",
+  "file": "11_compare_perplexity.png",
+  "w": 1440,
+  "h": 3396
+ },
+ {
+  "n": 12,
+  "url": "https://totalrecalls.app/compare/pricing/",
+  "file": "12_compare_pricing.png",
+  "w": 1440,
+  "h": 2566
+ },
+ {
+  "n": 13,
+  "url": "https://totalrecalls.app/compare/qwen/",
+  "file": "13_compare_qwen.png",
+  "w": 1440,
+  "h": 2769
+ },
+ {
+  "n": 14,
+  "url": "https://totalrecalls.app/compare/why-local/",
+  "file": "14_compare_why_local.png",
+  "w": 1440,
+  "h": 3097
+ },
+ {
+  "n": 15,
+  "url": "https://totalrecalls.app/compare/why-multi-assistant/",
+  "file": "15_compare_why_multi_assistant.png",
+  "w": 1440,
+  "h": 2962
+ },
+ {
+  "n": 16,
+  "url": "https://totalrecalls.app/download/",
+  "file": "16_download.png",
+  "w": 1440,
+  "h": 3632
+ },
+ {
+  "n": 17,
+  "url": "https://totalrecalls.app/faq/",
+  "file": "17_faq.png",
+  "w": 1440,
+  "h": 2961
+ },
+ {
+  "n": 18,
+  "url": "https://totalrecalls.app/feature-requests/",
+  "file": "18_feature_requests.png",
+  "w": 1440,
+  "h": 1694
+ },
+ {
+  "n": 19,
+  "url": "https://totalrecalls.app/guides/",
+  "file": "19_guides.png",
+  "w": 1440,
+  "h": 2346
+ },
+ {
+  "n": 20,
+  "url": "https://totalrecalls.app/guides/deepseek/",
+  "file": "20_guides_deepseek.png",
+  "w": 1440,
+  "h": 3280
+ },
+ {
+  "n": 21,
+  "url": "https://totalrecalls.app/guides/export-chatgpt-conversations/",
+  "file": "21_guides_export_chatgpt_conversations.png",
+  "w": 1440,
+  "h": 2793
+ },
+ {
+  "n": 22,
+  "url": "https://totalrecalls.app/guides/export-claude-chat-history/",
+  "file": "22_guides_export_claude_chat_history.png",
+  "w": 1440,
+  "h": 2431
+ },
+ {
+  "n": 23,
+  "url": "https://totalrecalls.app/guides/export-perplexity-conversations/",
+  "file": "23_guides_export_perplexity_conversations.png",
+  "w": 1440,
+  "h": 2328
+ },
+ {
+  "n": 24,
+  "url": "https://totalrecalls.app/guides/gemini-takeout-archive/",
+  "file": "24_guides_gemini_takeout_archive.png",
+  "w": 1440,
+  "h": 2352
+ },
+ {
+  "n": 25,
+  "url": "https://totalrecalls.app/guides/grok/",
+  "file": "25_guides_grok.png",
+  "w": 1440,
+  "h": 1712
+ },
+ {
+  "n": 26,
+  "url": "https://totalrecalls.app/guides/library-format/",
+  "file": "26_guides_library_format.png",
+  "w": 1440,
+  "h": 2065
+ },
+ {
+  "n": 27,
+  "url": "https://totalrecalls.app/guides/mistral/",
+  "file": "27_guides_mistral.png",
+  "w": 1440,
+  "h": 3280
+ },
+ {
+  "n": 28,
+  "url": "https://totalrecalls.app/guides/own-your-ai-chat-data/",
+  "file": "28_guides_own_your_ai_chat_data.png",
+  "w": 1440,
+  "h": 2638
+ },
+ {
+  "n": 29,
+  "url": "https://totalrecalls.app/guides/qwen/",
+  "file": "29_guides_qwen.png",
+  "w": 1440,
+  "h": 3361
+ },
+ {
+  "n": 30,
+  "url": "https://totalrecalls.app/guides/smartscreen/",
+  "file": "30_guides_smartscreen.png",
+  "w": 1440,
+  "h": 1694
+ }
+]
