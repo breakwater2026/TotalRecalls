@@ -89,7 +89,7 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
               <Chip>Recorded on Windows</Chip>
               <Chip>{demo.duration}</Chip>
               <Chip>{demo.label}</Chip>
-              <Chip>Free Tier</Chip>
+              <Chip>{demo.tier === "pro" ? "Pro" : "Free Tier"}</Chip>
             </div>
             {switcher}
             <a href="#download" className="mt-5 inline-block text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
@@ -122,10 +122,36 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
                 controls
                 preload="metadata"
                 playsInline
-                title="TotalRecalls downloading ChatGPT conversations to local Markdown and JSON files"
+                title={`TotalRecalls downloading ${demo.label} conversations to local Markdown and JSON files`}
               />
             </div>
           </div>
+        </Container>
+      </Section>
+
+      {/* 2b. Provider specifics */}
+      <Section id="differs" className="bg-tr-obsidian">
+        <Container>
+          <div className="max-w-[680px]">
+            <Eyebrow mono>Provider Specifics</Eyebrow>
+            <h2 className="mt-3 font-heading text-[28px] font-semibold leading-[1.15] text-tr-paper md:text-[36px]">
+              What's different about {demo.label}
+            </h2>
+            <p className="mt-4 font-body text-[18px] leading-[1.55] text-tr-mist">
+              Every provider here exports to the same two files, in the same folder layout.
+              What changes is the path in — and that is the part this recording shows.
+            </p>
+          </div>
+          <ol className="mt-8 max-w-[720px] space-y-5">
+            {demo.differs.map((d, i) => (
+              <li key={d} className="flex gap-4">
+                <span className="shrink-0 pt-0.5 font-mono text-[13px] font-medium text-tr-steel">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="font-body text-[16px] leading-[1.6] text-tr-mist">{d}</span>
+              </li>
+            ))}
+          </ol>
         </Container>
       </Section>
 
@@ -178,7 +204,7 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
 
           <div className="mt-6 max-w-[960px]">
             <EvidenceStrip
-              path="C:\TotalRecalls\Library\chatgpt\2026-09-14-pricing-research.md"
+              path={`C:\\TotalRecalls\\Library\\${demo.key}\\`}
               chips={<><Chip>MD</Chip><Chip>JSON</Chip><LocalChip /></>}
             />
           </div>

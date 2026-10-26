@@ -23,6 +23,13 @@ export const DEMOS = {
       { t: "3:37", title: "Complete - open the folder", body: "When it finishes, the app shows exactly where the files went and offers to open the folder." },
       { t: "4:04", title: "The files", body: "One Markdown file and one JSON file per conversation, in a subfolder for that provider. The video ends with both open in Word." },
     ],
+    tier: "free",
+    differs: [
+      "Included in the Free Tier \u2014 this is the one provider here you can try without a Pro key.",
+      "The largest export of the set: 106 conversations written to disk in a single run.",
+      "Plays at 4x through the download stretch because of the provider's connection and download latency; everything else is real time.",
+      "Sign-in happens inside the app, on your own PC \u2014 the website never sees your credentials.",
+    ],
   },
   gemini: {
     key: "gemini", label: "Gemini", provider: "gemini",
@@ -39,6 +46,12 @@ export const DEMOS = {
       { t: "1:06", title: "Select Gemini and connect", body: "Step 1 Gemini, Step 2 sign in - the sign-in window opens on your own PC. The wait is cut: you land on the connected state." },
       { t: "1:22", title: "Download", body: "86 conversations, written one at a time to the folder you chose. The log names each one as it lands." },
       { t: "2:41", title: "The files", body: "The conversation opens as Markdown, then as JSON. Both are ordinary files on your drive." },
+    ],
+    tier: "pro",
+    differs: [
+      "Pro only \u2014 Gemini sits outside the Free Tier's three providers, so the recording unlocks Pro on camera before it becomes selectable.",
+      "86 conversations written one at a time, with the log naming each as it lands.",
+      "Real time throughout: the dead waits are cut out rather than sped up.",
     ],
   },
   mistral: {
@@ -57,6 +70,12 @@ export const DEMOS = {
       { t: "1:47", title: "Download", body: "This account has 3 conversations; the app writes each one and reports the count as it goes." },
       { t: "2:31", title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder in Word." },
     ],
+    tier: "pro",
+    differs: [
+      "Pro only \u2014 the demo unlocks Pro on camera first, because Mistral is outside the Free Tier's three providers.",
+      "Real time throughout, with no speed changes.",
+      "A short export by design: this account holds 3 conversations.",
+    ],
   },
   claude: {
     key: "claude", label: "Claude", provider: "claude",
@@ -73,6 +92,12 @@ export const DEMOS = {
       { title: "Download at 2x", body: "The export runs at 2x, labelled on screen, because the provider's conversation fetch is slow." },
       { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
     ],
+    tier: "free",
+    differs: [
+      "Included in the Free Tier.",
+      "The export stretch plays at 2x with the speed badge burned into the frame \u2014 Claude's conversation fetch is the slowest of the set.",
+      "Real time everywhere else, including the sign-in and the file display.",
+    ],
   },
   perplexity: {
     key: "perplexity", label: "Perplexity", provider: "perplexity",
@@ -88,6 +113,12 @@ export const DEMOS = {
       { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log." },
       { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
     ],
+    tier: "free",
+    differs: [
+      "Included in the Free Tier.",
+      "Real time throughout \u2014 no speed changes at any point in the recording.",
+      "Conversation titles are masked on screen in this cut.",
+    ],
   },
   deepseek: {
     key: "deepseek", label: "DeepSeek", provider: "deepseek",
@@ -100,6 +131,12 @@ export const DEMOS = {
       { title: "Select DeepSeek", body: "The provider picker, then the connect click - the sign-in happens inside the app on your own PC." },
       { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log as it goes." },
       { title: "The files", body: "One Markdown and one JSON file per conversation, opened from the exported folder." },
+    ],
+    tier: "pro",
+    differs: [
+      "Pro only.",
+      "The briefest cut in the set at 2:40, against 4:37 for ChatGPT.",
+      "Real time, with conversation titles masked on screen.",
     ],
   },
   grok: {
@@ -117,6 +154,12 @@ export const DEMOS = {
       { title: "Download", body: "The app walks your history and writes each conversation to disk, naming it in the log as it goes." },
       { title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder." },
     ],
+    tier: "pro",
+    differs: [
+      "Pro only \u2014 unlocked on camera before the provider becomes selectable.",
+      "Real time with the sign-in wait cut, so the walkthrough lands straight on the connected state.",
+      "Conversation titles are masked on screen.",
+    ],
   },
   qwen: {
     key: "qwen", label: "Qwen Chat", provider: "qwen",
@@ -133,6 +176,12 @@ export const DEMOS = {
       { t: "2:02", title: "Download", body: "All 25 conversations, written one at a time with the log naming each as it lands." },
       { t: "2:54", title: "Complete", body: "The log reports 25 written, 0 skipped, 0 failed, and the export finishes." },
       { t: "3:23", title: "The files", body: "The same chat as Markdown, then as JSON, opened from the exported folder in Word." },
+    ],
+    tier: "pro",
+    differs: [
+      "Pro only \u2014 unlocked on camera first.",
+      "25 conversations, all written: the log reports 25 written, 0 skipped, 0 failed.",
+      "Real time with the sign-in wait cut.",
     ],
   },
 };
