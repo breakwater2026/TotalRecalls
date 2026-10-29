@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /license/
+Disallow: /checkout/
+Disallow: /404
+
+Sitemap: https://totalrecalls.app/sitemap.xml
