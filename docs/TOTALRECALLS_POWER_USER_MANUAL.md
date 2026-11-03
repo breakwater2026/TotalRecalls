@@ -10,7 +10,7 @@
 
 The TotalRecalls suite is architected around two decoupled, complimentary units:
 
-\`\`\`
+```
 +-----------------------------------------------------------------------------------------+
 | TOTALRECALLS PRODUCT ECOSYSTEM (totalrecalls.app)                                       |
 +-----------------------------------------------------------------------------------------+
@@ -35,7 +35,7 @@ The TotalRecalls suite is architected around two decoupled, complimentary units:
 |                  | (Zero Cloud Egress • AES-256 SQLite • Local Models)|                 |
 |                  +----------------------------------------------------+                 |
 +-----------------------------------------------------------------------------------------+
-\`\`\`
+```
 
 ---
 
@@ -61,7 +61,7 @@ To ensure sustained innovation and accessible modular adoption, the Smart Search
 
 ## 3. Relational Schema Architecture (SQLite)
 
-\`\`\`sql
+```sql
 CREATE TABLE conversations (
     id VARCHAR(64) PRIMARY KEY,
     provider VARCHAR(32) NOT NULL,
@@ -89,7 +89,7 @@ CREATE VIRTUAL TABLE chat_chunks USING vec0(
     conversation_id TEXT,
     embedding float[768] distance_metric=cosine
 );
-\`\`\`
+```
 
 ---
 
@@ -97,7 +97,7 @@ CREATE VIRTUAL TABLE chat_chunks USING vec0(
 
 Combines BM25 token scores with dense vector cosine similarity:
 
-$$RRF\\_Score(d) = \\sum_{m \\in M} \\frac{1}{k + \\text{rank}_m(d)}$$
+$$RRF\_Score(d) = \sum_{m \in M} \frac{1}{k + \text{rank}_m(d)}$$
 
 Where $k = 60$. Dense retrieval pulls conceptual neighbors while BM25 guarantees precision on exact code variables and UUIDs.
 
@@ -107,10 +107,10 @@ Where $k = 60$. Dense retrieval pulls conceptual neighbors while BM25 guarantees
 
 Verify zero outbound telemetry with Wireshark:
 
-\`\`\`bash
+```bash
 # Capture loopback and physical interface traffic
 tshark -i any -f "not port 53 and not arp" -Y "http or tls"
-\`\`\`
+```
 
 During vector search, SQL querying, and dataset fine-tuning export, **0 packets are transmitted**.
 
