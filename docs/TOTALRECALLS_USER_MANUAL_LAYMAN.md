@@ -8,6 +8,19 @@
 
 ---
 
+## Table of Contents
+
+1. [Welcome to TotalRecalls](#welcome-to-totalrecalls)
+2. [The Two Parts of TotalRecalls](#the-two-parts-of-totalrecalls)
+3. [The 3-Step Setup](#the-3-step-setup)
+4. [The 4 Ways to Search Made Simple](#the-4-ways-to-search-made-simple)
+5. [Automatic Secret Scrubber](#automatic-secret-scrubber)
+6. [Our 100% Privacy Guarantee](#our-100-privacy-guarantee)
+7. [The 6-Week Feature Drops & Founder's Season Pass](#the-6-week-feature-drops--founders-season-pass)
+8. [Summary of Everyday Analogies](#summary-of-everyday-analogies)
+
+---
+
 ## Welcome to TotalRecalls!
 
 Think of TotalRecalls as your **personal digital safe and super-smart librarian** for all your AI conversations.

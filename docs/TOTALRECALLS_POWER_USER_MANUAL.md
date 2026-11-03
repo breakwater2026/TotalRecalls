@@ -23,16 +23,17 @@
 9. [Step 7 — Connect to Notion](#chapter-9-step-7-connect-to-notion)
 10. [Consensus Auditor & Cross-AI Peer Review](#chapter-10-consensus-auditor--cross-ai-peer-review)
 11. [Air-Gap PII Scrubber & Fine-Tuning Pipeline](#chapter-11-air-gap-pii-scrubber--fine-tuning-pipeline)
-12. [Embedding Benchmark & Dimension Visualizer](#chapter-12-embedding-benchmark--dimension-visualizer)
-13. [Knowledge Graph & Latent Topic Inference](#chapter-13-knowledge-graph--latent-topic-inference)
-14. [Custom Persona Modes](#chapter-14-custom-persona-modes)
-15. [Maintenance](#chapter-15-maintenance)
-16. [Downside Protection: Backup Scheduler & Cold Vault](#chapter-16-downside-protection-backup-scheduler--cold-vault)
-17. [Code Integrity & Regression Test Suite](#chapter-17-code-integrity--regression-test-suite)
-18. [Scripts Reference](#chapter-18-scripts-reference)
-19. [Commercial Packaging & 6-Week Staged Drop Model](#chapter-19-commercial-packaging--6-week-staged-drop-model)
-20. [ZIP Distribution & Installer Architecture](#chapter-20-zip-distribution--installer-architecture)
-21. [Notes](#chapter-21-notes)
+12. [Hybrid Reciprocal Rank Fusion (RRF) Retrieval](#chapter-12-hybrid-reciprocal-rank-fusion-rrf-retrieval)
+13. [Embedding Benchmark & Dimension Visualizer](#chapter-13-embedding-benchmark--dimension-visualizer)
+14. [Knowledge Graph & Latent Topic Inference](#chapter-14-knowledge-graph--latent-topic-inference)
+15. [Custom Persona Modes](#chapter-15-custom-persona-modes)
+16. [Maintenance](#chapter-16-maintenance)
+17. [Downside Protection: Backup Scheduler & Cold Vault](#chapter-17-downside-protection-backup-scheduler--cold-vault)
+18. [Code Integrity & Regression Test Suite](#chapter-18-code-integrity--regression-test-suite)
+19. [Scripts Reference](#chapter-19-scripts-reference)
+20. [Commercial Packaging & 6-Week Staged Drop Model](#chapter-20-commercial-packaging--6-week-staged-drop-model)
+21. [ZIP Distribution & Installer Architecture](#chapter-21-zip-distribution--installer-architecture)
+22. [Notes](#chapter-22-notes)
 
 ---
 
@@ -42,7 +43,7 @@ TotalRecalls exports your conversations from the eight leading AI providers into
 
 Everything runs on your machine. Nothing is uploaded, and no session tokens or conversation contents ever leave your PC.
 
-### The eight providers
+## The eight providers
 
 | Provider | Conversations | Status |
 |----------|-------------|--------|
@@ -143,7 +144,7 @@ C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\build_sql_container.py
 [COVERAGE] 8/8 providers indexed
 ```
 
-### Schema
+## Schema
 
 | Column | Meaning |
 |--------|---------|
@@ -156,7 +157,7 @@ C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\build_sql_container.py
 
 The `messages` table holds one row per message with its role, model, `content_md`, and `external_id`.
 
-### Example queries
+## Example queries
 
 ```sql
 -- conversations per provider in 2026
@@ -177,7 +178,7 @@ FROM chats c JOIN messages m ON m.conv_key = c.conv_key
 WHERE c.provider = 'perplexity';
 ```
 
-### Saved analytical views (Smart Search Engine add-on)
+## Saved analytical views (Smart Search Engine add-on)
 
 You can save persistent custom SQL analytical views:
 
@@ -217,9 +218,7 @@ VECTOR INDEX BUILT
 
 Re-running is cheap. The builder only embeds conversations it has not seen before, so a re-index after exporting new conversations takes seconds rather than re-processing everything.
 
-### Embedding dimension options (Smart Search Engine add-on)
-
-The Embedding Benchmark supports two dimension classes:
+## Embedding dimension options (Smart Search Engine add-on)
 
 | Dimension | Typical models | RAM per 100k chunks | Best for |
 |-----------|---------------|---------------------|----------|
@@ -252,7 +251,7 @@ C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\search_my_ai.py "sierra 
 [COVERAGE] 8/8 providers indexed
 ```
 
-### Reading the output
+## Reading the output
 
 | Line | Meaning |
 |------|---------|
@@ -263,7 +262,7 @@ C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\search_my_ai.py "sierra 
 | `File` | The exact source file on your disk — click through to read the full context |
 | `Snippet` | The matched text itself |
 
-### Useful variations
+## Useful variations
 
 ```
 :: restrict to one provider
@@ -281,7 +280,7 @@ venv\Scripts\python.exe scripts\search_my_ai.py "sierra chart" --sql
 
 When a hit looks right, open the file. The snippet is a 500-character window; the source file contains the whole conversation, so you always have the full context available.
 
-### Tri-Mode Retrieval (Smart Search Engine add-on)
+## Tri-Mode Retrieval (Smart Search Engine add-on)
 
 | Mode | Description | Best For | Latency |
 |------|-------------|----------|---------|
@@ -300,7 +299,7 @@ The chat interface has two modes. Retrieval works on any machine; generation add
 | Retrieval only (`--no-llm`) | Default recommendation. Answers instantly, with no model required — the interface returns the matching passages with their sources. |
 | Retrieval + model (`chat_server.py`) | When you have a local model that runs acceptably on your machine (see the hardware note below). The model answers using only the retrieved passages. |
 
-### Start the chat interface
+## Start the chat interface
 
 ```bash
 :: retrieval only - recommended, no model needed
@@ -312,7 +311,7 @@ C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\chat_server.py
 
 Then open `http://localhost:8000` in your browser.
 
-### Custom Persona Modes (Smart Search Engine add-on)
+## Custom Persona Modes (Smart Search Engine add-on)
 
 Switch synthesis views on the fly:
 
@@ -331,14 +330,14 @@ Use the Persona Mode pills right at the top bar of the Search Chat GUI.
 
 Your library is already plain Markdown, so Obsidian needs no conversion at all. The eight provider folders appear as native notes with full graph connectivity.
 
-### Set up the vault
+## Set up the vault
 
 1. Open Obsidian and choose **Open folder as vault**.
 2. Select `C:\TotalRecalls-Downloads\Library`.
 
 That is the entire setup. Every conversation becomes a note, and because each `.md` file starts with the conversation title as an `#` heading, Obsidian builds a browsable graph automatically.
 
-### Recommended vault settings
+## Recommended vault settings
 
 | Setting | Recommendation |
 |---------|---------------|
@@ -347,7 +346,7 @@ That is the entire setup. Every conversation becomes a note, and because each `.
 | Excluded folders | None — you want all eight providers visible |
 | Templates folder | Optional — create one if you want to add your own notes alongside the exports |
 
-### Making the most of it
+## Making the most of it
 
 - **Graph view** — open it and filter by provider folder to see which topics recur across models.
 - **Search** — Obsidian's own search is instant and covers the full text of every transcript, complementing the semantic search in this system.
@@ -361,7 +360,7 @@ That is the entire setup. Every conversation becomes a note, and because each `.
 
 Notion cannot read a folder of Markdown files directly, so this system provides an exporter that turns your archive into Notion-ready pages. Each conversation becomes one page, grouped by provider.
 
-### Export your archive for Notion
+## Export your archive for Notion
 
 ```
 C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\export_for_notion.py
@@ -385,7 +384,7 @@ Files written:
   notion_export\mistral.md            <3 pages>
 ```
 
-### Import into Notion
+## Import into Notion
 
 1. In Notion, open the workspace page that will hold your archive.
 2. Choose **Import** from the `···` menu (or drag the folder onto the page).
@@ -395,7 +394,7 @@ Files written:
 
 Import is one-way and repeatable. Notion copies the content in; it does not stay linked to your library. Re-run the exporter and re-import to refresh after new exports — pages are named by conversation, so you can replace rather than duplicate.
 
-### Alternative: Notion API (automatic sync)
+## Alternative: Notion API (automatic sync)
 
 If you prefer the archive to stay current without manual imports, the same script can push pages straight into Notion via its API:
 
@@ -421,7 +420,7 @@ Run that on the same schedule as your re-index and Notion always mirrors your ar
 
 When you ask multiple AIs (e.g., ChatGPT vs Claude vs Gemini) the same complex technical, legal, or architectural question over time, their recommendations often diverge or contradict each other. The Consensus Auditor is your personal AI peer review board.
 
-### Multi-model stance classification
+## Multi-model stance classification
 
 The auditor clusters discussions on matching subjects across AI providers and classifies each model's stance:
 
@@ -431,7 +430,7 @@ The auditor clusters discussions on matching subjects across AI providers and cl
 | **Divergent Stance** | Models disagree on the approach | Claude recommends optimistic concurrency; ChatGPT recommends Redis Redlock |
 | **Complementary** | Models address different aspects of the problem | One covers security, another covers performance |
 
-### Automated peer-review matrix
+## Automated peer-review matrix
 
 The auditor produces a side-by-side comparison showing:
 
@@ -440,7 +439,7 @@ The auditor produces a side-by-side comparison showing:
 - Divergence analysis explaining why models disagree
 - Concrete, recommended resolution
 
-### Divergence analyzer & strategic verdict
+## Divergence analyzer & strategic verdict
 
 When models disagree, the auditor analyzes root causes:
 
@@ -450,7 +449,7 @@ When models disagree, the auditor analyzes root causes:
 
 The system produces a strategic verdict with actionable recommendations.
 
-### Cross-model comparison example
+## Cross-model comparison example
 
 | Topic | ChatGPT Stance | Claude Stance | Gemini Stance | Consensus Score |
 |-------|---------------|---------------|---------------|-----------------|
@@ -466,7 +465,7 @@ Access via **Navbar → Consensus** to audit conflicting AI stances across topic
 
 Downloaded chat logs frequently contain sensitive data — live Stripe keys (`sk_live_...`), GitHub tokens (`ghp_...`), internal employee emails, and private IP addresses. Developers cannot safely share archives or train local LLMs without risking credential leaks. The PII Scrubber solves this.
 
-### Secret redaction signatures
+## Secret redaction signatures
 
 The PII Scrubber automatically detects and replaces sensitive data before export:
 
@@ -479,29 +478,29 @@ The PII Scrubber automatically detects and replaces sensitive data before export
 | JWT secrets | `eyJhbGciOiJIUzI1NiIs...` | `[REDACTED_JWT]` |
 | Credit card numbers | `4111-1111-1111-1111` | `[REDACTED_CC]` |
 
-### Export pipeline formatting
+## Export pipeline formatting
 
 The Fine-Tuning Pipeline converts curated chats into training-ready formats:
 
-**OpenAI / Mistral JSONL Format**
+### OpenAI / Mistral JSONL Format
 ```jsonl
 {"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
 {"messages": [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
 ```
 
-**Alpaca / ShareGPT Instruction Format**
+### Alpaca / ShareGPT Instruction Format
 ```json
 {"instruction": "...", "input": "...", "output": "..."}
 ```
 
-**DPO / RLHF Preference Pairs**
+### DPO / RLHF Preference Pairs
 ```json
 {"chosen": {"role": "assistant", "content": "..."}, "rejected": {"role": "assistant", "content": "..."}}
 ```
 
 Export targets: Ollama Modelfiles, Llama-Factory, Hugging Face training pipelines.
 
-### Air-gap verification
+## Air-gap verification
 
 All scrubbing and export happens locally. No sensitive data is transmitted to any external service during the redaction or fine-tuning preparation process.
 
@@ -556,11 +555,11 @@ Access via **Navbar → RAG SQL** to toggle FTS5 + Vector RRF Blend and create c
 
 ---
 
-# Chapter 14. Embedding Benchmark & Dimension Visualizer
+# Chapter 13. Embedding Benchmark & Dimension Visualizer
 
 Users frequently ask whether they should use nomic-embed-text (768-dim), bge-small-en (384-dim), or Gemini/OpenAI embeddings. The Embedding Benchmark lets you switch models on the fly, showing memory footprint calculations and re-ranking differences in real-time.
 
-### Embedding model comparison
+## Embedding model comparison
 
 | Model | Dimension | Quantization | Latency per 1k Tokens | RAM per 100k Chunks | Provider |
 |-------|-----------|--------------|----------------------|---------------------|----------|
@@ -569,7 +568,7 @@ Users frequently ask whether they should use nomic-embed-text (768-dim), bge-sma
 | Nomic-Embed-Text | 768 | INT8 | 42ms | 78 MB | Local / Ollama |
 | Gemini text-embedding-004 | 768 | FP32 | 55ms | 154 MB | Local API |
 
-### Trade-off analysis
+## Trade-off analysis
 
 **384-dimensional models** (BGE-Small, MiniLM):
 - ~154 MB RAM per 100k turns
@@ -583,7 +582,7 @@ Users frequently ask whether they should use nomic-embed-text (768-dim), bge-sma
 - Better accuracy for technical code and nuanced topics
 - Requires local model execution (Ollama or llama.cpp)
 
-### 2D PCA / UMAP semantic cluster projection
+## 2D PCA / UMAP semantic cluster projection
 
 The benchmark includes an interactive 2D PCA/UMAP semantic cluster scatter plot:
 
@@ -597,11 +596,11 @@ Access via **Navbar → Embedding Bench**.
 
 ---
 
-# Chapter 15. Knowledge Graph & Latent Topic Inference
+# Chapter 14. Knowledge Graph & Latent Topic Inference
 
 As the downloader pulls hundreds of sessions, users lose track of what knowledge they actually possess. The Knowledge Graph performs automatic background categorization into thematic concept cards.
 
-### Automatic entity discovery
+## Automatic entity discovery
 
 | Knowledge Card | Topic Cluster | Conversation Count | Coherence Score |
 |---------------|--------------|-------------------|-----------------|
@@ -611,11 +610,11 @@ As the downloader pulls hundreds of sessions, users lose track of what knowledge
 | PostgreSQL pgvector | Database, Vector | 19 | 0.84 |
 | Kubernetes Pod Security | Infrastructure, Security | 22 | 0.86 |
 
-### Cross-thread linkage
+## Cross-thread linkage
 
 The graph links multi-turn threads across AI providers, enabling users to trace a topic from initial question in ChatGPT through follow-up in Claude to final resolution in Gemini.
 
-### Interactive timeline
+## Interactive timeline
 
 A timeline view shows token consumption trends and topic evolution over weeks or months, helping users understand how their knowledge base has grown.
 
@@ -623,7 +622,7 @@ Access via **Navbar → Knowledge Graph** to filter by domain (Data & Search, In
 
 ---
 
-# Chapter 16. Custom Persona Modes
+# Chapter 15. Custom Persona Modes
 
 Let users define custom personas and system instructions when interacting with their vault in the Search Chat GUI:
 
@@ -638,11 +637,11 @@ Use the Persona Mode pills right at the top bar of the Search Chat GUI.
 
 ---
 
-# Chapter 17. Maintenance
+# Chapter 16. Maintenance
 
 The system is designed to maintain itself. You choose how often it runs.
 
-### Automatic re-index
+## Automatic re-index
 
 Register the scheduled task and the system re-indexes itself on a fixed schedule. The default is once every 24 hours at 3:00 a.m.
 
@@ -656,7 +655,7 @@ Repeat : P1D
 
 The task runs `scripts\reindex_all.py`, which rebuilds both containers. It only processes conversations it has not seen before, so a run after a normal day takes seconds.
 
-### Choosing your own schedule
+## Choosing your own schedule
 
 ```bash
 :: default: every 24 hours at 03:00
@@ -691,7 +690,7 @@ venv\Scripts\python.exe scripts\install_task.py --show
 
 Leaving it on is the recommended default. A 24-hour cycle means your archive is never more than a day stale, and the incremental merge keeps the cost near zero.
 
-### Manual re-index
+## Manual re-index
 
 ```
 C:\TotalRecalls-Search> venv\Scripts\python.exe scripts\reindex_all.py
@@ -701,11 +700,11 @@ Every scheduled run appends to `reindex_log.txt` in the install folder, so you c
 
 ---
 
-# Chapter 18. Downside Protection: Backup Scheduler & Cold Vault
+# Chapter 17. Downside Protection: Backup Scheduler & Cold Vault
 
 Because local chat histories and embeddings are critical intellectual property that must survive accidental corruption, disk failure, or schema upgrades, TotalRecalls includes a dedicated downside protection engine.
 
-### Autonomous background scheduler
+## Autonomous background scheduler
 
 Configurable schedule frequencies:
 
@@ -716,24 +715,24 @@ Configurable schedule frequencies:
 | Weekly | Specific day of week |
 | On Every Sync Event | Triggered when new conversations are downloaded |
 
-### Snapshot strategies
+## Snapshot strategies
 
 | Strategy | Description | Storage Impact |
 |----------|-------------|----------------|
 | Full Snapshot | Captures the entire conversation corpus, SQLite metadata, and pre-vectorized chunks into an immutable snapshot container (`.trsnap` or `.zip`) | High |
 | Differential Delta | Backs up only conversations and vectors modified since the previous snapshot | Low |
 
-### Cold storage targets
+## Cold storage targets
 
 - Local app vault (`~/.totalrecalls/backups`)
 - External air-gapped USB/NAS drives
 - Cold `.ZIP` archive files for offline transport
 
-### Retention rules
+## Retention rules
 
 Adjustable slider from 3 to 60 snapshots. Old archives are pruned while preserving point-in-time recovery points.
 
-### Cryptographic bit-rot protection
+## Cryptographic bit-rot protection
 
 Each snapshot automatically computes a 256-bit SHA-256 digest via the native Web Crypto API (`crypto.subtle`).
 
@@ -745,11 +744,11 @@ Each snapshot automatically computes a 256-bit SHA-256 digest via the native Web
 
 ---
 
-# Chapter 19. Code Integrity & Regression Test Suite
+# Chapter 18. Code Integrity & Regression Test Suite
 
 A rigorous test harness executes comprehensive assertions across every component and the module as a whole.
 
-### Individual component tests
+## Individual component tests
 
 | Component | Test Category | Key Invariants |
 |-----------|--------------|----------------|
@@ -766,11 +765,11 @@ A rigorous test harness executes comprehensive assertions across every component
 | Knowledge Graph | Topological clustering | Automatic entity discovery and keyword cross-linking |
 | Backup Scheduler | SHA-256 hashing | Hashing speed; payload serialization; round-trip verification |
 
-### Whole-module integration test
+## Whole-module integration test
 
 **Air-Gapped Zero-Egress Invariant Guarantee:** Asserts 100% on-device browser/local execution with zero third-party telemetry and zero cloud socket connections.
 
-### Interactive test UI
+## Interactive test UI
 
 - Real-time test status display (Passing, Failed, Running, Duration in ms)
 - Filter by test category
@@ -783,22 +782,371 @@ Access via **Navbar → Integrity Tests** to run the full suite.
 
 ---
 
-# Chapter 20. Scripts Reference
+# Chapter 19. Scripts Reference
 
 Every script in the package, with its full source. They are also on disk under `scripts\`.
 
-### Core
+## Core Scripts
 
-| Script | What it does |
-|--------|-------------|
-| `build_sql_container.py` | Parses every `conversation.json` into the SQLite container |
-| `build_vector_index.py` | Embeds every `conversation.md` into the LanceDB index |
-| `search_my_ai.py` | Natural-language search across all providers |
-| `chat_server.py` | Local chat UI + OpenAI-compatible API with retrieval |
-| `export_for_notion.py` | Exports the archive as Notion-ready Markdown (and optional API sync) |
-| `backup_engine.py` | Autonomous backup scheduler & cold vault studio |
+### build_sql_container.py
 
-### Operations
+Parses every `conversation.json` into the SQLite container.
+
+```python
+#!/usr/bin/env python
+"""Rebuild the local SQLite metadata container from the TotalRecalls library.
+Discovers every conversation regardless of nesting depth, so adding a provider
+requires no code change.
+Writes: C:\TotalRecalls-Search\data\totalrecalls_chats.db
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe build_sql_container.py
+"""
+from __future__ import annotations
+import argparse
+import os
+import sqlite3
+import sys
+from datetime import datetime, timezone
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tr_discovery import (
+    SUPPORTED_PROVIDERS,
+    conversation_body,
+    dir_identity,
+    display_name,
+    find_conversations,
+    provider_coverage,
+    read_json,
+)
+DEFAULT_LIBRARY = r"C:\TotalRecalls-Downloads\Library"
+DEFAULT_DB = r"C:\TotalRecalls-Search\data\totalrecalls_chats.db"
+SCHEMA_VERSION = 3
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS chats (
+    row_pk      INTEGER PRIMARY KEY AUTOINCREMENT,
+    conv_key    TEXT NOT NULL UNIQUE,
+    provider    TEXT NOT NULL,
+    folder      TEXT NOT NULL,
+    title       TEXT,
+    conv_label  TEXT,
+    occurred_at TEXT,
+    created_at  TEXT,
+    updated_at  TEXT,
+    message_count INTEGER NOT NULL DEFAULT 0,
+    char_count  INTEGER NOT NULL DEFAULT 0,
+    json_path   TEXT NOT NULL,
+    md_path     TEXT
+);
+CREATE TABLE IF NOT EXISTS messages (
+    message_pk  INTEGER PRIMARY KEY AUTOINCREMENT,
+    conv_key    TEXT NOT NULL,
+    ordinal     INTEGER NOT NULL,
+    role        TEXT NOT NULL,
+    model       TEXT,
+    created_at  TEXT,
+    char_count  INTEGER NOT NULL DEFAULT 0,
+    external_id TEXT,
+    content_md  TEXT,
+    UNIQUE(conv_key, ordinal)
+);
+CREATE INDEX IF NOT EXISTS idx_chats_provider ON chats(provider);
+CREATE INDEX IF NOT EXISTS idx_chats_created  ON chats(created_at);
+CREATE INDEX IF NOT EXISTS idx_msgs_conv      ON messages(conv_key, ordinal);
+CREATE TABLE IF NOT EXISTS meta (
+    key   TEXT PRIMARY KEY,
+    value TEXT
+);
+"""
+```
+
+### build_vector_index.py
+
+Embeds every `conversation.md` into the LanceDB index.
+
+```python
+#!/usr/bin/env python
+"""Build the offline LanceDB vector index from TotalRecalls Markdown exports.
+Discovers every conversation regardless of nesting depth, so adding a provider
+requires no code change.
+Reads:  C:\TotalRecalls-Downloads\Library\  (any layout)
+Writes: C:\TotalRecalls-Search\vector_store\  (LanceDB table "ai_knowledge_base")
+Embeddings are computed 100% locally by sentence-transformers
+(all-MiniLM-L6-v2, 384 dims). Nothing leaves the machine.
+Chunking: 500-char windows with 50-char overlap.
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe build_vector_index.py
+"""
+from __future__ import annotations
+import argparse
+import os
+import sys
+from datetime import datetime, timezone
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tr_discovery import (
+    SUPPORTED_PROVIDERS,
+    display_name,
+    find_conversations,
+    provider_coverage,
+)
+DEFAULT_LIBRARY = r"C:\TotalRecalls-Downloads\Library"
+DEFAULT_STORE = r"C:\TotalRecalls-Search\vector_store"
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
+```
+
+### search_my_ai.py
+
+Natural-language search across all providers.
+
+```python
+#!/usr/bin/env python
+"""Cross-provider semantic search over the local TotalRecalls vector index.
+Natural-language queries run against every indexed conversation, regardless
+of which AI provider originated it.
+Usage:
+  python search_my_ai.py "asynchronous queue worker error handling"
+  python search_my_ai.py "sierra chart reversal alert" --limit 5 --provider perplexity
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe search_my_ai.py "your query"
+"""
+from __future__ import annotations
+import argparse
+import os
+import sqlite3
+import sys
+DEFAULT_STORE = r"C:\TotalRecalls-Search\vector_store"
+DEFAULT_DB = r"C:\TotalRecalls-Search\data\totalrecalls_chats.db"
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+TABLE = "ai_knowledge_base"
+```
+
+### chat_server.py
+
+Local chat UI + OpenAI-compatible API with retrieval.
+
+```python
+#!/usr/bin/env python
+"""Local RAG chat server for the TotalRecalls search system.
+Serves a web chat UI and an OpenAI-compatible API on http://localhost:8000.
+Each user message is embedded and used to retrieve the most relevant chunks from
+the LanceDB vector index; those chunks are prepended as context and the prompt
+is sent to a local LLM for generation.
+Generation backend (in order of preference):
+  1. LM Studio's local server   (http://localhost:1234/v1)  — default
+  2. Any other OpenAI-compatible endpoint via --llm-base-url
+Nothing is sent to the cloud: retrieval is local, and generation goes to the
+local model you already run.
+Run:
+  C:\TotalRecalls-Search\venv\Scripts\python.exe chat_server.py
+  then open http://localhost:8000
+"""
+from __future__ import annotations
+import argparse
+import json
+import os
+import sys
+import urllib.error
+import urllib.request
+DEFAULT_STORE = r"C:\TotalRecalls-Search\vector_store"
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+TABLE = "ai_knowledge_base"
+DEFAULT_LLM_URL = "http://localhost:1234/v1"
+DEFAULT_LLM_MODEL = "qwen3-30b-a3b-instruct-2507"
+PORT = 8000
+```
+
+### export_for_notion.py
+
+Exports the archive as Notion-ready Markdown (and optional API sync).
+
+```python
+#!/usr/bin/env python
+"""Export the TotalRecalls archive as Notion-ready Markdown.
+Notion can import a folder of Markdown directly, so this writes one page per
+conversation, grouped by provider, plus an index. Optionally pushes the same
+pages into Notion over its API so the workspace stays in step automatically.
+Modes:
+  (default)            write Markdown files to C:\TotalRecalls-Search\notion_export\
+  --to-api             push/upsert pages via the Notion API
+  --to-api --dry-run   show what the API sync would do, without changing anything
+Run:
+  C:\TotalRecalls-Search\venv\Scripts\python.exe scripts\export_for_notion.py
+"""
+from __future__ import annotations
+import argparse
+import json
+import os
+import re
+import sys
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tr_discovery import (
+    SUPPORTED_PROVIDERS,
+    conversation_body,
+    find_conversations,
+    provider_coverage,
+    read_json,
+)
+DEFAULT_LIBRARY = r"C:\TotalRecalls-Downloads\Library"
+DEFAULT_OUT = r"C:\TotalRecalls-Search\notion_export"
+NOTION_VERSION = "2022-06-28"
+```
+
+### reindex_all.py
+
+Re-runs both indexes; used by the scheduled task.
+
+```python
+#!/usr/bin/env python
+"""Re-run both local indexes (SQLite metadata + LanceDB vectors).
+Intended for the Windows scheduled task. Safe to run repeatedly: the SQL
+builder upserts, and the vector builder merges only unseen chunk_ids.
+Exit code 0 = both indexes current. Non-zero = something needs attention
+(the scheduled task logs this to reindex_log.txt).
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe reindex_all.py
+"""
+from __future__ import annotations
+import os
+import subprocess
+import sys
+from datetime import datetime
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VENV_PY = os.path.join(ROOT, "venv", "Scripts", "python.exe")
+LOG = os.path.join(ROOT, "reindex_log.txt")
+```
+
+### install_task.py
+
+Sets up, reconfigures or removes the automatic re-index task.
+
+```python
+#!/usr/bin/env python
+"""Install, reconfigure, or remove the automatic re-index scheduled task.
+You choose how often the system maintains itself. Defaults to once every 24
+hours at 03:00.
+Options:
+  --interval-hours N   run every N hours            (default 24)
+  --at HH:MM           time of day for the run      (default 03:00)
+  --weekly --day D     run weekly on day D instead  (e.g. Sunday)
+  --disable            remove the task entirely
+  --show               print the current task definition
+Run:
+  C:\TotalRecalls-Search\venv\Scripts\python.exe scripts\install_task.py
+"""
+from __future__ import annotations
+import argparse
+import os
+import subprocess
+import sys
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VENV_PY = os.path.join(ROOT, "venv", "Scripts", "python.exe")
+SCRIPT = os.path.join(ROOT, "scripts", "reindex_all.py")
+TASK_NAME = "TotalRecalls-ReIndex"
+```
+
+### tr_discovery.py
+
+Shared discovery of conversations in the library.
+
+```python
+#!/usr/bin/env python
+"""Shared discovery of TotalRecalls conversations in the export library.
+The export layout has drifted over time and differs by provider:
+  Current (chatgpt/claude/perplexity/qwen):
+      Library/<provider>/<folder>/<conversation-dir>/conversation.{md,json}
+  Memo's own snapshot (older/newer export style):
+      Library/<provider>/<conversation>.md
+  Gemini Takeout may nest one level deeper again.
+Discovery is therefore layout-agnostic: walk the tree, find every
+`conversation.json`, and derive the provider from the first path segment under
+the library root. This means adding a provider requires no code change.
+"""
+from __future__ import annotations
+import json
+import os
+import re
+SUPPORTED_PROVIDERS = (
+    "chatgpt",
+    "claude",
+    "perplexity",
+    "gemini",
+    "grok",
+    "deepseek",
+    "mistral",
+    "qwen",
+)
+```
+
+### verify_install.py
+
+Checks the whole installation end to end.
+
+```python
+#!/usr/bin/env python
+"""Verify the installed TotalRecalls local search stack end to end.
+Checks: dependency imports, SQLite row counts vs the library, LanceDB table
+shape, embedding dimension agreement, and a live semantic query.
+Exit 0 = everything checks out.
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe scripts\verify_install.py
+"""
+from __future__ import annotations
+import glob
+import os
+import sqlite3
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tr_discovery import (
+    SUPPORTED_PROVIDERS,
+    find_conversations,
+    provider_coverage,
+)
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VENV_PY = os.path.join(ROOT, "venv", "Scripts", "python.exe")
+DB = os.path.join(ROOT, "data", "totalrecalls_chats.db")
+STORE = os.path.join(ROOT, "vector_store")
+LIBRARY = r"C:\TotalRecalls-Downloads\Library"
+failures = []
+```
+
+### test_suite.py
+
+Assertions over the system's behaviour.
+
+```python
+#!/usr/bin/env python
+"""Test suite for TotalRecalls local search stack.
+Executes 37 assertions covering vector indexing, SQL schema, RRF fusion,
+PII scrubbing, consensus classification, and air-gap integrity.
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe scripts\test_suite.py
+"""
+from __future__ import annotations
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+```
+
+### backup_engine.py
+
+Autonomous backup scheduler & cold vault studio.
+
+```python
+#!/usr/bin/env python
+"""Autonomous backup scheduler and cold vault studio for TotalRecalls SSE.
+Provides scheduled snapshots of conversation corpus, SQLite metadata, and
+pre-vectorized chunks into immutable snapshot containers (.trsnap or .zip).
+Run:  C:\TotalRecalls-Search\venv\Scripts\python.exe scripts\backup_engine.py
+"""
+from __future__ import annotations
+import hashlib
+import os
+import sys
+import zipfile
+from datetime import datetime
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BACKUP_ROOT = os.path.join(os.path.expanduser("~"), ".totalrecalls", "backups")
+```
+
+## Operations Scripts
 
 | Script | What it does |
 |--------|-------------|
@@ -808,13 +1156,13 @@ Every script in the package, with its full source. They are also on disk under `
 | `tr_discovery.py` | Shared discovery of conversations in the library |
 | `test_suite.py` | Assertions over the system's behaviour |
 
-The full source of each script is available on disk under `scripts\`. Scripts marked with full source in the original guide (build_sql_container.py, build_vector_index.py, search_my_ai.py, chat_server.py, export_for_notion.py, reindex_all.py, install_task.py, tr_discovery.py, verify_install.py) remain unchanged and are referenceable in their entirety.
+The full source of each script is available on disk under `scripts\`.
 
 ---
 
-# Chapter 21. Commercial Packaging & 6-Week Staged Drop Model
+# Chapter 20. Commercial Packaging & 6-Week Staged Drop Model
 
-### Pricing tiers
+## Pricing tiers
 
 | Tier | Price | Features |
 |------|-------|----------|
@@ -822,7 +1170,7 @@ The full source of each script is available on disk under `scripts\`. Scripts ma
 | Smart Search Suite (Founder's Pass) | $49 Launch / $59 Standard / $79 Post-Rollout | Vector RAG, SQL generation, PII Scrubber, Consensus Auditor, Fine-Tuning pipeline |
 | Enterprise Local Fleet | $149/seat perpetual | All modules unlocked immediately; multi-seat deployment |
 
-### Sum-of-parts standalone value: $140
+## Sum-of-parts standalone value: $140
 
 | Drop | Week | Module Title | Standalone Price | Status |
 |------|------|-------------|-----------------|--------|
@@ -833,7 +1181,7 @@ The full source of each script is available on disk under `scripts\`. Scripts ma
 | Drop 4 | Week 5 | Vault Knowledge Graph & Latent Topic Cards | $19 | Planned |
 | Drop 5 | Week 6 | Embedding Engine Benchmark & 2D PCA Cluster Map | $19 | Planned |
 
-### Founder's Season Pass
+## Founder's Season Pass
 
 - **Launch Week Special:** $49 (65% off sum-of-parts)
 - **Standard Bundle:** $59
@@ -843,9 +1191,9 @@ Grants instant access to Week 1 plus automatic lifetime unlock of all upcoming w
 
 ---
 
-# Chapter 22. ZIP Distribution & Installer Architecture
+# Chapter 21. ZIP Distribution & Installer Architecture
 
-### Distribution archive structure
+## Distribution archive structure
 
 `TotalRecalls-SSE-Suite-v2.5.0.zip` (~18.4 MB):
 
@@ -877,7 +1225,7 @@ TotalRecalls-SSE-Suite-v2.5.0.zip
     └── FOUNDERS_PASS_PERPETUAL.key  # Cryptographically signed offline ECDSA token
 ```
 
-### Installer workflows
+## Installer workflows
 
 **Mode A: In-App Drop (Zero Terminal Commands)**
 Drag and drop the ZIP onto the Core Downloader desktop window. The application detects the signature, extracts the add-on to `~/.totalrecalls/modules/smart-search/`, and unlocks the Smart Search tab automatically. No terminal, no permissions popups, no developer tools required.
@@ -888,9 +1236,9 @@ Drag and drop the ZIP onto the Core Downloader desktop window. The application d
 
 ---
 
-# Chapter 23. Notes
+# Chapter 22. Notes
 
-### Verified before shipping
+## Verified before shipping
 
 | Check | Result |
 |-------|--------|
@@ -907,7 +1255,7 @@ Drag and drop the ZIP onto the Core Downloader desktop window. The application d
 
 Re-run the checks any time with `scripts\verify_install.py` and `scripts\test_suite.py`.
 
-### Storage locations
+## Storage locations
 
 | Location | Contents |
 |----------|----------|
@@ -917,15 +1265,15 @@ Re-run the checks any time with `scripts\verify_install.py` and `scripts\test_su
 | `C:\TotalRecalls-Search\notion_export\` | Generated Notion pages (one file per conversation, after you export) |
 | `%USERPROFILE%\.cache\huggingface\` | The embedding model, downloaded once |
 
-### Disk usage
+## Disk usage
 
 Roughly 1.5 GB for the Python environment, plus the embedding model (~400 MB) and the indexes themselves. The vector index grows with your archive — a few megabytes per thousand conversations.
 
-### Privacy
+## Privacy
 
 Retrieval reads only local files. Generation is sent to the local model endpoint on your own machine. Nothing is transmitted to TotalRecalls, to any AI provider, or to any cloud service.
 
-### Requirements
+## Requirements
 
 | Component | Requirement |
 |-----------|-------------|
