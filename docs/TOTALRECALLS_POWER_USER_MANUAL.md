@@ -509,7 +509,54 @@ Access via **Navbar → PII Scrubber** to audit redacted credentials and downloa
 
 ---
 
-# Chapter 12. Embedding Benchmark & Dimension Visualizer
+# Chapter 12. Hybrid Reciprocal Rank Fusion (RRF) Retrieval
+
+## 12.1 Mathematical Formulation
+
+The Smart Search Engine combines BM25 token scores with dense vector cosine similarity using Reciprocal Rank Fusion:
+
+```
+RRF_Score(d) = Σ (m ∈ M) 1 / (k + rank_m(d))
+```
+
+Where **k = 60**.
+
+Dense retrieval pulls conceptual neighbors while BM25 guarantees precision on exact code variables and UUIDs.
+
+## 12.2 Hybrid Blend Ratio
+
+- **60%** cosine semantic distance (conceptual matching)
+- **40%** BM25 exact keyword match (precision on variables, error codes, UUIDs)
+
+This blend guards against vector semantic drift on exact terms like `ECONNREFUSED`, `stripe.webhooks`, or function names.
+
+## 12.3 How RRF Works in Practice
+
+When you run a query, the system:
+
+1. Retrieves the top-K results from the vector index (semantic similarity)
+2. Retrieves the top-K results from BM25 lexical search (exact keyword match)
+3. Computes the RRF score for each document that appears in either list
+4. Re-ranks the combined list by RRF score
+5. Returns the top results with source citations
+
+### Example
+
+A search for `"sierra chart order flow reversal alert"` might return:
+
+| Rank | Document | Vector Rank | BM25 Rank | RRF Score |
+|------|----------|-------------|-----------|-----------|
+| 1 | Qwen conversation (Sierra Chart alert) | 1 | 3 | 0.58 |
+| 2 | Perplexity thread (ES futures) | 2 | 1 | 0.52 |
+| 3 | Gemini thread (Sierra Chart Script) | 3 | 5 | 0.41 |
+
+Even though the Perplexity thread ranked #1 in BM25 (exact keyword match), the Qwen conversation ranks #1 overall because it scored highly in both vector and BM25 retrieval — the hallmark of a strong RRF result.
+
+Access via **Navbar → RAG SQL** to toggle FTS5 + Vector RRF Blend and create custom saved analytical views.
+
+---
+
+# Chapter 14. Embedding Benchmark & Dimension Visualizer
 
 Users frequently ask whether they should use nomic-embed-text (768-dim), bge-small-en (384-dim), or Gemini/OpenAI embeddings. The Embedding Benchmark lets you switch models on the fly, showing memory footprint calculations and re-ranking differences in real-time.
 
@@ -550,7 +597,7 @@ Access via **Navbar → Embedding Bench**.
 
 ---
 
-# Chapter 13. Knowledge Graph & Latent Topic Inference
+# Chapter 15. Knowledge Graph & Latent Topic Inference
 
 As the downloader pulls hundreds of sessions, users lose track of what knowledge they actually possess. The Knowledge Graph performs automatic background categorization into thematic concept cards.
 
@@ -576,7 +623,7 @@ Access via **Navbar → Knowledge Graph** to filter by domain (Data & Search, In
 
 ---
 
-# Chapter 14. Custom Persona Modes
+# Chapter 16. Custom Persona Modes
 
 Let users define custom personas and system instructions when interacting with their vault in the Search Chat GUI:
 
@@ -591,7 +638,7 @@ Use the Persona Mode pills right at the top bar of the Search Chat GUI.
 
 ---
 
-# Chapter 15. Maintenance
+# Chapter 17. Maintenance
 
 The system is designed to maintain itself. You choose how often it runs.
 
@@ -654,7 +701,7 @@ Every scheduled run appends to `reindex_log.txt` in the install folder, so you c
 
 ---
 
-# Chapter 16. Downside Protection: Backup Scheduler & Cold Vault
+# Chapter 18. Downside Protection: Backup Scheduler & Cold Vault
 
 Because local chat histories and embeddings are critical intellectual property that must survive accidental corruption, disk failure, or schema upgrades, TotalRecalls includes a dedicated downside protection engine.
 
@@ -698,7 +745,7 @@ Each snapshot automatically computes a 256-bit SHA-256 digest via the native Web
 
 ---
 
-# Chapter 17. Code Integrity & Regression Test Suite
+# Chapter 19. Code Integrity & Regression Test Suite
 
 A rigorous test harness executes comprehensive assertions across every component and the module as a whole.
 
@@ -736,7 +783,7 @@ Access via **Navbar → Integrity Tests** to run the full suite.
 
 ---
 
-# Chapter 18. Scripts Reference
+# Chapter 20. Scripts Reference
 
 Every script in the package, with its full source. They are also on disk under `scripts\`.
 
@@ -765,7 +812,7 @@ The full source of each script is available on disk under `scripts\`. Scripts ma
 
 ---
 
-# Chapter 19. Commercial Packaging & 6-Week Staged Drop Model
+# Chapter 21. Commercial Packaging & 6-Week Staged Drop Model
 
 ### Pricing tiers
 
@@ -796,7 +843,7 @@ Grants instant access to Week 1 plus automatic lifetime unlock of all upcoming w
 
 ---
 
-# Chapter 20. ZIP Distribution & Installer Architecture
+# Chapter 22. ZIP Distribution & Installer Architecture
 
 ### Distribution archive structure
 
@@ -841,7 +888,7 @@ Drag and drop the ZIP onto the Core Downloader desktop window. The application d
 
 ---
 
-# Chapter 21. Notes
+# Chapter 23. Notes
 
 ### Verified before shipping
 
