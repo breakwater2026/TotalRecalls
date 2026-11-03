@@ -1,16 +1,11 @@
-# TOTALRECALLS POWER USER MANUAL
-## Smart Search Engine (SSE): Vector Search, Relational RAG SQL, Consensus Auditing & Air-Gap Privacy Architecture
-**Product Edition:** v2.5.0-MarketLeader  
-**Vendor:** TotalRecalls (totalrecalls.app)  
-**Distribution Target:** Senior Software Engineers, Data Architects, Security Auditors & Enterprise Teams  
+TOTALRECALLS POWER USER MANUAL
+Smart Search Engine (SSE): Vector Search, Relational RAG SQL, Consensus Auditing & Air-Gap Privacy Architecture
+Product Edition: v2.5.0-MarketLeader
+Vendor: TotalRecalls (totalrecalls.app)
+Distribution Target: Senior Software Engineers, Data Architects, Security Auditors & Enterprise Teams
 
----
-
-## 1. Executive Summary & Dual-Unit Architecture
-
+1. Executive Summary & Dual-Unit Architecture
 The TotalRecalls suite is architected around two decoupled, complimentary units:
-
-```
 +-----------------------------------------------------------------------------------------+
 | TOTALRECALLS PRODUCT ECOSYSTEM (totalrecalls.app)                                       |
 +-----------------------------------------------------------------------------------------+
@@ -35,33 +30,22 @@ The TotalRecalls suite is architected around two decoupled, complimentary units:
 |                  | (Zero Cloud Egress • AES-256 SQLite • Local Models)|                 |
 |                  +----------------------------------------------------+                 |
 +-----------------------------------------------------------------------------------------+
-```
 
----
-
-## 2. Commercial Packaging & The 6-Week Staged Drop Model
-
+2. Commercial Packaging & The 6-Week Staged Drop Model
 To ensure sustained innovation and accessible modular adoption, the Smart Search Engine utilizes a staged 6-week drop schedule:
+Drop	Week	Module Title	Standalone Price	Status	Description
+Launch	Week 1	Tri-Mode Search Chat (Vector + NL→SQL + RRF)	$39	**LIVE**	Sub-millisecond conversational retrieval across all models
+Drop 1	Week 2	Air-Gap PII & Secret Redaction Scrubber	$19	Next Up	Automated credential and API key sanitization
+Drop 2	Week 3	1-Click Fine-Tuning Pipeline (JSONL/Alpaca)	$19	Planned	OpenAI JSONL, ShareGPT, and Alpaca dataset generation
+Drop 3	Week 4	Cross-AI Consensus & Hallucination Auditor	$25	Planned	Peer-review board comparing model disagreements
+Drop 4	Week 5	Vault Knowledge Graph & Latent Topic Cards	$19	Planned	Autonomous entity clustering and taxonomy cards
+Drop 5	Week 6	Embedding Engine Benchmark & 2D PCA Cluster Map	$19	Planned	Hardware latency, RAM profiler, and 2D vector map
+- Sum of Parts Standalone Value: $140
+- Founder's Season Pass (Launch Week Special): $49 (Standard Bundle: $59 | Post-Rollout: $79)
+- Core Downloader: $29 (One-time lifetime baseline)
+- Enterprise Local Fleet: $149/seat perpetual (All modules unlocked immediately)
 
-| Drop | Week | Module Title | Standalone Price | Status | Description |
-|---|---|---|---|---|---|
-| Launch | Week 1 | Tri-Mode Search Chat (Vector + NL→SQL + RRF) | $39 | **LIVE** | Sub-millisecond conversational retrieval across all models |
-| Drop 1 | Week 2 | Air-Gap PII & Secret Redaction Scrubber | $19 | Next Up | Automated credential and API key sanitization |
-| Drop 2 | Week 3 | 1-Click Fine-Tuning Pipeline (JSONL/Alpaca) | $19 | Planned | OpenAI JSONL, ShareGPT, and Alpaca dataset generation |
-| Drop 3 | Week 4 | Cross-AI Consensus & Hallucination Auditor | $25 | Planned | Peer-review board comparing model disagreements |
-| Drop 4 | Week 5 | Vault Knowledge Graph & Latent Topic Cards | $19 | Planned | Autonomous entity clustering and taxonomy cards |
-| Drop 5 | Week 6 | Embedding Engine Benchmark & 2D PCA Cluster Map | $19 | Planned | Hardware latency, RAM profiler, and 2D vector map |
-
-- **Sum of Parts Standalone Value:** **$140**
-- **Founder's Season Pass (Launch Week Special):** **$49** *(Standard Bundle: $59 | Post-Rollout: $79)*
-- **Core Downloader:** **$29** *(One-time lifetime baseline)*
-- **Enterprise Local Fleet:** **$149/seat perpetual** *(All modules unlocked immediately)*
-
----
-
-## 3. Relational Schema Architecture (SQLite)
-
-```sql
+3. Relational Schema Architecture (SQLite)
 CREATE TABLE conversations (
     id VARCHAR(64) PRIMARY KEY,
     provider VARCHAR(32) NOT NULL,
@@ -89,30 +73,16 @@ CREATE VIRTUAL TABLE chat_chunks USING vec0(
     conversation_id TEXT,
     embedding float[768] distance_metric=cosine
 );
-```
 
----
-
-## 4. Hybrid Reciprocal Rank Fusion (RRF) Retrieval
-
+4. Hybrid Reciprocal Rank Fusion (RRF) Retrieval
 Combines BM25 token scores with dense vector cosine similarity:
-
 $$RRF\_Score(d) = \sum_{m \in M} \frac{1}{k + \text{rank}_m(d)}$$
-
 Where $k = 60$. Dense retrieval pulls conceptual neighbors while BM25 guarantees precision on exact code variables and UUIDs.
 
----
-
-## 5. Air-Gap & Zero-Egress Verification
-
+5. Air-Gap & Zero-Egress Verification
 Verify zero outbound telemetry with Wireshark:
-
-```bash
 # Capture loopback and physical interface traffic
 tshark -i any -f "not port 53 and not arp" -Y "http or tls"
-```
+During vector search, SQL querying, and dataset fine-tuning export, 0 packets are transmitted.
 
-During vector search, SQL querying, and dataset fine-tuning export, **0 packets are transmitted**.
-
----
-*TotalRecalls Engineering Manual • totalrecalls.app*
+TotalRecalls Engineering Manual • totalrecalls.app
