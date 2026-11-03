@@ -33,10 +33,19 @@ const STEPS = [
   {
     n: "04",
     title: "Download",
-    body: "Your chats land in your Library folder as Markdown and JSON files. Search them, open them offline, and keep them.",
+    body: "Your chats save as Markdown and JSON files on your PC. Open them anywhere, offline.",
     chips: [
       { text: ".md + .json", tone: "slate" },
       { text: "Saved locally", tone: "local" },
+    ],
+  },
+  {
+    n: "05",
+    title: "Search (add-on)",
+    body: "Ask in plain English and find any conversation across all eight providers.",
+    chips: [
+      { text: "Add-on", tone: "slate" },
+      { text: "TotalRecalls Search", tone: "slate" },
     ],
   },
 ];
@@ -59,7 +68,7 @@ export default function HowItWorks() {
         <Eyebrow>How it works</Eyebrow>
 
         <h2 className="mt-3 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
-          Four steps from scattered chats to one local folder.
+          Five steps from scattered chats to one local folder.
         </h2>
 
         <p className="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
@@ -67,7 +76,7 @@ export default function HowItWorks() {
         </p>
 
         {/* Step cards — Obsidian on the Graphite band, no hover */}
-        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {STEPS.map((s) => (
             <div key={s.n} className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
               <span className="font-mono text-[14px] font-medium text-tr-steel">{s.n}</span>

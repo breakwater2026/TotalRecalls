@@ -33,7 +33,7 @@ export default function Pricing() {
             <ul className="mt-6 space-y-3">
               {[
                 "ChatGPT, Claude, and Perplexity",
-                "5 conversations per provider",
+                "5 conversations per download",
                 "Markdown and JSON files",
                 "Saved locally to C:\\TotalRecalls\\Library\\",
               ].map((f) => (
@@ -91,10 +91,50 @@ export default function Pricing() {
           </div>
         </div>
 
+        {/* TotalRecalls Search add-on strip */}
+        <div className="mt-12 rounded-card border border-tr-slate bg-tr-graphite p-8 md:p-12">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
+            <div className="max-w-[680px]">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <Chip tone="slate">Add-on for Pro</Chip>
+                <span className="font-mono text-[14px] font-medium text-tr-dust tabular-nums">$19 one-time</span>
+                <span className="font-mono text-[14px] text-tr-dust">· launch price (regular $39)</span>
+              </div>
+              <h3 className="mt-0 font-heading text-[24px] md:text-[28px] font-semibold leading-[1.2] text-tr-paper">Then make it searchable.</h3>
+              <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
+                Ask in plain English and find any conversation, from any of your eight providers.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Finds passages by meaning, not just exact words",
+                  "Searches all eight providers at once",
+                  "Opens the original Markdown or JSON file",
+                  "Runs on your PC. Nothing you save is uploaded",
+                  "Keeps itself up to date",
+                ].map((b, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-tr-green" strokeWidth={2.5} />
+                    <span className="font-body text-[15px] leading-[1.5] text-tr-mist">{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8">
+                <Btn href="/buy/" className="w-full sm:w-auto">Add Search to Pro</Btn>
+              </div>
+              <p className="mt-5 font-body text-[15px] leading-[1.6] text-tr-mist">
+                Or get Pro + Search together for $39. Already own Pro? Early-buyer price $14 for 30 days after launch.
+              </p>
+              <p className="mt-5 font-body text-[13px] leading-[1.5] text-tr-dust">
+                Requires TotalRecalls Pro. Windows 10 and 11. About 8 GB RAM and 2 GB free disk. One-time internet connection to download the search model.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-10 text-center">
           <p className="mx-auto max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-            Windows 10 and 11. $24 is a discounted launch price. Future add-ons are sold
-            separately. Your core app updates stay free.
+            Windows 10 and 11. $24 is a discounted launch price. Add-ons, like Search, are sold
+            separately. See below. Your core app updates stay free.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {["One-time", "No subscription", "No account", "Windows 10/11"].map((t) => (

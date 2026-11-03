@@ -10,6 +10,7 @@ const COLS = [
       { l: "See It Work", href: "/see-it-work/" },
       { l: "AI Providers", href: "/providers/" },
       { l: "The Library", href: "/library/" },
+      { l: "Search", href: "/search/" },
       { l: "Ownership Path", href: "/ownership/" },
       { l: "Pricing", href: "/#pricing" },
       { l: "Download", href: "/download/" },
@@ -28,6 +29,7 @@ const COLS = [
       { l: "Download Qwen Chat conversations", href: "/guides/qwen/" },
       { l: "Downloading Grok conversations", href: "/guides/grok/" },
       { l: "Own your AI chat data", href: "/guides/own-your-ai-chat-data/" },
+      { l: "Using TotalRecalls Search", href: "/guides/using-totalrecalls-search/" },
     ],
   },
   {
@@ -36,6 +38,15 @@ const COLS = [
       { l: "Privacy Policy", href: "/privacy/" },
       { l: "Terms of Service", href: "/terms/" },
       { l: "Refund Policy", href: "/legals/#refund" },
+    ],
+  },
+  {
+    h: "Support",
+    links: [
+      { l: "Help & FAQ", href: "/help/" },
+      { l: "Feature Requests", href: "/feature-requests/" },
+      { l: "Press", href: "/press/" },
+      { l: "Buy TotalRecalls", href: "/buy/" },
     ],
   },
 ];

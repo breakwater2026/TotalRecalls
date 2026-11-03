@@ -1,0 +1,246 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "TotalRecalls Search",
+  description:
+    "Add-on for TotalRecalls Pro. Search conversations from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat in plain English. Runs on your PC — nothing is uploaded.",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Windows 10, Windows 11",
+  offers: {
+    "@type": "Offer",
+    price: "19.00",
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    url: "https://totalrecalls.app/search/",
+  },
+};
+---
+
+<BaseLayout
+  title="TotalRecalls Search — Find anything you ever asked any AI."
+  description="TotalRecalls Search is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers’ conversations in plain English. Nothing is uploaded. One-time $19 launch price."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+
+    {/* Hero */}
+    <section class="bg-tr-obsidian pt-16 pb-16 md:pt-32 md:pb-24">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div>
+            <h1 class="mt-0 font-heading text-[40px] md:text-[56px] font-bold leading-[1.05] tracking-[-0.02em] text-tr-paper">
+              Find anything you ever asked any AI.
+            </h1>
+            <p class="mt-6 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+              TotalRecalls Search is an add-on for TotalRecalls Pro. It indexes your Library on your PC,
+              so you can search eight providers’ conversations in plain English.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+              <a
+                href="/buy/"
+                class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
+              >
+                Add Search to Pro
+              </a>
+              <a
+                href="#results-window"
+                class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
+              >
+                Watch the 75-second demo
+              </a>
+            </div>
+            <p class="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
+              Launch price $19 one-time (regular $39). Requires TotalRecalls Pro. Windows 10 and 11.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-2">
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Runs on your PC
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Nothing uploaded
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                One-time $19 launch price
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Windows 10/11
+              </span>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <div class="rounded-card border border-tr-slate bg-tr-graphite p-4 md:p-5">
+              <img
+                src="/images/search-results-window.jpg"
+                alt="TotalRecalls Search results window"
+                class="rounded-sm block max-w-[420px] w-auto"
+              />
+              <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
+                Demo video in production. The 75-second walkthrough link goes live at launch.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* The problem */}
+    <section class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
+          You saved everything. Now you have hundreds of folders.
+        </h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Folders named with dates and long IDs. Which one had the answer?
+        </p>
+      </div>
+    </section>
+
+    {/* How it works */}
+    <section id="how-it-works" class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
+          How it works
+        </h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Setup takes a few minutes. After that, every new download is searchable.
+        </p>
+        <div class="mt-12 grid sm:grid-cols-3 gap-6">
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">01</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">Download with Pro</h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              Your conversations land in one folder as Markdown and JSON files.
+            </p>
+          </div>
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">02</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">Search indexes the folder</h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              It reads every conversation on your PC and builds a private index.
+            </p>
+          </div>
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">03</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">Ask</h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              Type a question. See the matching passage, the provider, the conversation, and how close the
+              match is. Click to open the file.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* What a result shows */}
+    <section id="results-window" class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div class="flex justify-center">
+            <div class="rounded-card border border-tr-slate bg-tr-obsidian p-4 md:p-5">
+              <img
+                src="/images/search-results-window.jpg"
+                alt="TotalRecalls Search results window"
+                class="rounded-sm block max-w-[420px] w-auto"
+              />
+              <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
+                TotalRecalls Search results window — click a result to open the original conversation file.
+              </p>
+            </div>
+          </div>
+          <div>
+            <h2 class="mt-0 font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
+              What a Search result shows
+            </h2>
+            <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+              <li><strong>Provider</strong> — which AI the conversation came from.</li>
+              <li><strong>Conversation title</strong> — so you know which chat it was.</li>
+              <li><strong>Best matching passage</strong> — with the key phrases highlighted.</li>
+              <li><strong>File location and match score</strong> — click to open the original Markdown or JSON file.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Private by design */}
+    <section class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Private by design</h2>
+        <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+          <li>Search runs on your PC.</li>
+          <li>Nothing you write or save is uploaded.</li>
+          <li>The search model downloads once at setup, so that step needs an internet connection. After that, Search works without one.</li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Always current */}
+    <section class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Always current</h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Search re-indexes on a schedule, so new downloads are searchable by the next morning.
+        </p>
+      </div>
+    </section>
+
+    {/* Requirements */}
+    <section class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Requirements</h2>
+        <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+          <li>TotalRecalls Pro</li>
+          <li>Windows 10 or 11</li>
+          <li>About 8 GB of RAM</li>
+          <li>About 2 GB of free disk space</li>
+          <li>No graphics card needed</li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Pricing */}
+    <section id="pricing" class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Pricing</h2>
+        <div class="mt-6 grid sm:grid-cols-2 gap-6">
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Search add-on:</strong> $19 launch price (regular $39). One-time. Requires Pro.</p>
+          </div>
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Pro + Search bundle:</strong> $39 launch price (Pro $24 + Search $19 would be $43).</p>
+          </div>
+        </div>
+        <p class="mt-5 max-w-[680px] font-body text-[15px] leading-[1.6] text-tr-mist">
+          Already own Pro? Early-buyer price <strong>$14</strong> for the first 30 days after launch.
+        </p>
+        <p class="mt-3 max-w-[680px] font-body text-[13px] leading-[1.5] text-tr-dust">
+          Launch prices end on [DATE]. After that, Search is $39 and Pro is $48.
+        </p>
+      </div>
+    </section>
+
+    {/* Closing */}
+    <section class="bg-tr-obsidian pt-20 pb-24 md:pt-32 md:pb-32 border-t border-tr-slate text-center">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Your archive, finally findable.</h2>
+        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="/buy/"
+            class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
+          >
+            Add Search to Pro
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer client:load />
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

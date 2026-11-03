@@ -1,0 +1,114 @@
+Claude
+TotalRecalls-Demo video script.md
+TotalRecalls-Demo video script.md
+MD
+TR_website_chatgpt 1.mp4
+TR_website_chatgpt 1.mp4
+MP4
+Attached is a marketing video demonstrating our new application named TotalRecalls. It is a silent movie. Also attached is script file for the narration. Could carefully review the video and make sure that the stages are properly identified and described. We may need more granularity. Watching my cursor moving around should help.
+
+Read 14 files, updated tasks, ran 3 commands
+Status: I’ve gone through the whole 4:37 video at 5-second spacing and have a rough map. Two early flags: (1) the video never shows a search bar or query (script Stage 6), and (2) it shows a Pro-license activation step plus a 4x-speed section that the script doesn’t mention. I’m now sampling more densely around each transition and zooming into the app window to get exact timestamps and cursor actions.
+
+Read 5 files, ran 4 commands
+Still working: I’m zooming into the download and ZIP steps (0–30s) to check exactly what your cursor does there. Once that’s confirmed I’ll check the end (Markdown/JSON viewing), then write up the stage breakdown.
+
+Created a file, shared a file, and 14 more steps
+I’ve written a revised script that splits your 8 stages into 14 timestamped stages, with cursor-level action descriptions and narration trimmed to fit each one. The video doesn’t match the script in several places.
+
+Biggest mismatches
+
+No search: the video never shows a search bar or query, so the original Stage 6 has nothing behind it. I kept a placeholder, Stage 12B. You’ll need to record a short search clip or drop the search claims.
+The ZIP is never extracted. You run TotalRecalls.exe from inside the ZIP, which triggers an extra “Compressed (zipped) Folders” warning. The Downloads panel also shows a duplicate (1).zip, which looks like a retake.
+Pro unlock: the video shows you entering a license key (TR-DEMO0000-0001-0001, readable on screen) and the badge changing to PRO. It never reopens the provider list, so the 8 unlocked providers aren’t actually shown. The script doesn’t mention the license step.
+Pro download: it runs for 1:54 of video with a “4x speed” badge and little cursor movement. That sits awkwardly with “blazing-fast” and “milliseconds” in the narration. No indexing step is shown either.
+Markdown and JSON both open in Microsoft Word as raw text, with an encoding dialog, not as “clean, beautiful” files.
+Other things worth checking
+
+Privacy: the Word view shows real conversation content, including personal trading details, and some folder titles are still readable in Explorer.
+SmartScreen claim: I softened “100% safe”. Your site says code signing is still on the roadmap and that Windows 11 Smart App Control can block unsigned apps with no override.
+The file also covers a few smaller points. The narration is my draft, so please read it before using it. The timestamps are accurate to about 1–2 seconds.
+
+Which do you want to do next: re-record the gaps (search, provider list, extracting the ZIP), or reword the narration to match what’s already on screen?
+
+Totalrecalls demo video script revised
+Document
+·MD
+could you generate the document into .docx format.
+
+Read 2 files, ran 3 commands
+The Word version is built and the layout checks out. I’m sending it to you now.
+
+Shared TotalRecalls-Demo_video_script_REVISED.docx
+The Word version of the revised script is ready: TotalRecalls-Demo_video_script_REVISED.docx, 7 pages with the same content as the Markdown file. I rendered it to check the layout. Headings, bullets, narration blocks and the mapping table all display correctly.
+
+Totalrecalls demo video script revised
+Document
+·DOCX
+1793465341236_TotalRecalls-Power-User-Guide.pdf
+pdf
+
+1793465355731_Card_1.pdf
+pdf
+
+Thank you for your high quality work. Next is the Total Recall Vector/RAG Search add-on. TotalRecalls-Power-User-Guide.pdf
+PDF
+Card_1.pdf
+PDF
+Attached are two PDF documents related to our Search Module. We will be selling it as an add-on to the TotalRcalls downloader. The attached card drawing is an attempt to capture the content of the attached User Guide. Our current intent is to sell the Vector Search module as an add-on to the conversation downloader. We intend to shoot a short video which describe this image. The image requires an Explorer-type  window showing the output from the search. What is your view about marketing this Search module.
+
+Shared a file, read 9 pages, ran a command
+I’ve rewritten the titles and descriptions for the nine pages that matter most, but I couldn’t open your source folder. This session isn’t linked to your computer, so I worked from the live pages instead.
+
+The Word file shows the current and proposed text for each page, with character counts. Titles are 52–60 characters and descriptions 132–152, inside the limits Google usually displays. The pages covered are:
+
+the home page
+Providers
+the Mistral, Qwen, Grok, Claude, ChatGPT, Perplexity and Gemini guides
+Task in the title: Each guide title now says what people type, for example “Download Your Claude Chat History to Markdown and JSON,” instead of a short label.
+Description: It describes the outcome and names Windows and the file formats. The home page title now leads with the brand and the three best-known providers.
+“Try free”: Only the ChatGPT, Claude and Perplexity guides get it, because those are the only providers in the Free tier.
+H1s to change: The Grok, Perplexity and Gemini H1s should be reworded to match how people search. Those are in the file too.
+Deep Research: One query asked about exporting Perplexity Deep Research reports. If TotalRecalls captures those, add a short section answering it; I marked that CONFIRM because I can’t tell from the page.
+Duplicate host: Both www and non-www versions of the same guides are indexed. This is the canonical fix from earlier, and it matters as much as the rewrites.
+Field names: I read the field names (title, meta-description, plus Open Graph and Twitter copies) from how the live pages displayed them. Check them against your source, and update the Open Graph and Twitter fields too so they match.
+To have me edit the files directly and cover the remaining pages (Library, Buy, Pricing, About and the rest), attach the pages folder as a zip. Or open this chat in the Claude desktop app on that computer, link it, and send another message.
+
+Totalrecalls site titles and descriptions
+Document
+·DOCX
+1793565607800_pages.zip
+1793565607800_pages.zip
+ZIP
+Here the zip pages folder
+
+Ran 5 commands
+I’ve read your pages folder and I’m now editing the titles and descriptions directly in a copy of it. I’ll send back the changed files plus a short list of what I changed and what to double-check.
+
+Shared 2 files, ran 4 commands
+I’ve edited the titles and descriptions in 40 of your pages and sent you a zip of the edited pages folder. I also sent a Word change list showing the before and after for every page. I haven’t built the site, so check the changes in a preview before deploying.
+
+Only the title, description and three <h1> lines changed in each file; everything else is byte-for-byte as you sent it, including the line endings.
+
+Priority pages: The home page, Providers and the seven provider guides use the wording I proposed earlier. Each guide title now says the task people search for, for example “Download Your Claude Chat History to Markdown and JSON”. The Grok, Perplexity and Gemini guide H1s now read as the question people type.
+Other pages: I also rewrote Library, Buy, Pricing, Download, About, FAQ, How It Works, Why This Matters, Help, Support, Troubleshooting, SmartScreen, Microsoft Warning, Guides, Release Notes and See It Work. The eight comparison pages and the Compare index got better titles. Their long descriptions are unchanged.
+Left alone: The legal pages, Press, Roadmap, Previews, Feature Requests, Thanks and 404 already read fine.
+Things to check before publishing (all are in the change list):
+
+Library page path. The description named C:\TotalRecalls\Library, but the app in your demo video saves to C:\TotalRecalls-Downloads\Library. I removed the hard-coded path from the description. Check the page body and the LibraryPage component for the same mismatch.
+Free Tier wording. The pricing, download and FAQ pages say “5 conversations per download”. The home-page pricing section I saw earlier said “per provider”. Make them match.
+A claim I didn’t verify. The Why This Matters page says Perplexity deletes history after 30 days. I left it as it was.
+Search add-on pages. /previews/semantic-search/ and the roadmap still describe semantic search as “planned”. They’ll need updating when the add-on goes on sale.
+Layouts. Canonical tags and Open Graph tags live in BaseLayout and PageLayout, which weren’t in the folder. Send me the layouts folder and I’ll check that the host fix and social tags match the new titles.
+Totalrecalls site pages edited
+ZIP
+Totalrecalls site title description changes
+Document
+·DOCX
+
+
+
+
+Totalrecalls site title description changes · DOCX
+
+Claude finished the response

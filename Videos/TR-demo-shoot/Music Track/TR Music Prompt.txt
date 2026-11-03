@@ -1,0 +1,15 @@
+A 5-minute instrumental track (no voice) for a tech software application demo video. The track should be a bright, electronic, moderately paced instrumental with defined percussive transients and clear high-end sparkle. Good for a tech/demo background bed — it won't muddy dialogue because the bass is restrained and the energy sits in the mids/highs where voice doesn't compete as heavily.Frequency & timbre
+
+Spectral centroid: ~2.5 kHz mean (range 537–8,056 Hz) — a bright, airy electronic sound
+
+Energy split: 18% bass (20–250 Hz), 38% mid (250 Hz–4 kHz), 44% high (4–16 kHz) — not sub-heavy; leans bright and shimmering rather than thumpy
+
+Zero-crossing rate: 0.052 — moderate texture, suggests synth pads plus some percussive attack rather than pure noise or pure sine
+
+Rhythm & structure
+
+Onset activity: strong transient content (spectral flux peaks at ~5,465) — there are distinct percussive hits, not a smooth ambient wash
+
+Estimated tempo: ~55 BPM by autocorrelation (likely half-time feel; the actual pulse may be closer to 110 BPM)
+
+Loudness arc: min 0.017 / max 0.063 — about a 11 dB swing between quietest and loudest moments.

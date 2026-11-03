@@ -48,6 +48,9 @@ export default function Hero() {
                 </span>
               ))}
             </div>
+            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.12em] text-tr-dust">
+              New: TotalRecalls Search add-on.
+            </p>
           </div>
 
           {/* Right: product visual — app panel, files landing in the Library folder */}

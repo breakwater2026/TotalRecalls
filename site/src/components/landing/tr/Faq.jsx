@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "Is my data uploaded anywhere?",
-    a: "No. It runs 100% locally and never sends your conversations to a server.",
+    a: "No. It runs on your PC and never sends your conversations to a server.",
   },
   {
     q: "Which platforms are supported?",

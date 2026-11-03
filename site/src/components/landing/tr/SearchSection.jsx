@@ -1,0 +1,52 @@
+import React from "react";
+import { Container, Section, Eyebrow, Btn } from "./ui";
+
+const POINTS = [
+  "Ask, don’t remember. Search by meaning — “how did I handle retrying a failed background job” finds it, even if you never used those words.",
+  "All eight providers, one search. No guessing which app you used.",
+  "Your files, your PC. Click a result to open the original conversation. Nothing is uploaded.",
+];
+
+export default function SearchSection() {
+  return (
+    <Section id="search-addon" className="border-t border-tr-slate bg-tr-graphite">
+      <Container>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="max-w-[680px]">
+            <Eyebrow mono>New add-on</Eyebrow>
+            <h2 className="mt-3 font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
+              Hundreds of chats in folders is still a pile.
+            </h2>
+            <p className="mt-4 font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+              TotalRecalls Search finds the one you need. Ask in plain English, and it looks
+              through every conversation from every provider.
+            </p>
+            <ul className="mt-8 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist">
+              {POINTS.map((p, i) => (
+                <li key={i} className="flex gap-3">
+                  <span className="shrink-0 text-tr-amber">{i + 1}.</span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Btn href="/search/">See how Search works</Btn>
+              <Btn href="/buy/" variant="secondary" className="w-auto">
+                Add Search to Pro
+              </Btn>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <div className="rounded-card border border-tr-slate bg-tr-obsidian p-2 md:p-3">
+              <img
+                src="/images/search-results-window.jpg"
+                alt="TotalRecalls Search results window"
+                className="rounded-sm block max-w-[420px] w-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}

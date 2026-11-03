@@ -14,6 +14,7 @@ const LINKS = [
   { label: "See It Work", href: "/see-it-work/" },
   { label: "Providers", href: "/providers/" },
   { label: "Library", href: "/library/" },
+  { label: "Search", href: "/search/" },
   { label: "Guides", href: "/guides/" },
   { label: "Pricing", href: "/#pricing" },
   { label: "Support", href: "/support/" },
