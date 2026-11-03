@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TotalRecalls - Local AI Chat Downloader, Vector Search & RAG SQL</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              // TotalRecalls brand color palette inspired by totalrecalls.app
+              // Dominant: Deep space void slate (#0b0f19, #111827), luminous cyan/teal accents (#06b6d4, #14b8a6, #0ea5e9, #22d3ee)
+              // Warm accents for tokens/citations (#f59e0b, #10b981)
+              brand: {
+                50: '#ecfeff',
+                100: '#cffafe',
+                200: '#a5f3fc',
+                300: '#67e8f9',
+                400: '#22d3ee',
+                500: '#06b6d4',
+                600: '#0891b2',
+                700: '#0e7490',
+                800: '#155e75',
+                900: '#164e63',
+                950: '#083344',
+              },
+              trteal: {
+                400: '#2dd4bf',
+                500: '#14b8a6',
+                600: '#0d9488',
+                700: '#0f766e',
+              },
+              trsurface: {
+                50: '#f8fafc',
+                800: '#1e293b',
+                850: '#141d2e',
+                900: '#0e1626',
+                950: '#070c16',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script type="importmap">{
+  "imports": {
+    "react": "https://www.gstatic.com/agent-platform/modules/v1/react@19.2.7.4d5517570685122f.js",
+    "react-dom": "https://www.gstatic.com/agent-platform/modules/v1/react-dom@19.2.7.65799deb8803db6e.js",
+    "react-dom/client": "https://www.gstatic.com/agent-platform/modules/v1/react-dom@19.2.7.65799deb8803db6e.js",
+    "@google/genai": "https://www.gstatic.com/agent-platform/modules/v1/@google/genai@2.27.0.559e6b6b4b63c2ff.js",
+    "lucide-react": "https://www.gstatic.com/agent-platform/modules/v1/lucide-react@0.577.0.2bae552a4f75f2ab.js",
+    "recharts": "https://www.gstatic.com/agent-platform/modules/v1/recharts@3.10.1.6c82ab2514c601f8.js"
+  }
+}</script>
+  </head>
+  <body class="bg-[#070c16] text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950 font-sans">
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+  </body>
+</html>

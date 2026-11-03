@@ -1,0 +1,17 @@
+{
+  "name": "totalrecalls-smart-search-engine",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "integrity:test": "tsx scripts/run-integrity-tests.ts"
+  },
+  "dependencies": {
+    "@google/genai": "2.27.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}
