@@ -49,43 +49,43 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0c1f30] via-[#091524] to-[#070c16] border border-cyan-500/30 p-6 shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[var(--tr-bg)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-6 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
             <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-500/15 text-teal-300 border border-teal-500/40 flex items-center gap-1.5">
-                <Network className="w-3.5 h-3.5 text-teal-400" />
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40 flex items-center gap-1.5">
+                <Network className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                 TotalRecalls Market-Leader Enhancement #5
               </span>
-              <span className="text-xs text-slate-400 font-mono">Automated Vault Insights</span>
+              <span className="text-xs text-[var(--tr-muted)] font-mono">Automated Vault Insights</span>
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">
+            <h2 className="text-2xl font-bold text-[var(--tr-text)] tracking-tight">
               Knowledge Graph & Vault Topic Discovery
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm text-[var(--tr-muted)] leading-relaxed">
               As TotalRecalls downloads hundreds of chat sessions across providers, this engine automatically structures, categorizes, and extracts underlying thematic cards and technical concept clusters.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 bg-[#080d19] border border-slate-800 rounded-xl p-3 px-4">
+          <div className="flex items-center gap-4 bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-xl p-3 px-4">
             <div>
-              <div className="text-xs text-slate-400">Thematic Clusters</div>
-              <div className="text-xl font-bold font-mono text-cyan-400">{clusters.length} Domains</div>
+              <div className="text-xs text-[var(--tr-muted)]">Thematic Clusters</div>
+              <div className="text-xl font-bold font-mono text-[var(--tr-accent)]">{clusters.length} Domains</div>
             </div>
-            <div className="h-8 w-px bg-slate-800"></div>
+            <div className="h-8 w-px bg-[var(--tr-panel)]"></div>
             <div>
-              <div className="text-xs text-slate-400">Total Tokens Mapped</div>
-              <div className="text-sm font-semibold text-teal-400 font-mono">9,090 Tokens</div>
+              <div className="text-xs text-[var(--tr-muted)]">Total Tokens Mapped</div>
+              <div className="text-sm font-semibold text-[var(--tr-accent)] font-mono">9,090 Tokens</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Category selector */}
-      <div className="flex items-center justify-between bg-[#0c1424] border border-slate-800 rounded-xl p-3 text-xs">
+      <div className="flex items-center justify-between bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-xl p-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1">
-            <Filter className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="text-[var(--tr-muted)] font-semibold uppercase tracking-wider flex items-center gap-1">
+            <Filter className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
             Knowledge Domain:
           </span>
           <div className="flex gap-1">
@@ -95,8 +95,8 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
                 onClick={() => setActiveCategory(cat)}
                 className={`px-2.5 py-1 rounded-md font-semibold transition-colors ${
                   activeCategory === cat
-                    ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm'
-                    : 'bg-[#070b14] text-slate-400 hover:text-slate-200'
+                    ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] shadow-sm'
+                    : 'bg-[var(--tr-panel2)] text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
                 }`}
               >
                 {cat}
@@ -104,7 +104,7 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
             ))}
           </div>
         </div>
-        <span className="text-slate-400 font-mono hidden sm:inline">
+        <span className="text-[var(--tr-muted)] font-mono hidden sm:inline">
           Automatic Latent Topic Inference
         </span>
       </div>
@@ -113,9 +113,9 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[560px]">
         {/* Left: Topic Cards */}
         <div className="lg:col-span-5 space-y-3">
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <div className="text-xs font-semibold uppercase tracking-wider text-[var(--tr-muted)] flex items-center justify-between">
             <span>Thematic Clusters ({filteredClusters.length})</span>
-            <span className="text-cyan-400 font-mono">Click to inspect</span>
+            <span className="text-[var(--tr-accent)] font-mono">Click to inspect</span>
           </div>
 
           <div className="space-y-3">
@@ -127,38 +127,38 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
                   onClick={() => setSelectedClusterId(cluster.id)}
                   className={`p-4 rounded-xl cursor-pointer transition-all border ${
                     isSelected
-                      ? 'bg-cyan-950/40 border-cyan-500/80 shadow-lg shadow-cyan-950/30'
-                      : 'bg-[#0c1424] border-slate-800 hover:border-slate-700 hover:bg-[#0e172a]'
+                      ? 'bg-[var(--tr-accent)]/40 border-[var(--tr-accent)]/80 shadow-lg shadow'
+                      : 'bg-[var(--tr-panel)] border-[var(--tr-border)] hover:border-[var(--tr-border)] hover:bg-[var(--tr-panel2)]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#070b14] text-cyan-300 border border-slate-800">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--tr-panel2)] text-[var(--tr-accent)] border border-[var(--tr-border)]">
                       {cluster.category}
                     </span>
-                    <span className="text-[11px] font-mono text-teal-400 font-semibold">
+                    <span className="text-[11px] font-mono text-[var(--tr-accent)] font-semibold">
                       {cluster.confidenceScore}% Coherence
                     </span>
                   </div>
 
-                  <h4 className="text-sm font-bold text-white mb-1">
+                  <h4 className="text-sm font-bold text-[var(--tr-text)] mb-1">
                     {cluster.name}
                   </h4>
 
-                  <p className="text-xs text-slate-300 line-clamp-2 mb-3">
+                  <p className="text-xs text-[var(--tr-muted)] line-clamp-2 mb-3">
                     {cluster.summary}
                   </p>
 
                   <div className="flex flex-wrap gap-1 mb-2">
                     {cluster.topKeywords.slice(0, 3).map((kw, i) => (
-                      <span key={i} className="px-1.5 py-0.5 rounded bg-[#070b14] text-[10px] text-slate-400 font-mono">
+                      <span key={i} className="px-1.5 py-0.5 rounded bg-[var(--tr-panel2)] text-[10px] text-[var(--tr-muted)] font-mono">
                         #{kw}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-800/80">
+                  <div className="flex items-center justify-between text-[11px] text-[var(--tr-muted)] pt-2 border-t border-[var(--tr-border)]">
                     <span>{cluster.conversationIds.length} Linked Chats • {cluster.turnCount} turns</span>
-                    <span className="font-mono text-cyan-400">{cluster.totalTokens.toLocaleString()} tokens</span>
+                    <span className="font-mono text-[var(--tr-accent)]">{cluster.totalTokens.toLocaleString()} tokens</span>
                   </div>
                 </div>
               );
@@ -167,42 +167,42 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
         </div>
 
         {/* Right: Topic Inspector & Linked Conversations */}
-        <div className="lg:col-span-7 bg-[#0c1424] border border-slate-800 rounded-2xl p-6 space-y-6 flex flex-col justify-between shadow-xl">
+        <div className="lg:col-span-7 bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-6 space-y-6 flex flex-col justify-between shadow-xl">
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center justify-between border-b border-[var(--tr-border)] pb-3">
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
+                <span className="text-xs font-mono text-[var(--tr-accent)] uppercase tracking-wider">
                   {activeCluster.category} • {activeCluster.id}
                 </span>
-                <h3 className="text-xl font-bold text-white mt-1">
+                <h3 className="text-xl font-bold text-[var(--tr-text)] mt-1">
                   {activeCluster.name}
                 </h3>
               </div>
-              <div className="text-right font-mono text-xs text-slate-400">
+              <div className="text-right font-mono text-xs text-[var(--tr-muted)]">
                 <div>Updated: {activeCluster.lastUpdated}</div>
-                <div className="text-teal-400 font-bold">{activeCluster.confidenceScore}% Confidence</div>
+                <div className="text-[var(--tr-accent)] font-bold">{activeCluster.confidenceScore}% Confidence</div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#070b14] border border-slate-800 space-y-2 text-xs">
-              <span className="font-semibold text-slate-300 uppercase tracking-wider text-[11px]">
+            <div className="p-4 rounded-xl bg-[var(--tr-panel2)] border border-[var(--tr-border)] space-y-2 text-xs">
+              <span className="font-semibold text-[var(--tr-muted)] uppercase tracking-wider text-[11px]">
                 Synthesized Executive Summary:
               </span>
-              <p className="text-slate-300 leading-relaxed">
+              <p className="text-[var(--tr-muted)] leading-relaxed">
                 {activeCluster.summary}
               </p>
             </div>
 
             {/* Keyword Entity Badges */}
             <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+              <span className="text-xs font-semibold text-[var(--tr-muted)] uppercase tracking-wider">
                 Extracted Concept Keywords:
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {activeCluster.topKeywords.map((kw, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-800/40 text-cyan-300 font-mono text-xs"
+                    className="px-2.5 py-1 rounded-lg bg-[var(--tr-accent)]/40 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] font-mono text-xs"
                   >
                     #{kw}
                   </span>
@@ -212,8 +212,8 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
             {/* Linked Conversations */}
             <div className="space-y-3 pt-2">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-teal-400" />
+              <span className="text-xs font-semibold text-[var(--tr-muted)] uppercase tracking-wider flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                 Linked Chat Sessions ({clusterConversations.length})
               </span>
 
@@ -221,27 +221,27 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
                 {clusterConversations.map(conv => (
                   <div
                     key={conv.id}
-                    className="p-3.5 rounded-xl bg-[#070b14] border border-slate-800 flex items-center justify-between hover:border-cyan-500/50 transition-colors"
+                    className="p-3.5 rounded-xl bg-[var(--tr-panel2)] border border-[var(--tr-border)] flex items-center justify-between hover:border-[var(--tr-accent)]/50 transition-colors"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#0c1424] text-cyan-300 border border-slate-700">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[var(--tr-panel)] text-[var(--tr-accent)] border border-[var(--tr-border)]">
                           {conv.provider}
                         </span>
-                        <h5 className="text-xs font-bold text-slate-200 hover:text-cyan-300 cursor-pointer"
+                        <h5 className="text-xs font-bold text-[var(--tr-text)] hover:text-[var(--tr-accent)] cursor-pointer"
                           onClick={() => handleOpenConversation(conv.id)}
                         >
                           {conv.title}
                         </h5>
                       </div>
-                      <div className="text-[11px] text-slate-400 font-mono">
+                      <div className="text-[11px] text-[var(--tr-muted)] font-mono">
                         {conv.messageCount} turns • {conv.totalTokens.toLocaleString()} tokens • {conv.createdAt.slice(0, 10)}
                       </div>
                     </div>
 
                     <button
                       onClick={() => handleOpenConversation(conv.id)}
-                      className="px-3 py-1.5 bg-[#0c1424] hover:bg-cyan-950/50 text-cyan-400 rounded-lg text-xs font-medium flex items-center gap-1 transition-colors"
+                      className="px-3 py-1.5 bg-[var(--tr-panel)] hover:bg-[var(--tr-accent)]/50 text-[var(--tr-accent)] rounded-lg text-xs font-medium flex items-center gap-1 transition-colors"
                     >
                       <span>Open Turn</span>
                       <ExternalLink className="w-3 h-3" />
@@ -252,9 +252,9 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-teal-950/30 border border-teal-500/30 text-xs text-teal-300 flex items-center justify-between">
+          <div className="p-3 rounded-xl bg-[var(--tr-accent)]/30 border border-[var(--tr-accent)]/30 text-xs text-[var(--tr-accent)] flex items-center justify-between">
             <span>Knowledge Graph automatically updates upon new TotalRecalls sync runs.</span>
-            <span className="font-mono text-cyan-400">Zero Cloud Egress</span>
+            <span className="font-mono text-[var(--tr-accent)]">Zero Cloud Egress</span>
           </div>
         </div>
       </div>

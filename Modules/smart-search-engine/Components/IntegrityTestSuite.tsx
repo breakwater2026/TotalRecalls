@@ -25,7 +25,7 @@ const statusStyles = {
   passed: {
     icon: CheckCircle2,
     label: 'Passed',
-    className: 'text-emerald-400'
+    className: 'text-[var(--tr-good)]'
   },
   failed: {
     icon: XCircle,
@@ -35,12 +35,12 @@ const statusStyles = {
   running: {
     icon: Loader2,
     label: 'Running',
-    className: 'text-cyan-400'
+    className: 'text-[var(--tr-accent)]'
   },
   pending: {
     icon: Circle,
     label: 'Pending',
-    className: 'text-slate-500'
+    className: 'text-[var(--tr-muted)]'
   }
 } as const;
 
@@ -91,19 +91,19 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-[#0c1f30] via-[#091524] to-[#070c16] p-6 shadow-xl">
+      <section className="rounded-2xl border border-[var(--tr-accent)]/30 bg-gradient-to-r from-[var(--tr-bg)] via-[var(--tr-panel2)] to-[var(--tr-bg)] p-6 shadow-xl">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div className="max-w-3xl space-y-2">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-cyan-300">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--tr-accent)]">
               <ShieldCheck className="h-4 w-4" />
               System integrity
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">Code Integrity Test Suite</h1>
-            <p className="text-sm leading-relaxed text-slate-300">
+            <h1 className="text-2xl font-bold tracking-tight text-[var(--tr-text)]">Code Integrity Test Suite</h1>
+            <p className="text-sm leading-relaxed text-[var(--tr-muted)]">
               Run component and integration assertions against the current conversation and vector data.
               Results include test details, timing, and a digest of the completed run.
             </p>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[var(--tr-muted)]">
               Input data: {conversations.length.toLocaleString()} conversations · {chunks.length.toLocaleString()} indexed chunks
             </p>
           </div>
@@ -112,7 +112,7 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectTab('backup')}
-                className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-slate-500 hover:bg-slate-800/60"
+                className="rounded-lg border border-[var(--tr-border)] px-4 py-2 text-sm font-semibold text-[var(--tr-text)] transition-colors hover:border-[var(--tr-border)] hover:bg-[var(--tr-panel)]"
               >
                 Backup snapshots
               </button>
@@ -121,7 +121,7 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
               type="button"
               onClick={() => void executeSuite()}
               disabled={isRunning}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--tr-accent)] px-4 py-2 text-sm font-bold text-[var(--tr-text)] transition-colors hover:bg-[var(--tr-accent)] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : summary ? <RotateCcw className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               {isRunning ? 'Running tests…' : summary ? 'Run again' : 'Run all tests'}
@@ -130,9 +130,9 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
         </div>
 
         <div className="mt-6 space-y-2">
-          <div className="flex items-center justify-between text-xs text-slate-300">
+          <div className="flex items-center justify-between text-xs text-[var(--tr-muted)]">
             <span>{isRunning ? `Running ${completedCount} of ${TEST_DEFINITIONS.length}` : `${completedCount} of ${TEST_DEFINITIONS.length} tests completed`}</span>
-            <span className="font-mono text-cyan-300">{progressPercent}%</span>
+            <span className="font-mono text-[var(--tr-accent)]">{progressPercent}%</span>
           </div>
           <div
             role="progressbar"
@@ -140,9 +140,9 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
             aria-valuemin={0}
             aria-valuemax={TEST_DEFINITIONS.length}
             aria-valuenow={completedCount}
-            className="h-2 overflow-hidden rounded-full bg-slate-800"
+            className="h-2 overflow-hidden rounded-full bg-[var(--tr-panel)]"
           >
-            <div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all" style={{ width: `${progressPercent}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] transition-all" style={{ width: `${progressPercent}%` }} />
           </div>
         </div>
       </section>
@@ -159,13 +159,13 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
 
       {summary && (
         <section aria-label="Test suite summary" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <SummaryCard label="Passed" value={`${summary.passed} / ${summary.total}`} valueClass="text-emerald-300" />
-          <SummaryCard label="Failed" value={String(summary.failed)} valueClass={summary.failed ? 'text-rose-300' : 'text-slate-100'} />
-          <SummaryCard label="Duration" value={`${summary.overallDurationMs.toLocaleString()} ms`} valueClass="text-cyan-300" />
-          <SummaryCard label="Completed" value={summary.executedAt} valueClass="text-slate-100" />
-          <div className="rounded-xl border border-slate-800 bg-[#0c1424] p-4 sm:col-span-2 lg:col-span-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Run integrity digest · SHA-256</div>
-            <code className="mt-2 block break-all font-mono text-xs text-cyan-300">{summary.integrityHash}</code>
+          <SummaryCard label="Passed" value={`${summary.passed} / ${summary.total}`} valueClass="text-[var(--tr-good)]" />
+          <SummaryCard label="Failed" value={String(summary.failed)} valueClass={summary.failed ? 'text-rose-300' : 'text-[var(--tr-text)]'} />
+          <SummaryCard label="Duration" value={`${summary.overallDurationMs.toLocaleString()} ms`} valueClass="text-[var(--tr-accent)]" />
+          <SummaryCard label="Completed" value={summary.executedAt} valueClass="text-[var(--tr-text)]" />
+          <div className="rounded-xl border border-[var(--tr-border)] bg-[var(--tr-panel)] p-4 sm:col-span-2 lg:col-span-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-[var(--tr-muted)]">Run integrity digest · SHA-256</div>
+            <code className="mt-2 block break-all font-mono text-xs text-[var(--tr-accent)]">{summary.integrityHash}</code>
           </div>
         </section>
       )}
@@ -177,14 +177,14 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
           const failedCount = categoryResults.filter(result => result.status === 'failed').length;
 
           return (
-            <section key={category} className="overflow-hidden rounded-xl border border-slate-800 bg-[#0c1424]">
-              <header className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 px-4 py-3">
-                <h2 className="text-sm font-bold text-white">{category}</h2>
-                <span className="text-xs text-slate-400">
+            <section key={category} className="overflow-hidden rounded-xl border border-[var(--tr-border)] bg-[var(--tr-panel)]">
+              <header className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--tr-border)] px-4 py-3">
+                <h2 className="text-sm font-bold text-[var(--tr-text)]">{category}</h2>
+                <span className="text-xs text-[var(--tr-muted)]">
                   {passedCount} passed{failedCount ? ` · ${failedCount} failed` : ''} · {categoryResults.length} tests
                 </span>
               </header>
-              <div className="divide-y divide-slate-800/80">
+              <div className="divide-y divide-[var(--tr-border)]">
                 {categoryResults.map(result => {
                   const status = statusStyles[result.status];
                   const StatusIcon = status.icon;
@@ -195,11 +195,11 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
                         <StatusIcon className={`mt-0.5 h-5 w-5 shrink-0 ${status.className} ${result.status === 'running' ? 'animate-spin' : ''}`} />
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <h3 className="text-sm font-semibold text-slate-100">{result.title}</h3>
+                            <h3 className="text-sm font-semibold text-[var(--tr-text)]">{result.title}</h3>
                             <span className={`text-xs ${status.className}`}>{status.label}</span>
                           </div>
-                          <p className="mt-1 text-xs leading-relaxed text-slate-400">{result.description}</p>
-                          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500">
+                          <p className="mt-1 text-xs leading-relaxed text-[var(--tr-muted)]">{result.description}</p>
+                          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[var(--tr-muted)]">
                             <span>{result.id}</span>
                             <span>{criticalityLabels[result.criticality]}</span>
                             <span>{result.componentTarget}</span>
@@ -210,7 +210,7 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
                               </span>
                             )}
                           </div>
-                          {result.details && <p className="mt-3 rounded-lg bg-slate-950/60 p-3 text-xs leading-relaxed text-slate-300">{result.details}</p>}
+                          {result.details && <p className="mt-3 rounded-lg bg-[var(--tr-bg)] p-3 text-xs leading-relaxed text-[var(--tr-muted)]">{result.details}</p>}
                           {result.error && <p role="alert" className="mt-3 rounded-lg border border-rose-500/30 bg-rose-950/20 p-3 text-xs text-rose-200">{result.error}</p>}
                         </div>
                       </div>
@@ -227,8 +227,8 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
 };
 
 const SummaryCard: React.FC<{ label: string; value: string; valueClass: string }> = ({ label, value, valueClass }) => (
-  <div className="rounded-xl border border-slate-800 bg-[#0c1424] p-4">
-    <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">{label}</div>
+  <div className="rounded-xl border border-[var(--tr-border)] bg-[var(--tr-panel)] p-4">
+    <div className="text-xs font-semibold uppercase tracking-wider text-[var(--tr-muted)]">{label}</div>
     <div className={`mt-2 font-mono text-lg font-bold ${valueClass}`}>{value}</div>
   </div>
 );

@@ -8,44 +8,52 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
-          extend: {
-            colors: {
-              // TotalRecalls brand color palette inspired by totalrecalls.app
-              // Dominant: Deep space void slate (#0b0f19, #111827), luminous cyan/teal accents (#06b6d4, #14b8a6, #0ea5e9, #22d3ee)
-              // Warm accents for tokens/citations (#f59e0b, #10b981)
-              brand: {
-                50: '#ecfeff',
-                100: '#cffafe',
-                200: '#a5f3fc',
-                300: '#67e8f9',
-                400: '#22d3ee',
-                500: '#06b6d4',
-                600: '#0891b2',
-                700: '#0e7490',
-                800: '#155e75',
-                900: '#164e63',
-                950: '#083344',
-              },
-              trteal: {
-                400: '#2dd4bf',
-                500: '#14b8a6',
-                600: '#0d9488',
-                700: '#0f766e',
-              },
-              trsurface: {
-                50: '#f8fafc',
-                800: '#1e293b',
-                850: '#141d2e',
-                900: '#0e1626',
-                950: '#070c16',
-              }
-            }
-          }
+          extend: {}
         }
       }
     </script>
-    <script type="importmap">{
+    <style>
+      /* TotalRecalls two-theme palette (mirrors totalrecalls.app) */
+      :root {
+        --tr-bg: #ffffff;
+        --tr-panel: #f8fafc;
+        --tr-panel2: #f1f5f9;
+        --tr-border: #e2e8f0;
+        --tr-text: #020817;
+        --tr-muted: #64748b;
+        --tr-accent: #2e7eff;
+        --tr-accent2: #2563eb;
+        --tr-good: #3f6b4f;
+        --tr-bad: #ef4444;
+        --tr-warn: #b57e22;
+      }
+      .dark {
+        --tr-bg: #101113;
+        --tr-panel: #18181b;
+        --tr-panel2: #16181b;
+        --tr-border: #2b2c31;
+        --tr-text: #e8eaed;
+        --tr-muted: #9ca1ab;
+        --tr-accent: #2e7eff;
+        --tr-accent2: #2563eb;
+        --tr-good: #5e8a68;
+        --tr-bad: #c8664a;
+        --tr-warn: #c88a2b;
+        }
+        </style>
+        <script>
+        (function () {
+          try {
+            var stored = localStorage.getItem('tr-theme');
+            var wantsDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (wantsDark) document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+          } catch (e) {}
+        })();
+        </script>
+        <script type="importmap">{
   "imports": {
     "react": "https://www.gstatic.com/agent-platform/modules/v1/react@19.2.7.4d5517570685122f.js",
     "react-dom": "https://www.gstatic.com/agent-platform/modules/v1/react-dom@19.2.7.65799deb8803db6e.js",
@@ -56,7 +64,7 @@
   }
 }</script>
   </head>
-  <body class="bg-[#070c16] text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950 font-sans">
+  <body class="bg-[var(--tr-bg)] text-[var(--tr-text)] antialiased selection:bg-[var(--tr-accent)] selection:text-[var(--tr-text)] dark font-sans">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>

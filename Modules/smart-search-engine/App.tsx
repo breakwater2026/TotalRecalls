@@ -27,6 +27,14 @@ export function App() {
   const [chunks, setChunks] = useState(() => buildVectorIndex(INITIAL_CONVERSATIONS, 384));
   const [activeTab, setActiveTab] = useState<AppTabType>('website');
   const [selectedConvId, setSelectedConvId] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(true);
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    try { localStorage.setItem('tr-theme', next ? 'dark' : 'light'); } catch (e) {}
+  };
 
   const handleSelectModel = (modelId: string, dimension: number) => {
     setActiveModelId(modelId);
@@ -71,7 +79,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070c16] text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-[var(--tr-bg)] text-[var(--tr-text)] flex flex-col font-sans selection:bg-[var(--tr-accent)] selection:text-[var(--tr-text)]">
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -205,28 +213,32 @@ export function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-800/80 bg-[#070c16] py-8 text-center text-xs text-slate-500">
+      <footer className="border-t border-[var(--tr-border)] bg-[var(--tr-bg)] py-8 text-center text-xs text-[var(--tr-muted)]">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-400">TotalRecalls Smart Search Engine</span>
+            <span className="font-semibold text-[var(--tr-text)]">TotalRecalls Smart Search Engine</span>
             <span>•</span>
             <span>Downside Protection Vault & Air-Gapped Code Integrity Tests</span>
           </div>
           <div className="flex items-center space-x-4">
-            <button onClick={() => setActiveTab('backup')} className="hover:text-cyan-400 transition-colors">
+            <button onClick={() => setActiveTab('backup')} className="hover:text-[var(--tr-accent)] transition-colors">
               Backup Vault
             </button>
             <span>•</span>
-            <button onClick={() => setActiveTab('integrityTests')} className="hover:text-cyan-400 transition-colors">
+            <button onClick={() => setActiveTab('integrityTests')} className="hover:text-[var(--tr-accent)] transition-colors">
               Code Integrity Tests
             </button>
             <span>•</span>
-            <button onClick={() => setActiveTab('delivery')} className="hover:text-cyan-400 transition-colors">
+            <button onClick={() => setActiveTab('delivery')} className="hover:text-[var(--tr-accent)] transition-colors">
               .ZIP & Installer
             </button>
             <span>•</span>
-            <button onClick={() => setActiveTab('website')} className="hover:text-cyan-400 transition-colors">
+            <button onClick={() => setActiveTab('website')} className="hover:text-[var(--tr-accent)] transition-colors">
               Website Showcase
+            </button>
+            <span>•</span>
+            <button onClick={toggleTheme} className="hover:text-[var(--tr-accent)] transition-colors" title="Toggle dark/light theme">
+              {isDark ? '☀️' : '🌙'}
             </button>
           </div>
         </div>

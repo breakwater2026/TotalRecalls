@@ -11,6 +11,7 @@ const COLS = [
       { l: "AI Providers", href: "/providers/" },
       { l: "The Library", href: "/library/" },
       { l: "Search", href: "/search/" },
+      { l: "Smart Search", href: "/smart-search/" },
       { l: "Ownership Path", href: "/ownership/" },
       { l: "Pricing", href: "/#pricing" },
       { l: "Download", href: "/download/" },
@@ -29,7 +30,7 @@ const COLS = [
       { l: "Download Qwen Chat conversations", href: "/guides/qwen/" },
       { l: "Downloading Grok conversations", href: "/guides/grok/" },
       { l: "Own your AI chat data", href: "/guides/own-your-ai-chat-data/" },
-      { l: "Using TotalRecalls Search", href: "/guides/using-totalrecalls-search/" },
+      { l: "Using Smart Search Engine", href: "/guides/using-totalrecalls-search/" },
     ],
   },
   {

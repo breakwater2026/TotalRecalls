@@ -91,25 +91,26 @@ export default function Pricing() {
           </div>
         </div>
 
-        {/* TotalRecalls Search add-on strip */}
+        {/* Smart Search Engine add-on strip */}
         <div className="mt-12 rounded-card border border-tr-slate bg-tr-graphite p-8 md:p-12">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
             <div className="max-w-[680px]">
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 <Chip tone="slate">Add-on for Pro</Chip>
-                <span className="font-mono text-[14px] font-medium text-tr-dust tabular-nums">$19 one-time</span>
-                <span className="font-mono text-[14px] text-tr-dust">· launch price (regular $39)</span>
+                <span className="font-mono text-[14px] font-medium text-tr-dust tabular-nums">$39 one-time</span>
+                <span className="font-mono text-[14px] text-tr-dust">· launch price (regular $59)</span>
               </div>
               <h3 className="mt-0 font-heading text-[24px] md:text-[28px] font-semibold leading-[1.2] text-tr-paper">Then make it searchable.</h3>
               <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
-                Ask in plain English and find any conversation, from any of your eight providers.
+                Smart Search Engine finds the one you need. Ask in plain English, and it looks through every conversation from every provider.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
-                  "Finds passages by meaning, not just exact words",
-                  "Searches all eight providers at once",
-                  "Opens the original Markdown or JSON file",
-                  "Runs on your PC. Nothing you save is uploaded",
+                  "Search by meaning, by keyword, or both together",
+                  "Ask questions about your archive in plain English, like “how many Claude chats did I have in 2026?”",
+                  "Chat with your archive (works without any AI model; a local model is optional)",
+                  "Every result links to the original file",
+                  "Connects to Obsidian and Notion",
                   "Keeps itself up to date",
                 ].map((b, i) => (
                   <li key={i} className="flex items-start gap-3">
@@ -118,12 +119,19 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-8">
-                <Btn href="/buy/" className="w-full sm:w-auto">Add Search to Pro</Btn>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Btn href="/buy/" className="w-auto">Add SSE to Pro, $39</Btn>
+                <Btn href="/buy/" variant="secondary" className="w-auto">Pro owners: $31</Btn>
               </div>
-              <p className="mt-5 font-body text-[15px] leading-[1.6] text-tr-mist">
-                Or get Pro + Search together for $39. Already own Pro? Early-buyer price $14 for 30 days after launch.
-              </p>
+
+              <div className="mt-8 rounded-card border border-tr-slate/40 bg-tr-obsidian/60 p-6">
+                <p className="font-body text-[15px] leading-[1.6] text-tr-mist">
+                  <span className="font-semibold text-tr-paper">Best value:</span> Pro + Smart Search Engine together,{" "}
+                  <span className="font-mono text-tr-amber tabular-nums">$55 one-time</span>{" "}
+                  (launch price, regular $89).
+                </p>
+                <Btn href="/buy/" variant="secondary" className="mt-4 w-full sm:w-auto">Buy the bundle, $55</Btn>
+              </div>
               <p className="mt-5 font-body text-[13px] leading-[1.5] text-tr-dust">
                 Requires TotalRecalls Pro. Windows 10 and 11. About 8 GB RAM and 2 GB free disk. One-time internet connection to download the search model.
               </p>
@@ -133,7 +141,7 @@ export default function Pricing() {
 
         <div className="mt-10 text-center">
           <p className="mx-auto max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-            Windows 10 and 11. $24 is a discounted launch price. Add-ons, like Search, are sold
+            Windows 10 and 11. $24 is a discounted launch price. Add-ons, like Smart Search Engine, are sold
             separately. See below. Your core app updates stay free.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">

@@ -6,24 +6,24 @@ import Footer from "../../components/landing/tr/Footer.jsx";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "TotalRecalls Search",
+  name: "Smart Search Engine",
   description:
     "Add-on for TotalRecalls Pro. Search conversations from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat in plain English. Runs on your PC — nothing is uploaded.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Windows 10, Windows 11",
   offers: {
     "@type": "Offer",
-    price: "19.00",
+    price: "39.00",
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
-    url: "https://totalrecalls.app/search/",
+    url: "https://totalrecalls.app/smart-search/",
   },
 };
 ---
 
 <BaseLayout
-  title="TotalRecalls Search — Find anything you ever asked any AI."
-  description="TotalRecalls Search is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers’ conversations in plain English. Nothing is uploaded. One-time $19 launch price."
+  title="Smart Search Engine — Find anything you ever asked any AI."
+  description="Smart Search Engine is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers' conversations in plain English. Nothing is uploaded. One-time $39 launch price."
 >
   <div class="min-h-screen bg-tr-obsidian">
     <Nav client:load />
@@ -33,19 +33,19 @@ const jsonLd = {
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
-            <h1 class="mt-0 font-heading text-[40px] md:text-[56px] font-bold leading-[1.05] tracking-[-0.02em] text-tr-paper">
+            <h1 class="mt-0 font-heading text-[40px] md:text-[56px] font-bold leading-[1.05] tracking[-0.02em] text-tr-paper">
               Find anything you ever asked any AI.
             </h1>
             <p class="mt-6 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
-              TotalRecalls Search is an add-on for TotalRecalls Pro. It indexes your Library on your PC,
-              so you can search eight providers’ conversations in plain English.
+              Smart Search Engine is an add-on for TotalRecalls Pro. It indexes your Library on your PC,
+              so you can search eight providers' conversations in plain English.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
               <a
                 href="/buy/"
                 class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
               >
-                Add Search to Pro
+                Add SSE to Pro, $39
               </a>
               <a
                 href="#results-window"
@@ -55,7 +55,7 @@ const jsonLd = {
               </a>
             </div>
             <p class="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-              Launch price $19 one-time (regular $39). Requires TotalRecalls Pro. Windows 10 and 11.
+              Launch price $39 one-time (regular $59). Requires TotalRecalls Pro. Windows 10 and 11.
             </p>
             <div class="mt-8 flex flex-wrap gap-2">
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
@@ -65,7 +65,7 @@ const jsonLd = {
                 Nothing uploaded
               </span>
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
-                One-time $19 launch price
+                One-time $39 launch price
               </span>
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
                 Windows 10/11
@@ -148,7 +148,7 @@ const jsonLd = {
                 class="rounded-sm block max-w-[420px] w-auto"
               />
               <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
-                TotalRecalls Search results window — click a result to open the original conversation file.
+                Smart Search Engine results window — click a result to open the original conversation file.
               </p>
             </div>
           </div>
@@ -172,9 +172,9 @@ const jsonLd = {
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
         <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Private by design</h2>
         <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
-          <li>Search runs on your PC.</li>
+          <li>Smart Search Engine runs on your PC.</li>
           <li>Nothing you write or save is uploaded.</li>
-          <li>The search model downloads once at setup, so that step needs an internet connection. After that, Search works without one.</li>
+          <li>The search model downloads once at setup, so that step needs an internet connection. After that, Smart Search Engine works without one.</li>
         </ul>
       </div>
     </section>
@@ -184,7 +184,7 @@ const jsonLd = {
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
         <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Always current</h2>
         <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
-          Search re-indexes on a schedule, so new downloads are searchable by the next morning.
+          Smart Search Engine re-indexes on a schedule, so new downloads are searchable by the next morning.
         </p>
       </div>
     </section>
@@ -206,20 +206,20 @@ const jsonLd = {
     {/* Pricing */}
     <section id="pricing" class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
-        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">Pricing</h2>
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">Pricing</h2>
         <div class="mt-6 grid sm:grid-cols-2 gap-6">
           <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
-            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Search add-on:</strong> $19 launch price (regular $39). One-time. Requires Pro.</p>
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Smart Search Engine add-on:</strong> $39 launch price (regular $59). One-time. Requires Pro.</p>
           </div>
-          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
-            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Pro + Search bundle:</strong> $39 launch price (Pro $24 + Search $19 would be $43).</p>
+          <div class="rounded-card border border-tr-amber bg-tr-obsidian p-6 md:p-8">
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist"><strong>Pro + Smart Search Engine bundle:</strong> $55 launch price (regular $89).</p>
           </div>
         </div>
         <p class="mt-5 max-w-[680px] font-body text-[15px] leading-[1.6] text-tr-mist">
-          Already own Pro? Early-buyer price <strong>$14</strong> for the first 30 days after launch.
+          Already own Pro? Early-buyer price <strong>$31</strong> for the first 30 days after launch.
         </p>
         <p class="mt-3 max-w-[680px] font-body text-[13px] leading-[1.5] text-tr-dust">
-          Launch prices end on [DATE]. After that, Search is $39 and Pro is $48.
+          Launch prices end on [DATE]. After that, Smart Search Engine is $59 and Pro is $48.
         </p>
       </div>
     </section>
@@ -233,7 +233,7 @@ const jsonLd = {
             href="/buy/"
             class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
           >
-            Add Search to Pro
+            Add SSE to Pro, $39
           </a>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Eyebrow, Btn } from "./ui";
 
-const TRUST = ["No cloud", "No account", "One-time $24", "Windows 10/11"];
+const TRUST = ["New Windows 10/11 App", "Take control of your personal info", "Located on your PC"];
 
 const TREE = [
   { d: "chatgpt\\", n: "3 files" },
@@ -12,19 +12,27 @@ const TREE = [
 
 export default function Hero() {
   return (
-    <div id="top" className="bg-tr-obsidian pt-16 pb-16 md:pt-32 md:pb-24">
+    <div id="top" className="bg-tr-obsidian pt-8 pb-16 md:pt-16 md:pb-24">
       <Container>
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: promise */}
           <div>
-            <Eyebrow mono>Windows app · Local-first</Eyebrow>
-
-            <h1 className="mt-3 font-heading text-[40px] md:text-[64px] font-bold leading-[1.05] tracking-[-0.02em] text-tr-paper">
-              Recall every AI conversation, keep on your own PC.
+            <div className="mt-8 flex flex-wrap gap-2">
+              {TRUST.map((t) => (
+                <span key={t} className="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-dust">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <h1 className="mt-3 font-heading text-[19px] md:text-[29px] font-bold leading-[1.2] tracking[-0.01em] text-tr-paper">
+              Recall every AI conversation<br />
+              From the Top 8 AI providers<br />
+              Download them all on your PC<br />
+              Search them with no restrictions
             </h1>
 
             <p className="mt-6 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
-              Save chats from ChatGPT, Claude, and six more AI tools as Markdown and JSON
+              Save chats from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen as Markdown and JSON
               files in one private folder you control.
             </p>
 
@@ -34,22 +42,16 @@ export default function Hero() {
             </div>
 
             <p className="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-              Free Tier covers ChatGPT, Claude, and Perplexity, 5 conversations each. Pro
-              unlocks all 8 providers for $24 one-time (launch price).
+              Free Tier covers ChatGPT, Claude, and Perplexity, 5 conversations each.
+            </p>
+            <p className="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
+              Pro unlocks all 8 providers and unlimited downloads for $24 one-time (launch price). From there you can search using Windows Explorer, Norton, Obsidian or our new semantic (vector) Smart Search Engine (SSE) add-on tool.*
             </p>
             <p className="mt-5 sm:hidden max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
               Windows app. Visit from your desktop to download.
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-2">
-              {TRUST.map((t) => (
-                <span key={t} className="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-dust">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.12em] text-tr-dust">
-              New: TotalRecalls Search add-on.
+            <p className="mt-5 font-mono text-[11px] text-tr-dust">
+              * Optional Smart Search Engine (SSE) sold separately - $29 launch price.
             </p>
           </div>
 

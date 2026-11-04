@@ -14,6 +14,7 @@ const LINKS = [
   { label: "See It Work", href: "/see-it-work/" },
   { label: "Providers", href: "/providers/" },
   { label: "Library", href: "/library/" },
+  { label: (<span>SMART<br />SEARCH<br />ENGINE<br />(SSE)</span>), href: "/smart-search/" },
   { label: "Search", href: "/search/" },
   { label: "Guides", href: "/guides/" },
   { label: "Pricing", href: "/#pricing" },
@@ -45,23 +46,26 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-40 bg-tr-obsidian/95 backdrop-blur border-b border-tr-slate py-2.5">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10 flex items-center justify-between">
+      <div className="mx-auto max-w-[1400px] pl-0 pr-5 md:pr-10 flex items-center justify-between">
         <a href="/#top" className="flex items-center gap-2.5">
           <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
         </a>
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6 ml-8" style={{ hyphens: 'none' }}>
           {LINKS.map((l) => (
             <a key={l.label} href={l.href} className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">
               {l.label}
+              {l.subLabel && (
+                <span className="block mt-0.5 text-center text-[10px] text-tr-steel uppercase tracking-[0.05em]">{l.subLabel}</span>
+              )}
             </a>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden md:flex items-center gap-5 ml-6">
+          <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-tr-dust hover:text-tr-paper transition-colors">Download</a>
           <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-tr-slate text-tr-dust hover:text-tr-paper hover:bg-tr-slate/40 transition-colors" aria-label="Toggle theme">
             <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
             <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
           </button>
-          <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-tr-dust hover:text-tr-paper transition-colors">Download</a>
           <div className="flex flex-col items-center">
             <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-tr-amber-hover transition-colors">
               Buy — $24<span className="tr-usd">USD</span> <ArrowRight className="w-3.5 h-3.5" />
@@ -89,6 +93,9 @@ export default function Nav() {
             {LINKS.concat([{ label: "Download", href: "/download/" }]).map((l) => (
               <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-tr-dust">
                 {l.label}
+                {l.subLabel && (
+                  <span className="block mt-0.5 text-center text-[10px] text-tr-steel uppercase tracking-[0.05em]">{l.subLabel}</span>
+                )}
               </a>
             ))}
             <a href="/#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-tr-amber text-tr-on-amber px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">

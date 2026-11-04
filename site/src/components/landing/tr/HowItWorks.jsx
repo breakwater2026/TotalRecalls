@@ -45,7 +45,7 @@ const STEPS = [
     body: "Ask in plain English and find any conversation across all eight providers.",
     chips: [
       { text: "Add-on", tone: "slate" },
-      { text: "TotalRecalls Search", tone: "slate" },
+      { text: "Smart Search Engine", tone: "slate" },
     ],
   },
 ];

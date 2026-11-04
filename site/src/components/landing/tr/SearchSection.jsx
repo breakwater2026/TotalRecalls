@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Section, Eyebrow, Btn } from "./ui";
 
 const POINTS = [
-  "Ask, don’t remember. Search by meaning — “how did I handle retrying a failed background job” finds it, even if you never used those words.",
+  "Ask, don’t remember. Search by meaning, by keyword, or both. Find the chat even if you never used those words.",
   "All eight providers, one search. No guessing which app you used.",
-  "Your files, your PC. Click a result to open the original conversation. Nothing is uploaded.",
+  "Your files, your PC. Click a result to open the original conversation. Nothing you write or save is uploaded.",
 ];
 
 export default function SearchSection() {
@@ -13,13 +13,12 @@ export default function SearchSection() {
       <Container>
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="max-w-[680px]">
-            <Eyebrow mono>New add-on</Eyebrow>
+            <Eyebrow mono>NEW ADD-ON</Eyebrow>
             <h2 className="mt-3 font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
               Hundreds of chats in folders is still a pile.
             </h2>
             <p className="mt-4 font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
-              TotalRecalls Search finds the one you need. Ask in plain English, and it looks
-              through every conversation from every provider.
+              Smart Search Engine finds the one you need. Ask in plain English, and it looks through every conversation from every provider.
             </p>
             <ul className="mt-8 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist">
               {POINTS.map((p, i) => (
@@ -30,9 +29,9 @@ export default function SearchSection() {
               ))}
             </ul>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Btn href="/search/">See how Search works</Btn>
+              <Btn href="/smart-search/">See Smart Search Engine</Btn>
               <Btn href="/buy/" variant="secondary" className="w-auto">
-                Add Search to Pro
+                Get the bundle, $55
               </Btn>
             </div>
           </div>

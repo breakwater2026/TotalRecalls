@@ -163,19 +163,19 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
   return (
     <div className="space-y-8">
       {/* Header Bar */}
-      <div className="rounded-2xl bg-[#0c1424] border border-cyan-500/30 p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="rounded-2xl bg-[var(--tr-panel)] border border-[var(--tr-accent)]/30 p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-teal-500 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-cyan-500/20">
-            <Tv className="w-5 h-5 text-slate-950" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[var(--tr-accent)] to-[var(--tr-accent2)] flex items-center justify-center text-[var(--tr-text)] font-bold shadow-md shadow">
+            <Tv className="w-5 h-5 text-[var(--tr-text)]" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold text-white tracking-tight">Demo Video Script & Teleprompter</h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-mono">
+              <h2 className="text-base font-bold text-[var(--tr-text)] tracking-tight">Demo Video Script & Teleprompter</h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/30 font-mono">
                 2 min 45 sec
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[var(--tr-muted)]">
               Commercial-grade 6-act promotional video script with Founder's Season Pass call to action.
             </p>
           </div>
@@ -184,14 +184,14 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopyFullScript}
-            className="px-3 py-1.5 rounded-lg bg-[#070b14] hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-[var(--tr-panel2)] hover:bg-[var(--tr-panel)] text-[var(--tr-muted)] border border-[var(--tr-border)] text-xs font-semibold flex items-center gap-1.5 transition-colors"
           >
-            {copiedScript ? <Check className="w-3.5 h-3.5 text-teal-400" /> : <Copy className="w-3.5 h-3.5 text-cyan-400" />}
+            {copiedScript ? <Check className="w-3.5 h-3.5 text-[var(--tr-accent)]" /> : <Copy className="w-3.5 h-3.5 text-[var(--tr-accent)]" />}
             <span>{copiedScript ? 'Copied Full Script!' : 'Copy Script (.MD)'}</span>
           </button>
           <button
             onClick={handleDownloadScript}
-            className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow"
+            className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] hover:from-[var(--tr-accent)] hover:to-[var(--tr-accent2)] text-[var(--tr-text)] text-xs font-bold flex items-center gap-1.5 transition-all shadow"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Download .MD</span>
@@ -203,9 +203,9 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Act Navigator */}
         <div className="space-y-2">
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <div className="text-xs font-bold text-[var(--tr-muted)] uppercase tracking-wider mb-2 flex items-center justify-between">
             <span>Video Scene Breakdown</span>
-            <span className="font-mono text-cyan-400">6 Acts • 165s</span>
+            <span className="font-mono text-[var(--tr-accent)]">6 Acts • 165s</span>
           </div>
 
           {scenes.map((scene, idx) => (
@@ -217,25 +217,25 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
               }}
               className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start justify-between gap-3 ${
                 activeSceneIdx === idx
-                  ? 'bg-cyan-950/40 border-cyan-500 shadow-md shadow-cyan-500/10'
-                  : 'bg-[#0c1424] border-slate-800/80 hover:border-slate-700'
+                  ? 'bg-[var(--tr-accent)]/40 border-[var(--tr-accent)] shadow-md shadow'
+                  : 'bg-[var(--tr-panel)] border-[var(--tr-border)] hover:border-[var(--tr-border)]'
               }`}
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                    activeSceneIdx === idx ? 'bg-cyan-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+                    activeSceneIdx === idx ? 'bg-[var(--tr-accent)] text-[var(--tr-text)] font-bold' : 'bg-[var(--tr-panel)] text-[var(--tr-muted)]'
                   }`}>
                     {scene.timestamp}
                   </span>
-                  <span className="text-[11px] font-medium text-slate-300">
+                  <span className="text-[11px] font-medium text-[var(--tr-muted)]">
                     {scene.durationSec}s
                   </span>
                 </div>
-                <div className="text-xs font-bold text-slate-100 line-clamp-1">{scene.actTitle}</div>
+                <div className="text-xs font-bold text-[var(--tr-text)] line-clamp-1">{scene.actTitle}</div>
               </div>
               <ChevronRight className={`w-4 h-4 mt-1 transition-transform ${
-                activeSceneIdx === idx ? 'text-cyan-400 translate-x-1' : 'text-slate-600'
+                activeSceneIdx === idx ? 'text-[var(--tr-accent)] translate-x-1' : 'text-[var(--tr-muted)]'
               }`} />
             </button>
           ))}
@@ -243,33 +243,33 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
 
         {/* Right: Teleprompter View */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="rounded-2xl bg-[#0c1424] border border-cyan-500/30 p-6 space-y-6 shadow-xl">
+          <div className="rounded-2xl bg-[var(--tr-panel)] border border-[var(--tr-accent)]/30 p-6 space-y-6 shadow-xl">
             {/* Teleprompter Controls Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--tr-border)] pb-4">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                <span className="text-[10px] font-mono font-bold text-[var(--tr-accent)] uppercase tracking-wider">
                   Active Scene {activeSceneIdx + 1} of {scenes.length}
                 </span>
-                <h3 className="text-base font-bold text-white">{currentScene.actTitle}</h3>
+                <h3 className="text-base font-bold text-[var(--tr-text)]">{currentScene.actTitle}</h3>
               </div>
 
               {/* Font Sizer */}
-              <div className="flex items-center space-x-1 bg-[#070b14] border border-slate-800 rounded-lg p-1 text-xs">
+              <div className="flex items-center space-x-1 bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg p-1 text-xs">
                 <button
                   onClick={() => setTeleprompterFont('normal')}
-                  className={`px-2 py-1 rounded text-xs ${teleprompterFont === 'normal' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400'}`}
+                  className={`px-2 py-1 rounded text-xs ${teleprompterFont === 'normal' ? 'bg-[var(--tr-panel2)] text-[var(--tr-text)] font-bold' : 'text-[var(--tr-muted)]'}`}
                 >
                   A
                 </button>
                 <button
                   onClick={() => setTeleprompterFont('large')}
-                  className={`px-2 py-1 rounded text-sm ${teleprompterFont === 'large' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400'}`}
+                  className={`px-2 py-1 rounded text-sm ${teleprompterFont === 'large' ? 'bg-[var(--tr-panel2)] text-[var(--tr-text)] font-bold' : 'text-[var(--tr-muted)]'}`}
                 >
                   A+
                 </button>
                 <button
                   onClick={() => setTeleprompterFont('xlarge')}
-                  className={`px-2 py-1 rounded text-base ${teleprompterFont === 'xlarge' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400'}`}
+                  className={`px-2 py-1 rounded text-base ${teleprompterFont === 'xlarge' ? 'bg-[var(--tr-panel2)] text-[var(--tr-text)] font-bold' : 'text-[var(--tr-muted)]'}`}
                 >
                   A++
                 </button>
@@ -277,21 +277,21 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
             </div>
 
             {/* Visual Cue Card */}
-            <div className="p-3.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 space-y-1">
-              <div className="flex items-center gap-1.5 text-cyan-400 text-xs font-bold">
+            <div className="p-3.5 rounded-xl bg-[var(--tr-accent)]/30 border border-[var(--tr-accent)]/30 space-y-1">
+              <div className="flex items-center gap-1.5 text-[var(--tr-accent)] text-xs font-bold">
                 <Tv className="w-3.5 h-3.5" />
                 <span>Camera & Screen Visual Direction:</span>
               </div>
-              <p className="text-xs text-slate-300 italic">{currentScene.visualCue}</p>
+              <p className="text-xs text-[var(--tr-muted)] italic">{currentScene.visualCue}</p>
             </div>
 
             {/* Teleprompter Voiceover Text */}
             <div className="space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-teal-400 uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--tr-accent)] uppercase tracking-wider">
                 <Volume2 className="w-3.5 h-3.5" />
                 <span>Spoken Voiceover Script (Host Audio):</span>
               </div>
-              <div className={`p-5 rounded-xl bg-[#070b14] border border-slate-800 leading-relaxed text-slate-100 font-sans tracking-wide select-all whitespace-pre-line ${
+              <div className={`p-5 rounded-xl bg-[var(--tr-panel2)] border border-[var(--tr-border)] leading-relaxed text-[var(--tr-text)] font-sans tracking-wide select-all whitespace-pre-line ${
                 teleprompterFont === 'normal' ? 'text-sm' :
                 teleprompterFont === 'large' ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'
               }`}>
@@ -300,17 +300,17 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
             </div>
 
             {/* On Screen Banner Graphic */}
-            <div className="p-3 rounded-xl bg-[#0e1626] border border-slate-800 flex items-center justify-between text-xs">
-              <span className="text-slate-400 font-mono">Lower-Third On-Screen Graphic:</span>
-              <span className="font-bold text-cyan-300 font-mono">{currentScene.onScreenText}</span>
+            <div className="p-3 rounded-xl bg-[var(--tr-panel)] border border-[var(--tr-border)] flex items-center justify-between text-xs">
+              <span className="text-[var(--tr-muted)] font-mono">Lower-Third On-Screen Graphic:</span>
+              <span className="font-bold text-[var(--tr-accent)] font-mono">{currentScene.onScreenText}</span>
             </div>
 
             {/* Scene Navigation & Live Demo Link */}
-            <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--tr-border)]">
               <button
                 disabled={activeSceneIdx === 0}
                 onClick={() => setActiveSceneIdx(prev => Math.max(0, prev - 1))}
-                className="px-3 py-1.5 rounded-lg bg-[#070b14] hover:bg-slate-800 text-slate-300 disabled:opacity-30 text-xs font-semibold flex items-center gap-1"
+                className="px-3 py-1.5 rounded-lg bg-[var(--tr-panel2)] hover:bg-[var(--tr-panel)] text-[var(--tr-muted)] disabled:opacity-30 text-xs font-semibold flex items-center gap-1"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
                 <span>Prev Act</span>
@@ -319,9 +319,9 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
               {currentScene.highlightTab && (
                 <button
                   onClick={() => onSelectTab && onSelectTab(currentScene.highlightTab!)}
-                  className="px-3.5 py-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg bg-[var(--tr-accent)]/60 hover:bg-[var(--tr-accent)]/60 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                   <span>Open Demo View for this Scene</span>
                 </button>
               )}
@@ -329,7 +329,7 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
               <button
                 disabled={activeSceneIdx === scenes.length - 1}
                 onClick={() => setActiveSceneIdx(prev => Math.min(scenes.length - 1, prev + 1))}
-                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white disabled:opacity-30 text-xs font-bold flex items-center gap-1 shadow"
+                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] hover:from-[var(--tr-accent)] hover:to-[var(--tr-accent2)] text-[var(--tr-text)] disabled:opacity-30 text-xs font-bold flex items-center gap-1 shadow"
               >
                 <span>Next Act</span>
                 <ChevronRight className="w-3.5 h-3.5" />

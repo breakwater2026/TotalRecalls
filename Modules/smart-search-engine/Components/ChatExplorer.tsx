@@ -61,10 +61,10 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
   };
 
   const providerColors: Record<AIProvider, string> = {
-    ChatGPT: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    ChatGPT: 'bg-[var(--tr-good)]/10 text-[var(--tr-good)] border-[var(--tr-good)]/30',
     Claude: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    Gemini: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-    Perplexity: 'bg-teal-500/10 text-teal-400 border-teal-500/30',
+    Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
     LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
   };
@@ -72,19 +72,19 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
   return (
     <div className="space-y-6">
       {/* Downloader Core Status banner with TotalRecalls brand colors */}
-      <div className="rounded-2xl bg-gradient-to-r from-[#0c1f30] via-[#091524] to-[#070c16] border border-cyan-500/30 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+      <div className="rounded-2xl bg-gradient-to-r from-[var(--tr-bg)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
         <div>
           <div className="flex items-center space-x-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-500/15 text-teal-300 border border-teal-500/30 flex items-center gap-1.5">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/30 flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Core Unit: TotalRecalls Local Chat Downloader
             </span>
-            <span className="text-xs text-cyan-400 font-mono">totalrecalls.app</span>
+            <span className="text-xs text-[var(--tr-accent)] font-mono">totalrecalls.app</span>
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">
+          <h2 className="text-2xl font-bold text-[var(--tr-text)] tracking-tight">
             Universal AI Chat Downloader & Local Vault
           </h2>
-          <p className="text-sm text-slate-300 mt-1">
+          <p className="text-sm text-[var(--tr-muted)] mt-1">
             Continuous local backup for ChatGPT, Claude, Gemini, Perplexity, and Mistral conversations. 
             All files are stored in your private local directory with encrypted zero-cloud storage.
           </p>
@@ -93,15 +93,15 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onAddNewMockChat}
-            className="px-3.5 py-2 bg-[#080d19] hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl font-medium text-xs transition-colors flex items-center gap-2"
+            className="px-3.5 py-2 bg-[var(--tr-panel)] hover:bg-[var(--tr-panel)] text-[var(--tr-text)] border border-[var(--tr-border)] rounded-xl font-medium text-xs transition-colors flex items-center gap-2"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
+            <RefreshCw className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
             <span>Simulate Sync Run</span>
           </button>
           <button
             onClick={handleExportJSON}
             disabled={isExporting}
-            className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white rounded-xl font-semibold text-xs transition-all flex items-center gap-2 shadow-md shadow-cyan-600/20"
+            className="px-4 py-2 bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] hover:from-[var(--tr-accent)] hover:to-[var(--tr-accent2)] text-[var(--tr-text)] rounded-xl font-semibold text-xs transition-all flex items-center gap-2 shadow-md shadow"
           >
             <DownloadCloud className="w-4 h-4" />
             <span>Export Archive</span>
@@ -110,8 +110,8 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
       </div>
 
       {exportNotice && (
-        <div className="p-3 bg-teal-950/60 border border-teal-500/40 rounded-xl text-teal-300 text-xs flex items-center gap-2 animate-fadeIn">
-          <Check className="w-4 h-4 text-teal-400" />
+        <div className="p-3 bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 rounded-xl text-[var(--tr-accent)] text-xs flex items-center gap-2 animate-fadeIn">
+          <Check className="w-4 h-4 text-[var(--tr-accent)]" />
           <span>{exportNotice}</span>
         </div>
       )}
@@ -119,17 +119,17 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
       {/* Main 2-column view: List & Conversation reader */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[640px]">
         {/* Left Sidebar: Conversations List */}
-        <div className="lg:col-span-5 bg-[#0c1424] border border-slate-800 rounded-2xl p-4 space-y-4 flex flex-col shadow-lg">
+        <div className="lg:col-span-5 bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-4 space-y-4 flex flex-col shadow-lg">
           {/* Filter and search */}
           <div className="space-y-3">
             <div className="relative">
-              <Search className="w-4 h-4 text-cyan-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[var(--tr-accent)] absolute left-3 top-2.5" />
               <input
                 type="text"
                 placeholder="Filter by keyword, title, tag..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-[#070b14] border border-slate-800 focus:border-cyan-500 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none"
+                className="w-full pl-9 pr-3 py-2 bg-[var(--tr-panel2)] border border-[var(--tr-border)] focus:border-[var(--tr-accent)] rounded-lg text-xs text-[var(--tr-text)] placeholder-[var(--tr-muted)] focus:outline-none"
               />
             </div>
 
@@ -141,8 +141,8 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
                   onClick={() => setSelectedProvider(p)}
                   className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors ${
                     selectedProvider === p
-                      ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white'
-                      : 'bg-[#070b14] text-slate-400 hover:text-slate-200'
+                      ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)]'
+                      : 'bg-[var(--tr-panel2)] text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
                   }`}
                 >
                   {p}
@@ -161,27 +161,27 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
                   onClick={() => onSelectConversation(conv.id)}
                   className={`p-3.5 rounded-xl cursor-pointer transition-all border ${
                     isSelected
-                      ? 'bg-cyan-950/40 border-cyan-500/60 shadow-md shadow-cyan-950/30'
-                      : 'bg-[#070b14] border-slate-800/80 hover:border-slate-700 hover:bg-[#09101d]'
+                      ? 'bg-[var(--tr-accent)]/40 border-[var(--tr-accent)]/60 shadow-md shadow'
+                      : 'bg-[var(--tr-panel2)] border-[var(--tr-border)] hover:border-[var(--tr-border)] hover:bg-[var(--tr-panel2)]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${providerColors[conv.provider]}`}>
                       {conv.provider}
                     </span>
-                    <span className="text-[11px] text-slate-500 font-mono">
+                    <span className="text-[11px] text-[var(--tr-muted)] font-mono">
                       {conv.createdAt.slice(0, 10)}
                     </span>
                   </div>
 
-                  <h4 className="text-xs font-semibold text-slate-200 line-clamp-2 mb-2">
+                  <h4 className="text-xs font-semibold text-[var(--tr-text)] line-clamp-2 mb-2">
                     {conv.title}
                   </h4>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <div className="flex items-center justify-between text-[11px] text-[var(--tr-muted)]">
                     <span>{conv.messageCount} turns • {conv.totalTokens.toLocaleString()} tokens</span>
                     {conv.isIndexed && (
-                      <span className="text-teal-400 flex items-center gap-1 text-[10px] font-medium">
+                      <span className="text-[var(--tr-accent)] flex items-center gap-1 text-[10px] font-medium">
                         <CheckCircle2 className="w-3 h-3" />
                         Vector Indexed
                       </span>
@@ -194,32 +194,32 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
         </div>
 
         {/* Right Reader: Conversation content */}
-        <div className="lg:col-span-7 bg-[#0c1424] border border-slate-800 rounded-2xl p-6 flex flex-col shadow-lg">
+        <div className="lg:col-span-7 bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-6 flex flex-col shadow-lg">
           {activeConversation ? (
             <div className="space-y-6 flex-1 flex flex-col">
               {/* Header */}
-              <div className="border-b border-slate-800 pb-4">
+              <div className="border-b border-[var(--tr-border)] pb-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <span className={`px-2 py-0.5 rounded text-xs font-semibold border ${providerColors[activeConversation.provider]}`}>
                       {activeConversation.provider}
                     </span>
-                    <span className="text-xs font-mono text-cyan-400">
+                    <span className="text-xs font-mono text-[var(--tr-accent)]">
                       Model: {activeConversation.model}
                     </span>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[var(--tr-muted)] font-mono">
                     ID: {activeConversation.id}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-[var(--tr-text)] mb-2">
                   {activeConversation.title}
                 </h3>
 
                 <div className="flex flex-wrap items-center gap-1.5 text-xs">
                   {activeConversation.tags.map((tag, i) => (
-                    <span key={i} className="px-2 py-0.5 rounded bg-[#070b14] border border-slate-800 text-cyan-300 font-mono">
+                    <span key={i} className="px-2 py-0.5 rounded bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-accent)] font-mono">
                       #{tag}
                     </span>
                   ))}
@@ -236,10 +236,10 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
                       className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                     >
                       <div className="flex items-center space-x-2 mb-1 px-1">
-                        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                        <span className="text-[11px] font-semibold text-[var(--tr-muted)] uppercase tracking-wider">
                           {isUser ? 'You' : activeConversation.provider}
                         </span>
-                        <span className="text-[10px] text-slate-500 font-mono">
+                        <span className="text-[10px] text-[var(--tr-muted)] font-mono">
                           {msg.timestamp}
                         </span>
                       </div>
@@ -247,15 +247,15 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
                       <div
                         className={`max-w-[85%] rounded-2xl p-4 text-xs leading-relaxed whitespace-pre-wrap font-sans ${
                           isUser
-                            ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white rounded-tr-none shadow-md shadow-cyan-600/10'
-                            : 'bg-[#070b14] text-slate-200 border border-slate-800 rounded-tl-none'
+                            ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] rounded-tr-none shadow-md shadow'
+                            : 'bg-[var(--tr-panel2)] text-[var(--tr-text)] border border-[var(--tr-border)] rounded-tl-none'
                         }`}
                       >
                         {msg.content}
                       </div>
 
                       {msg.tokenCount && (
-                        <span className="text-[10px] text-slate-500 mt-1 px-1 font-mono">
+                        <span className="text-[10px] text-[var(--tr-muted)] mt-1 px-1 font-mono">
                           {msg.tokenCount} tokens
                         </span>
                       )}
@@ -265,7 +265,7 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
               </div>
             </div>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
+            <div className="flex-1 flex items-center justify-center text-[var(--tr-muted)] text-sm">
               Select a conversation to read archived turn history.
             </div>
           )}

@@ -1,0 +1,344 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Smart Search Engine",
+  description:
+    "Add-on for TotalRecalls Pro. Search conversations from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat in plain English. Runs on your PC — nothing is uploaded.",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Windows 10, Windows 11",
+  offers: {
+    "@type": "Offer",
+    price: "39.00",
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    url: "https://totalrecalls.app/smart-search/",
+  },
+};
+---
+
+<BaseLayout
+  title="Smart Search Engine — Find anything you ever asked any AI."
+  description="Smart Search Engine is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers' conversations in plain English. Nothing is uploaded. One-time $39 launch price."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+
+    {/* Hero */}
+    <section class="bg-tr-obsidian pt-16 pb-16 md:pt-32 md:pb-24">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div>
+            <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+              NEW ADD-ON
+            </span>
+            <h1 class="mt-3 max-w-[680px] font-heading text-[40px] md:text-[56px] font-bold leading-[1.05] tracking[-0.02em] text-tr-paper">
+              Find anything you ever asked any AI.
+            </h1>
+            <p class="mt-6 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+              Smart Search Engine is an add-on for TotalRecalls Pro. It reads the Library on your PC,
+              so you can search eight providers' conversations in plain English.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+              <a
+                href="/buy/"
+                class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
+              >
+                Get the bundle, $55
+              </a>
+              <a
+                href="/buy/"
+                class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
+              >
+                Add SSE to Pro, $39
+              </a>
+              <a
+                href="/search/"
+                class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
+              >
+                Watch the demo
+              </a>
+            </div>
+            <div class="mt-8 flex flex-wrap gap-2">
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Runs on your PC
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Nothing uploaded
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                One-time price
+              </span>
+              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
+                Windows 10/11
+              </span>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <div class="rounded-card border border-tr-slate bg-tr-graphite p-4 md:p-5">
+              <img
+                src="/images/search-results-window.jpg"
+                alt="TotalRecalls Smart Search Engine results window"
+                class="rounded-sm block max-w-[420px] w-auto"
+              />
+              <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
+                Smart Search Engine results window — click a result to open the original conversation file.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* The problem */}
+    <section class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          You saved everything. Now you have hundreds of folders.
+        </h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Folders named with dates and long IDs. Which one had the answer?
+        </p>
+      </div>
+    </section>
+
+    {/* How it works */}
+    <section id="how-it-works" class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          How it works
+        </h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Setup takes a few minutes. After that, every new download is searchable.
+        </p>
+        <div class="mt-12 grid sm:grid-cols-3 gap-6">
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">01</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Download with Pro
+            </h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              Your conversations land in one folder as Markdown and JSON files.
+            </p>
+          </div>
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">02</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              SSE reads the folder
+            </h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              It builds a private index on your PC, reading every conversation from all eight providers.
+            </p>
+          </div>
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span class="font-mono text-[14px] font-medium text-tr-steel">03</span>
+            <h3 class="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Ask
+            </h3>
+            <p class="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">
+              Type a question in plain English. See the matching passage, the provider, the conversation,
+              and how close the match is. Click to open the file.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Three ways to search */}
+    <section class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          Three ways to search
+        </h2>
+        <table class="mt-8 w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-tr-slate">
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust">Mode</th>
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust">What it does</th>
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust">Use it when</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-mono text-[13px] text-tr-paper">Meaning (vector)</td>
+              <td class="py-4 font-body text-[14px] text-tr-mist">Finds passages that mean the same as your question</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">You don't remember the exact words</td>
+            </tr>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-mono text-[13px] text-tr-paper">Keyword and meaning together (hybrid)</td>
+              <td class="py-4 font-body text-[14px] text-tr-mist">Adds exact-term matching for names, error codes and function names</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">You remember a specific term</td>
+            </tr>
+            <tr>
+              <td class="py-4 font-mono text-[13px] text-tr-paper">Plain English to SQL</td>
+              <td class="py-4 font-body text-[14px] text-tr-mist">Turns a question into a database query</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">You want counts, dates and comparisons</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* What a result shows */}
+    <section id="results-window" class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div class="flex justify-center">
+            <div class="rounded-card border border-tr-slate bg-tr-graphite p-4 md:p-5">
+              <img
+                src="/images/search-results-window.jpg"
+                alt="TotalRecalls Smart Search Engine results window"
+                class="rounded-sm block max-w-[420px] w-auto"
+              />
+              <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
+                Smart Search Engine results window — click a result to open the original conversation file.
+              </p>
+            </div>
+          </div>
+          <div>
+            <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+              What a Smart Search Engine result shows
+            </h2>
+            <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+              <li><strong>Provider</strong> — which AI the conversation came from.</li>
+              <li><strong>Conversation title</strong> — so you know which chat it was.</li>
+              <li><strong>Best matching passage</strong> — with the key phrases highlighted.</li>
+              <li><strong>File location and match score</strong> — click to open the original Markdown or JSON file.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Private by design */}
+    <section class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          Private by design
+        </h2>
+        <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+          <li>Smart Search Engine runs on your PC.</li>
+          <li>Nothing you write or save is uploaded.</li>
+          <li>
+            The search model downloads once at setup, so that step needs an internet connection.
+            After that, Smart Search Engine works without one.
+          </li>
+          <li>Chat works with no AI model at all. If you want written answers, you can connect a local model you already run.</li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Included at launch / Coming */}
+    <section class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          Included at launch &middot; Coming as free updates
+        </h2>
+        <table class="mt-8 w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-tr-slate">
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust" width="50%">At launch</th>
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust" width="50%">Coming, free for Smart Search Engine buyers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-body text-[14px] text-tr-mist">Search by meaning, keyword or both</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">PII Scrubber: finds keys, tokens and emails in your chats so you can review them before sharing</td>
+            </tr>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-body text-[14px] text-tr-mist">Plain-English questions to SQL</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">Fine-tuning export (JSONL, Alpaca)</td>
+            </tr>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-body text-[14px] text-tr-mist">Chat with your archive</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">Consensus Auditor: compare what different AIs told you</td>
+            </tr>
+            <tr class="border-b border-tr-slate/40">
+              <td class="py-4 font-body text-[14px] text-tr-mist">Obsidian and Notion connections</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">Knowledge Graph: topic cards across providers</td>
+            </tr>
+            <tr>
+              <td class="py-4 font-body text-[14px] text-tr-mist">Automatic re-index</td>
+              <td class="py-4 font-body text-[14px] text-tr-dust">Embedding benchmark and cluster map</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* Pricing */}
+    <section id="pricing" class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          Pricing
+        </h2>
+        <div class="mt-6 grid sm:grid-cols-2 gap-6">
+          <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist">
+              <strong>Smart Search Engine add-on:</strong> $39 launch price (regular $59). One-time. Requires Pro.
+            </p>
+          </div>
+          <div class="rounded-card border border-tr-amber bg-tr-obsidian p-6 md:p-8">
+            <p class="font-body text-[15px] leading-[1.6] text-tr-mist">
+              <strong>Pro + Smart Search Engine bundle:</strong> $55 launch price (regular $89). Best value.
+            </p>
+          </div>
+        </div>
+        <p class="mt-5 max-w-[680px] font-body text-[15px] leading-[1.6] text-tr-mist">
+          Already own Pro? <strong>$31</strong> at launch.
+        </p>
+        <p class="mt-3 max-w-[680px] font-body text-[13px] leading-[1.5] text-tr-dust">
+          Launch prices end on [DATE]. After that, Pro is $48, Smart Search Engine is $59 and the bundle is $89.
+        </p>
+      </div>
+    </section>
+
+    {/* Requirements */}
+    <section class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+          Requirements
+        </h2>
+        <ul class="mt-6 space-y-4 font-body text-[15px] leading-[1.6] text-tr-mist list-disc list-outside pl-6">
+          <li>TotalRecalls Pro</li>
+          <li>Windows 10 or 11</li>
+          <li>About 8 GB of RAM</li>
+          <li>About 2 GB of free disk space</li>
+          <li>No graphics card needed</li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Closing */}
+    <section class="bg-tr-graphite pt-20 pb-24 md:pt-32 md:pb-32 border-t border-tr-slate text-center">
+      <div class="mx-auto max-w-[1400px] px-5 md:px-10">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-bold leading-[1.05] tracking[-0.02em] text-tr-paper">
+          Your archive, finally findable.
+        </h2>
+        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="/buy/"
+            class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
+          >
+            Get the bundle, $55
+          </a>
+          <a
+            href="/buy/"
+            class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
+          >
+            Add SSE to Pro, $39
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer client:load />
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

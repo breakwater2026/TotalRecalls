@@ -235,31 +235,31 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
   ];
 
   const providerColors: Record<AIProvider, string> = {
-    ChatGPT: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    ChatGPT: 'bg-[var(--tr-good)]/10 text-[var(--tr-good)] border-[var(--tr-good)]/30',
     Claude: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    Gemini: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-    Perplexity: 'bg-teal-500/10 text-teal-400 border-teal-500/30',
+    Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
     LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-140px)] min-h-[660px] max-h-[940px] rounded-2xl bg-[#0b1120] border border-cyan-900/30 shadow-2xl overflow-hidden">
-      {/* Top Search Chat Header & Mode Bar in TotalRecalls brand cyan/teal */}
-      <div className="bg-[#080d19] border-b border-slate-800/90 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+    <div className="flex flex-col h-[calc(100vh-140px)] min-h-[660px] max-h-[940px] rounded-2xl bg-[#0b1120] border border-[var(--tr-accent)]/30 shadow-2xl overflow-hidden">
+      {/* Top Search Chat Header & Mode Bar in TotalRecalls brand accent */}
+      <div className="bg-[var(--tr-panel)] border-b border-[var(--tr-border)]/90 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-teal-500 flex items-center justify-center shadow-md shadow-cyan-500/20">
-            <Sparkles className="w-5 h-5 text-slate-950 font-bold" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--tr-accent)] to-[var(--tr-accent2)] flex items-center justify-center shadow-md shadow">
+            <Sparkles className="w-5 h-5 text-[var(--tr-text)] font-bold" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold text-white tracking-tight">Search Chat GUI</h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              <h2 className="text-base font-bold text-[var(--tr-text)] tracking-tight">Search Chat GUI</h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/30">
                 Vector + RAG SQL + RRF
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              Interactive conversational retrieval across <span className="text-cyan-400 font-mono">{conversations.length}</span> chats & <span className="text-teal-400 font-mono">{chunks.length}</span> vectors
+            <p className="text-xs text-[var(--tr-muted)]">
+              Interactive conversational retrieval across <span className="text-[var(--tr-accent)] font-mono">{conversations.length}</span> chats & <span className="text-[var(--tr-accent)] font-mono">{chunks.length}</span> vectors
             </p>
           </div>
         </div>
@@ -267,16 +267,16 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
         {/* Persona Mode (Enhancement #7) & Search Mode Toggles */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Persona selector */}
-          <div className="flex items-center bg-[#070b14] border border-slate-800 rounded-lg p-1 text-xs">
-            <span className="text-slate-500 px-1 text-[10px] uppercase font-mono font-bold">Persona:</span>
+          <div className="flex items-center bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg p-1 text-xs">
+            <span className="text-[var(--tr-muted)] px-1 text-[10px] uppercase font-mono font-bold">Persona:</span>
             {PERSONA_PROFILES.map(persona => (
               <button
                 key={persona.id}
                 onClick={() => setActivePersona(persona.id)}
                 className={`px-2 py-0.5 rounded font-medium text-[11px] transition-all ${
                   activePersona === persona.id
-                    ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] shadow-sm'
+                    : 'text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
                 }`}
                 title={persona.description}
               >
@@ -286,13 +286,13 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
           </div>
 
           {/* Retrieval Engine Selector */}
-          <div className="flex items-center bg-[#070b14] border border-slate-800 rounded-lg p-1 text-xs">
+          <div className="flex items-center bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg p-1 text-xs">
             <button
               onClick={() => setSearchMode('hybrid')}
               className={`px-2.5 py-1 rounded-md font-semibold transition-all ${
                 searchMode === 'hybrid'
-                  ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] shadow-sm shadow'
+                  : 'text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
               }`}
               title="Combines semantic vector chunks and structured SQL metadata"
             >
@@ -302,8 +302,8 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
               onClick={() => setSearchMode('vector_only')}
               className={`px-2.5 py-1 rounded-md font-semibold transition-all ${
                 searchMode === 'vector_only'
-                  ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] shadow-sm shadow'
+                  : 'text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
               }`}
               title="Pure cosine similarity semantic search"
             >
@@ -313,8 +313,8 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
               onClick={() => setSearchMode('sql_only')}
               className={`px-2.5 py-1 rounded-md font-semibold transition-all ${
                 searchMode === 'sql_only'
-                  ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-sm shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] shadow-sm shadow'
+                  : 'text-[var(--tr-muted)] hover:text-[var(--tr-text)]'
               }`}
               title="Direct Natural Language to SQLite query execution"
             >
@@ -327,7 +327,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
             <select
               value={providerFilter}
               onChange={(e) => setProviderFilter(e.target.value)}
-              className="bg-[#070b14] border border-slate-800 rounded-lg px-2 py-1 text-slate-300 text-xs focus:outline-none focus:border-cyan-500"
+              className="bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg px-2 py-1 text-[var(--tr-muted)] text-xs focus:outline-none focus:border-[var(--tr-accent)]"
             >
               <option value="ALL">All Providers</option>
               <option value="ChatGPT">ChatGPT Only</option>
@@ -341,7 +341,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
       </div>
 
       {/* Messages Stream */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-gradient-to-b from-[#0b1120] to-[#070b14]">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-gradient-to-b from-[#0b1120] to-[var(--tr-panel2)]">
         {messages.map((msg) => {
           const isUser = msg.sender === 'user';
           const hasSources = msg.sources && msg.sources.length > 0;
@@ -358,34 +358,34 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   isUser
-                    ? 'bg-gradient-to-br from-cyan-500 to-teal-600 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
-                    : 'bg-[#0e1626] border border-cyan-500/30 text-cyan-400'
+                    ? 'bg-gradient-to-br from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] font-bold shadow-md shadow'
+                    : 'bg-[var(--tr-panel)] border border-[var(--tr-accent)]/30 text-[var(--tr-accent)]'
                 }`}
               >
-                {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-cyan-400" />}
+                {isUser ? <User className="w-4 h-4 text-[var(--tr-text)]" /> : <Bot className="w-4 h-4 text-[var(--tr-accent)]" />}
               </div>
 
               {/* Message Bubble Container */}
               <div className={`max-w-[85%] sm:max-w-[78%] space-y-2 ${isUser ? 'items-end' : 'items-start'}`}>
                 {/* Meta info */}
-                <div className={`flex items-center gap-2 text-[11px] text-slate-500 ${isUser ? 'justify-end' : 'justify-start'}`}>
-                  <span className="font-semibold text-slate-400">
+                <div className={`flex items-center gap-2 text-[11px] text-[var(--tr-muted)] ${isUser ? 'justify-end' : 'justify-start'}`}>
+                  <span className="font-semibold text-[var(--tr-muted)]">
                     {isUser ? 'You' : 'TotalRecalls Assistant'}
                   </span>
                   <span>•</span>
                   <span>{msg.timestamp}</span>
                   {msg.latencyMs && (
-                    <span className="font-mono text-teal-400 text-[10px]">
+                    <span className="font-mono text-[var(--tr-accent)] text-[10px]">
                       ({msg.latencyMs}ms)
                     </span>
                   )}
                   {msg.personaUsed && (
-                    <span className="px-1.5 py-0.2 rounded bg-teal-950/60 border border-teal-800/40 text-[10px] text-teal-300 font-mono">
+                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
                       {msg.personaUsed}
                     </span>
                   )}
                   {msg.mode && (
-                    <span className="px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800/40 text-[10px] text-cyan-300 font-mono">
+                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
                       {msg.mode}
                     </span>
                   )}
@@ -395,8 +395,8 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
                 <div
                   className={`rounded-2xl p-4 text-sm leading-relaxed whitespace-pre-wrap ${
                     isUser
-                      ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white rounded-tr-none shadow-md shadow-cyan-600/10'
-                      : 'bg-[#0c1424] text-slate-200 border border-slate-800 rounded-tl-none shadow-md'
+                      ? 'bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] text-[var(--tr-text)] rounded-tr-none shadow-md shadow'
+                      : 'bg-[var(--tr-panel)] text-[var(--tr-text)] border border-[var(--tr-border)] rounded-tl-none shadow-md'
                   }`}
                 >
                   {msg.text}
@@ -404,13 +404,13 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
 
                 {/* Grounding Source Accordion */}
                 {!isUser && hasSources && (
-                  <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 overflow-hidden text-xs">
+                  <div className="rounded-xl border border-[var(--tr-accent)]/20 bg-[var(--tr-accent)]/20 overflow-hidden text-xs">
                     <button
                       onClick={() => toggleSourceExpand(msg.id)}
-                      className="w-full px-3 py-2 flex items-center justify-between text-cyan-300 hover:bg-cyan-900/30 transition-colors"
+                      className="w-full px-3 py-2 flex items-center justify-between text-[var(--tr-accent)] hover:bg-[var(--tr-accent)]/30 transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                        <Layers className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                         <span className="font-semibold">
                           Grounding Citations ({msg.sources?.length} Vector & BM25 Chunks)
                         </span>
@@ -419,35 +419,35 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
                     </button>
 
                     {isSourcesOpen && (
-                      <div className="p-3 border-t border-cyan-500/20 space-y-2 bg-[#080d19]/90">
+                      <div className="p-3 border-t border-[var(--tr-accent)]/20 space-y-2 bg-[var(--tr-panel)]/90">
                         {msg.sources?.map((src, sIdx) => (
                           <div
                             key={sIdx}
-                            className="p-2.5 rounded-lg bg-[#0c1424] border border-slate-800 space-y-1.5"
+                            className="p-2.5 rounded-lg bg-[var(--tr-panel)] border border-[var(--tr-border)] space-y-1.5"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border ${providerColors[src.provider]}`}>
                                   {src.provider}
                                 </span>
-                                <span className="font-semibold text-slate-200 truncate max-w-[240px]">
+                                <span className="font-semibold text-[var(--tr-text)] truncate max-w-[240px]">
                                   {src.conversationTitle}
                                 </span>
                               </div>
                               <div className="flex items-center gap-2 text-[10px] font-mono">
-                                <span className="text-teal-400">RRF: {Math.round((src.rrfScore || src.score) * 100)}%</span>
-                                <span className="text-cyan-400">Cos: {Math.round(src.score * 100)}%</span>
+                                <span className="text-[var(--tr-accent)]">RRF: {Math.round((src.rrfScore || src.score) * 100)}%</span>
+                                <span className="text-[var(--tr-accent)]">Cos: {Math.round(src.score * 100)}%</span>
                               </div>
                             </div>
 
-                            <p className="text-[11px] text-slate-400 italic">
+                            <p className="text-[11px] text-[var(--tr-muted)] italic">
                               "{src.snippet}"
                             </p>
 
                             {src.conversationId && (
                               <button
                                 onClick={() => onOpenConversation(src.conversationId!)}
-                                className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium pt-0.5"
+                                className="text-[10px] text-[var(--tr-accent)] hover:text-[var(--tr-accent)] flex items-center gap-1 font-medium pt-0.5"
                               >
                                 <span>Inspect turn in Downloader Vault</span>
                                 <ExternalLink className="w-2.5 h-2.5" />
@@ -462,27 +462,27 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
 
                 {/* SQL Telemetry Accordion */}
                 {!isUser && hasSQL && (
-                  <div className="rounded-xl border border-teal-500/20 bg-teal-950/20 overflow-hidden text-xs">
+                  <div className="rounded-xl border border-[var(--tr-accent)]/20 bg-[var(--tr-accent)]/20 overflow-hidden text-xs">
                     <button
                       onClick={() => toggleSQLExpand(msg.id)}
-                      className="w-full px-3 py-2 flex items-center justify-between text-teal-300 hover:bg-teal-900/30 transition-colors"
+                      className="w-full px-3 py-2 flex items-center justify-between text-[var(--tr-accent)] hover:bg-[var(--tr-accent)]/30 transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <Terminal className="w-3.5 h-3.5 text-teal-400" />
+                        <Terminal className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                         <span className="font-semibold">Relational SQL Context (SQLite)</span>
                       </div>
                       {isSQLOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
 
                     {isSQLOpen && (
-                      <div className="p-3 border-t border-teal-500/20 space-y-2 bg-[#080d19]/90 font-mono">
-                        <div className="p-2 rounded bg-[#070c16] text-teal-300 text-[11px] overflow-x-auto border border-teal-900/30">
+                      <div className="p-3 border-t border-[var(--tr-accent)]/20 space-y-2 bg-[var(--tr-panel)]/90 font-mono">
+                        <div className="p-2 rounded bg-[var(--tr-bg)] text-[var(--tr-accent)] text-[11px] overflow-x-auto border border-[var(--tr-accent)]/30">
                           {msg.generatedSQL}
                         </div>
 
                         {msg.sqlRowsPreview && msg.sqlRowsPreview.length > 0 && (
-                          <div className="text-[10px] text-slate-400">
-                            <span className="font-semibold text-slate-300">Preview Records: </span>
+                          <div className="text-[10px] text-[var(--tr-muted)]">
+                            <span className="font-semibold text-[var(--tr-muted)]">Preview Records: </span>
                             {JSON.stringify(msg.sqlRowsPreview)}
                           </div>
                         )}
@@ -497,16 +497,16 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
 
         {isProcessing && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#0e1626] border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <div className="w-8 h-8 rounded-xl bg-[var(--tr-panel)] border border-[var(--tr-accent)]/30 flex items-center justify-center text-[var(--tr-accent)]">
               <Bot className="w-4 h-4" />
             </div>
-            <div className="bg-[#0c1424] border border-slate-800 rounded-2xl rounded-tl-none p-4 space-y-2 max-w-sm shadow-md">
-              <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <div className="bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl rounded-tl-none p-4 space-y-2 max-w-sm shadow-md">
+              <div className="flex items-center space-x-2 text-xs text-[var(--tr-muted)]">
+                <span className="w-2 h-2 rounded-full bg-[var(--tr-accent)] animate-ping"></span>
                 <span>Searching local vector index & SQLite schema...</span>
               </div>
-              <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-cyan-400 via-teal-400 to-sky-400 animate-pulse w-3/4"></div>
+              <div className="w-full bg-[var(--tr-panel)] h-1 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-[var(--tr-accent)] via-[var(--tr-accent)] to-sky-400 animate-pulse w-3/4"></div>
               </div>
             </div>
           </div>
@@ -516,16 +516,16 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
       </div>
 
       {/* Suggested Query Chips */}
-      <div className="px-4 py-2 border-t border-slate-800/80 bg-[#080d19] flex items-center gap-2 overflow-x-auto text-xs whitespace-nowrap">
-        <span className="text-slate-400 flex items-center gap-1 flex-shrink-0 text-[11px] font-semibold">
-          <Sparkles className="w-3 h-3 text-cyan-400" />
+      <div className="px-4 py-2 border-t border-[var(--tr-border)] bg-[var(--tr-panel)] flex items-center gap-2 overflow-x-auto text-xs whitespace-nowrap">
+        <span className="text-[var(--tr-muted)] flex items-center gap-1 flex-shrink-0 text-[11px] font-semibold">
+          <Sparkles className="w-3 h-3 text-[var(--tr-accent)]" />
           Suggested:
         </span>
         {samplePrompts.map((prompt, i) => (
           <button
             key={i}
             onClick={() => handleSendMessage(prompt)}
-            className="px-2.5 py-1 rounded-md bg-[#0c1424] hover:bg-cyan-950/60 text-slate-300 hover:text-cyan-300 border border-slate-800 hover:border-cyan-500/40 transition-colors flex-shrink-0"
+            className="px-2.5 py-1 rounded-md bg-[var(--tr-panel)] hover:bg-[var(--tr-accent)]/60 text-[var(--tr-muted)] hover:text-[var(--tr-accent)] border border-[var(--tr-border)] hover:border-[var(--tr-accent)]/40 transition-colors flex-shrink-0"
           >
             "{prompt}"
           </button>
@@ -533,7 +533,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
       </div>
 
       {/* Input Bar */}
-      <div className="p-3 sm:p-4 bg-[#080d19] border-t border-slate-800">
+      <div className="p-3 sm:p-4 bg-[var(--tr-panel)] border-t border-[var(--tr-border)]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -541,7 +541,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
           }}
           className="relative flex items-center"
         >
-          <div className="absolute left-3.5 text-cyan-400 pointer-events-none">
+          <div className="absolute left-3.5 text-[var(--tr-accent)] pointer-events-none">
             <Search className="w-4 h-4" />
           </div>
           <input
@@ -549,24 +549,24 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
             value={inputQuery}
             onChange={(e) => setInputQuery(e.target.value)}
             placeholder="Ask a question across your downloaded AI chats..."
-            className="w-full pl-10 pr-24 py-3 bg-[#0c1424] border border-slate-800 focus:border-cyan-500 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 text-sm shadow-inner"
+            className="w-full pl-10 pr-24 py-3 bg-[var(--tr-panel)] border border-[var(--tr-border)] focus:border-[var(--tr-accent)] rounded-xl text-[var(--tr-text)] placeholder-[var(--tr-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tr-accent)]/30 text-sm shadow-inner"
           />
           <button
             type="submit"
             disabled={!inputQuery.trim() || isProcessing}
-            className="absolute right-2 px-4 py-1.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-cyan-600/20"
+            className="absolute right-2 px-4 py-1.5 bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] hover:from-[var(--tr-accent)] hover:to-[var(--tr-accent2)] text-[var(--tr-text)] rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow"
           >
             <span>Ask Vault</span>
             <Send className="w-3.5 h-3.5" />
           </button>
         </form>
 
-        <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500 px-1">
+        <div className="mt-2 flex items-center justify-between text-[11px] text-[var(--tr-muted)] px-1">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-teal-400" />
-            <span className="text-slate-400">Local Vault Isolation: zero cloud telemetry leaves your device.</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
+            <span className="text-[var(--tr-muted)]">Local Vault Isolation: zero cloud telemetry leaves your device.</span>
           </div>
-          <div className="font-mono hidden sm:block text-slate-400">
+          <div className="font-mono hidden sm:block text-[var(--tr-muted)]">
             <span>Mode: {searchMode} • Persona: {activePersona}</span>
           </div>
         </div>
