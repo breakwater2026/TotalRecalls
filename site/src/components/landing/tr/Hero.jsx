@@ -51,7 +51,7 @@ export default function Hero() {
               Windows app. Visit from your desktop to download.
             </p>
             <p className="mt-5 font-mono text-[11px] text-tr-dust">
-              * Optional Smart Search Engine (SSE) sold separately - $29 launch price.
+              * Optional Smart Search Engine (SSE) sold separately - $39 launch price.
             </p>
           </div>
 

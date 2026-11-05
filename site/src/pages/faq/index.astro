@@ -1,6 +1,163 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-const jsonLd = '{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is TotalRecalls?", "acceptedAnswer": {"@type": "Answer", "text": "A small Windows app that downloads your AI chat history from ChatGPT, Claude, Perplexity, Gemini (Google Takeout), Grok, DeepSeek, Mistral, and Qwen Chat into local Markdown + JSON files you own forever. See How It Works."}}, {"@type": "Question", "name": "How much does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "$24 USD launch price. One-time purchase. No subscription. No monthly \\"AI archive\\" fee. See Pricing for the full breakdown."}}, {"@type": "Question", "name": "Do I need an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use."}}, {"@type": "Question", "name": "Do you store my chats or tokens?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your AI session tokens stay on your machine. We never host your chats, your downloads, or your credentials. Read the Privacy Policy."}}, {"@type": "Question", "name": "Does TotalRecalls run in the cloud?", "acceptedAnswer": {"@type": "Answer", "text": "No. It\'s a local Windows app. Downloads land in a folder you choose on your PC."}}, {"@type": "Question", "name": "What providers are supported?", "acceptedAnswer": {"@type": "Answer", "text": "ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), Grok, DeepSeek, Mistral, and Qwen Chat. See the Guides for per-provider walkthroughs."}}, {"@type": "Question", "name": "How do downloads work?", "acceptedAnswer": {"@type": "Answer", "text": "Open the app\\n        Pick a provider\\n        Sign in locally (or choose a Gemini Takeout folder)\\n        Pick an output folder and click Download\\n      \\n      Your Markdown + JSON files are written straight to disk on your machine."}}, {"@type": "Question", "name": "Does this replace official downloads?", "acceptedAnswer": {"@type": "Answer", "text": "No. It complements them. TotalRecalls catches conversations the official download tools miss (shared links, archived conversations, partial histories) and writes them in a single Markdown + JSON format you can grep, version, and search."}}, {"@type": "Question", "name": "Is the app safe?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The app runs locally on your Windows machine, never connects to a TotalRecalls server, never hosts your chats, and ships with no telemetry. You can verify by inspecting network traffic with Wireshark if you want."}}, {"@type": "Question", "name": "Does it work on Mac?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. Windows 10/11 today. Developing an application for Linux and Apple (macOS) is in the works."}}, {"@type": "Question", "name": "Does it work on mobile?", "acceptedAnswer": {"@type": "Answer", "text": "No. Windows only."}}, {"@type": "Question", "name": "What\'s inside the ZIP?", "acceptedAnswer": {"@type": "Answer", "text": "Two files: TotalRecalls.exe (the app, portable — no installer) and README.txt (release notes + quick-start). See the Download page."}}, {"@type": "Question", "name": "Will future features cost extra?", "acceptedAnswer": {"@type": "Answer", "text": "The $24 launch price covers the core download tool, including free updates to it for the life of the product. Advanced features (semantic search, Obsidian/Notion sync, RAG containers, multi-device memory) are separate add-on purchases — add-ons you own keep getting updates."}}, {"@type": "Question", "name": "Does it work with free-tier accounts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. TotalRecalls works with free-tier ChatGPT, Claude, Perplexity, Grok, DeepSeek, Mistral, and Qwen Chat accounts. Gemini requires a Google account with Takeout enabled."}}, {"@type": "Question", "name": "Are images, code blocks, and attachments included?", "acceptedAnswer": {"@type": "Answer", "text": "Chat text and code blocks download as Markdown; attachment references are preserved alongside (e.g. sources.json). The binary files themselves stay in your provider account."}}, {"@type": "Question", "name": "What happens when a provider changes its site?", "acceptedAnswer": {"@type": "Answer", "text": "TotalRecalls is updated to keep downloads working when providers change their interfaces. New versions are listed in the Release Notes."}}, {"@type": "Question", "name": "How large can downloads get?", "acceptedAnswer": {"@type": "Answer", "text": "Practically unlimited. Downloads are streamed to disk, so a 50,000-message archive works the same as a 500-message one. The only limit is your free disk space."}}, {"@type": "Question", "name": "Can I get help?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Email support@totalrecalls.app, or see the Support page."}}]}';
+const faqs = [
+  {
+    "q": "What is TotalRecalls?",
+    "a": "A small Windows app that downloads your AI chat history from ChatGPT, Claude, Perplexity, Gemini (Google Takeout), Grok, DeepSeek, Mistral, and Qwen Chat into local Markdown + JSON files you own forever. See <a href=\"/how-it-works/\">How It Works</a>."
+  },
+  {
+    "q": "How much does it cost?",
+    "a": "<span data-tr-price>$24<span class=\"tr-usd\">USD</span></span> launch price. One-time purchase. No subscription. No monthly \"AI archive\" fee. A Free Tier is available now — download the app and test it before paying. The Free Tier is limited to 3 AI providers and 5 conversations per download. See <a href=\"/pricing/\">Pricing</a> for the full breakdown."
+  },
+  {
+    "q": "Do I need an account?",
+    "a": "No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use."
+  },
+  {
+    "q": "Do you store my chats or tokens?",
+    "a": "No. Your AI session tokens stay on your machine. We never host your chats, your downloads, or your credentials. Read the <a href=\"/privacy/\">Privacy Policy</a>."
+  },
+  {
+    "q": "Does TotalRecalls run in the cloud?",
+    "a": "No. It's a local Windows app. Downloads land in a folder you choose on your PC."
+  },
+  {
+    "q": "What providers are supported?",
+    "a": "ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), Grok, DeepSeek, Mistral, and Qwen Chat. See the <a href=\"/guides/\">Guides</a> for per-provider walkthroughs."
+  },
+  {
+    "q": "How do downloads work?",
+    "a": "<ol>\n        <li>Open the app</li>\n        <li>Pick a provider</li>\n        <li>Sign in locally (or choose a Gemini Takeout folder)</li>\n        <li>Pick an output folder and click <em>Download</em></li>\n      </ol>\n      Your Markdown + JSON files are written straight to disk on your machine."
+  },
+  {
+    "q": "Does this replace official downloads?",
+    "a": "No. It complements them. TotalRecalls catches conversations the official download tools miss (shared links, archived conversations, partial histories) and writes them in a single Markdown + JSON format you can grep, version, and search."
+  },
+  {
+    "q": "Is the app safe?",
+    "a": "Yes. The app runs locally on your Windows machine, never connects to a TotalRecalls server, never hosts your chats, and ships with no telemetry. You can verify by inspecting network traffic with Wireshark if you want."
+  },
+  {
+    "q": "Does it work on Mac?",
+    "a": "Not yet. Windows 10/11 today. Developing an application for Linux and Apple (macOS) is in the works."
+  },
+  {
+    "q": "Does it work on mobile?",
+    "a": "No. Windows only."
+  },
+  {
+    "q": "What's inside the ZIP?",
+    "a": "Two files: <code>TotalRecalls.exe</code> (the app, portable &mdash; no installer) and <code>README.txt</code> (release notes + quick-start). See the <a href=\"/download/\">Download page</a>."
+  },
+  {
+    "q": "Will future features cost extra?",
+    "a": "The $24<span class=\"tr-usd\">USD</span> launch price covers the core download tool, including free updates to it for the life of the product. Advanced features (Obsidian/Notion sync, RAG containers, multi-device memory) are separate add-on purchases — add-ons you own keep getting updates. Smart Search Engine is available now as a Pro add-on."
+  },
+  {
+    "q": "Do I need the Smart Search Engine add-on?",
+    "a": "No. TotalRecalls Pro downloads and saves everything without it. Smart Search Engine is for people who want to find things inside a large archive."
+  },
+  {
+    "q": "Can I buy Smart Search Engine without Pro?",
+    "a": "No. It works on the Library that Pro builds. The bundle gives you both."
+  },
+  {
+    "q": "Does Smart Search Engine upload my conversations?",
+    "a": "No. It runs on your PC. The only internet use is a one-time download of the search model during setup."
+  },
+  {
+    "q": "Does it work offline?",
+    "a": "Yes, after setup."
+  },
+  {
+    "q": "Do I need an AI model or LM Studio?",
+    "a": "No. Search and retrieval-only chat work without one. A local model is optional, if you want written answers."
+  },
+  {
+    "q": "What do I need to run Smart Search Engine?",
+    "a": "Windows 10 or 11, about 8 GB of RAM and about 2 GB of free disk space. No graphics card."
+  },
+  {
+    "q": "How does Smart Search Engine stay up to date?",
+    "a": "It re-indexes automatically after downloads and on a schedule."
+  },
+  {
+    "q": "Does Smart Search Engine work with every provider?",
+    "a": "It searches all eight: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat. Search quality for non-English conversations may vary."
+  },
+  {
+    "q": "Is Smart Search Engine a subscription?",
+    "a": "No. It’s a one-time purchase: $39 at launch (regular $59). There is no subscription."
+  },
+  {
+    "q": "Is Smart Search Engine included in Pro updates?",
+    "a": "Pro’s free core updates do not include Smart Search Engine. It is a separate purchase, with free updates within version 1."
+  },
+  {
+    "q": "Is there a bundle?",
+    "a": "Yes. Pro + Smart Search Engine is $55 at launch (regular $89). If you already own Pro, add Smart Search Engine for $31 at launch."
+  },
+  {
+    "q": "Can prices change?",
+    "a": "Yes. Prices may change at any time without advance notice. The price you pay is the price shown at checkout when you buy."
+  },
+  {
+    "q": "What’s your refund policy for Smart Search Engine?",
+    "a": "30 days, no questions asked."
+  },
+  {
+    "q": "What do I get today, and what is coming?",
+    "a": "Today: search by meaning, keyword or both; plain-English questions turned into SQL; chat with your archive; Obsidian and Notion connections; automatic re-index. Coming as free updates for Smart Search Engine buyers: the PII Scrubber, fine-tuning export, Consensus Auditor, Knowledge Graph and embedding benchmark."
+  },
+  {
+    "q": "Does it work with free-tier accounts?",
+    "a": "Yes. TotalRecalls works with free-tier ChatGPT, Claude, Perplexity, Grok, DeepSeek, Mistral, and Qwen Chat accounts. Gemini requires a Google account with Takeout enabled."
+  },
+  {
+    "q": "Are images, code blocks, and attachments included?",
+    "a": "Chat text and code blocks download as Markdown; attachment references are preserved alongside (e.g. sources.json). The binary files themselves stay in your provider account."
+  },
+  {
+    "q": "What happens when a provider changes its site?",
+    "a": "TotalRecalls is updated to keep downloads working when providers change their interfaces. New versions are listed in the <a href=\"/release-notes/\">Release Notes</a>."
+  },
+  {
+    "q": "How large can downloads get?",
+    "a": "Practically unlimited. Downloads are streamed to disk, so a 50,000-message archive works the same as a 500-message one. The only limit is your free disk space."
+  },
+  {
+    "q": "Can I get help?",
+    "a": "Yes. Email <a href=\"mailto:support@totalrecalls.app\">support@totalrecalls.app</a>, or see the <a href=\"/support/\">Support</a> page."
+  }
+];
+
+// The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
+// drift apart. Answers are HTML for the page; the schema text is the tag-stripped version.
+const stripTags = (s) =>
+  s
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&rsquo;/g, "\u2019")
+    .replace(/&lsquo;/g, "\u2018")
+    .replace(/&rdquo;/g, "\u201c")
+    .replace(/&mdash;/g, "\u2014")
+    .replace(/&middot;/g, "\u00b7")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const faqHtml = faqs.map((f) => `<dt>${f.q}</dt><dd>${f.a}</dd>`).join("");
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: stripTags(f.a) },
+  })),
+};
 ---
 <PageLayout
   title="TotalRecalls FAQ"
@@ -9,112 +166,8 @@ const jsonLd = '{"@context": "https://schema.org", "@type": "FAQPage", "mainEnti
 >
   <h1>FAQ</h1>
 
-  <dl>
-    <dt>What is TotalRecalls?</dt>
-    <dd>A small Windows app that downloads your AI chat history from ChatGPT, Claude, Perplexity, Gemini (Google Takeout), Grok, DeepSeek, Mistral, and Qwen Chat into local Markdown + JSON files you own forever. See <a href="/how-it-works/">How It Works</a>.</dd>
-
-    <dt>How much does it cost?</dt>
-    <dd><span data-tr-price>$24<span class="tr-usd">USD</span></span> launch price. One-time purchase. No subscription. No monthly "AI archive" fee. A Free Tier is available now — download the app and test it before paying. The Free Tier is limited to 3 AI providers and 5 conversations per download. See <a href="/pricing/">Pricing</a> for the full breakdown.</dd>
-
-    <dt>Do I need an account?</dt>
-    <dd>No. TotalRecalls does not require a TotalRecalls account. You sign in only to the AI providers you already use.</dd>
-
-    <dt>Do you store my chats or tokens?</dt>
-    <dd>No. Your AI session tokens stay on your machine. We never host your chats, your downloads, or your credentials. Read the <a href="/privacy/">Privacy Policy</a>.</dd>
-
-    <dt>Does TotalRecalls run in the cloud?</dt>
-    <dd>No. It's a local Windows app. Downloads land in a folder you choose on your PC.</dd>
-
-    <dt>What providers are supported?</dt>
-    <dd>ChatGPT, Claude, Perplexity, Gemini (via Google Takeout import), Grok, DeepSeek, Mistral, and Qwen Chat. See the <a href="/guides/">Guides</a> for per-provider walkthroughs.</dd>
-
-    <dt>How do downloads work?</dt>
-    <dd>
-      <ol>
-        <li>Open the app</li>
-        <li>Pick a provider</li>
-        <li>Sign in locally (or choose a Gemini Takeout folder)</li>
-        <li>Pick an output folder and click <em>Download</em></li>
-      </ol>
-      Your Markdown + JSON files are written straight to disk on your machine.
-    </dd>
-
-    <dt>Does this replace official downloads?</dt>
-    <dd>No. It complements them. TotalRecalls catches conversations the official download tools miss (shared links, archived conversations, partial histories) and writes them in a single Markdown + JSON format you can grep, version, and search.</dd>
-
-    <dt>Is the app safe?</dt>
-    <dd>Yes. The app runs locally on your Windows machine, never connects to a TotalRecalls server, never hosts your chats, and ships with no telemetry. You can verify by inspecting network traffic with Wireshark if you want.</dd>
-
-    <dt>Does it work on Mac?</dt>
-    <dd>Not yet. Windows 10/11 today. Developing an application for Linux and Apple (macOS) is in the works.</dd>
-
-    <dt>Does it work on mobile?</dt>
-    <dd>No. Windows only.</dd>
-
-    <dt>What's inside the ZIP?</dt>
-    <dd>Two files: <code>TotalRecalls.exe</code> (the app, portable &mdash; no installer) and <code>README.txt</code> (release notes + quick-start). See the <a href="/download/">Download page</a>.</dd>
-
-    <dt>Will future features cost extra?</dt>
-    <dd>The $24<span class="tr-usd">USD</span> launch price covers the core download tool, including free updates to it for the life of the product. Advanced features (Obsidian/Notion sync, RAG containers, multi-device memory) are separate add-on purchases — add-ons you own keep getting updates. Smart Search Engine is available now as a Pro add-on.</dd>
-
-    <dt>Do I need the Smart Search Engine add-on?</dt>
-    <dd>No. TotalRecalls Pro downloads and saves everything without it. Smart Search Engine is for people who want to find things inside a large archive.</dd>
-
-    <dt>Can I buy Smart Search Engine without Pro?</dt>
-    <dd>No. It works on the Library that Pro builds. The bundle gives you both.</dd>
-
-    <dt>Does Smart Search Engine upload my conversations?</dt>
-    <dd>No. It runs on your PC. The only internet use is a one-time download of the search model during setup.</dd>
-
-    <dt>Does it work offline?</dt>
-    <dd>Yes, after setup.</dd>
-
-    <dt>Do I need an AI model or LM Studio?</dt>
-    <dd>No. Search and retrieval-only chat work without one. A local model is optional, if you want written answers.</dd>
-
-    <dt>What do I need to run Smart Search Engine?</dt>
-    <dd>Windows 10 or 11, about 8 GB of RAM and about 2 GB of free disk space. No graphics card.</dd>
-
-    <dt>How does Smart Search Engine stay up to date?</dt>
-    <dd>It re-indexes automatically after downloads and on a schedule.</dd>
-
-    <dt>Does Smart Search Engine work with every provider?</dt>
-    <dd>It searches all eight: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat. Search quality for non-English conversations may vary.</dd>
-
-    <dt>Is Smart Search Engine a subscription?</dt>
-    <dd>No. It’s a one-time purchase: $39 at launch (regular $59). There is no subscription.</dd>
-
-    <dt>Is Smart Search Engine included in Pro updates?</dt>
-    <dd>Pro’s free core updates do not include Smart Search Engine. It is a separate purchase, with free updates within version 1.</dd>
-
-    <dt>Is there a bundle?</dt>
-    <dd>Yes. Pro + Smart Search Engine is $55 at launch (regular $89). If you already own Pro, add Smart Search Engine for $31 at launch.</dd>
-
-    <dt>When do the launch prices end?</dt>
-    <dd>On [DATE]. After that, Pro is $48, Smart Search Engine is $59 and the bundle is $89.</dd>
-
-    <dt>What’s your refund policy for Smart Search Engine?</dt>
-    <dd>30 days, no questions asked.</dd>
-
-    <dt>What do I get today, and what is coming?</dt>
-    <dd>Today: search by meaning, keyword or both; plain-English questions turned into SQL; chat with your archive; Obsidian and Notion connections; automatic re-index. Coming as free updates for Smart Search Engine buyers: the PII Scrubber, fine-tuning export, Consensus Auditor, Knowledge Graph and embedding benchmark.</dd>
-
-    <dt>Does it work with free-tier accounts?</dt>
-    <dd>Yes. TotalRecalls works with free-tier ChatGPT, Claude, Perplexity, Grok, DeepSeek, Mistral, and Qwen Chat accounts. Gemini requires a Google account with Takeout enabled.</dd>
-
-    <dt>Are images, code blocks, and attachments included?</dt>
-    <dd>Chat text and code blocks download as Markdown; attachment references are preserved alongside (e.g. sources.json). The binary files themselves stay in your provider account.</dd>
-
-    <dt>What happens when a provider changes its site?</dt>
-    <dd>TotalRecalls is updated to keep downloads working when providers change their interfaces. New versions are listed in the <a href="/release-notes/">Release Notes</a>.</dd>
-
-    <dt>How large can downloads get?</dt>
-    <dd>Practically unlimited. Downloads are streamed to disk, so a 50,000-message archive works the same as a 500-message one. The only limit is your free disk space.</dd>
-
-    <dt>Can I get help?</dt>
-    <dd>Yes. Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>, or see the <a href="/support/">Support</a> page.</dd>
-  </dl>
+  <dl set:html={faqHtml} />
 
 
-  <script type="application/ld+json" set:html={jsonLd} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 </PageLayout>

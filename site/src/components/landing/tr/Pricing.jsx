@@ -142,7 +142,8 @@ export default function Pricing() {
         <div className="mt-10 text-center">
           <p className="mx-auto max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
             Windows 10 and 11. $24 is a discounted launch price. Add-ons, like Smart Search Engine, are sold
-            separately. See below. Your core app updates stay free.
+            separately. See below. Your core app updates stay free. Prices may change at any time without
+            advance notice.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {["One-time", "No subscription", "No account", "Windows 10/11"].map((t) => (
