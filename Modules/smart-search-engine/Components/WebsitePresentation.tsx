@@ -102,7 +102,7 @@ export const WebsitePresentation: React.FC<WebsitePresentationProps> = ({ onSele
       {currentPage === 1 && (
         <div className="space-y-8 animate-fadeIn">
           {/* Hero Section */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#0c182b] via-[#091120] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 sm:p-12 text-center space-y-6 shadow-2xl">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[var(--tr-panel)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 sm:p-12 text-center space-y-6 shadow-2xl">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[var(--tr-accent)]/10 blur-[100px] pointer-events-none" />
 
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[var(--tr-accent)]/10 border border-[var(--tr-accent)]/30 text-[var(--tr-accent)] text-xs font-semibold">
@@ -154,7 +154,7 @@ export const WebsitePresentation: React.FC<WebsitePresentationProps> = ({ onSele
 
           {/* The Problem vs Solution Dual Matrix */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-2xl bg-[#0e1422] border border-red-500/20 p-6 space-y-4">
+            <div className="rounded-2xl bg-[var(--tr-panel)] border border-red-500/20 p-6 space-y-4">
               <div className="flex items-center space-x-2 text-rose-400">
                 <span className="w-2 h-2 rounded-full bg-rose-500" />
                 <h3 className="text-base font-bold uppercase tracking-wider">The Problem Today</h3>

@@ -78,12 +78,12 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
     }, {} as Record<string, number>)
   ).map(([name, value]) => ({ name, value }));
 
-  const COLORS = ['#06b6d4', '#14b8a6', '#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6'];
+  const COLORS = ['#c88a2b', '#5e8a68', '#7a8fa6', '#d69a3d', '#c8664a', '#b5aea3'];
 
   return (
     <div className="space-y-8">
       {/* Hero Product Banner with TotalRecalls brand accent */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0e1f2f] via-[#0c1626] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[var(--tr-panel)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 shadow-2xl">
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-[var(--tr-accent)] animate-ping"></span>
@@ -92,7 +92,7 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
 
           <h1 className="text-3xl sm:text-5xl font-black text-[var(--tr-text)] tracking-tight leading-tight">
             Universal AI Chat Downloader <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--tr-accent)] via-[var(--tr-accent)] to-sky-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--tr-accent)] via-[var(--tr-accent2)] to-[var(--tr-paper)]">
               + TotalRecalls Smart Search Engine
             </span>
           </h1>
@@ -145,7 +145,7 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div 
           onClick={() => navigateTo('backup')}
-          className="p-5 rounded-2xl bg-gradient-to-br from-[#0a1826] to-[var(--tr-bg)] border border-[var(--tr-good)]/30 hover:border-[var(--tr-good)]/60 transition-all cursor-pointer shadow-lg group"
+          className="p-5 rounded-2xl bg-gradient-to-br from-[var(--tr-panel)] to-[var(--tr-bg)] border border-[var(--tr-good)]/30 hover:border-[var(--tr-good)]/60 transition-all cursor-pointer shadow-lg group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -165,7 +165,7 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
 
         <div 
           onClick={() => navigateTo('integrityTests')}
-          className="p-5 rounded-2xl bg-gradient-to-br from-[#0c1a2e] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 hover:border-[var(--tr-accent)]/60 transition-all cursor-pointer shadow-lg group"
+          className="p-5 rounded-2xl bg-gradient-to-br from-[var(--tr-panel)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 hover:border-[var(--tr-accent)]/60 transition-all cursor-pointer shadow-lg group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -255,13 +255,13 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
-                <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={11} tickLine={false} />
+                <XAxis dataKey="name" stroke="var(--tr-muted)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--tr-muted)" fontSize={11} tickLine={false} />
                 <Tooltip 
                   contentStyle={{ backgroundColor: 'var(--tr-bg)', borderColor: 'var(--tr-border)', borderRadius: '12px' }}
-                  labelStyle={{ color: '#ffffff' }}
+                  labelStyle={{ color: 'var(--tr-text)' }}
                 />
-                <Bar dataKey="tokens" fill="#06b6d4" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="tokens" fill="var(--tr-accent)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

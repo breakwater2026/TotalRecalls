@@ -130,7 +130,7 @@ export const EmbeddingBenchmark: React.FC<EmbeddingBenchmarkProps> = ({
               className={`p-4 rounded-xl cursor-pointer transition-all border flex flex-col justify-between space-y-3 ${
                 isSelected
                   ? 'bg-[var(--tr-accent)]/40 border-[var(--tr-accent)]/80 shadow-lg shadow'
-                  : 'bg-[var(--tr-panel)] border-[var(--tr-border)] hover:border-[var(--tr-border)] hover:bg-[#0f1a2e]'
+                  : 'bg-[var(--tr-panel)] border-[var(--tr-border)] hover:border-[var(--tr-border)] hover:bg-[var(--tr-panel2)]'
               }`}
             >
               <div className="space-y-1.5">
@@ -242,7 +242,7 @@ export const EmbeddingBenchmark: React.FC<EmbeddingBenchmarkProps> = ({
 
                 <div className="p-3 rounded-xl bg-[var(--tr-panel2)] border border-[var(--tr-border)] space-y-1">
                   <div className="text-[var(--tr-muted)] text-[11px]">Index Size on Disk</div>
-                  <div className="text-lg font-bold font-mono text-sky-300">
+                  <div className="text-lg font-bold font-mono text-[var(--tr-accent)]">
                     {benchmarkResult.indexDiskSizeMB} MB
                   </div>
                   <div className="text-[10px] text-[var(--tr-muted)]">SQLite sqlite-vec file</div>

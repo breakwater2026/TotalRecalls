@@ -15,29 +15,33 @@
       }
     </script>
     <style>
-      /* TotalRecalls two-theme palette (mirrors totalrecalls.app) */
+      /* TotalRecalls two-theme palette (Brand Style Guide v1.0 — mirrors totalrecalls.app) */
       :root {
         --tr-bg: #ffffff;
-        --tr-panel: #f8fafc;
-        --tr-panel2: #f1f5f9;
-        --tr-border: #e2e8f0;
-        --tr-text: #020817;
-        --tr-muted: #64748b;
-        --tr-accent: #2e7eff;
-        --tr-accent2: #2563eb;
+        --tr-panel: #f7f7f8;
+        --tr-panel2: #efece6;
+        --tr-border: #e4e4e7;
+        --tr-text: #18181b;
+        --tr-muted: #71717a;
+        --tr-accent: #b57e22;
+        --tr-accent2: #c88a2b;
+        --tr-on-amber: #111315;
+        --tr-steel: #4e6478;
         --tr-good: #3f6b4f;
-        --tr-bad: #ef4444;
+        --tr-bad: #b4543a;
         --tr-warn: #b57e22;
       }
       .dark {
-        --tr-bg: #101113;
-        --tr-panel: #18181b;
-        --tr-panel2: #16181b;
-        --tr-border: #2b2c31;
-        --tr-text: #e8eaed;
-        --tr-muted: #9ca1ab;
-        --tr-accent: #2e7eff;
-        --tr-accent2: #2563eb;
+        --tr-bg: #111315;
+        --tr-panel: #1a1d21;
+        --tr-panel2: #16191d;
+        --tr-border: #2a2f36;
+        --tr-text: #f3efe7;
+        --tr-muted: #b5aea3;
+        --tr-accent: #c88a2b;
+        --tr-accent2: #d69a3d;
+        --tr-on-amber: #111315;
+        --tr-steel: #7a8fa6;
         --tr-good: #5e8a68;
         --tr-bad: #c8664a;
         --tr-warn: #c88a2b;
@@ -64,7 +68,7 @@
   }
 }</script>
   </head>
-  <body class="bg-[var(--tr-bg)] text-[var(--tr-text)] antialiased selection:bg-[var(--tr-accent)] selection:text-[var(--tr-text)] dark font-sans">
+  <body class="bg-[var(--tr-bg)] text-[var(--tr-text)] antialiased selection:bg-[var(--tr-accent)] selection:text-[var(--tr-on-amber)] dark font-sans">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>

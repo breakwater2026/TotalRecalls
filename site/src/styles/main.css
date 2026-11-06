@@ -80,38 +80,67 @@ html[data-theme="light"] {
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --primary: 217 100% 59%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --destructive: 0 84.2% 60.2%;
-    --border: 214.3 31.8% 91.4%;
+    --foreground: 240 6% 10%;
+    --card: 240 5% 97%;
+    --card-foreground: 240 6% 10%;
+    --primary: 38 69% 42%;
+    --muted: 36 18% 92%;
+    --muted-foreground: 240 4% 46%;
+    --destructive: 13 51% 47%;
+    --border: 240 6% 90%;
   }
 
-  /* Dark theme — background is Grok's true black: oklch(17.8% .0048 274.69)
-     == hsl(228 8% 7%) == #101113 (pulled from Grok's CDN CSS, 2026-09-01). */
+  /* Dark theme — Brand Style Guide v1.0 (Obsidian #111315, Graphite #1A1D21, Slate #2A2F36, Warm Paper #F3EFE7, Archive Amber #C88A2B) */
   html[data-theme="dark"] {
-    --background: 228 8% 7%;        /* #101113 — Grok pitch black */
-    --foreground: 220 12% 92%;      /* #E8EAED — near-white body text */
-    --card: 228 7% 10%;             /* #16181B — raised surface */
-    --card-foreground: 220 12% 92%;
-    --primary: 217 100% 59%;        /* #2F7BFF — unchanged, reads on dark */
-    --muted: 228 6% 13%;            /* #1E2126 — subtle fill */
-    --muted-foreground: 220 8% 64%; /* #9AA3AF — secondary text */
-    --destructive: 0 84.2% 60.2%;
-    --border: 228 6% 18%;           /* #26292E — hairlines */
+    --background: 210 11% 7%;       /* #111315 — Obsidian */
+    --foreground: 38 33% 93%;       /* #F3EFE7 — Warm Paper */
+    --card: 214 12% 12%;            /* #1A1D21 — Graphite */
+    --card-foreground: 38 33% 93%;
+    --primary: 36 65% 48%;          /* #C88A2B — Archive Amber */
+    --muted: 213 13% 15%;           /* #21252B — subtle fill */
+    --muted-foreground: 37 12% 67%; /* #B5AEA3 — Dust */
+    --destructive: 13 54% 54%;      /* #C8664A — Error */
+    --border: 215 13% 19%;          /* #2A2F36 — Slate */
   }
 
   /* Base44 token aliases used by the non-landing .astro components */
   html[data-theme="dark"] {
-    --color-midnight: #101113;
-    --color-slate: #C7CCD4;
-    --color-soft: #26292E;
-    --color-bg: #101113;
-    --color-surface: #16181B;
+    --color-midnight: #111315;
+    --color-slate: #D9D4CB;
+    --color-soft: #2A2F36;
+    --color-bg: #111315;
+    --color-surface: #1A1D21;
   }
+}
+
+/* Harmonized CTA buttons on inner pages (/pricing/, /buy/, /download/, /compare/, /how-it-works/) */
+.buy-button,
+.prose a.buy-button,
+.download-btn,
+.prose a.download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--tr-amber);
+  color: var(--tr-on-amber);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+.buy-button:hover,
+.prose a.buy-button:hover,
+.download-btn:hover,
+.prose a.download-btn:hover {
+  background-color: var(--tr-amber-hover);
+  color: var(--tr-on-amber);
+  text-decoration: none;
 }
 
 /* (background grid removed per user request 2026-09-13 — pages use a flat surface) */

@@ -117,7 +117,7 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0c1c2e] via-[#091522] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[var(--tr-panel)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-8 shadow-2xl">
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[var(--tr-good)]/15 border border-[var(--tr-good)]/30 text-[var(--tr-good)] text-xs font-semibold">
@@ -214,7 +214,7 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
                 <Clock className="w-5 h-5 text-[var(--tr-accent)]" />
                 <h3 className="font-bold text-[var(--tr-text)] text-base">Scheduler Configuration</h3>
               </div>
-              <span className="text-xs bg-[var(--tr-accent)]/80 text-[var(--tr-accent)] border border-[var(--tr-accent)]/60 px-2.5 py-0.5 rounded-full font-semibold">
+              <span className="text-xs bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/60 px-2.5 py-0.5 rounded-full font-semibold">
                 Autonomous
               </span>
             </div>
@@ -399,7 +399,7 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
                 <button
                   onClick={() => handleCreateSnapshotNow('differential')}
                   disabled={isCreatingSnapshot}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--tr-accent)]/80 hover:bg-[var(--tr-accent)] text-[var(--tr-accent)] border border-[var(--tr-accent)]/80 transition-colors"
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] border border-[var(--tr-accent)]/80 transition-colors"
                 >
                   + Differential Delta
                 </button>

@@ -140,7 +140,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
         <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--tr-accent)]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 text-[var(--tr-accent)] text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] text-xs font-semibold mb-3">
               <Archive className="w-3.5 h-3.5" />
               <span>Commercial Distribution & Delivery Architecture</span>
             </div>
@@ -220,7 +220,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
         <div className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-6 relative overflow-hidden group hover:border-[var(--tr-accent)]/40 transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 flex items-center justify-center text-[var(--tr-accent)] mb-4">
+              <div className="w-12 h-12 rounded-xl bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 flex items-center justify-center text-[var(--tr-accent)] mb-4">
                 <HardDrive className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">1. In-App Add-On Install (Zero Friction)</h3>
@@ -234,7 +234,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
             </div>
 
             <div className="bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-6 relative overflow-hidden group hover:border-[var(--tr-accent)]/40 transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 flex items-center justify-center text-[var(--tr-accent)] mb-4">
+              <div className="w-12 h-12 rounded-xl bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 flex items-center justify-center text-[var(--tr-accent)] mb-4">
                 <Terminal className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">2. Dual Self-Extracting Installers</h3>
@@ -331,7 +331,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
 
               <div className="flex items-center gap-2">
                 <span className="text-xs text-[var(--tr-muted)]">License Verification:</span>
-                <span className="px-2.5 py-1 rounded bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/80 text-[var(--tr-accent)] text-xs font-mono font-semibold">
+                <span className="px-2.5 py-1 rounded bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] text-xs font-mono font-semibold">
                   OFFLINE VALID
                 </span>
               </div>
@@ -339,7 +339,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
 
             {/* License Input Simulation */}
             <div className="bg-[var(--tr-bg)] border border-[var(--tr-border)] rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 flex items-center justify-center text-[var(--tr-accent)] shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 flex items-center justify-center text-[var(--tr-accent)] shrink-0">
                 <Key className="w-5 h-5" />
               </div>
               <div className="flex-1 w-full">
@@ -452,7 +452,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
               <div className="bg-[var(--tr-bg)] border border-[var(--tr-border)] rounded-2xl p-6 flex flex-col justify-between hover:border-[var(--tr-accent)]/40 transition-colors">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 text-[var(--tr-accent)] text-xs font-semibold">
+                    <span className="px-3 py-1 rounded-full bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] text-xs font-semibold">
                       For Developers & Architects
                     </span>
                     <span className="text-[var(--tr-muted)] text-xs font-mono">30+ Pages</span>
@@ -484,7 +484,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 <div className="pt-6 border-t border-[var(--tr-border)] flex flex-wrap gap-2 mt-4">
                   <button
                     onClick={() => handlePrintPDF('power')}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-accent)] hover:bg-[var(--tr-accent)] text-[var(--tr-text)] font-bold text-xs shadow-md transition-colors"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-bold text-xs shadow-md transition-colors"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print / Save as PDF</span>
@@ -510,7 +510,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
               <div className="bg-[var(--tr-bg)] border border-[var(--tr-border)] rounded-2xl p-6 flex flex-col justify-between hover:border-[var(--tr-accent)]/40 transition-colors">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 text-[var(--tr-accent)] text-xs font-semibold">
+                    <span className="px-3 py-1 rounded-full bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[var(--tr-accent)] text-xs font-semibold">
                       For Everyday Layman Users
                     </span>
                     <span className="text-[var(--tr-muted)] text-xs font-mono">15+ Pages</span>
@@ -542,7 +542,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 <div className="pt-6 border-t border-[var(--tr-border)] flex flex-wrap gap-2 mt-4">
                   <button
                     onClick={() => handlePrintPDF('layman')}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-accent)] hover:bg-[var(--tr-accent)] text-[var(--tr-text)] font-bold text-xs shadow-md transition-colors"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-bold text-xs shadow-md transition-colors"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print / Save as PDF</span>
@@ -605,7 +605,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                         {item.type === 'script' && <Terminal className="w-4 h-4 text-[var(--tr-accent)] shrink-0" />}
                         {item.type === 'executable' && <Cpu className="w-4 h-4 text-[var(--tr-accent)] shrink-0" />}
                         {item.type === 'doc' && <FileText className="w-4 h-4 text-amber-400 shrink-0" />}
-                        {item.type === 'source' && <FileCode className="w-4 h-4 text-indigo-400 shrink-0" />}
+                        {item.type === 'source' && <FileCode className="w-4 h-4 text-[var(--tr-steel)] shrink-0" />}
                         {item.type === 'license' && <Key className="w-4 h-4 text-[var(--tr-good)] shrink-0" />}
                         {item.type === 'config' && <ShieldCheck className="w-4 h-4 text-[var(--tr-muted)] shrink-0" />}
                         <span>{item.name}</span>

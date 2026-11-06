@@ -6,14 +6,14 @@
 <title>TotalRecalls</title>
 <style>
   :root {
-    --bg: #101113; --panel: #18181b; --panel2: #16181b; --border: #2b2c31;
-    --text: #e8eaed; --muted: #9ca1ab; --accent: #2e7eff; --accent2: #2563eb;
-    --good: #5e8a68; --bad: #c8664a; --warn: #c88a2b;
+    --bg: #111315; --panel: #1a1d21; --panel2: #16191d; --border: #2a2f36;
+    --text: #f3efe7; --muted: #b5aea3; --accent: #c88a2b; --accent2: #d69a3d;
+    --on-accent: #111315; --good: #5e8a68; --bad: #c8664a; --warn: #c88a2b;
   }
   [data-theme="light"] {
-    --bg: #ffffff; --panel: #f8fafc; --panel2: #f1f5f9; --border: #e2e8f0;
-    --text: #020817; --muted: #64748b; --accent: #2e7eff; --accent2: #2563eb;
-    --good: #3f6b4f; --bad: #ef4444; --warn: #b57e22;
+    --bg: #ffffff; --panel: #f7f7f8; --panel2: #efece6; --border: #e4e4e7;
+    --text: #18181b; --muted: #71717a; --accent: #b57e22; --accent2: #c88a2b;
+    --on-accent: #111315; --good: #3f6b4f; --bad: #b4543a; --warn: #b57e22;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:"Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text);
@@ -25,11 +25,11 @@
   .brand { font-size:18px; font-weight:600; flex:1; }
   .pill { font-size:12px; padding:4px 12px; border-radius:99px; border:1px solid var(--border);
           color:var(--muted); background:var(--panel); }
-  .pill.ok { color:var(--good); border-color:rgba(52,211,153,.35); }
+  .pill.ok { color:var(--good); border-color:rgba(94,138,104,.45); }
   .tier-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:99px;
                 background:var(--panel2); color:var(--muted); border:1px solid var(--border);
                 text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
-  .tier-badge.pro { color:#f5c76a; border-color:rgba(245,199,106,.4); background:rgba(245,199,106,.08); }
+  .tier-badge.pro { color:var(--accent); border-color:rgba(200,138,43,.45); background:rgba(200,138,43,.1); }
   .license-box { background:var(--panel); border:1px solid var(--border); border-radius:14px;
                  padding:20px; margin-bottom:18px; }
   .license-box h2 { font-size:15px; margin-bottom:6px; color:var(--accent2); }
@@ -43,7 +43,7 @@
            font-weight:600; transition:filter .15s; }
   button:hover { filter:brightness(1.12); }
   button:disabled { opacity:.45; cursor:not-allowed; }
-  .btn-primary { background:var(--accent); color:#fff; font-size:14px; }
+  .btn-primary { background:var(--accent); color:var(--on-accent); font-size:14px; }
   .btn-ghost { background:var(--panel2); color:var(--text); border:1px solid var(--border); font-size:13px; }
   .btn-danger { background:transparent; color:var(--muted); border:1px solid var(--border); font-size:12px; }
   .link { background:none; color:var(--accent2); padding:4px 0; font-size:13px; text-decoration:underline; }
@@ -61,13 +61,13 @@
   #fill { height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2));
           transition:width .35s; border-radius:99px; }
   .status { font-size:13px; color:var(--muted); min-height:20px; }
-  .log { margin-top:12px; background:#0b0d12; border:1px solid var(--border); border-radius:9px;
+  .log { margin-top:12px; background:var(--panel2); border:1px solid var(--border); border-radius:9px;
          padding:10px 12px; font-family:Consolas,monospace; font-size:11.5px; color:var(--muted);
          max-height:240px; overflow-y:auto; white-space:pre-wrap; }
   .log:empty { display:none; }
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
-  .error { color:var(--bad); font-size:13.5px; padding:10px 14px; background:rgba(248,113,113,.08);
-           border:1px solid rgba(248,113,113,.3); border-radius:9px; margin-top:10px; display:none; }
+  .error { color:var(--bad); font-size:13.5px; padding:10px 14px; background:rgba(200,102,74,.1);
+           border:1px solid rgba(200,102,74,.35); border-radius:9px; margin-top:10px; display:none; }
   .preview { background:var(--panel2); border:1px solid var(--border); border-radius:10px;
              padding:12px 14px; margin-top:12px; }
   .preview-title { font-size:15px; font-weight:600; margin-bottom:8px; overflow-wrap:anywhere; }
@@ -253,7 +253,7 @@
     </div>
   </section>
 
-  <footer style="margin-top:26px;color:#9aa3b5;font-size:12px;font-weight:600" id="ver"></footer>
+  <footer style="margin-top:26px;color:var(--muted);font-size:12px;font-weight:600" id="ver"></footer>
 </div>
 
 <script>

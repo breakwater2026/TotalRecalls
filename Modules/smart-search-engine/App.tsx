@@ -79,7 +79,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--tr-bg)] text-[var(--tr-text)] flex flex-col font-sans selection:bg-[var(--tr-accent)] selection:text-[var(--tr-text)]">
+    <div className="min-h-screen bg-[var(--tr-bg)] text-[var(--tr-text)] flex flex-col font-sans selection:bg-[var(--tr-accent)] selection:text-[var(--tr-on-amber)]">
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 

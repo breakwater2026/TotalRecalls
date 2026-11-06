@@ -121,7 +121,7 @@ export const IntegrityTestSuite: React.FC<IntegrityTestSuiteProps> = ({
               type="button"
               onClick={() => void executeSuite()}
               disabled={isRunning}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--tr-accent)] px-4 py-2 text-sm font-bold text-[var(--tr-text)] transition-colors hover:bg-[var(--tr-accent)] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--tr-accent)] px-4 py-2 text-sm font-bold text-[var(--tr-on-amber)] transition-colors hover:bg-[var(--tr-accent2)] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : summary ? <RotateCcw className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               {isRunning ? 'Running tests…' : summary ? 'Run again' : 'Run all tests'}

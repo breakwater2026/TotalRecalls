@@ -1,14 +1,14 @@
 :root {
-  /* Color tokens (light theme, as specified in §5) */
-  --color-midnight: #0A1A2F;
-  --color-electric: #2F7BFF;
-  --color-slate:    #4A5568;
-  --color-soft:     #E2E8F0;
-  --color-emerald:  #10B981;
-  --color-amber:    #F59E0B;
-  --color-crimson:  #DC2626;
-  --color-bg:       #FAFAFA;
-  --color-surface:  #FFFFFF;
+  /* Color tokens — harmonized with Brand Style Guide v1.0 */
+  --color-midnight: #111315;
+  --color-electric: #C88A2B;
+  --color-slate:    #3F3F46;
+  --color-soft:     #E4E4E7;
+  --color-emerald:  #5E8A68;
+  --color-amber:    #C88A2B;
+  --color-crimson:  #C8664A;
+  --color-bg:       #FFFFFF;
+  --color-surface:  #F7F7F8;
 
   /* Spacing scale */
   --space-1: 4px;

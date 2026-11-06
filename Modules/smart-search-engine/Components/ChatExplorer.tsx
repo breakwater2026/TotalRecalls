@@ -112,7 +112,7 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
       </div>
 
       {exportNotice && (
-        <div className="p-3 bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 rounded-xl text-[var(--tr-accent)] text-xs flex items-center gap-2 animate-fadeIn">
+        <div className="p-3 bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 rounded-xl text-[var(--tr-accent)] text-xs flex items-center gap-2 animate-fadeIn">
           <Check className="w-4 h-4 text-[var(--tr-accent)]" />
           <span>{exportNotice}</span>
         </div>

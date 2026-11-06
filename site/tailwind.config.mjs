@@ -11,8 +11,8 @@ export default {
           foreground: 'hsl(var(--card-foreground, 222.2 84% 4.9%))',
         },
         primary: {
-          DEFAULT: '#2F7BFF',
-          foreground: '#FFFFFF',
+          DEFAULT: 'var(--tr-amber)',
+          foreground: 'var(--tr-on-amber)',
         },
         /* Brand Style Guide v1.0 (Jasper rewrite) */
         'tr-obsidian': 'var(--tr-obsidian)',

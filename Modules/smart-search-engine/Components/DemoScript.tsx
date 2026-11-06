@@ -220,7 +220,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                    activeSceneIdx === idx ? 'bg-[var(--tr-accent)] text-[var(--tr-text)] font-bold' : 'bg-[var(--tr-panel)] text-[var(--tr-muted)]'
+                    activeSceneIdx === idx ? 'bg-[var(--tr-accent)] text-[var(--tr-on-amber)] font-bold' : 'bg-[var(--tr-panel)] text-[var(--tr-muted)]'
                   }`}>
                     {scene.timestamp}
                   </span>
@@ -315,7 +315,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
               {currentScene.highlightTab && (
                 <button
                   onClick={() => onSelectTab && onSelectTab(currentScene.highlightTab!)}
-                  className="px-3.5 py-1.5 rounded-lg bg-[var(--tr-accent)]/60 hover:bg-[var(--tr-accent)]/60 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg bg-[var(--tr-accent)]/15 hover:bg-[var(--tr-accent)]/25 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                   <span>Open Demo View for this Scene</span>

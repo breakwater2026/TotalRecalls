@@ -210,7 +210,7 @@ export const RAGSQLStudio: React.FC<RAGSQLStudioProps> = ({ conversations, chunk
               />
               <button
                 onClick={handleSaveCurrentView}
-                className="px-3 py-1.5 bg-[var(--tr-accent)] hover:bg-[var(--tr-accent)] text-[var(--tr-text)] font-semibold rounded text-xs"
+                className="px-3 py-1.5 bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold rounded text-xs"
               >
                 Save View
               </button>
@@ -362,7 +362,7 @@ export const RAGSQLStudio: React.FC<RAGSQLStudioProps> = ({ conversations, chunk
                 </thead>
                 <tbody className="divide-y divide-[var(--tr-border)]">
                   {sqlResult.rows.map((row, rIdx) => (
-                    <tr key={rIdx} className="hover:bg-[#0c1626] transition-colors">
+                    <tr key={rIdx} className="hover:bg-[var(--tr-panel2)] transition-colors">
                       {sqlResult.columns.map((col, cIdx) => (
                         <td key={cIdx} className="px-3.5 py-2 text-[var(--tr-muted)] max-w-xs truncate font-mono">
                           {typeof row[col] === 'number' ? (

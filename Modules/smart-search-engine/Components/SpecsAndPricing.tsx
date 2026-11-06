@@ -247,7 +247,7 @@ export const SpecsAndPricing: React.FC<SpecsAndPricingProps> = ({ onSelectTab })
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-bold text-[var(--tr-text)]">Unit 2: Smart Search Engine Suite</h3>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--tr-accent)] text-[var(--tr-text)]">MARKET LEADER</span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--tr-accent)] text-[var(--tr-on-amber)]">MARKET LEADER</span>
               </div>
               <p className="text-xs text-[var(--tr-accent)]">High-Performance Semantic, Analytical & Auditing Layer</p>
             </div>

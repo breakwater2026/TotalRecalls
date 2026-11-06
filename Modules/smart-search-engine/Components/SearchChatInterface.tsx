@@ -246,7 +246,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
    };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-140px)] min-h-[660px] max-h-[940px] rounded-2xl bg-[#0b1120] border border-[var(--tr-accent)]/30 shadow-2xl overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-140px)] min-h-[660px] max-h-[940px] rounded-2xl bg-[var(--tr-bg)] border border-[var(--tr-accent)]/30 shadow-2xl overflow-hidden">
       {/* Top Search Chat Header & Mode Bar in TotalRecalls brand accent */}
       <div className="bg-[var(--tr-panel)] border-b border-[var(--tr-border)]/90 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center space-x-3">
@@ -343,7 +343,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
       </div>
 
       {/* Messages Stream */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-gradient-to-b from-[#0b1120] to-[var(--tr-panel2)]">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-gradient-to-b from-[var(--tr-bg)] to-[var(--tr-panel2)]">
         {messages.map((msg) => {
           const isUser = msg.sender === 'user';
           const hasSources = msg.sources && msg.sources.length > 0;
@@ -382,12 +382,12 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
                     </span>
                   )}
                   {msg.personaUsed && (
-                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
+                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
                       {msg.personaUsed}
                     </span>
                   )}
                   {msg.mode && (
-                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/60 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
+                    <span className="px-1.5 py-0.2 rounded bg-[var(--tr-accent)]/15 border border-[var(--tr-accent)]/40 text-[10px] text-[var(--tr-accent)] font-mono">
                       {msg.mode}
                     </span>
                   )}
@@ -508,7 +508,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
                 <span>Searching local vector index & SQLite schema...</span>
               </div>
               <div className="w-full bg-[var(--tr-panel)] h-1 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-[var(--tr-accent)] via-[var(--tr-accent)] to-sky-400 animate-pulse w-3/4"></div>
+                <div className="h-full bg-gradient-to-r from-[var(--tr-accent)] via-[var(--tr-accent2)] to-[var(--tr-paper)] animate-pulse w-3/4"></div>
               </div>
             </div>
           </div>
