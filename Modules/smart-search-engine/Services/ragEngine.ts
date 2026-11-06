@@ -332,7 +332,7 @@ Records: ${JSON.stringify(sqlResult.rows.slice(0, 3))}
 Instructions:
 1. Provide a response strictly adhering to the Persona Directive: "${persona.instruction}".
 2. Cite specific AI providers and chat titles where relevant.
-3. Highlight that retrieval was performed locally with zero cloud data leaks.`;
+3. Highlight that retrieval was performed locally and that nothing you write or save is uploaded.`;
 
     const res = await ai.models.generateContent({
       model: 'gemini-2.5-flash',

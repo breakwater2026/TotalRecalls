@@ -2,7 +2,7 @@
 // Formats are generated client-side with zero external telemetry or server dependencies.
 
 export const POWER_USER_MANUAL_MARKDOWN = `# TOTALRECALLS POWER USER MANUAL
-## Smart Search Engine (SSE): Vector Search, Relational RAG SQL, Consensus Auditing & Air-Gap Privacy Architecture
+## Smart Search Engine (SSE): Vector Search, Relational RAG SQL, Consensus Auditing & Local-Only Privacy Architecture
 **Product Edition:** v2.5.0-MarketLeader  
 **Vendor:** TotalRecalls (totalrecalls.app)  
 **Distribution Target:** Senior Software Engineers, Data Architects, Security Auditors & Enterprise Teams  
@@ -18,47 +18,44 @@ The TotalRecalls suite is architected around two decoupled, complimentary units:
 | TOTALRECALLS PRODUCT ECOSYSTEM (totalrecalls.app)                                       |
 +-----------------------------------------------------------------------------------------+
 |                                                                                         |
-|   +---------------------------------------+   +-------------------------------------+   |
-|   | UNIT 1: THE CORE CHAT DOWNLOADER      |   | UNIT 2: THE SMART SEARCH ENGINE     |   |
-|   | (Baseline Foundation - $29 Lifetime)  |   | (6-Week Staged Drops / $49-$59 Pass)|   |
-|   +---------------------------------------+   +-------------------------------------+   |
-|   | * Web LLM scrapers (ChatGPT, Claude,  |   | * Sub-millisecond HNSW Vector Search|   |
-|   |   Gemini, Perplexity, Mistral, Grok)  |   | * Reciprocal Rank Fusion (BM25+Vec) |   |
-|   | * Formats: JSON, Markdown, HTML, PDF  |   | * Natural Language to SQLite Engine |   |
-|   | * Local disk encrypted vault (AES-256)|   | * Cross-AI Consensus Auditor        |   |
-|   | * Keyword full-text indexing          |   | * Air-Gap PII & Secret Scrubber     |   |
-|   | * Incremental background sync         |   | * 1-Click Fine-Tuning JSONL Export  |   |
-|   +---------------------------------------+   +-------------------------------------+   |
-|                      |                                           |                      |
-|                      +---------------------+---------------------+                      |
+|   +--------------------------------------+   +--------------------------------------+   |
+|   | UNIT 1: TOTALRECALLS PRO             |   | UNIT 2: SMART SEARCH ENGINE ADD-ON   |   |
+|   | $24 launch / $48 regular (one-time)  |   | $29 launch / $58 regular (one-time)  |   |
+|   +--------------------------------------+   +--------------------------------------+   |
+|   | * Scrapers: ChatGPT, Claude,         |   | * HNSW vector search                 |   |
+|   |   Perplexity, Gemini, Grok,          |   | * Reciprocal Rank Fusion (BM25+Vec)  |   |
+|   |   DeepSeek, Mistral, Qwen            |   | * Natural Language to SQLite         |   |
+|   | * Formats: JSON, Markdown, PDF       |   | * Cross-AI Consensus Auditor         |   |
+|   | * Local encrypted vault (AES-256)    |   | * PII & Secret Scrubber              |   |
+|   | * Keyword full-text indexing         |   | * Fine-Tuning JSONL Export           |   |
+|   | * Incremental background sync        |   | * Free updates (bug fixes) to SSE    |   |
+|   +--------------------------------------+   +--------------------------------------+   |
+|                       |                                          |                      |
+|                       +------------------------------------------+                      |
 |                                            |                                            |
 |                                            v                                            |
-|                  +----------------------------------------------------+                 |
-|                  | 100% PRIVATE, AIR-GAPPED LOCAL DISK RUNTIME        |                 |
-|                  | (Zero Cloud Egress • AES-256 SQLite • Local Models)|                 |
-|                  +----------------------------------------------------+                 |
+|                      +-------------------------------------------+                      |
+|                      | PRIVATE LOCAL DISK RUNTIME                |                      |
+|                      | (Nothing you write or save is uploaded    |                      |
+|                      |  • AES-256 SQLite • Local Models)         |                      |
+|                      +-------------------------------------------+                      |
 +-----------------------------------------------------------------------------------------+
 \`\`\`
 
 ---
 
-## 2. Commercial Packaging & The 6-Week Staged Drop Model
+## 2. Commercial Packaging & Pricing
 
-To ensure sustained innovation and accessible modular adoption, the Smart Search Engine utilizes a staged 6-week drop schedule:
+TotalRecalls is a one-time purchase with no subscription. There are three prices:
 
-| Drop | Week | Module Title | Standalone Price | Status | Description |
-|---|---|---|---|---|---|
-| Launch | Week 1 | Tri-Mode Search Chat (Vector + NL→SQL + RRF) | $39 | **LIVE** | Sub-millisecond conversational retrieval across all models |
-| Drop 1 | Week 2 | Air-Gap PII & Secret Redaction Scrubber | $19 | Next Up | Automated credential and API key sanitization |
-| Drop 2 | Week 3 | 1-Click Fine-Tuning Pipeline (JSONL/Alpaca) | $19 | Planned | OpenAI JSONL, ShareGPT, and Alpaca dataset generation |
-| Drop 3 | Week 4 | Cross-AI Consensus & Hallucination Auditor | $25 | Planned | Peer-review board comparing model disagreements |
-| Drop 4 | Week 5 | Vault Knowledge Graph & Latent Topic Cards | $19 | Planned | Autonomous entity clustering and taxonomy cards |
-| Drop 5 | Week 6 | Embedding Engine Benchmark & 2D PCA Cluster Map | $19 | Planned | Hardware latency, RAM profiler, and 2D vector map |
+| Product | Launch price | Regular price | Notes |
+|---|---|---|---|
+| TotalRecalls Pro (downloader) | $24 | $48 | One-time. All 8 providers, unlimited downloads. |
+| Smart Search Engine (SSE) add-on | $29 | $58 | One-time. Requires Pro. |
+| Pro + SSE bundle | $49.89 | $99.89 | One-time. Best value, one checkout. |
 
-- **Sum of Parts Standalone Value:** **$140**
-- **Founder's Season Pass (Launch Week Special):** **$49** *(Standard Bundle: $59 | Post-Rollout: $79)*
-- **Core Downloader:** **$29** *(One-time lifetime baseline)*
-- **Enterprise Local Fleet:** **$149/seat perpetual** *(All modules unlocked immediately)*
+- **Updates vs upgrades:** updates (bug fixes, provider-compatibility fixes) are free. Upgrades (new features, new add-ons) are paid. SSE buyers get free updates to SSE; new modules and upgrades are separate purchases.
+- **Refunds:** the Smart Search Engine add-on has a 7-day refund, no questions asked. TotalRecalls Pro has no standard refund — the Free Tier is the try-before-you-buy mechanism.
 
 ---
 
@@ -106,16 +103,18 @@ Where $k = 60$. Dense retrieval pulls conceptual neighbors while BM25 guarantees
 
 ---
 
-## 5. Air-Gap & Zero-Egress Verification
+## 5. Privacy & Local-Only Operation
 
-Verify zero outbound telemetry with Wireshark:
+TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only internet use is a one-time search-model download at setup; after that search works without a connection.
+
+You can verify local-only operation yourself — e.g. with Wireshark:
 
 \`\`\`bash
 # Capture loopback and physical interface traffic
 tshark -i any -f "not port 53 and not arp" -Y "http or tls"
 \`\`\`
 
-During vector search, SQL querying, and dataset fine-tuning export, **0 packets are transmitted**.
+No chat content is transmitted off your machine during search, SQL querying, or dataset export.
 
 ---
 *TotalRecalls Engineering Manual • totalrecalls.app*
@@ -138,25 +137,23 @@ If you use ChatGPT, Claude, or Gemini for work, cooking recipes, travel plans, o
 
 ## The Two Parts of TotalRecalls
 
-1. **The Downloader ($29 Lifetime):** Quietly saves a private copy of all your conversations from ChatGPT, Claude, Gemini, Perplexity, and Mistral directly onto your computer's hard drive.
-2. **The Smart Search Engine:** Lets you ask questions across *all* your saved chats at once. It answers in seconds and tells you exactly which AI gave the answer!
+1. **TotalRecalls Pro ($24 at launch, regular $48):** Quietly saves a private copy of all your conversations from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen directly onto your computer's hard drive.
+2. **Smart Search Engine add-on ($29 at launch, regular $58):** Lets you ask questions across *all* your saved chats at once. It answers in seconds and tells you exactly which AI gave the answer!
 
 ---
 
-## The 6-Week Feature Drops & Founder's Season Pass
+## The Smart Search Engine — What Ships When
 
-To keep things affordable and give you fresh innovations every week, we are releasing the Smart Search Engine in **6 weekly feature drops**:
+Smart Search Engine launches today with plain-English search across your whole archive. The PII Scrubber, Fine-Tuning Pipeline, Consensus Auditor, Knowledge Graph cards, and Embedding Benchmark follow as paid upgrades for Smart Search Engine buyers (separate purchases).
 
-- **Week 1 (Available Today):** The Smart Search Assistant — ask any question in plain English.
-- **Week 2:** The Secret Scrubber — hides passwords and emails before you share.
-- **Week 3:** Model Creator — turn your best chats into training sets.
-- **Week 4:** The AI Peer Reviewer — see where ChatGPT and Claude agree or disagree.
-- **Week 5:** Topic Discovery Cards — colorful cards organizing your topics.
-- **Week 6:** Speed & Memory Tester — tests which AI model runs fastest on your laptop.
+**Pricing (one-time, launch prices):**
+- TotalRecalls Pro: **$24** (regular $48) — all 8 providers, unlimited downloads.
+- Smart Search Engine: **$29** (regular $58) — requires Pro.
+- Pro + SSE bundle: **$49.89** (regular $99.89).
 
-### How to Buy:
-- Buy individual features a-la-carte as you need them ($9 to $25 each, totaling $140).
-- **Or save 65% with the Founder's Season Pass ($49 Launch Week / $59 standard)**, which unlocks every single weekly drop for life!
+**Updates vs upgrades:** updates (bug fixes, provider-compatibility fixes) are free. Upgrades (new features, new add-ons) are paid. SSE buyers get free updates to SSE; new modules and upgrades are separate purchases.
+
+**Refunds:** the Smart Search Engine add-on has a 7-day refund, no questions asked. TotalRecalls Pro has no standard refund — the Free Tier is the try-before-you-buy mechanism.
 
 ---
 
@@ -168,12 +165,9 @@ To keep things affordable and give you fresh innovations every week, we are rele
 
 ---
 
-## Our 100% Privacy Guarantee
+## Our Privacy Promise
 
-Unlike other tools that upload your chats to cloud servers, TotalRecalls is **100% private and offline**:
-- Your chats never leave your computer.
-- It works on an airplane with Wi-Fi turned off.
-- Nobody—not even the TotalRecalls team—can ever see your conversations.
+TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only internet use is a one-time search-model download at setup. After that, search works without a connection.
 
 ---
 *TotalRecalls Everyday User Guide • totalrecalls.app*
@@ -281,7 +275,7 @@ export const downloadManualWordDocx = (isLayman: boolean = false): void => {
 <body>
   <div style="text-align: center; margin-bottom: 30px;">
     <h1 style="border: none; margin-bottom: 4px;">TotalRecalls Documentation Suite</h1>
-    <p style="color: #64748b; font-size: 10pt;">Offline AI Chat Downloader, Vector Search & RAG SQL • totalrecalls.app</p>
+    <p style="color: #64748b; font-size: 10pt;">Local AI Chat Downloader, Vector Search & RAG SQL • totalrecalls.app</p>
   </div>
   ${markdownToHtml(markdown)}
 </body>

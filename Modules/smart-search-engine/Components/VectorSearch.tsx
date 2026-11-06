@@ -67,8 +67,10 @@ export const VectorSearch: React.FC<VectorSearchProps> = ({ chunks, onOpenConver
     Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
-    LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
-  };
+    Grok: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    DeepSeek: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Qwen: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+   };
 
   return (
     <div className="space-y-6">
@@ -81,7 +83,7 @@ export const VectorSearch: React.FC<VectorSearchProps> = ({ chunks, onOpenConver
                 <Sparkles className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                 TotalRecalls Add-on: Semantic Vector & RRF Engine
               </span>
-              <span className="text-xs text-[var(--tr-muted)] font-mono">100% Local / Zero Cloud Latency</span>
+              <span className="text-xs text-[var(--tr-muted)] font-mono">Runs on your PC — nothing uploaded</span>
             </div>
             <h2 className="text-2xl font-bold text-[var(--tr-text)] tracking-tight">
               Cross-Provider Semantic Vector Search & Hybrid RRF

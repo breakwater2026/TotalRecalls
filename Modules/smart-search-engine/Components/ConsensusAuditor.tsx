@@ -48,8 +48,10 @@ export const ConsensusAuditor: React.FC<ConsensusAuditorProps> = ({
     Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
-    LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
-  };
+    Grok: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    DeepSeek: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Qwen: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+   };
 
   const getConsensusBadge = (level: ConsensusTopic['consensusLevel']) => {
     switch (level) {

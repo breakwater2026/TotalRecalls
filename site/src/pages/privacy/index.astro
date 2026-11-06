@@ -64,6 +64,16 @@ import config from "../../data/config.json";
     record, and verified by our own license server. The license check below is the only outbound
     connection the app makes that has anything to do with us:
   </p>
+  <p>
+    <strong>Offline by design.</strong> Once your conversations are downloaded, the app works
+    without an internet connection — reading, searching and re-exporting your Library needs no
+    network at all. The license check is best-effort and is never required to use the app.
+  </p>
+  <p>
+    <strong>Smart Search Engine add-on.</strong> The add-on runs on your PC and nothing you write
+    or save is uploaded. Its only internet use is a one-time download of the search model during
+    setup; after that it works without a connection.
+  </p>
   <ul>
     <li>When you enter your license key, and periodically afterwards (at most once per hour, best-effort), the app sends your <strong>license key</strong> and a <strong>pseudonymous machine identifier</strong> (an opaque hash like <code>TR-…</code>) to our license server at totalrecalls.app.</li>
     <li>The identifier is derived from hardware plus a per-install random salt. It is not your name, email, IP, or hardware serial — our server can only use it to enforce the 3-activation limit.</li>

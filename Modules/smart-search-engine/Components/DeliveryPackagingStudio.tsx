@@ -36,7 +36,7 @@ const PACKAGE_CONTENTS: DistributionFile[] = [
     name: 'install.bat',
     size: '4.2 KB',
     type: 'script',
-    description: 'Windows 10/11 1-Click Installer (Auto-detects TotalRecalls Core directory, creates desktop shortcut, registers sqlite-vec engine)',
+    description: 'Windows 10/11 1-Click Installer (Auto-detects TotalRecalls Pro directory, creates desktop shortcut, registers sqlite-vec engine)',
     recommendedRole: 'Windows Users'
   },
   {
@@ -71,7 +71,7 @@ const PACKAGE_CONTENTS: DistributionFile[] = [
     name: 'docs/QUICKSTART_GUIDE_3_MINUTES.pdf',
     size: '280 KB',
     type: 'doc',
-    description: '3-minute visual foldout: Drop Zip -> Click Activate -> Search 100,000+ AI messages offline immediately',
+    description: '3-minute visual foldout: Drop Zip -> Click Activate -> Search 100,000+ AI messages immediately',
     recommendedRole: 'Quick Setup'
   },
   {
@@ -85,14 +85,14 @@ const PACKAGE_CONTENTS: DistributionFile[] = [
     name: 'src/ (Full TypeScript Source Code)',
     size: '1.2 MB',
     type: 'source',
-    description: '100% unminified, air-gap auditable React 19 + TypeScript source tree with no obfuscation or phone-home telemetry',
+    description: '100% unminified, locally auditable React 19 + TypeScript source tree with no obfuscation or phone-home telemetry',
     recommendedRole: 'Enterprise Audit / Devs'
   },
   {
-    name: 'licenses/FOUNDERS_PASS_PERPETUAL.key',
+    name: 'licenses/TOTALRECALLS_PRO_SSE_LICENSE.key',
     size: '1.1 KB',
     type: 'license',
-    description: 'Cryptographically signed offline ECDSA perpetual license token unlocking all 6 drops with zero recurring subscriptions',
+    description: 'Cryptographically signed ECDSA license token for TotalRecalls Pro and the Smart Search Engine add-on',
     recommendedRole: 'Commercial Entitlement'
   },
   {
@@ -109,7 +109,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
   const [simulatedInstallStep, setSimulatedInstallStep] = useState<number>(0);
   const [isInstalling, setIsInstalling] = useState<boolean>(false);
   const [copiedBash, setCopiedBash] = useState<boolean>(false);
-  const [licenseKeyInput, setLicenseKeyInput] = useState<string>('TR-FOUNDER-PASS-8849-V25-AIRGAP');
+  const [licenseKeyInput, setLicenseKeyInput] = useState<string>('TR-PRO-SSE-8849-V25');
 
   const handleStartSimulatedInstall = () => {
     setIsInstalling(true);
@@ -148,7 +148,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
               Smart Search Engine <span className="bg-gradient-to-r from-[var(--tr-accent)] to-[var(--tr-accent2)] bg-clip-text text-transparent">Installer & Packaging Hub</span>
             </h1>
             <p className="mt-3 text-[var(--tr-muted)] text-sm sm:text-base leading-relaxed">
-              Addressing the <strong className="text-[var(--tr-text)]">".zip delivery problem"</strong>: A dual-distribution pipeline delivering a 1-click zero-friction executable for laymen, full air-gap auditable TypeScript source for developers, and vector-grade PDF manuals bundled inside.
+              Addressing the <strong className="text-[var(--tr-text)]">".zip delivery problem"</strong>: A dual-distribution pipeline delivering a 1-click zero-friction executable for laymen, full locally auditable TypeScript source for developers, and vector-grade PDF manuals bundled inside.
             </p>
           </div>
 
@@ -223,9 +223,9 @@ export const DeliveryPackagingStudio: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-[var(--tr-accent)]/80 border border-[var(--tr-accent)]/60 flex items-center justify-center text-[var(--tr-accent)] mb-4">
                 <HardDrive className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">1. In-App Core Drop (Zero Friction)</h3>
+              <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">1. In-App Add-On Install (Zero Friction)</h3>
               <p className="text-[var(--tr-muted)] text-sm leading-relaxed mb-4">
-                If the user already has the TotalRecalls Core Downloader, they don't even need terminal scripts. They simply drag-and-drop the <code className="text-[var(--tr-accent)] text-xs">TotalRecalls-SSE-v2.5.zip</code> file right onto the Core app window.
+                If the user already has TotalRecalls Pro, they don't even need terminal scripts. They simply drag-and-drop the <code className="text-[var(--tr-accent)] text-xs">TotalRecalls-SSE-v2.5.zip</code> file right onto the Pro app window.
               </p>
               <div className="text-xs text-[var(--tr-accent)] font-medium flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-[var(--tr-accent)]" />
@@ -253,7 +253,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">3. Unminified Source + Manuals</h3>
               <p className="text-[var(--tr-muted)] text-sm leading-relaxed mb-4">
-                For enterprise defense, banking, and security auditors, the zip bundles the complete unminified TypeScript/React source code alongside high-fidelity PDF, DOCX, and Markdown manuals for total air-gapped compliance.
+                For enterprise defense, banking, and security auditors, the zip bundles the complete unminified TypeScript/React source code alongside high-fidelity PDF, DOCX, and Markdown manuals for optional offline source review.
               </p>
               <div className="text-xs text-amber-400 font-medium flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-amber-400" />
@@ -281,7 +281,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 <div className="bg-[var(--tr-bg)]/80 p-4 rounded-xl border border-[var(--tr-border)] text-[var(--tr-muted)] space-y-2">
                   <div className="text-[var(--tr-text)] font-medium">What everyday users say:</div>
                   <blockquote className="italic border-l-2 border-rose-500 pl-3">
-                    "I bought this for $29, unzipped it, and saw a bunch of .ts files and a package.json. I don't know what a terminal is. How do I turn it on?"
+                    "I bought this for $24, unzipped it, and saw a bunch of .ts files and a package.json. I don't know what a terminal is. How do I turn it on?"
                   </blockquote>
                 </div>
               </div>
@@ -297,7 +297,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 <ul className="space-y-2.5 text-[var(--tr-muted)]">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[var(--tr-accent)] mt-0.5 shrink-0" />
-                    <span><strong className="text-[var(--tr-text)]">Tier A (Laymen):</strong> Double-click <code className="text-[var(--tr-accent)]">install.bat</code> / <code className="text-[var(--tr-accent)]">install.sh</code> or drop the zip onto TotalRecalls Core.</span>
+                    <span><strong className="text-[var(--tr-text)]">Tier A (Laymen):</strong> Double-click <code className="text-[var(--tr-accent)]">install.bat</code> / <code className="text-[var(--tr-accent)]">install.sh</code> or drop the zip onto TotalRecalls Pro.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[var(--tr-accent)] mt-0.5 shrink-0" />
@@ -344,7 +344,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
               </div>
               <div className="flex-1 w-full">
                 <label className="text-xs font-semibold text-[var(--tr-muted)] uppercase tracking-wider block mb-1">
-                  Founder's Season Pass / Standalone Add-on Key
+                  TotalRecalls Pro / SSE Add-on License Key
                 </label>
                 <input
                   type="text"
@@ -388,7 +388,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 {simulatedInstallStep >= 1 && (
                   <div className="text-[var(--tr-muted)] animate-fadeIn">
                     [1/5] Inspecting local host environment... <span className="text-[var(--tr-accent)] font-semibold">[PASS]</span>
-                    <div className="text-[var(--tr-muted)] text-xs pl-4">Found existing TotalRecalls core data directory at ~/.totalrecalls/</div>
+                    <div className="text-[var(--tr-muted)] text-xs pl-4">Found existing TotalRecalls Pro data directory at ~/.totalrecalls/</div>
                   </div>
                 )}
 
@@ -408,16 +408,16 @@ export const DeliveryPackagingStudio: React.FC = () => {
 
                 {simulatedInstallStep >= 4 && (
                   <div className="text-[var(--tr-muted)] animate-fadeIn">
-                    [4/5] Verifying air-gap cryptographic covenant & license hash... <span className="text-[var(--tr-accent)] font-semibold">[VERIFIED]</span>
-                    <div className="text-[var(--tr-muted)] text-xs pl-4">Perpetual offline entitlement confirmed: All 6 Staged Drops unlocked. Zero network telemetry active.</div>
+                    [4/5] Verifying cryptographic covenant & license hash... <span className="text-[var(--tr-accent)] font-semibold">[VERIFIED]</span>
+                    <div className="text-[var(--tr-muted)] text-xs pl-4">License entitlement confirmed: TotalRecalls Pro and Smart Search Engine unlocked. Runs on your PC — nothing is uploaded.</div>
                   </div>
                 )}
 
                 {simulatedInstallStep >= 5 && (
                   <div className="text-[var(--tr-accent)] font-semibold bg-[var(--tr-accent)]/40 p-3 rounded-lg border border-[var(--tr-accent)]/60 mt-3 animate-fadeIn">
-                    🎉 SUCCESS: TotalRecalls Smart Search Engine is fully installed and linked to your Core Downloader!
+                    🎉 SUCCESS: TotalRecalls Smart Search Engine is fully installed and linked to your TotalRecalls Pro license!
                     <div className="text-[var(--tr-muted)] font-normal text-xs mt-1">
-                      You can now search, ask conversational questions, and run natural-language SQL across all your offline AI chats.
+                      You can now search, ask conversational questions, and run natural-language SQL across all your saved AI chats.
                     </div>
                   </div>
                 )}

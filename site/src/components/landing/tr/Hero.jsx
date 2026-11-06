@@ -45,13 +45,13 @@ export default function Hero() {
               Free Tier covers ChatGPT, Claude, and Perplexity, 5 conversations each.
             </p>
             <p className="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-              Pro unlocks all 8 providers and unlimited downloads for $24 one-time (launch price). From there you can search using Windows Explorer, Norton, Obsidian or our new semantic (vector) Smart Search Engine (SSE) add-on tool.*
+              Pro unlocks all 8 providers and unlimited downloads for $24 one-time (launch price). Your downloaded files are already searchable on their own - Windows Explorer's search bar, Norton, Obsidian and other local tools read them. The optional Smart Search Engine (SSE) add-on searches by meaning as well as by keyword.*
             </p>
             <p className="mt-5 sm:hidden max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
               Windows app. Visit from your desktop to download.
             </p>
             <p className="mt-5 font-mono text-[11px] text-tr-dust">
-              * Optional Smart Search Engine (SSE) sold separately - $39 launch price.
+              * Optional Smart Search Engine (SSE) sold separately - $29 launch price.
             </p>
           </div>
 

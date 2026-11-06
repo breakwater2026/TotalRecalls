@@ -254,7 +254,7 @@ export const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
           <div className="p-3 rounded-xl bg-[var(--tr-accent)]/30 border border-[var(--tr-accent)]/30 text-xs text-[var(--tr-accent)] flex items-center justify-between">
             <span>Knowledge Graph automatically updates upon new TotalRecalls sync runs.</span>
-            <span className="font-mono text-[var(--tr-accent)]">Zero Cloud Egress</span>
+            <span className="font-mono text-[var(--tr-accent)]">Runs on your PC</span>
           </div>
         </div>
       </div>

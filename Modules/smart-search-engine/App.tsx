@@ -218,7 +218,7 @@ export function App() {
           <div className="flex items-center space-x-2">
             <span className="font-semibold text-[var(--tr-text)]">TotalRecalls Smart Search Engine</span>
             <span>•</span>
-            <span>Downside Protection Vault & Air-Gapped Code Integrity Tests</span>
+            <span>Downside Protection Vault & Local Code Integrity Tests</span>
           </div>
           <div className="flex items-center space-x-4">
             <button onClick={() => setActiveTab('backup')} className="hover:text-[var(--tr-accent)] transition-colors">

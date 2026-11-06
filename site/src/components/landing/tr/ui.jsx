@@ -31,10 +31,12 @@ export function Eyebrow({ mono = false, children }) {
 
 // Primary = Archive Amber fill / Obsidian text. Secondary = transparent, 1px Slate border, Paper text.
 // Tertiary = Steel Blue text link.
-export function Btn({ href, variant = "primary", large = false, className = "", children }) {
+// Extra props (data-*, aria-*) are forwarded to the rendered anchor so checkout
+// wiring like data-tr-buy / data-tr-price-id can ride on the shared styling.
+export function Btn({ href, variant = "primary", large = false, className = "", children, ...rest }) {
   if (variant === "tertiary") {
     return (
-      <a href={href} className={`text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper ${className}`}>
+      <a href={href} className={`text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper ${className}`} {...rest}>
         {children}
       </a>
     );
@@ -44,13 +46,13 @@ export function Btn({ href, variant = "primary", large = false, className = "", 
   }`;
   if (variant === "secondary") {
     return (
-      <a href={href} className={`${base} border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 ${className}`}>
+      <a href={href} className={`${base} border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 ${className}`} {...rest}>
         {children}
       </a>
     );
   }
   return (
-    <a href={href} className={`${base} bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover active:bg-tr-amber-press ${className}`}>
+    <a href={href} className={`${base} bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover active:bg-tr-amber-press ${className}`} {...rest}>
       {children}
     </a>
   );

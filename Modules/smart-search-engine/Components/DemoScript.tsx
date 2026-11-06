@@ -91,7 +91,7 @@ Want metrics? Ask in plain English: 'Which AI do I talk to most?' TotalRecalls c
       visualCue: 'Transition to Consensus Matrix tab: Side-by-side comparison of ChatGPT vs Mistral. Shows Divergent Stance badge and recommended resolution. Transition to PII Scrubber: live redaction of sk_live_ Stripe API key into [REDACTED_API_KEY].',
       audioVoiceover: `TotalRecalls doesn't just search—it’s your personal AI Peer Review Board. With the built-in Consensus Auditor, you can compare what Claude, Gemini, and ChatGPT recommended on the same topic. It instantly flags where they agree, and where their advice clashes.
 
-Need to share or train a local model? Our built-in Air-Gap PII Scrubber automatically wipes out API keys, private passwords, and customer emails with one click, letting you export sanitized training datasets in standard JSONL format.`,
+Need to share or train a local model? Our built-in PII Scrubber automatically wipes out API keys, private passwords, and customer emails with one click, letting you export sanitized training datasets in standard JSONL format.`,
       onScreenText: 'Cross-AI Peer Review • Automated PII & Secret Redaction',
       highlightTab: 'consensus'
     },
@@ -99,24 +99,20 @@ Need to share or train a local model? Our built-in Air-Gap PII Scrubber automati
       id: 'scene-5',
       timestamp: '2:05 - 2:30',
       durationSec: 25,
-      actTitle: 'Act 5: The Air-Gap Guarantee — 100% Private & Offline',
-      visualCue: 'Host on camera holding laptop. Visual icon of Wi-Fi turning OFF (Airplane mode), yet TotalRecalls continues searching locally with sub-millisecond response. Quick glimpse of the User Manuals (.PDF, .DOCX, .MD).',
-      audioVoiceover: `Here's the best part: TotalRecalls is 100% private and air-gapped. Not a single word, vector, or token ever leaves your laptop.
-
-It works completely offline—on an airplane, in a remote cabin, or in a secure enterprise environment. Your conversations are yours. Forever.`,
-      onScreenText: 'Zero Cloud Data Egress • 100% Offline Vault',
+      actTitle: 'Act 5: Private on Your PC — Nothing Uploaded',
+      visualCue: 'Host on camera holding laptop. Visual icon of Wi-Fi turning OFF (Airplane mode) after the one-time setup download, yet TotalRecalls continues searching locally with sub-millisecond response. Quick glimpse of the User Manuals (.PDF, .DOCX, .MD).',
+      audioVoiceover: `TotalRecalls runs entirely on your PC. Nothing you write or save is uploaded — not a word, vector, or token leaves your machine. The only internet use is a one-time search-model download at setup; after that it works without a connection. Your conversations are yours. Forever.`,
+      onScreenText: 'Runs on your PC — nothing uploaded',
       highlightTab: 'manual'
     },
     {
       id: 'scene-6',
       timestamp: '2:30 - 2:50',
       durationSec: 20,
-      actTitle: 'Act 6: Call to Action — Founder\'s Season Pass & Weekly Drops',
-      visualCue: 'Commercial Pricing card animates in: Core Downloader $29, Founder\'s Season Pass Launch Week Special $49 (down from $140 sum-of-parts value). Weekly drop calendar animates: Week 1 Live, Week 2 PII Scrubber, Week 3 Fine-Tuner, Week 4 Consensus, Week 5 Topic Graph, Week 6 Benchmark. URL: https://totalrecalls.app prominently displayed with cyan glow. Music swells to crescendo.',
-      audioVoiceover: `We are rolling out the Smart Search Engine in 6 weekly feature drops. You can purchase each module individually—or grab the early-bird Founder's Season Pass for just $49 this week, saving 65% and unlocking every drop for life.
-
-Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pass today!`,
-      onScreenText: 'Founder\'s Season Pass $49 (Launch Week Special) • totalrecalls.app',
+      actTitle: 'Act 6: Call to Action — Pricing',
+      visualCue: 'Commercial Pricing card animates in: TotalRecalls Pro $24 at launch, Smart Search Engine $29, Pro + SSE bundle $49.89. URL: https://totalrecalls.app prominently displayed with cyan glow. Music swells to crescendo.',
+      audioVoiceover: `TotalRecalls Pro is $24 at launch. Add the Smart Search Engine for $29 — or get both for $49.89. Visit totalrecalls.app. Stop losing your best ideas. Visit totalrecalls.app.`,
+      onScreenText: 'Pro $24 · SSE $29 · Bundle $49.89 • totalrecalls.app',
       highlightTab: 'specs'
     }
   ];
@@ -176,7 +172,7 @@ Stop losing your best ideas. Visit totalrecalls.app and claim your Founder's Pas
               </span>
             </div>
             <p className="text-xs text-[var(--tr-muted)]">
-              Commercial-grade 6-act promotional video script with Founder's Season Pass call to action.
+              Commercial-grade 6-act promotional video script with a pricing call to action.
             </p>
           </div>
         </div>

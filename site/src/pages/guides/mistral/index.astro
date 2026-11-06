@@ -8,7 +8,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Mistral" }]}
 >
   <h1>How to download Mistral (Le Chat) conversations</h1>
-  <p class="lead">Mistral is the dominant non-US chat product in the EU. TotalRecalls reads from your browser session and writes everything to local files you control.</p>
+  <p class="lead">Mistral is the dominant non-US chat product in the EU. TotalRecalls reads the session from its own embedded sign-in window and writes everything to local files you control.</p>
 
   <h2>What "download" usually means</h2>
   <p>People searching for this want one of three outcomes:</p>
@@ -18,15 +18,15 @@ import PageLayout from "../../../layouts/PageLayout.astro";
     <li><strong>Searchable library</strong> — find an old answer without scrolling forever</li>
   </ul>
 
-  <h2>Option A — Manual copy/paste from chat.mistral.ai</h2>
-  <p>Mistral does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <h2>Option A — Mistral's own data export</h2>
+  <p>Mistral provides a data export tool at <strong>admin.mistral.ai/account/export</strong>. It downloads all of your Le Chat data, including conversation history, as one archive.</p>
   <ul>
-    <li><strong>Pros:</strong> no tooling, no install</li>
-    <li><strong>Cons:</strong> loses formatting, doesn't scale past a few conversations, easy to lose the order of long ones</li>
+    <li><strong>Pros:</strong> official, covers your whole account</li>
+    <li><strong>Cons:</strong> one archive, not per-conversation files you can read or search</li>
   </ul>
 
   <h2>Option B — Local library with TotalRecalls (Windows)</h2>
-  <p>TotalRecalls runs on your PC, connects to your Mistral Le Chat session locally, and writes conversations into folders as Markdown + JSON.</p>
+  <p>TotalRecalls runs on your PC, connects using your Mistral Le Chat session from its own sign-in window, and writes conversations into folders as Markdown + JSON.</p>
   <ol>
     <li>Buy / install TotalRecalls for Windows</li>
     <li>Choose <strong>Mistral</strong> as the provider</li>
@@ -50,7 +50,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   </ul>
 
   <h2>About Mistral's Pro tier</h2>
-  <p>Mistral's Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads from your browser session, which works for the free tier and any future tier that shares the same web UI.</p>
+  <p>Mistral's Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads the session from its own embedded sign-in window, which works for the free tier and any future tier that shares the same web UI.</p>
 
   <section class="footer-cta mt-8 mb-4 border border-tr-slate bg-tr-graphite p-6 text-center md:p-8">
     <h2 class="mb-3 font-heading text-xl font-bold tracking-tight text-tr-paper md:text-2xl">Download with TotalRecalls</h2>

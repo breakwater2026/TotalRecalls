@@ -1,7 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import releases from "../../data/releases.json";
-const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+import config from "../../data/config.json";
 const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen";
 ---
 
@@ -14,7 +14,7 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
 <div class="mb-6">
   <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-tr-amber block mb-2">Legal</span>
   <h1 class="font-heading text-3xl md:text-4xl font-bold tracking-tight text-foreground">Legal & Policies</h1>
-  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version {releases.currentVersion} · Last updated {date}</p>
+  <p class="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-2">Version {config.version} · Last updated {config.lastUpdated}</p>
 </div>
 
 <div class="space-y-10 text-[13.5px] leading-relaxed text-muted-foreground border-t border-border/60 pt-8">
@@ -53,7 +53,7 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
       <li><strong>License:</strong> a personal, single-user, non-transferable license to run the Software on up to 3 of your own devices. No redistribution, resale, or reverse engineering.</li>
       <li><strong>Your data is yours:</strong> we claim no ownership of anything you download.</li>
       <li><strong>Provider responsibility:</strong> you are responsible for using your own accounts in line with each provider's terms ({PROVIDERS}). We are not affiliated with any provider.</li>
-      <li><strong>Updates:</strong> the core app receives free updates for the life of the product; new add-ons are separate purchases and updated only if you buy them.</li>
+      <li><strong>Updates vs upgrades:</strong> updates (bug fixes and provider-compatibility fixes) to Downloader Pro are free for the life of the product. Upgrades (new features and add-ons) are separate paid purchases; add-ons you buy receive their own free updates.</li>
       <li><strong>No warranty / limited liability:</strong> the Software is provided "as is"; our aggregate liability is capped at the amount you paid.</li>
       <li><strong>Quebec consumer rights</strong> apply where the law provides, and cannot be waived.</li>
       <li><strong>Governing law:</strong> the Province of Quebec, Canada; exclusive jurisdiction of the courts of Montreal.</li>
@@ -72,8 +72,8 @@ const PROVIDERS = "ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral,
       TotalRecalls is a one-time purchase — no subscription, no recurring charges.
     </p>
     <ul class="list-disc list-inside space-y-1.5 pl-2 text-[13px]">
-      <li><strong>No standard refund policy.</strong> We don't offer automatic refunds. That's what the Free Tier is for: you can download and test the app on your own chats before paying anything (3 providers, 5 conversations per download). Try before you buy.</li>
-      <li><strong>Case-by-case review.</strong> If you have a genuine issue, email <a href="mailto:support@totalrecalls.app" class="text-tr-amber hover:underline font-medium">support@totalrecalls.app</a> and we'll review it individually.</li>
+      <li><strong>Downloader Pro (one-time purchase).</strong> No refund. The Free Tier is our try-before-you-buy mechanism — you can run a real download on your own chats before paying anything. Your statutory consumer rights are never excluded.</li>
+      <li><strong>Smart Search Engine add-on:</strong> 7 days, no questions asked. Email <a href="mailto:support@totalrecalls.app" class="text-tr-amber hover:underline font-medium">support@totalrecalls.app</a> within 7 days of purchase and we'll refund it &mdash; no form, no reason needed. Your license key is deactivated and the Free Tier remains available.</li>
       <li><strong>Your statutory rights are preserved.</strong> Purchases are processed by our merchant of record, Paddle, who handle payment, invoicing and any applicable sales taxes. Quebec's right of cancellation for online purchases and all applicable consumer protection laws are never excluded or waived by this policy.</li>
       <li><strong>License deactivation = refund.</strong> If a refund is approved, we deactivate your license key and the activation slot is freed. You lose access to Pro features; the Free Tier remains available.</li>
     </ul>

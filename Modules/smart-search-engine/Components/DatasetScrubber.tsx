@@ -66,10 +66,10 @@ export const DatasetScrubber: React.FC<DatasetScrubberProps> = ({ conversations 
                 <ShieldCheck className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                 Market-Leader Feature: PII Scrubber & Fine-Tuning Pipeline
               </span>
-              <span className="text-xs text-[var(--tr-muted)] font-mono">Air-Gapped Data Sanitization</span>
+              <span className="text-xs text-[var(--tr-muted)] font-mono">Local Data Sanitization</span>
             </div>
             <h2 className="text-2xl font-bold text-[var(--tr-text)] tracking-tight">
-              PII Air-Gap Scrubber & Dataset Exporter
+              PII Scrubber & Dataset Exporter
             </h2>
             <p className="text-sm text-[var(--tr-muted)] leading-relaxed">
               Export your local AI chat archives into ready-to-train datasets for local Ollama, vLLM, or cloud models. Automatically detects and redacts API keys, secret credentials, internal IP addresses, and emails before export.
@@ -104,7 +104,7 @@ export const DatasetScrubber: React.FC<DatasetScrubberProps> = ({ conversations 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 rounded-xl bg-[var(--tr-panel)] border border-[var(--tr-border)] space-y-2">
           <div className="flex items-center justify-between text-xs text-[var(--tr-muted)]">
-            <span className="font-semibold text-[var(--tr-muted)]">Air-Gap Redaction Engine</span>
+            <span className="font-semibold text-[var(--tr-muted)]">Local Redaction Engine</span>
             <input
               type="checkbox"
               checked={enableScrubber}

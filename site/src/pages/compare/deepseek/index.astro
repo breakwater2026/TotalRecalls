@@ -4,7 +4,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 const faqs = [
   { q: "Does DeepSeek let me export my chats?", a: "Yes, DeepSeek provides a JSON export under Settings > Data > Export Data. TotalRecalls goes a step further by cleanly formatting chain-of-thought reasoning blocks into readable, collapsible Markdown sections so the context stays intact." },
   { q: "Will I lose the R1 thinking blocks?", a: "With copy/paste, yes — they disappear after a few refreshes. TotalRecalls keeps the reasoning alongside the final answer." },
-  { q: "Does it use the DeepSeek API or an API key?", a: "Neither. TotalRecalls reads your browser session, so it works on the free tier without any developer credentials." },
+  { q: "Does it use the DeepSeek API or an API key?", a: "Neither. TotalRecalls reads the session from its own embedded sign-in window, so it works on the free tier without any developer credentials." },
 ];
 
 // The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
@@ -35,7 +35,7 @@ const faqLd = {
   <p>DeepSeek-R1 streams a <code>thinking_content</code> block before its final answer. That reasoning is often more useful than the answer itself: the worked solution, the self-correction, the trade-off analysis. If you back up by hand, it&rsquo;s gone. If you back up with TotalRecalls, it&rsquo;s stored next to the final answer, with the timestamp and model name.</p>
 
   <h2>What TotalRecalls does</h2>
-  <p>TotalRecalls runs on your PC, connects to your DeepSeek session locally, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays readable but doesn&rsquo;t drown the answer.</p>
+  <p>TotalRecalls runs on your PC, connects using your DeepSeek session from its own sign-in window, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays readable but doesn&rsquo;t drown the answer.</p>
 
   <div class="table-wrap">
     <table>
@@ -56,7 +56,7 @@ const faqLd = {
   <h2>Which should you use?</h2>
   <p>Use manual copy/paste for one or two conversations you need right now. Use TotalRecalls when you want a complete, searchable archive with the reasoning intact &mdash; especially if you also use ChatGPT, Claude, Mistral or Qwen and want one archive location.</p>
 
-  <p><strong>Good to know:</strong> TotalRecalls reads your browser session &mdash; it does not call the DeepSeek API. It works on the free tier, the pro tier, and any plan that uses the <code>chat.deepseek.com</code> web app. Run the download while your session is still active; DeepSeek sessions expire on inactivity. DeepSeek-V3 and DeepSeek-R1 share the same download path and both download cleanly.</p>
+  <p><strong>Good to know:</strong> TotalRecalls reads the session from its own embedded sign-in window &mdash; it does not call the DeepSeek API. It works on the free tier, the pro tier, and any plan that uses the <code>chat.deepseek.com</code> web app. Run the download while your session is still active; DeepSeek sessions expire on inactivity. DeepSeek-V3 and DeepSeek-R1 share the same download path and both download cleanly.</p>
 
   <h2>FAQ</h2>
   <dl class="faq" set:html={faqHtml} />

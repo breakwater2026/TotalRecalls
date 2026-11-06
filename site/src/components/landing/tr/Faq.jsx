@@ -9,11 +9,11 @@ const FAQS = [
   },
   {
     q: "What's the refund policy?",
-    a: "We don't run a standard refund policy — we have better. A Free Tier is available so that you can test-drive the app before committing to buy it: download it and test it to your liking. The Free Tier has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24 USD, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download. If you do have a refund request, contact us and we'll handle it on a case-by-case basis. Your statutory consumer rights — including the right of cancellation for online purchases that Quebec consumers enjoy — always apply and are never excluded.",
+    a: "We don't run a standard refund policy — we have better. A Free Tier is available so that you can test-drive the app before committing to buy it: download it and test it to your liking. The Free Tier has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24 USD, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download. There is no refund on the Downloader - the Free Tier is the try-before-you-buy. Your statutory consumer rights — including the right of cancellation for online purchases that Quebec consumers enjoy — always apply and are never excluded.",
   },
   {
     q: "Is there a subscription?",
-    a: "No. It's a one-time $24 USD purchase — discounted launch price. You pay once and keep receiving free updates to the core app for the life of the product. New features (add-ons) are separate purchases; add-ons you own keep getting updates.",
+    a: "No. It's a one-time $24 USD purchase — discounted launch price. You pay once and keep receiving free updates (bug fixes) for the life of the product. New features (add-ons) are separate paid upgrades; add-ons you own keep getting free updates (bug fixes).",
   },
   {
     q: "Do I need to create an account?",
@@ -29,7 +29,7 @@ const FAQS = [
   },
   {
     q: "Do I get updates?",
-    a: "Yes. The core app receives free updates for the life of the product — check the Release Notes on our website. New features (add-ons) will be developed on an ongoing basis and made available as separate purchases as we expand the product.",
+    a: "Yes. The Downloader receives free updates (bug fixes) for the life of the product — check the Release Notes on our website. New features (add-ons) are developed on an ongoing basis and sold as separate paid upgrades.",
   },
 ];
 

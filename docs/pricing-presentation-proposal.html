@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TotalRecalls — proposed pricing presentation</title>
+<style>
+  :root{
+    --bg:#101113; --panel:#18181b; --panel2:#16181b; --border:#2b2c31;
+    --text:#e8eaed; --muted:#9ca1ab; --amber:#f5c76a; --amber-press:#e0b35a;
+    --blue:#2e7ff; --good:#5e8a68; --dust:#7a8fa6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,sans-serif;padding:32px 20px 64px}
+  .page{max-width:1120px;margin:0 auto}
+  h1{font-size:22px;font-weight:700;letter-spacing:-0.01em}
+  .lede{color:var(--muted);font-size:14px;line-height:1.6;margin-top:6px;max-width:760px}
+  .section{margin-top:36px}
+  .section h2{font-size:13px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dust);font-weight:600;margin-bottom:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;position:relative}
+  .card.featured{border:1.5px solid var(--amber);background:linear-gradient(180deg,rgba(245,199,106,.08),var(--panel))}
+  .ribbon{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--amber);color:#101113;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;white-space:nowrap}
+  .tier{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--dust);font-weight:600}
+  .name{font-size:18px;font-weight:700}
+  .price{display:flex;align-items:baseline;gap:8px}
+  .amount{font-size:34px;font-weight:800;letter-spacing:-0.02em}
+  .amount.amber{color:var(--amber)}
+  .per{font-size:12px;color:var(--muted)}
+  .reg{font-size:13px;color:var(--muted);text-decoration:line-through}
+  .badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(245,199,106,.4);background:rgba(245,199,106,.08);padding:3px 8px;border-radius:99px}
+  ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:13.5px;color:var(--muted);line-height:1.5}
+  li{display:flex;gap:9px;align-items:flex-start}
+  li::before{content:"✓";color:var(--good);font-weight:700;flex:0 0 auto}
+  li.no{color:#5b6472}
+  li.no::before{content:"—";color:#5b6472}
+  .btn{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;border:1px solid var(--border);color:var(--text);background:var(--panel2)}
+  .btn.primary{background:var(--amber);border-color:var(--amber);color:#101113}
+  .btn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+  .fine{font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:14px}
+  .fine strong{color:var(--text)}
+  .note{font-size:12.5px;color:var(--dust);margin-top:12px;line-height:1.6}
+  .downloader{max-width:760px}
+  .downloader .card{padding:18px}
+  .downloader .amount{font-size:28px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .mini{font-size:12px;color:var(--muted);line-height:1.6}
+  @media(max-width:900px){.grid3{grid-template-columns:1fr}.compare{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Proposed pricing presentation</h1>
+  <p class="lede">One shared price ladder for the downloader and the Smart Search Engine: <strong>Free → Pro → Pro + SSE bundle</strong>. Launch price always shown with the regular price beside it; no “% off” against a price never charged; one price-change line everywhere. Prices: Pro $24 (regular $48) · SSE $39 (regular $59) · Bundle $55 (regular $89) · existing Pro owners $31.</p>
+
+  <div class="section">
+    <h2>Downloader app — upgrade card (compact, fits the 760px column)</h2>
+    <div class="downloader">
+      <div class="grid3">
+        <div class="card">
+          <div class="tier">Free</div>
+          <div class="price"><span class="amount">$0</span><span class="per">forever</span></div>
+          <ul>
+            <li>3 providers: ChatGPT, Claude, Perplexity</li>
+            <li>5 conversations per download</li>
+            <li class="no">Gemini, Grok, DeepSeek, Mistral, Qwen</li>
+          </ul>
+          <a class="btn" href="#">Download free</a>
+        </div>
+        <div class="card featured">
+          <span class="ribbon">Launch price</span>
+          <div class="tier">Pro</div>
+          <div class="price"><span class="amount amber">$24</span><span class="reg">$48</span></div>
+          <ul>
+            <li>All 8 providers</li>
+            <li>Unlimited downloads</li>
+            <li>Up to 3 device activations</li>
+          </ul>
+          <a class="btn primary" href="#">Buy Pro — $24</a>
+        </div>
+        <div class="card">
+          <div class="tier">Pro + SSE</div>
+          <div class="price"><span class="amount">$55</span><span class="reg">$89</span></div>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>Smart Search Engine included</li>
+            <li>Plain-English search across all eight</li>
+          </ul>
+          <a class="btn" href="#">Get the bundle — $55</a>
+        </div>
+      </div>
+      <p class="fine"><strong>Already own Pro?</strong> Add Smart Search Engine for $31. Prices may change at any time without advance notice.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Smart Search Engine — pricing presentation (replaces the Founder’s Pass / 6-week drops model)</h2>
+    <div class="grid3">
+      <div class="card">
+        <div class="tier">Add-on · requires Pro</div>
+        <div class="name">Smart Search Engine</div>
+        <div class="price"><span class="amount">$39</span><span class="reg">$59</span></div>
+        <span class="badge">Launch price</span>
+        <ul>
+          <li>Search by meaning, keyword, or both</li>
+          <li>Plain-English questions to SQL</li>
+          <li>Chat with your archive</li>
+          <li>Obsidian and Notion connections</li>
+        </ul>
+        <a class="btn blue" href="#">Add SSE to Pro — $39</a>
+      </div>
+      <div class="card featured">
+        <span class="ribbon">Best value</span>
+        <div class="tier">Bundle</div>
+        <div class="name">Pro + Smart Search Engine</div>
+        <div class="price"><span class="amount amber">$55</span><span class="reg">$89</span></div>
+        <span class="badge">Launch price</span>
+        <ul>
+          <li>Every Pro feature</li>
+          <li>Every SSE feature</li>
+          <li>One purchase, both unlocked</li>
+          <li>Free updates to both</li>
+        </ul>
+        <a class="btn primary" href="#">Get the bundle — $55</a>
+      </div>
+      <div class="card">
+        <div class="tier">Existing Pro owner</div>
+        <div class="name">Add SSE later</div>
+        <div class="price"><span class="amount">$31</span><span class="per">one-time</span></div>
+        <ul>
+          <li>Same SSE feature set</li>
+          <li>Attaches to your Pro license</li>
+          <li class="no">Not a subscription</li>
+        </ul>
+        <a class="btn" href="#">Add SSE — $31</a>
+      </div>
+    </div>
+    <p class="fine">Runs on your PC. Nothing you write or save is uploaded. Setup downloads the search model once. Windows 10/11 · about 8 GB RAM · about 2 GB disk. <strong>Prices may change at any time without advance notice.</strong></p>
+    <p class="note">Removed from the current SSE presentation: “Core Downloader $29”, “Founder’s Season Pass $49 / $59”, “$140 sum-of-parts”, “65% off”, “Enterprise $149”, “100% offline / zero network leaks”, and the 5-provider list (the product supports eight: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, Qwen).</p>
+  </div>
+</div>
+</body>
+</html>

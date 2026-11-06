@@ -8,7 +8,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Qwen Chat" }]}
 >
   <h1>How to download Qwen Chat (chat.qwen.ai) conversations</h1>
-  <p class="lead">Qwen Chat is Alibaba's consumer chat product. TotalRecalls reads from your browser session — the DashScope developer API is a different product and is not used.</p>
+  <p class="lead">Qwen Chat is Alibaba's consumer chat product. TotalRecalls reads the session from its own embedded sign-in window — the DashScope developer API is a different product and is not used.</p>
 
   <h2>What "download" usually means</h2>
   <p>People searching for this want one of three outcomes:</p>
@@ -19,14 +19,14 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   </ul>
 
   <h2>Option A — Manual copy/paste from chat.qwen.ai</h2>
-  <p>Qwen Chat does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <p>Qwen Chat does not provide a built-in conversation export. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
   <ul>
     <li><strong>Pros:</strong> no tooling, no install</li>
     <li><strong>Cons:</strong> loses formatting, doesn't scale past a few conversations, easy to lose the order of long ones</li>
   </ul>
 
   <h2>Option B — Local library with TotalRecalls (Windows)</h2>
-  <p>TotalRecalls runs on your PC, connects to your Qwen Chat session locally, and writes conversations into folders as Markdown + JSON.</p>
+  <p>TotalRecalls runs on your PC, connects using your Qwen Chat session from its own sign-in window, and writes conversations into folders as Markdown + JSON.</p>
   <ol>
     <li>Buy / install TotalRecalls for Windows</li>
     <li>Choose <strong>Qwen Chat</strong> as the provider</li>
@@ -40,7 +40,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
     <li><strong>Qwen Chat (chat.qwen.ai)</strong> — the consumer chat product. This is what users want to back up.</li>
     <li><strong>DashScope / Bailian / Model Studio (dashscope.aliyuncs.com)</strong> — Alibaba's developer API for the Qwen model family. Has its own ToS rules.</li>
   </ul>
-  <p>TotalRecalls only touches the consumer chat product. We never call DashScope endpoints, never use Alibaba API keys, and never touch your developer-account credentials. The download path is the same path a backup tool would use for webmail — read the visible content from your own browser session.</p>
+  <p>TotalRecalls only touches the consumer chat product. We never call DashScope endpoints, never use Alibaba API keys, and never touch your developer-account credentials. The download path is the same path a backup tool would use for webmail — read the visible content from the sign-in window it opens.</p>
 
   <h2>Which should you use?</h2>
   <p>Use <strong>manual copy/paste</strong> for one or two conversations you need right now. Use <strong>TotalRecalls</strong> when you want a complete, searchable archive — especially if you also use ChatGPT, Claude, Perplexity, Gemini, or Grok and want one archive location for all of them.</p>

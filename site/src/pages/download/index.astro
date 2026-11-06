@@ -41,15 +41,15 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
       </a>
     </p>
     <p class="hash-line">
-      <strong>SHA-256:</strong> <code>{SHA256}</code>
+      <strong>SHA-256:</strong> <code class="break-all">{SHA256}</code>
     </p>
     <p class="hash-note">
-      Verify the download with PowerShell: <code>Get-FileHash TotalRecalls-{currentVersion}-free-tier.zip -Algorithm SHA256</code>
+      Verify the download with PowerShell: <code class="break-all">Get-FileHash TotalRecalls-{currentVersion}-free-tier.zip -Algorithm SHA256</code>
     </p>
     <p class="check-updates">
       <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
       the latest build is always published there first.
-      Auto-update is on the roadmap.
+      Auto-update is planned and is not in this release.
     </p>
   </section>
 
@@ -65,8 +65,9 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
       <strong>The Free Tier is available now</strong> — download the app and test it
       on your own chats before paying a cent. Downloads are limited to 3 AI providers and
       5 conversations per download — our try-before-you-buy mechanism. Purchases
-      are one-time; the core app keeps receiving free updates for the life of
-      the product. New features (add-ons) are separate purchases.
+      are one-time; the Downloader keeps receiving free updates (bug fixes) for the
+      life of the product. New features (add-ons, like Smart Search Engine) are
+      separate paid upgrades.
     </p>
   </section>
 
@@ -108,7 +109,7 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
       <li>No TotalRecalls account required</li>
       <li>No background processes</li>
       <li>No telemetry, no analytics, no tracking pixels</li>
-      <li>You can read the full <a href="/privacy/">Privacy Policy</a> or the <a href="/privacy/">standalone privacy page</a></li>
+      <li>You can read the full <a href="/privacy/">Privacy Policy</a> or the <a href="/legals/">Legal &amp; Policies page</a></li>
     </ul>
   </section>
 
@@ -135,6 +136,8 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
       <span class="price-current" data-tr-price>$24<span class="tr-usd">USD</span></span>
       <span class="price-badge">launch price</span>
     </div>
+    <a href="/buy/" class="buy-button buy-lg">Buy TotalRecalls &mdash; <span data-tr-price>$24<span class="tr-usd">USD</span></span></a>
+    <p class="guarantee-note" style="color: var(--tr-paper); opacity: 0.85;">A Free Tier is available now &mdash; download the app and try it before paying a cent.</p>
   </section>
 
 </PageLayout>

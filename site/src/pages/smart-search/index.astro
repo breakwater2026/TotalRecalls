@@ -23,7 +23,7 @@ const jsonLd = {
 
 <BaseLayout
   title="Smart Search Engine — Find anything you ever asked any AI."
-  description="Smart Search Engine is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers' conversations in plain English. Nothing is uploaded. One-time $39 launch price."
+  description="Smart Search Engine is an add-on for TotalRecalls Pro. It indexes your Library on your PC, so you can search eight providers' conversations in plain English. Nothing is uploaded. One-time $29 launch price."
 >
   <div class="min-h-screen bg-tr-obsidian">
     <Nav client:load />
@@ -46,32 +46,36 @@ const jsonLd = {
             <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
               <a
                 href="/buy/"
+                data-tr-buy
+                data-tr-price-id="bundle"
                 class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
               >
-                Get the bundle, $55
+                Get the bundle — $49.89 <span class="tr-usd">USD</span>
               </a>
               <a
                 href="/buy/"
+                data-tr-buy
+                data-tr-price-id="sse"
                 class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
               >
-                Add SSE to Pro, $39
+                Add SSE to Pro — $29 <span class="tr-usd">USD</span>
               </a>
               <a
-                href="/search/"
+                href="#results-window"
                 class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
               >
-                Watch the demo
+                View results window
               </a>
             </div>
+            <p class="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
+              Launch price $29 one-time (regular $58). Requires TotalRecalls Pro. Windows 10 and 11.
+            </p>
             <div class="mt-8 flex flex-wrap gap-2">
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
                 Runs on your PC
               </span>
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
                 Nothing uploaded
-              </span>
-              <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
-                One-time price
               </span>
               <span class="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">
                 Windows 10/11
@@ -83,7 +87,7 @@ const jsonLd = {
               <img
                 src="/images/search-results-window.jpg"
                 alt="TotalRecalls Smart Search Engine results window"
-                class="rounded-sm block max-w-[420px] w-auto"
+                class="rounded-sm block h-auto w-full max-w-[420px]"
               />
               <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
                 Smart Search Engine results window — click a result to open the original conversation file.
@@ -154,7 +158,8 @@ const jsonLd = {
         <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
           Three ways to search
         </h2>
-        <table class="mt-8 w-full text-left border-collapse">
+        <div class="mt-8 overflow-x-auto">
+          <table class="w-full min-w-[640px] text-left border-collapse">
           <thead>
             <tr class="border-b border-tr-slate">
               <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust">Mode</th>
@@ -180,6 +185,7 @@ const jsonLd = {
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </section>
 
@@ -192,7 +198,7 @@ const jsonLd = {
               <img
                 src="/images/search-results-window.jpg"
                 alt="TotalRecalls Smart Search Engine results window"
-                class="rounded-sm block max-w-[420px] w-auto"
+                class="rounded-sm block h-auto w-full max-w-[420px]"
               />
               <p class="mt-4 font-mono text-[12px] leading-relaxed text-tr-steel text-center">
                 Smart Search Engine results window — click a result to open the original conversation file.
@@ -236,13 +242,14 @@ const jsonLd = {
     <section class="bg-tr-obsidian py-16 md:py-24 border-t border-tr-slate">
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
         <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
-          Included at launch &middot; Coming as free updates
+          Included at launch &middot; Coming as paid upgrades
         </h2>
-        <table class="mt-8 w-full text-left border-collapse">
+        <div class="mt-8 overflow-x-auto">
+          <table class="w-full min-w-[640px] text-left border-collapse">
           <thead>
             <tr class="border-b border-tr-slate">
               <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust" width="50%">At launch</th>
-              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust" width="50%">Coming, free for Smart Search Engine buyers</th>
+              <th class="pb-3 font-body text-[13px] uppercase tracking-[0.12em] text-tr-dust" width="50%">Coming as paid upgrades (separate purchases)</th>
             </tr>
           </thead>
           <tbody>
@@ -268,31 +275,50 @@ const jsonLd = {
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </section>
 
     {/* Pricing */}
     <section id="pricing" class="bg-tr-graphite py-16 md:py-24 border-t border-tr-slate">
       <div class="mx-auto max-w-[1400px] px-5 md:px-10">
-        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking[-0.01em] text-tr-paper">
+        <h2 class="mt-0 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
           Pricing
         </h2>
+        <p class="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Two ways to buy. The bundle is the better value if you do not own the Downloader yet.
+        </p>
         <div class="mt-6 grid sm:grid-cols-2 gap-6">
           <div class="rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-8">
             <p class="font-body text-[15px] leading-[1.6] text-tr-mist">
-              <strong>Smart Search Engine add-on:</strong> $39 launch price (regular $59). One-time. Requires Pro.
+              <strong>Smart Search Engine add-on:</strong> $29 launch price (regular $58). One-time.
+              Requires Downloader Pro.
             </p>
+            <a
+              href="/buy/"
+              data-tr-buy
+              data-tr-price-id="sse"
+              class="mt-5 inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
+            >
+              Add SSE to Pro — $29 <span class="tr-usd">USD</span>
+            </a>
           </div>
           <div class="rounded-card border border-tr-amber bg-tr-obsidian p-6 md:p-8">
             <p class="font-body text-[15px] leading-[1.6] text-tr-mist">
-              <strong>Pro + Smart Search Engine bundle:</strong> $55 launch price (regular $89). Best value.
+              <strong>Downloader Pro + Smart Search Engine bundle:</strong> $49.89 launch price
+              (regular $99.89). Best value.
             </p>
+            <a
+              href="/buy/"
+              data-tr-buy
+              data-tr-price-id="bundle"
+              class="mt-5 inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
+            >
+              Get the bundle — $49.89 <span class="tr-usd">USD</span>
+            </a>
           </div>
         </div>
-        <p class="mt-5 max-w-[680px] font-body text-[15px] leading-[1.6] text-tr-mist">
-          Already own Pro? <strong>$31</strong> at launch.
-        </p>
-        <p class="mt-3 max-w-[680px] font-body text-[13px] leading-[1.5] text-tr-dust">
+        <p class="mt-5 max-w-[680px] font-body text-[13px] leading-[1.5] text-tr-dust">
           Prices may change at any time without advance notice.
         </p>
       </div>
@@ -323,15 +349,19 @@ const jsonLd = {
         <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <a
             href="/buy/"
+            data-tr-buy
+            data-tr-price-id="bundle"
             class="inline-flex items-center justify-center gap-2 rounded-btn bg-tr-amber text-tr-on-amber hover:bg-tr-amber-press text-[15px] font-semibold h-10 px-5 transition-colors"
           >
-            Get the bundle, $55
+            Get the bundle — $49.89 <span class="tr-usd">USD</span>
           </a>
           <a
             href="/buy/"
+            data-tr-buy
+            data-tr-price-id="sse"
             class="inline-flex items-center justify-center gap-2 rounded-btn border border-tr-slate bg-transparent text-tr-paper hover:bg-tr-slate/40 text-[15px] font-semibold h-10 px-5 transition-colors"
           >
-            Add SSE to Pro, $39
+            Add SSE to Pro — $29 <span class="tr-usd">USD</span>
           </a>
         </div>
       </div>

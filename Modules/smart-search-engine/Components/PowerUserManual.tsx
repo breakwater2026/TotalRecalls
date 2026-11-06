@@ -98,7 +98,7 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
           </h1>
 
           <p className="text-[var(--tr-muted)] text-sm sm:text-base leading-relaxed">
-            TotalRecalls (<a href="https://totalrecalls.app" target="_blank" rel="noopener noreferrer" className="text-[var(--tr-accent)] font-semibold underline underline-offset-2">totalrecalls.app</a>) combines continuous local chat downloads with the new <strong>Smart Search Engine</strong>—featuring air-gapped vector retrieval, multi-model consensus auditing, automated knowledge graphs, PII scrubbing, downside protection backup scheduling, and regression code integrity tests.
+            TotalRecalls (<a href="https://totalrecalls.app" target="_blank" rel="noopener noreferrer" className="text-[var(--tr-accent)] font-semibold underline underline-offset-2">totalrecalls.app</a>) combines continuous local chat downloads with the new <strong>Smart Search Engine</strong>—featuring local vector retrieval, multi-model consensus auditing, automated knowledge graphs, PII scrubbing, downside protection backup scheduling, and regression code integrity tests.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -224,12 +224,12 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
 
         <div className="bg-[var(--tr-panel)] border border-[var(--tr-border)] p-5 rounded-2xl shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[var(--tr-muted)]">Air-Gap Security</span>
+            <span className="text-xs font-semibold text-[var(--tr-muted)]">Local-Only Security</span>
             <Lock className="w-4 h-4 text-[var(--tr-good)]" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[var(--tr-good)]">Zero Cloud Egress</div>
+          <div className="mt-2 text-2xl font-black text-[var(--tr-good)]">Runs on your PC</div>
           <div className="mt-1 text-xs text-[var(--tr-muted)]">
-            <span>100% Private on Device</span>
+            <span>Nothing uploaded</span>
           </div>
         </div>
       </div>

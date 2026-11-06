@@ -11,12 +11,22 @@
  * SECRET API key (pdl_live_apikey_…) must never appear here.
  */
 window.TR_CONFIG = {
-  priceLabel: "$24USD",
+  priceLabel: "$24",
   priceNote: "discounted launch price",
-  normalPriceLabel: "$48 USD",
+  normalPriceLabel: "$48",
   paddleClientToken: "live_bcdb7746fc6d13a152b0431abf5",
   paddlePriceId: "pri_01m37qpx77bst2w1gnf3zkf4zd",
+  // Named price IDs for the other ladder tiers. Buttons opt in with
+  // data-tr-price-id="bundle" | "sse".
+  paddlePriceIds: {
+    bundle: "pri_01m6qftvt3dyaw13ern1ac4xcb",
+    sse: "pri_01m6qftvhs2yt7c0yrgr0xy5tg"
+  },
   paddleDiscountId: "dsc_01m39879ga7pv9zg0gsvzqsmjw",
+  paddleDiscountIds: {
+    bundle: "dsc_01m6qftvwmky0awnrm9e6tb9wr",
+    sse: "dsc_01m39879ga7pv9zg0gsvzqsmjw"
+  },
   successPath: "/thanks/",
   thanksPath: "/thanks/",
   versionLabel: "v1.0.0",
@@ -26,10 +36,16 @@ window.TR_CONFIG = {
   var cfg = window.TR_CONFIG;
 
   document.querySelectorAll("[data-tr-price]").forEach(function (el) {
-    el.textContent = cfg.priceLabel;
+    var first = el.firstChild;
+    if (first && first.nodeType === Node.TEXT_NODE) {
+      first.textContent = cfg.priceLabel + " ";
+    }
   });
   document.querySelectorAll("[data-tr-normal-price]").forEach(function (el) {
-    el.textContent = cfg.normalPriceLabel;
+    var first = el.firstChild;
+    if (first && first.nodeType === Node.TEXT_NODE) {
+      first.textContent = cfg.normalPriceLabel + " ";
+    }
   });
 
   var paddleReady = null;
@@ -63,12 +79,30 @@ window.TR_CONFIG = {
     btn.addEventListener("click", function (event) {
       event.preventDefault();
       var original = btn.getAttribute("data-tr-label") || btn.textContent;
+
+      // Resolve which price and discount this button should open. A button with
+      // no data-tr-price-id buys the default (Downloader Pro) price.
+      var requested = btn.getAttribute("data-tr-price-id");
+      var priceId = requested
+        ? (cfg.paddlePriceIds && cfg.paddlePriceIds[requested])
+        : cfg.paddlePriceId;
+      var discountId = (requested && cfg.paddleDiscountIds && cfg.paddleDiscountIds[requested])
+        || cfg.paddleDiscountId;
+
+      if (!priceId) {
+        // No Paddle price configured for this tier yet. Say so plainly rather
+        // than opening a checkout for a different product.
+        btn.textContent = "Checkout for this tier opens at launch — join the list below to be notified";
+        setTimeout(function () { btn.textContent = original; }, 5000);
+        return;
+      }
+
       btn.classList.add("is-pending");
       loadPaddle().then(function (Paddle) {
         btn.classList.remove("is-pending");
         Paddle.Checkout.open({
-          items: [{ priceId: cfg.paddlePriceId, quantity: 1 }],
-          discountId: cfg.paddleDiscountId || undefined,
+          items: [{ priceId: priceId, quantity: 1 }],
+          discountId: discountId || undefined,
           settings: {
             displayMode: "overlay",
             theme: "light",

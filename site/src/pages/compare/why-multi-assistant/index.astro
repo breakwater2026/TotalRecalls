@@ -4,7 +4,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 const faqs = [
   { q: "Does TotalRecalls keep the providers separate, or merge them together?", a: "Both. Each provider gets its own folder in the library, so nothing is mixed up, but the whole library sits in one place, so one search covers all of it." },
   { q: "What if I stop using one of the assistants?", a: "The conversations you already downloaded stay exactly where they are. Dropping a provider does not take its history with it." },
-  { q: "Do I need a separate TotalRecalls account per provider?", a: "No. There is no TotalRecalls account. You sign in to each AI provider you already use, and the app reads that local session on your machine." },
+  { q: "Do I need a separate TotalRecalls account per provider?", a: "No. There is no TotalRecalls account. You sign in to each AI provider you already use, and the app reads the session from its own sign-in window on your machine." },
 ];
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

@@ -65,11 +65,18 @@ const GUIDES = [
     href: "/guides/own-your-ai-chat-data/",
     bullets: ["Switching providers", "Cross-assistant research", "Unified library", "Long-term durability"]
   },
+  { 
+    t: "Using Smart Search Engine", 
+    d: "Search your downloaded library in plain English", 
+    tag: "guide · 10",
+    href: "/guides/using-smart-search-engine/",
+    bullets: ["Plain-English questions", "Meaning, keyword, or both", "Obsidian and Notion", "Staying up to date"]
+  },
 ];
 
 export default function Guides() {
   return (
-    <section id="guides" className="border-t border-border">
+    <section className="border-t border-border">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-20 md:py-28">
         <header className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>

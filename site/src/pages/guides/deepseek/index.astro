@@ -18,15 +18,15 @@ import PageLayout from "../../../layouts/PageLayout.astro";
     <li><strong>Searchable library</strong> — find an old answer without scrolling forever</li>
   </ul>
 
-  <h2>Option A — Manual copy/paste from chat.deepseek.com</h2>
-  <p>DeepSeek does not provide a built-in data download for chat history. The only manual path is to open each conversation, select the text, and paste it into a local file.</p>
+  <h2>Option A — DeepSeek's own data export</h2>
+  <p>DeepSeek provides a built-in export under <strong>Settings &rarr; Data &rarr; Export data</strong>. It prepares a JSON archive of your chat history for download.</p>
   <ul>
-    <li><strong>Pros:</strong> no tooling, no install</li>
-    <li><strong>Cons:</strong> loses formatting, loses thinking blocks, doesn't scale past a few conversations</li>
+    <li><strong>Pros:</strong> official, covers your whole account</li>
+    <li><strong>Cons:</strong> one machine-shaped JSON archive, not per-conversation files you can read or search</li>
   </ul>
 
   <h2>Option B — Local library with TotalRecalls (Windows)</h2>
-  <p>TotalRecalls runs on your PC, connects to your DeepSeek session locally, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays attached to the answer.</p>
+  <p>TotalRecalls runs on your PC, connects using your DeepSeek session from its own sign-in window, and writes conversations into folders as Markdown + JSON. Chain-of-thought blocks are kept as collapsible sections so the reasoning stays attached to the answer.</p>
   <ol>
     <li>Buy / install TotalRecalls for Windows</li>
     <li>Choose <strong>DeepSeek</strong> as the provider</li>
@@ -50,7 +50,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   </ul>
 
   <h2>Free tier friendly</h2>
-  <p>TotalRecalls reads your browser session — it does not call the DeepSeek API. Works on the free tier, the pro tier, and any plan that uses the chat.deepseek.com web app.</p>
+  <p>TotalRecalls reads the session from its own embedded sign-in window — it does not call the DeepSeek API. Works on the free tier, the pro tier, and any plan that uses the chat.deepseek.com web app.</p>
 
   <section class="footer-cta mt-8 mb-4 border border-tr-slate bg-tr-graphite p-6 text-center md:p-8">
     <h2 class="mb-3 font-heading text-xl font-bold tracking-tight text-tr-paper md:text-2xl">Download with TotalRecalls</h2>

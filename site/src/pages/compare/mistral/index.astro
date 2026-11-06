@@ -22,7 +22,7 @@ const faqLd = {
   })),
 };
 ---
-<PageLayout title="Mistral vs. TotalRecalls" description="Mistral (Le Chat) has no built-in export. TotalRecalls reads your local session and saves every conversation as UTF-8 Markdown + JSON, so French, German and Spanish text stay intact." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Mistral" }]}>
+<PageLayout title="Mistral vs. TotalRecalls" description="Mistral (Le Chat) provides a whole-account export at admin.mistral.ai/account/export. TotalRecalls saves every conversation as readable UTF-8 Markdown + JSON, so French, German and Spanish text stay intact." breadcrumbs={[{ label: "Compare", href: "/compare/" }, { label: "Mistral" }]}>
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 
   <h1>Mistral vs. TotalRecalls</h1>
@@ -36,7 +36,7 @@ const faqLd = {
   <p>TotalRecalls preserves <strong>UTF-8 throughout</strong>, so French, German, Spanish, Italian and Portuguese conversations stay readable in any editor. That makes it a genuine fit for multilingual research and translation work, not just an English-language tool.</p>
 
   <h2>What TotalRecalls does</h2>
-  <p>TotalRecalls runs on your PC, connects to your Mistral Le Chat session locally, and writes conversations into folders as Markdown + JSON.</p>
+  <p>TotalRecalls runs on your PC, connects using your Mistral Le Chat session from its own sign-in window, and writes conversations into folders as Markdown + JSON.</p>
 
   <div class="table-wrap">
     <table>
@@ -53,7 +53,7 @@ const faqLd = {
     </table>
   </div>
 
-  <p><strong>About the Pro tier:</strong> Mistral&rsquo;s Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads from your browser session, which works for the free tier and any tier that shares the same web UI. Run the download while your session is still active &mdash; Mistral sessions expire on inactivity.</p>
+  <p><strong>About the Pro tier:</strong> Mistral&rsquo;s Le Chat Pro tier does not expose conversation history through the public API. TotalRecalls reads the session from its own embedded sign-in window, which works for the free tier and any tier that shares the same web UI. Run the download while your session is still active &mdash; Mistral sessions expire on inactivity.</p>
 
   <h2>FAQ</h2>
   <dl class="faq" set:html={faqHtml} />

@@ -133,7 +133,7 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
             </h1>
 
             <p className="text-[var(--tr-muted)] text-sm sm:text-base leading-relaxed">
-              Never lose your local AI chats or vector embeddings. TotalRecalls downside protection runs scheduled background snapshots with SHA-256 integrity hashing, differential deltas, and zero-egress offline cold storage.
+              Never lose your local AI chats or vector embeddings. TotalRecalls downside protection runs scheduled background snapshots with SHA-256 integrity hashing, differential deltas, and local cold storage.
             </p>
           </div>
 
@@ -194,10 +194,10 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
           </div>
 
           <div className="bg-[var(--tr-bg)] p-3 rounded-xl border border-[var(--tr-border)]">
-            <div className="text-[var(--tr-muted)]">Downside Air-Gap</div>
+            <div className="text-[var(--tr-muted)]">Downside Protection</div>
             <div className="text-[var(--tr-accent)] font-bold text-sm mt-0.5 flex items-center space-x-1">
               <Lock className="w-3.5 h-3.5" />
-              <span>Zero Cloud Egress</span>
+              <span>Runs on your PC</span>
             </div>
           </div>
         </div>
@@ -293,7 +293,7 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
                 className="w-full bg-[var(--tr-bg)] border border-[var(--tr-border)] rounded-lg px-3 py-2 text-xs text-[var(--tr-text)] focus:outline-none focus:border-[var(--tr-accent)]"
               >
                 <option value="local_vault">Internal App Vault (~/.totalrecalls/backups)</option>
-                <option value="external_drive">Air-Gapped External USB Drive / NAS</option>
+                <option value="external_drive">External USB Drive / NAS (optional offline backup)</option>
                 <option value="cold_archive_zip">Encrypted Cold .ZIP Archive File</option>
               </select>
             </div>
@@ -374,11 +374,11 @@ export const BackupScheduler: React.FC<BackupSchedulerProps> = ({
             </div>
           </div>
 
-          {/* Air-gap guarantee badge */}
+          {/* Local-only guarantee badge */}
           <div className="bg-gradient-to-br from-[var(--tr-good)]/40 via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-good)]/30 rounded-2xl p-4 text-xs space-y-2">
             <div className="flex items-center space-x-2 text-[var(--tr-good)] font-bold">
               <FolderLock className="w-4 h-4" />
-              <span>Downside Risk Analysis: Zero Cloud Exposure</span>
+              <span>Downside Risk Analysis: Local-Only Storage</span>
             </div>
             <p className="text-[var(--tr-muted)] leading-relaxed text-[11px]">
               Unlike cloud services where chat histories can be wiped by account locks or policy bans, TotalRecalls creates an immutable local snapshot. Even if an AI provider API changes, your local vector chunks and SQL database remain fully intact.

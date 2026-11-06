@@ -65,7 +65,7 @@ export const SearchChatInterface: React.FC<SearchChatInterfaceProps> = ({
       text: `Hello! Welcome to the **TotalRecalls Search Chat Assistant**—the interactive conversational interface of our Vector Search & RAG SQL Add-On.
 
 I query your downloaded chat history across **ChatGPT, Claude, Gemini, Perplexity, and Mistral**. 
-Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite relational tables, I synthesize grounded answers with full source citations—with **100% privacy and zero cloud leaks**.`,
+Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite relational tables, I synthesize grounded answers with full source citations—with **local-only retrieval. Nothing you write or save is uploaded.**`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       sources: [
         {
@@ -82,7 +82,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
           conversationTitle: 'Customer Refund Policy & Stripe Webhook Architecture',
           provider: 'Claude',
           timestamp: '2024-10-18',
-          snippet: 'Under TotalRecalls commercial terms: full refund within 30 days of purchase if license key is deactivated locally...',
+          snippet: 'Under TotalRecalls commercial terms: the Smart Search Engine add-on has a 7-day refund, no questions asked. TotalRecalls Pro has no standard refund — the Free Tier is the try-before-you-buy mechanism...',
           score: 0.89,
           rrfScore: 0.88
         }
@@ -227,7 +227,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
   };
 
   const samplePrompts = [
-    'How do we handle 30-day refunds and Stripe webhooks?',
+    'How do we handle 7-day refunds and Stripe webhooks?',
     'What did Claude say about Docker and Ollama with GPU?',
     'Show me token consumption breakdown by AI provider',
     'Which conversation discussed HNSW indexes and pgvector?',
@@ -240,8 +240,10 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
     Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
-    LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
-  };
+    Grok: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    DeepSeek: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Qwen: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+   };
 
   return (
     <div className="flex flex-col h-[calc(100vh-140px)] min-h-[660px] max-h-[940px] rounded-2xl bg-[#0b1120] border border-[var(--tr-accent)]/30 shadow-2xl overflow-hidden">
@@ -564,7 +566,7 @@ Using local vector embeddings, BM25 Reciprocal Rank Fusion (RRF), and SQLite rel
         <div className="mt-2 flex items-center justify-between text-[11px] text-[var(--tr-muted)] px-1">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
-            <span className="text-[var(--tr-muted)]">Local Vault Isolation: zero cloud telemetry leaves your device.</span>
+            <span className="text-[var(--tr-muted)]">Runs on your PC — nothing you write or save is uploaded.</span>
           </div>
           <div className="font-mono hidden sm:block text-[var(--tr-muted)]">
             <span>Mode: {searchMode} • Persona: {activePersona}</span>

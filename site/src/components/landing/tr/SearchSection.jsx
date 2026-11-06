@@ -30,8 +30,8 @@ export default function SearchSection() {
             </ul>
             <div className="mt-10 flex flex-wrap gap-4">
               <Btn href="/smart-search/">See Smart Search Engine</Btn>
-              <Btn href="/buy/" variant="secondary" className="w-auto">
-                Get the bundle, $55
+              <Btn href="/buy/" variant="secondary" className="w-auto" data-tr-buy data-tr-price-id="bundle">
+                Get the Pro + SSE bundle — $49.89
               </Btn>
             </div>
           </div>
@@ -39,8 +39,8 @@ export default function SearchSection() {
             <div className="rounded-card border border-tr-slate bg-tr-obsidian p-2 md:p-3">
               <img
                 src="/images/search-results-window.jpg"
-                alt="TotalRecalls Search results window"
-                className="rounded-sm block max-w-[420px] w-auto"
+                alt="Smart Search Engine results window"
+                className="rounded-sm block h-auto w-full max-w-[420px]"
               />
             </div>
           </div>

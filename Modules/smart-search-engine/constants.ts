@@ -1,4 +1,4 @@
-import { ChatConversation, AIProvider, ConsensusTopic, EmbeddingEngineProfile, PersonaConfig, SavedSQLView, KnowledgeTopicCluster, RoadmapDrop } from './types';
+import { ChatConversation, AIProvider, ConsensusTopic, EmbeddingEngineProfile, PersonaConfig, SavedSQLView, KnowledgeTopicCluster, PricingTier } from './types';
 
 export const INITIAL_CONVERSATIONS: ChatConversation[] = [
   {
@@ -92,7 +92,7 @@ Before granting the lifetime or annual license in your DB, perform \`INSERT INTO
       {
         id: 'm-102-3',
         role: 'user',
-        content: 'How should 30-day money-back guarantee refunds be handled for desktop app licenses that validate offline?',
+        content: 'How should 7-day money-back guarantee refunds be handled for desktop app licenses that validate offline?',
         timestamp: '2024-10-18 14:35',
         tokenCount: 28
       },
@@ -194,14 +194,14 @@ This enables local embeddings at 800+ tokens/second with zero external API calls
       {
         id: 'm-104-3',
         role: 'user',
-        content: 'What is our trial-to-paid conversion rate for the $29 core downloader vs the projected $59 vector search bundle?',
+        content: 'What is our trial-to-paid conversion rate for TotalRecalls Pro vs the Smart Search Engine add-on?',
         timestamp: '2024-10-28 16:30',
         tokenCount: 25
       },
       {
         id: 'm-104-4',
         role: 'assistant',
-        content: 'The standalone downloader converts at 4.2% from free download to the $29 lifetime license. In user surveys, 78% of active users stated they would pay an additional $30 ($59 total) if they could instantly search across all providers using semantic vectors and natural language SQL, projecting a 2.1x expansion in Average Revenue Per User (ARPU).',
+        content: 'The downloader converts at 4.2% from free download to TotalRecalls Pro ($24 launch price). In user surveys, 78% of active users stated they would pay an additional $29 for the Smart Search Engine add-on if they could instantly search across all providers using semantic vectors and natural language SQL, projecting a 2.1x expansion in Average Revenue Per User (ARPU).',
         timestamp: '2024-10-28 16:32',
         tokenCount: 1113
       }
@@ -209,12 +209,12 @@ This enables local embeddings at 800+ tokens/second with zero external API calls
   },
   {
     id: 'tr-conv-105',
-    title: 'Zero-Egress Air-Gap Architecture & Local SQLite Vector Extensions',
+    title: 'Local-Only Architecture & Local SQLite Vector Extensions',
     provider: 'Mistral',
     model: 'mistral-large-2',
     createdAt: '2024-11-01 08:45',
     updatedAt: '2024-11-01 09:20',
-    tags: ['air-gap', 'sqlite-vec', 'privacy', 'c-extension', 'zero-egress'],
+    tags: ['local-only', 'sqlite-vec', 'privacy', 'c-extension', 'local-models'],
     messageCount: 4,
     totalTokens: 1980,
     isIndexed: true,
@@ -222,14 +222,14 @@ This enables local embeddings at 800+ tokens/second with zero external API calls
       {
         id: 'm-105-1',
         role: 'user',
-        content: 'How can we guarantee zero network egress in the TotalRecalls desktop app so security teams can audit network sockets?',
+        content: 'How does TotalRecalls keep my chats local so security teams can audit network sockets?',
         timestamp: '2024-11-01 08:45',
         tokenCount: 30
       },
       {
         id: 'm-105-2',
         role: 'assistant',
-        content: 'Enforce application-level socket sandboxing:\n1. Disable all outbound telemetry by default\n2. Run the embedding generator in-process using embedded C/C++ or WebAssembly bindings\n3. Use SQLite in local single-file mode (`totalrecalls_vault.db`) with PRAGMA key encryption\n4. Provide Wireshark / Little Snitch verification steps in the Power User documentation to verify zero packet transmission during search and RAG synthesis.',
+        content: 'TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only internet use is a one-time search-model download during setup; once your conversations are downloaded, search works without an internet connection.\n\nFor security audits:\n1. Run the embedding generator in-process using embedded C/C++ or WebAssembly bindings\n2. Use SQLite in local single-file mode (`totalrecalls_vault.db`) with PRAGMA key encryption\n3. Provide Wireshark / Little Snitch verification steps in the Power User documentation to confirm no chat content is transmitted during search and RAG synthesis.',
         timestamp: '2024-11-01 08:47',
         tokenCount: 560
       },
@@ -288,7 +288,7 @@ export const CONSENSUS_TOPICS: ConsensusTopic[] = [
     id: 'ct-license-refunds',
     topicTitle: 'Offline Desktop License Keys & Idempotent Webhook Processing',
     category: 'Security & Payments',
-    summary: 'Balancing air-gapped zero-connectivity user privacy with 30-day refund revocation and idempotent order fulfillment.',
+    summary: 'Balancing local-only user privacy with 7-day refund revocation and idempotent order fulfillment.',
     consensusLevel: 'Complementary',
     providersCompared: [
       {
@@ -300,38 +300,38 @@ export const CONSENSUS_TOPICS: ConsensusTopic[] = [
       },
       {
         provider: 'Perplexity',
-        stance: 'Highlights user willingness to pay one-time lifetime ($29-$59) over monthly subscriptions for local privacy tools.',
-        keySnippet: 'Survey data shows 78% of privacy users prefer perpetual lifetime licenses over monthly recurring SaaS.',
+        stance: 'Highlights user willingness to pay one-time ($24 Pro / $29 SSE add-on) over monthly subscriptions for local privacy tools.',
+        keySnippet: 'Survey data shows 78% of privacy users prefer one-time licenses over monthly recurring SaaS.',
         conversationId: 'tr-conv-104',
         sentimentScore: 85
       }
     ],
-    divergenceNotes: 'Claude focuses on the technical cryptographic CRL revocation; Perplexity focuses on customer psychology favoring perpetual one-time licenses.',
-    recommendedAction: 'Implement perpetual asymmetric ED25519 offline license keys with opt-in lease refresh only when downloading new chats.'
+    divergenceNotes: 'Claude focuses on the technical cryptographic CRL revocation; Perplexity focuses on customer psychology favoring one-time licenses.',
+    recommendedAction: 'Implement asymmetric ED25519 offline license keys with opt-in lease refresh only when downloading new chats.'
   },
   {
-    id: 'ct-privacy-airgap',
-    topicTitle: 'Air-Gap Verification & Network Socket Egress Auditing',
+    id: 'ct-privacy-local',
+    topicTitle: 'Local-Only Verification & Network Socket Auditing',
     category: 'Local AI & DevOps',
-    summary: 'Techniques for proving to enterprise security auditors that zero chat data leaves the local workstation.',
+    summary: 'Techniques for proving to enterprise security auditors that chat data stays on the local workstation.',
     consensusLevel: 'High',
     providersCompared: [
       {
         provider: 'Mistral',
         stance: 'Recommends OS-level socket sandboxing, PRAGMA key encryption, and publishing Wireshark packet capture guides.',
-        keySnippet: 'Provide Wireshark and Little Snitch verification steps in Power User docs showing zero packet transmission.',
+        keySnippet: 'Provide Wireshark and Little Snitch verification steps in Power User docs showing no chat content is transmitted.',
         conversationId: 'tr-conv-105',
         sentimentScore: 96
       },
       {
         provider: 'Gemini',
         stance: 'Emphasizes containerized isolation or purely local WebGPU models to ensure hardware-level isolation.',
-        keySnippet: 'Quantized Q4/Q8 models running locally guarantee complete hardware-level air-gapping.',
+        keySnippet: 'Quantized Q4/Q8 models run locally with no cloud dependency.',
         conversationId: 'tr-conv-103',
         sentimentScore: 90
       }
     ],
-    divergenceNotes: 'Both reinforce zero-egress. Mistral gives concrete network inspection tools (Wireshark), Gemini gives execution runtime recommendations.',
+    divergenceNotes: 'Both reinforce local-only operation. Mistral gives concrete network inspection tools (Wireshark), Gemini gives execution runtime recommendations.',
     recommendedAction: 'Include the Wireshark and Little Snitch verification walkthrough directly in the Power User Manual.'
   }
 ];
@@ -480,7 +480,7 @@ export const INITIAL_KNOWLEDGE_CLUSTERS: KnowledgeTopicCluster[] = [
     topKeywords: ['stripe', 'webhooks', 'idempotency', 'refunds', 'jwt-seats'],
     lastUpdated: '2024-10-18',
     confidenceScore: 98,
-    summary: 'Idempotent webhook handlers, HMAC signature verification, and automated 30-day refund license deactivation logic.'
+    summary: 'Idempotent webhook handlers, HMAC signature verification, and automated 7-day refund license deactivation logic.'
   },
   {
     id: 'kc-telemetry-sales',
@@ -496,182 +496,65 @@ export const INITIAL_KNOWLEDGE_CLUSTERS: KnowledgeTopicCluster[] = [
   }
 ];
 
-// The 6-Week Staged Drop & Founder's Season Pass Schedule
-export const ROADMAP_DROPS: RoadmapDrop[] = [
-  {
-    week: 1,
-    title: 'Tri-Mode Search Chat (Vector + SQL + RRF)',
-    category: 'Search & Synthesis',
-    tagline: 'Launch Day Baseline: Conversational semantic search across all archived models.',
-    description: 'Instant question answering across your entire vault. Combines local HNSW cosine vectors with BM25 keyword matching via Reciprocal Rank Fusion, with natural language query routing.',
-    standalonePrice: '$39',
-    standalonePriceNum: 39,
-    releaseDate: 'Week 1 (Immediate Launch)',
-    status: 'live',
-    features: [
-      'Sub-millisecond local vector retrieval',
-      'Reciprocal Rank Fusion (BM25 + Semantic vectors)',
-      'Provider source citations with match confidence %',
-      'Multi-turn conversational follow-up memory'
-    ],
-    targetAudience: 'Every active AI user losing context in fragmented browser tabs.',
-    includedInPass: true
-  },
-  {
-    week: 2,
-    title: 'Air-Gap PII & Secret Redaction Scrubber',
-    category: 'Security & Privacy',
-    tagline: 'Automated regex & heuristic scrubber for credentials, API tokens, and private data.',
-    description: 'Protects confidential data before export or sharing. Automatically detects and redacts Stripe keys, AWS tokens, database credentials, passwords, and emails.',
-    standalonePrice: '$19',
-    standalonePriceNum: 19,
-    releaseDate: 'Week 2 (+7 Days)',
-    status: 'next_up',
-    features: [
-      'Pre-configured rule library (OpenAI, AWS, Stripe, JWT, IPv4/v6)',
-      'Custom regex rule definition editor',
-      'Side-by-side diff preview with instant highlight',
-      'One-click vault sanitize and redaction reports'
-    ],
-    targetAudience: 'Developers sharing chat excerpts and security-conscious enterprise teams.',
-    includedInPass: true
-  },
-  {
-    week: 3,
-    title: '1-Click Fine-Tuning Pipeline & Dataset Exporter',
-    category: 'Model Training',
-    tagline: 'Turn your best AI conversations into ready-to-train JSONL, ShareGPT, and Alpaca datasets.',
-    description: 'Transform answered coding problems and customer scenarios into structured datasets to fine-tune your own private LLaMA, Mistral, or OpenAI models.',
-    standalonePrice: '$19',
-    standalonePriceNum: 19,
-    releaseDate: 'Week 3 (+14 Days)',
-    status: 'upcoming',
-    features: [
-      'OpenAI JSONL chat format exporter',
-      'Alpaca (Instruction, Input, Output) structured format',
-      'ShareGPT multi-turn conversation format',
-      'Automatic PII pre-scrubbing prior to training file generation'
-    ],
-    targetAudience: 'AI engineers, researchers, and developers fine-tuning specialized domain models.',
-    includedInPass: true
-  },
-  {
-    week: 4,
-    title: 'Cross-AI Consensus & Hallucination Auditor',
-    category: 'Quality & Fact-Checking',
-    tagline: 'Peer-review board that compares what Claude, ChatGPT, and Gemini said on the same topic.',
-    description: 'Discovers where frontier AI models agree with high confidence, where their advice clashes, and pinpoints hallucinations or outdated programming libraries.',
-    standalonePrice: '$25',
-    standalonePriceNum: 25,
-    releaseDate: 'Week 4 (+21 Days)',
-    status: 'upcoming',
-    features: [
-      'Multi-model stance alignment and sentiment scoring',
-      'Automated conflict detection & divergence highlight',
-      'Actionable resolution recommendations',
-      'Persona Q&A Modes (Executive Briefing, Fact-Checker, Code Extractor)'
-    ],
-    targetAudience: 'Decision makers, architects, and researchers validating critical technical choices.',
-    includedInPass: true
-  },
-  {
-    week: 5,
-    title: 'Vault Knowledge Graph & Latent Topic Cards',
-    category: 'Knowledge Discovery',
-    tagline: 'Visual discovery map and automated clustering of your historical discussions.',
-    description: 'Uncovers hidden connections across months of problem-solving. Automatically clusters chats into high-value topic cards with token counts, turn depth, and key concepts.',
-    standalonePrice: '$19',
-    standalonePriceNum: 19,
-    releaseDate: 'Week 5 (+28 Days)',
-    status: 'upcoming',
-    features: [
-      'Interactive topic cluster cards with confidence rankings',
-      'Cross-cluster connection highlights',
-      'One-click topic exploration and relational drilldown',
-      'Vault density metrics and knowledge taxonomy'
-    ],
-    targetAudience: 'Knowledge workers, authors, and consultants navigating large research archives.',
-    includedInPass: true
-  },
-  {
-    week: 6,
-    title: 'Embedding Engine Benchmark & 2D PCA Cluster Map',
-    category: 'Performance & Local Hardware',
-    tagline: 'Quantify RAM, latency, and dimensional accuracy across local and cloud embedding engines.',
-    description: 'Benchmark Nomic, BGE, and MiniLM on your specific hardware. Inspect vector distribution using an interactive 2D Principal Component Analysis (PCA) projection.',
-    standalonePrice: '$19',
-    standalonePriceNum: 19,
-    releaseDate: 'Week 6 (+35 Days)',
-    status: 'upcoming',
-    features: [
-      'Interactive 2D PCA vector cluster scatter map with hover metadata',
-      'Hardware profiler (tokens/sec, RAM MB/100k chunks, latency ms)',
-      'Switch between local Ollama, browser WebGPU/WASM, and Cloud Gemini',
-      'Quantization comparison (FP32 vs FP16 vs INT8 vs Q4)'
-    ],
-    targetAudience: 'Hardware enthusiasts, power users, and performance-driven local AI architects.',
-    includedInPass: true
-  }
-];
-
 export const TOTALRECALLS_SPECS = {
   version: '2.5.0-MarketLeader',
   productName: 'TotalRecalls Local AI Chat Suite',
-  coreUnit: 'Universal AI Chat Downloader (ChatGPT, Claude, Gemini, Perplexity, Mistral, Grok)',
-  addonUnit: 'Smart Search Engine & Staged Feature Drops',
-  supportedProviders: ['ChatGPT', 'Claude', 'Gemini', 'Perplexity', 'Mistral', 'LocalLlama'] as AIProvider[],
+  proUnit: 'TotalRecalls Pro — Universal AI Chat Downloader (ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, Qwen)',
+  addonUnit: 'Smart Search Engine add-on',
+  supportedProviders: ['ChatGPT', 'Claude', 'Perplexity', 'Gemini', 'Grok', 'DeepSeek', 'Mistral', 'Qwen'] as AIProvider[],
   embeddingModels: EMBEDDING_PROFILES,
-  roadmapDrops: ROADMAP_DROPS,
-  sumOfPartsPrice: '$140',
   pricingTiers: [
     {
-      name: 'Downloader Core',
+      name: 'Downloader Pro',
+      price: '$24',
+      regularPrice: '$48',
+      period: 'one-time (regular $48)',
+      badge: 'Downloader',
+      cta: 'Explore feature set',
+      subtitle: 'All 8 providers · unlimited downloads · Markdown + JSON, saved locally',
+      features: [
+        'All 8 providers: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, Qwen',
+        'Unlimited downloads',
+        'Markdown and JSON files, saved locally',
+        'Up to 3 device activations',
+        'Free updates (bug fixes) for the life of the product',
+        'License key delivered by email',
+      ],
+    },
+    {
+      name: 'Smart Search Engine',
       price: '$29',
-      period: 'one-time lifetime',
-      badge: 'Core Foundation',
-      subtitle: 'The privacy-first local chat backup unit',
-      features: [
-        'Batch export from ChatGPT, Claude, Gemini, Perplexity, Mistral',
-        'Automatic periodic background scraper sync',
-        'HTML, Markdown, JSON & PDF local export formats',
-        'Encrypted local vault filesystem storage',
-        'Standard full-text keyword search'
-      ]
-    },
-    {
-      name: "Founder's Season Pass (Smart Search Engine)",
-      price: '$49',
-      regularPrice: '$59',
-      postRolloutPrice: '$79',
-      period: 'one-time lifetime (Launch Week Special)',
-      badge: "Founder's Season Pass",
+      regularPrice: '$58',
+      period: 'one-time (regular $58)',
+      badge: 'SSE add-on',
       featured: true,
-      savings: 'Save 65% vs $140 A-la-carte sum of parts',
-      subtitle: 'Instant unlock of Week 1 + automatic lifetime access to all 6 weekly drops',
+      cta: 'Open Smart Search demo',
+      subtitle: 'Semantic search across your local archive · Obsidian and Notion connections',
       features: [
-        'Week 1 Live: Tri-Mode Search Chat (Vector + SQL + RRF)',
-        'Week 2 Drop: Air-Gap PII & Secret Redaction Scrubber ($19 value)',
-        'Week 3 Drop: 1-Click Fine-Tuning Pipeline (JSONL/Alpaca) ($19 value)',
-        'Week 4 Drop: Cross-AI Consensus & Hallucination Auditor ($25 value)',
-        'Week 5 Drop: Vault Knowledge Graph & Topic Discovery Cards ($19 value)',
-        'Week 6 Drop: Embedding Engine Benchmark & 2D PCA Cluster Map ($19 value)',
-        'Includes all future Smart Search Engine updates with zero recurring subscription'
-      ]
+        'Search by meaning, keyword, or both together',
+        'Plain-English questions answered with SQL',
+        'Every result links to the original file',
+        'Obsidian and Notion connections',
+        'Automatic re-indexing',
+        'Free updates (bug fixes) to SSE',
+        'New modules and upgrades are separate purchases',
+      ],
     },
     {
-      name: 'Enterprise / Team Local Fleet',
-      price: '$149',
-      period: 'per seat / perpetual',
-      badge: 'Air-Gapped & Compliance',
-      subtitle: 'For enterprise engineering & legal organizations',
+      name: 'Pro + SSE bundle',
+      price: '$49.89',
+      regularPrice: '$99.89',
+      period: 'one-time (regular $99.89)',
+      badge: 'Best value',
+      cta: 'Open Smart Search demo',
+      subtitle: 'TotalRecalls Pro and the Smart Search Engine together',
       features: [
-        'Everything in Core Downloader + Full Smart Search Suite',
-        'All 6 feature modules unlocked immediately for team seats',
-        'Zero-trust compliance verification & PII auditing reports',
-        'Peer-to-peer encrypted knowledge sync across workstations',
-        'Custom local embedding models & self-hosted Ollama fleets',
-        'Dedicated onboarding & technical deployment support'
-      ]
-    }
-  ]
+        'All 8 providers, unlimited downloads',
+        'Smart Search Engine semantic search',
+        'Obsidian and Notion connections',
+        'Up to 3 device activations',
+        'Free updates (bug fixes) to both',
+      ],
+    },
+  ] as PricingTier[]
 };

@@ -11,3 +11,22 @@
 /previews/theme-midnight/ /previews/ 301
 /guides/backup-perplexity-threads /guides/export-perplexity-conversations/ 301
 /guides/backup-perplexity-threads/ /guides/export-perplexity-conversations/ 301
+
+# Added 2026-11-06: pages that no longer exist as separate documents.
+# /previews/notion/ and /previews/obsidian/ described work that now ships
+# inside Smart Search Engine, so their content moved to /smart-search/.
+# /search/ was a stale clone of /smart-search/. /previews/semantic-search/
+# was a shipped product page filed under "Previews".
+/previews/notion /smart-search/ 301
+/previews/notion/ /smart-search/ 301
+/previews/obsidian /smart-search/ 301
+/previews/obsidian/ /smart-search/ 301
+/search /smart-search/ 301
+/search/ /smart-search/ 301
+/previews/semantic-search /smart-search/ 301
+/previews/semantic-search/ /smart-search/ 301
+
+# Added 2026-11-06: the guide was renamed when "TotalRecalls Search" became
+# "Smart Search Engine". The old slug carries the retired product name.
+/guides/using-totalrecalls-search /guides/using-smart-search-engine/ 301
+/guides/using-totalrecalls-search/ /guides/using-smart-search-engine/ 301

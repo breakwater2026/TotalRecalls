@@ -79,7 +79,7 @@ export const EmbeddingBenchmark: React.FC<EmbeddingBenchmarkProps> = ({
     { x: 68, y: 25, category: 'Database & Vectors', provider: 'ChatGPT', label: 'pgvector HNSW table' },
     { x: 74, y: 32, category: 'Database & Vectors', provider: 'Mistral', label: 'Embedded SQLite ADR' },
     { x: 71, y: 20, category: 'Database & Vectors', provider: 'ChatGPT', label: 'Inner product SIMD' },
-    { x: 45, y: 75, category: 'Payments & Legal', provider: 'Claude', label: '30-day Stripe refund' },
+    { x: 45, y: 75, category: 'Payments & Legal', provider: 'Claude', label: '7-day Stripe refund' },
     { x: 50, y: 80, category: 'Payments & Legal', provider: 'Claude', label: 'Webhook idempotency' },
     { x: 85, y: 70, category: 'Growth & Metrics', provider: 'Perplexity', label: 'Q3 download metrics' }
   ];
@@ -221,7 +221,7 @@ export const EmbeddingBenchmark: React.FC<EmbeddingBenchmarkProps> = ({
                   <div className="text-lg font-bold font-mono text-[var(--tr-accent)]">
                     {benchmarkResult.estimatedRAMMB} MB
                   </div>
-                  <div className="text-[10px] text-[var(--tr-muted)]">Zero cloud egress</div>
+                  <div className="text-[10px] text-[var(--tr-muted)]">Nothing uploaded</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[var(--tr-panel2)] border border-[var(--tr-border)] space-y-1">

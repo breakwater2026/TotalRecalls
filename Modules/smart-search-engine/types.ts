@@ -1,4 +1,4 @@
-export type AIProvider = 'ChatGPT' | 'Claude' | 'Gemini' | 'Perplexity' | 'Mistral' | 'LocalLlama';
+export type AIProvider = 'ChatGPT' | 'Claude' | 'Perplexity' | 'Gemini' | 'Grok' | 'DeepSeek' | 'Mistral' | 'Qwen';
 
 export interface ChatMessage {
   id: string;
@@ -136,19 +136,16 @@ export interface SavedSQLView {
   category: 'performance' | 'tokens' | 'topics' | 'security';
 }
 
-export interface RoadmapDrop {
-  week: number;
-  title: string;
-  category: string;
-  tagline: string;
-  description: string;
-  standalonePrice: string;
-  standalonePriceNum: number;
-  releaseDate: string;
-  status: 'live' | 'next_up' | 'upcoming';
+export interface PricingTier {
+  name: string;
+  price: string;
+  regularPrice?: string;
+  period: string;
+  badge: string;
+  subtitle: string;
+  featured?: boolean;
+  cta?: string;
   features: string[];
-  targetAudience: string;
-  includedInPass: boolean;
 }
 
 // Downside Protection & Backup Scheduler Types

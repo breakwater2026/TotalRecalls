@@ -2,10 +2,10 @@
 import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
-  { q: "Is there a subscription?", a: "No. $24 USD once, at the launch price. No monthly or annual renewal." },
+  { q: "Is there a subscription?", a: "No. $24 USD once for the Downloader, at the launch price. No monthly or annual renewal. Smart Search Engine is a separate one-time purchase." },
   { q: "What does the Free Tier include?", a: "3 AI providers and up to 5 conversations per download — enough to confirm it works on your actual chats." },
   { q: "How many computers can I activate?", a: "Up to 3 activations, so a desktop, a laptop and a mobile device are covered." },
-  { q: "Do I keep getting updates?", a: "Free updates to the core app for the life of the product. Advanced features (Obsidian/Notion sync, RAG containers, multi-device memory) are separate add-ons. Smart Search Engine is available now as a Pro add-on." },
+  { q: "Do I keep getting updates?", a: "Updates (bug fixes) to Downloader Pro are free for the life of the product. Upgrades (new features, new add-ons such as RAG containers and multi-device memory) are separate paid purchases. Smart Search Engine is available now as an add-on." },
 ];
 
 // The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
@@ -34,16 +34,17 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Free Tier</th><th>TotalRecalls ($24 once)</th></tr>
+        <tr><th></th><th>Free Tier</th><th>Downloader Pro ($24)</th><th>Pro + SSE bundle ($49.89)</th></tr>
       </thead>
       <tbody>
-        <tr><td>Price</td><td>$0</td><td><strong>$24 USD</strong> launch price (list $48)</td></tr>
-        <tr><td>Billing</td><td>&mdash;</td><td>One-time. No subscription, no renewal</td></tr>
-        <tr><td>AI providers</td><td>3</td><td>All 8</td></tr>
-        <tr><td>Conversations per download</td><td>5</td><td>Unlimited</td></tr>
-        <tr><td>Device activations</td><td>&mdash;</td><td>Up to 3 (desktop, laptop, mobile)</td></tr>
-        <tr><td>Updates to the core app</td><td>&mdash;</td><td>Included for the life of the product</td></tr>
-        <tr><td>Where your files live</td><td>Your PC</td><td>Your PC</td></tr>
+        <tr><td>Price</td><td>$0</td><td><strong>$24 USD</strong> launch price (list $48)</td><td><strong>$49.89 USD</strong> launch price (list $99.89)</td></tr>
+        <tr><td>Billing</td><td>&mdash;</td><td>One-time. No subscription, no renewal</td><td>One-time. No subscription, no renewal</td></tr>
+        <tr><td>AI providers</td><td>3</td><td>All 8</td><td>All 8</td></tr>
+        <tr><td>Conversations per download</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+        <tr><td>Device activations</td><td>&mdash;</td><td>Up to 3 (desktop, laptop, mobile)</td><td>Up to 3 (desktop, laptop, mobile)</td></tr>
+        <tr><td>Updates to Downloader Pro</td><td>&mdash;</td><td>Included for the life of the product</td><td>Included for the life of the product</td></tr>
+        <tr><td>Smart Search Engine</td><td>&mdash;</td><td>&mdash; (add-on $29 USD launch, list $58)</td><td><strong>Included</strong></td></tr>
+        <tr><td>Where your files live</td><td>Your PC</td><td>Your PC</td><td>Your PC</td></tr>
       </tbody>
     </table>
   </div>

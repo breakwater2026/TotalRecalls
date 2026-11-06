@@ -66,18 +66,20 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
     Gemini: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Perplexity: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
     Mistral: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
-    LocalLlama: 'bg-sky-500/10 text-sky-400 border-sky-500/30'
-  };
+    Grok: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    DeepSeek: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+    Qwen: 'bg-[var(--tr-accent)]/10 text-[var(--tr-accent)] border-[var(--tr-accent)]/30',
+   };
 
   return (
     <div className="space-y-6">
-      {/* Downloader Core Status banner with TotalRecalls brand colors */}
+      {/* TotalRecalls Pro status banner with TotalRecalls brand colors */}
       <div className="rounded-2xl bg-gradient-to-r from-[var(--tr-bg)] via-[var(--tr-panel2)] to-[var(--tr-bg)] border border-[var(--tr-accent)]/30 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
         <div>
           <div className="flex items-center space-x-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/30 flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              Core Unit: TotalRecalls Local Chat Downloader
+              TotalRecalls Pro: Local Chat Downloader
             </span>
             <span className="text-xs text-[var(--tr-accent)] font-mono">totalrecalls.app</span>
           </div>
@@ -86,7 +88,7 @@ export const ChatExplorer: React.FC<ChatExplorerProps> = ({
           </h2>
           <p className="text-sm text-[var(--tr-muted)] mt-1">
             Continuous local backup for ChatGPT, Claude, Gemini, Perplexity, and Mistral conversations. 
-            All files are stored in your private local directory with encrypted zero-cloud storage.
+            All files are stored in your private local directory with encrypted local storage.
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
   { q: "Does Qwen provide a data download?", a: "No. Qwen Chat does not provide a built-in data download — the manual alternative is copying each conversation out by hand." },
-  { q: "Do I need a DashScope or Alibaba API key?", a: "No, and TotalRecalls never asks for one. It reads your browser session for the consumer chat product, which is a different product from the developer API." },
+  { q: "Do I need a DashScope or Alibaba API key?", a: "No, and TotalRecalls never asks for one. It reads the session from its own embedded sign-in window for the consumer chat product, which is a different product from the developer API." },
   { q: "Will Chinese and other non-Latin text survive?", a: "Yes — UTF-8 throughout, so Chinese, English, Japanese and Korean all stay readable." },
 ];
 
@@ -40,7 +40,7 @@ const faqLd = {
   <p>TotalRecalls only touches the <strong>consumer chat product</strong>. It never calls DashScope endpoints, never uses Alibaba API keys, and never touches developer-account credentials.</p>
 
   <h2>What TotalRecalls does</h2>
-  <p>TotalRecalls runs on your PC, connects to your Qwen Chat session locally, and writes conversations into folders as Markdown + JSON, with multilingual text preserved in UTF-8 &mdash; Chinese, English, Japanese and Korean all stay readable in any editor.</p>
+  <p>TotalRecalls runs on your PC, connects using your Qwen Chat session from its own sign-in window, and writes conversations into folders as Markdown + JSON, with multilingual text preserved in UTF-8 &mdash; Chinese, English, Japanese and Korean all stay readable in any editor.</p>
 
   <div class="table-wrap">
     <table>

@@ -4,7 +4,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 const faqs = [
   { q: "Does Grok let me export my data officially?", a: "Yes — Grok provides a JSON export under Settings > Data Controls. However, TotalRecalls converts this into a readable Markdown library so you can actually browse your history and preserve X post context visually without manual parsing." },
   { q: "Are the X posts in my conversations kept?", a: "Yes. X posts referenced in chats are preserved as quoted links in the Markdown download." },
-  { q: "Does this work on the free tier?", a: "Yes. TotalRecalls reads your browser session, so it works with the plan you already have." },
+  { q: "Does this work on the free tier?", a: "Yes. TotalRecalls reads the session from its own embedded sign-in window, so it works with the plan you already have." },
 ];
 
 // The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
@@ -32,7 +32,7 @@ const faqLd = {
   <p>Grok provides an official data export under Settings > Data Controls that generates a ZIP archive with a JSON file of your chat history. TotalRecalls converts this raw JSON into a readable Markdown library that preserves X post context and lets you actually browse your history.</p>
 
   <h2>What TotalRecalls does for Grok</h2>
-  <p>TotalRecalls reads your local <code>grok.com</code> session and downloads every conversation to local Markdown and JSON. <strong>X posts referenced inside a conversation are preserved as quoted links</strong> in the Markdown, so the context that made the thread useful survives with it. Quick prompts and long debug sessions both get kept.</p>
+  <p>TotalRecalls reads your <code>grok.com</code> session from its own sign-in window and downloads every conversation to local Markdown and JSON. <strong>X posts referenced inside a conversation are preserved as quoted links</strong> in the Markdown, so the context that made the thread useful survives with it. Quick prompts and long debug sessions both get kept.</p>
 
   <div class="table-wrap">
     <table>
