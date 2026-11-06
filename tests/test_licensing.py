@@ -11,7 +11,8 @@ from unittest.mock import patch
 from totalrecalls import licensing
 from totalrecalls.core.secure_storage import SecureStorageError
 
-KEY = "TR-ABCD1234-EF56-7890"
+KEY = "PRO-ABCD1234-EF56-7890"
+LEGACY_KEY = "TR-ABCD1234-EF56-7890"
 
 
 class ProviderTierTests(unittest.TestCase):
@@ -30,6 +31,7 @@ class ProviderTierTests(unittest.TestCase):
 class LicenseKeyValidationTests(unittest.TestCase):
     def test_valid_key_shape_does_not_prove_entitlement(self):
         self.assertTrue(licensing.validate_license_key_format(KEY))
+        self.assertTrue(licensing.validate_license_key_format(LEGACY_KEY))
         self.assertFalse(licensing.validate_license_key(KEY))
 
     def test_explicit_verifier_is_required_and_used(self):
@@ -37,7 +39,7 @@ class LicenseKeyValidationTests(unittest.TestCase):
         self.assertTrue(licensing.validate_license_key(KEY, verifier=verifier))
 
     def test_invalid_keys(self):
-        for bad in ("", "nope", "1234", "TR-ABCD", "tr-abcd1234-ef567890"):
+        for bad in ("", "nope", "1234", "PRO-ABCD", "pro-abcd1234-ef567890", "SSE-ABCD1234-EF56-7890", "XX-ABCD1234-EF56-7890"):
             self.assertFalse(licensing.validate_license_key_format(bad), bad)
 
 

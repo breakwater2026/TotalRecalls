@@ -109,7 +109,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
   const [simulatedInstallStep, setSimulatedInstallStep] = useState<number>(0);
   const [isInstalling, setIsInstalling] = useState<boolean>(false);
   const [copiedBash, setCopiedBash] = useState<boolean>(false);
-  const [licenseKeyInput, setLicenseKeyInput] = useState<string>('TR-PRO-SSE-8849-V25');
+  const [licenseKeyInput, setLicenseKeyInput] = useState<string>('SSE-8849ABCD-EF25-K9M3');
 
   const handleStartSimulatedInstall = () => {
     setIsInstalling(true);

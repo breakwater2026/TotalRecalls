@@ -4,6 +4,11 @@ import {
   TestCaseAssertion, 
   TestSuiteSummary
 } from '../types';
+import {
+  validateSseKeyFormat,
+  validateProKeyFormat,
+  activateSseLicense
+} from './licensing';
 import { 
   calculateBM25Score,
   compileLocalNLToSQL,
@@ -144,6 +149,14 @@ export const TEST_DEFINITIONS: Omit<TestCaseAssertion, 'status' | 'durationMs' |
     category: 'End-to-End System Integration',
     componentTarget: 'Local services (fetch-intercepted)',
     description: 'Ensures local search, SQL, PII audit, and snapshot operations dispatch no fetch requests.',
+    criticality: 'p0_critical'
+  },
+  {
+    id: 'test-lic-01',
+    title: 'Module-Scoped License Key Validation (PRO- vs SSE-)',
+    category: 'End-to-End System Integration',
+    componentTarget: 'Services/licensing.ts',
+    description: 'Verifies SSE accepts SSE-XXXXXXXX-XXXX-XXXX keys and rejects Downloader PRO-XXXXXXXX-XXXX-XXXX keys.',
     criticality: 'p0_critical'
   }
 ];
@@ -367,6 +380,21 @@ export async function runIndividualTest(
         }
         if (networkRequests > 0) throw new Error(`Offline operations attempted ${networkRequests} network request(s)`);
         details = 'Local search, SQL, PII audit, snapshot creation, and verification completed with zero fetch requests.';
+        break;
+      }
+
+      case 'test-lic-01': {
+        const sseKey = 'SSE-ABCD2345-EF67-89GH';
+        const proKey = 'PRO-ABCD2345-EF67-89GH';
+        if (!validateSseKeyFormat(sseKey)) throw new Error('Valid SSE key failed format check');
+        if (validateSseKeyFormat(proKey)) throw new Error('PRO key was wrongly accepted as an SSE key');
+        if (!validateProKeyFormat(proKey)) throw new Error('Valid PRO key failed format check');
+        if (validateProKeyFormat(sseKey)) throw new Error('SSE key was wrongly accepted as a PRO key');
+        const rejectedPro = await activateSseLicense(proKey, async () => ({ valid: true }));
+        if (rejectedPro.ok) throw new Error('SSE activation wrongly accepted a PRO- key');
+        const acceptedSse = await activateSseLicense(sseKey, async () => ({ valid: true, instance_id: 'inst-sse-1' }));
+        if (!acceptedSse.ok) throw new Error(`Valid SSE key activation failed: ${acceptedSse.message}`);
+        details = 'Verified strict module-scoped key separation: SSE- keys unlock SSE; PRO- keys are rejected by SSE and reserved for Downloader Pro.';
         break;
       }
 

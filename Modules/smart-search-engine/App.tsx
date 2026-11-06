@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, AppTabType } from './components/Navbar';
 import { WebsitePresentation } from './components/WebsitePresentation';
 import { DeliveryPackagingStudio } from './components/DeliveryPackagingStudio';
@@ -19,6 +19,14 @@ import { SpecsAndPricing } from './components/SpecsAndPricing';
 import { INITIAL_CONVERSATIONS } from './constants';
 import { ChatConversation } from './types';
 import { buildVectorIndex } from './services/ragEngine';
+import {
+  isSseActivated,
+  sseLicenseKey,
+  activateSseLicense,
+  checkSseEntitlement,
+  deactivateSseLicense,
+  resetLocalSseLicense
+} from './Services/licensing';
 
 export function App() {
   const [conversations, setConversations] = useState<ChatConversation[]>(INITIAL_CONVERSATIONS);
@@ -28,6 +36,39 @@ export function App() {
   const [activeTab, setActiveTab] = useState<AppTabType>('website');
   const [selectedConvId, setSelectedConvId] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
+  const [sseActive, setSseActive] = useState<boolean>(() => isSseActivated());
+  const [showLicenseBox, setShowLicenseBox] = useState<boolean>(false);
+  const [licenseInput, setLicenseInput] = useState<string>(() => sseLicenseKey());
+  const [licenseStatus, setLicenseStatus] = useState<string>('');
+  const [activating, setActivating] = useState<boolean>(false);
+
+  useEffect(() => {
+    checkSseEntitlement().then((ok) => setSseActive(ok));
+  }, []);
+
+  const handleActivateSse = async () => {
+    setActivating(true);
+    setLicenseStatus('Verifying SSE license key...');
+    const res = await activateSseLicense(licenseInput);
+    setActivating(false);
+    setLicenseStatus(res.message);
+    if (res.ok) {
+      setSseActive(true);
+    }
+  };
+
+  const handleDeactivateSse = async () => {
+    const res = await deactivateSseLicense();
+    setSseActive(false);
+    setLicenseInput('');
+    setLicenseStatus(res.message);
+  };
+
+  const handleResetLocalSse = () => {
+    const res = resetLocalSseLicense();
+    setSseActive(false);
+    setLicenseStatus(res.message);
+  };
 
   const toggleTheme = () => {
     const next = !isDark;
@@ -86,6 +127,82 @@ export function App() {
         indexedCount={chunks.length}
         totalConversations={conversations.length}
       />
+
+      {/* Module License Bar & Collapsible Activation Box (mirrors app_ui.html #license-box) */}
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="flex items-center justify-end gap-3">
+          <span
+            className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${
+              sseActive
+                ? 'bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border-[var(--tr-accent)]/45'
+                : 'bg-[var(--tr-panel)] text-[var(--tr-muted)] border-[var(--tr-border)]'
+            }`}
+          >
+            {sseActive ? 'SSE Licensed' : 'SSE Unactivated'}
+          </span>
+          <button
+            onClick={() => setShowLicenseBox(!showLicenseBox)}
+            className="text-xs font-semibold text-[var(--tr-accent2)] hover:underline"
+          >
+            {sseActive ? 'Manage SSE License' : 'Activate SSE Key'}
+          </button>
+        </div>
+
+        {showLicenseBox && (
+          <div className="mt-3 rounded-2xl bg-[var(--tr-panel)] border border-[var(--tr-border)] p-5 space-y-3">
+            <h2 className="text-sm font-bold text-[var(--tr-accent2)]">
+              Unlock Smart Search Engine (SSE)
+            </h2>
+            <p className="text-xs text-[var(--tr-muted)] leading-relaxed">
+              Paste the <code className="font-mono text-[var(--tr-text)]">SSE-XXXXXXXX-XXXX-XXXX</code> license key from your purchase email.
+              Activating requires an internet connection once — after that, Smart Search Engine runs on your PC without an internet connection.
+              (Note: Downloader Pro uses its own <code className="font-mono text-[var(--tr-text)]">PRO-XXXXXXXX-XXXX-XXXX</code> key.)
+            </p>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <input
+                type="text"
+                value={licenseInput}
+                onChange={(e) => setLicenseInput(e.target.value)}
+                placeholder="SSE-XXXXXXXX-XXXX-XXXX"
+                className="flex-1 min-w-[240px] bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg px-3.5 py-2 text-sm font-mono text-[var(--tr-text)] focus:outline-none focus:border-[var(--tr-accent)]"
+              />
+              <button
+                disabled={activating}
+                onClick={handleActivateSse}
+                className="px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50"
+              >
+                {activating ? 'Activating…' : 'Activate SSE'}
+              </button>
+              <a
+                href="https://totalrecalls.app/smart-search/#pricing"
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] font-semibold text-xs hover:border-[var(--tr-accent)]"
+              >
+                Buy SSE — $29
+              </a>
+              {sseActive && (
+                <button
+                  onClick={handleDeactivateSse}
+                  className="px-3 py-2 rounded-lg border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)]"
+                >
+                  Deactivate (free slot)
+                </button>
+              )}
+              <button
+                onClick={handleResetLocalSse}
+                title="Dev helper: clear the SSE entitlement locally without contacting the server."
+                className="px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)]"
+              >
+                Reset local state
+              </button>
+            </div>
+            {licenseStatus && (
+              <div className="text-xs text-[var(--tr-muted)] pt-1">{licenseStatus}</div>
+            )}
+          </div>
+        )}
+      </div>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === 'website' && (

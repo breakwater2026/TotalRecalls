@@ -1,16 +1,10 @@
-name = "paddle-fulfillment-worker"
-main = "src/index.ts"
+name = "paddle-webhook"
+main = "src/worker.js"
 compatibility_date = "2024-09-25"
 
 account_id = "348a35e76cee14de8028300ab71de1d1"
 
-# Secrets (set via `wrangler secret put`):
-# - COURIER_API_KEY (from https://www.courier.com/settings/api-keys)
-# - PADDLE_WEBHOOK_SECRET (from Paddle dashboard → Notifications)
-# - COURIER_TEMPLATE_ID (from Courier template, e.g. "template_totallyrecalls_license")
-# - LICENSE_ENDPOINT (optional: your TotalRecalls license verification API)
-
-# Routes (must match Cloudflare dashboard)
+# Routes on totalrecalls.app
 [[routes]]
 pattern = "totalrecalls.app/health*"
 zone_name = "totalrecalls.app"
@@ -21,8 +15,13 @@ zone_name = "totalrecalls.app"
 pattern = "totalrecalls.app/webhook/paddle*"
 zone_name = "totalrecalls.app"
 
-# KV Namespace for persistent license storage
+# D1 database (tr-website-db)
+[[d1_databases]]
+binding = "DB"
+database_name = "tr-website-db"
+database_id = "903321ec-7dcf-4d9b-ae66-edeb76954311"
+
+# KV Namespace (retained)
 [[kv_namespaces]]
-binding = "LICENSE_KV"
-id = "LICENSE_KV"
-preview_id = "LICENSE_KV_PREVIEW"
+binding = "EMAILS_KV"
+id = "14c867f2677c453b85b2c2d2e0cba711"

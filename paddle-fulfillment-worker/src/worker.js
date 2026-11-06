@@ -114,10 +114,22 @@ async function verifyPaddleSignature(rawBody, signatureHeader, secret) {
 }
 
 /* ------------------------------------------------------------------ *
- * License keys: TR-XXXXXXXX-XXXX-XXXX (matches the app's regex).
+ * License keys:
+ *   Downloader Pro:       PRO-XXXXXXXX-XXXX-XXXX (legacy TR-… also accepted)
+ *   Smart Search Engine:  SSE-XXXXXXXX-XXXX-XXXX
  * Ambiguous glyphs (I, O, 0, 1) excluded so keys survive being retyped.
  * ------------------------------------------------------------------ */
 const KEY_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+// Live Paddle product & price IDs for tier classification.
+const PADDLE_BUNDLE_IDS = new Set([
+  'pro_01m6qftvphzpzatfz1661d0px3',
+  'pri_01m6qftvt3dyaw13ern1ac4xcb',
+]);
+const PADDLE_SSE_IDS = new Set([
+  'pro_01m6qftveaczq3mzx0wnhnzwdr',
+  'pri_01m6qftvhs2yt7c0yrgr0xy5tg',
+]);
 
 function randomBlock(len) {
   const bytes = new Uint8Array(len);
@@ -127,8 +139,22 @@ function randomBlock(len) {
   return out;
 }
 
-function generateLicenseKey() {
-  return `TR-${randomBlock(8)}-${randomBlock(4)}-${randomBlock(4)}`;
+function generateLicenseKey(prefix = 'PRO') {
+  return `${prefix}-${randomBlock(8)}-${randomBlock(4)}-${randomBlock(4)}`;
+}
+
+/**
+ * Classify a Paddle order into 'pro' | 'sse' | 'bundle'.
+ */
+function classifyOrderTier(order) {
+  const ids = [order.product_id, ...(order.price_ids || [])];
+  if (ids.some((id) => PADDLE_BUNDLE_IDS.has(id)) || /bundle/i.test(order.product_name || '')) {
+    return 'bundle';
+  }
+  if (ids.some((id) => PADDLE_SSE_IDS.has(id)) || /smart search|\bsse\b/i.test(order.product_name || '')) {
+    return 'sse';
+  }
+  return 'pro';
 }
 
 /* ------------------------------------------------------------------ *
@@ -191,15 +217,57 @@ async function resolveCustomerEmail(order, env) {
 /* ------------------------------------------------------------------ *
  * Resend delivery
  * ------------------------------------------------------------------ */
-function licenseEmailHtml({ licenseKey, productName, timestamp }) {
+function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timestamp }) {
   const key = escapeHtml(licenseKey);
+  const sseKey = escapeHtml(sseLicenseKey || '');
+  const boxStyle = "font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:20px;font-weight:600;letter-spacing:0.5px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;padding:16px;margin:0 0 20px;text-align:center";
+
+  if (tier === 'bundle') {
+    return `<!doctype html><html><body style="margin:0;padding:0;background:#fafafa">
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#18181b">
+  <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls Pro + Smart Search Engine license keys</h1>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying the TotalRecalls Bundle. Each module uses its own license key:</p>
+  <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#52525b;margin:0 0 6px">1. Downloader Pro Key</p>
+  <p style="${boxStyle}">${key}</p>
+  <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#52525b;margin:0 0 6px">2. Smart Search Engine (SSE) Key</p>
+  <p style="${boxStyle}">${sseKey}</p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open each module, click <strong>Activate</strong>, and paste its corresponding key above.</p>
+  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download TotalRecalls</a></p>
+  <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
+  <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
+    Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
+  </p>
+  <p style="font-size:12px;line-height:1.6;color:#a1a1aa;margin:16px 0 0">
+    Keep these keys — each key unlocks its module on up to 3 devices.
+  </p>
+</div></body></html>`;
+  }
+
+  if (tier === 'sse') {
+    return `<!doctype html><html><body style="margin:0;padding:0;background:#fafafa">
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#18181b">
+  <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls Smart Search Engine license key</h1>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying the TotalRecalls Smart Search Engine (SSE) add-on. Here is your license key:</p>
+  <p style="${boxStyle}">${key}</p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open TotalRecalls Smart Search Engine, click <strong>Activate SSE</strong>, and paste the key exactly as shown.</p>
+  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download Smart Search Engine</a></p>
+  <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
+  <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
+    Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
+  </p>
+  <p style="font-size:12px;line-height:1.6;color:#a1a1aa;margin:16px 0 0">
+    Keep this key — it unlocks the Smart Search Engine add-on on up to 3 devices.
+  </p>
+</div></body></html>`;
+  }
+
   return `<!doctype html><html><body style="margin:0;padding:0;background:#fafafa">
 <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#18181b">
-  <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls license key</h1>
-  <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying TotalRecalls. Here is your license key:</p>
-  <p style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:20px;font-weight:600;letter-spacing:0.5px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;padding:16px;margin:0 0 20px;text-align:center">${key}</p>
+  <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls Pro license key</h1>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying TotalRecalls Downloader Pro. Here is your license key:</p>
+  <p style="${boxStyle}">${key}</p>
   <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open TotalRecalls, click <strong>Activate</strong>, and paste the key exactly as shown.</p>
-  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#18181b;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download TotalRecalls</a></p>
+  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download TotalRecalls</a></p>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
   <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
     Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
@@ -210,42 +278,65 @@ function licenseEmailHtml({ licenseKey, productName, timestamp }) {
 </div></body></html>`;
 }
 
-function licenseEmailText({ licenseKey, productName, timestamp }) {
+function licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timestamp }) {
+  if (tier === 'bundle') {
+    return [
+      'Thanks for buying the TotalRecalls Pro + Smart Search Engine Bundle.',
+      '',
+      `1. Downloader Pro license key: ${licenseKey}`,
+      `2. Smart Search Engine (SSE) license key: ${sseLicenseKey}`,
+      '',
+      'To activate: open each module, click Activate, and paste its corresponding key.',
+      `Download: ${DOWNLOAD_URL}`,
+      '',
+      `Product: ${productName}`,
+      `Purchased: ${timestamp}`,
+      '',
+      'Keep these keys — each key unlocks its module on up to 3 devices.',
+    ].join('\n');
+  }
   return [
-    'Thanks for buying TotalRecalls.',
+    `Thanks for buying ${productName}.`,
     '',
     `License key: ${licenseKey}`,
     '',
-    'To activate: open TotalRecalls, click Activate, and paste the key exactly as shown.',
+    'To activate: open the app, click Activate, and paste the key exactly as shown.',
     `Download: ${DOWNLOAD_URL}`,
     '',
     `Product: ${productName}`,
     `Purchased: ${timestamp}`,
     '',
-    'Keep this key — it unlocks all 8 providers and unlimited downloads on up to 3 devices.',
+    tier === 'sse'
+      ? 'Keep this key — it unlocks the Smart Search Engine add-on on up to 3 devices.'
+      : 'Keep this key — it unlocks all 8 providers and unlimited downloads on up to 3 devices.',
   ].join('\n');
 }
 
-async function sendLicenseEmail({ email, licenseKey, productName }, env) {
+async function sendLicenseEmail({ email, tier, licenseKey, sseLicenseKey, productName }, env) {
   if (!env.RESEND_API_KEY) {
     return { ok: false, status: 0, body: 'RESEND_API_KEY not set', emailId: '' };
   }
   const from = env.MAIL_FROM || DEFAULT_FROM;
   const timestamp = new Date().toISOString();
+  const subject = tier === 'bundle'
+    ? 'Your TotalRecalls Pro + Smart Search Engine license keys'
+    : tier === 'sse'
+      ? 'Your TotalRecalls Smart Search Engine license key'
+      : 'Your TotalRecalls Pro license key';
   const resp = await fetch(RESEND_SEND_URL, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
-      // One send per key: Paddle redelivers webhooks, mail must not duplicate.
+      // One send per key: Paddle redeliveries must not duplicate mail.
       'Idempotency-Key': `totalrecalls-license-${licenseKey}`,
     },
     body: JSON.stringify({
       from,
       to: [email],
-      subject: 'Your TotalRecalls license key',
-      html: licenseEmailHtml({ licenseKey, productName, timestamp }),
-      text: licenseEmailText({ licenseKey, productName, timestamp }),
+      subject,
+      html: licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timestamp }),
+      text: licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timestamp }),
     }),
   });
   const raw = await resp.text();
@@ -270,12 +361,15 @@ async function sendSellerNotice(env, order, result) {
   const amount = order.total
     ? `${(Number(order.total) / 100).toFixed(2)} ${order.currency_code || ''}`.trim()
     : 'unknown';
+  const keyDisplay = result.sse_license_key
+    ? `${result.license_key} (PRO) + ${result.sse_license_key} (SSE)`
+    : (result.license_key || '(already issued)');
   const rows = [
     ['Order', order.order_id],
     ['Buyer', order.customer_email || '(none)'],
     ['Amount', amount],
     ['Product', order.product_name],
-    ['License key', result.license_key || '(already issued)'],
+    ['License key(s)', keyDisplay],
     ['Buyer email', result.mail_status === 200
       ? 'sent' : `FAILED (${result.mail_error || result.mail_status})`],
     ['When', new Date().toISOString()],
@@ -347,28 +441,8 @@ async function trackDelivery(emailId, env, licenseUuid) {
 /* ------------------------------------------------------------------ *
  * Fulfillment
  * ------------------------------------------------------------------ */
-async function fulfillOrder(order, env, rawBody) {
-  const { email, source, name } = await resolveCustomerEmail(order, env);
-  if (!email) {
-    return { status: 'no_customer_email', email_source: source, license_key: '' };
-  }
-  const customerName = name || order.customer_name || '';
-
-  const existing = await env.DB
-    .prepare('SELECT id, license_key, status FROM license_keys WHERE order_id = ?')
-    .bind(order.order_id).first();
-
-  if (existing && existing.license_key) {
-    return {
-      status: 'already_fulfilled',
-      license_key: existing.license_key,
-      email_source: source,
-    };
-  }
-
+async function upsertLicenseRow(env, { existing, orderId, email, customerName, productName, licenseKey, rawBody }) {
   const licenseUuid = existing ? existing.id : crypto.randomUUID();
-  const licenseKey = generateLicenseKey();
-
   if (existing) {
     await env.DB
       .prepare('UPDATE license_keys SET license_key = ?, customer_email = ?, customer_name = ?, status = ?, updated_at = datetime(?) WHERE id = ?')
@@ -377,27 +451,97 @@ async function fulfillOrder(order, env, rawBody) {
   } else {
     await env.DB
       .prepare('INSERT INTO license_keys (id, order_id, customer_email, customer_name, product_name, license_key, status, raw_event) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-      .bind(licenseUuid, order.order_id, email, customerName, order.product_name, licenseKey, 'pending', rawBody)
+      .bind(licenseUuid, orderId, email, customerName, productName, licenseKey, 'pending', rawBody)
       .run();
+  }
+  return licenseUuid;
+}
+
+async function fulfillOrder(order, env, rawBody) {
+  const { email, source, name } = await resolveCustomerEmail(order, env);
+  if (!email) {
+    return { status: 'no_customer_email', email_source: source, license_key: '' };
+  }
+  const customerName = name || order.customer_name || '';
+  const tier = classifyOrderTier(order);
+
+  const existing = await env.DB
+    .prepare('SELECT id, license_key, status FROM license_keys WHERE order_id = ?')
+    .bind(order.order_id).first();
+
+  if (existing && existing.license_key) {
+    let existingSseKey;
+    if (tier === 'bundle') {
+      const existingSse = await env.DB
+        .prepare('SELECT license_key FROM license_keys WHERE order_id = ?')
+        .bind(`${order.order_id}:sse`).first();
+      existingSseKey = existingSse && existingSse.license_key;
+    }
+    return {
+      status: 'already_fulfilled',
+      tier,
+      license_key: existing.license_key,
+      sse_license_key: existingSseKey,
+      email_source: source,
+    };
+  }
+
+  const primaryPrefix = tier === 'sse' ? 'SSE' : 'PRO';
+  const licenseKey = generateLicenseKey(primaryPrefix);
+  const licenseUuid = await upsertLicenseRow(env, {
+    existing,
+    orderId: order.order_id,
+    email,
+    customerName,
+    productName: tier === 'bundle' ? 'TotalRecalls Downloader Pro (Bundle)' : order.product_name,
+    licenseKey,
+    rawBody,
+  });
+
+  let sseLicenseKey = '';
+  let sseLicenseUuid = '';
+  if (tier === 'bundle') {
+    const existingSse = await env.DB
+      .prepare('SELECT id, license_key, status FROM license_keys WHERE order_id = ?')
+      .bind(`${order.order_id}:sse`).first();
+    sseLicenseKey = (existingSse && existingSse.license_key) || generateLicenseKey('SSE');
+    sseLicenseUuid = await upsertLicenseRow(env, {
+      existing: existingSse,
+      orderId: `${order.order_id}:sse`,
+      email,
+      customerName,
+      productName: 'TotalRecalls Smart Search Engine (Bundle)',
+      licenseKey: sseLicenseKey,
+      rawBody,
+    });
   }
 
   const send = await sendLicenseEmail(
-    { email, licenseKey, productName: order.product_name }, env,
+    { email, tier, licenseKey, sseLicenseKey, productName: order.product_name }, env,
   );
 
   // The key is stored either way: a mail failure stays retryable instead of
   // losing the buyer's key.
   const finalStatus = send.ok ? 'fulfilled' : 'email_failed';
+  const nowIso = new Date().toISOString();
   await env.DB
     .prepare('UPDATE license_keys SET status = ?, courier_request_id = ?, email_status = ?, updated_at = datetime(?) WHERE id = ?')
-    .bind(finalStatus, send.emailId || null, send.ok ? 'accepted' : 'send_failed',
-          new Date().toISOString(), licenseUuid)
+    .bind(finalStatus, send.emailId || null, send.ok ? 'accepted' : 'send_failed', nowIso, licenseUuid)
     .run();
+  if (sseLicenseUuid) {
+    await env.DB
+      .prepare('UPDATE license_keys SET status = ?, courier_request_id = ?, email_status = ?, updated_at = datetime(?) WHERE id = ?')
+      .bind(finalStatus, send.emailId || null, send.ok ? 'accepted' : 'send_failed', nowIso, sseLicenseUuid)
+      .run();
+  }
 
   return {
     status: finalStatus,
+    tier,
     license_key: licenseKey,
+    sse_license_key: sseLicenseKey || undefined,
     license_id: licenseUuid,
+    sse_license_id: sseLicenseUuid || undefined,
     email_source: source,
     mail_status: send.status,
     mail_id: send.emailId,
@@ -461,14 +605,23 @@ async function handleVerify(request, env) {
   const instanceName = String(body.instance_name || '').trim();
   const instanceId = String(body.instance_id || '').trim();
   const action = String(body.action || '').trim();
+  const product = String(body.product || 'pro').trim().toLowerCase();
 
-  const verdict = await decideVerify(env, { key, instanceName, instanceId, action });
+  const verdict = await decideVerify(env, { key, instanceName, instanceId, action, product });
   await logAttempt(env, { key, instanceName, instanceId, action, result: verdict, userAgent });
   return json(verdict);
 }
 
-async function decideVerify(env, { key, instanceName, instanceId, action }) {
+async function decideVerify(env, { key, instanceName, instanceId, action, product = 'pro' }) {
   if (!key) return { valid: false, instance_id: '' };
+
+  // Enforce module separation: SSE keys (SSE-…) only unlock SSE; Downloader
+  // keys (PRO-… or legacy TR-…) only unlock Downloader Pro.
+  const isSseKey = key.startsWith('SSE-');
+  const wantsSse = product === 'sse';
+  if (isSseKey !== wantsSse) {
+    return { valid: false, instance_id: '', error: 'wrong_product' };
+  }
 
   const row = await env.DB
     .prepare('SELECT id, license_key, status FROM license_keys WHERE license_key = ?')
@@ -607,11 +760,16 @@ export default {
             // background so a failed send can't masquerade as success.
             if (result.mail_id && ctx) {
               ctx.waitUntil(trackDelivery(result.mail_id, env, result.license_id));
+              if (result.sse_license_id) {
+                ctx.waitUntil(trackDelivery(result.mail_id, env, result.sse_license_id));
+              }
             }
             return json({
               status: result.status,
+              tier: result.tier,
               order_id: order.order_id,
               license_key: result.license_key || undefined,
+              sse_license_key: result.sse_license_key || undefined,
               email_source: result.email_source,
               mail_status: result.mail_status,
               mail_error: result.mail_error,
