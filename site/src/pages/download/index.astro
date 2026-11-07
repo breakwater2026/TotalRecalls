@@ -8,7 +8,7 @@ import { currentVersion, releases } from "../../data/releases.json";
 // `new Date()` rendered today's build date as "Latest release: … <today>" — a false claim
 // (the app shipped 2026-09-12) that also rolled forward on every single deploy.
 const date = releases[0].date;
-const ZIP_URL = "/downloads/TotalRecalls-1.0.0-free-tier.zip";
+const ZIP_URL = "/downloads/TotalRecalls-1.0.0.zip";
 const ZIP_SIZE_MB = 17.8;
 const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b";
 ---
@@ -23,28 +23,36 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
     <strong>Latest release:</strong> TotalRecalls {currentVersion} &middot; {date}
   </p>
 
+  <div class="p-5 mb-8 rounded-lg border border-tr-amber/50 bg-tr-amber/10 text-tr-paper">
+    <div class="flex items-start gap-3.5">
+      <span class="text-tr-amber text-xl font-bold leading-none mt-0.5">🔑</span>
+      <div>
+        <h2 class="text-base font-bold text-tr-paper !mt-0 !mb-1.5">Already purchased Pro or the Bundle?</h2>
+        <p class="text-[14px] text-tr-mist !my-0 leading-relaxed">
+          TotalRecalls ships as a single portable Windows app. <strong>Download the ZIP below, unzip it, and run <code>TotalRecalls.exe</code>.</strong> To activate, click the <strong>Pro</strong> badge in the top-right corner of the app (or <strong>Activate</strong>), paste the license key from your purchase email, and click <strong>Activate</strong>. All 8 providers and unlimited downloads will unlock immediately.
+        </p>
+      </div>
+    </div>
+  </div>
+
   <section>
-    <h2>Get Your Download — Free Tier</h2>
+    <h2>Get TotalRecalls for Windows</h2>
     <p>
-      Full-featured app, no installation, no account required. The Free Tier
-      includes <strong>3 providers</strong> (Perplexity, ChatGPT, Claude) and up to
-      <strong>5 conversations per provider</strong>.
+      Full-featured portable app &mdash; no installer, no background services, no account required. Just unzip and run.
     </p>
-    <p>
-      <a class="download-btn" href={ZIP_URL}>
-        &#8681; Download TotalRecalls {currentVersion} — Free Tier (ZIP, ~{ZIP_SIZE_MB} MB)
+    <p class="my-5">
+      <a class="download-btn inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover font-semibold px-6 py-3.5 rounded-lg text-base transition-colors" href={ZIP_URL}>
+        &#8681; Download TotalRecalls {currentVersion} for Windows (ZIP, ~{ZIP_SIZE_MB} MB)
       </a>
     </p>
-    <p>
-      <a href="/buy/" class="buy-pro-link">
-        Need all 8 providers &amp; unlimited conversations? <strong>Upgrade to Pro — one-time $24<span class="tr-usd">USD</span></strong>
-      </a>
+    <p class="text-[13px] text-tr-dust mb-4">
+      Windows 10 &middot; Windows 11 &middot; 64-bit portable build &middot; Free Tier testing included out of the box (3 providers, 5 conversations each)
     </p>
     <p class="hash-line">
       <strong>SHA-256:</strong> <code class="break-all">{SHA256}</code>
     </p>
     <p class="hash-note">
-      Verify the download with PowerShell: <code class="break-all">Get-FileHash TotalRecalls-{currentVersion}-free-tier.zip -Algorithm SHA256</code>
+      Verify the download with PowerShell: <code class="break-all">Get-FileHash TotalRecalls-{currentVersion}.zip -Algorithm SHA256</code>
     </p>
     <p class="check-updates">
       <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
@@ -137,7 +145,7 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
       <span class="price-badge">launch price</span>
     </div>
     <a href="/buy/" class="buy-button buy-lg">Buy TotalRecalls &mdash; <span data-tr-price>$24<span class="tr-usd">USD</span></span></a>
-    <p class="guarantee-note" style="color: var(--tr-paper); opacity: 0.85;">A Free Tier is available now &mdash; download the app and try it before paying a cent.</p>
+    <p class="guarantee-note" style="color: var(--tr-paper); opacity: 0.85;">Already purchased? Download using the button at the top of this page, run the app, and enter your license key to activate.</p>
   </section>
 
 </PageLayout>

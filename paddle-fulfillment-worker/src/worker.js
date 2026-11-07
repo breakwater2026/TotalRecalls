@@ -259,8 +259,14 @@ function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timest
   <p style="${boxStyle}">${key}</p>
   <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#52525b;margin:0 0 6px">2. Smart Search Engine (SSE) Key</p>
   <p style="${boxStyle}">${sseKey}</p>
-  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open each module, click <strong>Activate</strong>, and paste its corresponding key above.</p>
-  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download TotalRecalls</a></p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 10px"><strong>How to activate your software:</strong></p>
+  <ol style="font-size:14px;line-height:1.6;margin:0 0 22px;padding-left:20px;color:#3f3f46">
+    <li style="margin-bottom:6px">Click the button below to download the app ZIP.</li>
+    <li style="margin-bottom:6px">Unzip the archive and launch <strong>TotalRecalls.exe</strong> (portable Windows app, no installation needed).</li>
+    <li style="margin-bottom:6px">In the top-right corner of the app, click the <strong>Pro</strong> badge (or <strong>Activate</strong>).</li>
+    <li>Paste your license key from above and click <strong>Activate</strong>. All 8 providers and unlimited downloads unlock instantly.</li>
+  </ol>
+  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 24px;border-radius:8px;display:inline-block;font-weight:700;font-size:15px">Download TotalRecalls for Windows (ZIP) &rarr;</a></p>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
   <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
     Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
