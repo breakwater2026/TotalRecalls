@@ -66,7 +66,7 @@ export default function Nav() {
             <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
           </button>
           <div className="flex flex-col items-center">
-            <a href="/#pricing" data-tr-buy className="inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-tr-amber-hover transition-colors">
+            <a href="/#pricing" className="inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-tr-amber-hover transition-colors">
               Buy — $24<span className="tr-usd">USD</span> <ArrowRight className="w-3.5 h-3.5" />
             </a>
             <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-tr-steel mt-1 font-semibold whitespace-nowrap">
@@ -97,7 +97,7 @@ export default function Nav() {
                 )}
               </a>
             ))}
-            <a href="/#pricing" data-tr-buy onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-tr-amber text-tr-on-amber px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
+            <a href="/#pricing" onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-tr-amber text-tr-on-amber px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
               <span>Buy — $24<span className="tr-usd">USD</span></span>
               <span className="text-[9px] opacity-85 font-normal">discounted launch price</span>
             </a>
