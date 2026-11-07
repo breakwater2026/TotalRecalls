@@ -27,7 +27,7 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
             <a href="/" class="hover:text-tr-amber transition-colors">Home</a>
             {breadcrumbs.map((crumb) => (
               <>
-                <span class="text-border-foreground/30">›</span>
+                <span class="opacity-40">/</span>
                 {crumb.href ? (
                   <a href={crumb.href} class="hover:text-tr-amber transition-colors">{crumb.label}</a>
                 ) : (
@@ -44,7 +44,6 @@ const { title, description, breadcrumbs = [], robots } = Astro.props;
         </article>
       </div>
     </main>
-  </div>
     <Footer />
   </div>
 </BaseLayout>

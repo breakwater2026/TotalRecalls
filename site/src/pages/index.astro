@@ -2,13 +2,14 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/landing/Nav.jsx";
 import Hero from "../components/landing/tr/Hero.jsx";
-import Why from "../components/landing/tr/Why.jsx";
 import HowItWorks from "../components/landing/tr/HowItWorks.jsx";
+import DemoSection from "../components/landing/tr/DemoSection.jsx";
 import Ownership from "../components/landing/tr/Ownership.jsx";
 import Pricing from "../components/landing/tr/Pricing.jsx";
 import Trust from "../components/landing/tr/Trust.jsx";
 import Faq from "../components/landing/tr/Faq.jsx";
 import SearchSection from "../components/landing/tr/SearchSection.jsx";
+import SiteIndex from "../components/landing/tr/SiteIndex.jsx";
 import Footer from "../components/landing/tr/Footer.jsx";
 ---
 
@@ -16,13 +17,14 @@ import Footer from "../components/landing/tr/Footer.jsx";
   <div class="min-h-screen bg-tr-obsidian">
     <Nav client:load />
     <Hero client:load />
-    <SearchSection client:load />
-    <Why client:load />
     <HowItWorks client:load />
+    <DemoSection client:load />
     <Ownership client:load />
+    <SearchSection client:load />
     <Pricing client:load />
     <Trust client:load />
     <Faq client:load />
+    <SiteIndex client:load />
     <Footer client:load />
   </div>
 

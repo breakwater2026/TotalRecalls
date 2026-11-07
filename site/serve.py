@@ -30,7 +30,7 @@ def query_dialogflow(user_query, session_id="web-user-session"):
     if any(w in lower_q for w in ["price", "cost", "how much", "$"]):
         return "TotalRecalls is a one-time purchase of $24 (launch price). No subscription, no monthly fees — you own your local archive forever!"
     if any(w in lower_q for w in ["refund", "guarantee", "money-back", "money back"]):
-        return "In lieu of a refund policy, we offer a Free Tier: download the app and test it on your own chats before paying. The Free Tier is limited to 3 providers and 5 conversations per download. Pro is a one-time $24 purchase — no subscription."
+        return "In lieu of a refund policy, we offer a Free Tier: download the app and test it on your own chats before paying. The Free Tier is limited to 3 providers and 5 conversations per provider. Pro is a one-time $24 purchase — no subscription."
     if any(w in lower_q for w in ["provider", "supported", "chatgpt", "claude", "gemini", "grok", "perplexity"]):
         return "TotalRecalls supports downloading conversations from ChatGPT, Claude, Perplexity, Gemini (Takeout), Grok, DeepSeek, Mistral, and Qwen Chat directly into local Markdown and JSON files on your PC."
     if any(w in lower_q for w in ["download", "exe", "install", "windows", "system"]):

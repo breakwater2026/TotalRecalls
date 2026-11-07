@@ -1,7 +1,12 @@
 import React from "react";
 import { Container, Eyebrow, Btn } from "./ui";
 
-const TRUST = ["New Windows 10/11 App", "Take control of your personal info", "Located on your PC"];
+const TRUST = [
+  "New Windows 10/11 App",
+  "Take control of your personal info",
+  "Located on your PC",
+  "Protect your privacy",
+];
 
 const TREE = [
   { d: "chatgpt\\", n: "3 files" },
@@ -45,7 +50,10 @@ export default function Hero() {
               Free Tier covers ChatGPT, Claude, and Perplexity, 5 conversations each.
             </p>
             <p className="mt-5 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-              Pro unlocks all 8 providers and unlimited downloads for $24 one-time (launch price). Your downloaded files are already searchable on their own - Windows Explorer's search bar, Norton, Obsidian and other local tools read them. The optional Smart Search Engine (SSE) add-on searches by meaning as well as by keyword.*
+              Pro unlocks all 8 providers and unlimited downloads for $24 one-time (launch price). Your downloaded files are already searchable on their own - Windows Explorer's search bar, Norton, Obsidian and other local tools read them.
+            </p>
+            <p className="mt-3 hidden sm:block max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
+              The optional Smart Search Engine (SSE) add-on searches via regular chat by meaning as well as by keyword.*
             </p>
             <p className="mt-5 sm:hidden max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
               Windows app. Visit from your desktop to download.
@@ -61,7 +69,7 @@ export default function Hero() {
               <span className="h-2 w-2 rounded-full bg-tr-slate" />
               <span className="h-2 w-2 rounded-full bg-tr-slate" />
               <span className="h-2 w-2 rounded-full bg-tr-slate" />
-              <span className="ml-2 font-mono text-[12px] text-tr-dust">TotalRecalls — Windows</span>
+              <span className="ml-2 font-mono text-[12px] text-tr-dust">TotalRecalls — Windows 10/11</span>
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-[1fr_220px] gap-4">

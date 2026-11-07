@@ -77,7 +77,13 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
       <Section pad="hero" className="bg-tr-obsidian">
         <Container>
           <div className="max-w-[680px]">
-            <Eyebrow mono>See It Work</Eyebrow>
+            <nav aria-label="Breadcrumb" className="mb-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-tr-steel">
+                <a href="/" className="hover:text-tr-amber transition-colors">Home</a>
+                {" / "}
+                <span className="text-tr-paper font-medium">See It Work</span>
+              </span>
+            </nav>
             <h1 className="mt-3 font-heading text-[34px] font-bold leading-[1.1] tracking-[-0.02em] text-tr-paper md:text-[48px]">
               {demo.title}
             </h1>
@@ -239,7 +245,7 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
         <Container>
           <div className="mx-auto flex max-w-[720px] flex-col items-center gap-3 text-center">
             <p className="font-body text-[16px] text-tr-mist">Want every provider and no download cap?</p>
-            <a href="/pricing/" className="text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
+            <a href="/#pricing" className="text-[15px] font-semibold text-tr-steel transition-colors hover:text-tr-paper">
               Compare Free and Pro →
             </a>
           </div>

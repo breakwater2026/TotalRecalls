@@ -19,12 +19,12 @@ window.TR_CONFIG = {
   // Named price IDs for the other ladder tiers. Buttons opt in with
   // data-tr-price-id="bundle" | "sse".
   paddlePriceIds: {
-    bundle: "pri_01m6qftvt3dyaw13ern1ac4xcb",
+    bundle: "pri_01m6w18jd6qtnr0e40b5kf7m0b",
     sse: "pri_01m6qftvhs2yt7c0yrgr0xy5tg"
   },
   paddleDiscountId: "dsc_01m39879ga7pv9zg0gsvzqsmjw",
   paddleDiscountIds: {
-    bundle: "dsc_01m6qftvwmky0awnrm9e6tb9wr",
+    bundle: "dsc_01m39879ga7pv9zg0gsvzqsmjw",
     sse: "dsc_01m39879ga7pv9zg0gsvzqsmjw"
   },
   successPath: "/thanks/",

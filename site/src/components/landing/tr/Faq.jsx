@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: "What's the refund policy?",
-    a: "We don't run a standard refund policy — we have better. A Free Tier is available so that you can test-drive the app before committing to buy it: download it and test it to your liking. The Free Tier has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per download. The Pro version, a one-time launch purchase price of $24 USD, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download. There is no refund on the Downloader - the Free Tier is the try-before-you-buy. Your statutory consumer rights — including the right of cancellation for online purchases that Quebec consumers enjoy — always apply and are never excluded.",
+    a: "We don't run a standard refund policy — we have better. A Free Tier is available so that you can test-drive the app before committing to buy it: download it and test it to your liking. The Free Tier has limited features — the goal is to make you comfortable with the product — so downloads are limited to only 3 providers and to only 5 conversations per provider. The Pro version, a one-time launch purchase price of $24 USD, unlocks all the features, expanding your downloads to the top 8 AI providers without limit on the number of conversations you can download. There is no refund on the Downloader - the Free Tier is the try-before-you-buy. Your statutory consumer rights — including the right of cancellation for online purchases that Quebec consumers enjoy — always apply and are never excluded.",
   },
   {
     q: "Is there a subscription?",
@@ -35,7 +35,7 @@ const FAQS = [
 
 export default function Faq() {
   return (
-    <Section id="faq" className="border-t border-tr-slate bg-tr-obsidian">
+    <Section id="faq" className="relative border-t border-tr-slate bg-tr-graphite">
       <Container>
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-12 items-start">
           <div>

@@ -12,11 +12,13 @@ import React from "react";
 const LINKS = [
   { label: "How It Works", href: "/#resolution" },
   { label: "See It Work", href: "/see-it-work/" },
+  { label: "Demo", href: "/#demo" },
+  { label: "Why", href: "/#why" },
   { label: "Providers", href: "/providers/" },
   { label: "Library", href: "/library/" },
-  { label: "Smart Search", href: "/smart-search/" },
-  { label: "Guides", href: "/guides/" },
+  { label: (<span>Smart<br />Search<br />Engine<br />(SSE)</span>), href: "/smart-search/" },
   { label: "Pricing", href: "/#pricing" },
+  { label: "Guides", href: "/guides/" },
   { label: "Support", href: "/support/" },
   { label: "Legals", href: "/legals/" },
 ];
@@ -49,9 +51,9 @@ export default function Nav() {
         <a href="/#top" className="flex items-center gap-2.5">
           <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
         </a>
-        <nav className="hidden md:flex items-center gap-6 ml-8" style={{ hyphens: 'none' }}>
+        <nav className="hidden md:flex items-center gap-4 lg:gap-5 xl:gap-6 ml-4 lg:ml-8" style={{ hyphens: 'none' }}>
           {LINKS.map((l) => (
-            <a key={l.label} href={l.href} className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">
+            <a key={l.href} href={l.href} className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors">
               {l.label}
               {l.subLabel && (
                 <span className="block mt-0.5 text-center text-[10px] text-tr-steel uppercase tracking-[0.05em]">{l.subLabel}</span>
@@ -59,20 +61,23 @@ export default function Nav() {
             </a>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-5 ml-6">
+        <div className="hidden md:flex items-center gap-4 lg:gap-5 ml-4 lg:ml-6">
           <a href="/download/" className="font-mono text-[11px] uppercase tracking-[0.18em] text-tr-dust hover:text-tr-paper transition-colors">Download</a>
           <button type="button" data-theme-toggle onClick={toggleTheme} className="p-1.5 rounded border border-tr-slate text-tr-dust hover:text-tr-paper hover:bg-tr-slate/40 transition-colors" aria-label="Toggle theme">
             <span data-icon-sun className="inline-block"><Sun className="w-4 h-4" /></span>
             <span data-icon-moon className="hidden inline-block"><Moon className="w-4 h-4" /></span>
           </button>
-          <div className="flex flex-col items-center">
-            <a href="/#pricing" className="inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber px-4 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] font-medium hover:bg-tr-amber-hover transition-colors">
-              Buy — $24<span className="tr-usd">USD</span> <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-tr-steel mt-1 font-semibold whitespace-nowrap">
+          <a href="/#pricing" className="inline-flex flex-col items-center justify-center bg-tr-amber text-tr-on-amber px-5 py-2 font-mono uppercase tracking-[0.12em] font-medium hover:bg-tr-amber-hover transition-colors leading-tight min-w-[200px]">
+            <span className="text-[11px] font-semibold tracking-[0.14em] whitespace-nowrap">Buy Downloader Pro</span>
+            <span className="inline-flex items-center gap-2 mt-1 whitespace-nowrap">
+              <span className="line-through opacity-70 text-[13px] font-normal">$48</span>
+              <span className="text-[15px] font-bold leading-none">$24<span className="tr-usd text-[10px] ml-0.5">USD</span></span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+            <span className="text-[9px] tracking-[0.08em] opacity-85 mt-1 font-normal whitespace-nowrap">
               discounted launch price
             </span>
-          </div>
+          </a>
         </div>
         <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label="Menu">
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -90,16 +95,20 @@ export default function Nav() {
               </button>
             </div>
             {LINKS.concat([{ label: "Download", href: "/download/" }]).map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-tr-dust">
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="font-mono text-[12px] uppercase tracking-[0.16em] text-tr-dust">
                 {l.label}
                 {l.subLabel && (
                   <span className="block mt-0.5 text-center text-[10px] text-tr-steel uppercase tracking-[0.05em]">{l.subLabel}</span>
                 )}
               </a>
             ))}
-            <a href="/#pricing" onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center gap-0.5 bg-tr-amber text-tr-on-amber px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em]">
-              <span>Buy — $24<span className="tr-usd">USD</span></span>
-              <span className="text-[9px] opacity-85 font-normal">discounted launch price</span>
+            <a href="/#pricing" onClick={() => setOpen(false)} className="mt-1 inline-flex flex-col items-center justify-center bg-tr-amber text-tr-on-amber px-4 py-2 font-mono uppercase tracking-[0.12em] leading-tight">
+              <span className="text-[12px] font-semibold tracking-[0.14em] whitespace-nowrap">Buy Downloader Pro</span>
+              <span className="inline-flex items-center gap-2 mt-1 whitespace-nowrap">
+                <span className="line-through opacity-70 text-[13px] font-normal">$48</span>
+                <span className="text-[15px] font-bold leading-none">$24<span className="tr-usd text-[10px] ml-0.5">USD</span></span>
+              </span>
+              <span className="text-[9px] opacity-85 mt-1 font-normal whitespace-nowrap">discounted launch price</span>
             </a>
           </nav>
         </div>

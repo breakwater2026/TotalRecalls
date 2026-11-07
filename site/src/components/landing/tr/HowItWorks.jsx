@@ -1,64 +1,15 @@
 import React from "react";
-import { Container, Section, Eyebrow, Btn, Chip, LocalChip } from "./ui";
+import { Container, Section, Eyebrow, Btn, Chip } from "./ui";
 
-const STEPS = [
-  {
-    n: "01",
-    title: "Buy once",
-    body: "Check out for $24, one time, at the launch price. Your license key arrives by email. Prefer to test first? Skip this step and start on the Free Tier.",
-    chips: [
-      { text: "$24", tone: "mist" },
-      { text: "One-time", tone: "slate" },
-      { text: "No subscription", tone: "slate" },
-    ],
-  },
-  {
-    n: "02",
-    title: "Install",
-    body: "Unzip the download and run TotalRecalls on your Windows PC. You don't create an account or sign up for anything.",
-    chips: [
-      { text: "Windows 10/11", tone: "slate" },
-      { text: "No account", tone: "slate" },
-    ],
-  },
-  {
-    n: "03",
-    title: "Pick your providers",
-    body: "Choose from ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen. You sign in to each provider locally, inside the app.",
-    chips: [
-      { text: "8 providers", tone: "slate" },
-      { text: "Local sign-in", tone: "slate" },
-    ],
-  },
-  {
-    n: "04",
-    title: "Download",
-    body: "Your chats save as Markdown and JSON files on your PC. Open them anywhere, offline.",
-    chips: [
-      { text: ".md + .json", tone: "slate" },
-      { text: "Saved locally", tone: "local" },
-    ],
-  },
-  {
-    n: "05",
-    title: "Search (add-on)",
-    body: "Ask in plain English and find any conversation across all eight providers.",
-    chips: [
-      { text: "Add-on", tone: "slate" },
-      { text: "Smart Search Engine", tone: "slate" },
-    ],
-  },
-];
-
-const PROVIDERS = [
-  { name: "ChatGPT", id: "OAI-001" },
-  { name: "Claude", id: "ANT-002" },
-  { name: "Perplexity", id: "PPL-003" },
-  { name: "Gemini", id: "GEM-004" },
-  { name: "Grok", id: "GRK-005" },
-  { name: "DeepSeek", id: "DSK-006" },
-  { name: "Mistral", id: "MST-007" },
-  { name: "Qwen", id: "QWN-008" },
+const PROVIDERS_LIST = [
+  { name: "ChatGPT", pro: false },
+  { name: "Claude", pro: false },
+  { name: "Perplexity", pro: false },
+  { name: "Gemini", pro: true },
+  { name: "Grok", pro: true },
+  { name: "DeepSeek", pro: true },
+  { name: "Mistral", pro: true },
+  { name: "Qwen", pro: true },
 ];
 
 export default function HowItWorks() {
@@ -68,85 +19,139 @@ export default function HowItWorks() {
         <Eyebrow>How it works</Eyebrow>
 
         <h2 className="mt-3 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
-          Five steps from scattered chats to one local folder.
+          Five steps from scattered chats<br />
+          to one local folder onto your C:\ drive.
         </h2>
 
-        <p className="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
-          Setup takes a few minutes. After that, each download is a pick and a click.
+        <p className="mt-4 max-w-[780px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
+          Setup takes a few minutes. After that, each download is a pick and a&nbsp;click.
         </p>
 
         {/* Step cards — Obsidian on the Graphite band, no hover */}
-        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {STEPS.map((s) => (
-            <div key={s.n} className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
-              <span className="font-mono text-[14px] font-medium text-tr-steel">{s.n}</span>
-              <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
-                {s.title}
-              </h3>
-              <p className="mt-2 font-body text-[16px] leading-[1.6] text-tr-mist">{s.body}</p>
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
-                {s.chips.map((c) => (
-                  <Chip key={c.text} tone={c.tone}>
-                    {c.text === "Saved locally" && <span className="text-[10px] leading-none">●</span>}
-                    {c.text}
-                  </Chip>
-                ))}
-              </div>
+        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
+          {/* Box 01 */}
+          <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span className="font-mono text-[14px] font-medium text-tr-steel">01</span>
+            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Buy once
+            </h3>
+            <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              $24, one time, at the launch price. Your license key arrives by email.
+            </p>
+            <p className="mt-3 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              Prefer to test first? Skip this step and start on the Free Tier.
+            </p>
+            <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+              <a
+                href="/#pricing"
+                className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-chip px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover transition-colors"
+              >
+                $24
+              </a>
+              <Chip tone="slate">One-time</Chip>
+              <Chip tone="slate">No subscription</Chip>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Provider-to-folder diagram — one Obsidian panel */}
-        <div className="mt-12 rounded-card border border-tr-slate bg-tr-obsidian p-6 md:p-12">
-          <div className="grid lg:grid-cols-[1fr_260px_1fr] gap-6 md:gap-10 items-center">
-            {/* Left: provider nodes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:grid-cols-1 min-w-0">
-              {PROVIDERS.map((p) => (
-                <div key={p.id} className="flex items-center justify-between gap-2 rounded-chip border border-tr-slate px-3 py-2">
-                  <span className="font-body text-[14px] font-medium text-tr-paper">{p.name}</span>
-                  <span className="font-mono text-[12px] text-tr-steel">{p.id}</span>
-                </div>
+          {/* Box 02 */}
+          <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span className="font-mono text-[14px] font-medium text-tr-steel">02</span>
+            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Install
+            </h3>
+            <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              Unzip the download and run TotalRecalls on your Windows PC.
+            </p>
+            <p className="mt-3 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              You don&apos;t create an account or sign up for anything.
+            </p>
+            <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+              <Chip tone="slate">Windows 10/11</Chip>
+            </div>
+          </div>
+
+          {/* Box 03 */}
+          <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span className="font-mono text-[14px] font-medium text-tr-steel">03</span>
+            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Pick your providers
+            </h3>
+            <ul className="mt-2 space-y-1 font-body text-[14px] leading-[1.5] text-tr-mist">
+              {PROVIDERS_LIST.map((p) => (
+                <li key={p.name} className="flex items-center gap-2">
+                  <span className="text-tr-steel leading-none">•</span> {p.name}{p.pro ? "*" : ""}
+                </li>
               ))}
-            </div>
-
-            {/* Middle: connectors */}
-            <div className="hidden lg:flex flex-col items-center gap-1">
-              <span className="font-mono text-[12px] text-tr-dust">direct</span>
-              <svg width="10" height="320" viewBox="0 0 10 320" aria-hidden="true">
-                <line x1="5" y1="0" x2="5" y2="140" stroke="#7A8FA6" strokeWidth="1.5" />
-                <line x1="5" y1="148" x2="5" y2="300" stroke="#7A8FA6" strokeWidth="1.5" strokeDasharray="4 4" />
-                <circle cx="5" cy="312" r="5" fill="#7A8FA6" />
-              </svg>
-              <span className="font-mono text-[12px] text-tr-dust">takeout → md</span>
-            </div>
-            <div className="flex lg:hidden justify-center">
-              <svg width="10" height="64" viewBox="0 0 10 64" aria-hidden="true">
-                <line x1="5" y1="0" x2="5" y2="52" stroke="#7A8FA6" strokeWidth="1.5" />
-                <path d="M1 48 L5 58 L9 48 Z" fill="#7A8FA6" />
-              </svg>
-            </div>
-
-            {/* Right: Library folder panel */}
-            <div className="rounded-card border border-tr-slate bg-tr-graphite p-4 min-w-0">
-              <p className="font-mono text-[13px] text-tr-steel break-all select-all md:text-[14px]">
-                C:\TotalRecalls\Library\
-              </p>
-              <pre className="mt-2.5 overflow-x-auto font-mono text-[13px] leading-relaxed text-tr-steel select-all md:text-[14px]">{`├── chatgpt\
-├── claude\
-├── perplexity\
-├── gemini\
-└── …`}</pre>
-              <div className="mt-4 flex flex-wrap items-center gap-1.5">
-                <span className="rounded-chip border border-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">.md</span>
-                <span className="rounded-chip border border-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">.json</span>
-                <LocalChip />
+            </ul>
+            <p className="mt-3 font-body text-[14px] leading-[1.6] text-tr-mist">
+              You sign in to each provider locally, inside the app.
+            </p>
+            <p className="mt-2 font-mono text-[11px] text-tr-dust">
+              * with Downloader Pro
+            </p>
+            <div className="mt-auto pt-3">
+              <a href="/providers/" className="text-[12px] font-mono font-medium text-tr-steel hover:text-tr-amber transition-colors inline-flex items-center gap-1">
+                See all 8 supported providers &rarr;
+              </a>
+              <div className="flex flex-wrap gap-1.5 pt-2">
+                <Chip tone="slate">8 providers</Chip>
+                <Chip tone="slate">Local sign-in</Chip>
               </div>
             </div>
           </div>
 
-          <p className="mt-6 text-center font-body text-[14px] text-tr-dust">
-            Eight sources. One folder on your own drive.
-          </p>
+          {/* Box 04 */}
+          <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span className="font-mono text-[14px] font-medium text-tr-steel">04</span>
+            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Download
+            </h3>
+            <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              Your chats save as Markdown and JSON files on your PC.
+            </p>
+            <p className="mt-3 font-body text-[14.5px] leading-[1.6] text-tr-mist">
+              Open them anywhere, offline.
+            </p>
+            <div className="mt-auto pt-3">
+              <a href="/library/" className="text-[12px] font-mono font-medium text-tr-steel hover:text-tr-amber transition-colors inline-flex items-center gap-1">
+                Explore Library folder format &rarr;
+              </a>
+              <div className="flex flex-wrap gap-1.5 pt-2">
+                <Chip tone="slate">.md + .json</Chip>
+                <Chip tone="local">
+                  <span className="text-[10px] leading-none">●</span> Saved locally
+                </Chip>
+              </div>
+            </div>
+          </div>
+
+          {/* Box 05 */}
+          <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
+            <span className="font-mono text-[14px] font-medium text-tr-steel">05</span>
+            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+              Search (regular)
+            </h3>
+            <p className="mt-2 font-body text-[14px] leading-[1.55] text-tr-mist">
+              Windows Explorer, Notion, Obsidian and others.
+            </p>
+            <hr className="my-3.5 border-tr-slate" />
+            <h4 className="font-heading text-[16px] md:text-[18px] font-semibold leading-[1.25] text-tr-paper">
+              Smart Search Engine (SSE) add on
+            </h4>
+            <p className="mt-2 font-body text-[14px] leading-[1.55] text-tr-mist">
+              Ask via chat in plain English to find any word, topic, conversation across all 8 providers.
+            </p>
+            <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+              <a
+                href="/#pricing"
+                className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-chip px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover transition-colors"
+              >
+                $29
+              </a>
+              <Chip tone="slate">Add-on</Chip>
+              <Chip tone="slate">Smart Search Engine (SSE)</Chip>
+            </div>
+          </div>
         </div>
 
         {/* SmartScreen helper + close */}

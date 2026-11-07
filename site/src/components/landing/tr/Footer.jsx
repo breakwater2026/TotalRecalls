@@ -8,9 +8,10 @@ const COLS = [
     links: [
       { l: "How It Works", href: "/#resolution" },
       { l: "See It Work", href: "/see-it-work/" },
+      { l: "Demo (Pro + SSE)", href: "/demo/" },
       { l: "AI Providers", href: "/providers/" },
       { l: "The Library", href: "/library/" },
-      { l: "Smart Search", href: "/smart-search/" },
+      { l: "Smart Search Engine (SSE)", href: "/smart-search/" },
       { l: "Ownership Path", href: "/ownership/" },
       { l: "Pricing", href: "/#pricing" },
       { l: "Download", href: "/download/" },
@@ -29,7 +30,8 @@ const COLS = [
       { l: "Download Qwen Chat conversations", href: "/guides/qwen/" },
       { l: "Downloading Grok conversations", href: "/guides/grok/" },
       { l: "Own your AI chat data", href: "/guides/own-your-ai-chat-data/" },
-      { l: "Using Smart Search Engine", href: "/guides/using-smart-search-engine/" },
+      { l: "Using Smart Search Engine (SSE)", href: "/guides/using-smart-search-engine/" },
+      { l: "All Documentation Guides →", href: "/guides/" },
     ],
   },
   {
@@ -38,15 +40,19 @@ const COLS = [
       { l: "Privacy Policy", href: "/privacy/" },
       { l: "Terms of Service", href: "/terms/" },
       { l: "Refund Policy", href: "/legals/#refund" },
+      { l: "Legal Portal", href: "/legals/" },
     ],
   },
   {
     h: "Support",
     links: [
-      { l: "Help & FAQ", href: "/help/" },
+      { l: "Help & Quick-Start", href: "/help/" },
+      { l: "Customer Support", href: "/support/" },
+      { l: "FAQ Archive", href: "/faq/" },
       { l: "Feature Requests", href: "/feature-requests/" },
-      { l: "Press", href: "/press/" },
-      { l: "Buy TotalRecalls", href: "/buy/" },
+      { l: "About TotalRecalls", href: "/about/" },
+      { l: "Press Kit", href: "/press/" },
+      { l: "Buy Downloader Pro & SSE", href: "/buy/" },
     ],
   },
 ];
@@ -156,7 +162,7 @@ function SignupForm() {
 
 export default function Footer() {
   return (
-    <footer id="footer" className="border-t border-tr-slate bg-tr-graphite">
+    <footer id="footer" className="relative border-t border-tr-slate bg-tr-graphite pt-16 pb-12 md:pt-20 md:pb-16">
       <Container>
         <div className="grid md:grid-cols-4 gap-10 items-start justify-items-center text-center md:justify-items-start md:text-left">
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -165,7 +171,7 @@ export default function Footer() {
               <span className="font-heading text-[17px] font-bold text-tr-paper">TotalRecalls</span>
             </div>
             <p className="mt-4 max-w-xs font-body text-[14px] leading-[1.6] text-tr-mist">
-              A private local archive for your AI work — eight providers, saved as Markdown
+              A private local archive for your AI work on Windows 10 &amp; 11 — eight providers, saved as Markdown
               and JSON on your own PC.
             </p>
           </div>
@@ -215,6 +221,7 @@ export default function Footer() {
             <a href="/privacy/" className="transition-colors hover:text-tr-paper">Privacy Policy</a>
             <a href="/terms/" className="transition-colors hover:text-tr-paper">Terms of Service</a>
             <a href="/legals/#refund" className="transition-colors hover:text-tr-paper">Refund Policy</a>
+            <a href="/legals/" className="transition-colors hover:text-tr-paper">Legal Portal</a>
           </div>
         </div>
       </Container>

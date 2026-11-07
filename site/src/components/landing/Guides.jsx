@@ -66,7 +66,7 @@ const GUIDES = [
     bullets: ["Switching providers", "Cross-assistant research", "Unified library", "Long-term durability"]
   },
   { 
-    t: "Using Smart Search Engine", 
+    t: "Using Smart Search Engine (SSE)", 
     d: "Search your downloaded library in plain English", 
     tag: "guide · 10",
     href: "/guides/using-smart-search-engine/",

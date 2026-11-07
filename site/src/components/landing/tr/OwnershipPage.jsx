@@ -22,7 +22,7 @@ const STEPS = [
   {
     n: "01",
     t: "Download TotalRecalls",
-    b: "One installer for Windows 10 and 11. No account required to start. Free tier includes ChatGPT, Claude, and Perplexity.",
+    b: "Download for Windows 10 and 11. No installation and no account required to start. Free tier includes ChatGPT, Claude, and Perplexity.",
     chip: "Free to start",
     link: { label: "Download free", href: "/download/" },
   },
@@ -69,7 +69,13 @@ export default function OwnershipPage() {
       <div className="bg-tr-obsidian pt-16 pb-16 md:pt-32 md:pb-24">
         <Container>
           <div className="max-w-[720px]">
-            <Eyebrow mono>The ownership path</Eyebrow>
+            <nav aria-label="Breadcrumb" className="mb-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-tr-steel">
+                <a href="/" className="hover:text-tr-amber transition-colors">Home</a>
+                {" / "}
+                <span className="text-tr-paper font-medium">Ownership</span>
+              </span>
+            </nav>
             <h1 className="mt-3 font-heading text-[34px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-tr-paper">
               Your AI chats should live on your drive, not in a provider&apos;s cloud.
             </h1>
@@ -84,7 +90,7 @@ export default function OwnershipPage() {
               <Btn href="/providers/" variant="tertiary">See supported providers &rarr;</Btn>
             </div>
             <div className="mt-8 flex flex-wrap gap-2">
-              {["8 providers", ".md + .json", "C:\\TotalRecalls\\Library\\", "no account needed"].map((c) => (
+              {["8 providers", ".md + .json", "C:\\TotalRecalls\\Library\\"].map((c) => (
                 <span key={c} className="inline-flex whitespace-nowrap rounded-chip bg-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-dust">
                   {c}
                 </span>
@@ -223,7 +229,7 @@ export default function OwnershipPage() {
             </div>
             <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
               <Btn href="/download/" large>Download free</Btn>
-              <Btn href="/pricing/" variant="tertiary">Compare Free and Pro &rarr;</Btn>
+              <Btn href="/#pricing" variant="tertiary">Compare Free and Pro &rarr;</Btn>
             </div>
           </div>
         </Container>
@@ -242,7 +248,7 @@ export default function OwnershipPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-center gap-4">
               <Btn href="/download/" large>Download free</Btn>
-              <Btn href="/pricing/" variant="tertiary">See pricing &rarr;</Btn>
+              <Btn href="/#pricing" variant="tertiary">See pricing &rarr;</Btn>
             </div>
             <p className="mt-6 font-body text-[14px] text-tr-dust">Windows 10 and 11. Your files stay on your drive.</p>
           </div>

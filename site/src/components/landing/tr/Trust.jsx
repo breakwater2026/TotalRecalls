@@ -3,8 +3,8 @@ import { Container, Section, Eyebrow, Btn } from "./ui";
 
 const ANSWERS = [
   {
-    lead: "No cloud, no account.",
-    body: "Your conversations aren't sent to TotalRecalls servers. There's no account to create — you sign in to each AI provider locally, inside the app.",
+    lead: "No download on our servers.",
+    body: "Your conversations are downloaded directly from your provider to your computer. We are not an intermediary in between.",
   },
   {
     lead: "SmartScreen, explained.",

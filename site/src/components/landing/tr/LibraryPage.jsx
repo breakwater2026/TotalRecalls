@@ -191,7 +191,13 @@ export default function LibraryPage() {
         <Container>
           <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 items-center">
             <div>
-              <Eyebrow mono>The Library</Eyebrow>
+              <nav aria-label="Breadcrumb" className="mb-3">
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-tr-steel">
+                  <a href="/" className="hover:text-tr-amber transition-colors">Home</a>
+                  {" / "}
+                  <span className="text-tr-paper font-medium">Library</span>
+                </span>
+              </nav>
               <h1 className="mt-3 font-heading text-[34px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-tr-paper">
                 Your AI chats, saved as files you actually use.
               </h1>
@@ -346,7 +352,7 @@ status matches, in the original order.`}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
               <Btn href="/download/" large>Download free</Btn>
-              <Btn href="/pricing/" variant="tertiary">Compare Free and Pro &rarr;</Btn>
+              <Btn href="/#pricing" variant="tertiary">Compare Free and Pro &rarr;</Btn>
             </div>
           </div>
         </Container>

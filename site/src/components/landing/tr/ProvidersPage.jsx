@@ -199,7 +199,13 @@ export default function ProvidersPage() {
       <div className="bg-tr-obsidian pt-16 pb-16 md:pt-32 md:pb-24">
         <Container>
           <div className="max-w-[680px]">
-            <Eyebrow mono>Supported providers &middot; V1.0.0</Eyebrow>
+            <nav aria-label="Breadcrumb" className="mb-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-tr-steel">
+                <a href="/" className="hover:text-tr-amber transition-colors">Home</a>
+                {" / "}
+                <span className="text-tr-paper font-medium">Providers</span>
+              </span>
+            </nav>
             <h1 className="mt-3 font-heading text-[34px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-tr-paper">
               Download your AI chat history from eight providers.
             </h1>
@@ -371,7 +377,7 @@ export default function ProvidersPage() {
               Pro includes free updates (bug fixes) for the life of the product.
             </p>
             <p className="mt-3 max-w-[560px] font-body text-[16px] leading-[1.6] text-tr-mist">
-              Obsidian and Notion connections ship with Smart Search Engine at launch. RAG containers
+              Obsidian and Notion connections ship with Smart Search Engine (SSE) at launch. RAG containers
               and multi-device memory are described on the{" "}
               <a href="/previews/" className="font-semibold text-tr-paper underline decoration-tr-slate underline-offset-4 transition-colors hover:decoration-tr-paper">
                 previews page
@@ -427,7 +433,7 @@ export default function ProvidersPage() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
                 <Btn href="/download/" large>Download free</Btn>
-                <Btn href="/pricing/" variant="tertiary">Compare Free and Pro &rarr;</Btn>
+                <Btn href="/#pricing" variant="tertiary">Compare Free and Pro &rarr;</Btn>
               </div>
               <p className="mt-6 hidden sm:block font-body text-[14px] leading-[1.5] text-tr-dust">
                 Windows 10 and 11.

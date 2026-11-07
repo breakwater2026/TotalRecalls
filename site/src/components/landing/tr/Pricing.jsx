@@ -7,8 +7,8 @@ import { Container, Section, Eyebrow, Btn, Chip } from "./ui";
  *
  *   Free            $0
  *   Downloader Pro  $24 launch / $48 regular
- *   Pro + SSE       $49.89 launch / $99.89 regular   ← best value, one checkout
- *   SSE add-on      $29 launch / $58 regular        ← requires Pro
+ *   SSE add-on      $29 launch / $58 regular        ← requires Downloader Pro
+ *   Pro + SSE       $49 launch / $98 regular        ← best value bundle, one checkout
  *
  * The bundle is the featured card: it is the best value and the only SSE
  * checkout a new buyer needs. The add-on card is visually subordinate because
@@ -26,24 +26,48 @@ function Price({ amount, regular, large = false }) {
         }`}
       >
         {amount}
+        <span className="text-[0.5em] font-semibold tracking-normal text-tr-mist ml-1 align-baseline">USD</span>
       </span>
       {regular ? (
-        <span className="font-body text-[14px] text-tr-dust line-through tabular-nums">{regular}</span>
+        <span className="font-body text-[14px] text-tr-dust line-through tabular-nums">
+          {regular}
+          <span className="text-[11px] font-normal ml-0.5">USD</span>
+        </span>
       ) : null}
     </div>
   );
 }
 
-function Card({ name, tag, tagTone = "slate", featured = false, price, regular, per, blurb, features, cta }) {
+function Card({ topLabel, topLabelTone = "amber", name, subName, tag, tagTone = "slate", featured = false, price, regular, per, blurb, features, cta }) {
   return (
     <div
       className={`flex flex-col rounded-card border p-6 md:p-7 ${
         featured ? "border-tr-amber bg-tr-obsidian" : "border-tr-slate bg-tr-obsidian"
       }`}
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="font-heading text-[16px] font-semibold text-tr-paper">{name}</span>
-        {tag ? <Chip tone={tagTone}>{tag}</Chip> : null}
+      <div>
+        {topLabel ? (
+          <span
+            className={`font-mono text-[11px] font-bold uppercase tracking-[0.16em] mb-1 block ${
+              topLabelTone === "amber" ? "text-tr-amber" : "text-tr-steel"
+            }`}
+          >
+            {topLabel}
+          </span>
+        ) : (
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-transparent mb-1 block select-none" aria-hidden="true">
+            &nbsp;
+          </span>
+        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-heading text-[16px] font-semibold text-tr-paper">{name}</span>
+          {tag ? <Chip tone={tagTone}>{tag}</Chip> : null}
+        </div>
+        {subName ? (
+          <span className="block mt-1 font-mono text-[11px] text-tr-steel uppercase tracking-[0.04em]">
+            {subName}
+          </span>
+        ) : null}
       </div>
 
       <div className="mt-5">
@@ -96,7 +120,6 @@ function Card({ name, tag, tagTone = "slate", featured = false, price, regular, 
 
 const SSE_POINTS = [
   "Search by meaning, by keyword, or both together",
-  "Ask questions about your archive in plain English, like “how many Claude chats did I have in 2026?”",
   "Chat with your archive (works without any AI model; a local model is optional)",
   "Every result links to the original file",
   "Connects to Obsidian and Notion",
@@ -109,8 +132,8 @@ export default function Pricing() {
       <Container>
         <Eyebrow>Pricing</Eyebrow>
 
-        <h2 className="mt-3 max-w-[680px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
-          Start free. Pay once when you want all eight.
+        <h2 className="mt-3 max-w-[820px] font-heading text-[28px] md:text-[36px] font-semibold leading-[1.15] tracking-[-0.01em] text-tr-paper">
+          Start free with 3 providers. Buy the Downloader Pro once and you access all 8&nbsp;providers.
         </h2>
 
         <p className="mt-4 max-w-[680px] font-body text-[18px] md:text-[20px] leading-[1.55] text-tr-mist">
@@ -129,7 +152,7 @@ export default function Pricing() {
             blurb="Try the app on your real conversations."
             features={[
               { text: "ChatGPT, Claude, and Perplexity", included: true },
-              { text: "5 conversations per download", included: true },
+              { text: "5 conversations per provider", included: true },
               { text: "Markdown and JSON files", included: true },
               { text: "Saved locally to C:\\TotalRecalls\\Library\\", included: true },
               { text: "Gemini, Grok, DeepSeek, Mistral, and Qwen", included: false },
@@ -140,10 +163,9 @@ export default function Pricing() {
 
           <Card
             name="Downloader Pro"
-            tag="Launch price"
             price="$24"
             regular="$48"
-            per="one-time"
+            per="one-time · launch price"
             blurb="Every provider. Every conversation. No subscription."
             features={[
               { text: "All 8 providers: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen", included: true },
@@ -157,41 +179,17 @@ export default function Pricing() {
           />
 
           <Card
-            name="Pro + SSE"
-            tag="Best value"
-            tagTone="amber"
-            featured
-            price="$49.89"
-            regular="$99.89"
-            per="one-time · launch price"
-            blurb="The Downloader and the Smart Search Engine together, in one checkout."
-            features={[
-              { text: "Everything in Downloader Pro", included: true },
-              { text: "Smart Search Engine included", included: true },
-              { text: "Plain-English search across all eight providers", included: true },
-              { text: "Obsidian and Notion connections", included: true },
-              { text: "Free updates (bug fixes) to both", included: true },
-            ]}
-            cta={{
-              label: "Get the bundle — $49.89",
-              href: "/buy/",
-              variant: "primary",
-              checkout: true,
-              priceId: "bundle",
-              note: "One checkout. Both products unlocked.",
-            }}
-          />
-
-          <Card
-            name="SSE add-on"
-            tag="Requires Pro"
+            topLabel="SSE optional add-on"
+            topLabelTone="steel"
+            name="Smart Search Engine (SSE)"
+            tag="Requires Downloader Pro"
             price="$29"
             regular="$58"
             per="one-time · launch price"
-            blurb="Add the Smart Search Engine to a Downloader Pro license you already own."
+            blurb="Add the Smart Search Engine (SSE) to a Downloader Pro license you already own."
             features={[
-              { text: "Same Smart Search Engine feature set", included: true },
-              { text: "Attaches to your Pro license", included: true },
+              { text: "Same Smart Search Engine (SSE) feature set", included: true },
+              { text: "Attaches to your Downloader Pro license", included: true },
               { text: "Search by meaning, keyword, or both", included: true },
               { text: "Free updates (bug fixes) to SSE", included: true },
               { text: "New modules and upgrades are separate purchases", included: false },
@@ -205,63 +203,63 @@ export default function Pricing() {
               note: "Same $29 launch price for everyone.",
             }}
           />
+
+          <Card
+            topLabel="Bundle"
+            name="Pro + SSE"
+            tag="Best value"
+            tagTone="amber"
+            featured
+            price="$49"
+            regular="$98"
+            per="one-time · launch price"
+            blurb="The Downloader and the Smart Search Engine (SSE) together, in one checkout."
+            features={[
+              { text: "Everything in Downloader Pro", included: true },
+              { text: "Smart Search Engine (SSE) included", included: true },
+              { text: "Plain-English search across all eight providers", included: true },
+              { text: "Obsidian and Notion connections", included: true },
+              { text: "Free updates (bug fixes) to both", included: true },
+            ]}
+            cta={{
+              label: "Get the bundle — $49",
+              href: "/buy/",
+              variant: "primary",
+              checkout: true,
+              priceId: "bundle",
+              note: "One checkout. Both products unlocked.",
+            }}
+          />
         </div>
 
-        {/* ---- Then make it searchable: narrative + reserved SSE GUI image slot ---- */}
-        <div className="mt-16 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="max-w-[680px]">
-            <h3 className="mt-0 font-heading text-[24px] md:text-[28px] font-semibold leading-[1.2] text-tr-paper">
-              Then make it searchable.
-            </h3>
-            <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
-              Smart Search Engine finds the one you need. Ask in plain English, and it looks
-              through every conversation from every provider. Your downloaded files are already
-              searchable on their own — Windows Explorer's search bar, Norton, Obsidian and other
-              local tools all read them. Smart Search Engine is the optional add-on for finding
-              things by meaning rather than by filename.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {SSE_POINTS.map((b) => (
-                <li key={b} className="flex items-start gap-3">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-tr-green" strokeWidth={2.5} />
-                  <span className="font-body text-[15px] leading-[1.5] text-tr-mist">{b}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Reserved image slot — drop the SSE GUI capture at
-              public/images/smart-search-engine-gui.png and replace this figure. */}
-          <figure className="m-0">
-            <div className="flex aspect-[3/2] w-full flex-col items-center justify-center gap-3 rounded-card border border-dashed border-tr-slate bg-tr-obsidian/50 p-8 text-center">
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-tr-dust">
-                Image slot
-              </span>
-              <span className="font-heading text-[18px] font-semibold text-tr-mist">
-                Smart Search Engine GUI
-              </span>
-              <span className="max-w-[280px] font-body text-[13px] leading-[1.55] text-tr-dust">
-                1200 × 800 recommended. Save the capture as{" "}
-                <code className="font-mono text-[12px] text-tr-steel">
-                  site/public/images/smart-search-engine-gui.png
-                </code>{" "}
-                and this placeholder is replaced.
-              </span>
-            </div>
-            <figcaption className="mt-4 text-center font-mono text-[12px] leading-relaxed text-tr-steel">
-              Smart Search Engine — click a result to open the original conversation file.
-            </figcaption>
-          </figure>
+        {/* ---- Then make it searchable: narrative ---- */}
+        <div className="mt-16 max-w-[760px]">
+          <h3 className="mt-0 font-heading text-[24px] md:text-[28px] font-semibold leading-[1.2] text-tr-paper">
+            Then make it searchable.
+          </h3>
+          <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
+            Smart Search Engine (SSE) finds the one you need. Ask in plain English, and it looks
+            through every conversation from every provider. Your downloaded files are already
+            searchable on their own — Windows Explorer's search bar, Norton, Obsidian and other
+            local tools all read them. Smart Search Engine (SSE) is the optional add-on for finding
+            things by meaning rather than by filename.
+          </p>
+          <ul className="mt-6 space-y-3">
+            {SSE_POINTS.map((b) => (
+              <li key={b} className="flex items-start gap-3">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-tr-green" strokeWidth={2.5} />
+                <span className="font-body text-[15px] leading-[1.5] text-tr-mist">{b}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-10 text-center">
           <p className="mx-auto max-w-[680px] font-body text-[14px] leading-[1.5] text-tr-dust">
-            Windows 10 and 11. $24 is a discounted launch price. Add-ons, like Smart Search Engine,
-            are sold separately. Your Downloader Pro updates stay free. Prices may change at any
-            time without advance notice.
+            Prices may change at any time without advance notice.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {["One-time", "No subscription", "No account", "Windows 10/11"].map((t) => (
+            {["One-time", "No subscription", "Windows 10/11"].map((t) => (
               <Chip key={t} tone="slate">{t}</Chip>
             ))}
           </div>

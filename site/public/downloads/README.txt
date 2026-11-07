@@ -14,7 +14,7 @@ FREE TIER INCLUDES
 - All app features: Markdown + JSON downloads, provider-specific
   metadata, web-search result capture, per-conversation and bulk downloads
 - 3 providers: Perplexity, ChatGPT, Claude
-- Up to 5 conversations per download
+- Up to 5 conversations per provider
 
 UNLOCK EVERYTHING (Pro — one-time $24)
 --------------------------------------

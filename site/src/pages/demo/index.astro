@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/landing/Nav.jsx";
+import DemoPage from "../../components/landing/tr/DemoPage.jsx";
+import Footer from "../../components/landing/tr/Footer.jsx";
+---
+
+<BaseLayout
+  title="Demo (Pro + SSE) · TotalRecalls"
+  description="Watch TotalRecalls (Pro + SSE) download AI conversations from ChatGPT, Claude, and six more providers to local Markdown and JSON files on your PC."
+>
+  <div class="min-h-screen bg-tr-obsidian">
+    <Nav client:load />
+    <main id="top">
+      <DemoPage client:load />
+    </main>
+    <Footer client:load />
+  </div>
+</BaseLayout>

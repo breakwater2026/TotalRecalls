@@ -67,13 +67,11 @@ html[data-theme="light"] {
 }
 @media (prefers-reduced-motion: no-preference) {
   .tr-reveal {
-    opacity: 1;
-    transform: translateY(8px);
-    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    opacity: 0.98;
+    transition: opacity 200ms ease-out;
   }
   .tr-reveal.tr-revealed {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -181,4 +179,9 @@ html[data-theme="light"] {
   vertical-align: super;
   margin-left: 0.15em;
   white-space: nowrap;
+}
+
+astro-island {
+  display: block;
+  width: 100%;
 }

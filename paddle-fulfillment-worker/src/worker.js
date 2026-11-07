@@ -125,6 +125,7 @@ const KEY_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const PADDLE_BUNDLE_IDS = new Set([
   'pro_01m6qftvphzpzatfz1661d0px3',
   'pri_01m6qftvt3dyaw13ern1ac4xcb',
+  'pri_01m6w18jd6qtnr0e40b5kf7m0b',
 ]);
 const PADDLE_SSE_IDS = new Set([
   'pro_01m6qftveaczq3mzx0wnhnzwdr',

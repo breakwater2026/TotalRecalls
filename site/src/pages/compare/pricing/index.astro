@@ -2,10 +2,10 @@
 import PageLayout from "../../../layouts/PageLayout.astro";
 
 const faqs = [
-  { q: "Is there a subscription?", a: "No. $24 USD once for the Downloader, at the launch price. No monthly or annual renewal. Smart Search Engine is a separate one-time purchase." },
-  { q: "What does the Free Tier include?", a: "3 AI providers and up to 5 conversations per download — enough to confirm it works on your actual chats." },
+  { q: "Is there a subscription?", a: "No. $24 USD once for the Downloader, at the launch price. No monthly or annual renewal. Smart Search Engine (SSE) is a separate one-time purchase." },
+  { q: "What does the Free Tier include?", a: "3 AI providers and up to 5 conversations per provider — enough to confirm it works on your actual chats." },
   { q: "How many computers can I activate?", a: "Up to 3 activations, so a desktop, a laptop and a mobile device are covered." },
-  { q: "Do I keep getting updates?", a: "Updates (bug fixes) to Downloader Pro are free for the life of the product. Upgrades (new features, new add-ons such as RAG containers and multi-device memory) are separate paid purchases. Smart Search Engine is available now as an add-on." },
+  { q: "Do I keep getting updates?", a: "Updates (bug fixes) to Downloader Pro are free for the life of the product. Upgrades (new features, new add-ons such as RAG containers and multi-device memory) are separate paid purchases. Smart Search Engine (SSE) is available now as an add-on." },
 ];
 
 // The visible FAQ and the FAQPage schema are generated from the SAME array, so they cannot
@@ -34,16 +34,16 @@ const faqLd = {
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th></th><th>Free Tier</th><th>Downloader Pro ($24)</th><th>Pro + SSE bundle ($49.89)</th></tr>
+        <tr><th></th><th>Free Tier</th><th>Downloader Pro ($24)</th><th>Pro + SSE bundle ($49)</th></tr>
       </thead>
       <tbody>
-        <tr><td>Price</td><td>$0</td><td><strong>$24 USD</strong> launch price (list $48)</td><td><strong>$49.89 USD</strong> launch price (list $99.89)</td></tr>
+        <tr><td>Price</td><td>$0</td><td><strong>$24 USD</strong> launch price (list $48)</td><td><strong>$49 USD</strong> launch price (list $98)</td></tr>
         <tr><td>Billing</td><td>&mdash;</td><td>One-time. No subscription, no renewal</td><td>One-time. No subscription, no renewal</td></tr>
         <tr><td>AI providers</td><td>3</td><td>All 8</td><td>All 8</td></tr>
-        <tr><td>Conversations per download</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+        <tr><td>Conversations per provider</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
         <tr><td>Device activations</td><td>&mdash;</td><td>Up to 3 (desktop, laptop, mobile)</td><td>Up to 3 (desktop, laptop, mobile)</td></tr>
         <tr><td>Updates to Downloader Pro</td><td>&mdash;</td><td>Included for the life of the product</td><td>Included for the life of the product</td></tr>
-        <tr><td>Smart Search Engine</td><td>&mdash;</td><td>&mdash; (add-on $29 USD launch, list $58)</td><td><strong>Included</strong></td></tr>
+        <tr><td>Smart Search Engine (SSE)</td><td>&mdash;</td><td>&mdash; (add-on $29 USD launch, list $58)</td><td><strong>Included</strong></td></tr>
         <tr><td>Where your files live</td><td>Your PC</td><td>Your PC</td><td>Your PC</td></tr>
       </tbody>
     </table>
@@ -53,11 +53,11 @@ const faqLd = {
   <p>This is a local utility, not a service. Nothing is hosted for you, so there&rsquo;s no per-conversation cost, no storage bill and no reason for a recurring charge. You pay once, the files are on your disk, and the app doesn&rsquo;t stop working if you stop paying.</p>
 
   <h2>Try before you buy</h2>
-  <p>The Free Tier is a real build, not a demo: download it, run it on your own conversations, and decide afterwards. It&rsquo;s limited to 3 AI providers and 5 conversations per download.</p>
+  <p>The Free Tier is a real build, not a demo: download it, run it on your own conversations, and decide afterwards. It&rsquo;s limited to 3 AI providers and 5 conversations per provider.</p>
   <p><em>Prices may change at any time without advance notice.</em></p>
 
   <h2>FAQ</h2>
   <dl class="faq" set:html={faqHtml} />
 
-  <p><em>Next:</em> <a href="/pricing/">See the full pricing page</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/compare/">All comparisons</a></p>
+  <p><em>Next:</em> <a href="/#pricing">See the full pricing section</a> &middot; <a href="/download/">Download for Windows</a> &middot; <a href="/compare/">All comparisons</a></p>
 </PageLayout>
