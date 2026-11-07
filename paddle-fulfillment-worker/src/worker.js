@@ -148,8 +148,12 @@ function generateLicenseKey(prefix = 'PRO') {
  * Classify a Paddle order into 'pro' | 'sse' | 'bundle'.
  */
 function classifyOrderTier(order) {
-  const ids = [order.product_id, ...(order.price_ids || [])];
-  if (ids.some((id) => PADDLE_BUNDLE_IDS.has(id)) || /bundle/i.test(order.product_name || '')) {
+  const ids = [order.product_id, ...(order.price_ids || [])].filter(Boolean);
+  if (
+    ids.some((id) => PADDLE_BUNDLE_IDS.has(id)) ||
+    /bundle/i.test(order.product_name || '') ||
+    (/pro/i.test(order.product_name || '') && /sse/i.test(order.product_name || ''))
+  ) {
     return 'bundle';
   }
   if (ids.some((id) => PADDLE_SSE_IDS.has(id)) || /smart search|\bsse\b/i.test(order.product_name || '')) {
@@ -164,7 +168,33 @@ function classifyOrderTier(order) {
 function extractOrderData(payload) {
   const data = payload.data || {};
   const items = Array.isArray(data.items) ? data.items : [];
+  const lineItems = (data.details && Array.isArray(data.details.line_items)) ? data.details.line_items : [];
   const first = items[0] || {};
+  const firstPrice = first.price || {};
+  const firstLine = lineItems[0] || {};
+  const firstLineProduct = firstLine.product || {};
+
+  const product_id = String(
+    first.product_id ||
+    (first.product && first.product.id) ||
+    firstPrice.product_id ||
+    firstLineProduct.id ||
+    ''
+  );
+
+  const product_name = String(
+    firstLineProduct.name ||
+    (first.product && first.product.name) ||
+    firstPrice.name ||
+    data.product_name ||
+    'TotalRecalls'
+  );
+
+  const price_ids = [
+    ...items.map((i) => String(i.price_id || (i.price && i.price.id) || '')),
+    ...lineItems.map((li) => String(li.price_id || (li.price && li.price.id) || ''))
+  ].filter(Boolean);
+
   return {
     event_type: payload.event_type || payload.alert_name || '',
     order_id: String(data.id || data.order_id || data.transaction_id || ''),
@@ -175,12 +205,9 @@ function extractOrderData(payload) {
     customer_name: String(
       (data.customer && data.customer.name) || data.customer_name || '',
     ),
-    product_id: String(first.product_id || (first.product && first.product.id) || ''),
-    product_name: String(
-      (first.product && first.product.name) || (first.price && first.price.name)
-      || data.product_name || 'TotalRecalls',
-    ),
-    price_ids: items.map((i) => String(i.price_id || '')).filter(Boolean),
+    product_id,
+    product_name,
+    price_ids,
     // What the buyer actually paid, for the seller notification. Stored as
     // minor units (e.g. "2400" = USD 24.00); formatting happens at send time.
     total: String((((data.details || {}).totals) || {}).grand_total || ''),
