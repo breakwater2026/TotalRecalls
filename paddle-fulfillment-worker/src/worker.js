@@ -140,7 +140,7 @@ function randomBlock(len) {
   return out;
 }
 
-function generateLicenseKey(prefix = 'PRO') {
+function generateLicenseKey(prefix = 'TR') {
   return `${prefix}-${randomBlock(8)}-${randomBlock(4)}-${randomBlock(4)}`;
 }
 
@@ -520,7 +520,7 @@ async function fulfillOrder(order, env, rawBody) {
     };
   }
 
-  const primaryPrefix = tier === 'sse' ? 'SSE' : 'PRO';
+  const primaryPrefix = tier === 'sse' ? 'SSE' : 'TR';
   const licenseKey = generateLicenseKey(primaryPrefix);
   const licenseUuid = await upsertLicenseRow(env, {
     existing,
