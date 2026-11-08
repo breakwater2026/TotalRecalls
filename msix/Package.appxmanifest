@@ -16,12 +16,12 @@
   -->
 
   <Identity Name="TotalRecalls"
-            Publisher="CN=REPLACE_WITH_PARTNER_CENTER_PUBLISHER_CN"
+            Publisher="CN=1C42A4FC-8B2F-4AF3-B038-C05791785809"
             Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>TotalRecalls</DisplayName>
-    <PublisherDisplayName>REPLACE_WITH_YOUR_PUBLISHER_NAME</PublisherDisplayName>
+    <PublisherDisplayName>TotalRecalls</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
