@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap rescap">
+
+  <!--
+    TotalRecalls — MSIX package manifest.
+
+    REQUIRED BEFORE SUBMISSION:
+      1. Publisher must be the exact CN that Partner Center issues you.
+         Find it in Partner Center -> Account settings -> Organization -> Publisher CN.
+         It looks like: CN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      2. DisplayName / PublisherDisplayName should match your registered publisher name.
+      3. Bump Version for every submission (must be higher than the last).
+  -->
+
+  <Identity Name="TotalRecalls"
+            Publisher="CN=REPLACE_WITH_PARTNER_CENTER_PUBLISHER_CN"
+            Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>TotalRecalls</DisplayName>
+    <PublisherDisplayName>REPLACE_WITH_YOUR_PUBLISHER_NAME</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop"
+                        MinVersion="10.0.17763.0"
+                        MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-US" />
+  </Resources>
+
+  <Capabilities>
+    <!-- Required for a classic desktop application. -->
+    <rescap:Capability Name="runFullTrust" />
+    <!--
+      Add this ONLY if the app writes outside the user's own profile (e.g. D:\Library).
+      It is a restricted capability and Store review will ask you to justify it.
+      Writing inside C:\Users\<you>\... needs no capability.
+    -->
+  </Capabilities>
+
+  <Applications>
+    <Application Id="TotalRecalls"
+                 Executable="TotalRecalls.exe"
+                 EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="TotalRecalls"
+                          Description="Save your AI conversations as Markdown + JSON you keep forever."
+                          BackgroundColor="#263343"
+                          Square150x150Logo="Assets\Square150x150Logo.png"
+                          Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png"
+                         Square310x310Logo="Assets\Square310x310Logo.png"
+                         Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen620x300.png"
+                          BackgroundColor="#263343" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+</Package>

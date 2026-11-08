@@ -36,7 +36,9 @@ from totalrecalls.core.platform import (
 
 EDITION_FILE = os.path.join(REPO, "totalrecalls", "edition.py")
 EXE_FILENAME = "TotalRecalls.exe" if os.name == "nt" else "TotalRecalls"
+# onefile: dist/TotalRecalls.exe   onedir: dist/TotalRecalls/TotalRecalls.exe
 EXE_OUT = os.path.join(REPO, "dist", EXE_FILENAME)
+EXE_OUT_ONEDIR = os.path.join(REPO, "dist", "TotalRecalls", EXE_FILENAME)
 
 
 def set_edition(edition: str) -> None:
@@ -84,6 +86,10 @@ def kill_running() -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--edition", choices=["free", "pro"], required=True)
+    ap.add_argument("--mode", choices=["onefile", "onedir"], default="onefile",
+                    help="'onefile' (default) = single self-extracting EXE for the "
+                         "direct download; 'onedir' = folder of files for the "
+                         "Microsoft Store MSIX package")
     ap.add_argument("--name", default=None,
                     help=f"Optional output name (default: {EXE_FILENAME})")
     args = ap.parse_args()
@@ -94,8 +100,11 @@ def main() -> int:
     if not os.path.exists(venv_py):
         raise SystemExit("ERROR: .venv python not found")
 
+    out_exe = EXE_OUT_ONEDIR if args.mode == "onedir" else EXE_OUT
+
     kill_running()
     set_edition(args.edition)
+    os.environ["TR_BUILD_MODE"] = args.mode
     try:
         # The edition flag is baked into totalrecalls.edition. Force PyInstaller
         # to refresh its analysis so consecutive Free/Pro builds cannot reuse
@@ -108,6 +117,7 @@ def main() -> int:
             "--noconfirm",
             "--clean",
         ]
+        print(f"[build_exe] mode={args.mode} edition={args.edition}")
         print("[build_exe] running:", " ".join(cmd))
         rc = subprocess.call(cmd, cwd=REPO)
     finally:
@@ -118,10 +128,10 @@ def main() -> int:
 
     if args.name:
         dest = os.path.join(REPO, "dist", args.name)
-        shutil.copy2(EXE_OUT, dest)
+        shutil.copy2(out_exe, dest)
         print(f"[build_exe] copied to {dest}")
-    print(f"[build_exe] DONE ({args.edition} edition): {EXE_OUT} "
-          f"({os.path.getsize(EXE_OUT):,} bytes)")
+    print(f"[build_exe] DONE ({args.edition} edition, {args.mode}): {out_exe} "
+          f"({os.path.getsize(out_exe):,} bytes)")
     return 0
 
 
