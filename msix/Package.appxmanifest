@@ -15,7 +15,7 @@
       3. Bump Version for every submission (must be higher than the last).
   -->
 
-  <Identity Name="TotalRecalls"
+  <Identity Name="TotalRecalls.TotalRecalls"
             Publisher="CN=1C42A4FC-8B2F-4AF3-B038-C05791785809"
             Version="1.0.0.0" />
 
