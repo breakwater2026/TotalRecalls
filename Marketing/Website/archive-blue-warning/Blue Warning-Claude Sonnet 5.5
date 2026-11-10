@@ -1,0 +1,39 @@
+Searched the web, read memory
+The 15% fee is not the only price of avoiding the warning, and it may not be a price you have to pay at all.
+
+What I’d correct in the premise
+Store distribution and Microsoft’s commerce system are separate choices. For non-game apps, Microsoft lets developers use their own commerce system and keep 100% of the revenue. The 15% only applies if you sell through Microsoft’s payment platform. Individual developer registration is also now free, so listing costs nothing. You can put TotalRecalls in the Store, get the trusted install path, and take payment through your own system (Paddle, Stripe, a license key and so on). You should confirm the current Store policy wording on this and on how the free-to-paid unlock must work before you build around it. 
+TechCrunch
+
+Your reading of Azure signing is right. Microsoft’s documentation says that signing with Azure Artifact Signing does not provide instant SmartScreen trust. It also says EV certificates no longer bypass SmartScreen, so there is no purchasable shortcut. Developers reported fresh warnings through 2026, including after a March–April 2026 intermediate CA transition, so even established publishers get hit. Microsoft says new apps outside the Store typically need several weeks of download history to build reputation. Apps installed from the Store are re-signed by Microsoft and users never see a SmartScreen warning. 
+sign msix package guide
+ +4
+
+Your options
+Option	Warning at install?	Your cost per sale	Main drawback
+Direct download, signed (Artifact Signing, about $10/month)	Yes, for weeks or more	Payment processor only	Warning hits every early user, and every new build can reset file reputation
+Store with Microsoft commerce	No	15%	Costs the most per sale
+Store with your own commerce	No	Processor fees only	More setup, and you must pass Store certification
+Hybrid: Store plus a signed direct download	No in the Store, yes on the direct download	Mixed	Two release paths to maintain
+Artifact Signing is open to individuals in Canada, so you qualify from Montréal. Your own checkout fees would be roughly 3% plus 30¢ on Stripe or about 5% plus 50¢ with a merchant-of-record service like Paddle, though check current rates. On a $24 sale that’s about $1.00 to $1.70, versus $3.60 at 15%. On a $49 sale it’s about $1.70 to $2.95, versus $7.35. The difference is real but small next to losing buyers at the warning screen. A merchant-of-record service also handles sales tax and VAT for you, which matters when you’re solo.
+
+My recommended course
+Make the Store your primary storefront and the destination for your website’s main download button. Trial users and buyers get no warning. Your launch is the moment of highest attention, so the first impression has to be clean.
+Start with your own commerce if you can integrate it cleanly, with Microsoft’s 15% as the fallback. At your price points, 15% is painful on the $49 Founder’s Pass but tolerable on the $24 downloader. Don’t let payment plumbing delay launch. Paying 15% for a month is cheaper than a late launch.
+Sign everything anyway. Artifact Signing is about $10/month. Even though it won’t clear SmartScreen immediately, an unsigned file starts from zero reputation with every update, while signed files build publisher reputation over time. That makes your direct download progressively less scary.
+Keep the direct download as a secondary channel for people who prefer it, with a short note on the download page explaining the “More info → Run anyway” step. Ship fewer, larger releases, since each new file hash restarts reputation. If you get flagged, submit the file to Microsoft’s Defender analysis portal for review.
+Start Store certification now. It takes days and may need a revision round, and you don’t want it blocking launch.
+Risks to check before committing
+Content policy. I don’t know exactly what the downloader fetches or from where. Microsoft’s Store certification can reject apps that download third-party content in ways that violate other sites’ terms. Read the Store policies against that before you invest in packaging.
+Packaging constraints. Your plan for a ZIP distribution with in-app drop install of SSE modules may conflict with MSIX, because installed package files are read-only. Modules would need to live in the app’s data folder, or ship as Store updates or add-ons. The latter fits the Store’s own add-on model, and may suit your staged 6-week drops better.
+Updates. Store updates go through certification, so urgent hotfixes are slower than a direct download.
+If you tell me what the downloader pulls from and how the free tier unlocks to Pro, I can sharpen the Store-compliance and commerce-integration questions. I can also fold this into a short Word decision memo, which I know is your preferred format.
+
+Sources:
+
+Microsoft Learn: Code signing options
+Microsoft Learn: SmartScreen reputation
+Microsoft Learn: Signing package overview
+Microsoft Learn Q&A: Trusted Signing SmartScreen regression
+TechCrunch: Microsoft Store fees
+AlternativeTo: free individual registration

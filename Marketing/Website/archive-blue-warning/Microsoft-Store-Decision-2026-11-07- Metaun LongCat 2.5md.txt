@@ -1,0 +1,267 @@
+# TotalRecalls — Microsoft Store Distribution
+## Decision and implementation plan
+
+**Date:** 2026-11-07
+**Decision:** Distribute TotalRecalls through the Microsoft Store as a **second** channel,
+signed by Microsoft at no cost, while continuing to sell on totalrecalls.app through
+Paddle with 100% of revenue.
+**Not doing:** Azure Artifact Signing, EV/OV certificates, or Microsoft's commerce platform.
+
+---
+
+## 1. Why
+
+The SmartScreen warning is the single biggest conversion leak for a $24 unsigned Windows
+desktop app. Microsoft re-signs MSIX packages submitted to the Store, so **installs from
+the Store never show the warning** — and it costs nothing.
+
+What we are *not* buying:
+
+| Option | Cost | Why we skip it |
+|---|---|---|
+| Azure Artifact Signing | ~$120/yr | Signs the direct download, but the warning still shows for weeks/months. Solves a channel we are not prioritising. |
+| OV certificate | ~$130–300/yr | Same ramp-up as Azure; renewal with a new key resets reputation. |
+| EV certificate | ~$350–700/yr | Microsoft removed EV's instant SmartScreen bypass in 2024. Their own docs say the premium is no longer justified for this. |
+| Microsoft commerce | 15% per sale | Not needed — non-game PC apps may use their own commerce platform. |
+
+---
+
+## 2. What this does and does not fix
+
+**Fixes:** every customer who installs from the Microsoft Store gets a clean, one-click,
+no-warning install. Store-managed updates included.
+
+**Does not fix:** the download from **totalrecalls.app** still triggers SmartScreen —
+Microsoft's signature applies only to the package it distributes.
+
+**Mitigation:** put the Store badge prominently on `/download/` and `/microsoft-warning/`
+("Want a one-click install with no warning? Get it from the Microsoft Store"), and keep
+the existing SmartScreen guidance and published SHA-256 for the direct download.
+
+---
+
+## 3. Current build pipeline (for reference)
+
+| Item | Detail |
+|---|---|
+| App | Python + `pywebview` desktop app |
+| UI | Local HTML (`app_ui.html`) |
+| Packaging | PyInstaller, **onefile**, `console=False`, UPX on |
+| Build command | `python tools/build_exe.py --edition free` (or `--edition pro`) |
+| Output | `dist/TotalRecalls.exe` |
+| Repo | github.com/breakwater2026/TotalRecalls |
+| Commerce | Paddle → `paddle-fulfillment-worker` (Cloudflare Worker) → Resend |
+| Release checklist | `docs/RELEASE.md` (code signing is step 5 — this replaces it) |
+
+---
+
+## 4. MSIX packaging
+
+### 4.1 Important: onefile vs onedir
+
+The current build is PyInstaller **onefile**, which extracts its whole payload to a temp
+directory on every launch. That works under MSIX but is slower and more likely to trip
+antivirus heuristics.
+
+**Recommendation:** produce a **onedir** build for the Store channel (`pyinstaller
+--onedir`), and package that directory. Keep the onefile build for the direct download.
+Both come from the same `TotalRecalls.spec` — parameterise it or add a second spec.
+
+### 4.2 Two packaging routes
+
+**Route A — MSIX Packaging Tool (fastest to a first package)**
+1. Install the [MSIX Packaging Tool](https://learn.microsoft.com/en-us/windows/msix/msix-packaging-tool) from the Microsoft Store.
+2. Run it → *Create a new package* → select the onedir build output.
+3. It generates a manifest, packages, and can install for testing.
+4. Good for validating the approach; less good for a repeatable CI pipeline.
+
+**Route B — Visual Studio MSIX project (canonical, repeatable)**
+1. Install **Visual Studio 2022** (free Community edition) with the *MSIX packaging and
+   deployment* workload, plus the Windows SDK (for `makeappx`).
+2. Create a new **MSIX Packaging Project** (or add one to the existing solution).
+3. Add the app's files (the onedir output) to the project.
+4. Set the package identity and the entry point (`TotalRecalls.exe`).
+5. Build → produces a signed-for-testing `.msix`.
+
+### 4.3 The manifest (`Package.appxmanifest`)
+
+Key entries for a desktop app:
+
+```xml
+<Identity Name="TotalRecalls"
+          Publisher="CN=<YOUR_STORE_PUBLISHER>"
+          Version="1.0.0.0" />
+
+<Properties>
+  <DisplayName>TotalRecalls</DisplayName>
+  <PublisherDisplayName><YOUR_COMPANY></PublisherDisplayName>
+  <Logo>Assets\StoreLogo.png</Logo>
+</Properties>
+
+<Capabilities>
+  <!-- Required for a classic desktop app -->
+  <rescap:Capability Name="runFullTrust" />
+  <!-- Only if the app writes outside the user's own profile -->
+  <Capability Name="broadFileSystemAccess" />
+</Capabilities>
+
+<Applications>
+  <Application Id="TotalRecalls" Executable="TotalRecalls.exe" EntryPoint="Windows.FullTrustApplication">
+    <uap:VisualElements DisplayName="TotalRecalls"
+                        Description="Save your AI conversations as Markdown + JSON."
+                        Square150x150Logo="Assets\Square150x150Logo.png"
+                        Square44x44Logo="Assets\Square44x44Logo.png"
+                        BackgroundColor="transparent" />
+  </Application>
+</Applications>
+```
+
+Notes:
+- **`Publisher` must exactly match the Store publisher CN** that Partner Center issues
+  you. You cannot choose it.
+- **`runFullTrust`** is required for classic desktop apps.
+- **`broadFileSystemAccess`** is a *restricted* capability. Declare it only if the app
+  writes outside `%USERPROFILE%` (it writes to a user-chosen folder). Expect Store
+  review to ask for justification. Access inside the user profile (including the current
+  `C:\Users\<user>\TotalRecalls-downloads\Library\home\` path) needs no capability.
+- **Icons:** Partner Center requires the standard asset set (square 44, 71, 107, 142,
+  150, 210, 256, 310; wide 310x150; splash 620x300). The MSIX project template ships
+  placeholder assets to replace.
+
+### 4.4 Building and testing the package
+
+```powershell
+# Package (Windows SDK)
+makeappx pack /d <app-files> /p TotalRecalls.msix
+
+# Sign for LOCAL testing only (self-signed test cert)
+makeappx sign /f test-cert.pfx /p <password> TotalRecalls.msix
+
+# Install for testing
+Add-AppxPackage -Path .\TotalRecalls.msix
+```
+
+**Test checklist before submitting:**
+- [ ] App launches and the pywebview UI renders.
+- [ ] Provider sign-in windows open and work.
+- [ ] Downloads write to the Library folder.
+- [ ] Writing to a folder **outside** the user profile works (or the capability is
+      declared and justified).
+- [ ] License-key activation still works.
+- [ ] App restarts and restores state.
+- [ ] No writes to the package install directory (MSIX virtualises those; the app must
+      use the user profile or declared locations).
+
+**Important:** Microsoft re-signs the package after certification, so **do not** buy a
+certificate. A local test certificate is enough to validate.
+
+---
+
+## 5. Store submission checklist
+
+**Setup (once)**
+- [ ] Register at [Partner Center](https://partner.microsoft.com) (free).
+- [ ] Record the **publisher CN** and the **seller ID** — the manifest's `Publisher`
+      must match exactly.
+- [ ] Complete tax and bank/payout information (required even for a free listing).
+
+**Listing**
+- [ ] Reserve the app name (**TotalRecalls**).
+- [ ] Store listing: description, feature bullets, keywords.
+- [ ] Screenshots: at least one 1366x768 (or larger) image; more is better. Use the
+      existing site screenshots.
+- [ ] Category: **Productivity** (or Utilities & tools).
+- [ ] Price: **Free** (the Pro upgrade stays on your site).
+- [ ] Age rating: complete the IARC questionnaire.
+- [ ] Privacy policy URL: `https://totalrecalls.app/privacy/`.
+- [ ] Support contact: `support@totalrecalls.app`.
+- [ ] Copyright and trademark text.
+
+**Package**
+- [ ] Upload the `.msix` (or `.msixupload`).
+- [ ] Set the version to match the app (1.0.0).
+- [ ] Declare the architectures (x64).
+
+**Certification**
+- [ ] Submit; certification typically takes a few business days.
+- [ ] Respond to any policy or technical findings.
+- [ ] On approval, the app is live; Microsoft signs it and serves updates.
+
+---
+
+## 6. Commerce: keep Paddle
+
+The app is listed **free** in the Store. The Pro upgrade stays exactly where it is today:
+
+```
+totalrecalls.app  →  Paddle checkout  →  Cloudflare Worker issues key  →  Resend emails it
+```
+
+The user installs the free app from the Store, buys the key on the website, and enters it
+in the app. **Nothing changes in the fulfillment stack.**
+
+This is permitted: Microsoft Store Policy §10.8 — non-game products on PC *"may either
+use a secure third-party purchase API or the Microsoft Store in-product purchase API."*
+
+**Do not** also offer Pro via Microsoft's in-app purchase — that would trigger the 15%
+fee and create two parallel entitlement systems to reconcile.
+
+---
+
+## 7. What changes in the app
+
+Very little:
+- No changes to the download logic, providers, or licence flow.
+- Verify the app does not assume it can write next to its own executable (MSIX installs
+  to a protected location). It writes to the user profile, so it should be fine.
+- The edition flag (`free`/`pro`) and the `tools/build_exe.py` flow stay as they are.
+
+---
+
+## 8. Rollout plan
+
+| Phase | Work | Time |
+|---|---|---|
+| 1 | Partner Center registration, publisher CN, tax/bank setup | 1–2 days (mostly waiting) |
+| 2 | Onedir build variant + MSIX project + local test | 2–3 days |
+| 3 | Listing assets, screenshots, IARC questionnaire | 2–3 days |
+| 4 | Submission and certification | 3–7 business days |
+| 5 | Publish; add Store badge to `/download/` and `/microsoft-warning/` | 1 day |
+| 6 | Re-submit the MSIX on each release (Store-managed updates) | ~30 min per release |
+
+**Total to first publish: roughly two weeks of part-time work.**
+
+---
+
+## 9. Risks and mitigations
+
+| Risk | Mitigation |
+|---|---|
+| PyInstaller onefile misbehaves under MSIX | Build an onedir variant for the Store channel. |
+| `broadFileSystemAccess` rejected or delayed | Keep all default writes inside the user profile; justify the capability in the submission notes. |
+| Store certification finds a policy issue | The app is clean (local-only, no telemetry); fix and resubmit. |
+| Store listing drives no traffic | It isn't meant to — it's a trust channel. Your own marketing stays primary. |
+| Direct download still warns | Prominent Store badge + existing SmartScreen page. |
+| Microsoft changes Store terms | Low risk; the listing is free and removable. You keep your own channel. |
+
+---
+
+## 10. Cost summary
+
+| Item | Cost |
+|---|---|
+| Microsoft Store listing | **$0** |
+| Microsoft code signing | **$0** (they sign the MSIX) |
+| Azure Artifact Signing | **$0** (not needed) |
+| Code-signing certificate | **$0** (not needed) |
+| Microsoft commerce fee | **$0** (you keep Paddle, 100% of revenue) |
+| Development effort | ~2 weeks part-time, mostly packaging and listing |
+
+---
+
+## 11. One-line summary
+
+**The Microsoft Store is our free code signature. We keep our own storefront, our own
+checkout, and 100% of the revenue — and we give every customer who wants a no-warning
+install a place to get it.**
+
