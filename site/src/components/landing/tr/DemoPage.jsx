@@ -169,13 +169,9 @@ export default function DemoPage() {
           </div>
         </div>
 
-        {/* SmartScreen helper + close */}
+        {/* Store trust beat */}
         <p className="mt-8 font-body text-[14px] leading-[1.5] text-tr-dust">
-          First launch may show a Windows SmartScreen prompt.{" "}
-          <a href="/microsoft-warning/" className="text-tr-steel transition-colors hover:text-tr-paper">
-            Here&apos;s why
-          </a>
-          , and how to continue.
+          Available on the official <a href="https://apps.microsoft.com/detail/9PP1KKD5X2D6" className="text-tr-steel transition-colors hover:text-tr-paper" target="_blank" rel="noopener noreferrer">Microsoft Store</a> — clean, verified, one-click install for Windows 10 and 11.
         </p>
 
         <p className="mt-8 font-body text-[16px] leading-[1.6] text-tr-paper">

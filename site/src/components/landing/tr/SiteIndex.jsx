@@ -38,7 +38,7 @@ const CATEGORIES = [
       { label: "Own Your AI Chat Data", href: "/guides/own-your-ai-chat-data/" },
       { label: "Windows SmartScreen Walkthrough", href: "/guides/smartscreen/" },
       { label: "Troubleshooting Downloads", href: "/guides/troubleshooting/" },
-      { label: "Microsoft Warning Guide", href: "/microsoft-warning/" },
+      { label: "Microsoft Store Listing", href: "https://apps.microsoft.com/detail/9PP1KKD5X2D6" },
     ],
   },
   {

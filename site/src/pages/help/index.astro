@@ -12,8 +12,8 @@ import PageLayout from "../../layouts/PageLayout.astro";
 
   <h2>Getting Started (5 minutes)</h2>
   <ol>
-    <li><strong>Download</strong> the Free Tier ZIP from the <a href="/download/">Download page</a> and unzip it to any folder (e.g. <code>Desktop\TotalRecalls</code>). No installer &mdash; the archive contains <code>TotalRecalls.exe</code> and <code>README.txt</code>.</li>
-    <li><strong>Run</strong> <code>TotalRecalls.exe</code>. On first launch, Windows SmartScreen may show a warning &mdash; that's normal for a small, unsigned app. Click <em>More info &rarr; Run anyway</em>. Step-by-step: <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
+    <li><strong>Install from Microsoft Store:</strong> Open the <a href="https://apps.microsoft.com/detail/9PP1KKD5X2D6" target="_blank" rel="noopener noreferrer">TotalRecalls Microsoft Store page</a> and click <em>Get</em> (or download the portable ZIP from our <a href="/download/">Download page</a>).</li>
+    <li><strong>Launch TotalRecalls:</strong> Open TotalRecalls from your Start menu or extract the portable ZIP and run <code>TotalRecalls.exe</code>.</li>
     <li><strong>Pick a provider</strong> and sign in in the window the app opens. Your session token is read from that window and stays on your machine. (Gemini is different &mdash; point the app at your Google Takeout folder instead.)</li>
     <li><strong>Choose an output folder</strong> &mdash; anywhere on your PC &mdash; and click <em>Download</em>.</li>
     <li><strong>Open the folder</strong> when it finishes. Every conversation is a Markdown file plus a JSON file. Grep it, version it, move it &mdash; it's yours.</li>
@@ -60,11 +60,6 @@ import PageLayout from "../../layouts/PageLayout.astro";
     <li>Provider servers are occasionally slow. If you see <em>"servers are busy &mdash; retrying"</em>, let it finish: it keeps going, and large accounts take longer.</li>
     <li>If the sign-in window opens blank and never loads, close the app and launch it again &mdash; the app clears leftover browser processes on startup.</li>
     <li>Use the provider's <em>Disconnect</em>, then <em>Connect</em> again, to force a fresh login window.</li>
-  </ul>
-  <h3>SmartScreen blocks the app</h3>
-  <ul>
-    <li>Click <em>More info &rarr; Run anyway</em> on the warning. Full instructions: <a href="/guides/smartscreen/">SmartScreen Help</a>.</li>
-    <li>Windows 11 <em>Smart App Control</em> is stricter and has no per-app override. If you have it on, see the same guide for your options (code-signing is on the roadmap).</li>
   </ul>
   <h3>Gemini (Takeout) import fails</h3>
   <ul>

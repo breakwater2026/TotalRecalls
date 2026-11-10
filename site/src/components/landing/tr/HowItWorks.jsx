@@ -156,11 +156,7 @@ export default function HowItWorks() {
 
         {/* SmartScreen helper + close */}
         <p className="mt-8 font-body text-[14px] leading-[1.5] text-tr-dust">
-          First launch may show a Windows SmartScreen prompt.{" "}
-          <a href="/microsoft-warning/" className="text-tr-steel transition-colors hover:text-tr-paper">
-            Here&apos;s why
-          </a>
-          , and how to continue.
+          Certified and distributed through the official <a href="https://apps.microsoft.com/detail/9PP1KKD5X2D6" className="text-tr-steel transition-colors hover:text-tr-paper" target="_blank" rel="noopener noreferrer">Microsoft Store</a> — zero warnings, one-click install.
         </p>
 
         <p className="mt-8 font-body text-[16px] leading-[1.6] text-tr-paper">

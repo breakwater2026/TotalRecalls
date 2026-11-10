@@ -8,6 +8,7 @@ import { currentVersion, releases } from "../../data/releases.json";
 // `new Date()` rendered today's build date as "Latest release: … <today>" — a false claim
 // (the app shipped 2026-09-12) that also rolled forward on every single deploy.
 const date = releases[0].date;
+const STORE_URL = "https://apps.microsoft.com/detail/9PP1KKD5X2D6";
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0.zip";
 const ZIP_SIZE_MB = 17.8;
 const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b";
@@ -35,29 +36,41 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
     </div>
   </div>
 
-  <section>
-    <h2>Get TotalRecalls for Windows</h2>
+  <section class="mb-10">
+    <h2>Install from Microsoft Store (Recommended)</h2>
     <p>
-      Full-featured portable app &mdash; no installer, no background services, no account required. Just unzip and run.
+      The fastest, cleanest installation on Windows 10 &amp; 11. Certified by Microsoft with zero security prompts and automatic updates.
     </p>
-    <p class="my-5">
-      <a class="download-btn inline-flex items-center gap-2 bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover font-semibold px-6 py-3.5 rounded-lg text-base transition-colors" href={ZIP_URL}>
-        &#8681; Download TotalRecalls {currentVersion} for Windows (ZIP, ~{ZIP_SIZE_MB} MB)
+    <div class="my-6">
+      <a
+        class="download-btn inline-flex items-center gap-3 bg-tr-amber text-tr-on-amber hover:bg-tr-amber-hover font-semibold px-7 py-4 rounded-lg text-base transition-colors"
+        href={STORE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="shrink-0">
+          <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4h-13.051M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.051-1.801"/>
+        </svg>
+        <span>Get from Microsoft Store (Free)</span>
+      </a>
+    </div>
+    <p class="text-[13px] text-tr-dust">
+      Windows 10 &middot; Windows 11 &middot; Free Tier testing included out of the box (3 providers, 5 conversations each)
+    </p>
+  </section>
+
+  <section class="border-t border-tr-slate pt-8 mt-8">
+    <h3>Alternative: Direct Portable Download</h3>
+    <p>
+      Prefer a standalone portable build with no Store installation? You can download the portable archive directly:
+    </p>
+    <p class="my-4">
+      <a class="inline-flex items-center gap-2 border border-tr-slate hover:border-tr-steel text-tr-paper hover:text-tr-amber px-5 py-2.5 rounded-lg text-sm font-medium transition-colors" href={ZIP_URL}>
+        &#8681; Download Portable ZIP (~{ZIP_SIZE_MB} MB)
       </a>
     </p>
-    <p class="text-[13px] text-tr-dust mb-4">
-      Windows 10 &middot; Windows 11 &middot; 64-bit portable build &middot; Free Tier testing included out of the box (3 providers, 5 conversations each)
-    </p>
-    <p class="hash-line">
+    <p class="hash-line text-xs text-tr-dust">
       <strong>SHA-256:</strong> <code class="break-all">{SHA256}</code>
-    </p>
-    <p class="hash-note">
-      Verify the download with PowerShell: <code class="break-all">Get-FileHash TotalRecalls-{currentVersion}.zip -Algorithm SHA256</code>
-    </p>
-    <p class="check-updates">
-      <strong>Check for updates:</strong> Subscribe to <a href="/release-notes/">Release Notes</a> &mdash;
-      the latest build is always published there first.
-      Auto-update is planned and is not in this release.
     </p>
   </section>
 
@@ -92,7 +105,6 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
     <h2>Technical Notes</h2>
     <ul>
       <li>Windows 10/11 required. No Mac or mobile build yet.</li>
-      <li>Windows 11 Smart App Control may block unsigned apps with no override. Code-signing is on the roadmap. See <a href="/guides/smartscreen/">SmartScreen instructions</a>.</li>
       <li>Gemini uses your Google Takeout folder/JSON (most reliable path). See <a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a>.</li>
       <li>All downloads land in a folder <em>you choose</em> on your PC. TotalRecalls never sees, stores, or transmits your AI chat data.</li>
     </ul>
@@ -101,8 +113,8 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
   <section>
     <h2>How to Use the App (4 steps)</h2>
     <ol>
-      <li><strong>Unzip</strong> the archive to any folder (e.g. <code>Desktop\TotalRecalls</code>).</li>
-      <li><strong>Run</strong> <code>TotalRecalls.exe</code>. SmartScreen may show a warning on first launch &mdash; click <em>More info &rarr; Run anyway</em>.</li>
+      <li><strong>Install</strong> from the Microsoft Store (or extract the portable ZIP).</li>
+      <li><strong>Run</strong> TotalRecalls from your Start menu or launch <code>TotalRecalls.exe</code>.</li>
       <li><strong>Pick a provider</strong> (Perplexity, ChatGPT, or Claude &mdash; the Free Tier includes these three; <em>Pro adds Gemini, Grok, DeepSeek, Mistral, and Qwen</em>) and sign in locally. For Gemini, point at your Takeout folder instead.</li>
       <li><strong>Choose an output folder</strong> and click <em>Download</em>. Your Markdown + JSON files are written straight to disk.</li>
     </ol>
@@ -124,7 +136,6 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
   <section>
     <h2>Need Help?</h2>
     <ul>
-      <li><a href="/guides/smartscreen/">SmartScreen instructions</a></li>
       <li><a href="/guides/gemini-takeout-archive/">Gemini Takeout guide</a></li>
       <li><a href="/guides/export-chatgpt-conversations/">ChatGPT download guide</a></li>
       <li><a href="/guides/export-perplexity-conversations/">Perplexity download guide</a></li>

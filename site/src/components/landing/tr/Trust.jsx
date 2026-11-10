@@ -7,9 +7,9 @@ const ANSWERS = [
     body: "Your conversations are downloaded directly from your provider to your computer. We are not an intermediary in between.",
   },
   {
-    lead: "SmartScreen, explained.",
-    body: "First launch may show a Windows SmartScreen prompt. It's a routine reputation check on new apps — two clicks to continue.",
-    link: { label: "Read the SmartScreen guide", href: "/microsoft-warning/" },
+    lead: "Verified by Microsoft.",
+    body: "TotalRecalls is certified and available directly through the official Microsoft Store — safe, trusted, and installed with a single click.",
+    link: { label: "View on Microsoft Store", href: "https://apps.microsoft.com/detail/9PP1KKD5X2D6" },
   },
   {
     lead: "A straight answer.",
