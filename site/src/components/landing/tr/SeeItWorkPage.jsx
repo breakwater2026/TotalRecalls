@@ -234,8 +234,7 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
             <Btn href="/download/" large>Download free</Btn>
           </div>
           <p className="mt-4 font-body text-[14px] text-tr-dust">
-            Windows 10 and 11. Windows may show a SmartScreen prompt the first time you open the app.{" "}
-            <a href="/guides/smartscreen/" className="text-tr-steel transition-colors hover:text-tr-paper">What it means →</a>
+            Windows 10 and 11. Certified and distributed through the Microsoft Store — one-click install, no security warnings.
           </p>
         </Container>
       </Section>

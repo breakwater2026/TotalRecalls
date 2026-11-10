@@ -6,9 +6,6 @@ export default defineConfig({
   site: 'https://totalrecalls.app',
   output: 'static',
   trailingSlash: 'always',
-  redirects: {
-    '/pricing': '/#pricing',
-  },
   integrations: [react(), tailwind()],
   build: {
     format: 'directory',

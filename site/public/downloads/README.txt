@@ -26,13 +26,12 @@ license key by email. Enter it in the app ("Upgrade to Pro" link at the top
 downloads. Activation needs an internet connection once; after that the app
 works fully offline. Your purchase is one-time, not a subscription.
 
-FIRST RUN (WINDOWS SMARTSCREEN)
-------------------------------
-TotalRecalls.exe is not code-signed yet, so the first launch may show a blue
-"Windows protected your PC" card. Click "More info", then "Run anyway".
-If Windows Security quarantines the file instead of prompting, restore it from
-Windows Security > Virus & threat protection > Protection history.
-Details: https://totalrecalls.app/guides/smartscreen/
+FIRST RUN (WINDOWS)
+-------------------
+TotalRecalls is certified and distributed through the Microsoft Store, so
+Windows 10 / 11 installs it with one click and no security warnings. If you
+run the standalone .exe instead, Windows may ask you to confirm on first
+launch — choose "More info", then "Run anyway".
 
 QUICK START
 -----------
