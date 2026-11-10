@@ -16,7 +16,7 @@ Privacy Contract: 100% Local PC Runtime — Zero Cloud Egress, No Account Requir
 
 2. Your Local Library Folder:
    By default, Downloader Pro saves your conversations to:
-   C:\TotalRecalls\Library\ (or your custom chosen folder)
+   C:\Users\<YourUsername>\TotalRecalls-download\Library\ (or your chosen folder)
    Inside, you will find dated Markdown (.md) and structured (.json) files
    organized by provider (chatgpt, claude, perplexity, etc.).
 
