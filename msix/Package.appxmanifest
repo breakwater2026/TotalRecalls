@@ -17,7 +17,7 @@
 
   <Identity Name="TotalRecalls.TotalRecalls"
             Publisher="CN=1C42A4FC-8B2F-4AF3-B038-C05791785809"
-            Version="1.0.0.0" />
+            Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>TotalRecalls</DisplayName>

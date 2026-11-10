@@ -94,7 +94,9 @@ def main() -> int:
                     help=f"Optional output name (default: {EXE_FILENAME})")
     args = ap.parse_args()
 
-    venv_py = os.path.join(REPO, ".venv", "Scripts", "python.exe")
+    venv_py = os.path.join(REPO, ".venv312", "Scripts", "python.exe")
+    if not os.path.exists(venv_py):
+        venv_py = os.path.join(REPO, ".venv", "Scripts", "python.exe")
     if not os.path.exists(venv_py):
         venv_py = os.path.join(REPO, ".venv", "bin", "python")
     if not os.path.exists(venv_py):
