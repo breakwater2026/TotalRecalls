@@ -27,10 +27,11 @@
 * **Consolidated:** Archived duplicate blue-warning memos into `Marketing/Website/archive-blue-warning/`. Commit `5fbe9af` pushed.
 
 ### D. Google Search Console & SEO Remediation
-1. **TotalRecalls Site Fixes (Commit `0c440e2` deployed live to Cloudflare Pages):**
+1. **TotalRecalls Site Fixes (Commits `0c440e2` & `a1ea6b3` deployed live to Cloudflare Pages):**
    * Removed dead `/guides/smartscreen/` links from homepage, all 8 `see-it-work` pages, `how-it-works`, and `README.txt`.
    * Set `robots: noindex, nofollow` on `404.astro` and suppressed canonical tag on all `noindex` pages.
    * Removed `/pricing/` page and redirect from sitemap (trimmed from 58 to 57 clean canonical URLs).
+   * **AdSense Removed:** Deleted `ads.txt` and purged third-party AdSense verification scripts from `<head>`. TotalRecalls is a pure, high-converting commercial software store ($24–$49 sales) with zero tracking scripts.
 2. **TopMoneyTools Fixes (Commit `13e3503` deployed live to Cloudflare Pages):**
    * Updated `scripts/gen-spa-routes.mjs` to output full absolute redirect target URLs (`https://topmoneytools.com/...`) in `_redirects` to eliminate Googlebot relative `Location:` header parsing errors.
 3. **GSC Validation:**
