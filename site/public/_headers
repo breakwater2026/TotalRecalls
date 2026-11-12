@@ -6,7 +6,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.paddle.com https://static.cloudflareinsights.com; frame-src https://cdn.paddle.com https://apps.microsoft.com; connect-src 'self' https://static.cloudflareinsights.com https://cloudflareinsights.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.paddle.com https://static.cloudflareinsights.com; frame-src https://cdn.paddle.com https://apps.microsoft.com; connect-src 'self' https://demo-video.totalrecalls.app https://static.cloudflareinsights.com https://cloudflareinsights.com; media-src 'self' https://demo-video.totalrecalls.app blob:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
