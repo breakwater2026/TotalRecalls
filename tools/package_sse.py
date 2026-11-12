@@ -69,11 +69,8 @@ def main():
         for src_name, dest_name in guides:
             src_file = os.path.join(DOCS_DIR, src_name)
             if os.path.exists(src_file):
-                # Put in User Guides/ subfolder
+                # Put strictly in User Guides/ subfolder (no duplicate at root)
                 z.write(src_file, f"{ROOT_PREFIX}/User Guides/{dest_name}")
-                # And place .docx directly at root for instant visibility
-                if dest_name.endswith(".docx"):
-                    z.write(src_file, f"{ROOT_PREFIX}/{dest_name}")
 
     data = open(OUT_ZIP, "rb").read()
     sha = hashlib.sha256(data).hexdigest()
