@@ -38,7 +38,8 @@ const DEFAULT_FROM = 'TotalRecalls <onboarding@resend.dev>';
  * @totalrecalls.app prefix there). Override with the NOTIFY_TO secret.
  */
 const DEFAULT_NOTIFY_TO = 'totalrecalls.app@gmail.com';
-const DOWNLOAD_URL = 'https://totalrecalls.app/download';
+const DOWNLOAD_URL = 'https://totalrecalls.app/download/';
+const SSE_DOWNLOAD_URL = 'https://totalrecalls.app/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip';
 
 // Resend `last_event` values that decide whether the buyer actually got mail.
 const MAIL_FAILURES = ['bounced', 'failed', 'complained', 'rejected', 'blocked', 'suppressed'];
@@ -259,14 +260,15 @@ function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timest
   <p style="${boxStyle}">${key}</p>
   <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#52525b;margin:0 0 6px">2. Smart Search Engine (SSE) Key</p>
   <p style="${boxStyle}">${sseKey}</p>
-  <p style="font-size:15px;line-height:1.55;margin:0 0 10px"><strong>How to activate your software:</strong></p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 10px"><strong>How to download and activate your software:</strong></p>
   <ol style="font-size:14px;line-height:1.6;margin:0 0 22px;padding-left:20px;color:#3f3f46">
-    <li style="margin-bottom:6px">Click the button below to download the app ZIP.</li>
-    <li style="margin-bottom:6px">Unzip the archive and launch <strong>TotalRecalls.exe</strong> (portable Windows app, no installation needed).</li>
-    <li style="margin-bottom:6px">In the top-right corner of the app, click the <strong>Pro</strong> badge (or <strong>Activate</strong>).</li>
-    <li>Paste your license key from above and click <strong>Activate</strong>. All 8 providers and unlimited downloads unlock instantly.</li>
+    <li style="margin-bottom:8px"><strong>Downloader Pro:</strong> Download the app ZIP below (or install from Microsoft Store). In the top-right corner of the app, click the <strong>Pro</strong> badge (or <strong>Activate</strong>), paste key #1, and click Activate.</li>
+    <li style="margin-bottom:8px"><strong>Smart Search Engine:</strong> Download the SSE ZIP below. Extract it to any folder on your PC, double-click <strong>run-smart-search.bat</strong>, click <strong>Activate SSE Key</strong>, and paste key #2.</li>
   </ol>
-  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 24px;border-radius:8px;display:inline-block;font-weight:700;font-size:15px">Download TotalRecalls for Windows (ZIP) &rarr;</a></p>
+  <div style="margin:0 0 24px;display:flex;flex-wrap:wrap;gap:12px">
+    <p style="margin:0 0 10px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 20px;border-radius:8px;display:inline-block;font-weight:700;font-size:14px">1. Download TotalRecalls Pro &rarr;</a></p>
+    <p style="margin:0"><a href="${SSE_DOWNLOAD_URL}" style="background:#18181b;color:#f4f4f5;text-decoration:none;padding:12px 20px;border-radius:8px;display:inline-block;font-weight:700;font-size:14px">2. Download Smart Search Engine (ZIP) &rarr;</a></p>
+  </div>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
   <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
     Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
@@ -283,8 +285,14 @@ function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timest
   <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls Smart Search Engine license key</h1>
   <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying the TotalRecalls Smart Search Engine (SSE) add-on. Here is your license key:</p>
   <p style="${boxStyle}">${key}</p>
-  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open TotalRecalls Smart Search Engine, click <strong>Activate SSE</strong>, and paste the key exactly as shown.</p>
-  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download Smart Search Engine</a></p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 10px"><strong>How to download and activate:</strong></p>
+  <ol style="font-size:14px;line-height:1.6;margin:0 0 22px;padding-left:20px;color:#3f3f46">
+    <li style="margin-bottom:6px">Download the Smart Search Engine ZIP below.</li>
+    <li style="margin-bottom:6px">Extract the archive to any folder on your PC.</li>
+    <li style="margin-bottom:6px">Double-click <strong>run-smart-search.bat</strong> to open the interface in your browser.</li>
+    <li>Click <strong>Activate SSE Key</strong> in the top-right corner, paste the key above, and click Activate.</li>
+  </ol>
+  <p style="margin:0 0 24px"><a href="${SSE_DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 24px;border-radius:8px;display:inline-block;font-weight:700;font-size:15px">Download Smart Search Engine (ZIP) &rarr;</a></p>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
   <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
     Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
@@ -320,8 +328,11 @@ function licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timest
       `1. Downloader Pro license key: ${licenseKey}`,
       `2. Smart Search Engine (SSE) license key: ${sseLicenseKey}`,
       '',
-      'To activate: open each module, click Activate, and paste its corresponding key.',
-      `Download: ${DOWNLOAD_URL}`,
+      'To activate Downloader Pro: launch TotalRecalls, click Pro/Activate, and paste key #1.',
+      `Download Downloader: ${DOWNLOAD_URL}`,
+      '',
+      'To activate Smart Search Engine: unzip the SSE archive, run run-smart-search.bat, click Activate SSE, and paste key #2.',
+      `Download Smart Search Engine: ${SSE_DOWNLOAD_URL}`,
       '',
       `Product: ${productName}`,
       `Purchased: ${timestamp}`,
@@ -334,8 +345,9 @@ function licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timest
     '',
     `License key: ${licenseKey}`,
     '',
-    'To activate: open the app, click Activate, and paste the key exactly as shown.',
-    `Download: ${DOWNLOAD_URL}`,
+    tier === 'sse'
+      ? `To activate: unzip the SSE archive, run run-smart-search.bat, click Activate SSE, and paste the key.\nDownload: ${SSE_DOWNLOAD_URL}`
+      : `To activate: open the app, click Activate, and paste the key exactly as shown.\nDownload: ${DOWNLOAD_URL}`,
     '',
     `Product: ${productName}`,
     `Purchased: ${timestamp}`,

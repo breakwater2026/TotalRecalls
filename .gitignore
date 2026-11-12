@@ -47,6 +47,10 @@ paddle-webhook-license-key-*.json
 # served from R2 instead (video.totalrecalls.app).
 media/
 site/public/videos/
+*.mp4
+*.wav
+.venv312/
+build/
 
 # Wrangler local cache/state (never commit)
 .wrangler/

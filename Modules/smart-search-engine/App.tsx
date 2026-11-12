@@ -33,7 +33,7 @@ export function App() {
   const [activeModelId, setActiveModelId] = useState<string>('bge-small-en-v15');
   const [activeDimension, setActiveDimension] = useState<number>(384);
   const [chunks, setChunks] = useState(() => buildVectorIndex(INITIAL_CONVERSATIONS, 384));
-  const [activeTab, setActiveTab] = useState<AppTabType>('website');
+  const [activeTab, setActiveTab] = useState<AppTabType>('searchChat');
   const [selectedConvId, setSelectedConvId] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
   const [sseActive, setSseActive] = useState<boolean>(() => isSseActivated());

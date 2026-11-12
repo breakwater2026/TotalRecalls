@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Package TotalRecalls Smart Search Engine (SSE) add-on into a distributable ZIP.
 
+Includes:
+  - TotalRecalls Smart Search Engine standalone application (index.html, dist/bundle.js, run-smart-search.bat)
+  - Quick-Start Guide (.docx & .md)
+  - Power User Guide (.docx & .md)
+
 Output:
   site/public/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip
 """
@@ -8,48 +13,65 @@ Output:
 import os
 import zipfile
 import hashlib
+import subprocess
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SSE_DIR = os.path.join(REPO_ROOT, "Modules", "smart-search-engine")
+DOCS_DIR = os.path.join(REPO_ROOT, "docs")
 OUT_ZIP = os.path.join(REPO_ROOT, "site", "public", "downloads", "TotalRecalls-Smart-Search-Engine-1.0.0.zip")
 
-EXCLUDE_DIRS = {
-    "node_modules",
-    ".git",
-    "scripts",
-    "__pycache__",
-    ".wrangler"
-}
-
-EXCLUDE_FILES = {
-    ".gitignore",
-    "package.json",
-    "package-lock.json",
-    "tsconfig.json",
-    "metadata.json"
-}
-
 def main():
-    print(f"Packaging SSE from {SSE_DIR}...")
-    if not os.path.isdir(SSE_DIR):
-        raise SystemExit(f"ERROR: SSE directory not found: {SSE_DIR}")
+    print(f"1. Building bundle.js with esbuild...")
+    esbuild_bin = os.path.join(SSE_DIR, "node_modules", ".bin", "esbuild.cmd")
+    if not os.path.exists(esbuild_bin):
+        esbuild_bin = os.path.join(SSE_DIR, "node_modules", ".bin", "esbuild")
+        
+    cmd = [
+        esbuild_bin,
+        "index.tsx",
+        "--bundle",
+        "--outfile=dist/bundle.js",
+        "--format=iife",
+        "--jsx=automatic",
+        "--target=chrome100,edge100",
+        '--define:process.env.NODE_ENV="production"',
+    ]
+    subprocess.run(cmd, cwd=SSE_DIR, check=True)
+    bundle_path = os.path.join(SSE_DIR, "dist", "bundle.js")
+    print(f"   Compiled {bundle_path} ({os.path.getsize(bundle_path):,} bytes)")
 
+    print(f"2. Generating User Guides .docx files...")
+    builder_script = os.path.join(REPO_ROOT, "tools", "build_guide_docx.py")
+    subprocess.run(["python", builder_script], check=True)
+
+    print(f"3. Packaging SSE into {OUT_ZIP}...")
     os.makedirs(os.path.dirname(OUT_ZIP), exist_ok=True)
     
+    ROOT_PREFIX = "TotalRecalls-Smart-Search-Engine"
+    
     with zipfile.ZipFile(OUT_ZIP, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        # Walk SSE directory
-        for root, dirs, files in os.walk(SSE_DIR):
-            # Prune excluded directories
-            dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS and not d.startswith(".")]
-            
-            for file in files:
-                if file in EXCLUDE_FILES or file.startswith("."):
-                    continue
-                full_path = os.path.join(root, file)
-                rel_path = os.path.relpath(full_path, SSE_DIR)
-                # Store under root directory TotalRecalls-Smart-Search-Engine/
-                archive_name = os.path.join("TotalRecalls-Smart-Search-Engine", rel_path)
-                z.write(full_path, archive_name)
+        # Core runtime files
+        z.write(os.path.join(SSE_DIR, "index.html"), f"{ROOT_PREFIX}/index.html")
+        z.write(os.path.join(SSE_DIR, "dist", "bundle.js"), f"{ROOT_PREFIX}/dist/bundle.js")
+        z.write(os.path.join(SSE_DIR, "run-smart-search.bat"), f"{ROOT_PREFIX}/run-smart-search.bat")
+        z.write(os.path.join(SSE_DIR, "README-SSE.md"), f"{ROOT_PREFIX}/README.md")
+        
+        # User Guides
+        guides = [
+            ("TOTALRECALLS_SSE_QUICK_START_GUIDE.docx", "Quick-Start Guide (TotalRecalls SSE).docx"),
+            ("TOTALRECALLS_SSE_QUICK_START_GUIDE.md", "Quick-Start Guide (TotalRecalls SSE).md"),
+            ("TOTALRECALLS_POWER_USER_MANUAL.docx", "Power User Guide (TotalRecalls SSE).docx"),
+            ("TOTALRECALLS_POWER_USER_MANUAL.md", "Power User Guide (TotalRecalls SSE).md"),
+        ]
+        
+        for src_name, dest_name in guides:
+            src_file = os.path.join(DOCS_DIR, src_name)
+            if os.path.exists(src_file):
+                # Put in User Guides/ subfolder
+                z.write(src_file, f"{ROOT_PREFIX}/User Guides/{dest_name}")
+                # And place .docx directly at root for instant visibility
+                if dest_name.endswith(".docx"):
+                    z.write(src_file, f"{ROOT_PREFIX}/{dest_name}")
 
     data = open(OUT_ZIP, "rb").read()
     sha = hashlib.sha256(data).hexdigest()
@@ -58,6 +80,11 @@ def main():
     print(f"  {OUT_ZIP}")
     print(f"  Size: {size_mb:.2f} MB ({len(data):,} bytes)")
     print(f"  SHA-256: {sha}")
+    
+    print("\nPackage Contents:")
+    with zipfile.ZipFile(OUT_ZIP, "r") as z:
+        for info in z.infolist():
+            print(f"  {info.filename:55s} {info.file_size:>10,} bytes")
 
 if __name__ == "__main__":
     main()

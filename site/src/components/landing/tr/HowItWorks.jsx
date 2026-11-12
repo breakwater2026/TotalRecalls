@@ -154,7 +154,7 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        {/* SmartScreen helper + close */}
+        {/* Microsoft Store certified + close */}
         <p className="mt-8 font-body text-[14px] leading-[1.5] text-tr-dust">
           Certified and distributed through the official <a href="https://apps.microsoft.com/detail/9PP1KKD5X2D6" className="text-tr-steel transition-colors hover:text-tr-paper" target="_blank" rel="noopener noreferrer">Microsoft Store</a> — zero warnings, one-click install.
         </p>

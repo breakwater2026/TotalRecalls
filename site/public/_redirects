@@ -3,8 +3,12 @@
 # orphan 404s (page deleted in 7f21471, themes never shipped, guide renamed
 # without a no-slash redirect). Googlebot hits them via old index entries;
 # each now 301s once to a live, indexed page.
-/windows-firewall /microsoft-warning/ 301
-/windows-firewall/ /microsoft-warning/ 301
+/windows-firewall /download/ 301
+/windows-firewall/ /download/ 301
+/microsoft-warning /download/ 301
+/microsoft-warning/ /download/ 301
+/guides/smartscreen /download/ 301
+/guides/smartscreen/ /download/ 301
 /previews/theme-cyan /previews/ 301
 /previews/theme-cyan/ /previews/ 301
 /previews/theme-midnight /previews/ 301

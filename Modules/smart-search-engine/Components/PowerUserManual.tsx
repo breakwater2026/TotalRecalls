@@ -31,7 +31,7 @@ import {
 import { ChatConversation, ChunkEmbedding, AIProvider } from '../types';
 import { AppTabType } from './Navbar';
 
-interface OverviewHubProps {
+interface PowerUserManualProps {
   conversations: ChatConversation[];
   chunks: ChunkEmbedding[];
   onSelectTab?: (tab: AppTabType) => void;
@@ -41,7 +41,7 @@ interface OverviewHubProps {
   onAddNewChat?: () => void;
 }
 
-export const OverviewHub: React.FC<OverviewHubProps> = ({
+export const PowerUserManual: React.FC<PowerUserManualProps> = ({
   conversations,
   chunks,
   onSelectTab,

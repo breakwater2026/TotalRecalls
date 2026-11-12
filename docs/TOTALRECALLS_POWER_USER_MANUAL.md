@@ -120,6 +120,8 @@ C:\Users\<YourUsername>\TotalRecalls-download\Library\
 
 SSE automatically indexes this directory structure. Every search result contains a direct file link to open the source Markdown file in your favorite editor (VS Code, Obsidian, Notepad, Word).
 
+> **Operational Warning:** Also, note that the first download and indexing run may take 5–15 minutes depending on the number of conversations being indexed by the Smart Search Engine (SSE).
+
 ---
 
 ## 6. Privacy & Zero-Egress Contract

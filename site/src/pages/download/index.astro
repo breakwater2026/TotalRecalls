@@ -12,6 +12,9 @@ const STORE_URL = "https://apps.microsoft.com/detail/9PP1KKD5X2D6";
 const ZIP_URL = "/downloads/TotalRecalls-1.0.0.zip";
 const ZIP_SIZE_MB = 17.8;
 const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b";
+const SSE_ZIP_URL = "/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip";
+const SSE_ZIP_SIZE_MB = 0.63;
+const SSE_SHA256 = "53b02a51ecd16249d39f83a8d7a79b72cfcf2541c364db9c0f3b165975fa9d6f";
 ---
 <PageLayout
   title={`Download TotalRecalls ${currentVersion}`}
@@ -71,6 +74,24 @@ const SHA256 = "595b830065fc4b33ed3a7d806172ede4683573355de2e9f99bd516d72c23ed4b
     </p>
     <p class="hash-line text-xs text-tr-dust">
       <strong>SHA-256:</strong> <code class="break-all">{SHA256}</code>
+    </p>
+  </section>
+
+  <section class="border-t border-tr-slate pt-8 mt-8">
+    <h3>Purchased Smart Search Engine (SSE) or the Bundle?</h3>
+    <p>
+      Download the standalone Smart Search Engine add-on archive below. Extract it to any folder on your PC, double-click <code>run-smart-search.bat</code>, and paste your <code>SSE-XXXXXXXX-XXXX-XXXX</code> key to activate:
+    </p>
+    <p class="my-4">
+      <a class="inline-flex items-center gap-2 border border-tr-slate hover:border-tr-steel text-tr-paper hover:text-tr-amber px-5 py-2.5 rounded-lg text-sm font-medium transition-colors" href={SSE_ZIP_URL}>
+        &#8681; Download Smart Search Engine (~{SSE_ZIP_SIZE_MB} MB ZIP)
+      </a>
+    </p>
+    <p class="hash-line text-xs text-tr-dust">
+      <strong>SHA-256:</strong> <code class="break-all">{SSE_SHA256}</code>
+    </p>
+    <p class="text-xs text-tr-dust mt-2">
+      Includes the Quick-Start Guide, Power User Guide, and 100% offline local vector search engine.
     </p>
   </section>
 
