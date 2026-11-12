@@ -9,12 +9,9 @@ import { currentVersion, releases } from "../../data/releases.json";
 // (the app shipped 2026-09-12) that also rolled forward on every single deploy.
 const date = releases[0].date;
 const STORE_URL = "https://apps.microsoft.com/detail/9PP1KKD5X2D6";
-const ZIP_URL = "/downloads/TotalRecalls-1.0.0.zip";
-const ZIP_SIZE_MB = 17.8;
-const SHA256 = "a76de10c863e7c337912c2824985ce118d74d67b2dae15b0ef3a2402baaa9f0e";
 const SSE_ZIP_URL = "/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip";
-const SSE_ZIP_SIZE_MB = 0.56;
-const SSE_SHA256 = "6d18fa9c629399c957ed16df342ed12554004f7579878322e43d3a69832ec325";
+const SSE_ZIP_SIZE_MB = 0.78;
+const SSE_SHA256 = "5811ed24f4d61ce58505e0a575f4a286a160445b789d09f100139fa8d44e9c22";
 ---
 <PageLayout
   title={`Download TotalRecalls ${currentVersion} for Windows 10/11`}
@@ -33,16 +30,16 @@ const SSE_SHA256 = "6d18fa9c629399c957ed16df342ed12554004f7579878322e43d3a69832e
       <div>
         <h2 class="text-base font-bold text-tr-paper !mt-0 !mb-1.5">Already purchased Pro or the Bundle?</h2>
         <p class="text-[14px] text-tr-mist !my-0 leading-relaxed">
-          TotalRecalls ships as a single portable Windows app. <strong>Download the ZIP below, unzip it, and run <code>TotalRecalls.exe</code>.</strong> To activate, click the <strong>Pro</strong> badge in the top-right corner of the app (or <strong>Activate</strong>), paste the license key from your purchase email, and click <strong>Activate</strong>. All 8 providers and unlimited downloads will unlock immediately.
+          TotalRecalls is installed directly from the Microsoft Store with one click and zero security warnings. To activate, launch TotalRecalls from your Start menu, click the <strong>Pro</strong> badge in the top-right corner of the app, paste the license key from your purchase email, and click <strong>Activate</strong>. All 8 providers and unlimited downloads will unlock immediately.
         </p>
       </div>
     </div>
   </div>
 
   <section class="mb-10">
-    <h2>Install from Microsoft Store (Recommended)</h2>
+    <h2>Install from Microsoft Store</h2>
     <p>
-      The fastest, cleanest installation on Windows 10 &amp; 11. Certified by Microsoft with zero security prompts and automatic updates.
+      The official, certified installation for Windows 10 &amp; 11. Certified by Microsoft with zero security prompts, clean sandbox isolation, and automatic updates.
     </p>
     <div class="my-6">
       <a
@@ -63,21 +60,6 @@ const SSE_SHA256 = "6d18fa9c629399c957ed16df342ed12554004f7579878322e43d3a69832e
   </section>
 
   <section class="border-t border-tr-slate pt-8 mt-8">
-    <h3>Alternative: Direct Portable Download</h3>
-    <p>
-      Prefer a standalone portable build with no Store installation? You can download the portable archive directly:
-    </p>
-    <p class="my-4">
-      <a class="inline-flex items-center gap-2 border border-tr-slate hover:border-tr-steel text-tr-paper hover:text-tr-amber px-5 py-2.5 rounded-lg text-sm font-medium transition-colors" href={ZIP_URL}>
-        &#8681; Download Portable ZIP (~{ZIP_SIZE_MB} MB)
-      </a>
-    </p>
-    <p class="hash-line text-xs text-tr-dust">
-      <strong>SHA-256:</strong> <code class="break-all">{SHA256}</code>
-    </p>
-  </section>
-
-  <section class="border-t border-tr-slate pt-8 mt-8">
     <h3>Purchased Smart Search Engine (SSE) or the Bundle?</h3>
     <p>
       Download the standalone Smart Search Engine add-on archive below. Extract it to any folder on your PC, double-click <code>run-smart-search.bat</code>, and paste your <code>SSE-XXXXXXXX-XXXX-XXXX</code> key to activate:
@@ -91,35 +73,25 @@ const SSE_SHA256 = "6d18fa9c629399c957ed16df342ed12554004f7579878322e43d3a69832e
       <strong>SHA-256:</strong> <code class="break-all">{SSE_SHA256}</code>
     </p>
     <p class="text-xs text-tr-dust mt-2">
-      Includes the Quick-Start Guide, Power User Guide, and 100% offline local vector search engine.
+      Includes the Quick-Start Guide, Power User Guide, and technical README in PDF and Markdown formats, plus the 100% offline local vector search engine.
     </p>
   </section>
 
   <section>
     <h2>Already purchased?</h2>
     <p>
-      Re-download any time from this page, and use the license key from your
-      purchase email to unlock Pro in the app. Your receipt and invoice were
-      emailed to you by Paddle at the time of purchase — contact
-      <a href="/support/">support</a> if you need another copy.
+      Install TotalRecalls from the Microsoft Store above, and enter your license key from your
+      purchase email to unlock Pro. Your receipt and invoice were emailed to you by Paddle at the
+      time of purchase &mdash; contact <a href="/support/">support</a> if you need another copy.
     </p>
     <p>
-      <strong>The Free Tier is available now</strong> — download the app and test it
+      <strong>The Free Tier is available now</strong> &mdash; install the app and test it
       on your own chats before paying a cent. Downloads are limited to 3 AI providers and
-      5 conversations per provider — our try-before-you-buy mechanism. Purchases
+      5 conversations per provider &mdash; our try-before-you-buy mechanism. Purchases
       are one-time; the Downloader keeps receiving free updates (bug fixes) for the
       life of the product. New features (add-ons, like Smart Search Engine (SSE)) are
       separate paid upgrades.
     </p>
-  </section>
-
-  <section>
-    <h2>What's Inside the ZIP?</h2>
-    <ul>
-      <li><code>TotalRecalls.exe</code> &mdash; the Windows app (portable, no installer)</li>
-      <li><code>README.txt</code> &mdash; quick-start notes and version history</li>
-    </ul>
-    <p>No installers, no background services, no telemetry. Just unzip and run.</p>
   </section>
 
   <section class="technical-notes">
@@ -134,8 +106,8 @@ const SSE_SHA256 = "6d18fa9c629399c957ed16df342ed12554004f7579878322e43d3a69832e
   <section>
     <h2>How to Use the App (5 steps)</h2>
     <ol>
-      <li><strong>Install</strong> from the Microsoft Store (or extract the portable ZIP).</li>
-      <li><strong>Run</strong> TotalRecalls from your Start menu or launch <code>TotalRecalls.exe</code>.</li>
+      <li><strong>Install</strong> from the official Microsoft Store.</li>
+      <li><strong>Run</strong> TotalRecalls from your Windows Start menu.</li>
       <li><strong>Pick a provider</strong> (Perplexity, ChatGPT, or Claude &mdash; the Free Tier includes these three; <em>Pro adds Gemini, Grok, DeepSeek, Mistral, and Qwen</em>) and sign in locally. For Gemini, point at your Takeout folder instead.</li>
       <li><strong>Choose an output folder</strong> and click <em>Download</em>. Your Markdown + JSON files are written straight to disk.</li>
       <li><strong>Search &amp; Open</strong>: browse your clean Markdown files in File Explorer, Obsidian, or Notion, or query your library in plain English using the Smart Search Engine (SSE) add-on.</li>

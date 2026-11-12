@@ -40,8 +40,8 @@ def main():
     bundle_path = os.path.join(SSE_DIR, "dist", "bundle.js")
     print(f"   Compiled {bundle_path} ({os.path.getsize(bundle_path):,} bytes)")
 
-    print(f"2. Generating User Guides .docx files...")
-    builder_script = os.path.join(REPO_ROOT, "tools", "build_guide_docx.py")
+    print(f"2. Generating User Guides and README .pdf files...")
+    builder_script = os.path.join(REPO_ROOT, "tools", "build_guide_pdf.py")
     subprocess.run(["python", builder_script], check=True)
 
     print(f"3. Packaging SSE into {OUT_ZIP}...")
@@ -56,20 +56,24 @@ def main():
         if os.path.exists(os.path.join(SSE_DIR, "dist", "tailwind.css")):
             z.write(os.path.join(SSE_DIR, "dist", "tailwind.css"), f"{ROOT_PREFIX}/dist/tailwind.css")
         z.write(os.path.join(SSE_DIR, "run-smart-search.bat"), f"{ROOT_PREFIX}/run-smart-search.bat")
-        z.write(os.path.join(SSE_DIR, "README-SSE.md"), f"{ROOT_PREFIX}/README.md")
         
-        # User Guides
+        # README files at root (.md + .pdf)
+        z.write(os.path.join(SSE_DIR, "README-SSE.md"), f"{ROOT_PREFIX}/README.md")
+        readme_pdf = os.path.join(SSE_DIR, "README.pdf")
+        if os.path.exists(readme_pdf):
+            z.write(readme_pdf, f"{ROOT_PREFIX}/README.pdf")
+        
+        # User Guides strictly in User Guides/ subfolder (.pdf and .md only, zero .docx)
         guides = [
-            ("TOTALRECALLS_SSE_QUICK_START_GUIDE.docx", "Quick-Start Guide (TotalRecalls SSE).docx"),
+            ("Quick-Start Guide (TotalRecalls SSE).pdf", "Quick-Start Guide (TotalRecalls SSE).pdf"),
             ("TOTALRECALLS_SSE_QUICK_START_GUIDE.md", "Quick-Start Guide (TotalRecalls SSE).md"),
-            ("TOTALRECALLS_POWER_USER_MANUAL.docx", "Power User Guide (TotalRecalls SSE).docx"),
+            ("Power User Guide (TotalRecalls SSE).pdf", "Power User Guide (TotalRecalls SSE).pdf"),
             ("TOTALRECALLS_POWER_USER_MANUAL.md", "Power User Guide (TotalRecalls SSE).md"),
         ]
         
         for src_name, dest_name in guides:
             src_file = os.path.join(DOCS_DIR, src_name)
             if os.path.exists(src_file):
-                # Put strictly in User Guides/ subfolder (no duplicate at root)
                 z.write(src_file, f"{ROOT_PREFIX}/User Guides/{dest_name}")
 
     data = open(OUT_ZIP, "rb").read()
