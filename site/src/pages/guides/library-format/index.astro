@@ -3,33 +3,75 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 ---
 <PageLayout title="Local Library Folder Structure & Format — TotalRecalls" description="Learn how TotalRecalls organizes your local library folder: Markdown and JSON file hierarchy, provider subdirectories, and metadata manifests." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Library" }]}>
   <h1>TotalRecalls Library Format</h1>
-  <p>TotalRecalls stores your downloads in a structured library folder so you can find anything instantly.</p>
+  <p class="lead">
+    TotalRecalls stores every conversation in a clean, predictable, and vendor-neutral directory hierarchy on your local
+    drive. By default, files are placed in <code>%USERPROFILE%\TotalRecalls-download\Library\</code>, but you can select
+    any internal drive, external SSD, or network-attached storage volume.
+  </p>
 
-  <h2>Directory Structure</h2>
-  <pre><code>totalrecalls-library/
-  ├── chatgpt/
-  │   ├── 2026-08-09-how-to-refactor.md
-  │   └── 2026-08-09-how-to-refactor.json
-  ├── claude/
-  ├── gemini/
-  ├── perplexity/
-  ├── grok/
-  ├── metadata/
-  │   └── export-manifest.json
-  └── README.txt</code></pre>
+  <h2>Directory Structure Overview</h2>
+  <p>
+    The library organizes chats into dedicated subfolders by provider, with a central metadata tracking directory:
+  </p>
+  <pre><code>%USERPROFILE%\TotalRecalls-download\Library\
+├── chatgpt\
+│   ├── 2026-08-09-how-to-refactor-react.md
+│   └── 2026-08-09-how-to-refactor-react.json
+├── claude\
+│   ├── 2026-08-10-distributed-consensus.md
+│   └── 2026-08-10-distributed-consensus.json
+├── perplexity\
+├── gemini\
+├── grok\
+├── deepseek\
+├── mistral\
+├── qwen\
+├── metadata\
+│   └── export-manifest.json
+└── README.txt</code></pre>
 
-  <h2>File Pair Format</h2>
-  <p>For each conversation, you get two files:</p>
+  <h2>The Dual-File Architecture (.md + .json)</h2>
+  <p>
+    Every single conversation is saved as an atomic pair of files sharing an identical base filename formatted
+    as <code>YYYY-MM-DD-sanitized-title</code>:
+  </p>
   <ul>
-    <li><code>.md</code> — human-readable Markdown with timestamps, model names, and full transcript.</li>
-    <li><code>.json</code> — machine-parseable JSON for import into Obsidian, Notion, or your own scripts.</li>
+    <li>
+      <strong>Human-Readable Markdown (<code>.md</code>):</strong> Structured plain text formatted with standard
+      CommonMark syntax. Each file begins with a YAML frontmatter block recording the original conversation title,
+      source provider, model name, creation timestamp, and unique conversation identifier. Message turns are rendered
+      with clear role headers (<code>### User</code>, <code>### Assistant</code>), code blocks preserve their original syntax
+      highlighting tags, and mathematical LaTeX expressions stay intact.
+    </li>
+    <li>
+      <strong>Lossless Raw JSON (<code>.json</code>):</strong> A complete, uncompressed JSON object containing the exact
+      original message tree, full token metadata, tool calls, thinking/reasoning blocks (such as DeepSeek-R1 traces),
+      and web search citation URLs. This structure guarantees that future tools, custom parsers, and vector indexers
+      have access to the raw payload without information loss.
+    </li>
   </ul>
 
-  <h2>Metadata File</h2>
-  <p><code>metadata/export-manifest.json</code> tracks:</p>
+  <h2>Metadata Manifest (<code>metadata/export-manifest.json</code>)</h2>
+  <p>
+    TotalRecalls maintains an incremental manifest file to enable fast synchronization and deduplication:
+  </p>
+  <pre><code>{`{
+  "version": "1.0.0",
+  "last_export": "2026-11-12T14:30:00Z",
+  "providers": {
+    "chatgpt": { "conversation_count": 106, "file_pairs": 106 },
+    "claude": { "conversation_count": 84, "file_pairs": 84 }
+  }
+}`}</code></pre>
+
+  <h2>Third-Party Integration &amp; Longevity</h2>
+  <p>
+    Because TotalRecalls writes standard text files rather than a proprietary database blob:
+  </p>
   <ul>
-    <li>Provider and download date</li>
-    <li>Conversation count per provider</li>
-    <li>Original message IDs for cross-referencing</li>
+    <li><strong>Obsidian:</strong> Open the <code>Library\</code> folder directly as an Obsidian Vault to explore your chats with bi-directional wikilinks and graph views.</li>
+    <li><strong>Notion:</strong> Use Notion's native Markdown import utility to bring research threads into shared workspaces.</li>
+    <li><strong>Windows Search &amp; ripgrep:</strong> Instant full-text search across thousands of files directly from Windows File Explorer or developer command-line tools.</li>
+    <li><strong>Local Backups:</strong> Compatible with Windows File History, OneDrive, Backblaze, and Git version control out of the box.</li>
   </ul>
 </PageLayout>

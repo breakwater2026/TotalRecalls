@@ -9,18 +9,64 @@ import releases from "../../data/releases.json";
 >
   <h1>Release Notes</h1>
 
-  <p>
-    TotalRecalls ships updates regularly. The current release is{" "}
-    <strong>{releases.releases[0].tag}</strong> ({releases.releases[0].date}).
+  <p class="lead">
+    TotalRecalls is distributed as both a certified Microsoft Store application and a standalone portable Windows package.
+    Every release is signed, verified, and self-contained on your local hardware.
   </p>
 
-  {releases.releases.map((r) => (
-    <section>
-      <h2>{r.tag} — {r.title}</h2>
-      <p class="text-muted-foreground">{r.date} · {r.summary}</p>
-      <ul>
-        {r.changes.map((c) => <li>{c}</li>)}
-      </ul>
-    </section>
-  ))}
+  <section>
+    <h2>Current Production Release: {releases.releases[0].tag} ({releases.releases[0].date})</h2>
+    <p class="text-muted-foreground">{releases.releases[0].title} — {releases.releases[0].summary}</p>
+    <ul>
+      {releases.releases[0].changes.map((c) => <li>{c}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Architecture &amp; Integrity Verification</h2>
+    <p>
+      TotalRecalls runs on 64-bit Windows 10 and Windows 11. The standalone executable requires no administrative
+      privileges, creates no background Windows services, and does not register system drivers. All network
+      traffic is restricted strictly to the AI providers you explicitly connect to and the one-time Paddle license
+      verification endpoint.
+    </p>
+    <p>
+      To verify the cryptographic integrity of your standalone download before launching, run the following
+      standard command in Command Prompt or PowerShell:
+    </p>
+    <pre><code>certutil -hashfile TotalRecalls-1.0.0.zip SHA256</code></pre>
+    <p>
+      Compare the output against the published SHA-256 hash listed on our official
+      <a href="/download/">Download Page</a> (<code>a76de10c863e7c337912c2824985ce118d74d67b2dae15b0ef3a2402baaa9f0e</code>).
+    </p>
+  </section>
+
+  <section>
+    <h2>Update and Upgrade Policy</h2>
+    <p>
+      We maintain a clear distinction between maintenance updates and feature upgrades:
+    </p>
+    <ul>
+      <li>
+        <strong>Maintenance Updates (Free for Life):</strong> Bug fixes, provider API adapter adjustments,
+        and security patches for Downloader Pro are free for the lifetime of the product. When an AI provider
+        adjusts their web session layout, updated adapters are delivered automatically via the Microsoft Store
+        or published directly on our download page.
+      </li>
+      <li>
+        <strong>Feature Upgrades &amp; Add-Ons:</strong> Major architectural modules — such as the Smart Search
+        Engine (SSE) semantic vector add-on, future local RAG containers, and multi-device memory sync — are
+        engineered as standalone optional utilities that enhance your local library without recurring subscriptions.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Release Artifacts Summary</h2>
+    <ul>
+      <li><strong>Microsoft Store Edition:</strong> Package family <code>34690AndreG.TotalRecalls</code> — automatic silent updates, sandbox isolation.</li>
+      <li><strong>Standalone Portable ZIP:</strong> <code>TotalRecalls-1.0.0.zip</code> (17.8 MB) — runs from any user directory, zero registry footprint.</li>
+      <li><strong>Smart Search Engine Add-On:</strong> <code>TotalRecalls-Smart-Search-Engine-1.0.0.zip</code> (0.63 MB) — offline self-contained search UI bundle.</li>
+    </ul>
+  </section>
 </PageLayout>

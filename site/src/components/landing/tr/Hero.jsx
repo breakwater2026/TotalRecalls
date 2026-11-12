@@ -99,7 +99,7 @@ export default function Hero() {
 
               {/* Library folder */}
               <div className="rounded-card border border-tr-slate bg-tr-obsidian p-3">
-                <p className="font-mono text-[12px] text-tr-steel break-all">C:\TotalRecalls\Library\</p>
+                <p className="font-mono text-[12px] text-tr-steel break-all">%USERPROFILE%\TotalRecalls-download\Library\</p>
                 <ul className="mt-2.5 space-y-1.5">
                   {TREE.map((r) => (
                     <li key={r.d} className="flex items-center justify-between gap-2">

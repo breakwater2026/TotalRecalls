@@ -89,7 +89,7 @@ export default function Guides() {
           {GUIDES.map((g) => (
             <a key={g.t} href={g.href} className="group flex items-center gap-6 border-b border-border py-6 hover:bg-muted/30 transition-colors px-2 -mx-2">
               <div className="flex-1">
-                <h3 className="font-heading text-xl md:text-2xl font-semibold group-hover:text-tr-amber transition-colors">{g.t}</h3>
+                <h2 className="font-heading text-xl md:text-2xl font-semibold group-hover:text-tr-amber transition-colors">{g.t}</h2>
                 <p className="font-body text-muted-foreground text-[14px] mt-1">{g.d}</p>
                 <div className="flex flex-wrap gap-x-3 gap-y-1.5 mt-3">
                   {g.bullets.map((b) => (

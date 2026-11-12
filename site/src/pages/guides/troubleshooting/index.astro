@@ -2,25 +2,93 @@
 import PageLayout from "../../../layouts/PageLayout.astro";
 ---
 <PageLayout title="Troubleshooting Guide & Solutions — TotalRecalls" description="Step-by-step troubleshooting guide for TotalRecalls: fixing login hurdles, download retries, Takeout imports, and license activation issues." breadcrumbs={[{ label: "Guides", href: "/guides/" }, { label: "Troubleshooting" }]}>
-  <h1>Troubleshooting</h1>
-  <h2>Download Fails or Returns Empty</h2>
+  <h1>Troubleshooting Guide</h1>
+  <p class="lead">
+    TotalRecalls is engineered to be resilient across eight different AI vendor platforms. When an unexpected
+    connection pause or download interrupt occurs, consult the proven recovery steps below.
+  </p>
+
+  <h2>1. Provider Sign-In Window Closes or Returns Empty</h2>
   <ul>
-    <li>Make sure the provider's sign-in window completed a real login — the
-      app reads the live session from that embedded window, not from your
-      default browser.</li>
-    <li>Some providers' servers are occasionally slow or return errors. If
-      the app shows "servers are busy — retrying", wait for the retry to
-      finish (it will keep going; large accounts take longer).</li>
-    <li>If the sign-in window opens blank and never loads, close the app and
-      launch it again — the app clears leftover browser processes on startup.</li>
-    <li>Disconnect and reconnect (the provider's "Disconnect", then "Connect"
-      again) to force a fresh login window.</li>
+    <li>
+      <strong>Embedded Window vs. Default Browser:</strong> TotalRecalls uses an isolated, secure embedded Chromium
+      runtime on your machine to capture session tokens. Sign in directly inside that window — the app does not and
+      cannot read cookies or passwords from your default Chrome, Edge, or Firefox browser.
+    </li>
+    <li>
+      <strong>Cloudflare Verification Challenges:</strong> Providers like Perplexity and Claude often present
+      Cloudflare Turnstile or CAPTCHA verification challenges during sign-in. If a challenge appears, complete it
+      interactively inside the window and wait 3–5 seconds until the provider dashboard renders before closing.
+    </li>
+    <li>
+      <strong>Blank Window on Launch:</strong> If the login window opens blank or fails to render, close TotalRecalls
+      and reopen it. The app automatically scans for and terminates orphaned background browser instances on startup.
+    </li>
+    <li>
+      <strong>Forcing a Fresh Session:</strong> Click <em>Disconnect</em> next to the provider name in the app, then
+      click <em>Connect</em> again to purge expired cached cookies and launch a fresh sign-in dialog.
+    </li>
   </ul>
-  <h2>Google Takeout Import Fails</h2>
+
+  <h2>2. "Servers Are Busy — Retrying" During Large Exports</h2>
+  <p>
+    When extracting hundreds or thousands of historical conversations, provider APIs (notably ChatGPT and Perplexity)
+    occasionally issue HTTP 429 rate-limit warnings or 503 gateway timeouts.
+  </p>
   <ul>
-    <li>Ensure you downloaded the full ZIP from <a href="https://takeout.google.com">takeout.google.com</a>.</li>
-    <li>Extract the ZIP before importing—TotalRecalls reads the extracted folder.</li>
+    <li>
+      <strong>Automatic Exponential Backoff:</strong> Do not abort the run. TotalRecalls features an automatic retry
+      queue with intelligent backoff pacing. The app will hold your progress, wait for the provider's cooldown window
+      to clear, and resume smoothly from the exact last saved conversation.
+    </li>
+    <li>
+      <strong>Incremental Refresh:</strong> If you stop an export early, running it again will not redownload existing
+      conversations. The app compares remote timestamps against your local metadata manifest and downloads only new
+      or modified conversations.
+    </li>
   </ul>
-  <h2>Still Need Help?</h2>
-  <p>Email <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>.</p>
+
+  <h2>3. Google Takeout Gemini Import Hurdles</h2>
+  <ul>
+    <li>
+      <strong>Extract the Archive First:</strong> TotalRecalls reads uncompressed directory structures. If you import
+      directly from <code>takeout-2026.zip</code>, the file picker cannot parse the contents. Right-click the ZIP in
+      Windows Explorer, select <em>Extract All</em>, and point TotalRecalls to the extracted folder.
+    </li>
+    <li>
+      <strong>Nested Takeout Folder Hierarchy:</strong> Select either the root <code>Takeout\</code> folder or the
+      nested <code>Takeout\Gemini\</code> (or <code>Takeout\Bard\</code>) directory. TotalRecalls recursively traverses
+      all subdirectories to locate your JSON and HTML chat dumps.
+    </li>
+  </ul>
+
+  <h2>4. License Activation Key Errors</h2>
+  <ul>
+    <li>
+      <strong>Key Format:</strong> Pro license keys follow the format <code>TR-XXXXXXXX-XXXX-XXXX</code>. Smart Search
+      Engine keys follow <code>SSE-XXXXXXXX-XXXX-XXXX</code>. Ensure you enter your Downloader key into the Downloader app.
+    </li>
+    <li>
+      <strong>Clipboard Whitespace:</strong> When pasting your key from email, ensure no trailing spaces or newline
+      characters were copied before clicking <em>Activate</em>.
+    </li>
+    <li>
+      <strong>One-Time Internet Connection:</strong> License activation requires an active internet connection to
+      communicate with our secure verification endpoint once. Once activated, the app operates 100% offline.
+    </li>
+  </ul>
+
+  <h2>5. Smart Search Engine (SSE) First-Run Indexing Notice</h2>
+  <p>
+    When launching the Smart Search Engine add-on for the first time across a large library (1,000+ conversations),
+    local vectorization and embedding generation runs entirely on your local CPU. This initial process takes between
+    <strong>5 to 15 minutes</strong> depending on your processor. Do not close the terminal window while the progress
+    bar advances; subsequent searches launch instantly.
+  </p>
+
+  <h2>Still Need Assistance?</h2>
+  <p>
+    Our engineering team is available directly at <a href="mailto:support@totalrecalls.app">support@totalrecalls.app</a>.
+    Include your Windows version and provider name for priority diagnostic assistance.
+  </p>
 </PageLayout>
