@@ -53,6 +53,8 @@ def main():
         # Core runtime files
         z.write(os.path.join(SSE_DIR, "index.html"), f"{ROOT_PREFIX}/index.html")
         z.write(os.path.join(SSE_DIR, "dist", "bundle.js"), f"{ROOT_PREFIX}/dist/bundle.js")
+        if os.path.exists(os.path.join(SSE_DIR, "dist", "tailwind.css")):
+            z.write(os.path.join(SSE_DIR, "dist", "tailwind.css"), f"{ROOT_PREFIX}/dist/tailwind.css")
         z.write(os.path.join(SSE_DIR, "run-smart-search.bat"), f"{ROOT_PREFIX}/run-smart-search.bat")
         z.write(os.path.join(SSE_DIR, "README-SSE.md"), f"{ROOT_PREFIX}/README.md")
         

@@ -28,6 +28,10 @@ const site = "https://totalrecalls.app";
 function gitDates() {
   const dates = new Map();
   try {
+    // If shallow clone (common in CI/Pages builders), try to fetch history to recover real per-file dates
+    try {
+      execFileSync("git", ["fetch", "--unshallow"], { cwd: repoRoot, stdio: "ignore" });
+    } catch {}
     const out = execFileSync(
       "git", ["log", "--format=C %cs", "--name-only", "-n", "2000"],
       { cwd: repoRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },

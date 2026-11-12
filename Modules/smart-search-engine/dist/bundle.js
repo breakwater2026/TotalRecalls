@@ -18703,7 +18703,7 @@ TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only in
             /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
               "button",
               {
-                onClick: () => copyToClipboard(`curl -sSL https://totalrecalls.app/install-sse.sh | bash`),
+                onClick: () => copyToClipboard(`run-smart-search.bat`),
                 className: "hover:text-[var(--tr-accent)] flex items-center gap-1 transition-colors",
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Copy, { className: "w-3.5 h-3.5" }),
@@ -18713,11 +18713,7 @@ TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only in
             )
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "space-y-2 pt-2", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "text-[var(--tr-accent)] font-bold", children: [
-              '$ ./install.sh --license="',
-              licenseKeyInput,
-              '"'
-            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "text-[var(--tr-accent)] font-bold", children: "$ run-smart-search.bat" }),
             simulatedInstallStep >= 1 && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "text-[var(--tr-muted)] animate-fadeIn", children: [
               "[1/5] Inspecting local host environment... ",
               /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-[var(--tr-accent)] font-semibold", children: "[PASS]" }),

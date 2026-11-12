@@ -45,8 +45,7 @@ import config from "../../data/config.json";
   <h2>3. What the app stores locally (on your PC only)</h2>
   <p>
     The app keeps a small amount of local state in a per-user folder on your machine —
-    on Windows, <code>C:/Users/<your user name>/TotalRecalls-downloads/Library/<provider>/home/</code> (a historical folder name we kept
-    so existing sessions keep working). Nothing in that folder ever leaves your PC:
+    on Windows, <code>C:\Users\&lt;username&gt;\TotalRecalls-download\Library\</code> (or your custom chosen folder). Nothing in that folder ever leaves your PC:
   </p>
   <ul>
     <li><strong>Session files</strong> — the provider session data the app uses to download, encrypted with Windows DPAPI. DPAPI ties the encryption to your Windows user account: the files are unreadable on any other machine or by any other user of your PC.</li>
@@ -91,9 +90,9 @@ import config from "../../data/config.json";
 
   <h2>6. This website</h2>
   <ul>
-    <li>No cookies are set by totalrecalls.app.</li>
-    <li>No analytics, tracking pixels, or advertising scripts run on it.</li>
-    <li>Downloads are served directly from the site; the ZIP contains only the app and its README.</li>
+    <li>No cookies are set by totalrecalls.app. Your dark/light theme preference is stored locally in your browser's localStorage (<code>tr-theme</code>).</li>
+    <li>We use Cloudflare Web Analytics for aggregate performance and reliability metrics. It is privacy-first: it sets no cookies, collects no personal data, and performs no cross-site tracking. No third-party advertising scripts or tracking pixels run on this site.</li>
+    <li>Downloads are served directly from the site; ZIP archives contain only the application and documentation.</li>
   </ul>
 
   <h2>7. Data retention</h2>

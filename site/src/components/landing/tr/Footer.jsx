@@ -96,7 +96,7 @@ function SignupForm() {
 
   return (
     <>
-      <form onSubmit={onSubmit} data-footer-signup novalidate>
+      <form onSubmit={onSubmit} action="/api/subscribe" method="post" data-footer-signup noValidate>
         <label htmlFor="footer-signup-email" className="block font-body text-[14px] font-medium text-tr-mist mb-2">
           Email address
         </label>
@@ -167,7 +167,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-10 items-start justify-items-center text-center md:justify-items-start md:text-left">
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="TotalRecalls logo" className="h-[39px] w-auto object-contain" />
+              <img src="/logo.png" alt="TotalRecalls logo" width="115" height="39" loading="lazy" decoding="async" className="h-[39px] w-auto object-contain" />
               <span className="font-heading text-[17px] font-bold text-tr-paper">TotalRecalls</span>
             </div>
             <p className="mt-4 max-w-xs font-body text-[14px] leading-[1.6] text-tr-mist">

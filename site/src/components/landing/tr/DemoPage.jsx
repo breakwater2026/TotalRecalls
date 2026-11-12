@@ -37,9 +37,9 @@ export default function DemoPage() {
           {/* Box 01 */}
           <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
             <span className="font-mono text-[14px] font-medium text-tr-steel">01</span>
-            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+            <h2 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
               Buy once
-            </h3>
+            </h2>
             <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
               $24, one time, at the launch price. Your license key arrives by email.
             </p>
@@ -61,9 +61,9 @@ export default function DemoPage() {
           {/* Box 02 */}
           <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
             <span className="font-mono text-[14px] font-medium text-tr-steel">02</span>
-            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+            <h2 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
               Install
-            </h3>
+            </h2>
             <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
               Unzip the download and run TotalRecalls on your Windows PC.
             </p>
@@ -78,9 +78,9 @@ export default function DemoPage() {
           {/* Box 03 */}
           <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
             <span className="font-mono text-[14px] font-medium text-tr-steel">03</span>
-            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+            <h2 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
               Pick your providers
-            </h3>
+            </h2>
             <ul className="mt-2 space-y-1 font-body text-[14px] leading-[1.5] text-tr-mist">
               {PROVIDERS_LIST.map((p) => (
                 <li key={p.name} className="flex items-center gap-2">
@@ -103,9 +103,9 @@ export default function DemoPage() {
           {/* Box 04 */}
           <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
             <span className="font-mono text-[14px] font-medium text-tr-steel">04</span>
-            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+            <h2 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
               Download
-            </h3>
+            </h2>
             <p className="mt-2 font-body text-[14.5px] leading-[1.6] text-tr-mist">
               Your chats save as Markdown and JSON files on your PC.
             </p>
@@ -123,16 +123,16 @@ export default function DemoPage() {
           {/* Box 05 */}
           <div className="flex flex-col rounded-card border border-tr-slate bg-tr-obsidian p-6">
             <span className="font-mono text-[14px] font-medium text-tr-steel">05</span>
-            <h3 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
+            <h2 className="mt-3 font-heading text-[20px] md:text-[24px] font-semibold leading-[1.25] text-tr-paper">
               Search (regular)
-            </h3>
+            </h2>
             <p className="mt-2 font-body text-[14px] leading-[1.55] text-tr-mist">
               Windows Explorer, Notion, Obsidian and others.
             </p>
             <hr className="my-3.5 border-tr-slate" />
-            <h4 className="font-heading text-[16px] md:text-[18px] font-semibold leading-[1.25] text-tr-paper">
+            <h3 className="font-heading text-[16px] md:text-[18px] font-semibold leading-[1.25] text-tr-paper">
               Smart Search Engine (SSE) add on
-            </h4>
+            </h3>
             <p className="mt-2 font-body text-[14px] leading-[1.55] text-tr-mist">
               Ask via chat in plain English to find any word, topic, conversation across all 8 providers.
             </p>

@@ -192,6 +192,10 @@ export default function SeeItWorkPage({ providerKey = "chatgpt" }) {
             <img
               src={RESULT_IMG}
               alt="File Explorer open to the TotalRecalls Library provider folder, showing a conversation saved as one Markdown file and one JSON file"
+              width="960"
+              height="603"
+              loading="lazy"
+              decoding="async"
               className="w-full rounded-xl border border-tr-slate"
             />
           </div>

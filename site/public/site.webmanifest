@@ -1,0 +1,21 @@
+{
+  "name": "TotalRecalls",
+  "short_name": "TotalRecalls",
+  "description": "Local AI conversation archive and Smart Search Engine for Windows.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111315",
+  "theme_color": "#c88a2b",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

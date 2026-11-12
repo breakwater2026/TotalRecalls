@@ -37,7 +37,7 @@ export const DEMOS = {
     title: "Watch a Gemini chat become files on your PC.",
     duration: "4:31", bytes: "51.9 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_gemini.mp4",
-    poster: null,
+    poster: "/demo/poster_gemini.png",
     intro: "Recorded on the Free Tier with an on-camera Pro activation so Gemini is selectable, followed by the Smart Search Engine (SSE) add-on demo. No speed changes — every second of the download is real time.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "The landing page and download options: Microsoft Store recommended install or direct portable ZIP." },
@@ -63,7 +63,7 @@ export const DEMOS = {
     title: "Watch a Mistral chat become files on your PC.",
     duration: "4:23", bytes: "49.9 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_mistral.mp4",
-    poster: null,
+    poster: "/demo/poster_mistral.png",
     intro: "Recorded on the Free Tier with an on-camera Pro activation so Mistral is selectable, followed by the Smart Search Engine (SSE) add-on demo. Real time throughout, dead waits removed.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "The landing page and download options: Microsoft Store install or portable ZIP." },
@@ -89,7 +89,7 @@ export const DEMOS = {
     title: "Watch a Claude chat become files on your PC.",
     duration: "4:47", bytes: "73.5 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_claude.mp4",
-    poster: null,
+    poster: "/demo/poster_claude.png",
     intro: "Recorded on the Free Tier with an on-camera Pro activation, followed by the Smart Search Engine (SSE) add-on demo. The export stretch plays at 2x with a speed badge burned into the frame; everything else is real time.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "The download page: official Microsoft Store install or direct portable ZIP." },
@@ -114,7 +114,7 @@ export const DEMOS = {
     title: "Watch a Perplexity chat become files on your PC.",
     duration: "4:38", bytes: "70.0 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_perplexity.mp4",
-    poster: null,
+    poster: "/demo/poster_perplexity.png",
     intro: "Recorded on the Free Tier, followed by the Smart Search Engine (SSE) add-on demo. Real time throughout — no speed changes — with conversation titles masked on screen.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "Website download options: Microsoft Store recommended install or portable ZIP." },
@@ -139,7 +139,7 @@ export const DEMOS = {
     title: "Watch a DeepSeek chat become files on your PC.",
     duration: "4:46", bytes: "54.3 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_deepseek.mp4",
-    poster: null,
+    poster: "/demo/poster_deepseek.png",
     intro: "Recorded on the Pro Tier, followed by the Smart Search Engine (SSE) add-on demo. Real time throughout — no speed changes — with conversation titles masked on screen.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "Website download options: Microsoft Store install or direct portable ZIP." },
@@ -162,7 +162,7 @@ export const DEMOS = {
     title: "Watch a Grok chat become files on your PC.",
     duration: "5:19", bytes: "60.9 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_grok.mp4",
-    poster: null,
+    poster: "/demo/poster_grok.png",
     intro: "Recorded on the Free Tier with an on-camera Pro activation so Grok is selectable, followed by the Smart Search Engine (SSE) add-on demo. Real time throughout with conversation titles masked on screen.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "The landing page and download options: Microsoft Store or portable ZIP." },
@@ -188,7 +188,7 @@ export const DEMOS = {
     title: "Watch a Qwen Chat become files on your PC.",
     duration: "5:18", bytes: "58.5 MB",
     src: "https://demo-video.totalrecalls.app/TR_website_qwen.mp4",
-    poster: null,
+    poster: "/demo/poster_qwen.png",
     intro: "Recorded on the Free Tier followed by the Pro Tier, from the app download to the display of the .MD and .JSON outputs, plus the Smart Search Engine (SSE) add-on demo. Real time throughout with conversation titles masked on screen.",
     steps: [
       { t: "0:03", title: "Start on the website", body: "Website download options: Microsoft Store recommended install or portable ZIP." },

@@ -261,7 +261,7 @@ export default function LibraryPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {FEATURES.map((f) => (
               <div key={f.t} className="rounded-card border border-tr-slate bg-tr-obsidian p-6">
-                <h4 className="font-heading text-[17px] font-semibold text-tr-paper">{f.t}</h4>
+                <h3 className="font-heading text-[17px] font-semibold text-tr-paper">{f.t}</h3>
                 <p className="mt-3 font-body text-[15px] leading-[1.6] text-tr-mist">{f.b}</p>
               </div>
             ))}

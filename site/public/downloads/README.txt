@@ -18,20 +18,13 @@ FREE TIER INCLUDES
 
 UNLOCK EVERYTHING (Pro — one-time $24)
 --------------------------------------
-- All 8 providers: + Gemini, Grok, DeepSeek, Mistral, Qwen
+- All 8 providers: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, Qwen
 - Unlimited conversations
 Buy at: https://totalrecalls.app/buy — after purchase you receive a
 license key by email. Enter it in the app ("Upgrade to Pro" link at the top
 → paste the key → Activate) to unlock all 8 providers and unlimited
 downloads. Activation needs an internet connection once; after that the app
 works fully offline. Your purchase is one-time, not a subscription.
-
-FIRST RUN (WINDOWS)
--------------------
-TotalRecalls is certified and distributed through the Microsoft Store, so
-Windows 10 / 11 installs it with one click and no security warnings. If you
-run the standalone .exe instead, Windows may ask you to confirm on first
-launch — choose "More info", then "Run anyway".
 
 QUICK START
 -----------
@@ -57,4 +50,4 @@ VERIFYING THIS DOWNLOAD
 -----------------------
 SHA-256 of this ZIP is published on the download page:
 https://totalrecalls.app/download/
-You can verify with:  certutil -hashfile TotalRecalls-1.0.0-free-tier.zip SHA256
+You can verify with:  certutil -hashfile TotalRecalls-1.0.0.zip SHA256

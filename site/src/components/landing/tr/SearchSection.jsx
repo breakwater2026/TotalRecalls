@@ -43,6 +43,10 @@ export default function SearchSection() {
               <img
                 src="/images/search-results-window.jpg"
                 alt="Smart Search Engine (SSE) results window"
+                width="420"
+                height="263"
+                loading="lazy"
+                decoding="async"
                 className="rounded-sm block h-auto w-full max-w-[420px]"
               />
             </div>

@@ -11,10 +11,15 @@
 export async function onRequest(context) {
   const { request, env, next } = context;
 
+  const origin = request.headers.get("Origin") || "";
+  const ALLOWED = new Set(["https://totalrecalls.app", "https://www.totalrecalls.app"]);
+  const allowOrigin = ALLOWED.has(origin) ? origin : "https://totalrecalls.app";
+
   const CORS = {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
+    "Vary": "Origin",
   };
 
   if (request.method === "OPTIONS") {

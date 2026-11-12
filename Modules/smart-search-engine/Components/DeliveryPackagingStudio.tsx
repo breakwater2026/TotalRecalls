@@ -372,7 +372,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                   <span className="ml-2 font-mono text-xs text-[var(--tr-muted)]">TotalRecalls SSE Installer v2.5.0</span>
                 </div>
                 <button
-                  onClick={() => copyToClipboard(`curl -sSL https://totalrecalls.app/install-sse.sh | bash`)}
+                  onClick={() => copyToClipboard(`run-smart-search.bat`)}
                   className="hover:text-[var(--tr-accent)] flex items-center gap-1 transition-colors"
                 >
                   <Copy className="w-3.5 h-3.5" />
@@ -382,7 +382,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
 
               <div className="space-y-2 pt-2">
                 <div className="text-[var(--tr-accent)] font-bold">
-                  $ ./install.sh --license="{licenseKeyInput}"
+                  $ run-smart-search.bat
                 </div>
 
                 {simulatedInstallStep >= 1 && (

@@ -14,13 +14,13 @@ FREE TIER INCLUDES
 - All app features: Markdown + JSON downloads, provider-specific
   metadata, web-search result capture, per-conversation and bulk downloads
 - 3 providers: Perplexity, ChatGPT, Claude
-- Up to 5 conversations per download
+- Up to 5 conversations per provider
 
 UNLOCK EVERYTHING (Pro — one-time $24)
 --------------------------------------
-- All 8 providers: + Gemini, Grok, DeepSeek, Mistral, Qwen
+- All 8 providers: ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, Qwen
 - Unlimited conversations
-Buy at: https://totalrecalls.app/buy/ — after purchase you receive a
+Buy at: https://totalrecalls.app/buy — after purchase you receive a
 license key by email. Enter it in the app ("Upgrade to Pro" link at the top
 → paste the key → Activate) to unlock all 8 providers and unlimited
 downloads. Activation needs an internet connection once; after that the app
@@ -50,4 +50,4 @@ VERIFYING THIS DOWNLOAD
 -----------------------
 SHA-256 of this ZIP is published on the download page:
 https://totalrecalls.app/download/
-You can verify with:  certutil -hashfile TotalRecalls-1.0.0-free-tier.zip SHA256
+You can verify with:  certutil -hashfile TotalRecalls-1.0.0.zip SHA256

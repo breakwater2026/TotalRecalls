@@ -1,4 +1,16 @@
 # Cloudflare Pages response headers.
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.paddle.com https://static.cloudflareinsights.com; frame-src https://cdn.paddle.com https://apps.microsoft.com; connect-src 'self' https://static.cloudflareinsights.com https://cloudflareinsights.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Belt-and-braces for the retired LS-era demo asset: its stale edge copy ignored
 # purges, so this pins a no-store on the exact path. Do not widen to /demo/* —
 # result.png and poster_chatgpt.png are live and should stay cacheable.

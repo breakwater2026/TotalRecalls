@@ -8,14 +8,14 @@ import { Container, Section, Eyebrow, Btn } from "./ui";
  * ========================================================================== */
 
 const TERMINAL = [
-  { t: "PS C:\\TotalRecalls> totalrecalls export --provider chatgpt", c: "" },
-  { t: "Signing in to ChatGPT... ok", c: "dim" },
-  { t: "Found 142 conversations", c: "" },
-  { t: "  [1] 2026-09-28 python-list-comprehensions   (saved)", c: "dim" },
-  { t: "  [2] 2026-09-28 react-hook-debug             (saved)", c: "dim" },
-  { t: "  [3] 2026-09-27 sql-query-help               (saved)", c: "dim" },
-  { t: "Export complete: 142 files -> C:\\TotalRecalls\\Library\\chatgpt\\", c: "amber" },
-  { t: "PS C:\\TotalRecalls>", c: "" },
+  { t: "TotalRecalls Application Log — Local Export Session", c: "amber" },
+  { t: "Connecting to provider session... connected", c: "dim" },
+  { t: "Discovered 142 conversations", c: "" },
+  { t: "  [1/142] 2026-09-28 python-list-comprehensions   (saved .md + .json)", c: "dim" },
+  { t: "  [2/142] 2026-09-28 react-hook-debug             (saved .md + .json)", c: "dim" },
+  { t: "  [3/142] 2026-09-27 sql-query-help               (saved .md + .json)", c: "dim" },
+  { t: "Export complete: 142 conversations -> C:\\TotalRecalls-Downloads\\Library\\chatgpt\\", c: "amber" },
+  { t: "Status: 142 written, 0 skipped, 0 failed. All files saved locally.", c: "" },
 ];
 
 const STEPS = [

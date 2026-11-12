@@ -51,6 +51,8 @@ site/public/videos/
 *.wav
 .venv312/
 build/
+dist/TotalRecalls/
+*.msix
 
 # Wrangler local cache/state (never commit)
 .wrangler/

@@ -14,7 +14,7 @@ export function getStaticPaths() {
 const { provider } = Astro.params;
 const demo = DEMOS[provider];
 const title = `See it work: ${demo.label} · TotalRecalls`;
-const description = `${demo.intro} A real screen recording of ${demo.label} conversations exported to Markdown and JSON files in a folder you own.`;
+const description = `Watch TotalRecalls export ${demo.label} conversations to local Markdown and JSON files on your PC. Real screen recording with Smart Search Engine demo.`;
 ---
 
 <BaseLayout title={title} description={description}>

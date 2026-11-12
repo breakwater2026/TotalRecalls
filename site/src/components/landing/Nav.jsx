@@ -49,7 +49,7 @@ export default function Nav() {
     <header className="sticky top-0 z-40 bg-tr-obsidian/95 backdrop-blur border-b border-tr-slate py-2.5">
       <div className="mx-auto max-w-[1400px] pl-0 pr-5 md:pr-10 flex items-center justify-between">
         <a href="/#top" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="TotalRecalls" className="h-[39px] max-h-[39px] w-auto block object-contain" />
+          <img src="/logo.png" alt="TotalRecalls" width="115" height="39" className="h-[39px] max-h-[39px] w-auto block object-contain" />
         </a>
         <nav className="hidden md:flex items-center gap-4 lg:gap-5 xl:gap-6 ml-4 lg:ml-8" style={{ hyphens: 'none' }}>
           {LINKS.map((l) => (

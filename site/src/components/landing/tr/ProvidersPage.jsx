@@ -290,7 +290,7 @@ export default function ProvidersPage() {
           <div className="mt-10 grid md:grid-cols-2 gap-6">
             <div className="rounded-card border border-tr-slate bg-tr-graphite p-6">
               <div className="flex items-center justify-between gap-3">
-                <h4 className="font-heading text-[18px] font-semibold text-tr-paper">Direct download</h4>
+                <h3 className="font-heading text-[18px] font-semibold text-tr-paper">Direct download</h3>
                 <span className="inline-flex items-center rounded-chip border border-tr-slate px-2 py-1 font-mono text-[12px] uppercase tracking-[0.02em] text-tr-steel">7 providers</span>
               </div>
               <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
@@ -304,7 +304,7 @@ export default function ProvidersPage() {
 
             <div className="rounded-card border border-dashed border-tr-slate bg-tr-graphite p-6">
               <div className="flex items-center justify-between gap-3">
-                <h4 className="font-heading text-[18px] font-semibold text-tr-paper">Google Takeout</h4>
+                <h3 className="font-heading text-[18px] font-semibold text-tr-paper">Google Takeout</h3>
                 <span className="inline-flex items-center rounded-chip border border-dashed border-tr-slate px-2 py-1 font-mono text-[12px] uppercase tracking-[0.02em] text-tr-dust">Gemini only</span>
               </div>
               <p className="mt-4 font-body text-[16px] leading-[1.6] text-tr-mist">
@@ -340,7 +340,7 @@ export default function ProvidersPage() {
             {DETAIL.map((d) => (
               <div key={d.id} className="flex flex-col rounded-card border border-tr-slate bg-tr-graphite p-6">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="mr-auto font-heading text-[18px] font-semibold text-tr-paper">{d.name}</h4>
+                  <h3 className="mr-auto font-heading text-[18px] font-semibold text-tr-paper">{d.name}</h3>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <code className="font-mono text-[12px] text-tr-steel">{d.id}</code>
