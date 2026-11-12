@@ -28,7 +28,7 @@
 const RESEND_SEND_URL = 'https://api.resend.com/emails';
 const PADDLE_API = 'https://api.paddle.com';
 const MAX_INSTANCES = 3;
-const DEFAULT_FROM = 'TotalRecalls <onboarding@resend.dev>';
+const DEFAULT_FROM = 'TotalRecalls <licenses@totalrecalls.app>';
 
 /**
  * Where sale notifications go. Fulfillment used to be completely silent: a sale
