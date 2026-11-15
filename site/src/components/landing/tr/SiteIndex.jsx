@@ -70,6 +70,7 @@ const CATEGORIES = [
       { label: "Terms of Service", href: "/terms/" },
       { label: "Legal Portal & Refund Protections", href: "/legals/" },
       { label: "About TotalRecalls & Maker", href: "/about/" },
+      { label: "YouTube Walkthrough Channel", href: "https://www.youtube.com/@totalrecalls" },
       { label: "Press Kit & Company Facts", href: "/press/" },
     ],
   },

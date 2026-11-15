@@ -60,9 +60,13 @@ export default function DemoSection() {
           <p className="mt-3 font-body text-[14px] text-tr-dust">
             Full walkthrough recorded on Windows. Conversations stay on your PC — nothing is sent to our servers.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-4 items-center">
             <a href="/see-it-work/" className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-tr-steel hover:text-tr-amber transition-colors">
               Try interactive on-screen provider walkthroughs &rarr;
+            </a>
+            <span className="text-tr-slate select-none">·</span>
+            <a href="https://www.youtube.com/@totalrecalls" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-tr-steel hover:text-tr-amber transition-colors">
+              Watch on YouTube Channel &rarr;
             </a>
           </div>
         </div>

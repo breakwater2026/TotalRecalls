@@ -51,6 +51,7 @@ const COLS = [
       { l: "FAQ Archive", href: "/faq/" },
       { l: "Feature Requests", href: "/feature-requests/" },
       { l: "About TotalRecalls", href: "/about/" },
+      { l: "YouTube Channel", href: "https://www.youtube.com/@totalrecalls" },
       { l: "Press Kit", href: "/press/" },
       { l: "Buy Downloader Pro & SSE", href: "/buy/" },
     ],

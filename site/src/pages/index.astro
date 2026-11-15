@@ -11,6 +11,7 @@ import Faq from "../components/landing/tr/Faq.jsx";
 import SearchSection from "../components/landing/tr/SearchSection.jsx";
 import SiteIndex from "../components/landing/tr/SiteIndex.jsx";
 import Footer from "../components/landing/tr/Footer.jsx";
+import { buildVideoJsonLd } from "../components/landing/tr/SeeItWorkDemos";
 ---
 
 <BaseLayout title="TotalRecalls — Recall every AI conversation." description="A Windows app that saves your AI conversations as Markdown + JSON you keep forever.">
@@ -46,7 +47,12 @@ import Footer from "../components/landing/tr/Footer.jsx";
     "author": {
       "@type": "Organization",
       "name": "TotalRecalls",
-      "url": "https://totalrecalls.app/"
+      "url": "https://totalrecalls.app/",
+      "sameAs": [
+        "https://www.youtube.com/@totalrecalls",
+        "https://apps.microsoft.com/detail/9PP1KKD5X2D6"
+      ]
     }
   })} />
+  <script type="application/ld+json" set:html={JSON.stringify(buildVideoJsonLd("chatgpt", "/"))} />
 </BaseLayout>

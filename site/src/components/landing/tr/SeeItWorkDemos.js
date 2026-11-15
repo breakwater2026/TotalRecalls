@@ -217,3 +217,66 @@ export const PROVIDER_ORDER = ["chatgpt", "claude", "perplexity", "gemini", "mis
 export function demoPath(key) {
   return key === "chatgpt" ? "/see-it-work/" : "/see-it-work/" + key + "/";
 }
+
+function mmssToSeconds(mmss) {
+  const [m, s] = String(mmss).split(":").map((n) => parseInt(n, 10) || 0);
+  return m * 60 + s;
+}
+
+function mmssToIsoDuration(mmss) {
+  const [m, s] = String(mmss).split(":").map((n) => parseInt(n, 10) || 0);
+  return `PT${m}M${s}S`;
+}
+
+/**
+ * Generates Schema.org VideoObject JSON-LD with SeekToAction & Clip key moments
+ * so Google Search / Google Videos indexes every provider walkthrough and chapter.
+ */
+export function buildVideoJsonLd(key, pagePath) {
+  const demo = DEMOS[key] || DEMOS.chatgpt;
+  const site = "https://totalrecalls.app";
+  const canonicalUrl = `${site}${pagePath || demoPath(demo.key)}`;
+  const totalSec = mmssToSeconds(demo.duration);
+
+  const hasPart = (demo.steps || []).map((step, idx) => {
+    const startOffset = mmssToSeconds(step.t);
+    const nextStep = demo.steps[idx + 1];
+    const endOffset = nextStep ? mmssToSeconds(nextStep.t) : totalSec;
+    return {
+      "@type": "Clip",
+      name: step.title,
+      startOffset,
+      endOffset: Math.max(endOffset, startOffset + 1),
+      url: `${canonicalUrl}#t=${startOffset}`,
+    };
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: `${demo.title} — TotalRecalls (${demo.label} Walkthrough)`,
+    description: demo.intro,
+    thumbnailUrl: [`${site}${demo.poster}`],
+    uploadDate: "2026-11-12T00:00:00Z",
+    duration: mmssToIsoDuration(demo.duration),
+    contentUrl: demo.src,
+    embedUrl: canonicalUrl,
+    isFamilyFriendly: true,
+    inLanguage: "en-US",
+    publisher: {
+      "@type": "Organization",
+      name: "TotalRecalls",
+      url: `${site}/`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${site}/logo.png`,
+      },
+    },
+    potentialAction: {
+      "@type": "SeekToAction",
+      target: `${canonicalUrl}?t={seek_to_second_number}`,
+      "startOffset-input": "required name=seek_to_second_number",
+    },
+    hasPart,
+  };
+}

@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/landing/Nav.jsx";
 import SeeItWorkPage from "../../components/landing/tr/SeeItWorkPage.jsx";
 import Footer from "../../components/landing/tr/Footer.jsx";
-import { DEMOS } from "../../components/landing/tr/SeeItWorkDemos";
+import { DEMOS, buildVideoJsonLd } from "../../components/landing/tr/SeeItWorkDemos";
 
 export function getStaticPaths() {
   return Object.keys(DEMOS)
@@ -25,4 +25,5 @@ const description = `Watch TotalRecalls export ${demo.label} conversations to lo
     </main>
     <Footer client:load />
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(buildVideoJsonLd(provider, `/see-it-work/${provider}/`))} />
 </BaseLayout>

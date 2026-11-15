@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/landing/Nav.jsx";
 import SeeItWorkPage from "../../components/landing/tr/SeeItWorkPage.jsx";
 import Footer from "../../components/landing/tr/Footer.jsx";
+import { buildVideoJsonLd } from "../../components/landing/tr/SeeItWorkDemos";
 ---
 
 <BaseLayout
@@ -16,4 +17,5 @@ import Footer from "../../components/landing/tr/Footer.jsx";
     </main>
     <Footer client:load />
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(buildVideoJsonLd("chatgpt", "/see-it-work/"))} />
 </BaseLayout>
