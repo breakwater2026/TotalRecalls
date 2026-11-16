@@ -39,3 +39,21 @@
 # canonical pricing is on the landing page #pricing section.
 /pricing /#pricing 301
 /pricing/ /#pricing 301
+
+# Added 2026-11-16: legacy guide URLs that were linked from the site in
+# Aug-Sep 2026 and later renamed without a redirect. They 404 for anyone
+# (Google or a visitor) following an old link; each now 301s once to the
+# live guide that replaced it.
+/guides/export-deepseek-chats /guides/deepseek/ 301
+/guides/export-deepseek-chats/ /guides/deepseek/ 301
+/guides/export-grok-chats /guides/grok/ 301
+/guides/export-grok-chats/ /guides/grok/ 301
+/guides/export-mistral-chats /guides/mistral/ 301
+/guides/export-mistral-chats/ /guides/mistral/ 301
+/guides/export-qwen-chats /guides/qwen/ 301
+/guides/export-qwen-chats/ /guides/qwen/ 301
+
+# Added 2026-11-16: the legacy sitemap path was deleted from GSC on 2026-11-05
+# but the URL itself still 404s for anyone (including Googlebot, which keeps
+# sitemap history) requesting it. Point it at the live sitemap.
+/sitemaps/totalrecalls_sitemap.xml /sitemap.xml 301
