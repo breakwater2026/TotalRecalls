@@ -33,6 +33,8 @@ Nothing is uploaded to the cloud. Your data stays entirely in your hands.
 
 ## 3. How to Launch & Activate (4 Steps)
 
+> **Before you start:** until you activate, the app runs in **Demo mode** — the five sample chats only, with no way to connect your own folder. That is deliberate: importing your Library is the paid part.
+
 ### Step 1: Extract the Files
 Unzip the downloaded `TotalRecalls-Smart-Search-Engine-1.0.0.zip` archive into any folder on your PC (for example, in your Documents folder or on your Desktop).
 
@@ -99,7 +101,32 @@ Every result includes:
 
 ---
 
-## 7. Customer Support
+## 7. Troubleshooting
+
+**"It says Demo mode and there is no way to connect my folder."**
+You have not activated yet. Click **Activate SSE Key** (top right), paste your `SSE-…` key, then the **Connect Library folder…** button appears.
+
+**"I chose a folder but it says no conversation.json files were found."**
+You picked the wrong level. Choose the **Library** folder itself — the one that contains `chatgpt`, `claude`, `gemini` and the other provider folders. Choosing a provider folder, or the parent `TotalRecalls-download` folder, will not work.
+
+**"I downloaded new chats and they are not showing up."**
+The app reads your files when you tell it to. Click **Re-scan folder…** after a download.
+
+**"My counts look lower than the number of files I have."**
+Each conversation is stored twice, as `conversation.json` and `conversation.md`. The app counts the conversation once, so 930 files correctly becomes 464 conversations.
+
+**"It says my key is a Downloader Pro key."**
+Downloader keys start with `PRO-`. The search engine needs the `SSE-` key from the SSE or Bundle purchase email.
+
+**"It says the activation limit is reached."**
+Your key allows three PCs. On an old machine open the app, click **Manage SSE License → Deactivate (free slot)**, then activate the new one.
+
+**"I want to start over."**
+Click **Forget library**. That clears the index the app built. Your downloaded files are never touched.
+
+---
+
+## 8. Customer Support
 
 Need help or lost your license key?  
 Send an email to: **support@totalrecalls.app**  

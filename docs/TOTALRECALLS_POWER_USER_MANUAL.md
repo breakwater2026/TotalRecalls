@@ -171,5 +171,19 @@ SSE is a separate SKU from Downloader Pro and is gated on its own key.
 * **Devices:** three activations per key. **Deactivate (free slot)** releases this machine; if the server cannot be reached the local licence is still removed and the slot can be freed later.
 * **No local reset:** earlier builds shipped a "Reset local state" helper. It has been removed — `Deactivate` is the only way to remove a licence, and it also frees the slot.
 
+## 8. Diagnostics & Support Playbook
+
+**Reproducing the shipped artifact.** `python tools/package_sse.py` rebuilds `dist/bundle.js` with esbuild, regenerates the PDFs through headless Edge, and re-zips `site/public/downloads/`. A rebuild from a clean HEAD must be byte-identical to the shipped bundle (verified: 3,196,549 bytes, sha256 `792849ce…`); a mismatch means what you are testing is not what you ship. The packager calls the PDF builder with `sys.executable` — calling it with bare `python` resolves to whichever interpreter is first on `PATH` and fails on a missing module.
+
+**Inspecting the live index.** DevTools → *Application* → *IndexedDB* → `tr-sse-library` → store `index` → key `current`. `value.meta` records `conversationCount`, `messageCount`, `providerCount`, `filesSeen`, `skipped` and `indexedAt`. Only conversations and metadata are stored; vectors are rebuilt at launch by the deterministic hash embedder, so there are no model weights on disk and nothing to corrupt.
+
+**Expected counts.** `filesSeen` will be roughly twice `conversationCount` because each conversation is written as `conversation.json` + `conversation.md`; the `.md` is skipped when its sibling JSON parses. A non-zero `skipped` with an empty `skippedReasons` list is normal for non-`.json`/`.md` files. Some Qwen exports carry an empty `id`; those fall back to the folder slug, and genuine duplicates are suffixed so chunk keys stay unique.
+
+**Licence state.** `localStorage['tr-sse-license']` holds `{sse, key, instance_id, activated_at, last_validated_at}`. Revalidation runs at most every 3600 s and revokes **only** on an explicit `valid:false`; a network failure leaves the cached licence intact. Server-side, the `product` field selects the SKU: an `SSE-` key sent with `product:"pro"` returns `wrong_product`, which is the fastest way to tell a key/SKU mismatch from a bad key.
+
+**When a paying customer reports being blocked.** Check in this order: (1) `valid:false` with no `error` means the key is unknown or inactive; (2) `wrong_product` means the client sent the wrong SKU or the key belongs to the other product; (3) `activation_limit_reached` means three devices are already registered — have them run **Deactivate (free slot)** on an old machine; (4) entitlement revoked while offline cannot happen by design, so an offline block is a client bug, not policy.
+
+**Origin matrix.** `run-smart-search.bat` opens `file://`. On an opaque `file://` origin `showDirectoryPicker()` is absent in some Chromium builds (no secure context), while `<input webkitdirectory>` is always available — hence the layered design: the folder input is the guaranteed path, the picker only appears where the API exists. Serve the app over `http://localhost` and both work.
+
 ---
 *TotalRecalls Engineering Manual • totalrecalls.app*
