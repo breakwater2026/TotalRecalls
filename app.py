@@ -9,6 +9,8 @@ This module re-exports the public surface so existing tests, PyInstaller
 
 from __future__ import annotations
 
+import sys
+
 from totalrecalls import APP_NAME, APP_VERSION, APP_BUILD_TAG
 
 from totalrecalls.core.paths import (
@@ -73,5 +75,50 @@ def __getattr__(name: str):
         return getattr(_http_mod, "_cffi_requests", None)
     raise AttributeError(name)
 
+def _selftest(strict: bool = False) -> int:
+    """Headless capability check for CI and packaging.
+
+    The GUI entrypoint calls main(), which shows a modal "cannot start on this
+    machine" dialog when the runtime is incomplete. On a headless runner that
+    dialog never gets dismissed, so the job looks like a hang — which is how a
+    CI run sat for six hours before being cancelled. This path reports to
+    stdout and returns an exit status instead.
+
+    Core checks must pass anywhere. GUI-runtime checks (pythonnet, WebView2)
+    are only fatal in strict mode, because CI never installs the desktop stack
+    but a shipped build must have it.
+    """
+    from totalrecalls.core import preflight
+
+    problems = preflight.run()
+    gui_markers = ("pythonnet", "WebView2")
+    gui = [p for p in problems if any(m in p for m in gui_markers)]
+    core = [p for p in problems if p not in gui]
+
+    print(f"{APP_NAME} {APP_VERSION} selftest ({APP_BUILD_TAG or 'dev'})")
+    print(f"  interpreter : {sys.executable}")
+    print(f"  python      : {sys.version.split()[0]}")
+    print(f"  package     : totalrecalls import ok")
+
+    for p in core:
+        print(f"  FAIL  {p}")
+    for p in gui:
+        print(f"  {'FAIL' if strict else 'WARN'}  {p}")
+
+    if not core and not gui:
+        print("  runtime     : desktop stack present")
+    elif not strict and gui:
+        print("  note        : GUI runtime is needed to *run* the app; CI checks core only.")
+
+    if core or (strict and gui):
+        print("selftest: FAILED")
+        return 1
+    print("selftest: ok")
+    return 0
+
+
 if __name__ == "__main__":
+    _argv = sys.argv[1:]
+    if "--selftest" in _argv:
+        raise SystemExit(_selftest(strict="--strict" in _argv))
     main()
