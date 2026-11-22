@@ -73,3 +73,6 @@ Marketing/**/yt-api/credentials.json
 Marketing/**/yt-api/api_key.txt
 Marketing/**/Social Media Credentials.csv
 Marketing/**/Social Media Credentials.csv.xls
+
+# Locally parked files: kept on disk for reference, never committed.
+_local/
