@@ -164,6 +164,26 @@ def render_md_to_pdf(md_path, pdf_path, subtitle="Official Documentation"):
         os.remove(temp_html)
     print(f"   Generated {os.path.basename(pdf_path)} ({os.path.getsize(pdf_path):,} bytes)")
 
+def render_md_to_docx(md_path: str, docx_path: str) -> None:
+    """Word copy beside the PDF, generated from the same markdown.
+
+    Non-fatal on purpose: a machine without pandoc should still produce the
+    PDFs and the package.
+    """
+    if not os.path.exists(md_path):
+        print(f"   WARNING: {os.path.basename(md_path)} missing, skipping .docx")
+        return
+    try:
+        subprocess.run(
+            ["pandoc", md_path, "-f", "gfm", "-t", "docx", "-o", docx_path],
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        print(f"   WARNING: could not build {os.path.basename(docx_path)} ({exc})")
+        return
+    print(f"   Generated {os.path.basename(docx_path)} ({os.path.getsize(docx_path):,} bytes)")
+
+
 def main():
     print("Generating PDF documentation...")
     render_md_to_pdf(
@@ -180,6 +200,20 @@ def main():
         os.path.join(SSE_DIR, "README-SSE.md"),
         os.path.join(SSE_DIR, "README.pdf"),
         subtitle="Technical Documentation"
+    )
+
+    print("Generating Word (.docx) documentation...")
+    render_md_to_docx(
+        os.path.join(DOCS_DIR, "TOTALRECALLS_SSE_QUICK_START_GUIDE.md"),
+        os.path.join(DOCS_DIR, "Quick-Start Guide (TotalRecalls SSE).docx"),
+    )
+    render_md_to_docx(
+        os.path.join(DOCS_DIR, "TOTALRECALLS_POWER_USER_MANUAL.md"),
+        os.path.join(DOCS_DIR, "Power User Guide (TotalRecalls SSE).docx"),
+    )
+    render_md_to_docx(
+        os.path.join(SSE_DIR, "README-SSE.md"),
+        os.path.join(SSE_DIR, "README.docx"),
     )
 
 if __name__ == "__main__":

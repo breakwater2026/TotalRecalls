@@ -54,18 +54,18 @@ const PACKAGE_CONTENTS: DistributionFile[] = [
     recommendedRole: 'Zero-Dependency Binary'
   },
   {
-    name: 'docs/TOTALRECALLS_POWER_USER_MANUAL.pdf',
-    size: '840 KB',
+    name: 'User Guides/Power User Guide (TotalRecalls SSE).pdf',
+    size: '230 KB',
     type: 'doc',
-    description: 'Complete 30+ page Power User Manual covering RAG SQL schema, HNSW tuning, Ollama bridge, and PII regex engines',
+    description: 'Power User Manual: RAG SQL schema, licence and entitlement model, index internals, diagnostics playbook',
     recommendedRole: 'Engineers / Architects'
   },
   {
-    name: 'docs/TOTALRECALLS_USER_MANUAL_LAYMAN.pdf',
-    size: '520 KB',
+    name: 'User Guides/Quick-Start Guide (TotalRecalls SSE).pdf',
+    size: '169 KB',
     type: 'doc',
-    description: 'Plain-English everyday handbook with visual walkthroughs, conversational queries, and non-technical troubleshooting',
-    recommendedRole: 'All Users / Laymen'
+    description: 'Plain-English user guide: activation, connecting your library, searching, and troubleshooting',
+    recommendedRole: 'All Users'
   },
   {
     name: 'docs/QUICKSTART_GUIDE_3_MINUTES.pdf',
@@ -129,7 +129,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
     setTimeout(() => setCopiedBash(false), 2000);
   };
 
-  const handlePrintPDF = (type: 'power' | 'layman') => {
+  const handlePrintPDF = (type: 'power' | 'user') => {
     window.print();
   };
 
@@ -402,7 +402,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                 {simulatedInstallStep >= 3 && (
                   <div className="text-[var(--tr-muted)] animate-fadeIn">
                     [3/5] Bundling offline PDF documentation & quickstart manuals... <span className="text-[var(--tr-accent)] font-semibold">[DONE]</span>
-                    <div className="text-[var(--tr-muted)] text-xs pl-4">Exported TOTALRECALLS_POWER_USER_MANUAL.pdf & USER_MANUAL_LAYMAN.pdf to ~/Documents/TotalRecalls/</div>
+                    <div className="text-[var(--tr-muted)] text-xs pl-4">Bundled both guides (Markdown + PDF) under User Guides/ in the download</div>
                   </div>
                 )}
 
@@ -490,14 +490,14 @@ export const DeliveryPackagingStudio: React.FC = () => {
                     <span>Print / Save as PDF</span>
                   </button>
                   <button
-                    onClick={downloadManualDocx}
+                    onClick={() => downloadManualDocx('power')}
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
                   >
                     <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                     <span>.DOCX</span>
                   </button>
                   <button
-                    onClick={downloadManualMarkdown}
+                    onClick={() => downloadManualMarkdown('power')}
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
                   >
                     <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
@@ -541,21 +541,21 @@ export const DeliveryPackagingStudio: React.FC = () => {
 
                 <div className="pt-6 border-t border-[var(--tr-border)] flex flex-wrap gap-2 mt-4">
                   <button
-                    onClick={() => handlePrintPDF('layman')}
+                    onClick={() => handlePrintPDF('user')}
                     className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-bold text-xs shadow-md transition-colors"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print / Save as PDF</span>
                   </button>
                   <button
-                    onClick={downloadManualDocx}
+                    onClick={() => downloadManualDocx('user')}
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
                   >
                     <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
                     <span>.DOCX</span>
                   </button>
                   <button
-                    onClick={downloadManualMarkdown}
+                    onClick={() => downloadManualMarkdown('user')}
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
                   >
                     <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />

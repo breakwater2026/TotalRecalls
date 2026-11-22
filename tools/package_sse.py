@@ -31,6 +31,9 @@ def main():
         esbuild_bin,
         "index.tsx",
         "--bundle",
+        # The in-app manuals are the docs/*.md files themselves (see
+        # Services/manualExporters.ts); text loader keeps one source.
+        "--loader:.md=text",
         "--outfile=dist/bundle.js",
         "--format=iife",
         "--jsx=automatic",
