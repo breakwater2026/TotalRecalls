@@ -83,9 +83,11 @@ Blends meaning and exact keywords together so you get both conceptual accuracy a
 
 Every result includes:
 * **The AI Provider & Date:** (e.g., ChatGPT, Claude, Perplexity, Gemini, Mistral, DeepSeek, Grok, Qwen).
-* **The Highlighted Answer:** The exact paragraph answering your question.
-* **Match Score:** How closely the answer matches your query.
-* **Direct File Link:** Click to open the original Markdown (.md) or JSON (.json) file directly on your computer in Notepad, Word, or VS Code.
+* **The Highlighted Answer:** The exact passage answering your question.
+* **Conversation Title:** Which of your chats the passage came from — open it in **Chat Explorer** to read the whole conversation.
+* **Match Score:** How closely the passage matches your query.
+
+> **Note:** results point at the *conversation*, not at a file you can double-click. To read the raw export, open the conversation folder in your Library from Windows Explorer.
 
 ---
 
@@ -93,7 +95,7 @@ Every result includes:
 
 * **No Cloud Uploads:** TotalRecalls never sends your prompts, questions, or chat logs to any external server.
 * **No Telemetry:** We do not track your searches or record usage data.
-* **100% Offline:** Once the initial local search weights initialize, your PC does not need an active internet connection to search.
+* **100% Offline:** after the one-time activation, searching, indexing and SQL all run on your PC with no internet connection. Nothing is downloaded at start-up.
 
 ---
 

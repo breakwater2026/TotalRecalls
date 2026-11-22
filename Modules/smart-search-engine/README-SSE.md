@@ -63,12 +63,18 @@ The engine compiles your question into read-only SQLite SQL and renders the resu
 
 ### C. Offline Privacy & Security Guarantee
 - **No telemetry**: Your search queries, conversation excerpts, and embeddings never leave your device.
-- **Direct file links**: Every result links straight to the underlying `.md` or `.json` file on your local disk.
+- **Local index only**: your conversations and their vectors are stored in this browser's local storage on your machine; nothing is uploaded.
 
 ---
 
 ## 4. Troubleshooting & Support
 
+- **The app shows only 5 chats**:  
+  You have not connected your library yet. Click **Connect Library folder…** and choose `…\TotalRecalls-download\Library`. Five is the sample set that ships with the app.
+- **No Connect button, only "Activate SSE key"**:  
+  The copy is unlicensed. Library importing is a licensed capability; the demo is limited to the sample conversations.
+- **New downloads don't appear**:  
+  The index is a snapshot. Click **Re-scan folder…** in the green banner after each download run.
 - **"Wrong Product" Error on Activation**:  
   Ensure you are using the `SSE-` key in the Smart Search Engine, and the `TR-` key in Downloader Pro. Keys are module-scoped.
 - **Activation Limit**:  
