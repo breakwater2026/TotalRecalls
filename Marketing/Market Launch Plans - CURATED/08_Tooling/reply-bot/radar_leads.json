@@ -1,0 +1,12 @@
+[
+  {
+    "platform": "Reddit",
+    "source": "r/ClaudeAI",
+    "id": "sim_test_101",
+    "title": "Is there a way to export my Claude project conversations to Obsidian Markdown?",
+    "url": "https://reddit.com/r/ClaudeAI",
+    "author": "ObsidianDev2026",
+    "snippet": "I have spent months writing technical specs in Claude. The web interface is getting sluggish and I want all my chats saved as markdown notes locally.",
+    "detected_at": 1794840000.0
+  }
+]

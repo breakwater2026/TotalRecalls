@@ -1,0 +1,13 @@
+[
+  {
+    "id": "sim_test_101",
+    "source": "r/ClaudeAI",
+    "author": "ObsidianDev2026",
+    "title": "Is there a way to export my Claude project conversations to Obsidian Markdown?",
+    "url": "https://reddit.com/r/ClaudeAI",
+    "snippet": "I have spent months writing technical specs in Claude. The web interface is getting sluggish and I want all my chats saved as markdown notes locally.",
+    "draft_response": "Founder and developer of TotalRecalls here.\n\nThis exact frustration is why I built TotalRecalls for Windows 10/11. Whenever you download your history, every single conversation is saved twice into C:\\TotalRecalls\\Library\\<provider>\\:\n\u2022 Clean Markdown (.md) with code blocks, timestamps, and citations intact\u2014which opens natively as an Obsidian vault or in Notion.\n\u2022 Structured JSON (.json) for local scripting.\n\nThere is a permanent Free Tier covering ChatGPT, Claude, and Perplexity (5 chats each) so you can test the file output before buying: https://totalrecalls.app/\nCertified on the Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6",
+    "generated_at": 1794948632.9981246,
+    "status": "pending_approval"
+  }
+]

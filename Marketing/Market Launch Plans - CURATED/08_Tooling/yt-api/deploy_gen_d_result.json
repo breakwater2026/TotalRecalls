@@ -1,0 +1,64 @@
+{
+  "channel": {
+    "channel_id": "UChO3ZyrGqRtBFHRuQx2qX1w",
+    "banner": "https://yt3.googleusercontent.com/7T2VIyCmRMZN_MWjB4phTXbnHPCavXivJQ-0dRhPg7ov1P_XO624B729qLTCkGealUMURitg8A"
+  },
+  "purge": {
+    "purged": 9,
+    "remaining": 0
+  },
+  "uploaded": [
+    {
+      "provider": "chatgpt",
+      "videoId": "fQBNazsL-VE",
+      "url": "https://www.youtube.com/watch?v=fQBNazsL-VE",
+      "title": "How to Export All Your ChatGPT Conversations to Local Markdown & JSON Files (Windows 10/11)",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Test TotalRecalls free on your own ChatGPT, Claude, and Perplexity history (up to 5 conversations per provider, zero account signup): https://totalrecalls.app/download/?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_chatgpt\nOr install in one click from the Official Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6 \u2014 How many ChatGPT conversations do you have sitting in your sidebar right now?"
+    },
+    {
+      "provider": "claude",
+      "videoId": "lz-N1KiSQQ8",
+      "url": "https://www.youtube.com/watch?v=lz-N1KiSQQ8",
+      "title": "How to Download Your Claude Chat History as Local Markdown & JSON Files (Windows 10/11)",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Claude is included in the TotalRecalls Free Tier \u2014 test it on your own Claude chats today: https://totalrecalls.app/download/?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_claude\nOfficial Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6 \u2014 Do you use Claude mostly for coding, writing, or research?"
+    },
+    {
+      "provider": "perplexity",
+      "videoId": "g0qj8-I-nYg",
+      "url": "https://www.youtube.com/watch?v=g0qj8-I-nYg",
+      "title": "How to Export Perplexity AI Threads to Local Markdown & JSON Files on Windows",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Perplexity is included in the Free Tier (5 threads free to test on your own research): https://totalrecalls.app/download/?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_perplexity\nOfficial Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6"
+    },
+    {
+      "provider": "deepseek",
+      "videoId": "zw18uF1wqzs",
+      "url": "https://www.youtube.com/watch?v=zw18uF1wqzs",
+      "title": "How to Download DeepSeek Chat History to Local Markdown & JSON Files on Windows",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Unlock DeepSeek alongside all 8 AI providers with Downloader Pro (one-time purchase, no subscription): https://totalrecalls.app/#pricing?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_deepseek\nOr test the Free Tier first on ChatGPT, Claude, and Perplexity: https://totalrecalls.app/download/"
+    },
+    {
+      "provider": "gemini",
+      "videoId": "L4Ret3iH208",
+      "url": "https://www.youtube.com/watch?v=L4Ret3iH208",
+      "title": "How to Export Google Gemini Chats to Clean Markdown & JSON (86 Chats in Real Time)",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Tired of wrestling with raw Google Takeout archives? Get clean Markdown + JSON files for every Gemini conversation with TotalRecalls: https://totalrecalls.app/see-it-work/gemini/?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_gemini\nOfficial Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6"
+    },
+    {
+      "provider": "grok",
+      "videoId": "d8QkDObtf1c",
+      "url": "https://www.youtube.com/watch?v=d8QkDObtf1c",
+      "title": "How to Export Grok (xAI) Chat History to Local Markdown & JSON Files on Windows",
+      "playlist": "PLHGgAPo4_vi8",
+      "pinned_comment": "Back up your Grok (xAI) history alongside ChatGPT, Claude, Perplexity, Gemini, and DeepSeek on your own PC: https://totalrecalls.app/see-it-work/grok/?utm_source=youtube&utm_medium=pinned_comment&utm_campaign=walkthrough_grok\nOfficial Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6"
+    }
+  ],
+  "remaining_quota": [
+    "mistral",
+    "qwen"
+  ]
+}

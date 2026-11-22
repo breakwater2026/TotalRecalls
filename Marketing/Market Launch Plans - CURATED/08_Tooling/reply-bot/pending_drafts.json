@@ -1,0 +1,20 @@
+[
+  {
+    "id": "Reddit_1794824686_2921",
+    "platform": "Reddit",
+    "author": "u/CuriousCoder",
+    "question": "Does TotalRecalls run locally or does my chat data go through your servers? Also does it need an NVIDIA GPU for the search?",
+    "draft_response": "Developer of TotalRecalls here.\n\nPrivacy architecture: TotalRecalls has zero cloud servers, zero external proxies, and zero telemetry. You authenticate directly inside an embedded Microsoft Edge WebView2 instance on your machine, and your session tokens are encrypted at rest using Windows DPAPI (tied to your Windows login SID). Network traffic flows solely between your PC and the AI provider\u2014you can verify this directly in Wireshark or Windows Resource Monitor.\n\nHardware requirements: The Smart Search Engine (SSE) is built to run 100% offline on standard CPUs. It does not require a dedicated GPU. A typical Windows 10/11 machine with 8GB RAM handles indexing and hybrid semantic search cleanly using embedded SQLite FTS5 and LanceDB.",
+    "status": "pending_founder_approval",
+    "sources_consulted": [
+      "docs/TOTALRECALLS_POWER_USER_MANUAL.md",
+      "docs/TOTALRECALLS_SSE_QUICK_START_GUIDE.md",
+      "site/src/pages/faq/index.astro",
+      "Claims Register"
+    ],
+    "created_at": 1794825497.8590307,
+    "last_notified_at": 1794828808.7168646,
+    "notification_count": 6,
+    "expired_notified": true
+  }
+]

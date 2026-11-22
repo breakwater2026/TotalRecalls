@@ -1,0 +1,153 @@
+﻿# TotalRecalls — Launch Ad 1 (The DeepSeek "Export Warning" Campaign)
+
+> **Core Proof Hook:** Official DeepSeek system notice:  
+> *"Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."*
+>
+> **The Critical Friction:** While DeepSeek has an export feature, you must open and select each conversation one by one. If you have dozens or hundreds of research threads, manual clicking takes hours. TotalRecalls downloads your entire DeepSeek library in one pick-and-click operation into local Markdown (`.md`) and JSON (`.json`) files.
+
+---
+
+## 1. Visual Creative Spec (The Attached Screenshot)
+
+- **Primary Image Asset:** The DeepSeek warning dialog screenshot:
+  - Source path on disk: `C:\Users\break\AppData\Local\hermes\profiles\totalrecalls-launch-copilot\cache\documents\native-inputs\b9fb4ddc2303095f318c4f7d990d5ec4e10391365c4662731ebaab66104426a5\dashboard_20261116_145150_92e945ce_image_f35624.png`
+  - Canonical project path: `Marketing\Market Launch Plans - CURATED\07_Assets\deepseek_notice_banner.png`
+- **Companion Asset:** TotalRecalls DeepSeek Walkthrough Thumbnail (`tr_thumb_deepseek.jpg` from `07_Assets/thumbnails_3440/`).
+
+---
+
+## 2. X (Twitter) — Launch Ad / Pinned Thread (Primary Debut)
+
+**Post 1 (The Hook):**
+DeepSeek just delivered the most honest argument for owning your AI chats:
+
+"Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."
+
+DeepSeek literally told users to export their history to another app. 🧵👇
+
+*(Attach the DeepSeek screenshot)*
+
+---
+
+**Post 2 (The Friction Point):**
+While DeepSeek technically has an export feature, you have to click and initiate it one conversation at a time. 
+
+If you have 50, 100, or 500 reasoning and coding threads, manual one-by-one exporting is grueling work.
+
+And if you leave them inactive for 7 days, your thread is permanently frozen.
+
+---
+
+**Post 3 (The TotalRecalls Solution):**
+We built TotalRecalls for Windows to solve this exact headache:
+
+• Select DeepSeek inside the app
+• One-click bulk download for your entire conversation history
+• Every chat is saved twice: readable Markdown (.md) and structured JSON (.json)
+• Directly on your PC: C:\TotalRecalls\Library\DeepSeek\
+
+---
+
+**Post 4 (Local Security & Universal Search):**
+Two principles we refuse to compromise on:
+1. Zero servers & zero telemetry. Your DeepSeek session tokens stay encrypted on your machine via Windows DPAPI.
+2. Pair with our offline Smart Search Engine (SSE) to search across the Top 8 AI providers: DeepSeek, ChatGPT, Claude, Gemini, Perplexity, Grok, Mistral and Qwen at once in plain English—no GPU needed.
+
+---
+
+**Post 5 (Call to Action & Links:**
+Don't wait for your best reasoning threads to get frozen after 7 days.
+
+• Download from Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+• Watch the 4-min DeepSeek walkthrough: https://www.youtube.com/watch?v=zw18uF1wqzs
+• Try the Free Tier or get Pro ($24 one-time): https://totalrecalls.app/guides/deepseek/
+
+---
+
+## 3. LinkedIn — Founder Ad & Analysis Post
+
+**Target Profile:** Andre Denis (Founder)  
+**Headline:** When an AI provider explicitly warns you that chat history is temporary.
+
+**Post Copy:**
+A striking notice appeared inside DeepSeek recently:
+
+"Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."
+
+In 45+ years in financial services from investment banker to venture capitalist, I advised companies on one fundamental rule: protect your core intellectual assets.
+
+Today, engineers, analysts, and founders are using DeepSeek R1 for deep algorithmic reasoning, financial modeling, and software architecture. Yet here is the provider openly admitting reality: when compute resources get strained, older conversation threads get frozen.
+
+While DeepSeek does offer an export option, you have to select and initiate each conversation one by one. If you have dozens or hundreds of active research threads, clicking through each one manually is exhausting.
+
+This is why I built TotalRecalls for Windows (certified on the Official Microsoft Store).
+
+TotalRecalls connects locally on your PC to DeepSeek (and 7 other major AI providers) and lets you download your entire conversation history in one click into clean, permanent Markdown (.md) and JSON (.json) files on your hard drive.
+
+Three core standards:
+1. Direct & Local: No middleman servers, no data harvesting. Session keys are encrypted locally with Windows DPAPI.
+2. Universal Format: Files open immediately in Word, Obsidian, Norton, VS Code, or Notepad.
+3. Offline Smart Search Engine (SSE): Search your DeepSeek, Claude, ChatGPT, Gemini, Grok, Mistral and Qwen archives simultaneously in plain English without needing an expensive graphics card.
+
+If you rely on DeepSeek for serious intellectual work, don't leave your reasoning to chance.
+
+• Microsoft Store listing: https://apps.microsoft.com/detail/9PP1KKD5X2D6  
+• Watch the DeepSeek walkthrough: https://www.youtube.com/watch?v=zw18uF1wqzs  
+• Learn more: https://totalrecalls.app/guides/deepseek/
+
+#AI #DeepSeek #KnowledgeManagement #DataOwnership #Windows10/11 #SoftwareArchitecture
+
+---
+
+## 4. Reddit — r/DeepSeek & r/DataHoarder
+
+**Subreddit:** `r/DeepSeek` (and cross-post to `r/DataHoarder`)  
+**Title:** DeepSeek's 7-day inactivity freeze: "Export your history to another app" — How to bulk download everything to Markdown on Windows without one-by-one clicking
+
+**Body:**
+Hi r/DeepSeek,
+
+Developer of TotalRecalls here.
+
+If you've spent hours doing deep technical reasoning or code architecture in DeepSeek, you've probably seen this warning on longer threads:
+
+> "Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."
+
+DeepSeek is being completely transparent: cloud computing is expensive, and older threads will get locked. 
+
+The friction is that doing an export inside the web interface requires clicking through and initiating each conversation individually. If you've accumulated 100+ chats, manual clicking is painful.
+
+I built a Windows 10/11 desktop app called **TotalRecalls** (certified on the Microsoft Store) that solves this:
+
+1. **One-Click Bulk Download:** It connects to the Top global AI providers, including DeepSeek inside a local Microsoft Edge WebView2 session on your machine and exports all your conversations you’re your local PC at `C:\TotalRecalls\Library\DeepSeek\`.
+2. **Dual Clean Formats:** Every thread is written as a clean Markdown (`.md`) file (code blocks, timestamps, and formatting preserved) alongside a structured `.json` file for local scripts.
+3. **100% Local & Encrypted:** Zero telemetry, no cloud middleman. Session tokens are encrypted at rest using Windows DPAPI (tied to your Windows user login). Traffic flows strictly between your PC and DeepSeek.
+4. **Offline Search (SSE Add-On):** If you also use ChatGPT or Claude, Gemini, Grok, Mistral or Qwen, our local search add-on lets you search across all your saved conversations in plain English on CPU only. No need for a GPU card.
+
+Permanent Free Tier covers ChatGPT, Claude, and Perplexity (5 chats each) so you can test the file format before buying. Pro is a $24 one-time purchase to unlock unlimited bulk downloads for the Top 8 AI providers, including DeepSeek.
+
+DeepSeek walkthrough video: https://www.youtube.com/watch?v=zw18uF1wqzs  
+Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6  
+Website guide: https://totalrecalls.app/guides/deepseek/
+
+Happy to answer any technical questions about the local WebView2 extraction or DPAPI encryption.
+
+---
+
+## 5. YouTube Community Post (For the "@totalrecalls" Posts Tab)
+
+**Post Text:**
+💬 **Why we built TotalRecalls (In DeepSeek's own words):**
+
+A recent notice inside DeepSeek's chat window:
+*"Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."*
+
+DeepSeek is warning users directly: cloud history is temporary.
+
+While you can export threads one-by-one in their interface, clicking through hundreds of chats takes forever. TotalRecalls downloads your entire chat history from the Top 8 providers, including DeepSeek in one operation as local Markdown and JSON files on Windows.
+
+Watch the 4-minute DeepSeek export walkthrough here:  
+👉 https://www.youtube.com/watch?v=zw18uF1wqzs
+
+Download on the Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+

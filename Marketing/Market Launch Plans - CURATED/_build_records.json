@@ -1,0 +1,926 @@
+{
+ "curated_folder": "C:\\Users\\break\\Projects\\TotalRecalls-Source Code\\Marketing\\Market Launch Plans - CURATED",
+ "source_folder": "C:\\Users\\break\\Projects\\TotalRecalls-Source Code\\Marketing\\Market Launch Plans",
+ "note": "Every copied file is byte-identical to its source. Source folder was never modified.",
+ "files": [
+  {
+   "destination": "01_Strategy_and_Plans/Blog Series Map.md",
+   "source": null,
+   "origin": "authored during curation",
+   "disposition": "KEEP",
+   "reason": "Index / register authored during curation.",
+   "bytes": 5713,
+   "sha256": "84b2e573203c76d4"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/Content Audit Plan V2 (2026-10-02).docx",
+   "source": "YouTube/TotalRecalls Content Audit Plan V2.docx",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical audit / keep-merge-create-retire record. Option A decision still governs.",
+   "bytes": 299755,
+   "sha256": "adb02531962cd208"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/Document Currency Register.md",
+   "source": null,
+   "origin": "authored during curation",
+   "disposition": "KEEP",
+   "reason": "Index / register authored during curation.",
+   "bytes": 9045,
+   "sha256": "ac662f8e68022367"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/Master Implementation Plan V3 (2026-10-03).md",
+   "source": "YouTube/Master Implementation Plan V3.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Cross-channel authority: decisions, blog status, 12-week plan, guardrails. TRUNCATED - see register.",
+   "bytes": 41950,
+   "sha256": "b54c83d3a913f6d2"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/Master Launch Plan (2026-10-23).md",
+   "source": "TotalRecalls_Market_Launch_Master_Plan Final.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Newest consolidated strategy: positioning, claims register, 90-day calendar, budget, risks, analytics baseline.",
+   "bytes": 174171,
+   "sha256": "954af7068e2defcc"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/YouTube Channel Style v1 (2026-09-30).md",
+   "source": "YouTube/TotalRecalls YouTube Channel Style.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Only full visual-identity spec (palette, banner zones, thumbnail grid, templates). TRUNCATED - see register.",
+   "bytes": 27484,
+   "sha256": "c3bc18f8cfc3d214"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/YouTube Description Templates (2026-10-02).md",
+   "source": "YouTube/YouTube Description Templates.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Current description standard (6 templates + UTM format + pinned comments).",
+   "bytes": 17239,
+   "sha256": "73d00242b65dfc81"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/YouTube Launch Plan (2026-11-14).md",
+   "source": "YouTube/TotalRecalls YouTube Launch Plan.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Current launch operating plan; reflects Microsoft Store, SSE add-on and current pricing.",
+   "bytes": 16291,
+   "sha256": "4439633c4ac09d69"
+  },
+  {
+   "destination": "01_Strategy_and_Plans/YouTube Strategy V5 (2026-10-02).md",
+   "source": "YouTube/TotalRecalls YouTube Strategy.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical channel strategy (purpose, pillars, playlists, thumbnails, titles, SEO, cadence). TRUNCATED - see register.",
+   "bytes": 26159,
+   "sha256": "4283f4fc6295221c"
+  },
+  {
+   "destination": "02_Content_Pack/Launch Content Pack (2026-10-24).pdf",
+   "source": "TotalRecalls_Market_Launch_Content_Plan-Final.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Mislabeled file: this is a 17-page PDF, not markdown. Renamed to .pdf. Strict superset of the Implementation Content Pack .docx.",
+   "bytes": 183556,
+   "sha256": "bd0218f7bb2ce923"
+  },
+  {
+   "destination": "03_YouTube/Production Runbook (2026-10-03).md",
+   "source": "YouTube/YouTube Implementation Plan.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Duplicate of the runbook copy in 01_; kept here so the YouTube folder is self-contained. TRUNCATED.",
+   "bytes": 39141,
+   "sha256": "eddc75514f75407b"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V1 - Save AI Chats from 8 Providers to One Folder.md",
+   "source": "YouTube/scripts/YT Video 1 Script.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical (only version).",
+   "bytes": 12624,
+   "sha256": "f785873a9b5d1231"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V10 - Your AI Conversations Are Worth Saving.md",
+   "source": "YouTube/scripts/YT Video 10 Script.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical (only version).",
+   "bytes": 27449,
+   "sha256": "97da87bfb3f593ea"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V2 - Why I Built TotalRecalls.md",
+   "source": "YouTube/scripts/YT Video 2 Script.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical (only version).",
+   "bytes": 13706,
+   "sha256": "005a75bb024e7b37"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V3 - You're Not Backing Up Your AI Chats.md",
+   "source": "YouTube/scripts/YT Video 3 Script V2.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical = V2; unsuffixed file is a 228-word truncated stub.",
+   "bytes": 18395,
+   "sha256": "8d7eec5cf2c63cae"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V4 - How to Export ChatGPT Conversations to Markdown.md",
+   "source": "YouTube/scripts/YT Video 4 Script.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical (only version).",
+   "bytes": 20048,
+   "sha256": "fdece6da3ea016b9"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V5 - Back Up Your Claude Chat History Locally.md",
+   "source": "YouTube/scripts/YT Video 5 Script V2.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical = V2.",
+   "bytes": 22420,
+   "sha256": "4ebc4475fe196777"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V6 - I'll Wait - A Better Way to Save Your AI Chats.md",
+   "source": "YouTube/scripts/YT Video 6 Script (Final).md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical = Final.",
+   "bytes": 18831,
+   "sha256": "f6230b0909673fd7"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V7 - Save Perplexity and Gemini Threads You Can Actually Read.md",
+   "source": "YouTube/scripts/YT Video 7 Script V3.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical = V3.",
+   "bytes": 27056,
+   "sha256": "70e55e7cdfcfc8d9"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V8 - Is TotalRecalls Safe - 100% Local Proof.md",
+   "source": "YouTube/scripts/YT Video 8 Script V2.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical = V2.",
+   "bytes": 26902,
+   "sha256": "44a39403afb72b57"
+  },
+  {
+   "destination": "03_YouTube/Scripts/V9 - Free Tier vs Pro - What You Get for $24.md",
+   "source": "YouTube/scripts/YT Video 9 Script.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Canonical (only version). Stale pricing/claims - see register.",
+   "bytes": 29323,
+   "sha256": "059ffa94dc886253"
+  },
+  {
+   "destination": "03_YouTube/Upload Pack - 8 Provider Walkthroughs (2026-11-15).md",
+   "source": "YouTube/YOUTUBE-UPLOAD-PACK.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Ready-to-publish metadata (title/description/chapters/tags/pinned comment) for the 8 CRF-10 masters.",
+   "bytes": 25243,
+   "sha256": "bf54dfc43fa3722d"
+  },
+  {
+   "destination": "04_Blog/B2 - Where TotalRecalls Saves Your Files.md",
+   "source": "YouTube/Blog/Library Folder Explainer Blog.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B2. Complete draft.",
+   "bytes": 9869,
+   "sha256": "7d11bd0f6e7a00f6"
+  },
+  {
+   "destination": "04_Blog/B3 - Markdown vs JSON.md",
+   "source": "YouTube/Blog/Markdown vs JSON Explainer Blog.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B3. Complete draft.",
+   "bytes": 10615,
+   "sha256": "c96d4e469f149097"
+  },
+  {
+   "destination": "04_Blog/B4 - What Not Sent to Our Servers Means.md",
+   "source": "YouTube/Blog/Privacy Explainer Blog 4.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B4. Complete draft; strictest review requirement.",
+   "bytes": 11559,
+   "sha256": "c0e9716e90932ea8"
+  },
+  {
+   "destination": "04_Blog/B5 - How to Back Up Your Saved AI Chats on Windows.md",
+   "source": "YouTube/Blog/TotalRecalls Blog Post 8.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B5. More complete than 'Backup Library Blog 5' (adds Robocopy, Task Scheduler, restore, mistakes).",
+   "bytes": 16765,
+   "sha256": "c5c68bdc6611094c"
+  },
+  {
+   "destination": "04_Blog/B6 - How to Search Saved Chats with Windows Search.md",
+   "source": "YouTube/Blog/Windows Search Blog 6.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B6. Complete draft.",
+   "bytes": 13258,
+   "sha256": "be46d83d1a8b87f3"
+  },
+  {
+   "destination": "04_Blog/B7 - How to Manage Saved Chats with PowerShell.md",
+   "source": "YouTube/Blog/TotalRecalls Blog Post 10.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B7 per the D1 ruling (PowerShell into the organising slot). Complete draft.",
+   "bytes": 20222,
+   "sha256": "e60fc0ab5d97773c"
+  },
+  {
+   "destination": "04_Blog/B8 - How to Open Saved Chats in Obsidian.md",
+   "source": "YouTube/Blog/TotalRecalls Blog Post 7.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B8 (note: the filename says 7, the plan slot is B8).",
+   "bytes": 14172,
+   "sha256": "a2bb35df0943276d"
+  },
+  {
+   "destination": "04_Blog/B9 - How to Use Saved Chats in VS Code.md",
+   "source": "YouTube/Blog/VS Code Blog Post 9.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Plan slot B9. Complete draft.",
+   "bytes": 16854,
+   "sha256": "fa08a7f7f641db11"
+  },
+  {
+   "destination": "04_Blog/Extra - Free vs Pro, Explained Plainly.md",
+   "source": "YouTube/Blog/Free vs Pro Explainer Blog.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Outside the 9-post series; pricing-page explainer. Missing meta title/description.",
+   "bytes": 5929,
+   "sha256": "63a39e3cd4dd46de"
+  },
+  {
+   "destination": "05_Social/30-Day Content Calendar (2026-09-29).md",
+   "source": "Social media/Content Calendar.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Complete Day 0-29 calendar across 7 platforms. Dated (no UTM, pre-Store/SSE) - see register.",
+   "bytes": 19109,
+   "sha256": "deda92eb661caed3"
+  },
+  {
+   "destination": "05_Social/4-Week Social Pack (2026-11-15).md",
+   "source": "YouTube/SOCIAL-MEDIA-4WEEK-PACK.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Current execution-ready social copy (X/Reddit/LinkedIn/Shorts), UTM-tagged.",
+   "bytes": 22210,
+   "sha256": "5abc716119f20573"
+  },
+  {
+   "destination": "06_Founder_Story/Founder Story (2 variants + profile).md",
+   "source": "Founder's Story/Founder Story \u2014 Why I Built TotalRecalls (2 variants + profile).md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Two reworded variants plus ad-profile block.",
+   "bytes": 11363,
+   "sha256": "364ac0ae0f38622f"
+  },
+  {
+   "destination": "07_Assets/_LIVE_banner_as_served_512x288.png",
+   "source": "YouTube/_LIVE_banner_as_served_512x288.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "As-served banner proof.",
+   "bytes": 19100,
+   "sha256": "d92b757b0cdded4b"
+  },
+  {
+   "destination": "07_Assets/_LIVE_icon_as_served_default_T.jpg",
+   "source": "YouTube/_LIVE_icon_as_served_default_T.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "As-served icon proof.",
+   "bytes": 11130,
+   "sha256": "dd044bee9595610e"
+  },
+  {
+   "destination": "07_Assets/channel_banner_2560x1440.png",
+   "source": "YouTube/channel_banner_2560x1440.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Channel banner master.",
+   "bytes": 53400,
+   "sha256": "226fef9c11d6fd24"
+  },
+  {
+   "destination": "07_Assets/channel_icon_800.png",
+   "source": "YouTube/channel_icon_800.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Channel icon master.",
+   "bytes": 117150,
+   "sha256": "6bcb48f3c9392a5c"
+  },
+  {
+   "destination": "07_Assets/channel_watermark_150.png",
+   "source": "YouTube/channel_watermark_150.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Video watermark.",
+   "bytes": 15463,
+   "sha256": "f498d15397b8bbc1"
+  },
+  {
+   "destination": "07_Assets/logos.json",
+   "source": "YouTube/logos.json",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Logo path data used by the build scripts.",
+   "bytes": 5654,
+   "sha256": "cc14d28026062627"
+  },
+  {
+   "destination": "07_Assets/qc_banner_desktop_strip.png",
+   "source": "YouTube/qc_banner_desktop_strip.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Banner QC strip.",
+   "bytes": 41352,
+   "sha256": "42bae60c9de58b36"
+  },
+  {
+   "destination": "07_Assets/qc_banner_tablet_strip.png",
+   "source": "YouTube/qc_banner_tablet_strip.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Banner QC strip.",
+   "bytes": 39016,
+   "sha256": "5211ae3f00a6800e"
+  },
+  {
+   "destination": "07_Assets/qc_icon_48.png",
+   "source": "YouTube/qc_icon_48.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Icon QC at 48px.",
+   "bytes": 1976,
+   "sha256": "6d3a81d2f4b58cd5"
+  },
+  {
+   "destination": "07_Assets/qc_icon_98.png",
+   "source": "YouTube/qc_icon_98.png",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Icon QC at 98px.",
+   "bytes": 5522,
+   "sha256": "cf2160ed4d64bdbc"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_chatgpt.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_chatgpt.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 72738,
+   "sha256": "4cc1c89f2b26b4ed"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_claude.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_claude.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 78032,
+   "sha256": "eda69c7a0aea65cb"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_convergence.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_convergence.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 60958,
+   "sha256": "a001ebe320c6f612"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_deepseek.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_deepseek.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 76714,
+   "sha256": "14a597394fe739af"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_gemini.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_gemini.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 74664,
+   "sha256": "f24b296f3411a6b0"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_grok.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_grok.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 73921,
+   "sha256": "03d552384e6943c0"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_master.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_master.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 74652,
+   "sha256": "f739edc9b4eb3e20"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_mistral.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_mistral.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 78178,
+   "sha256": "2ff3400d39dfcc69"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_perplexity.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_perplexity.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 76734,
+   "sha256": "df344d95d88639da"
+  },
+  {
+   "destination": "07_Assets/thumbnails/tr_thumb_qwen.jpg",
+   "source": "YouTube/thumbnails/tr_thumb_qwen.jpg",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Built channel thumbnail.",
+   "bytes": 73214,
+   "sha256": "2f0c4617279dbca1"
+  },
+  {
+   "destination": "08_Tooling/build_channel_assets.py",
+   "source": "YouTube/build_channel_assets.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Builds banner/icon/watermark.",
+   "bytes": 4113,
+   "sha256": "fcc22de6a0e5d68d"
+  },
+  {
+   "destination": "08_Tooling/build_convergence_video.py",
+   "source": "YouTube/build_convergence_video.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Builds the 8-providers-to-1-folder animation.",
+   "bytes": 11327,
+   "sha256": "03800be7a2fedb20"
+  },
+  {
+   "destination": "08_Tooling/build_thumbnails.py",
+   "source": "YouTube/build_thumbnails.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Builds the 10 thumbnails.",
+   "bytes": 6106,
+   "sha256": "97b85654d8d7d41f"
+  },
+  {
+   "destination": "08_Tooling/encode_night.sh",
+   "source": "YouTube/encode_night.sh",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Night encode batch script.",
+   "bytes": 1586,
+   "sha256": "0e25feb6a6e4d2cc"
+  },
+  {
+   "destination": "08_Tooling/YouTube Data API - Setup Reference.md",
+   "source": "YouTube/YT API Connection.md",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "Generic API setup reference; uses placeholders only, no live credentials.",
+   "bytes": 2425,
+   "sha256": "de624fad84982c38"
+  },
+  {
+   "destination": "08_Tooling/yt-api/apply_branding.py",
+   "source": "YouTube/yt-api/apply_branding.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2759,
+   "sha256": "26bb141b8b221916"
+  },
+  {
+   "destination": "08_Tooling/yt-api/convergence_finish.py",
+   "source": "YouTube/yt-api/convergence_finish.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 5065,
+   "sha256": "bddbb5757e484611"
+  },
+  {
+   "destination": "08_Tooling/yt-api/make_plan.py",
+   "source": "YouTube/yt-api/make_plan.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 5346,
+   "sha256": "0b8ecb61e96e7b18"
+  },
+  {
+   "destination": "08_Tooling/yt-api/oauth_code_capture.py",
+   "source": "YouTube/yt-api/oauth_code_capture.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2503,
+   "sha256": "aa94656ec1a82872"
+  },
+  {
+   "destination": "08_Tooling/yt-api/oauth_code_capture2.py",
+   "source": "YouTube/yt-api/oauth_code_capture2.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2240,
+   "sha256": "0c11810ee8d5e925"
+  },
+  {
+   "destination": "08_Tooling/yt-api/oauth_final.py",
+   "source": "YouTube/yt-api/oauth_final.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2009,
+   "sha256": "5bda9046b88c4962"
+  },
+  {
+   "destination": "08_Tooling/yt-api/README.md",
+   "source": null,
+   "origin": "authored during curation",
+   "disposition": "KEEP",
+   "reason": "Index / register authored during curation.",
+   "bytes": 3235,
+   "sha256": "864807b7db22d98c"
+  },
+  {
+   "destination": "08_Tooling/yt-api/test_apikey.py",
+   "source": "YouTube/yt-api/test_apikey.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 1178,
+   "sha256": "92bf7b0945f63eee"
+  },
+  {
+   "destination": "08_Tooling/yt-api/test_oauth.py",
+   "source": "YouTube/yt-api/test_oauth.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 1612,
+   "sha256": "9af7d6e26d9930e2"
+  },
+  {
+   "destination": "08_Tooling/yt-api/test_oauth_final.py",
+   "source": "YouTube/yt-api/test_oauth_final.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2120,
+   "sha256": "8a5e7a50627ddac2"
+  },
+  {
+   "destination": "08_Tooling/yt-api/test_oauth_manual.py",
+   "source": "YouTube/yt-api/test_oauth_manual.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2355,
+   "sha256": "125a4dc79bbbfad5"
+  },
+  {
+   "destination": "08_Tooling/yt-api/test_oauth_v3.py",
+   "source": "YouTube/yt-api/test_oauth_v3.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 2052,
+   "sha256": "7cfccdffe537016a"
+  },
+  {
+   "destination": "08_Tooling/yt-api/upload_batch.py",
+   "source": "YouTube/yt-api/upload_batch.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 3272,
+   "sha256": "b1c81abc9df122f5"
+  },
+  {
+   "destination": "08_Tooling/yt-api/upload_convergence.py",
+   "source": "YouTube/yt-api/upload_convergence.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 3174,
+   "sha256": "3d16dea11340206c"
+  },
+  {
+   "destination": "08_Tooling/yt-api/upload_video.py",
+   "source": "YouTube/yt-api/upload_video.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 3322,
+   "sha256": "894ffc6e5cd8dc1d"
+  },
+  {
+   "destination": "08_Tooling/yt-api/yt_probe.py",
+   "source": "YouTube/yt-api/yt_probe.py",
+   "origin": "copied from source",
+   "disposition": "KEEP",
+   "reason": "YouTube Data API automation script; reads credentials from files, hardcodes no secrets.",
+   "bytes": 812,
+   "sha256": "a9711d3c0174e1ab"
+  },
+  {
+   "destination": "99_Archive/Backup Library Blog 5 (duplicate of B5, less complete).md",
+   "source": "YouTube/Blog/Backup Library Blog 5.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Same topic as B5; the kept B5 is more complete.",
+   "bytes": 10729,
+   "sha256": "7bc993afb930211d"
+  },
+  {
+   "destination": "99_Archive/Facebook Posts - all variants (superseded, no UTM).md",
+   "source": "Social media/facebook/Facebook Posts \u2014 all variants.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the 4-week pack; no UTM tags; free-tier wording risk.",
+   "bytes": 2875,
+   "sha256": "fee5f8b93a4788ec"
+  },
+  {
+   "destination": "99_Archive/Fragment - Day 0 Launch Announcement.md",
+   "source": "Social media/Social Media Campaign.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Single-day fragment, pre-dates the 4-week pack.",
+   "bytes": 1578,
+   "sha256": "4def2cd9e356001a"
+  },
+  {
+   "destination": "99_Archive/Fragment - Day 10 How It Works.md",
+   "source": "Social media/Untitled Document (1).md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Untitled single-day fragment, pre-dates the 4-week pack.",
+   "bytes": 1178,
+   "sha256": "11c10dd795745fb2"
+  },
+  {
+   "destination": "99_Archive/Fragment - Day 3 Problem With AI Chat History.md",
+   "source": "Social media/TotalRecalls Social Media Campaign.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Single-day fragment, pre-dates the 4-week pack.",
+   "bytes": 1049,
+   "sha256": "bc15fbf27d5ebe91"
+  },
+  {
+   "destination": "99_Archive/Implementation Content Pack (subset of the PDF).docx",
+   "source": "TotalRecalls_Implementation_Content_Pack.docx",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Strict subset of Launch Content Pack (2026-10-24).pdf; no unique content.",
+   "bytes": 43705,
+   "sha256": "1abaab187da4a48c"
+  },
+  {
+   "destination": "99_Archive/Instagram Captions - all variants (superseded, no UTM).md",
+   "source": "Social media/instagram/Instagram Captions \u2014 all variants.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the 4-week pack; no UTM tags; no disclosure.",
+   "bytes": 2173,
+   "sha256": "9b915294161a041c"
+  },
+  {
+   "destination": "99_Archive/LinkedIn Posts - all variants (superseded, no UTM).md",
+   "source": "Social media/linkedin/LinkedIn Posts \u2014 all variants.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the 4-week pack; no UTM tags.",
+   "bytes": 1880,
+   "sha256": "60c0dd372429c6da"
+  },
+  {
+   "destination": "99_Archive/Main Explainer Video - Outline & Shot List (superseded).md",
+   "source": "YouTube/Main Explainer Video \u2014 Outline & Shot List.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the Launch Plan flagship script and Strategy production rules.",
+   "bytes": 12671,
+   "sha256": "5eb27acdf5291641"
+  },
+  {
+   "destination": "99_Archive/MANIFEST.md",
+   "source": null,
+   "origin": "authored during curation",
+   "disposition": "KEEP",
+   "reason": "Index / register authored during curation.",
+   "bytes": 6742,
+   "sha256": "444fe80cb91b0a8a"
+  },
+  {
+   "destination": "99_Archive/Night Worklist 2026-10-01 (historical).md",
+   "source": "YouTube/NIGHT_WORKLIST.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "One-night completion log; all items done. Historical record only.",
+   "bytes": 2959,
+   "sha256": "8e418bca261e8ab2"
+  },
+  {
+   "destination": "99_Archive/Short-Form Video Strategy (superseded).md",
+   "source": "YouTube/Short-Form Video Strategy.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by Strategy section 3 (Shorts) and the Launch Plan; script content overlaps Main Explainer.",
+   "bytes": 7177,
+   "sha256": "f9ee19a3b00bf7db"
+  },
+  {
+   "destination": "99_Archive/Thumbnail Concepts (superseded by Channel Style sec.4).md",
+   "source": "YouTube/Thumbnail Concepts.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the Channel Style thumbnail design system.",
+   "bytes": 6741,
+   "sha256": "259bdff5f4c2fe95"
+  },
+  {
+   "destination": "99_Archive/TotalRecalls Hook Rankings Guide (incomplete).md",
+   "source": "YouTube/TotalRecalls Hook Rankings Guide.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Only 2 of 10 scorecards filled; hook text already merged into the scripts.",
+   "bytes": 7034,
+   "sha256": "4785fbc6f9867501"
+  },
+  {
+   "destination": "99_Archive/TotalRecalls Master Plan V2 (superseded by V3, truncated).md",
+   "source": "YouTube/TotalRecalls Master Plan V2.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by Master Implementation Plan V3; also truncated mid-word.",
+   "bytes": 26183,
+   "sha256": "a6528d15b35fbd46"
+  },
+  {
+   "destination": "99_Archive/X (Twitter) Posts - all variants (superseded, no UTM).md",
+   "source": "Social media/x/X (Twitter) Posts \u2014 all variants.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by the 4-week pack; no UTM tags; no disclosure.",
+   "bytes": 1241,
+   "sha256": "60ed9dbc15dc7409"
+  },
+  {
+   "destination": "99_Archive/YouTube Channel Description (superseded by Upload Pack).md",
+   "source": "YouTube/YouTube Channel Description.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Gen-A channel bio; the Nov Upload Pack carries the current bio.",
+   "bytes": 9564,
+   "sha256": "fbbaa69219749061"
+  },
+  {
+   "destination": "99_Archive/YouTube Content Plan - First 10 Videos (Jasper gen, superseded).md",
+   "source": "YouTube/YouTube Content Plan \u2014 First 10 Videos.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Gen-A lineup; superseded by Strategy V5 and the Nov Launch Plan.",
+   "bytes": 6726,
+   "sha256": "c6977e5e29807d83"
+  },
+  {
+   "destination": "99_Archive/YouTube Playlist Structure - 2 frameworks (superseded by Strategy sec.4).md",
+   "source": "YouTube/YouTube Playlist Structure \u2014 2 frameworks.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by Strategy section 4 playlist structure.",
+   "bytes": 21006,
+   "sha256": "3a3641ec479bcd65"
+  },
+  {
+   "destination": "99_Archive/YouTube Upload Checklist & Template (superseded).md",
+   "source": "YouTube/YouTube Upload Checklist & Template.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "Superseded by Strategy + Description Templates + Upload Pack.",
+   "bytes": 7770,
+   "sha256": "27a858a65afed9f7"
+  },
+  {
+   "destination": "99_Archive/YT Video 3 Script (truncated stub, superseded by V2).md",
+   "source": "YouTube/scripts/YT Video 3 Script.md",
+   "origin": "copied from source",
+   "disposition": "ARCHIVE",
+   "reason": "228-word stub ending mid-sentence; superseded by V2 (2,982 words).",
+   "bytes": 1387,
+   "sha256": "dbb06426276fdedf"
+  },
+  {
+   "destination": "README.md",
+   "source": null,
+   "origin": "authored during curation",
+   "disposition": "KEEP",
+   "reason": "Index / register authored during curation.",
+   "bytes": 9687,
+   "sha256": "34c96b6c8dee410f"
+  }
+ ],
+ "excluded": [
+  [
+   "YouTube/hooks/*.md (10 files)",
+   "Strict subsets of the matching script's 'Alternative Hooks' section - containment 1.00, zero unique lines. Content already lives in 03_YouTube/Scripts/."
+  ],
+  [
+   "24 .docx files that have an .md twin",
+   "Content-equivalent Word conversions: 19 are byte-identical after whitespace normalisation, 5 have identical token sets (Jaccard 1.000) with minor table/formatting extraction differences. Convention recorded in the Master Plan: .md = working source, .docx = regenerable human copy."
+  ],
+  [
+   "YouTube/frames/ (33 JPGs, 12 MB) and YouTube/frames_convergence/ (360 PNGs, 17 MB)",
+   "Intermediate render frames, not deliverables."
+  ],
+  [
+   "YouTube/videos/ (10 MP4s, 88 MB + encode logs)",
+   "Superseded 2026-10-01 placeholder cuts, already uploaded private to YouTube and slated for deletion. Current masters live in demo-shoot/renders/ per the shoot handoff."
+  ],
+  [
+   "YouTube/__pycache__/",
+   "Bytecode cache."
+  ],
+  [
+   "YouTube/frames_conv_test_*.png (3)",
+   "Intermediate convergence test frames."
+  ],
+  [
+   "YouTube/yt-api/api_key.txt, credentials.json, token.json, capture_in.txt, capture_out.txt, oauth_run.log",
+   "LIVE SECRETS - Google API key, OAuth client secret, refresh token and a one-time auth code. Deliberately not carried over. Rotate/re-issue before any reuse."
+  ],
+  [
+   "YouTube/yt-api/*.json, *.log (channel/playlist/upload state)",
+   "Stale October channel state (video IDs of uploads slated for deletion). Scripts are kept; state files are not."
+  ],
+  [
+   "YouTube/TotalRecalls YouTube Launch Plan.pdf",
+   "Content-identical PDF twin of the .md/.docx Launch Plan (unique-token Jaccard 1.000). Only the .md was carried."
+  ],
+  [
+   "YouTube/yt-api/capture_err.txt",
+   "Empty file (0 bytes)."
+  ],
+  [
+   "YouTube/yt-api/exchange_once.py",
+   "Hardcodes a live Google OAuth authorization code in a string literal (AUTH_RESPONSE). Quarantined with the other credentials; the auth code is one-time and already consumed, but the script must not be carried into a curated set."
+  ]
+ ]
+}

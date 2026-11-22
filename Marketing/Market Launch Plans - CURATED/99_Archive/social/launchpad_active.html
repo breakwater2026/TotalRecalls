@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TotalRecalls Launch Day Dispatch Pad</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b132b; color: #f8fafc; margin: 0; padding: 30px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { border-bottom: 2px solid #334155; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-size: 24px; color: #38bdf8; }
+        .card { background: #1e293b; border-radius: 8px; border: 1px solid #334155; padding: 20px; margin-bottom: 25px; }
+        h2 { margin-top: 0; font-size: 18px; color: #f1f5f9; display: flex; align-items: center; justify-content: space-between; }
+        .btn { background: #38bdf8; color: #0b132b; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; font-size: 13px; }
+        .btn:hover { background: #7dd3fc; }
+        .btn-secondary { background: #475569; color: #ffffff; margin-left: 8px; }
+        .btn-secondary:hover { background: #64748b; }
+        pre { background: #0f172a; padding: 15px; border-radius: 6px; color: #cbd5e1; font-size: 13px; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #1e293b; }
+        .badge { background: #10b98120; color: #34d399; border: 1px solid #10b981; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .target-bar { display: flex; gap: 12px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>🚀 TotalRecalls Launch Day Dispatcher</h1>
+                <p style="margin: 5px 0 0; color: #94a3b8; font-size: 13px;">Windows 10/11 • 8 Providers • Markdown/JSON • Local Smart Search</p>
+            </div>
+            <div class="badge">SYSTEM READY • INTEGRITY VERIFIED</div>
+        </div>
+
+        <div class="card">
+            <h2>
+                1. X (Twitter) — Pinned 5-Tweet Launch Thread
+                <div>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('x-copy').innerText); alert('Copied X Thread to Clipboard!');">📋 Copy Thread</button>
+                    <a href="https://x.com/compose/post" target="_blank" class="btn btn-secondary">Open X ↗</a>
+                </div>
+            </h2>
+            <p style="color: #94a3b8; font-size: 13px;">Attach <b>tr_thumb_chatgpt.jpg</b> or <b>v5_card.png</b> to Tweet 1.</p>
+            <pre id="x-copy">Tweet 1:
+Over the last 2 years, I accumulated 8,135 conversations across ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral & Qwen.
+
+None of those browser tabs are actually yours. One billing glitch, UI redesign, or account lock and years of thinking vanish.
+
+So I built TotalRecalls for Windows. 🧵👇
+
+---
+Tweet 2:
+TotalRecalls downloads your history from all 8 major AI providers into one clean local folder on your PC (C:\TotalRecalls\Library\).
+
+Every conversation is saved twice:
+• .md — clean Markdown that opens in Obsidian, Notion, Word, or Notepad in 20 years
+• .json — full structured data for scripts & local tooling
+
+---
+Tweet 3:
+What happens when you have thousands of local files and can't remember if you solved a bug in Claude, ChatGPT, or DeepSeek?
+
+We built the Smart Search Engine (SSE) add-on:
+• Query all 8 providers at once in plain English
+• Search by meaning (vector), exact keyword (hybrid), or SQL
+• Runs 100% offline on CPU (no GPU required)
+
+---
+Tweet 4:
+Four rules we refuse to break:
+1. Zero servers & zero telemetry. Sessions stay encrypted locally with Windows DPAPI.
+2. Direct provider-to-PC download (verify it in Wireshark!).
+3. Official Microsoft Store certified (zero security warnings).
+4. One-time purchase ($24 Pro / $49 Pro + SSE Bundle). No recurring monthly rent.
+
+---
+Tweet 5:
+There is a permanent Free Tier available right now (ChatGPT, Claude, and Perplexity — 5 conversations each) so you can test it on your real chats before paying a cent.
+
+• Try the Free Tier: https://totalrecalls.app/download/?utm_source=x&utm_medium=social&utm_campaign=launch&utm_content=x1
+• Get from Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+• Full 6-min walkthrough: https://www.youtube.com/watch?v=fQBNazsL-VE</pre>
+        </div>
+
+        <div class="card">
+            <h2>
+                2. LinkedIn — Founder Narrative Post
+                <div>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('li-copy').innerText); alert('Copied LinkedIn Story to Clipboard!');">📋 Copy Story</button>
+                    <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-secondary">Open LinkedIn ↗</a>
+                </div>
+            </h2>
+            <p style="color: #94a3b8; font-size: 13px;">Attach <b>intro_card_v3.png</b> (System Schematic) or <b>og-image.png</b>.</p>
+            <pre id="li-copy">Over the last two years, I had 8,135 conversations across ChatGPT, Claude, Perplexity, Gemini, and four other AI assistants.
+
+I spent more than 45 years in financial services, most of it as an investment banker and venture capitalist. The primary lesson from that career was simple: protect your assets.
+
+Yet recently, I caught myself violating my own rule. 
+
+A multi-week research project I had built inside an AI assistant vanished overnight. Whether it was an expired session or an interface update, weeks of refined thinking were gone. There was no backup, no undo button, and no support line.
+
+AI is no longer a novelty chatbot. It has quietly become our external working memory—holding software architecture decisions, financial models, market research, and strategic drafts. 
+
+Yet almost all of that intellectual capital sits inside rented browser tabs—scattered across eight disconnected corporate silos with zero unified backup.
+
+So in retirement, I built TotalRecalls for Windows 10 & 11 (now certified and available directly on the Official Microsoft Store).
+
+TotalRecalls connects locally on your PC to the top 8 AI providers—ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral, and Qwen Chat—and saves each conversation as both a readable Markdown (.md) file and a structured JSON (.json) file in a local folder you control.
+
+Three principles guide the software:
+
+1. Local-First & Zero Telemetry: There is no TotalRecalls account, no cloud middleman, and no telemetry. Session tokens are encrypted on your PC via Windows DPAPI. Your conversations go straight from the provider to your drive. You can verify this in Wireshark or Resource Monitor.
+2. Smart Search Engine (SSE): Because thousands of files in folders is still a pile, our optional local search engine lets you query all 8 providers simultaneously in plain English—by semantic meaning, keyword, or natural-language-to-SQL—running 100% locally on CPU without needing a dedicated graphics card.
+3. No Subscription: You shouldn't pay monthly rent to keep access to your own thoughts. TotalRecalls is a one-time purchase ($24 USD for Pro, or $49 for the Pro + SSE Bundle). 
+
+A Free Tier is available right now covering ChatGPT, Claude, and Perplexity (5 conversations per provider) so you can verify the output on your own chats before spending anything.
+
+• Try it free on Windows: https://totalrecalls.app/?utm_source=linkedin&utm_medium=social&utm_campaign=launch&utm_content=l1
+• Microsoft Store listing: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+• Full walkthrough video: https://www.youtube.com/watch?v=fQBNazsL-VE
+
+If you rely on AI for your daily work: where does your conversation history live today?
+
+#AI #Productivity #KnowledgeManagement #DataOwnership #Windows11 #IndieHacker</pre>
+        </div>
+
+        <div class="card">
+            <h2>
+                3. Reddit — r/DataHoarder & r/ChatGPT
+                <div>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('rd-copy').innerText); alert('Copied Reddit Post to Clipboard!');">📋 Copy Reddit</button>
+                    <a href="https://www.reddit.com/r/DataHoarder/submit" target="_blank" class="btn btn-secondary">Open r/DataHoarder ↗</a>
+                    <a href="https://www.reddit.com/r/ChatGPT/submit" target="_blank" class="btn btn-secondary">Open r/ChatGPT ↗</a>
+                </div>
+            </h2>
+            <pre id="rd-copy">Title: I archived 8,135 AI conversations across 8 providers (ChatGPT, Claude, Perplexity, Gemini, DeepSeek, Grok, Mistral, Qwen) into a local Markdown + JSON folder on Windows
+
+Hi r/DataHoarder,
+
+Founder here. Over the past two years, my AI chat history became my primary external technical notebook—containing database schemas, architecture notes, financial models, and research threads. 
+
+Having that data trapped across eight different browser tabs bothered me:
+1. Official export tools either don't exist (DeepSeek, Grok, Qwen), or require waiting days for an email link containing an unreadable monolithic JSON dump.
+2. Sidebar histories quietly get pruned or broken whenever a provider pushes a frontend update.
+3. You cannot run a single grep or local semantic search across all eight providers at once.
+
+I built a Windows 10/11 desktop utility called TotalRecalls (certified on the Microsoft Store) to pull conversations from all 8 providers into one local directory (C:\TotalRecalls\Library\<provider>\).
+
+Technical & Archival Specs:
+- Dual Format Output: Every conversation is written as a clean, human-readable .md file (preserving formatting, code blocks, timestamps, and citation links) paired with a structured .json file for scripting.
+- Local Authentication & Zero Telemetry: There is no TotalRecalls account and no middleman proxy server. The app opens an embedded Microsoft Edge WebView2 window on your machine where you authenticate directly with the provider. Session files and license records are encrypted at rest using Windows DPAPI (tied to your Windows user account). Traffic flows solely between your PC and the provider.
+- Offline Vector + Hybrid + SQL Search (SSE Add-On): Because 8,000 Markdown files is still a pile, we built an offline Smart Search Engine (SSE) add-on that indexes the local library into embedded SQLite + LanceDB. It runs completely offline on standard CPUs (~8GB RAM, no GPU required) and supports vector similarity, exact keyword hybrid search, and natural-language-to-SQL.
+- Pricing: Permanent Free Tier covering ChatGPT, Claude, and Perplexity (5 conversations each) so you can test the export on your own chats. Pro is a one-time $24 purchase (no subscription).
+
+Format specs & walkthrough videos: https://totalrecalls.app/library/  
+Official Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+
+Happy to answer any questions about the WebView2 session extraction, DPAPI encryption, or local vector indexing.</pre>
+        </div>
+    </div>
+</body>
+</html>

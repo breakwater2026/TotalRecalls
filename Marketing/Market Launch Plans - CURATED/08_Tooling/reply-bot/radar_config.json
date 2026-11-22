@@ -1,0 +1,41 @@
+{
+  "target_subreddits": [
+    "DataHoarder",
+    "ChatGPT",
+    "ClaudeAI",
+    "perplexity_ai",
+    "DeepSeek",
+    "ObsidianMD",
+    "PKMS",
+    "selfhosted",
+    "OpenAI",
+    "GoogleGeminiAI",
+    "Bard",
+    "MistralAI",
+    "LocalLLaMA",
+    "privacy",
+    "Windows11",
+    "software",
+    "SideProject",
+    "Productivity",
+    "toolsforthought",
+    "logseq"
+  ],
+  "pain_keywords": [
+    "export (?:chatgpt|claude|perplexity|deepseek|gemini|grok|mistral|qwen)",
+    "download (?:chatgpt|claude|perplexity|deepseek|gemini|grok|mistral|qwen)",
+    "backup (?:chatgpt|claude|perplexity|deepseek|gemini|grok|mistral|qwen|chats|conversations)",
+    "save (?:all )?(?:my )?(?:chats|conversations|threads) to (?:markdown|json|pc|local|file)",
+    "(?:chatgpt|claude|gemini|deepseek|ai chats) to (?:obsidian|notion|word|logseq)",
+    "lost (?:my )?(?:chat|conversation|thread) history",
+    "disappearing (?:chats|conversations|history)",
+    "sidebar (?:missing|gone|bug|lag|broken)",
+    "freeze|inactive for over 7 days",
+    "search across (?:all )?(?:chatgpt|claude|gemini|deepseek|ai|models|conversations)",
+    "(?:semantic|vector|hybrid) search (?:over|across|my) (?:chats|conversations|notes)",
+    "official (?:export|json) (?:unreadable|huge|broken|mess|monolithic)",
+    "gemini (?:privacy|history off|human reviewers|keep activity)",
+    "local AI archiver",
+    "offline (?:chat|conversation) search"
+  ]
+}

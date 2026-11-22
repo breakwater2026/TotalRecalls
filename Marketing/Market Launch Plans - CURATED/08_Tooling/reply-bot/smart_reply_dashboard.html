@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TotalRecalls Smart Reply Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b132b; color: #f8fafc; margin: 0; padding: 30px; }
+        .container { max-width: 960px; margin: 0 auto; }
+        .header { border-bottom: 2px solid #334155; padding-bottom: 18px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-size: 22px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+        .card { background: #1e293b; border-radius: 8px; border: 1px solid #334155; padding: 22px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .source-tag { background: #ff450025; color: #ff5722; border: 1px solid #ff4500; font-weight: 700; font-size: 12px; padding: 3px 8px; border-radius: 4px; }
+        .author-tag { color: #94a3b8; font-size: 13px; margin-left: 8px; }
+        .thread-link { color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: 600; }
+        .thread-link:hover { text-decoration: underline; }
+        .thread-title { font-size: 16px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+        .thread-snippet { font-size: 13px; color: #94a3b8; background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #64748b; margin-bottom: 15px; font-style: italic; }
+        .editor-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #10b981; margin-bottom: 6px; }
+        .reply-editor { width: 100%; box-sizing: border-box; background: #0f172a; color: #f8fafc; border: 1px solid #475569; border-radius: 6px; padding: 12px; font-family: inherit; font-size: 13.5px; line-height: 1.5; resize: vertical; }
+        .reply-editor:focus { outline: none; border-color: #38bdf8; }
+        .action-bar { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; transition: background 0.15s; }
+        .btn-primary { background: #10b981; color: #0b132b; }
+        .btn-primary:hover { background: #34d399; }
+        .btn-secondary { background: #334155; color: #cbd5e1; }
+        .btn-secondary:hover { background: #475569; }
+        .toast { display: none; position: fixed; bottom: 20px; right: 20px; background: #10b981; color: #0b132b; padding: 12px 24px; border-radius: 6px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 1000; }
+    </style>
+    <script>
+        function copyAndOpen(id, url) {
+            const textarea = document.getElementById('edit-' + id);
+            navigator.clipboard.writeText(textarea.value);
+            showToast('Edited Reply Copied! Opening Thread...');
+            setTimeout(() => { window.open(url, '_blank'); }, 800);
+        }
+        function markDone(id) {
+            const card = document.getElementById('card-' + id);
+            card.style.opacity = '0.3';
+            showToast('Marked as Handled!');
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <div id="toast" class="toast">Copied!</div>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>⚡ TotalRecalls Smart Reply Control Center</h1>
+                <p style="margin: 4px 0 0; color: #94a3b8; font-size: 13px;">AI-Ingested Community Leads • Live Editor • 1-Click Clipboard & Thread Launcher</p>
+            </div>
+            <div style="background: #10b98120; border: 1px solid #10b981; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #34d399;">
+                CANONICAL DOCS CONNECTED
+            </div>
+        </div>
+
+        
+        <div class="card" id="card-sim_test_101">
+            <div class="card-header">
+                <div>
+                    <span class="source-tag">r/ClaudeAI</span>
+                    <span class="author-tag">Posted by u/ObsidianDev2026</span>
+                </div>
+                <a href="https://reddit.com/r/ClaudeAI" target="_blank" class="thread-link">Open Original Thread ↗</a>
+            </div>
+
+            <div class="thread-title">"Is there a way to export my Claude project conversations to Obsidian Markdown?"</div>
+            <div class="thread-snippet">"I have spent months writing technical specs in Claude. The web interface is getting sluggish and I want all my chats saved as markdown notes locally."</div>
+
+            <div class="editor-label">Drafted Reply (Editable):</div>
+            <textarea id="edit-sim_test_101" class="reply-editor" rows="8">Founder and developer of TotalRecalls here.
+
+This exact frustration is why I built TotalRecalls for Windows 10/11. Whenever you download your history, every single conversation is saved twice into C:\TotalRecalls\Library\<provider>\:
+• Clean Markdown (.md) with code blocks, timestamps, and citations intact—which opens natively as an Obsidian vault or in Notion.
+• Structured JSON (.json) for local scripting.
+
+There is a permanent Free Tier covering ChatGPT, Claude, and Perplexity (5 chats each) so you can test the file output before buying: https://totalrecalls.app/
+Certified on the Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6</textarea>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="copyAndOpen('sim_test_101', 'https://reddit.com/r/ClaudeAI')">
+                    📋 Copy & Open Thread to Post
+                </button>
+                <button class="btn btn-secondary" onclick="markDone('sim_test_101')">
+                    ✓ Mark as Handled
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

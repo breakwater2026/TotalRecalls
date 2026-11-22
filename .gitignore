@@ -65,3 +65,11 @@ nul
 Marketing/Jasper/YouTube/yt-api/api_key.txt
 Marketing/Jasper/YouTube/yt-api/credentials.json
 Marketing/Jasper/YouTube/yt-api/token.json
+
+# Same credentials after the move into the curated tree (2026-11-22).
+# They stay on disk; committing them trips GitHub push protection.
+Marketing/**/yt-api/token.json
+Marketing/**/yt-api/credentials.json
+Marketing/**/yt-api/api_key.txt
+Marketing/**/Social Media Credentials.csv
+Marketing/**/Social Media Credentials.csv.xls
