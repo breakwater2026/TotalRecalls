@@ -20,7 +20,7 @@
 
 ---
 
-## 2. Quick-Start Installation (3 Steps)
+## 2. Quick-Start Installation (4 Steps)
 
 ### Step 1: Unzip the Package
 Extract the Smart Search Engine archive to any folder on your computer (e.g. `C:\TotalRecalls\SmartSearchEngine\` or on your Desktop).
@@ -28,9 +28,17 @@ Extract the Smart Search Engine archive to any folder on your computer (e.g. `C:
 ### Step 2: Launch Smart Search Engine
 Launch the application by running the launcher script or executable:
 - **Windows**: Double-click `run-smart-search.bat` (or open `index.html` in Microsoft Edge / Chrome).
-- The application will initialize your local vector and relational database in memory.
+- The application opens on the five bundled sample conversations, marked **Demo data** in the amber banner.
 
-### Step 3: Activate Your License Key
+### Step 3: Connect Your Library
+1. In the banner at the top, click **Connect Library folder…**.
+2. Select your Downloads library — by default `C:\Users\<YourUsername>\TotalRecalls-download\Library\`.
+   *(Pick the `Library` folder itself, the one containing the `chatgpt`, `claude`, `gemini`… subfolders.)*
+3. The engine reads every `conversation.json`, builds the vector index, and the banner switches to **Library connected** showing your conversation, message and provider counts.
+4. The index is saved on your PC, so on your next launch your library loads automatically. Use **Re-scan folder…** after a fresh download, and **Forget library** to clear it.
+5. If your browser offers **Remember folder**, use it — the app is then served over a local origin and can re-scan without asking again.
+
+### Step 4: Activate Your License Key
 1. In the top-right corner of the interface, look at the license status bar.
 2. Click **Activate SSE Key** (or **Manage SSE License**).
 3. Paste your `SSE-XXXXXXXX-XXXX-XXXX` license key from your purchase email into the input field.

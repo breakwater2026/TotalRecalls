@@ -786,7 +786,7 @@
   var require_react_dom_production = __commonJS({
     "node_modules/react-dom/cjs/react-dom.production.js"(exports) {
       "use strict";
-      var React56 = require_react();
+      var React57 = require_react();
       function formatProdErrorMessage3(code) {
         var url = "https://react.dev/errors/" + code;
         if (1 < arguments.length) {
@@ -828,7 +828,7 @@
           implementation
         };
       }
-      var ReactSharedInternals = React56.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+      var ReactSharedInternals = React57.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
       function getCrossOriginStringAs(as, input) {
         if ("font" === as) return "";
         if ("string" === typeof input)
@@ -970,7 +970,7 @@
     "node_modules/react-dom/cjs/react-dom-client.production.js"(exports) {
       "use strict";
       var Scheduler = require_scheduler();
-      var React56 = require_react();
+      var React57 = require_react();
       var ReactDOM2 = require_react_dom();
       function formatProdErrorMessage3(code) {
         var url = "https://react.dev/errors/" + code;
@@ -1261,7 +1261,7 @@
         return null;
       }
       var isArrayImpl = Array.isArray;
-      var ReactSharedInternals = React56.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+      var ReactSharedInternals = React57.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
       var ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
       var sharedNotPendingObject = {
         pending: false,
@@ -14410,7 +14410,7 @@
           0 === i && attemptExplicitHydrationTarget(target);
         }
       };
-      var isomorphicReactPackageVersion$jscomp$inline_2043 = React56.version;
+      var isomorphicReactPackageVersion$jscomp$inline_2043 = React57.version;
       if ("19.3.1" !== isomorphicReactPackageVersion$jscomp$inline_2043)
         throw Error(
           formatProdErrorMessage3(
@@ -14581,15 +14581,15 @@
   var require_use_sync_external_store_shim_production = __commonJS({
     "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.js"(exports) {
       "use strict";
-      var React56 = require_react();
+      var React57 = require_react();
       function is3(x2, y2) {
         return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
       }
       var objectIs = "function" === typeof Object.is ? Object.is : is3;
-      var useState29 = React56.useState;
-      var useEffect26 = React56.useEffect;
-      var useLayoutEffect9 = React56.useLayoutEffect;
-      var useDebugValue2 = React56.useDebugValue;
+      var useState29 = React57.useState;
+      var useEffect26 = React57.useEffect;
+      var useLayoutEffect9 = React57.useLayoutEffect;
+      var useDebugValue2 = React57.useDebugValue;
       function useSyncExternalStore$2(subscribe, getSnapshot) {
         var value2 = getSnapshot(), _useState = useState29({ inst: { value: value2, getSnapshot } }), inst = _useState[0].inst, forceUpdate = _useState[1];
         useLayoutEffect9(
@@ -14626,7 +14626,7 @@
         return getSnapshot();
       }
       var shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-      exports.useSyncExternalStore = void 0 !== React56.useSyncExternalStore ? React56.useSyncExternalStore : shim;
+      exports.useSyncExternalStore = void 0 !== React57.useSyncExternalStore ? React57.useSyncExternalStore : shim;
     }
   });
 
@@ -14646,19 +14646,19 @@
   var require_with_selector_production = __commonJS({
     "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js"(exports) {
       "use strict";
-      var React56 = require_react();
+      var React57 = require_react();
       var shim = require_shim();
       function is3(x2, y2) {
         return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
       }
       var objectIs = "function" === typeof Object.is ? Object.is : is3;
       var useSyncExternalStore2 = shim.useSyncExternalStore;
-      var useRef22 = React56.useRef;
-      var useEffect26 = React56.useEffect;
-      var useMemo13 = React56.useMemo;
-      var useDebugValue2 = React56.useDebugValue;
+      var useRef23 = React57.useRef;
+      var useEffect26 = React57.useEffect;
+      var useMemo13 = React57.useMemo;
+      var useDebugValue2 = React57.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-        var instRef = useRef22(null);
+        var instRef = useRef23(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
@@ -14727,18 +14727,18 @@
   var require_use_sync_external_store_with_selector_production = __commonJS({
     "node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.production.js"(exports) {
       "use strict";
-      var React56 = require_react();
+      var React57 = require_react();
       function is3(x2, y2) {
         return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
       }
       var objectIs = "function" === typeof Object.is ? Object.is : is3;
-      var useSyncExternalStore2 = React56.useSyncExternalStore;
-      var useRef22 = React56.useRef;
-      var useEffect26 = React56.useEffect;
-      var useMemo13 = React56.useMemo;
-      var useDebugValue2 = React56.useDebugValue;
+      var useSyncExternalStore2 = React57.useSyncExternalStore;
+      var useRef23 = React57.useRef;
+      var useEffect26 = React57.useEffect;
+      var useMemo13 = React57.useMemo;
+      var useDebugValue2 = React57.useDebugValue;
       exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-        var instRef = useRef22(null);
+        var instRef = useRef23(null);
         if (null === instRef.current) {
           var inst = { hasValue: false, value: null };
           instRef.current = inst;
@@ -16375,11 +16375,11 @@
   });
 
   // index.tsx
-  var import_react74 = __toESM(require_react(), 1);
+  var import_react75 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // App.tsx
-  var import_react73 = __toESM(require_react(), 1);
+  var import_react74 = __toESM(require_react(), 1);
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
@@ -71001,23 +71001,542 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
     ] });
   };
 
-  // App.tsx
+  // Components/LibraryConnect.tsx
+  var import_react73 = __toESM(require_react(), 1);
+
+  // Services/libraryLoader.ts
+  var SAMPLE_SOURCE_LABEL = "Sample data (bundled demo)";
+  var LIBRARY_DEFAULT_PATH = String.raw`C:\Users\<YourUsername>\TotalRecalls-download\Library`;
+  var PROVIDER_MAP = [
+    [/chat\s*gpt|openai/i, "ChatGPT"],
+    [/claude|anthropic/i, "Claude"],
+    [/perplex/i, "Perplexity"],
+    [/gemini|bard|google/i, "Gemini"],
+    [/grok|xai/i, "Grok"],
+    [/deepseek/i, "DeepSeek"],
+    [/mistral/i, "Mistral"],
+    [/qwen|alibaba|tongyi/i, "Qwen"]
+  ];
+  function normalizeProvider(raw) {
+    const probe = (raw || "").trim();
+    for (const [pattern, label] of PROVIDER_MAP) {
+      if (pattern.test(probe)) return label;
+    }
+    return "ChatGPT";
+  }
+  function estimateTokens(text) {
+    return Math.max(1, Math.ceil((text || "").length / 4));
+  }
+  function normalizeRole(raw) {
+    const r2 = (raw || "").toLowerCase();
+    if (r2 === "user" || r2 === "human") return "user";
+    if (r2 === "system") return "system";
+    return "assistant";
+  }
+  function splitPath(relPath) {
+    return (relPath || "").replace(/\\/g, "/").split("/").filter(Boolean);
+  }
+  function providerFromPath(relPath) {
+    const parts = splitPath(relPath);
+    for (const part of parts) {
+      if (PROVIDER_MAP.some(([re2]) => re2.test(part))) return part;
+    }
+    return parts.length > 1 ? parts[1] : parts[0] || "";
+  }
+  function parseConversationJson(text, relPath) {
+    let doc;
+    try {
+      doc = JSON.parse(text);
+    } catch (e) {
+      return null;
+    }
+    if (!doc || typeof doc !== "object") return null;
+    const conv = doc.conversation && typeof doc.conversation === "object" ? doc.conversation : doc;
+    const rawMessages = Array.isArray(conv.messages) ? conv.messages : [];
+    if (rawMessages.length === 0 && !conv.title) return null;
+    const parts = splitPath(relPath);
+    const provider = normalizeProvider(
+      String(doc.provider || conv.provider || providerFromPath(relPath))
+    );
+    const messages = rawMessages.map((m, idx) => {
+      const content = String(
+        m.content_md ?? m.content ?? m.text ?? m.message ?? ""
+      );
+      const id = String(m.external_id ?? m.id ?? `m-${idx}`);
+      return {
+        id,
+        role: normalizeRole(String(m.role ?? m.author ?? "assistant")),
+        content,
+        timestamp: String(m.created_at ?? m.timestamp ?? conv.created_at ?? ""),
+        tokenCount: estimateTokens(content)
+      };
+    });
+    const title = String(
+      conv.title || parts[parts.length - 2] || parts[parts.length - 1] || "Untitled conversation"
+    );
+    const folder = String(conv.folder || (parts.length >= 3 ? parts[parts.length - 3] : ""));
+    const slug = parts.length >= 2 ? parts[parts.length - 2] : "";
+    const totalTokens = messages.reduce((sum, m) => sum + (m.tokenCount || 0), 0);
+    return {
+      id: String(conv.id || slug || `conv-${idx_hash(relPath)}`),
+      title,
+      provider,
+      model: String(rawMessages.find((m) => m && m.model)?.model || ""),
+      createdAt: String(conv.created_at || ""),
+      updatedAt: String(conv.updated_at || conv.created_at || ""),
+      tags: folder ? [folder] : [],
+      messageCount: messages.length,
+      totalTokens,
+      messages,
+      isIndexed: true
+    };
+  }
+  function idx_hash(s2) {
+    let h = 0;
+    for (let i = 0; i < s2.length; i++) {
+      h = (h << 5) - h + s2.charCodeAt(i);
+      h |= 0;
+    }
+    return Math.abs(h).toString(36);
+  }
+  function isCanonicalJson(relPath) {
+    const name = splitPath(relPath).pop() || "";
+    return /^conversation\.json$/i.test(name);
+  }
+  function buildScan(files, sourceLabel) {
+    const skippedReasons = [];
+    let skipped = 0;
+    const byFolder = /* @__PURE__ */ new Map();
+    for (const f of files) {
+      const parts = splitPath(f.relPath);
+      const name = parts.pop() || "";
+      const folder = parts.join("/");
+      if (!/\.(json|md|markdown)$/i.test(name)) {
+        skipped++;
+        continue;
+      }
+      const list = byFolder.get(folder) || [];
+      list.push(f);
+      byFolder.set(folder, list);
+    }
+    const conversations = [];
+    let jsonParsed = 0;
+    for (const [folder, group] of byFolder) {
+      const jsons = group.filter((f) => isCanonicalJson(f.relPath) || /\.json$/i.test(f.relPath));
+      const canonical = jsons.find((f) => isCanonicalJson(f.relPath)) || jsons[0];
+      if (canonical) {
+        const conv = parseConversationJson(canonical.text, canonical.relPath);
+        if (conv) {
+          conversations.push(conv);
+          jsonParsed++;
+          continue;
+        }
+        if (skippedReasons.length < 8) skippedReasons.push(`unparsed: ${canonical.relPath}`);
+        skipped++;
+      }
+      const md = group.find((f) => /\.(md|markdown)$/i.test(f.relPath));
+      if (md && !canonical) {
+        const conv = parseConversationMarkdown(md.text, md.relPath);
+        if (conv) {
+          conversations.push(conv);
+          jsonParsed++;
+        } else {
+          skipped++;
+        }
+      }
+    }
+    const seenIds = /* @__PURE__ */ new Set();
+    for (const conv of conversations) {
+      if (seenIds.has(conv.id)) {
+        conv.id = `${conv.id}-${idx_hash(`${conv.provider}:${conv.title}:${conv.createdAt}:${conv.messageCount}`)}`;
+      }
+      seenIds.add(conv.id);
+    }
+    conversations.sort((a2, b) => (b.updatedAt || "").localeCompare(a2.updatedAt || ""));
+    const providers = {};
+    for (const c of conversations) providers[c.provider] = (providers[c.provider] || 0) + 1;
+    return {
+      conversations,
+      meta: {
+        sourceLabel,
+        conversationCount: conversations.length,
+        providerCount: Object.keys(providers).length,
+        providers,
+        messageCount: conversations.reduce((s2, c) => s2 + c.messageCount, 0),
+        filesSeen: files.length,
+        jsonParsed,
+        skipped,
+        skippedReasons,
+        indexedAt: (/* @__PURE__ */ new Date()).toISOString()
+      }
+    };
+  }
+  function parseConversationMarkdown(text, relPath) {
+    if (!text || !text.trim()) return null;
+    const grab = (label) => {
+      const m = text.match(new RegExp(`\\*\\*${label}:\\*\\*\\s*(.+)`, "i"));
+      return m ? m[1].trim() : "";
+    };
+    const title = (text.match(/^#\s+(.+)$/m)?.[1] || "").trim();
+    const provider = normalizeProvider(grab("Provider") || providerFromPath(relPath));
+    const body = text.split(/^---$/m).slice(1).join("---").trim() || text;
+    const messages = body ? [{
+      id: `md-${idx_hash(relPath)}`,
+      role: "assistant",
+      content: body,
+      timestamp: grab("Created"),
+      tokenCount: estimateTokens(body)
+    }] : [];
+    if (messages.length === 0) return null;
+    return {
+      id: grab("ID") || `md-${idx_hash(relPath)}`,
+      title: title || "Untitled conversation",
+      provider,
+      model: "",
+      createdAt: grab("Created"),
+      updatedAt: grab("Updated"),
+      tags: grab("Folder") ? [grab("Folder")] : [],
+      messageCount: messages.length,
+      totalTokens: messages[0].tokenCount || 0,
+      messages,
+      isIndexed: true
+    };
+  }
+  async function readFilesFromInput(files, onProgress) {
+    const list = Array.from(files);
+    const out = [];
+    let done = 0;
+    for (const file of list) {
+      done++;
+      onProgress?.(done, list.length);
+      if (!/\.(json|md|markdown)$/i.test(file.name)) continue;
+      try {
+        const text = await file.text();
+        const relPath = file.webkitRelativePath || file.name;
+        out.push({ relPath, text });
+      } catch (e) {
+      }
+      if (done % 40 === 0) await new Promise((r2) => setTimeout(r2, 0));
+    }
+    return out;
+  }
+  function supportsDirectoryPicker() {
+    return typeof window.showDirectoryPicker === "function";
+  }
+  async function readFilesFromHandle(dirHandle, onProgress) {
+    const out = [];
+    const walk = async (dir, prefix2) => {
+      for await (const entry of dir.values()) {
+        const relPath = prefix2 ? `${prefix2}/${entry.name}` : entry.name;
+        if (entry.kind === "directory") {
+          await walk(entry, relPath);
+        } else if (/\.(json|md|markdown)$/i.test(entry.name)) {
+          try {
+            const file = await entry.getFile();
+            out.push({ relPath, text: await file.text() });
+          } catch (e) {
+          }
+          onProgress?.(out.length, out.length);
+        }
+      }
+    };
+    await walk(dirHandle, dirHandle.name || "");
+    return out;
+  }
+  var DB_NAME = "tr-sse-library";
+  var DB_STORE = "index";
+  var DB_KEY = "current";
+  var SCHEMA = 2;
+  function openDb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, SCHEMA);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  async function saveLibraryIndex(result) {
+    try {
+      const db = await openDb();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, "readwrite");
+        tx.objectStore(DB_STORE).put({ schema: SCHEMA, ...result }, DB_KEY);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+        tx.onabort = () => reject(tx.error);
+      });
+      db.close();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  async function loadLibraryIndex() {
+    try {
+      const db = await openDb();
+      const value2 = await new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, "readonly");
+        const req = tx.objectStore(DB_STORE).get(DB_KEY);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+      db.close();
+      if (!value2 || !Array.isArray(value2.conversations) || value2.conversations.length === 0) return null;
+      return { conversations: value2.conversations, meta: value2.meta };
+    } catch (e) {
+      return null;
+    }
+  }
+  async function clearLibraryIndex() {
+    try {
+      const db = await openDb();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, "readwrite");
+        tx.objectStore(DB_STORE).delete(DB_KEY);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+      db.close();
+    } catch (e) {
+    }
+  }
+
+  // Components/LibraryConnect.tsx
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
+  var LibraryConnect = ({ meta, busy, error, onFiles, onConnectPicker, onForget }) => {
+    const inputRef = (0, import_react73.useRef)(null);
+    const pickFolder = () => inputRef.current?.click();
+    const canUsePicker = supportsDirectoryPicker();
+    const hiddenInput = /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      "input",
+      {
+        ref: inputRef,
+        type: "file",
+        multiple: true,
+        webkitdirectory: "",
+        directory: "",
+        className: "hidden",
+        onChange: (e) => {
+          const files = e.target.files;
+          if (files && files.length) onFiles(files);
+          e.target.value = "";
+        }
+      }
+    );
+    if (!meta) {
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "rounded-2xl border border-[var(--tr-accent)]/50 bg-[var(--tr-panel)] p-4 sm:p-5", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "min-w-0", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center gap-2 flex-wrap", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40", children: "Demo data" }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-sm font-semibold text-[var(--tr-text)]", children: "Nothing indexed from your Library yet" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { className: "mt-1.5 text-xs text-[var(--tr-muted)] leading-relaxed", children: [
+            "You are browsing the ",
+            SAMPLE_SOURCE_LABEL.toLowerCase(),
+            ". Point the engine at your Downloader Pro library to search your own conversations \u2014 typically",
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: LIBRARY_DEFAULT_PATH }),
+            "."
+          ] }),
+          error && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1.5 text-xs text-red-400", children: error }),
+          busy && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1.5 text-xs text-[var(--tr-accent2)]", children: busy })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap items-center gap-2 shrink-0", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            "button",
+            {
+              onClick: pickFolder,
+              disabled: !!busy,
+              className: "px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50",
+              children: busy ? "Working\u2026" : "Connect Library folder\u2026"
+            }
+          ),
+          canUsePicker && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            "button",
+            {
+              onClick: onConnectPicker,
+              disabled: !!busy,
+              title: "Remembers the folder so you can re-scan with one click.",
+              className: "px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50",
+              children: "Remember folder"
+            }
+          ),
+          hiddenInput
+        ] })
+      ] }) }) });
+    }
+    const indexed = new Date(meta.indexedAt);
+    const providerList = Object.entries(meta.providers).sort((a2, b) => b[1] - a2[1]).map(([name, count]) => `${name} ${count}`).join(" \xB7 ");
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "rounded-2xl border border-[var(--tr-border)] bg-[var(--tr-panel)] px-4 py-3", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "min-w-0", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center gap-2 flex-wrap", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/40", children: "Library connected" }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("span", { className: "text-xs font-semibold text-[var(--tr-text)]", children: [
+            meta.conversationCount.toLocaleString(),
+            " conversations \xB7 ",
+            meta.messageCount.toLocaleString(),
+            " messages \xB7 ",
+            meta.providerCount,
+            " providers"
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1 text-[11px] text-[var(--tr-muted)] truncate", title: providerList, children: providerList }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { className: "mt-0.5 text-[11px] text-[var(--tr-muted)]", children: [
+          meta.sourceLabel,
+          " \xB7 indexed ",
+          indexed.toLocaleString(),
+          " \xB7 ",
+          meta.filesSeen.toLocaleString(),
+          " files read",
+          meta.skipped > 0 ? ` \xB7 ${meta.skipped} skipped` : ""
+        ] }),
+        busy && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1 text-xs text-[var(--tr-accent2)]", children: busy }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1 text-xs text-red-400", children: error })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap items-center gap-2 shrink-0", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          "button",
+          {
+            onClick: pickFolder,
+            disabled: !!busy,
+            className: "px-3 py-1.5 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50",
+            children: "Re-scan folder\u2026"
+          }
+        ),
+        canUsePicker && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          "button",
+          {
+            onClick: onConnectPicker,
+            disabled: !!busy,
+            className: "px-3 py-1.5 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50",
+            children: "Remember folder"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          "button",
+          {
+            onClick: onForget,
+            disabled: !!busy,
+            className: "px-3 py-1.5 rounded-lg border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)] disabled:opacity-50",
+            children: "Forget library"
+          }
+        ),
+        hiddenInput
+      ] })
+    ] }) }) });
+  };
+
+  // App.tsx
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
   function App() {
-    const [conversations, setConversations] = (0, import_react73.useState)(INITIAL_CONVERSATIONS);
-    const [activeModelId, setActiveModelId] = (0, import_react73.useState)("bge-small-en-v15");
-    const [activeDimension, setActiveDimension] = (0, import_react73.useState)(384);
-    const [chunks, setChunks] = (0, import_react73.useState)(() => buildVectorIndex(INITIAL_CONVERSATIONS, 384));
-    const [activeTab, setActiveTab] = (0, import_react73.useState)("searchChat");
-    const [selectedConvId, setSelectedConvId] = (0, import_react73.useState)(null);
-    const [isDark, setIsDark] = (0, import_react73.useState)(true);
-    const [sseActive, setSseActive] = (0, import_react73.useState)(() => isSseActivated());
-    const [showLicenseBox, setShowLicenseBox] = (0, import_react73.useState)(false);
-    const [licenseInput, setLicenseInput] = (0, import_react73.useState)(() => sseLicenseKey());
-    const [licenseStatus, setLicenseStatus] = (0, import_react73.useState)("");
-    const [activating, setActivating] = (0, import_react73.useState)(false);
-    (0, import_react73.useEffect)(() => {
+    const [conversations, setConversations] = (0, import_react74.useState)(INITIAL_CONVERSATIONS);
+    const [activeModelId, setActiveModelId] = (0, import_react74.useState)("bge-small-en-v15");
+    const [activeDimension, setActiveDimension] = (0, import_react74.useState)(384);
+    const [chunks, setChunks] = (0, import_react74.useState)(() => buildVectorIndex(INITIAL_CONVERSATIONS, 384));
+    const [activeTab, setActiveTab] = (0, import_react74.useState)("searchChat");
+    const [selectedConvId, setSelectedConvId] = (0, import_react74.useState)(null);
+    const [isDark, setIsDark] = (0, import_react74.useState)(true);
+    const [sseActive, setSseActive] = (0, import_react74.useState)(() => isSseActivated());
+    const [showLicenseBox, setShowLicenseBox] = (0, import_react74.useState)(false);
+    const [licenseInput, setLicenseInput] = (0, import_react74.useState)(() => sseLicenseKey());
+    const [licenseStatus, setLicenseStatus] = (0, import_react74.useState)("");
+    const [activating, setActivating] = (0, import_react74.useState)(false);
+    (0, import_react74.useEffect)(() => {
       checkSseEntitlement().then((ok) => setSseActive(ok));
+    }, []);
+    const [libMeta, setLibMeta] = (0, import_react74.useState)(null);
+    const [libBusy, setLibBusy] = (0, import_react74.useState)(null);
+    const [libError, setLibError] = (0, import_react74.useState)(null);
+    const applyLibrary = (result) => {
+      setConversations(result.conversations);
+      setLibMeta(result.meta);
+      setLibBusy(`Indexing ${result.meta.messageCount.toLocaleString()} messages\u2026`);
+      window.setTimeout(() => {
+        setChunks(buildVectorIndex(result.conversations, activeDimension));
+        setLibBusy(null);
+      }, 16);
+    };
+    const ingestLibrary = async (files, label) => {
+      setLibError(null);
+      setLibBusy("Reading library files\u2026");
+      try {
+        const raw = await readFilesFromInput(files, (done, total) => {
+          if (done % 25 === 0 || done === total) {
+            setLibBusy(`Reading ${done.toLocaleString()} / ${total.toLocaleString()} files\u2026`);
+          }
+        });
+        if (raw.length === 0) {
+          setLibBusy(null);
+          setLibError("No conversation.json files in that folder. Pick the Library folder itself (the one containing the provider subfolders).");
+          return;
+        }
+        const result = buildScan(raw, label);
+        if (result.conversations.length === 0) {
+          setLibBusy(null);
+          setLibError("Files were found but no conversations could be parsed.");
+          return;
+        }
+        applyLibrary(result);
+        void saveLibraryIndex(result);
+      } catch (e) {
+        setLibBusy(null);
+        setLibError(`Could not read that folder: ${e?.message || e}`);
+      }
+    };
+    const handleLibraryFiles = (files) => {
+      const first = files[0];
+      const rel = first && first.webkitRelativePath || "";
+      const label = rel.split("/")[0] || "Selected folder";
+      void ingestLibrary(files, label);
+    };
+    const handleLibraryPicker = async () => {
+      if (!supportsDirectoryPicker()) {
+        setLibError('Folder-remembering mode needs the app served over http(s). Use "Connect Library folder\u2026" instead.');
+        return;
+      }
+      try {
+        setLibError(null);
+        setLibBusy("Waiting for folder access\u2026");
+        const handle = await window.showDirectoryPicker({ mode: "read" });
+        setLibBusy("Reading library files\u2026");
+        const raw = await readFilesFromHandle(handle, (n) => setLibBusy(`Reading ${n.toLocaleString()} files\u2026`));
+        if (raw.length === 0) {
+          setLibBusy(null);
+          setLibError("No conversation.json files in that folder.");
+          return;
+        }
+        const result = buildScan(raw, handle.name || "Library");
+        if (result.conversations.length === 0) {
+          setLibBusy(null);
+          setLibError("Files were found but no conversations could be parsed.");
+          return;
+        }
+        applyLibrary(result);
+        void saveLibraryIndex(result);
+      } catch (e) {
+        setLibBusy(null);
+        if (e?.name !== "AbortError") setLibError(`Could not read that folder: ${e?.message || e}`);
+      }
+    };
+    const handleForgetLibrary = async () => {
+      await clearLibraryIndex();
+      setLibMeta(null);
+      setLibError(null);
+      setLibBusy(null);
+      setConversations(INITIAL_CONVERSATIONS);
+      setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
+    };
+    (0, import_react74.useEffect)(() => {
+      loadLibraryIndex().then((saved) => {
+        if (saved && saved.conversations.length) {
+          setConversations(saved.conversations);
+          setLibMeta(saved.meta);
+          window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
+        }
+      });
     }, []);
     const handleActivateSse = async () => {
       setActivating(true);
@@ -71088,8 +71607,8 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       setConversations(updated);
       setChunks(buildVectorIndex(updated, activeDimension));
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "min-h-screen bg-[var(--tr-bg)] text-[var(--tr-text)] flex flex-col font-sans selection:bg-[var(--tr-accent)] selection:text-[var(--tr-on-amber)]", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "min-h-screen bg-[var(--tr-bg)] text-[var(--tr-text)] flex flex-col font-sans selection:bg-[var(--tr-accent)] selection:text-[var(--tr-on-amber)]", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         Navbar,
         {
           activeTab,
@@ -71098,16 +71617,16 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
           totalConversations: conversations.length
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center justify-end gap-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "flex items-center justify-end gap-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             "span",
             {
               className: `px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${sseActive ? "bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border-[var(--tr-accent)]/45" : "bg-[var(--tr-panel)] text-[var(--tr-muted)] border-[var(--tr-border)]"}`,
               children: sseActive ? "SSE Licensed" : "SSE Unactivated"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             "button",
             {
               onClick: () => setShowLicenseBox(!showLicenseBox),
@@ -71116,17 +71635,17 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             }
           )
         ] }),
-        showLicenseBox && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "mt-3 rounded-2xl bg-[var(--tr-panel)] border border-[var(--tr-border)] p-5 space-y-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { className: "text-sm font-bold text-[var(--tr-accent2)]", children: "Unlock Smart Search Engine (SSE)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { className: "text-xs text-[var(--tr-muted)] leading-relaxed", children: [
+        showLicenseBox && /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "mt-3 rounded-2xl bg-[var(--tr-panel)] border border-[var(--tr-border)] p-5 space-y-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("h2", { className: "text-sm font-bold text-[var(--tr-accent2)]", children: "Unlock Smart Search Engine (SSE)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("p", { className: "text-xs text-[var(--tr-muted)] leading-relaxed", children: [
             "Paste the ",
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "SSE-XXXXXXXX-XXXX-XXXX" }),
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "SSE-XXXXXXXX-XXXX-XXXX" }),
             " license key from your purchase email. Activating requires an internet connection once \u2014 after that, Smart Search Engine runs on your PC without an internet connection. (Note: Downloader Pro uses its own ",
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "PRO-XXXXXXXX-XXXX-XXXX" }),
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "PRO-XXXXXXXX-XXXX-XXXX" }),
             " key.)"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap items-center gap-2.5", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "flex flex-wrap items-center gap-2.5", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
               "input",
               {
                 type: "text",
@@ -71136,7 +71655,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
                 className: "flex-1 min-w-[240px] bg-[var(--tr-panel2)] border border-[var(--tr-border)] rounded-lg px-3.5 py-2 text-sm font-mono text-[var(--tr-text)] focus:outline-none focus:border-[var(--tr-accent)]"
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
               "button",
               {
                 disabled: activating,
@@ -71145,7 +71664,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
                 children: activating ? "Activating\u2026" : "Activate SSE"
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
               "a",
               {
                 href: "https://totalrecalls.app/smart-search/#pricing",
@@ -71155,7 +71674,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
                 children: "Buy SSE \u2014 $29"
               }
             ),
-            sseActive && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            sseActive && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
               "button",
               {
                 onClick: handleDeactivateSse,
@@ -71163,7 +71682,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
                 children: "Deactivate (free slot)"
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
               "button",
               {
                 onClick: handleResetLocalSse,
@@ -71173,17 +71692,28 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
               }
             )
           ] }),
-          licenseStatus && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "text-xs text-[var(--tr-muted)] pt-1", children: licenseStatus })
+          licenseStatus && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { className: "text-xs text-[var(--tr-muted)] pt-1", children: licenseStatus })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("main", { className: "flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6", children: [
-        activeTab === "website" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+        LibraryConnect,
+        {
+          meta: libMeta,
+          busy: libBusy,
+          error: libError,
+          onFiles: handleLibraryFiles,
+          onConnectPicker: handleLibraryPicker,
+          onForget: handleForgetLibrary
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("main", { className: "flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6", children: [
+        activeTab === "website" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           WebsitePresentation,
           {
             onSelectTab: (tab) => setActiveTab(tab)
           }
         ),
-        activeTab === "delivery" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "delivery" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           DeliveryPackagingStudio,
           {
             conversations,
@@ -71191,7 +71721,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             onSelectTab: (tab) => setActiveTab(tab)
           }
         ),
-        activeTab === "overview" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "overview" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           OverviewHub,
           {
             conversations,
@@ -71204,7 +71734,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             onAddNewChat: handleAddNewMockChat
           }
         ),
-        activeTab === "searchChat" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "searchChat" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           SearchChatInterface,
           {
             chunks,
@@ -71215,7 +71745,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             }
           }
         ),
-        activeTab === "vectorSearch" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "vectorSearch" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           VectorSearch,
           {
             chunks,
@@ -71226,14 +71756,14 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             }
           }
         ),
-        activeTab === "ragSQL" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "ragSQL" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           RAGSQLStudio,
           {
             conversations,
             chunks
           }
         ),
-        activeTab === "consensus" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "consensus" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           ConsensusAuditor,
           {
             conversations,
@@ -71243,13 +71773,13 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             }
           }
         ),
-        activeTab === "scrubber" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "scrubber" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           DatasetScrubber,
           {
             conversations
           }
         ),
-        activeTab === "backup" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "backup" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           BackupScheduler,
           {
             conversations,
@@ -71257,7 +71787,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             onSelectTab: (tab) => setActiveTab(tab)
           }
         ),
-        activeTab === "integrityTests" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "integrityTests" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           IntegrityTestSuite,
           {
             conversations,
@@ -71265,14 +71795,14 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             onSelectTab: (tab) => setActiveTab(tab)
           }
         ),
-        activeTab === "benchmarks" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "benchmarks" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           EmbeddingBenchmark,
           {
             activeModelId,
             onSelectModel: handleSelectModel
           }
         ),
-        activeTab === "knowledge" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "knowledge" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           KnowledgeGraph,
           {
             conversations,
@@ -71282,33 +71812,33 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
             }
           }
         ),
-        activeTab === "chatExplorer" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        activeTab === "chatExplorer" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           ChatExplorer,
           {
             conversations,
             initialSelectedId: selectedConvId
           }
         ),
-        activeTab === "manual" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(PowerUserManual, { onSelectTab: (tab) => setActiveTab(tab) }),
-        activeTab === "demoScript" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(DemoScript, { onSelectTab: (tab) => setActiveTab(tab) }),
-        activeTab === "specs" && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SpecsAndPricing, { onSelectTab: (tab) => setActiveTab(tab) })
+        activeTab === "manual" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(PowerUserManual, { onSelectTab: (tab) => setActiveTab(tab) }),
+        activeTab === "demoScript" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(DemoScript, { onSelectTab: (tab) => setActiveTab(tab) }),
+        activeTab === "specs" && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SpecsAndPricing, { onSelectTab: (tab) => setActiveTab(tab) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("footer", { className: "border-t border-[var(--tr-border)] bg-[var(--tr-bg)] py-8 text-center text-xs text-[var(--tr-muted)]", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center space-x-2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "font-semibold text-[var(--tr-text)]", children: "TotalRecalls Smart Search Engine" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "\u2022" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "Downside Protection Vault & Local Code Integrity Tests" })
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("footer", { className: "border-t border-[var(--tr-border)] bg-[var(--tr-bg)] py-8 text-center text-xs text-[var(--tr-muted)]", children: /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "flex items-center space-x-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { className: "font-semibold text-[var(--tr-text)]", children: "TotalRecalls Smart Search Engine" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "\u2022" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "Downside Protection Vault & Local Code Integrity Tests" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center space-x-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { onClick: () => setActiveTab("backup"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Backup Vault" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "\u2022" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { onClick: () => setActiveTab("integrityTests"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Code Integrity Tests" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "\u2022" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { onClick: () => setActiveTab("delivery"), className: "hover:text-[var(--tr-accent)] transition-colors", children: ".ZIP & Installer" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "\u2022" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { onClick: () => setActiveTab("website"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Website Showcase" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { children: "\u2022" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { onClick: toggleTheme, className: "hover:text-[var(--tr-accent)] transition-colors", title: "Toggle dark/light theme", children: isDark ? "\u2600\uFE0F" : "\u{1F319}" })
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "flex items-center space-x-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", { onClick: () => setActiveTab("backup"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Backup Vault" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "\u2022" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", { onClick: () => setActiveTab("integrityTests"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Code Integrity Tests" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "\u2022" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", { onClick: () => setActiveTab("delivery"), className: "hover:text-[var(--tr-accent)] transition-colors", children: ".ZIP & Installer" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "\u2022" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", { onClick: () => setActiveTab("website"), className: "hover:text-[var(--tr-accent)] transition-colors", children: "Website Showcase" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { children: "\u2022" }),
+          /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", { onClick: toggleTheme, className: "hover:text-[var(--tr-accent)] transition-colors", title: "Toggle dark/light theme", children: isDark ? "\u2600\uFE0F" : "\u{1F319}" })
         ] })
       ] }) })
     ] });
@@ -71316,14 +71846,14 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
   var App_default = App;
 
   // index.tsx
-  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
   var rootElement = document.getElementById("root");
   if (!rootElement) {
     throw new Error("Could not find root element to mount to");
   }
   var root = import_client.default.createRoot(rootElement);
   root.render(
-    /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_react74.default.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(App_default, {}) })
+    /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_react75.default.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(App_default, {}) })
   );
 })();
 /*! Bundled license information:

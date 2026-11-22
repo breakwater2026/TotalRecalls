@@ -27,11 +27,11 @@ Nothing is uploaded to the cloud. Your data stays entirely in your hands.
 3. **Your SSE License Key:**  
    Format: `SSE-XXXXXXXX-XXXX-XXXX` (emailed to you when you purchased the SSE Add-On or the Pro + SSE Bundle).
 
-> **Important Note:** Also, note that the first download and indexing run may take 5–15 minutes depending on the number of conversations being indexed by the Smart Search Engine (SSE).
+> **Important Note:** after connecting your library, the first index build takes a few seconds for a typical archive (our 930-file, 464-conversation test library indexed in about 3 seconds). Very large archives take proportionally longer.
 
 ---
 
-## 3. How to Launch & Activate (3 Steps)
+## 3. How to Launch & Activate (4 Steps)
 
 ### Step 1: Extract the Files
 Unzip the downloaded `TotalRecalls-Smart-Search-Engine-1.0.0.zip` archive into any folder on your PC (for example, in your Documents folder or on your Desktop).
@@ -41,7 +41,20 @@ Double-click:
 👉 **`run-smart-search.bat`**  
 *(This opens the Smart Search Engine chat interface directly in Microsoft Edge or Google Chrome).*
 
-### Step 3: Activate Your License
+### Step 3: Connect Your Chat Library
+Smart Search Engine does not guess where your chats live — you point it at them once.
+
+1. At the top of the window you will see an amber **Demo data** banner saying *Nothing indexed from your Library yet*. That is the five sample chats that ship with the app.
+2. Click **Connect Library folder…**.
+3. Choose your library folder — by default:  
+   `C:\Users\<YourUsername>\TotalRecalls-download\Library\`  
+   *(Select the `Library` folder itself, the one that contains your `chatgpt`, `claude`, `gemini`, `perplexity` and other provider folders.)*
+4. Wait a few seconds. The banner turns green and shows **Library connected** with your real counts, for example *464 conversations · 9,317 messages · 8 providers*.
+5. Your index is saved on your PC. Next time you open the app your library loads by itself — no folder picking. After a new download, click **Re-scan folder…**. To start over, click **Forget library**.
+
+> **Tip:** if you see a **Remember folder** button, use it. The app is then running on a local address, which lets your browser grant lasting access to the folder.
+
+### Step 4: Activate Your License
 1. In the top-right corner, click **Activate SSE Key**.
 2. Paste your `SSE-XXXXXXXX-XXXX-XXXX` license key into the box.
 3. Click **Activate SSE**.

@@ -10,10 +10,11 @@ Output:
   site/public/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip
 """
 
-import os
-import zipfile
 import hashlib
+import os
 import subprocess
+import sys
+import zipfile
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SSE_DIR = os.path.join(REPO_ROOT, "Modules", "smart-search-engine")
@@ -42,7 +43,7 @@ def main():
 
     print(f"2. Generating User Guides and README .pdf files...")
     builder_script = os.path.join(REPO_ROOT, "tools", "build_guide_pdf.py")
-    subprocess.run(["python", builder_script], check=True)
+    subprocess.run([sys.executable, builder_script], check=True)
 
     print(f"3. Packaging SSE into {OUT_ZIP}...")
     os.makedirs(os.path.dirname(OUT_ZIP), exist_ok=True)

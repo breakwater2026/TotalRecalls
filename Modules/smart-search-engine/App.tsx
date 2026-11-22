@@ -19,6 +19,18 @@ import { SpecsAndPricing } from './components/SpecsAndPricing';
 import { INITIAL_CONVERSATIONS } from './constants';
 import { ChatConversation } from './types';
 import { buildVectorIndex } from './services/ragEngine';
+import { LibraryConnect } from './Components/LibraryConnect';
+import {
+  LibraryMeta,
+  ScanResult,
+  buildScan,
+  readFilesFromInput,
+  readFilesFromHandle,
+  supportsDirectoryPicker,
+  loadLibraryIndex,
+  saveLibraryIndex,
+  clearLibraryIndex
+} from './Services/libraryLoader';
 import {
   isSseActivated,
   sseLicenseKey,
@@ -44,6 +56,111 @@ export function App() {
 
   useEffect(() => {
     checkSseEntitlement().then((ok) => setSseActive(ok));
+  }, []);
+
+  /* ------------------------------------------------------------------ */
+  /* Library connection                                                  */
+  /* ------------------------------------------------------------------ */
+  const [libMeta, setLibMeta] = useState<LibraryMeta | null>(null);
+  const [libBusy, setLibBusy] = useState<string | null>(null);
+  const [libError, setLibError] = useState<string | null>(null);
+
+  // Swap the corpus in, then build vectors on the next tick so the header can
+  // paint the new counts before the (blocking) embedding pass starts.
+  const applyLibrary = (result: ScanResult) => {
+    setConversations(result.conversations);
+    setLibMeta(result.meta);
+    setLibBusy(`Indexing ${result.meta.messageCount.toLocaleString()} messages…`);
+    window.setTimeout(() => {
+      setChunks(buildVectorIndex(result.conversations, activeDimension));
+      setLibBusy(null);
+    }, 16);
+  };
+
+  const ingestLibrary = async (files: FileList | File[], label: string) => {
+    setLibError(null);
+    setLibBusy('Reading library files…');
+    try {
+      const raw = await readFilesFromInput(files, (done, total) => {
+        if (done % 25 === 0 || done === total) {
+          setLibBusy(`Reading ${done.toLocaleString()} / ${total.toLocaleString()} files…`);
+        }
+      });
+      if (raw.length === 0) {
+        setLibBusy(null);
+        setLibError('No conversation.json files in that folder. Pick the Library folder itself (the one containing the provider subfolders).');
+        return;
+      }
+      const result = buildScan(raw, label);
+      if (result.conversations.length === 0) {
+        setLibBusy(null);
+        setLibError('Files were found but no conversations could be parsed.');
+        return;
+      }
+      applyLibrary(result);
+      void saveLibraryIndex(result);
+    } catch (e: any) {
+      setLibBusy(null);
+      setLibError(`Could not read that folder: ${e?.message || e}`);
+    }
+  };
+
+  const handleLibraryFiles = (files: FileList) => {
+    const first = files[0] as any;
+    const rel: string = (first && first.webkitRelativePath) || '';
+    const label = rel.split('/')[0] || 'Selected folder';
+    void ingestLibrary(files, label);
+  };
+
+  const handleLibraryPicker = async () => {
+    if (!supportsDirectoryPicker()) {
+      setLibError('Folder-remembering mode needs the app served over http(s). Use "Connect Library folder…" instead.');
+      return;
+    }
+    try {
+      setLibError(null);
+      setLibBusy('Waiting for folder access…');
+      const handle = await (window as any).showDirectoryPicker({ mode: 'read' });
+      setLibBusy('Reading library files…');
+      const raw = await readFilesFromHandle(handle, (n) => setLibBusy(`Reading ${n.toLocaleString()} files…`));
+      if (raw.length === 0) {
+        setLibBusy(null);
+        setLibError('No conversation.json files in that folder.');
+        return;
+      }
+      const result = buildScan(raw, handle.name || 'Library');
+      if (result.conversations.length === 0) {
+        setLibBusy(null);
+        setLibError('Files were found but no conversations could be parsed.');
+        return;
+      }
+      applyLibrary(result);
+      void saveLibraryIndex(result);
+    } catch (e: any) {
+      setLibBusy(null);
+      if (e?.name !== 'AbortError') setLibError(`Could not read that folder: ${e?.message || e}`);
+    }
+  };
+
+  const handleForgetLibrary = async () => {
+    await clearLibraryIndex();
+    setLibMeta(null);
+    setLibError(null);
+    setLibBusy(null);
+    setConversations(INITIAL_CONVERSATIONS);
+    setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
+  };
+
+  // Restore the last indexed library so the buyer does not re-pick the folder
+  // on every launch.
+  useEffect(() => {
+    loadLibraryIndex().then((saved) => {
+      if (saved && saved.conversations.length) {
+        setConversations(saved.conversations);
+        setLibMeta(saved.meta);
+        window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
+      }
+    });
   }, []);
 
   const handleActivateSse = async () => {
@@ -203,6 +320,15 @@ export function App() {
           </div>
         )}
       </div>
+
+      <LibraryConnect
+        meta={libMeta}
+        busy={libBusy}
+        error={libError}
+        onFiles={handleLibraryFiles}
+        onConnectPicker={handleLibraryPicker}
+        onForget={handleForgetLibrary}
+      />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === 'website' && (
