@@ -21,7 +21,7 @@ import {
   Printer,
   FileCheck
 } from 'lucide-react';
-import { downloadManualDocx, downloadManualMarkdown } from '../services/manualExporters';
+import { downloadManualMarkdown } from '../services/manualExporters';
 
 interface DistributionFile {
   name: string;
@@ -251,9 +251,9 @@ export const DeliveryPackagingStudio: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-amber-950/80 border border-amber-800/60 flex items-center justify-center text-amber-400 mb-4">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">3. Unminified Source + Manuals</h3>
+              <h3 className="text-lg font-bold text-[var(--tr-text)] mb-2">3. Manuals</h3>
               <p className="text-[var(--tr-muted)] text-sm leading-relaxed mb-4">
-                For enterprise defense, banking, and security auditors, the zip bundles the complete unminified TypeScript/React source code alongside high-fidelity PDF, DOCX, and Markdown manuals for optional offline source review.
+                The zip bundles the compiled application together with high-fidelity PDF and Markdown manuals for offline reading.
               </p>
               <div className="text-xs text-amber-400 font-medium flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-amber-400" />
@@ -301,7 +301,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[var(--tr-accent)] mt-0.5 shrink-0" />
-                    <span><strong className="text-[var(--tr-text)]">Tier B (Self-Learners):</strong> Instant access to <code className="text-[var(--tr-accent)]">/docs/</code> containing pre-rendered PDF and Word manuals with visual diagrams.</span>
+                    <span><strong className="text-[var(--tr-text)]">Tier B (Self-Learners):</strong> Instant access to <code className="text-[var(--tr-accent)]">User Guides/</code> containing pre-rendered PDF and Markdown manuals with visual diagrams.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[var(--tr-accent)] mt-0.5 shrink-0" />
@@ -440,7 +440,7 @@ export const DeliveryPackagingStudio: React.FC = () => {
             <div>
               <h2 className="text-xl font-bold text-[var(--tr-text)] flex items-center gap-2">
                 <Printer className="w-5 h-5 text-[var(--tr-accent)]" />
-                Comprehensive Manuals: PDF, Word (.DOCX), and Markdown (.MD)
+                Comprehensive Manuals: PDF and Markdown (.MD)
               </h2>
               <p className="text-[var(--tr-muted)] text-sm mt-1">
                 Every customer gets both the <strong>Layman / Everyday Handbook</strong> and the <strong>Power User Technical Reference</strong> pre-packaged inside the <code className="text-[var(--tr-accent)] text-xs">/docs/</code> folder of their .zip.
@@ -488,13 +488,6 @@ export const DeliveryPackagingStudio: React.FC = () => {
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print / Save as PDF</span>
-                  </button>
-                  <button
-                    onClick={() => downloadManualDocx('power')}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
-                    <span>.DOCX</span>
                   </button>
                   <button
                     onClick={() => downloadManualMarkdown('power')}
@@ -546,13 +539,6 @@ export const DeliveryPackagingStudio: React.FC = () => {
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print / Save as PDF</span>
-                  </button>
-                  <button
-                    onClick={() => downloadManualDocx('user')}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5 text-[var(--tr-accent)]" />
-                    <span>.DOCX</span>
                   </button>
                   <button
                     onClick={() => downloadManualMarkdown('user')}

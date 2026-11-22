@@ -18104,110 +18104,6 @@
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
-  var downloadManualWordDocx = (kind = "power") => {
-    const markdown = kind === "user" ? TOTALRECALLS_SSE_QUICK_START_GUIDE_default : TOTALRECALLS_POWER_USER_MANUAL_default;
-    const title = kind === "user" ? "TotalRecalls User Guide - Smart Search Engine" : "TotalRecalls Power User Technical Manual - Smart Search Engine";
-    const filename = kind === "user" ? "TOTALRECALLS_USER_GUIDE.doc" : "TOTALRECALLS_POWER_USER_MANUAL.doc";
-    const htmlContent = `
-<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-<head>
-  <meta charset="utf-8">
-  <title>${title}</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Calibri, Arial, sans-serif;
-      font-size: 11pt;
-      line-height: 1.5;
-      color: #1e293b;
-      margin: 40px;
-    }
-    h1 {
-      color: #0891b2;
-      font-size: 20pt;
-      border-bottom: 2px solid #0891b2;
-      padding-bottom: 6px;
-      margin-top: 24px;
-    }
-    h2 {
-      color: #0f766e;
-      font-size: 15pt;
-      margin-top: 20px;
-    }
-    h3 {
-      color: #155e75;
-      font-size: 12pt;
-      margin-top: 14px;
-    }
-    p {
-      margin-bottom: 10pt;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 16px 0;
-      font-size: 10pt;
-    }
-    th, td {
-      border: 1px solid #cbd5e1;
-      padding: 8px 12px;
-      text-align: left;
-    }
-    th {
-      background-color: #f1f5f9;
-      color: #0f172a;
-      font-weight: bold;
-    }
-    pre {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      padding: 12px;
-      font-family: Consolas, 'Courier New', monospace;
-      font-size: 9.5pt;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-    code {
-      font-family: Consolas, 'Courier New', monospace;
-      background-color: #f1f5f9;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-size: 9.5pt;
-    }
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      background-color: #06b6d4;
-      color: #ffffff;
-      font-weight: bold;
-      border-radius: 4px;
-      font-size: 9pt;
-    }
-  </style>
-</head>
-<body>
-  <div style="text-align: center; margin-bottom: 30px;">
-    <h1 style="border: none; margin-bottom: 4px;">TotalRecalls Documentation Suite</h1>
-    <p style="color: #64748b; font-size: 10pt;">Local AI Chat Downloader, Vector Search & RAG SQL \u2022 totalrecalls.app</p>
-  </div>
-  ${markdownToHtml(markdown)}
-</body>
-</html>
-  `;
-    const blob = new Blob([htmlContent], { type: "application/msword;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-  function markdownToHtml(md) {
-    let html = md.replace(/^### (.*$)/gim, "<h3>$1</h3>").replace(/^## (.*$)/gim, "<h2>$1</h2>").replace(/^# (.*$)/gim, "<h1>$1</h1>").replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>").replace(/\*(.*?)\*/gim, "<em>$1</em>").replace(/`([^`]+)`/gim, "<code>$1</code>").replace(/```([\s\S]*?)```/gim, "<pre><code>$1</code></pre>").replace(/\n\n/gim, "<p></p>").replace(/\n/gim, "<br />");
-    return html;
-  }
-  var downloadManualDocx = downloadManualWordDocx;
 
   // components/DeliveryPackagingStudio.tsx
   var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
@@ -18420,8 +18316,8 @@
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "bg-[var(--tr-panel)] border border-[var(--tr-border)] rounded-2xl p-6 relative overflow-hidden group hover:border-amber-500/40 transition-colors", children: [
             /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "w-12 h-12 rounded-xl bg-amber-950/80 border border-amber-800/60 flex items-center justify-center text-amber-400 mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(ShieldCheck, { className: "w-6 h-6" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-bold text-[var(--tr-text)] mb-2", children: "3. Unminified Source + Manuals" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "text-[var(--tr-muted)] text-sm leading-relaxed mb-4", children: "For enterprise defense, banking, and security auditors, the zip bundles the complete unminified TypeScript/React source code alongside high-fidelity PDF, DOCX, and Markdown manuals for optional offline source review." }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-bold text-[var(--tr-text)] mb-2", children: "3. Manuals" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "text-[var(--tr-muted)] text-sm leading-relaxed mb-4", children: "The zip bundles the compiled application together with high-fidelity PDF and Markdown manuals for offline reading." }),
             /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "text-xs text-amber-400 font-medium flex items-center gap-1.5", children: [
               /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(CircleCheck, { className: "w-4 h-4 text-amber-400" }),
               "Zero external CDNs or analytics scripts"
@@ -18472,8 +18368,8 @@
                   /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { className: "text-[var(--tr-text)]", children: "Tier B (Self-Learners):" }),
                     " Instant access to ",
-                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("code", { className: "text-[var(--tr-accent)]", children: "/docs/" }),
-                    " containing pre-rendered PDF and Word manuals with visual diagrams."
+                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("code", { className: "text-[var(--tr-accent)]", children: "User Guides/" }),
+                    " containing pre-rendered PDF and Markdown manuals with visual diagrams."
                   ] })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("li", { className: "flex items-start gap-2", children: [
@@ -18582,7 +18478,7 @@
         /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("h2", { className: "text-xl font-bold text-[var(--tr-text)] flex items-center gap-2", children: [
             /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Printer, { className: "w-5 h-5 text-[var(--tr-accent)]" }),
-            "Comprehensive Manuals: PDF, Word (.DOCX), and Markdown (.MD)"
+            "Comprehensive Manuals: PDF and Markdown (.MD)"
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "text-[var(--tr-muted)] text-sm mt-1", children: [
             "Every customer gets both the ",
@@ -18635,17 +18531,6 @@
               /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
                 "button",
                 {
-                  onClick: () => downloadManualDocx("power"),
-                  className: "inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors",
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Download, { className: "w-3.5 h-3.5 text-[var(--tr-accent)]" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: ".DOCX" })
-                  ]
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-                "button",
-                {
                   onClick: () => downloadManualMarkdown("power"),
                   className: "inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors",
                   children: [
@@ -18690,17 +18575,6 @@
                   children: [
                     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Printer, { className: "w-3.5 h-3.5" }),
                     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Print / Save as PDF" })
-                  ]
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-                "button",
-                {
-                  onClick: () => downloadManualDocx("user"),
-                  className: "inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--tr-panel)] hover:bg-[var(--tr-panel2)] text-[var(--tr-text)] font-medium text-xs transition-colors",
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Download, { className: "w-3.5 h-3.5 text-[var(--tr-accent)]" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: ".DOCX" })
                   ]
                 }
               ),
