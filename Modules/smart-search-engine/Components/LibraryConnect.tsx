@@ -5,9 +5,11 @@ interface LibraryConnectProps {
   meta: LibraryMeta | null;
   busy: string | null;
   error: string | null;
+  licensed: boolean;
   onFiles: (files: FileList) => void;
   onConnectPicker: () => void;
   onForget: () => void;
+  onRequestLicense: () => void;
 }
 
 /**
@@ -17,7 +19,7 @@ interface LibraryConnectProps {
  * conversations, and this banner says so instead of letting the UI imply the
  * buyer's own history is loaded.
  */
-export const LibraryConnect: React.FC<LibraryConnectProps> = ({ meta, busy, error, onFiles, onConnectPicker, onForget }) => {
+export const LibraryConnect: React.FC<LibraryConnectProps> = ({ meta, busy, error, licensed, onFiles, onConnectPicker, onForget, onRequestLicense }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const pickFolder = () => inputRef.current?.click();
@@ -49,36 +51,48 @@ export const LibraryConnect: React.FC<LibraryConnectProps> = ({ meta, busy, erro
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40">
-                  Demo data
+                  {licensed ? 'Demo data' : 'Demo mode'}
                 </span>
                 <span className="text-sm font-semibold text-[var(--tr-text)]">
-                  Nothing indexed from your Library yet
+                  {licensed ? 'Nothing indexed from your Library yet' : 'Smart Search Engine is not activated'}
                 </span>
               </div>
               <p className="mt-1.5 text-xs text-[var(--tr-muted)] leading-relaxed">
-                You are browsing the {SAMPLE_SOURCE_LABEL.toLowerCase()}. Point the engine at your
-                Downloader Pro library to search your own conversations — typically{' '}
-                <code className="font-mono text-[var(--tr-text)]">{LIBRARY_DEFAULT_PATH}</code>.
+                {licensed
+                  ? `You are browsing the ${SAMPLE_SOURCE_LABEL.toLowerCase()}. Point the engine at your Downloader Pro library to search your own conversations — typically `
+                  : 'Only the five sample conversations bundled with the app are available. Activate your SSE key to index and search your own library — typically '}
+                <code className="font-mono text-[var(--tr-text)]">{LIBRARY_DEFAULT_PATH}</code>
               </p>
               {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
               {busy && <p className="mt-1.5 text-xs text-[var(--tr-accent2)]">{busy}</p>}
             </div>
             <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <button
-                onClick={pickFolder}
-                disabled={!!busy}
-                className="px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50"
-              >
-                {busy ? 'Working…' : 'Connect Library folder…'}
-              </button>
-              {canUsePicker && (
+              {licensed ? (
+                <>
+                  <button
+                    onClick={pickFolder}
+                    disabled={!!busy}
+                    className="px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50"
+                  >
+                    {busy ? 'Working…' : 'Connect Library folder…'}
+                  </button>
+                  {canUsePicker && (
+                    <button
+                      onClick={onConnectPicker}
+                      disabled={!!busy}
+                      title="Remembers the folder so you can re-scan with one click."
+                      className="px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50"
+                    >
+                      Remember folder
+                    </button>
+                  )}
+                </>
+              ) : (
                 <button
-                  onClick={onConnectPicker}
-                  disabled={!!busy}
-                  title="Remembers the folder so you can re-scan with one click."
-                  className="px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50"
+                  onClick={onRequestLicense}
+                  className="px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm"
                 >
-                  Remember folder
+                  Activate SSE key
                 </button>
               )}
               {hiddenInput}

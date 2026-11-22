@@ -69457,13 +69457,6 @@ ${sqlRes.explanation}`;
     }
     return { ok: true, message: "SSE license removed." };
   }
-  function resetLocalSseLicense() {
-    clearSseLicenseState();
-    return {
-      ok: true,
-      message: "Reset to unactivated state locally (server slot preserved)."
-    };
-  }
 
   // services/testRunner.ts
   var TEST_DEFINITIONS = [
@@ -71306,7 +71299,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
 
   // Components/LibraryConnect.tsx
   var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-  var LibraryConnect = ({ meta, busy, error, onFiles, onConnectPicker, onForget }) => {
+  var LibraryConnect = ({ meta, busy, error, licensed, onFiles, onConnectPicker, onForget, onRequestLicense }) => {
     const inputRef = (0, import_react73.useRef)(null);
     const pickFolder = () => inputRef.current?.click();
     const canUsePicker = supportsDirectoryPicker();
@@ -71330,38 +71323,43 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "rounded-2xl border border-[var(--tr-accent)]/50 bg-[var(--tr-panel)] p-4 sm:p-5", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "min-w-0", children: [
           /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex items-center gap-2 flex-wrap", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40", children: "Demo data" }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-sm font-semibold text-[var(--tr-text)]", children: "Nothing indexed from your Library yet" })
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--tr-accent)]/15 text-[var(--tr-accent)] border border-[var(--tr-accent)]/40", children: licensed ? "Demo data" : "Demo mode" }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-sm font-semibold text-[var(--tr-text)]", children: licensed ? "Nothing indexed from your Library yet" : "Smart Search Engine is not activated" })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { className: "mt-1.5 text-xs text-[var(--tr-muted)] leading-relaxed", children: [
-            "You are browsing the ",
-            SAMPLE_SOURCE_LABEL.toLowerCase(),
-            ". Point the engine at your Downloader Pro library to search your own conversations \u2014 typically",
-            " ",
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: LIBRARY_DEFAULT_PATH }),
-            "."
+            licensed ? `You are browsing the ${SAMPLE_SOURCE_LABEL.toLowerCase()}. Point the engine at your Downloader Pro library to search your own conversations \u2014 typically ` : "Only the five sample conversations bundled with the app are available. Activate your SSE key to index and search your own library \u2014 typically ",
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: LIBRARY_DEFAULT_PATH })
           ] }),
           error && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1.5 text-xs text-red-400", children: error }),
           busy && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-1.5 text-xs text-[var(--tr-accent2)]", children: busy })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-wrap items-center gap-2 shrink-0", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          licensed ? /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+              "button",
+              {
+                onClick: pickFolder,
+                disabled: !!busy,
+                className: "px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50",
+                children: busy ? "Working\u2026" : "Connect Library folder\u2026"
+              }
+            ),
+            canUsePicker && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+              "button",
+              {
+                onClick: onConnectPicker,
+                disabled: !!busy,
+                title: "Remembers the folder so you can re-scan with one click.",
+                className: "px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50",
+                children: "Remember folder"
+              }
+            )
+          ] }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
             "button",
             {
-              onClick: pickFolder,
-              disabled: !!busy,
-              className: "px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm disabled:opacity-50",
-              children: busy ? "Working\u2026" : "Connect Library folder\u2026"
-            }
-          ),
-          canUsePicker && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
-            "button",
-            {
-              onClick: onConnectPicker,
-              disabled: !!busy,
-              title: "Remembers the folder so you can re-scan with one click.",
-              className: "px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-text)] text-xs font-semibold hover:border-[var(--tr-accent)] disabled:opacity-50",
-              children: "Remember folder"
+              onClick: onRequestLicense,
+              className: "px-4 py-2 rounded-lg bg-[var(--tr-accent)] hover:bg-[var(--tr-accent2)] text-[var(--tr-on-amber)] font-semibold text-sm",
+              children: "Activate SSE key"
             }
           ),
           hiddenInput
@@ -71460,6 +71458,11 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       }, 16);
     };
     const ingestLibrary = async (files, label) => {
+      if (!sseActive) {
+        setLibError("Activate your SSE license to index your own library.");
+        setShowLicenseBox(true);
+        return;
+      }
       setLibError(null);
       setLibBusy("Reading library files\u2026");
       try {
@@ -71493,6 +71496,11 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       void ingestLibrary(files, label);
     };
     const handleLibraryPicker = async () => {
+      if (!sseActive) {
+        setLibError("Activate your SSE license to index your own library.");
+        setShowLicenseBox(true);
+        return;
+      }
       if (!supportsDirectoryPicker()) {
         setLibError('Folder-remembering mode needs the app served over http(s). Use "Connect Library folder\u2026" instead.');
         return;
@@ -71530,14 +71538,25 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
     };
     (0, import_react74.useEffect)(() => {
+      if (!sseActive) {
+        setLibMeta(null);
+        setLibBusy(null);
+        setLibError(null);
+        setConversations(INITIAL_CONVERSATIONS);
+        setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
+        return;
+      }
+      let cancelled2 = false;
       loadLibraryIndex().then((saved) => {
-        if (saved && saved.conversations.length) {
-          setConversations(saved.conversations);
-          setLibMeta(saved.meta);
-          window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
-        }
+        if (cancelled2 || !saved || !saved.conversations.length) return;
+        setConversations(saved.conversations);
+        setLibMeta(saved.meta);
+        window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
       });
-    }, []);
+      return () => {
+        cancelled2 = true;
+      };
+    }, [sseActive]);
     const handleActivateSse = async () => {
       setActivating(true);
       setLicenseStatus("Verifying SSE license key...");
@@ -71546,17 +71565,14 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       setLicenseStatus(res.message);
       if (res.ok) {
         setSseActive(true);
+        setShowLicenseBox(false);
+        setLicenseStatus("");
       }
     };
     const handleDeactivateSse = async () => {
       const res = await deactivateSseLicense();
       setSseActive(false);
       setLicenseInput("");
-      setLicenseStatus(res.message);
-    };
-    const handleResetLocalSse = () => {
-      const res = resetLocalSseLicense();
-      setSseActive(false);
       setLicenseStatus(res.message);
     };
     const toggleTheme = () => {
@@ -71640,7 +71656,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
           /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("p", { className: "text-xs text-[var(--tr-muted)] leading-relaxed", children: [
             "Paste the ",
             /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "SSE-XXXXXXXX-XXXX-XXXX" }),
-            " license key from your purchase email. Activating requires an internet connection once \u2014 after that, Smart Search Engine runs on your PC without an internet connection. (Note: Downloader Pro uses its own ",
+            " license key from your purchase email. Until activated, only the five bundled sample conversations are searchable \u2014 connecting your own Library requires a licence. Activating needs an internet connection once; after that, Smart Search Engine runs on your PC without an internet connection. (Note: Downloader Pro uses its own ",
             /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("code", { className: "font-mono text-[var(--tr-text)]", children: "PRO-XXXXXXXX-XXXX-XXXX" }),
             " key.)"
           ] }),
@@ -71681,15 +71697,6 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
                 className: "px-3 py-2 rounded-lg border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)]",
                 children: "Deactivate (free slot)"
               }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
-              "button",
-              {
-                onClick: handleResetLocalSse,
-                title: "Dev helper: clear the SSE entitlement locally without contacting the server.",
-                className: "px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)]",
-                children: "Reset local state"
-              }
             )
           ] }),
           licenseStatus && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { className: "text-xs text-[var(--tr-muted)] pt-1", children: licenseStatus })
@@ -71701,9 +71708,11 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
           meta: libMeta,
           busy: libBusy,
           error: libError,
+          licensed: sseActive,
           onFiles: handleLibraryFiles,
           onConnectPicker: handleLibraryPicker,
-          onForget: handleForgetLibrary
+          onForget: handleForgetLibrary,
+          onRequestLicense: () => setShowLicenseBox(true)
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("main", { className: "flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6", children: [

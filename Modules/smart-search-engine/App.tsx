@@ -36,8 +36,7 @@ import {
   sseLicenseKey,
   activateSseLicense,
   checkSseEntitlement,
-  deactivateSseLicense,
-  resetLocalSseLicense
+  deactivateSseLicense
 } from './Services/licensing';
 
 export function App() {
@@ -78,6 +77,11 @@ export function App() {
   };
 
   const ingestLibrary = async (files: FileList | File[], label: string) => {
+    if (!sseActive) {
+      setLibError('Activate your SSE license to index your own library.');
+      setShowLicenseBox(true);
+      return;
+    }
     setLibError(null);
     setLibBusy('Reading library files…');
     try {
@@ -113,6 +117,11 @@ export function App() {
   };
 
   const handleLibraryPicker = async () => {
+    if (!sseActive) {
+      setLibError('Activate your SSE license to index your own library.');
+      setShowLicenseBox(true);
+      return;
+    }
     if (!supportsDirectoryPicker()) {
       setLibError('Folder-remembering mode needs the app served over http(s). Use "Connect Library folder…" instead.');
       return;
@@ -151,17 +160,29 @@ export function App() {
     setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
   };
 
-  // Restore the last indexed library so the buyer does not re-pick the folder
-  // on every launch.
+  // A saved library is only usable while entitlement is valid: the licence is
+  // the gate on the paid capability, so deactivating (or being revoked) drops
+  // back to sample data without deleting the stored index.
   useEffect(() => {
+    if (!sseActive) {
+      setLibMeta(null);
+      setLibBusy(null);
+      setLibError(null);
+      setConversations(INITIAL_CONVERSATIONS);
+      setChunks(buildVectorIndex(INITIAL_CONVERSATIONS, activeDimension));
+      return;
+    }
+    let cancelled = false;
     loadLibraryIndex().then((saved) => {
-      if (saved && saved.conversations.length) {
-        setConversations(saved.conversations);
-        setLibMeta(saved.meta);
-        window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
-      }
+      if (cancelled || !saved || !saved.conversations.length) return;
+      setConversations(saved.conversations);
+      setLibMeta(saved.meta);
+      window.setTimeout(() => setChunks(buildVectorIndex(saved.conversations, activeDimension)), 16);
     });
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [sseActive]);
 
   const handleActivateSse = async () => {
     setActivating(true);
@@ -171,6 +192,8 @@ export function App() {
     setLicenseStatus(res.message);
     if (res.ok) {
       setSseActive(true);
+      setShowLicenseBox(false);
+      setLicenseStatus('');
     }
   };
 
@@ -178,12 +201,6 @@ export function App() {
     const res = await deactivateSseLicense();
     setSseActive(false);
     setLicenseInput('');
-    setLicenseStatus(res.message);
-  };
-
-  const handleResetLocalSse = () => {
-    const res = resetLocalSseLicense();
-    setSseActive(false);
     setLicenseStatus(res.message);
   };
 
@@ -272,7 +289,8 @@ export function App() {
             </h2>
             <p className="text-xs text-[var(--tr-muted)] leading-relaxed">
               Paste the <code className="font-mono text-[var(--tr-text)]">SSE-XXXXXXXX-XXXX-XXXX</code> license key from your purchase email.
-              Activating requires an internet connection once — after that, Smart Search Engine runs on your PC without an internet connection.
+              Until activated, only the five bundled sample conversations are searchable — connecting your own Library requires a licence.
+              Activating needs an internet connection once; after that, Smart Search Engine runs on your PC without an internet connection.
               (Note: Downloader Pro uses its own <code className="font-mono text-[var(--tr-text)]">PRO-XXXXXXXX-XXXX-XXXX</code> key.)
             </p>
             <div className="flex flex-wrap items-center gap-2.5">
@@ -306,13 +324,6 @@ export function App() {
                   Deactivate (free slot)
                 </button>
               )}
-              <button
-                onClick={handleResetLocalSse}
-                title="Dev helper: clear the SSE entitlement locally without contacting the server."
-                className="px-3 py-2 rounded-lg bg-[var(--tr-panel2)] border border-[var(--tr-border)] text-[var(--tr-muted)] text-xs hover:text-[var(--tr-text)]"
-              >
-                Reset local state
-              </button>
             </div>
             {licenseStatus && (
               <div className="text-xs text-[var(--tr-muted)] pt-1">{licenseStatus}</div>
@@ -325,9 +336,11 @@ export function App() {
         meta={libMeta}
         busy={libBusy}
         error={libError}
+        licensed={sseActive}
         onFiles={handleLibraryFiles}
         onConnectPicker={handleLibraryPicker}
         onForget={handleForgetLibrary}
+        onRequestLicense={() => setShowLicenseBox(true)}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">

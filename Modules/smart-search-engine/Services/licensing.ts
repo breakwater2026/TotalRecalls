@@ -251,11 +251,3 @@ export async function deactivateSseLicense(): Promise<{ ok: boolean; message: st
   }
   return { ok: true, message: 'SSE license removed.' };
 }
-
-export function resetLocalSseLicense(): { ok: boolean; message: string } {
-  clearSseLicenseState();
-  return {
-    ok: true,
-    message: 'Reset to unactivated state locally (server slot preserved).',
-  };
-}
