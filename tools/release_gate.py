@@ -5,8 +5,7 @@ check so a failure names itself.
 
 Checks:
   1. dist/TotalRecalls.exe exists and the PYZ verifier passes (edition, strings)
-  2. the free-tier ZIP matches the EXE it was built from, and its SHA-256 matches
-     the constant on /download
+  2. the SSE ZIP's SHA-256 and size match the constants published on /download
   3. every shipped render is High / yuv420p / 30 fps / expected duration / faststart
   4. the R2 objects serve the exact byte counts we expect
 """
@@ -23,7 +22,7 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD_VENV = os.path.join(os.environ.get("LOCALAPPDATA", ""), "tr-build-venv", "Scripts", "python.exe")
 SHOOT = r"C:\Users\break\demo-shoot\renders"
-ZIP = os.path.join(ROOT, "site", "public", "downloads", "TotalRecalls-1.0.0-free-tier.zip")
+SSE_ZIP = os.path.join(ROOT, "site", "public", "downloads", "TotalRecalls-Smart-Search-Engine-1.0.0.zip")
 PAGE = os.path.join(ROOT, "site", "src", "pages", "download", "index.astro")
 
 # provider -> (local render, R2 key, expected duration s, expected bytes)
@@ -78,15 +77,16 @@ def main() -> int:
         r = subprocess.run([BUILD_VENV, verifier], capture_output=True, text=True)
         ok("PYZ verifier", r.returncode == 0, (r.stdout.strip().splitlines() or [""])[-1][:90])
 
-    if os.path.isfile(ZIP):
-        with zipfile.ZipFile(ZIP) as z:
-            names = sorted(z.namelist())
-            exe_size = z.getinfo("TotalRecalls.exe").file_size
-        ok("zip entries", names == ["README.txt", "TotalRecalls.exe"], str(names))
-        ok("zip exe == dist exe", exe_size == os.path.getsize(exe), f"{exe_size}")
-        digest = sha256(ZIP)
+    # The SSE add-on is the only downloadable artifact now (the Downloader is
+    # Store-only), so its published checksum and size are what buyers verify.
+    if os.path.isfile(SSE_ZIP):
+        digest = sha256(SSE_ZIP)
+        size_mb = round(os.path.getsize(SSE_ZIP) / 1048576, 2)
         page = io.open(PAGE, encoding="utf-8", errors="replace").read()
-        ok("page SHA == zip SHA", digest in page, digest[:16])
+        ok("page SSE SHA == zip SHA", digest in page, digest[:16])
+        ok("page SSE size == zip MiB", f"SSE_ZIP_SIZE_MB = {size_mb}" in page, f"{size_mb}")
+    else:
+        ok("SSE zip present", False, SSE_ZIP)
 
     for prov, (rel, key, want_dur, want_bytes) in RENDERS.items():
         path = os.path.join(SHOOT, rel)

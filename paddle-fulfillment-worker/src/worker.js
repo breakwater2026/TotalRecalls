@@ -262,11 +262,11 @@ function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timest
   <p style="${boxStyle}">${sseKey}</p>
   <p style="font-size:15px;line-height:1.55;margin:0 0 10px"><strong>How to download and activate your software:</strong></p>
   <ol style="font-size:14px;line-height:1.6;margin:0 0 22px;padding-left:20px;color:#3f3f46">
-    <li style="margin-bottom:8px"><strong>Downloader Pro:</strong> Download the app ZIP below (or install from Microsoft Store). In the top-right corner of the app, click the <strong>Pro</strong> badge (or <strong>Activate</strong>), paste key #1, and click Activate.</li>
+    <li style="margin-bottom:8px"><strong>Downloader Pro:</strong> Install TotalRecalls from the Microsoft Store with the button below, then open it. In the top-right corner of the app, click the <strong>Pro</strong> badge (or <strong>Activate</strong>), paste key #1, and click Activate.</li>
     <li style="margin-bottom:8px"><strong>Smart Search Engine:</strong> Download the SSE ZIP below. Extract it to any folder on your PC, double-click <strong>run-smart-search.bat</strong>, click <strong>Activate SSE Key</strong>, and paste key #2.</li>
   </ol>
   <div style="margin:0 0 24px;display:flex;flex-wrap:wrap;gap:12px">
-    <p style="margin:0 0 10px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 20px;border-radius:8px;display:inline-block;font-weight:700;font-size:14px">1. Download TotalRecalls Pro &rarr;</a></p>
+    <p style="margin:0 0 10px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 20px;border-radius:8px;display:inline-block;font-weight:700;font-size:14px">1. Install TotalRecalls (Microsoft Store) &rarr;</a></p>
     <p style="margin:0"><a href="${SSE_DOWNLOAD_URL}" style="background:#18181b;color:#f4f4f5;text-decoration:none;padding:12px 20px;border-radius:8px;display:inline-block;font-weight:700;font-size:14px">2. Download Smart Search Engine (ZIP) &rarr;</a></p>
   </div>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
@@ -308,8 +308,8 @@ function licenseEmailHtml({ tier, licenseKey, sseLicenseKey, productName, timest
   <h1 style="font-size:20px;line-height:1.3;margin:0 0 16px">Your TotalRecalls Pro license key</h1>
   <p style="font-size:15px;line-height:1.55;margin:0 0 18px">Thanks for buying TotalRecalls Downloader Pro. Here is your license key:</p>
   <p style="${boxStyle}">${key}</p>
-  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: open TotalRecalls, click <strong>Activate</strong>, and paste the key exactly as shown.</p>
-  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Download TotalRecalls</a></p>
+  <p style="font-size:15px;line-height:1.55;margin:0 0 22px">To activate: install TotalRecalls from the Microsoft Store using the button below, open it, click <strong>Activate</strong>, and paste the key exactly as shown.</p>
+  <p style="margin:0 0 24px"><a href="${DOWNLOAD_URL}" style="background:#c88a2b;color:#111315;text-decoration:none;padding:12px 22px;border-radius:8px;display:inline-block;font-weight:600;font-size:15px">Install TotalRecalls (Microsoft Store)</a></p>
   <hr style="border:none;border-top:1px solid #e4e4e7;margin:24px 0">
   <p style="font-size:13px;line-height:1.6;color:#71717a;margin:0">
     Product: ${escapeHtml(productName)}<br>Purchased: ${escapeHtml(timestamp)}
@@ -329,7 +329,7 @@ function licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timest
       `2. Smart Search Engine (SSE) license key: ${sseLicenseKey}`,
       '',
       'To activate Downloader Pro: launch TotalRecalls, click Pro/Activate, and paste key #1.',
-      `Download Downloader: ${DOWNLOAD_URL}`,
+      `Install TotalRecalls (Microsoft Store): ${DOWNLOAD_URL}`,
       '',
       'To activate Smart Search Engine: unzip the SSE archive, run run-smart-search.bat, click Activate SSE, and paste key #2.',
       `Download Smart Search Engine: ${SSE_DOWNLOAD_URL}`,
@@ -347,7 +347,7 @@ function licenseEmailText({ tier, licenseKey, sseLicenseKey, productName, timest
     '',
     tier === 'sse'
       ? `To activate: unzip the SSE archive, run run-smart-search.bat, click Activate SSE, and paste the key.\nDownload: ${SSE_DOWNLOAD_URL}`
-      : `To activate: open the app, click Activate, and paste the key exactly as shown.\nDownload: ${DOWNLOAD_URL}`,
+      : `To activate: install TotalRecalls from the Microsoft Store, open it, click Activate, and paste the key exactly as shown.\nInstall: ${DOWNLOAD_URL}`,
     '',
     `Product: ${productName}`,
     `Purchased: ${timestamp}`,
