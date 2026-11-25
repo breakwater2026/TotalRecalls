@@ -45,7 +45,7 @@ import config from "../../data/config.json";
   <h2>3. What the app stores locally (on your PC only)</h2>
   <p>
     The app keeps a small amount of local state in a per-user folder on your machine —
-    on Windows, <code>C:\Users\&lt;username&gt;\TotalRecalls-download\Library\</code> (or your custom chosen folder). Nothing in that folder ever leaves your PC:
+    on Windows, <code>C:\TotalRecalls\Library\</code> (or <code>%USERPROFILE%\TotalRecalls\Library</code> when the drive root is not writable), or your custom chosen folder. Nothing in that folder ever leaves your PC:
   </p>
   <ul>
     <li><strong>Session files</strong> — the provider session data the app uses to download, encrypted with Windows DPAPI. DPAPI ties the encryption to your Windows user account: the files are unreadable on any other machine or by any other user of your PC.</li>
@@ -70,8 +70,8 @@ import config from "../../data/config.json";
   </p>
   <p>
     <strong>Smart Search Engine (SSE) add-on.</strong> The add-on runs on your PC and nothing you write
-    or save is uploaded. Its only internet use is a one-time download of the search model during
-    setup; after that it works without a connection.
+    or save is uploaded. It needs no model download: embeddings are computed in-page from a
+    deterministic hash, so once the add-on is installed it works without a connection at all.
   </p>
   <ul>
     <li>When you enter your license key, and periodically afterwards (at most once per hour, best-effort), the app sends your <strong>license key</strong> and a <strong>pseudonymous machine identifier</strong> (an opaque hash like <code>SSE-…</code> for the Smart Search Engine (SSE) add-on or <code>TR-…</code> for Downloader Pro) to our license server at totalrecalls.app.</li>

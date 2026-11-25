@@ -15,7 +15,7 @@ from pathlib import Path
 
 from totalrecalls import APP_VERSION, APP_BUILD_TAG
 from totalrecalls.core.paths import (
-    appdata_dir, log, save_session, load_session, clear_session,
+    appdata_dir, default_export_root, log, save_session, load_session, clear_session,
     kill_other_exporter_processes,
 )
 from totalrecalls.core.errors import friendly_error, is_auth_rejected
@@ -43,6 +43,7 @@ from totalrecalls.core.unified_export import (
 )
 from totalrecalls.adapters.perplexity.adapter import PerplexityAdapter
 from totalrecalls import licensing
+from totalrecalls.core.free_tier import FreeTierUsage
 
 
 def _kill_orphan_webviews():
@@ -195,7 +196,7 @@ class Bridge:
             _alias_root = os.path.join(os.path.dirname(os.path.expanduser("~")), "Profile")
             if os.path.islink(_alias_root):
                 _demo_folder = os.path.join(_alias_root, "TotalRecalls-download")
-        self._default_folder = _demo_folder or os.path.join(os.path.expanduser("~"), "TotalRecalls-download")
+        self._default_folder = _demo_folder or default_export_root()
         # Keep pre-existing users on their old folder so nothing is orphaned
         # (only when no demo override is active).
         if not _demo_folder:
@@ -1094,6 +1095,15 @@ class Bridge:
             path = self._conversation_path(relative_path)
             with open(path, encoding="utf-8") as f:
                 conv = UnifiedConversation.from_dict(json.load(f))
+            if not licensing.is_pro():
+                # Selection exports count toward the same cumulative Free Tier
+                # allowance as bulk downloads: 5 conversations per provider.
+                usage = FreeTierUsage(self._default_folder)
+                allowed, reason = usage.consume(
+                    conv.provider, str(conv.id or ""), licensing.FREE_CONVERSATION_LIMIT
+                )
+                if not allowed:
+                    return {"ok": False, "message": reason}
             result = write_selected_unified_conversation(
                 self._default_folder,
                 conv,
@@ -2587,9 +2597,11 @@ class Bridge:
                         on_log=on_log,
                         on_progress=on_progress,
                         on_first_download=_on_first_download,
-                        max_conversations=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
+                        max_conversations=None,
                         latest_only=latest_only,
                         stop_event=self._stop_worker,
+                        usage=None if licensing.is_pro() else FreeTierUsage(outdir),
+                        provider_limit=None if licensing.is_pro() else licensing.FREE_CONVERSATION_LIMIT,
                     )
                 finally:
                     if _retry_token is not None:
@@ -2651,12 +2663,30 @@ class Bridge:
             self._push({"type": "log",
                         "line": f"Found {total} conversation(s) after multi-source discovery. Organizing by Space…"})
 
-            # Free Tier cap (classic path): same rule as the adapter path.
-            if not licensing.is_pro() and total > licensing.FREE_CONVERSATION_LIMIT:
-                self._push({"type": "log",
-                            "line": f"Free Tier: downloading the first {licensing.FREE_CONVERSATION_LIMIT} of {total} conversations. "
-                                    "Upgrade to Pro for unlimited downloads."})
-                threads = threads[:licensing.FREE_CONVERSATION_LIMIT]
+            # Free Tier allowance (classic path): cumulative, same rule as the
+            # adapter path — 5 conversations per provider, not per run.
+            _free_usage = None
+            if not licensing.is_pro():
+                _free_usage = FreeTierUsage(outdir)
+                _before = len(threads)
+                threads = [
+                    t for t in threads
+                    if not _free_usage.is_used(provider_name, t.get("uuid", "") or t.get("id", ""))
+                ]
+                _excluded = _before - len(threads)
+                _remaining = _free_usage.remaining(provider_name, licensing.FREE_CONVERSATION_LIMIT)
+                if _remaining <= 0:
+                    self._push({"type": "log",
+                                "line": f"Free Tier limit reached for {provider_display} "
+                                        f"({licensing.FREE_CONVERSATION_LIMIT} conversations). "
+                                        "Upgrade to Pro for unlimited downloads."})
+                    threads = []
+                else:
+                    if _excluded:
+                        self._push({"type": "log",
+                                    "line": f"Free Tier: {_excluded} conversation(s) already counted toward your "
+                                            f"{licensing.FREE_CONVERSATION_LIMIT} for {provider_display}."})
+                    threads = threads[:_remaining]
                 total = len(threads)
 
             uuid_index = load_uuid_index(outdir)
@@ -2765,6 +2795,9 @@ class Bridge:
             manifest = write_export_indexes(outdir, self.email or "", records,
                                             provider=provider_display)
             save_uuid_index(outdir, uuid_index)
+            if _free_usage is not None:
+                _free_usage.record(provider_name,
+                                   [r.get("uuid") for r in records if r.get("uuid")])
 
             empty_n = len((manifest.get("warnings") or {}).get("empty_answer_threads") or [])
             self._push({"type": "log", "line": f"Wrote README.md + Space folders. {len(records)} conversations indexed."})

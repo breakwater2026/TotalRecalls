@@ -33,7 +33,7 @@ QUICK START
    window opens — you log in normally, and the app reads the session; it
    never sees your password).
 3. Choose conversations and click Download. Your files land in
-   TotalRecalls-download\ (or the folder you choose).
+   C:\TotalRecalls\Library\ (or the folder you choose).
 
 SUPPORTED PLATFORM
 ------------------

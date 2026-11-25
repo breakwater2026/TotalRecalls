@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Build TotalRecalls.exe in either the locked Free Tier or unlocked buyer
-(Pro) edition.
+"""Build TotalRecalls.exe in either the locked Free Tier or the internal
+unlocked (Pro) edition.
 
 Usage:
-    python tools/build_exe.py --edition pro
     python tools/build_exe.py --edition free
+    python tools/build_exe.py --edition pro --acknowledge-unlocked
 
-The Free Tier EXE is the default artifact and also ships in the free ZIP.
-The Pro EXE is what buyers receive: all 8 providers, unlimited downloads,
-no license key needed (see totalrecalls/edition.py).
+The Free Tier EXE is the only artifact that ships. The Pro EXE bypasses the
+licence check entirely and exists for internal demo/QA only; it must never be
+distributed. Passing ``--edition pro`` therefore requires the explicit
+``--acknowledge-unlocked`` flag.
 
 The script rewrites totalrecalls/edition.py to the requested edition, runs
 PyInstaller, then restores the source file to the "free" default so the tree
@@ -86,6 +87,9 @@ def kill_running() -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--edition", choices=["free", "pro"], required=True)
+    ap.add_argument("--acknowledge-unlocked", action="store_true",
+                    help="Required with --edition pro: that build bypasses the "
+                         "licence check and must never be distributed.")
     ap.add_argument("--mode", choices=["onefile", "onedir"], default="onefile",
                     help="'onefile' (default) = single self-extracting EXE for the "
                          "direct download; 'onedir' = folder of files for the "
@@ -93,6 +97,13 @@ def main() -> int:
     ap.add_argument("--name", default=None,
                     help=f"Optional output name (default: {EXE_FILENAME})")
     args = ap.parse_args()
+
+    if args.edition == "pro" and not args.acknowledge_unlocked:
+        raise SystemExit(
+            "ERROR: --edition pro produces an unlocked build that bypasses "
+            "licensing. It is for internal demo/QA only and must never be "
+            "shipped. Re-run with --acknowledge-unlocked if that is understood."
+        )
 
     venv_py = os.path.join(REPO, ".venv312", "Scripts", "python.exe")
     if not os.path.exists(venv_py):

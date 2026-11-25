@@ -26,6 +26,55 @@ def appdata_dir() -> str:
     return d
 
 
+def _writable_dir(path: str) -> bool:
+    """True when *path* can be created and written to by this user."""
+    try:
+        os.makedirs(path, exist_ok=True)
+        probe = os.path.join(path, ".tr-write-test")
+        with open(probe, "w", encoding="utf-8") as f:
+            f.write("ok")
+        os.remove(probe)
+        return True
+    except OSError:
+        return False
+
+
+def default_export_root(home: str | None = None, canonical_root: str | None = None) -> str:
+    """Resolve the default export root (the folder that contains ``Library``).
+
+    The website is the canonical artifact and advertises
+    ``C:\\TotalRecalls\\Library``. Resolution order:
+
+    1. ``TR_DEMO_FOLDER`` — explicit demo/shoot override.
+    2. An existing legacy root (``%USERPROFILE%\\TotalRecalls-download``) so
+       current users' libraries are never orphaned by a path change.
+    3. The canonical ``<system drive>:\\TotalRecalls`` when this user can write
+       there (standard Windows accounts often cannot write to ``C:\\``).
+    4. ``%USERPROFILE%\\TotalRecalls`` — same name, user-scoped.
+    5. The legacy root as a last resort (creation is retried by the caller).
+    """
+    override = os.environ.get("TR_DEMO_FOLDER")
+    if override:
+        return override
+
+    home = home or os.path.expanduser("~")
+    legacy = os.path.join(home, "TotalRecalls-download")
+    if os.path.exists(legacy) or os.path.islink(legacy):
+        return legacy
+
+    if canonical_root is None and os.name == "nt":
+        drive = os.path.splitdrive(home)[0]
+        canonical_root = os.path.join(drive + os.sep, "TotalRecalls") if drive else None
+    if canonical_root and _writable_dir(canonical_root):
+        return canonical_root
+
+    user_scoped = os.path.join(home, "TotalRecalls")
+    if _writable_dir(user_scoped):
+        return user_scoped
+
+    return legacy
+
+
 def _my_pid() -> int:
     try:
         return os.getpid()

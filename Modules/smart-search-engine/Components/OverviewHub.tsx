@@ -205,7 +205,7 @@ export const OverviewHub: React.FC<OverviewHubProps> = ({
           </div>
           <div className="mt-2 text-2xl font-black text-[var(--tr-text)]">{chunks.length} Chunks</div>
           <div className="mt-1 text-xs text-[var(--tr-accent)]">
-            <span>384-dim HNSW indexed</span>
+            <span>384-dim local index</span>
           </div>
         </div>
 

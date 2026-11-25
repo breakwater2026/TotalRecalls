@@ -405,6 +405,8 @@ def export_via_adapter(
     max_conversations: int | None = None,
     latest_only: bool = False,
     stop_event=None,
+    usage=None,
+    provider_limit: int | None = None,
 ) -> dict:
     """Run a full export through a ProviderAdapter into Library/<provider>/.
 
@@ -438,7 +440,26 @@ def export_via_adapter(
         _log("Quick export: selecting the latest conversation.")
     total = len(summaries)
     _log(f"Found {total} conversation(s) on {adapter.display_name}")
-    if max_conversations is not None and total > max_conversations:
+
+    # Cumulative Free Tier accounting: the public promise is 5 conversations
+    # per provider, not 5 per run. Already-counted conversations are removed
+    # first so they never consume a new slot.
+    if usage is not None and provider_limit is not None:
+        before = len(summaries)
+        summaries = [s for s in summaries if not usage.is_used(adapter.id, s.id)]
+        excluded = before - len(summaries)
+        if excluded:
+            _log(f"Free Tier: {excluded} conversation(s) already counted toward your "
+                 f"{provider_limit} for {adapter.display_name}.")
+        remaining = usage.remaining(adapter.id, provider_limit)
+        if remaining <= 0:
+            _log(f"Free Tier limit reached for {adapter.display_name} "
+                 f"({provider_limit} conversations). Upgrade to Pro for unlimited downloads.")
+            summaries = []
+        else:
+            summaries = summaries[:remaining]
+        total = len(summaries)
+    elif max_conversations is not None and total > max_conversations:
         _log(f"Free tier: downloading the first {max_conversations} of {total} conversations. "
              f"Upgrade to Pro for unlimited downloads.")
         summaries = summaries[:max_conversations]
@@ -454,6 +475,7 @@ def export_via_adapter(
         prior = {}
 
     records: list[dict] = []
+    exported_ids: list[str] = []
     done = 0
     skipped = 0
     failed = 0
@@ -519,6 +541,7 @@ def export_via_adapter(
                 conv.updated_at = summary.updated_at
             rec = write_unified_conversation(outdir, conv)
             records.append(rec)
+            exported_ids.append(str(conv.id or summary.id or ""))
             done += 1
             st = rec.get("stats") or {}
             flag = " ⚠️ empty answers" if rec.get("empty_answers") else ""
@@ -529,6 +552,8 @@ def export_via_adapter(
             log(f"export_via_adapter fail {summary.id}: {e}")
 
     exported_at = datetime.now(timezone.utc).isoformat()
+    if usage is not None:
+        usage.record(adapter.id, exported_ids)
     manifest = _write_manifest(outdir, account.email, adapter.id, records, exported_at)
     _log(f"Wrote Library/{adapter.id}/ — {len(records)} conversation(s). Skipped {skipped}, failed {failed}.")
     return {

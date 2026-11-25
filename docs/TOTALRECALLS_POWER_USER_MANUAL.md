@@ -19,12 +19,12 @@ The TotalRecalls suite is architected around two decoupled, complimentary units:
 |   | UNIT 1: TOTALRECALLS PRO             |   | UNIT 2: SMART SEARCH ENGINE ADD-ON   |   |
 |   | $24 launch / $48 regular (one-time)  |   | $29 launch / $58 regular (one-time)  |   |
 |   +--------------------------------------+   +--------------------------------------+   |
-|   | * Exporters: ChatGPT, Claude,        |   | * HNSW vector search                 |   |
-|   |   Perplexity, Gemini, Grok,          |   | * Reciprocal Rank Fusion (BM25+Vec)  |   |
+|   | * Exporters: ChatGPT, Claude,        |   | * Local vector search                |   |
+|   |   Perplexity, Gemini, Grok,          |   | * Weighted BM25 + vector retrieval   |   |
 |   |   DeepSeek, Mistral, Qwen            |   | * Natural Language to SQLite         |   |
-|   | * Formats: Markdown (.md), JSON      |   | * Cross-AI Consensus Auditor         |   |
-|   | * Direct local filesystem storage    |   | * PII & Secret Scrubber              |   |
-|   | * Microsoft Store certified          |   | * Fine-Tuning JSONL Export           |   |
+|   | * Formats: Markdown (.md), JSON      |   | * Cross-AI Consensus Auditor (planned) | |
+|   | * Direct local filesystem storage    |   | * PII & Secret Scrubber (planned)    |   |
+|   | * Microsoft Store certified          |   | * Fine-Tuning JSONL Export (planned) |   |
 |   | * Zero warnings, one-click install   |   | * Free maintenance updates           |   |
 |   +--------------------------------------+   +--------------------------------------+   |
 |                       |                                          |                      |
@@ -33,7 +33,7 @@ The TotalRecalls suite is architected around two decoupled, complimentary units:
 |                                            v                                            |
 |                      +-------------------------------------------+                      |
 |                      | PRIVATE LOCAL DISK RUNTIME                |                      |
-|                      | C:\Users\<You>\TotalRecalls-download\     |                      |
+|                      | C:\TotalRecalls\Library\                   |                      |
 |                      | (Zero telemetry • Zero cloud egress)      |                      |
 |                      +-------------------------------------------+                      |
 +-----------------------------------------------------------------------------------------+
@@ -53,13 +53,13 @@ TotalRecalls is a one-time purchase with no recurring subscription:
 
 - **License Scope:** Each license key covers up to **3 personal PC activations**.
 - **Updates vs. Upgrades:** Maintenance updates and provider-compatibility bug fixes within v1 are free for the life of the product.
-- **Refund Guarantee:** 30-day money-back guarantee on all web purchases processed via Paddle.
+- **Refunds:** Downloader Pro is non-refundable — the Free Tier is the try-before-you-buy mechanism. The Smart Search Engine (SSE) add-on carries a 7-day, no-questions-asked refund. An approved refund deactivates the key and frees the slot. See `/legals/#refund`.
 
 ---
 
 ## 3. Relational Schema Architecture (SQLite)
 
-SSE structures your local conversations into a high-performance relational and vector SQLite schema:
+SSE models your library as three logical tables and answers read-only SQL over them. The shipped v1.0.0 build holds them in memory and persists the parsed index in IndexedDB, rather than in an on-disk SQLite file; the schema below documents the shape the query engine exposes.
 
 ```sql
 CREATE TABLE conversations (
@@ -91,30 +91,36 @@ CREATE VIRTUAL TABLE chat_chunks USING vec0(
 );
 ```
 
+> The shipped build does not create a `vec0` virtual table or an HNSW index. The vector column describes the logical shape; scoring is a linear cosine scan over an in-memory array (see §4).
+
 ---
 
-## 4. Hybrid Reciprocal Rank Fusion (RRF) Retrieval
+## 4. Hybrid Retrieval (BM25 + Vector)
 
-Combines BM25 token frequencies with dense vector cosine similarity (default embedding profile: `bge-small-en-v1.5`, 384 dimensions):
+Combines BM25 token frequencies with cosine similarity over a deterministic 384-dimension hash embedder (`generateLocalPseudoEmbedding`). The shipped build uses a weighted blend, not rank fusion:
 
-$$RRF\_Score(d) = \sum_{m \in M} \frac{1}{k + \text{rank}_m(d)}$$
+```text
+score = 0.6 × cosine(query, chunk) + 0.4 × BM25(query, chunk)
+```
 
-Where $k = 60$. Dense retrieval surfaces conceptual and thematic neighbors, while BM25 guarantees exact precision on variable names, UUIDs, function signatures, and error codes.
+There are no model weights to download or load. Because the vector is a normalised frequency hash rather than a trained transformer embedding, it captures lexical overlap and word co-occurrence; keyword precision is strong, while purely conceptual recall is weaker than a `bge`-class model would give. The results are sorted by that blended score and the top *k* are returned.
 
 ---
 
 ## 5. Local Filesystem Integration
 
-TotalRecalls Downloader exports one folder per conversation into your Windows user profile:
+TotalRecalls Downloader exports one folder per conversation into your local Library. The default root is `C:\TotalRecalls\Library`; if Windows does not allow writing to the drive root, the app falls back to `%USERPROFILE%\TotalRecalls\Library` (and keeps an existing `TotalRecalls-download` folder in use so no archive is orphaned):
 
 ```text
-C:\Users\<YourUsername>\TotalRecalls-download\Library\
+C:\TotalRecalls\Library\
   └── chatgpt\
       └── Home\
           └── 2023-07-30 20-52 -- PineScript Help Offered -- a05b4514\
               ├── conversation.json    <- canonical record (schema_version 1)
               └── conversation.md      <- human-readable render of the same conversation
 ```
+
+Conversations filed in a provider Space are written under `Spaces\<Space name>\` instead of `Home\`.
 
 `conversation.json` carries `provider`, `account`, and `conversation{id,title,created_at,updated_at,folder,messages[]}`; every message has `role`, `content_md`, `created_at`, `model`, `citations`. The same shape is used for all eight providers.
 
@@ -173,7 +179,7 @@ SSE is a separate SKU from Downloader Pro and is gated on its own key.
 
 ## 8. Diagnostics & Support Playbook
 
-**Reproducing the shipped artifact.** `python tools/package_sse.py` rebuilds `dist/bundle.js` with esbuild, regenerates the PDFs through headless Edge, and re-zips `site/public/downloads/`. A rebuild from a clean HEAD must be byte-identical to the shipped bundle (verified: 3,196,549 bytes, sha256 `792849ce…`); a mismatch means what you are testing is not what you ship. The packager calls the PDF builder with `sys.executable` — calling it with bare `python` resolves to whichever interpreter is first on `PATH` and fails on a missing module.
+**Reproducing the shipped artifact.** `python tools/package_sse.py` rebuilds `dist/bundle.js` with esbuild, regenerates the PDFs through headless Edge, and re-zips `site/public/downloads/`, printing the bundle size and SHA-256 it just produced. A rebuild from a clean HEAD must be byte-identical to the shipped bundle: compare the printed values with the artifact you deploy. Do not hardcode those values here — the in-app manual is itself compiled into `bundle.js` (`--loader:.md=text`), so any edit to this file changes the bundle hash. The packager calls the PDF builder with `sys.executable` — calling it with bare `python` resolves to whichever interpreter is first on `PATH` and fails on a missing module.
 
 **Inspecting the live index.** DevTools → *Application* → *IndexedDB* → `tr-sse-library` → store `index` → key `current`. `value.meta` records `conversationCount`, `messageCount`, `providerCount`, `filesSeen`, `skipped` and `indexedAt`. Only conversations and metadata are stored; vectors are rebuilt at launch by the deterministic hash embedder, so there are no model weights on disk and nothing to corrupt.
 

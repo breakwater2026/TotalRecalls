@@ -89,10 +89,10 @@ PRO_PRICE = "$24"
 FREE_PROVIDER_IDS = ("perplexity", "chatgpt", "claude")
 
 # License keys are issued by the paddle-fulfillment-worker (Cloudflare Worker)
-# and have the format: PRO-XXXXXXXX-XXXX-XXXX (uppercase alphanumerics).
-# Legacy TR-XXXXXXXX-XXXX-XXXX keys issued during early testing remain accepted;
-# SSE-XXXXXXXX-XXXX-XXXX keys belong to the Smart Search Engine add-on and are
-# rejected by the Downloader.
+# and have the format: TR-XXXXXXXX-XXXX-XXXX (uppercase alphanumerics).
+# Legacy PRO-XXXXXXXX-XXXX-XXXX keys issued during early testing remain
+# accepted; SSE-XXXXXXXX-XXXX-XXXX keys belong to the Smart Search Engine
+# add-on and are rejected by the Downloader.
 # This regex checks only the shape; entitlement still requires an explicitly
 # wired verifier.
 _LICENSE_KEY_RE = re.compile(r"^(?:PRO|TR)-[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}$")
@@ -124,6 +124,25 @@ def _win32_query(name: str) -> str:
         for line in (out.stdout or "").splitlines():
             line = line.strip()
             if line and line.upper() != "UUID":
+                return line
+    except (OSError, subprocess.SubprocessError):
+        pass
+    # `wmic` is deprecated and absent from newer Windows 11 images; fall back
+    # to PowerShell CIM for the same property.
+    cls = (
+        "Win32_ComputerSystemProduct"
+        if "computersystemproduct" in name.lower()
+        else f"Win32_{name}"
+    )
+    try:
+        ps = subprocess.run(
+            ["powershell", "-NoProfile", "-NonInteractive", "-Command",
+             f"(Get-CimInstance {cls} -ErrorAction Stop).UUID"],
+            capture_output=True, text=True, timeout=10,
+        )
+        for line in (ps.stdout or "").splitlines():
+            line = line.strip()
+            if line:
                 return line
     except (OSError, subprocess.SubprocessError):
         pass

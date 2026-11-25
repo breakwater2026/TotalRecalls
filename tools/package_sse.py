@@ -3,8 +3,8 @@
 
 Includes:
   - TotalRecalls Smart Search Engine standalone application (index.html, dist/bundle.js, run-smart-search.bat)
-  - Quick-Start Guide (.docx & .md)
-  - Power User Guide (.docx & .md)
+  - Quick-Start Guide (.pdf & .md)
+  - Power User Guide (.pdf & .md)
 
 Output:
   site/public/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip

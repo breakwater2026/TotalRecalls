@@ -61,6 +61,11 @@ const ORDER_EVENT_TYPES = [
   'payment_succeeded',
 ];
 
+// Paddle Billing sends refunds/chargebacks as adjustments. An approved
+// refund or chargeback must revoke the key: the website's Refund Policy says
+// "License deactivation = refund".
+const ADJUSTMENT_EVENT_TYPES = ['adjustment.created', 'adjustment.updated'];
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -72,6 +77,42 @@ function json(body, status = 200) {
     status,
     headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
   });
+}
+
+/**
+ * Revoke every key minted for an order (both keys of a bundle).
+ *
+ * Entitlement follows the key row's `status`, so `revoked` makes
+ * `/api/licenses/verify` reject it on the next check (at most one hour for a
+ * cached desktop entitlement, immediately for a fresh activation).
+ */
+async function revokeOrder(env, target, reason = 'manual') {
+  const value = String(target || '').trim();
+  if (!value) return 0;
+  const result = await env.DB
+    .prepare(
+      "UPDATE license_keys SET status = 'revoked', updated_at = datetime('now') " +
+      'WHERE order_id = ? OR order_id = ? OR license_key = ?',
+    )
+    .bind(value, `${value}:sse`, value)
+    .run();
+  const changes = result?.meta?.changes || 0;
+  console.log('revoke:', value, reason, changes);
+  return changes;
+}
+
+/**
+ * Decide whether a Paddle adjustment is an approved refund/chargeback.
+ * Paddle Billing: `data.action` is refund | credit | chargeback and
+ * `data.status` is pending | approved | rejected.
+ */
+function adjustmentDecision(payload) {
+  const data = (payload && payload.data) || {};
+  const action = String(data.action || '').toLowerCase();
+  const status = String(data.status || '').toLowerCase();
+  const orderId = String(data.transaction_id || data.order_id || '');
+  const isMoneyBack = action === 'refund' || action === 'chargeback';
+  return { isMoneyBack, approved: status === 'approved', orderId };
 }
 
 function escapeHtml(value) {
@@ -724,6 +765,8 @@ async function decideVerify(env, { key, instanceName, instanceId, action, produc
 /* ------------------------------------------------------------------ *
  * Router
  * ------------------------------------------------------------------ */
+export { revokeOrder, adjustmentDecision, decideVerify, classifyOrderTier };
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -751,6 +794,19 @@ export default {
     /* License verification — the desktop app's activation/re-check path. */
     if (url.pathname === '/api/licenses/verify' && request.method === 'POST') {
       return handleVerify(request, env);
+    }
+
+    /* License revocation — ADMIN ONLY (refund/chargeback or manual) */
+    if (url.pathname === '/api/licenses/revoke' && request.method === 'POST') {
+      if (!(await adminOk(request, env))) return json({ error: 'unauthorized' }, 401);
+      let body = {};
+      try {
+        body = await request.json();
+      } catch { /* empty body */ }
+      const target = body.order_id || body.license_key || '';
+      if (!target) return json({ error: 'order_id or license_key required' }, 400);
+      const revoked = await revokeOrder(env, target, body.reason || 'manual');
+      return json({ ok: true, revoked });
     }
 
     /* Paddle webhook */
@@ -784,6 +840,23 @@ export default {
           .run();
       } catch (err) {
         console.error('Failed to store webhook event:', err.message);
+      }
+
+      if (ADJUSTMENT_EVENT_TYPES.includes(eventType)) {
+        const { isMoneyBack, approved, orderId } = adjustmentDecision(payload);
+        if (isMoneyBack && approved && orderId) {
+          const revoked = await revokeOrder(env, orderId, eventType);
+          await env.DB
+            .prepare('UPDATE webhook_events SET processed = 1 WHERE id = ?')
+            .bind(eventUuid)
+            .run();
+          return json({ status: 'revoked', order_id: orderId, revoked });
+        }
+        await env.DB
+          .prepare('UPDATE webhook_events SET processed = 1 WHERE id = ?')
+          .bind(eventUuid)
+          .run();
+        return json({ status: 'ignored', event_type: eventType });
       }
 
       if (ORDER_EVENT_TYPES.includes(eventType)) {

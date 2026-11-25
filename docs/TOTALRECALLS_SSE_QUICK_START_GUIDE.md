@@ -19,7 +19,7 @@ Nothing is uploaded to the cloud. Your data stays entirely in your hands.
 
 1. **TotalRecalls Downloader Pro:**  
    Make sure you have downloaded conversations using TotalRecalls. By default, your chats are saved to:  
-   `C:\Users\<YourUsername>\TotalRecalls-download\Library\`
+   `C:\TotalRecalls\Library\` (or `%USERPROFILE%\TotalRecalls\Library` if Windows blocks the drive root)
 2. **System Requirements:**  
    * Windows 10 or Windows 11 (64-bit).
    * 4 GB to 8 GB of RAM.
@@ -56,7 +56,7 @@ Smart Search Engine does not guess where your chats live — you point it at the
 1. At the top of the window you will see an amber banner. Until you connect a folder it shows the five sample chats that ship with the app.
 2. Click **Connect Library folder…**.
 3. Choose your library folder — by default:  
-   `C:\Users\<YourUsername>\TotalRecalls-download\Library\`  
+   `C:\TotalRecalls\Library\` (or `%USERPROFILE%\TotalRecalls\Library`)
    *(Select the `Library` folder itself, the one that contains your `chatgpt`, `claude`, `gemini`, `perplexity` and other provider folders.)*
 4. Wait a few seconds. The banner turns green and shows **Library connected** with your real counts, for example *464 conversations · 9,317 messages · 8 providers*.
 5. Your index is saved on your PC. Next time you open the app your library loads by itself — no folder picking. After a new download, click **Re-scan folder…**. To start over, click **Forget library**.
@@ -107,7 +107,7 @@ Every result includes:
 You have not activated yet. Click **Activate SSE Key** (top right), paste your `SSE-…` key, then the **Connect Library folder…** button appears.
 
 **"I chose a folder but it says no conversation.json files were found."**
-You picked the wrong level. Choose the **Library** folder itself — the one that contains `chatgpt`, `claude`, `gemini` and the other provider folders. Choosing a provider folder, or the parent `TotalRecalls-download` folder, will not work.
+You picked the wrong level. Choose the **Library** folder itself — the one that contains `chatgpt`, `claude`, `gemini` and the other provider folders. Choosing a provider folder, or the parent `TotalRecalls` folder, will not work.
 
 **"I downloaded new chats and they are not showing up."**
 The app reads your files when you tell it to. Click **Re-scan folder…** after a download.

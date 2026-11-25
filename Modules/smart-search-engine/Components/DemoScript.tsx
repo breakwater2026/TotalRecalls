@@ -101,7 +101,7 @@ Need to share or train a local model? Our built-in PII Scrubber automatically wi
       durationSec: 25,
       actTitle: 'Act 5: Private on Your PC — Nothing Uploaded',
       visualCue: 'Host on camera holding laptop. Visual icon of Wi-Fi turning OFF (Airplane mode) after the one-time setup download, yet TotalRecalls continues searching locally with sub-millisecond response. Quick glimpse of the User Manuals (.PDF, .DOCX, .MD).',
-      audioVoiceover: `TotalRecalls runs entirely on your PC. Nothing you write or save is uploaded — not a word, vector, or token leaves your machine. The only internet use is a one-time search-model download at setup; after that it works without a connection. Your conversations are yours. Forever.`,
+      audioVoiceover: `TotalRecalls runs entirely on your PC. Nothing you write or save is uploaded — not a word, vector, or token leaves your machine. No model download is required; embeddings are computed locally, so it works without a connection. Your conversations are yours. Forever.`,
       onScreenText: 'Runs on your PC — nothing uploaded',
       highlightTab: 'manual'
     },

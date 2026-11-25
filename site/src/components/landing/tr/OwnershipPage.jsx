@@ -11,7 +11,7 @@ const TERMINAL = [
   { t: "TotalRecalls Application Log — Local Export Session", c: "amber" },
   { t: "Connecting to provider session... connected", c: "dim" },
   { t: "Discovered 142 conversations", c: "" },
-  { t: "  [1/142] 2026-09-28 python-list-comprehensions   (saved .md + .json)", c: "dim" },
+  { t: "  [1/142] 2026-09-28 15-05 -- Python list comprehensions   (saved .md + .json)", c: "dim" },
   { t: "  [2/142] 2026-09-28 react-hook-debug             (saved .md + .json)", c: "dim" },
   { t: "  [3/142] 2026-09-27 sql-query-help               (saved .md + .json)", c: "dim" },
   { t: "Export complete: 142 conversations -> C:\\TotalRecalls-Downloads\\Library\\chatgpt\\", c: "amber" },

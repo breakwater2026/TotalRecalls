@@ -229,7 +229,7 @@ This enables local embeddings at 800+ tokens/second with zero external API calls
       {
         id: 'm-105-2',
         role: 'assistant',
-        content: 'TotalRecalls runs on your PC. Nothing you write or save is uploaded. The only internet use is a one-time search-model download during setup; once your conversations are downloaded, search works without an internet connection.\n\nFor security audits:\n1. Run the embedding generator in-process using embedded C/C++ or WebAssembly bindings\n2. Use SQLite in local single-file mode (`totalrecalls_vault.db`) with PRAGMA key encryption\n3. Provide Wireshark / Little Snitch verification steps in the Power User documentation to confirm no chat content is transmitted during search and RAG synthesis.',
+        content: 'TotalRecalls runs on your PC. Nothing you write or save is uploaded. No model download is required: embeddings are computed in-page from a deterministic hash, so once your conversations are downloaded, search works without an internet connection.\n\nFor security audits:\n1. Run the embedding generator in-process using embedded C/C++ or WebAssembly bindings\n2. Use SQLite in local single-file mode (`totalrecalls_vault.db`) with PRAGMA key encryption\n3. Provide Wireshark / Little Snitch verification steps in the Power User documentation to confirm no chat content is transmitted during search and RAG synthesis.',
         timestamp: '2024-11-01 08:47',
         tokenCount: 560
       },

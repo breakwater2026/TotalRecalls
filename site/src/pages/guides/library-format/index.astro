@@ -5,35 +5,45 @@ import PageLayout from "../../../layouts/PageLayout.astro";
   <h1>TotalRecalls Library Format</h1>
   <p class="lead">
     TotalRecalls stores every conversation in a clean, predictable, and vendor-neutral directory hierarchy on your local
-    drive. By default, files are placed in <code>%USERPROFILE%\TotalRecalls-download\Library\</code>, but you can select
-    any internal drive, external SSD, or network-attached storage volume.
+    drive. The default root is <code>C:\TotalRecalls\Library\</code> (falling back to
+    <code>%USERPROFILE%\TotalRecalls\Library</code> when Windows does not allow writing to the drive root), but you can
+    select any internal drive, external SSD, or network-attached storage volume.
   </p>
 
   <h2>Directory Structure Overview</h2>
   <p>
-    The library organizes chats into dedicated subfolders by provider, with a central metadata tracking directory:
+    The library organizes chats by provider, then by Space (<code>Home</code> for ordinary chats), then one folder per
+    conversation:
   </p>
-  <pre><code>%USERPROFILE%\TotalRecalls-download\Library\
+  <pre><code>C:\TotalRecalls\Library\
 ├── chatgpt\
-│   ├── 2026-08-09-how-to-refactor-react.md
-│   └── 2026-08-09-how-to-refactor-react.json
+│   └── Home\
+│       └── 2026-08-09 14-05 -- How to refactor React -- a1b2c3d4\
+│           ├── conversation.md
+│           └── conversation.json
 ├── claude\
-│   ├── 2026-08-10-distributed-consensus.md
-│   └── 2026-08-10-distributed-consensus.json
+│   └── Home\
+│       └── 2026-08-10 09-30 -- Distributed consensus -- b2c3d4e5\
+│           ├── conversation.md
+│           └── conversation.json
 ├── perplexity\
 ├── gemini\
 ├── grok\
 ├── deepseek\
 ├── mistral\
 ├── qwen\
-├── metadata\
-│   └── export-manifest.json
-└── README.txt</code></pre>
-
-  <h2>The Dual-File Architecture (.md + .json)</h2>
+├── manifest.json
+├── uuid_index.json
+└── README.md</code></pre>
   <p>
-    Every single conversation is saved as an atomic pair of files sharing an identical base filename formatted
-    as <code>YYYY-MM-DD-sanitized-title</code>:
+    Conversations filed in a provider Space are written under <code>Spaces\&lt;Space name&gt;\</code> instead of
+    <code>Home\</code>. The same shape is used for all eight providers.
+  </p>
+
+  <h2>One Folder per Conversation (.md + .json)</h2>
+  <p>
+    Every conversation is saved as a pair of files inside its own folder. The folder name is
+    <code>YYYY-MM-DD HH-MM -- sanitized-title -- shortid</code>:
   </p>
   <ul>
     <li>
@@ -51,17 +61,20 @@ import PageLayout from "../../../layouts/PageLayout.astro";
     </li>
   </ul>
 
-  <h2>Metadata Manifest (<code>metadata/export-manifest.json</code>)</h2>
+  <h2>Index Files (<code>manifest.json</code>, <code>uuid_index.json</code>, <code>README.md</code>)</h2>
   <p>
-    TotalRecalls maintains an incremental manifest file to enable fast synchronization and deduplication:
+    At the Library root TotalRecalls writes three indexes: a human-readable <code>README.md</code>, a machine-readable
+    <code>manifest.json</code> (one row per conversation with its path), and <code>uuid_index.json</code>
+    (<code>provider:id</code> &rarr; path) used to skip conversations that are already saved on the next run.
   </p>
   <pre><code>{`{
-  "version": "1.0.0",
-  "last_export": "2026-11-12T14:30:00Z",
-  "providers": {
-    "chatgpt": { "conversation_count": 106, "file_pairs": 106 },
-    "claude": { "conversation_count": 84, "file_pairs": 84 }
-  }
+  "tool": "TotalRecalls",
+  "layout": "library-v1",
+  "schema_version": 1,
+  "provider": "chatgpt",
+  "exported_at": "2026-11-12T14:30:00Z",
+  "total_threads": 106,
+  "formats": ["json", "markdown"]
 }`}</code></pre>
 
   <h2>Third-Party Integration &amp; Longevity</h2>

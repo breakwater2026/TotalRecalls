@@ -13,7 +13,7 @@
    Smart Search Engine is an add-on that indexes your downloaded conversations. You should have TotalRecalls Downloader Pro activated and at least one provider's conversations downloaded.
 2. **Your Local Library Folder**:  
    By default, Downloader Pro saves your conversations to:  
-   `C:\Users\<YourUsername>\TotalRecalls-download\Library\` (or whatever custom destination folder you selected in TotalRecalls).  
+   `C:\TotalRecalls\Library\` (or whatever custom destination folder you selected in TotalRecalls). If Windows does not allow writing to the drive root, the app falls back to `%USERPROFILE%\TotalRecalls\Library`.
    Inside, you will find dated Markdown (`.md`) and structured (`.json`) files organized by provider (`chatgpt`, `claude`, `perplexity`, etc.).
 3. **Your SSE License Key**:  
    Format: `SSE-XXXXXXXX-XXXX-XXXX` (sent in your purchase email).
@@ -40,7 +40,7 @@ Launch the application by running the launcher script or executable:
 
 ### Step 4: Connect Your Library
 1. In the banner at the top, click **Connect Library folder…**.
-2. Select your Downloads library — by default `C:\Users\<YourUsername>\TotalRecalls-download\Library\`.
+2. Select your Downloads library — by default `C:\TotalRecalls\Library\` (or `%USERPROFILE%\TotalRecalls\Library` on accounts that cannot write to the drive root).
    *(Pick the `Library` folder itself, the one containing the `chatgpt`, `claude`, `gemini`… subfolders.)*
 3. The engine reads every `conversation.json`, builds the vector index, and the banner switches to **Library connected** showing your conversation, message and provider counts.
 4. The index is saved on your PC, so on your next launch your library loads automatically. Use **Re-scan folder…** after a fresh download, and **Forget library** to clear it.
@@ -70,7 +70,7 @@ The engine compiles your question into read-only SQLite SQL and renders the resu
 ## 4. Troubleshooting & Support
 
 - **The app shows only 5 chats**:  
-  You have not connected your library yet. Click **Connect Library folder…** and choose `…\TotalRecalls-download\Library`. Five is the sample set that ships with the app.
+  You have not connected your library yet. Click **Connect Library folder…** and choose `…\TotalRecalls\Library` (or `%USERPROFILE%\TotalRecalls\Library`). Five is the sample set that ships with the app.
 - **No Connect button, only "Activate SSE key"**:  
   The copy is unlicensed. Library importing is a licensed capability; the demo is limited to the sample conversations.
 - **New downloads don't appear**:  

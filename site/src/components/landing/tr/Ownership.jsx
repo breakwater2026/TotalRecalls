@@ -64,7 +64,7 @@ export default function Ownership() {
 
         <div className="mt-12">
           <EvidenceStrip
-            path={<>C:\TotalRecalls\Library\claude\2026-07-28-refactor-plan.md</>}
+            path={<>C:\TotalRecalls\Library\claude\Home\2026-07-28 09-15 -- Refactor plan -- 7c1d2e3a\conversation.md</>}
             chips={
               <>
                 <span className="rounded-chip border border-tr-slate px-2 py-1 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">.md</span>

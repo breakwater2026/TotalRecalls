@@ -9,10 +9,10 @@ const TRUST = [
 ];
 
 const TREE = [
-  { d: "chatgpt\\", n: "3 files" },
-  { d: "claude\\", n: "4 files" },
-  { d: "perplexity\\", n: "2 files" },
-  { d: "gemini\\", n: "1 file" },
+  { d: "chatgpt\\", n: "106 chats" },
+  { d: "claude\\", n: "84 chats" },
+  { d: "perplexity\\", n: "41 chats" },
+  { d: "gemini\\", n: "63 chats" },
 ];
 
 export default function Hero() {
@@ -99,7 +99,7 @@ export default function Hero() {
 
               {/* Library folder */}
               <div className="rounded-card border border-tr-slate bg-tr-obsidian p-3">
-                <p className="font-mono text-[12px] text-tr-steel break-all">%USERPROFILE%\TotalRecalls-download\Library\</p>
+                <p className="font-mono text-[12px] text-tr-steel break-all">C:\TotalRecalls\Library\</p>
                 <ul className="mt-2.5 space-y-1.5">
                   {TREE.map((r) => (
                     <li key={r.d} className="flex items-center justify-between gap-2">
@@ -111,7 +111,7 @@ export default function Hero() {
                 </ul>
                 <div className="mt-3 border-t border-tr-slate pt-3">
                   <p className="font-mono text-[12px] leading-relaxed text-tr-steel break-all select-all">
-                    claude\2026-07-28-refactor-plan.md
+                    claude\Home\2026-07-28 09-15 -- Refactor plan -- 7c1d2e3a\conversation.md
                   </p>
                   <div className="mt-2 flex items-center gap-1.5">
                     <span className="rounded-chip border border-tr-slate px-2 py-0.5 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-tr-steel">.md</span>

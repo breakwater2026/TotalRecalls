@@ -255,7 +255,7 @@ export const SpecsAndPricing: React.FC<SpecsAndPricingProps> = ({ onSelectTab })
 
           <p className="text-xs text-[var(--tr-muted)] leading-relaxed">
             Turns static chat archives into an active, verified intelligence hub. 
-            Employs local HNSW vector indexing, natural language to SQLite compilation, peer-review consensus auditing, knowledge graph clustering, and automated PII scrubbing.
+            Employs local vector indexing, natural language to SQLite compilation, peer-review consensus auditing, knowledge graph clustering, and automated PII scrubbing.
           </p>
 
           <div className="space-y-2 pt-2 border-t border-[var(--tr-border)] text-xs">
