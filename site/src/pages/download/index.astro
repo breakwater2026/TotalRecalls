@@ -1,8 +1,10 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 
-// Free Tier release. Real build artifacts — recompute after each PyInstaller build:
-//   Get-FileHash dist/TotalRecalls-1.0.0-free-tier.zip -Algorithm SHA256
+// Artifacts are real builds. The SSE size/checksum below must match the shipped
+// ZIP — tools/release_gate.py fails the build when they drift. Recompute both
+// after every repackage with:
+//   python -c "import hashlib;p='public/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip';d=open(p,'rb').read();print(hashlib.sha256(d).hexdigest(), round(len(d)/1048576,2))"
 import { currentVersion, releases } from "../../data/releases.json";
 // The release DATE must come from the release record, never from the build clock.
 // `new Date()` rendered today's build date as "Latest release: … <today>" — a false claim
@@ -10,8 +12,8 @@ import { currentVersion, releases } from "../../data/releases.json";
 const date = releases[0].date;
 const STORE_URL = "https://apps.microsoft.com/detail/9PP1KKD5X2D6";
 const SSE_ZIP_URL = "/downloads/TotalRecalls-Smart-Search-Engine-1.0.0.zip";
-const SSE_ZIP_SIZE_MB = 0.78;
-const SSE_SHA256 = "5811ed24f4d61ce58505e0a575f4a286a160445b789d09f100139fa8d44e9c22";
+const SSE_ZIP_SIZE_MB = 0.91;
+const SSE_SHA256 = "fd9d5cd291621602fae771dace89c07c1590c152a6fe7737dcdb4d6a1ebc160c";
 ---
 <PageLayout
   title={`Download TotalRecalls ${currentVersion} for Windows 10/11`}
