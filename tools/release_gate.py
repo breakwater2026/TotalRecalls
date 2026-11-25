@@ -20,8 +20,25 @@ import urllib.request
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BUILD_VENV = os.path.join(os.environ.get("LOCALAPPDATA", ""), "tr-build-venv", "Scripts", "python.exe")
-SHOOT = r"C:\Users\break\demo-shoot\renders"
+SHOOT = r"C:/Users/break/demo-shoot/renders"
+
+
+def _build_python() -> str:
+    """Interpreter that can run the PYZ verifier.
+
+    The verifier only reads the EXE (zlib + marshal), so the *repo's* build venv
+    is enough; the old hard-coded %LOCALAPPDATA%\\tr-build-venv pointed at a
+    uv-managed 3.11 that no longer exists, which made this check fail for a
+    reason unrelated to the build.
+    """
+    for parts in ((".venv312", "Scripts", "python.exe"), (".venv", "Scripts", "python.exe")):
+        candidate = os.path.join(ROOT, *parts)
+        if os.path.isfile(candidate):
+            return candidate
+    return sys.executable
+
+
+BUILD_VENV = _build_python()
 SSE_ZIP = os.path.join(ROOT, "site", "public", "downloads", "TotalRecalls-Smart-Search-Engine-1.0.0.zip")
 PAGE = os.path.join(ROOT, "site", "src", "pages", "download", "index.astro")
 
