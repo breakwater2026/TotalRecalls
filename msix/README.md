@@ -57,11 +57,21 @@ exactly as before.
 3. Import the manifest from this directory and set the publisher.
 4. Package and install for testing.
 
-### Option C — command line
+### Option C — command line (repeatable)
 
 ```powershell
-makeappx pack /d dist\TotalRecalls /p TotalRecalls.msix
+python tools/build_exe.py --edition free --mode onedir
+python tools/build_msix.py            # stages, packs and signs; --no-sign to inspect
 ```
+
+`tools/build_msix.py` stages `dist/TotalRecalls/` with `Package.appxmanifest`
+(renamed to `AppxManifest.xml`) and `Assets/`, runs `makeappx pack`, signs with
+the code-signing certificate whose subject matches `Identity/@Publisher`, and
+verifies the signature. `makeappx.exe`/`signtool.exe` are taken from
+`$MSIX_SDK_BIN`, `PATH`, a Windows SDK install, or
+`%LOCALAPPDATA%\Microsoft\Windows Kits\BuildTools` — the last one can be filled
+from the `Microsoft.Windows.SDK.BuildTools` NuGet package without installing
+Visual Studio.
 
 ---
 

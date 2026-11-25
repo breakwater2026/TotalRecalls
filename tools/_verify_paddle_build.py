@@ -65,13 +65,22 @@ def short_strings(consts):
 
 
 def main():
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--exe", default=EXE,
+                    help="EXE to inspect (default: dist/TotalRecalls.exe). Use "
+                         "dist/TotalRecalls/TotalRecalls.exe for the onedir/MSIX build.")
+    args = ap.parse_args()
+    exe = args.exe
+
     from PyInstaller.archive.readers import CArchiveReader, ZlibArchiveReader
 
-    if not os.path.exists(EXE):
-        print("FAIL: %s not found" % EXE)
+    if not os.path.exists(exe):
+        print("FAIL: %s not found" % exe)
         return 1
 
-    ca = CArchiveReader(EXE)
+    ca = CArchiveReader(exe)
     toc = getattr(ca, "toc", None)
     if toc is None:
         print("FAIL: could not read CArchive toc")
@@ -128,7 +137,10 @@ def main():
             try:
                 bundled = ca.extract("app_ui.html")
             except Exception:                        # noqa: BLE001
-                pass
+                # onedir keeps data files next to the EXE instead of in the archive
+                sibling = os.path.join(os.path.dirname(exe), "_internal", "app_ui.html")
+                if os.path.isfile(sibling):
+                    bundled = open(sibling, "rb").read()
             print("   app_ui.html bundled:", bool(bundled), "(%s bytes)" % (len(bundled) if bundled else 0))
         if mod == "totalrecalls.desktop.bridge":
             print("   buy URL present :", BRIDGE_WANT in consts)
