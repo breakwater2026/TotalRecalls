@@ -47,6 +47,7 @@ TotalRecalls is a one-time purchase with no recurring subscription:
 
 | Product | Launch Price | Regular Price | Notes |
 |---|---|---|---|
+| **TotalRecalls Free Tier** | **$0** | $0 | ChatGPT, Claude and Perplexity; five conversations per provider. Same app, no account, no time limit. |
 | **TotalRecalls Downloader Pro** | **$24** | $48 | One-time. All 8 providers, unlimited downloads. Available on Microsoft Store (free trial) with in-app Pro key activation. |
 | **Smart Search Engine (SSE) Add-On** | **$29** | $58 | One-time. Requires Pro. Indexes all saved Markdown & JSON files. |
 | **Pro + SSE Bundle** | **$49** | $98 | One-time. Downloader Pro + SSE Add-On in a single discounted checkout. |
@@ -54,6 +55,8 @@ TotalRecalls is a one-time purchase with no recurring subscription:
 - **License Scope:** Each license key covers up to **3 personal PC activations**.
 - **Updates vs. Upgrades:** Maintenance updates and provider-compatibility bug fixes within v1 are free for the life of the product.
 - **Refunds:** Downloader Pro is non-refundable — the Free Tier is the try-before-you-buy mechanism. The Smart Search Engine (SSE) add-on carries a 7-day, no-questions-asked refund. An approved refund deactivates the key and frees the slot. See `/legals/#refund`.
+- **One build, one installer:** the Microsoft Store app is the same binary for everyone. It starts in the Free Tier; a `TR-…` key entered in **Settings → Licence** unlocks all eight providers and unlimited downloads. There is no separate "Pro download".
+- **Where the Free Tier stops:** three providers (ChatGPT, Claude, Perplexity) and five conversations per provider, enforced when conversations are selected and again at export. The ledger lives in the app's own data folder, so editing the UI cannot lift the cap.
 
 ---
 
