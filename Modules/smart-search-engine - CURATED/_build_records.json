@@ -1,0 +1,71 @@
+{
+ "records": [
+  {
+   "source": "README-SSE.md",
+   "destination": "01_Current/README-SSE.md",
+   "disposition": "KEEP",
+   "reason": "Current install & quick-start guide (2026-11-10). Canonical source; README.pdf is its render.",
+   "bytes": 3742,
+   "sha256": "081e74983756a3ae"
+  },
+  {
+   "source": "README.pdf",
+   "destination": "01_Current/README.pdf",
+   "disposition": "KEEP",
+   "reason": "PDF render of README-SSE.md (containment 1.00, Jaccard 0.99). Regenerate from the .md; do not edit.",
+   "bytes": 130396,
+   "sha256": "6d60c0e5c4de87b8"
+  },
+  {
+   "source": "metadata.json",
+   "destination": "01_Current/metadata.json",
+   "disposition": "KEEP",
+   "reason": "Module identity and feature description used by the packaging studio.",
+   "bytes": 479,
+   "sha256": "dfccacaaab4aef5a"
+  },
+  {
+   "source": "package.json",
+   "destination": "01_Current/package.json",
+   "disposition": "KEEP",
+   "reason": "Build identity: totalrecalls-smart-search-engine, React 19 + Vite-style SPA, @google/genai dep.",
+   "bytes": 441,
+   "sha256": "9109f6177e6eca8c"
+  },
+  {
+   "source": "TotalRecalls-Power-User-Guide.pdf",
+   "destination": "99_Archive/TotalRecalls-Power-User-Guide (retired Python-CLI edition 2026-10-27).pdf",
+   "disposition": "ARCHIVE",
+   "reason": "Documents the RETIRED Python CLI/container architecture (build_sql_container.py, venv, LanceDB, sentence-transformers, LM Studio :8000). Does not describe the current app.",
+   "bytes": 449681,
+   "sha256": "636cb748369c8913"
+  }
+ ],
+ "errors": [],
+ "excluded": [
+  [
+   "node_modules/ (134 MB)",
+   "Dependency tree; already in .gitignore; regenerable with npm. Not content."
+  ],
+  [
+   "dist/ (3.1 MB bundle.js + tailwind.css + tailwind.min.js)",
+   "Build output, regenerable. Contains a 0-byte tailwind.min.js - a build defect to fix at source."
+  ],
+  [
+   "package-lock.json (51 KB)",
+   "Regenerable dependency lockfile, not a document."
+  ],
+  [
+   "Services/ + Components/ + scripts/ source (TS/TSX)",
+   "Product source code - the subject of the guide, not part of the document corpus."
+  ],
+  [
+   "run-smart-search.bat, index.html, index.tsx, App.tsx, input.css, constants.ts, types.ts",
+   "Application shell and source; see the source tree, not the curated document set."
+  ],
+  [
+   "The same Power-User-Guide PDF in docs/, Marketing/Plans/ and Marketing/User Guides/",
+   "Three further byte-identical copies (SHA-256 636cb748369c8913...) of the retired edition. Repo-wide duplicate; not carried here. Needs a decision on which location is canonical."
+  ]
+ ]
+}

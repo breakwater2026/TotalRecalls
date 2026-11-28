@@ -5,163 +5,85 @@
     <title>TotalRecalls Launch Day Dispatch Pad</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b132b; color: #f8fafc; margin: 0; padding: 30px; }
-        .container { max-width: 960px; margin: 0 auto; }
+        .container { max-width: 900px; margin: 0 auto; }
         .header { border-bottom: 2px solid #334155; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
         h1 { margin: 0; font-size: 24px; color: #38bdf8; }
-        .card { background: #1e293b; border-radius: 8px; border: 1px solid #334155; padding: 22px; margin-bottom: 25px; }
+        .card { background: #1e293b; border-radius: 8px; border: 1px solid #334155; padding: 20px; margin-bottom: 25px; }
         h2 { margin-top: 0; font-size: 18px; color: #f1f5f9; display: flex; align-items: center; justify-content: space-between; }
         .btn { background: #38bdf8; color: #0b132b; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; font-size: 13px; }
         .btn:hover { background: #7dd3fc; }
         .btn-secondary { background: #475569; color: #ffffff; margin-left: 8px; }
         .btn-secondary:hover { background: #64748b; }
-        .btn-asset { background: #10b981; color: #0b132b; font-size: 11px; padding: 5px 10px; margin-left: 6px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block; }
-        .btn-asset:hover { background: #34d399; }
-        pre { background: #0f172a; padding: 15px; border-radius: 6px; color: #cbd5e1; font-size: 13px; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #1e293b; line-height: 1.5; }
+        pre { background: #0f172a; padding: 15px; border-radius: 6px; color: #cbd5e1; font-size: 13px; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #1e293b; }
         .badge { background: #10b98120; color: #34d399; border: 1px solid #10b981; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
-        .asset-preview { display: flex; align-items: center; gap: 15px; background: #0f172a; padding: 12px; border-radius: 6px; margin: 12px 0; border: 1px solid #334155; }
-        .asset-preview img { border-radius: 4px; border: 1px solid #475569; object-fit: cover; }
-        .toast { display: none; position: fixed; bottom: 20px; right: 20px; background: #10b981; color: #0b132b; padding: 12px 20px; border-radius: 6px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 1000; }
+        .target-bar { display: flex; gap: 12px; margin-top: 15px; }
     </style>
-    <script>
-        function copyText(id, msg) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            showToast(msg);
-        }
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 3000);
-        }
-    </script>
 </head>
 <body>
-    <div id="toast" class="toast">Copied to Clipboard!</div>
     <div class="container">
         <div class="header">
             <div>
-                <h1>🚀 TotalRecalls Launch Day Dispatch Pad</h1>
-                <p style="margin: 5px 0 0; color: #94a3b8; font-size: 13px;">Tuesday Launch • All Tweets Verified Under 280 Characters</p>
+                <h1>🚀 TotalRecalls Launch Day Dispatcher</h1>
+                <p style="margin: 5px 0 0; color: #94a3b8; font-size: 13px;">Windows 10/11 • 8 Providers • Markdown/JSON • Local Smart Search</p>
             </div>
             <div class="badge">SYSTEM READY • INTEGRITY VERIFIED</div>
         </div>
 
-        <!-- 1. MORNING LAUNCH THREAD (ALL UNDER 280 CHARS) -->
-        <div class="card" style="border: 2px solid #38bdf8;">
+        <div class="card">
             <h2>
-                1. X (Twitter) — Pinned Morning Launch Thread (All &lt; 280 Chars)
+                1. X (Twitter) — Pinned 5-Tweet Launch Thread
                 <div>
-                    <button class="btn" onclick="copyText('morning-x-copy', 'Copied Full 5-Tweet Thread!');">📋 Copy Thread</button>
-                    <a href="https://x.com/compose/post" target="_blank" class="btn btn-secondary">Open X Compose ↗</a>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('x-copy').innerText); alert('Copied X Thread to Clipboard!');">📋 Copy Thread</button>
+                    <a href="https://x.com/compose/post" target="_blank" class="btn btn-secondary">Open X ↗</a>
                 </div>
             </h2>
-            <p style="color: #94a3b8; font-size: 13px;">Every tweet below is verified under X's 280-character limit. Post Tweet 1, then reply to your own post with Tweets 2–5.</p>
-            <pre id="morning-x-copy">Tweet 1 (241 chars):
-In 2 years, I had 8,135 conversations across ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral & Qwen.
+            <p style="color: #94a3b8; font-size: 13px;">Attach <b>tr_thumb_chatgpt.jpg</b> or <b>v5_card.png</b> to Tweet 1.</p>
+            <pre id="x-copy">Tweet 1:
+Over the last 2 years, I accumulated 8,135 conversations across ChatGPT, Claude, Perplexity, Gemini, Grok, DeepSeek, Mistral & Qwen.
 
-None of those tabs are yours. One glitch or UI redesign and years of thinking vanish.
+None of those browser tabs are actually yours. One billing glitch, UI redesign, or account lock and years of thinking vanish.
 
 So I built TotalRecalls for Windows. 🧵👇
 
 ---
-Tweet 2 (259 chars):
-TotalRecalls downloads your history from all 8 major AI providers into one local folder on your PC (C:\TotalRecalls\Library\).
+Tweet 2:
+TotalRecalls downloads your history from all 8 major AI providers into one clean local folder on your PC (C:\TotalRecalls\Library\).
 
-Every chat is saved twice:
-• .md — clean Markdown for Obsidian, Word, or Notion
-• .json — structured data for local scripts & tools
+Every conversation is saved twice:
+• .md — clean Markdown that opens in Obsidian, Notion, Word, or Notepad in 20 years
+• .json — full structured data for scripts & local tooling
 
 ---
-Tweet 3 (277 chars):
-With thousands of local files, how do you find what you need across multiple assistants?
+Tweet 3:
+What happens when you have thousands of local files and can't remember if you solved a bug in Claude, ChatGPT, or DeepSeek?
 
-Our Smart Search Engine (SSE) add-on lets you:
+We built the Smart Search Engine (SSE) add-on:
 • Query all 8 providers at once in plain English
-• Search by meaning (vector), keyword, or SQL
-• Runs 100% offline on standard CPUs (no GPU)
+• Search by meaning (vector), exact keyword (hybrid), or SQL
+• Runs 100% offline on CPU (no GPU required)
 
 ---
-Tweet 4 (274 chars):
+Tweet 4:
 Four rules we refuse to break:
-1. Zero servers & zero telemetry. Sessions stay encrypted locally via Windows DPAPI.
-2. Direct provider-to-PC download.
-3. Official Microsoft Store certified.
-4. One-time purchase ($24 Pro / $49 Pro+SSE Bundle). No recurring subscription rent.
+1. Zero servers & zero telemetry. Sessions stay encrypted locally with Windows DPAPI.
+2. Direct provider-to-PC download (verify it in Wireshark!).
+3. Official Microsoft Store certified (zero security warnings).
+4. One-time purchase ($24 Pro / $49 Pro + SSE Bundle). No recurring monthly rent.
 
 ---
-Tweet 5 (258 chars):
-Try the permanent Free Tier now (ChatGPT, Claude & Perplexity — 5 chats each):
+Tweet 5:
+There is a permanent Free Tier available right now (ChatGPT, Claude, and Perplexity — 5 conversations each) so you can test it on your real chats before paying a cent.
 
-• Free Tier: https://totalrecalls.app/download/
-• Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
-• 6-min Walkthrough: https://www.youtube.com/watch?v=fQBNazsL-VE</pre>
+• Try the Free Tier: https://totalrecalls.app/download/?utm_source=x&utm_medium=social&utm_campaign=launch&utm_content=x1
+• Get from Microsoft Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
+• Full 6-min walkthrough: https://www.youtube.com/watch?v=fQBNazsL-VE</pre>
         </div>
 
-        <!-- 2. NOON LAUNCH THREAD: DEEPSEEK NOTICE -->
-        <div class="card" style="border: 2px solid #10b981; background: #0c2727;">
-            <h2>
-                2. X (Twitter) — Noon DeepSeek "7-Day Inactivity Freeze" Thread
-                <div>
-                    <button class="btn" onclick="copyText('ad1-copy', 'Copied DeepSeek Thread!');">📋 Copy DeepSeek Thread</button>
-                    <a href="https://x.com/compose/post" target="_blank" class="btn btn-secondary">Open X Compose ↗</a>
-                </div>
-            </h2>
-            
-            <div class="asset-preview">
-                <img src="../Market Launch Plans - CURATED/07_Assets/deepseek_notice_banner.png" width="160" alt="DeepSeek Warning Notice">
-                <div>
-                    <div style="font-weight: 600; font-size: 13px; color: #34d399;">Attach to Tweet 1:</div>
-                    <div style="font-size: 12px; color: #cbd5e1; margin: 2px 0 6px 0;">Official DeepSeek 7-Day Inactivity Freeze Notice Dialog</div>
-                    <a href="../Market Launch Plans - CURATED/07_Assets/deepseek_notice_banner.png" download class="btn-asset">⬇ Save / Drag Image</a>
-                </div>
-            </div>
-
-            <pre id="ad1-copy">Tweet 1 (278 chars):
-DeepSeek just made the most honest case for owning your AI chats:
-
-"Due to insufficient computing resources, long conversations inactive for over 7 days can no longer continue. Start a new chat or export your history to another app."
-
-DeepSeek literally told users to export. 🧵👇
-
----
-Tweet 2 (257 chars):
-While DeepSeek has an export feature, you must initiate it one conversation at a time.
-
-If you have 50 or 200 coding and reasoning chats, clicking each one manually is exhausting.
-
-And leave them inactive for 7 days, and your threads are permanently frozen.
-
----
-Tweet 3 (241 chars):
-TotalRecalls for Windows solves this in one click:
-
-• Sign in locally to DeepSeek
-• One-click bulk download of your entire chat history
-• Saved as clean Markdown (.md) and JSON (.json)
-• Directly on your PC: C:\TotalRecalls\Library\DeepSeek\
-
----
-Tweet 4 (254 chars):
-Two core privacy rules:
-1. Zero servers & zero telemetry. DeepSeek sessions are encrypted locally via Windows DPAPI.
-2. Our offline Smart Search Engine (SSE) searches DeepSeek, Claude, and ChatGPT simultaneously in plain English without an expensive GPU.
-
----
-Tweet 5 (228 chars):
-Don't let your reasoning freeze after 7 days:
-
-• Store: https://apps.microsoft.com/detail/9PP1KKD5X2D6
-• Walkthrough: https://www.youtube.com/watch?v=zw18uF1wqzs
-• Free Tier & Pro ($24): https://totalrecalls.app/guides/deepseek/</pre>
-        </div>
-
-        <!-- 3. LINKEDIN POST -->
         <div class="card">
             <h2>
-                3. LinkedIn — Founder Narrative Post
+                2. LinkedIn — Founder Narrative Post
                 <div>
-                    <button class="btn" onclick="copyText('li-copy', 'Copied LinkedIn Story to Clipboard!');">📋 Copy Story</button>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('li-copy').innerText); alert('Copied LinkedIn Story to Clipboard!');">📋 Copy Story</button>
                     <a href="https://www.linkedin.com/feed/" target="_blank" class="btn btn-secondary">Open LinkedIn ↗</a>
                 </div>
             </h2>
@@ -199,12 +121,11 @@ If you rely on AI for your daily work: where does your conversation history live
 #AI #Productivity #KnowledgeManagement #DataOwnership #Windows11 #IndieHacker</pre>
         </div>
 
-        <!-- 4. REDDIT POST -->
         <div class="card">
             <h2>
-                4. Reddit — r/DataHoarder & r/ChatGPT
+                3. Reddit — r/DataHoarder & r/ChatGPT
                 <div>
-                    <button class="btn" onclick="copyText('rd-copy', 'Copied Reddit Post to Clipboard!');">📋 Copy Reddit</button>
+                    <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('rd-copy').innerText); alert('Copied Reddit Post to Clipboard!');">📋 Copy Reddit</button>
                     <a href="https://www.reddit.com/r/DataHoarder/submit" target="_blank" class="btn btn-secondary">Open r/DataHoarder ↗</a>
                     <a href="https://www.reddit.com/r/ChatGPT/submit" target="_blank" class="btn btn-secondary">Open r/ChatGPT ↗</a>
                 </div>
